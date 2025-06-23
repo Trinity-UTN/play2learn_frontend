@@ -13,7 +13,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   //   () => localStorage.getItem("token") || ""
   // );
 
-  const [isAuth, setIsAuth] = useState<boolean>(
+  const [isAuthenticated, setIsAuth] = useState<boolean>(
     localStorage.getItem("token") ? true : false
   );
 
@@ -22,8 +22,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const respuesta = await LogIn(data);
-      // setToken(respuesta.token);
-      localStorage.setItem("token", respuesta.token);
+      localStorage.setItem("token", respuesta.data.token);
       setIsAuth(true);
       return true;
     } catch (error) {
@@ -33,9 +32,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
+  const logout = async () => {
+    setIsAuth(false);
+    localStorage.removeItem("token");
+  };
 
   return (
-    <UserContext.Provider value={{ login, loading, isAuth }}>
+    <UserContext.Provider value={{ login, loading, isAuthenticated, logout }}>
       {children}
     </UserContext.Provider>
   );

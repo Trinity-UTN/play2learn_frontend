@@ -5,7 +5,7 @@ export interface Login {
 
 export interface UserContextType {
   loading: boolean;
-  isAuth: boolean;
+  isAuthenticated: boolean;
   login: (data: Login) => Promise<boolean>;
-  // logout: () => void;
+  logout: () => void;
 }
