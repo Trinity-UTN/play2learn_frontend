@@ -1,0 +1,131 @@
+.sidebar {
+  width: 280px;
+  background: white;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoIcon {
+  width: 2rem;
+  height: 2rem;
+  color: #007bff;
+  background-color: #007bff;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.logoTitle {
+  font-weight: 600;
+  color: #2e2e2e;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.logoSubtitle {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  padding: 0 0.5rem;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: none;
+  background: none;
+  color: #2e2e2e;
+  text-align: left;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.menuItem:hover {
+  background-color: rgba(185, 231, 105, 0.1);
+  color: #2e2e2e;
+}
+
+.menuItem.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.menuIcon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.footer {
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.logoutButton {
+  color: #ef4444;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.logoutButton:hover {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.logoutIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+}
