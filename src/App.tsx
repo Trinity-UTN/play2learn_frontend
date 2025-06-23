@@ -8,7 +8,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { UserProvider } from "./user/contexts/UserProvider";
 import { useAuth } from "./user/hooks/useAuth";
 import Login from "./user/pages/Login/LoginPage";
+import AdminDashboard from "./admin/pages/Dashboard/AdminDashboardPage";
+import { AdminRoutes } from "./admin/routes";
 import styles from "./App.module.css";
+
+import OverviewView from "./admin/views/OverviewView/OverviewView";
+import ViewCoursesView from "./admin/views/ViewCoursesView/ViewCoursesView";
+import CreateCourseView from "./admin/views/CreateCourseView/CreateCourseView";
+import ViewYearsView from "./admin/views/ViewYearsView/ViewYearsView";
+import CreateYearView from "./admin/views/CreateYearView/CreateYearView";
+import ViewStudentsView from "./admin/views/ViewStudentsView/ViewStudentsView";
+import CreateStudentView from "./admin/views/CreateStudentView/CreateStudentView";
+import ViewTeachersView from "./admin/views/ViewTeachersView/ViewTeachersView";
+import CreateTeacherView from "./admin/views/CreateTeacherView/CreateTeacherView";
 
 const AppContent: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -35,6 +47,7 @@ const AppContent: React.FC = () => {
               )
             }
           />
+
           <Route
             path="/dashboard/*"
             element={
@@ -46,13 +59,37 @@ const AppContent: React.FC = () => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Login />
+                  <AdminDashboard />
                 </motion.div>
               ) : (
                 <Navigate to="/login" replace />
               )
             }
-          />
+          >
+            <Route index element={<Navigate to="overview" replace />} />
+            <Route path="overview" element={<OverviewView />} />
+
+            {/* Cursos */}
+            <Route path="courses/create" element={<CreateCourseView />} />
+            <Route path="courses/edit/:id" element={<CreateCourseView />} />
+            <Route path="courses/list" element={<ViewCoursesView />} />
+
+            {/* Años */}
+            <Route path="years/create" element={<CreateYearView />} />
+            <Route path="years/edit/:id" element={<CreateYearView />} />
+            <Route path="years/list" element={<ViewYearsView />} />
+
+            {/* Estudiantes */}
+            <Route path="students/create" element={<CreateStudentView />} />
+            <Route path="students/edit/:id" element={<CreateStudentView />} />
+            <Route path="students/list" element={<ViewStudentsView />} />
+
+            {/* Docentes */}
+            <Route path="teachers/create" element={<CreateTeacherView />} />
+            <Route path="teachers/edit/:id" element={<CreateTeacherView />} />
+            <Route path="teachers/list" element={<ViewTeachersView />} />
+          </Route>
+
           <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
       </AnimatePresence>
