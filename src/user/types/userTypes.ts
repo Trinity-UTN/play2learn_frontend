@@ -1,12 +1,11 @@
-export interface User {
-  id: string;
-  name: string;
+export interface Login {
   email: string;
+  password: string;
 }
 
 export interface UserContextType {
-  //user: User | null;
-  isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  logout: () => void;
+  loading: boolean;
+  isAuth: boolean;
+  login: (data: Login) => Promise<boolean>;
+  // logout: () => void;
 }

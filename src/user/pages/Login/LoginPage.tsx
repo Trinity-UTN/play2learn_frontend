@@ -21,7 +21,12 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const success = await login(email, password);
+    const data = {
+      email: email,
+      password: password,
+    };
+
+    const success = await login(data);
     if (success) {
       navigate("/dashboard");
     }
