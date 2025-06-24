@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { UserProvider } from "./user/contexts/UserProvider";
+import { YearProvider } from "./admin/contexts/YearProvider";
 import { useAuth } from "./user/hooks/useAuth";
 import Login from "./user/pages/Login/LoginPage";
 import AdminDashboard from "./admin/pages/Dashboard/AdminDashboardPage";
@@ -52,15 +53,17 @@ const AppContent: React.FC = () => {
             path="/dashboard/*"
             element={
               isAuthenticated ? (
-                <motion.div
-                  key="dashboard"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <AdminDashboard />
-                </motion.div>
+                <YearProvider>
+                  <motion.div
+                    key="dashboard"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <AdminDashboard />
+                  </motion.div>
+                </YearProvider>
               ) : (
                 <Navigate to="/login" replace />
               )

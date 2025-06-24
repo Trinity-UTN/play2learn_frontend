@@ -5,20 +5,26 @@ import { FaCalendarAlt, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
+import { useYear } from "../../hooks/useYear";
 import styles from "./CreateYearView.module.css";
 
 const CreateYearView: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Año creado:", formData);
-  };
+  const [formData, setFormData] = useState({ name: "" });
+  const { registerYear, loading } = useYear();
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await registerYear(formData);
+      alert("Año creado exitosamente.");
+      setFormData({ name: "" });
+    } catch (err) {
+      alert("Hubo un error al crear el año.");
+    }
   };
 
   return (
@@ -31,7 +37,7 @@ const CreateYearView: React.FC = () => {
       <div className={styles.header}>
         <h1 className={styles.title}>Generar Año</h1>
         <p className={styles.subtitle}>
-          Crea un nuevo año académico en el sistema
+          Crea un nuevo año en el sistema
         </p>
       </div>
 
@@ -55,11 +61,11 @@ const CreateYearView: React.FC = () => {
           </div>
 
           <div className={styles.buttonGroup}>
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" disabled={loading}>
               <FaSave className={styles.buttonIcon} />
-              Crear Año
+              {loading ? "Creando..." : "Crear Año"}
             </Button>
-            <Button type="button" variant="outline">
+            <Button type="button" variant="outline" disabled={loading}>
               Cancelar
             </Button>
           </div>
