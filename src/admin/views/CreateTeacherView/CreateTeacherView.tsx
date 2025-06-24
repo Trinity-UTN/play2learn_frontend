@@ -6,18 +6,35 @@ import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import styles from "./CreateTeacherView.module.css";
+import { useTeacher } from "../../hooks/useTeacher";
 
 const CreateTeacherView: React.FC = () => {
+  const { loading, registerTeacher } = useTeacher();
   const [formData, setFormData] = useState({
     name: "",
-    lastName: "",
+    lastname: "",
     dni: "",
     email: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const resetFormData = () => {
+    setFormData({
+      name: "",
+      lastname: "",
+      dni: "",
+      email: "",
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Docente creado:", formData);
+    try {
+      await registerTeacher(formData);
+      alert("Docente creado exitosamente.");
+      resetFormData();
+    } catch (err) {
+      alert("Hubo un error al crear el Docente.");
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -56,11 +73,11 @@ const CreateTeacherView: React.FC = () => {
               />
             </div>
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Apellidos *</label>
+              <label className={styles.label}>Apellidos * </label>
               <Input
                 placeholder="Apellido del docente"
-                value={formData.lastName}
-                onChange={(e) => handleChange("lastName", e.target.value)}
+                value={formData.lastname}
+                onChange={(e) => handleChange("lastname", e.target.value)}
                 required
               />
             </div>
@@ -91,9 +108,9 @@ const CreateTeacherView: React.FC = () => {
           <div className={styles.buttonGroup}>
             <Button type="submit" variant="primary">
               <FaSave className={styles.buttonIcon} />
-              Crear Docente
+              {loading ? "Creando..." : "Crear Docente"}
             </Button>
-            <Button type="button" variant="outline">
+            <Button type="button" variant="outline" disabled={loading}>
               Cancelar
             </Button>
           </div>
