@@ -7,7 +7,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 //PROVIDERS
 import { UserProvider } from "./user/contexts/UserProvider";
-import { YearProvider } from "./admin/contexts/YearProvider";
+import { YearProvider } from "./admin/contexts/yearContext/YearProvider";
 import { TeacherProvider } from "./admin/contexts/teacherContext/TeacherProvider";
 
 import { useAuth } from "./user/hooks/useAuth";
