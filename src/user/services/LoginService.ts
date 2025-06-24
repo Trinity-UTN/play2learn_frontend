@@ -1,10 +1,12 @@
 import axios from "axios";
 import type { Login } from "../types/userTypes";
+import { urlBase } from "../../urls";
+import { urls } from "../urls";
 
 const api = axios.create({
-  baseURL: "https://play2learn.backend.desarrollo.systemsbinary.com",
+  baseURL: urlBase.server,
 });
 export async function LogIn(data: Login) {
-  const { data: respuesta } = await api.post("/login", data);
+  const { data: respuesta } = await api.post(urls.login, data);
   return respuesta;
 }

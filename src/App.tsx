@@ -11,7 +11,7 @@ import Login from "./user/pages/Login/LoginPage";
 import styles from "./App.module.css";
 
 const AppContent: React.FC = () => {
-  const { isAuth } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className={styles.app}>
@@ -20,7 +20,7 @@ const AppContent: React.FC = () => {
           <Route
             path="/login"
             element={
-              !isAuth ? (
+              !isAuthenticated ? (
                 <motion.div
                   key="login"
                   initial={{ opacity: 0, y: 20 }}
@@ -38,7 +38,7 @@ const AppContent: React.FC = () => {
           <Route
             path="/dashboard/*"
             element={
-              isAuth ? (
+              isAuthenticated ? (
                 <motion.div
                   key="dashboard"
                   initial={{ opacity: 0 }}
