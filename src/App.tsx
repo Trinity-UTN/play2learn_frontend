@@ -5,8 +5,11 @@ import {
   Navigate,
 } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+//PROVIDERS
 import { UserProvider } from "./user/contexts/UserProvider";
 import { YearProvider } from "./admin/contexts/YearProvider";
+import { TeacherProvider } from "./admin/contexts/teacherContext/TeacherProvider";
+
 import { useAuth } from "./user/hooks/useAuth";
 import Login from "./user/pages/Login/LoginPage";
 import AdminDashboard from "./admin/pages/Dashboard/AdminDashboardPage";
@@ -53,17 +56,19 @@ const AppContent: React.FC = () => {
             path="/dashboard/*"
             element={
               isAuthenticated ? (
-                <YearProvider>
-                  <motion.div
-                    key="dashboard"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <AdminDashboard />
-                  </motion.div>
-                </YearProvider>
+                <TeacherProvider>
+                  <YearProvider>
+                    <motion.div
+                      key="dashboard"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <AdminDashboard />
+                    </motion.div>
+                  </YearProvider>
+                </TeacherProvider>
               ) : (
                 <Navigate to="/login" replace />
               )
