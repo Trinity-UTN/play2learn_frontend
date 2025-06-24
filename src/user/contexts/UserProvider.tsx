@@ -1,7 +1,9 @@
 import { useState, type ReactNode } from "react";
 import { UserContext } from "./UserContext";
-import { LogIn } from "../services/LoginService";
-import type { Login } from "../types/userTypes";
+import type { UserContextType } from "./UserContext.types";
+import { LoginService } from "../services/Login/LoginService";
+import type { LoginPayload } from "../services/Login/LoginService";
+
 interface UserProviderProps {
   children: ReactNode;
 }
@@ -17,12 +19,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     localStorage.getItem("token") ? true : false
   );
 
-  //login
-  const login = async (data: Login) => {
+  const login = async (data: LoginPayload): Promise<boolean> => {
     setLoading(true);
     try {
-      const respuesta = await LogIn(data);
-      localStorage.setItem("token", respuesta.data.token);
+      const response = await LoginService.loginApi(data);
+      localStorage.setItem("token", response.data.token);
       setIsAuthenticated(true);
       return true;
     } catch (error) {
@@ -32,14 +33,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
-  const logout = async () => {
+
+  const logout = (): void => {
     setIsAuthenticated(false);
     localStorage.removeItem("token");
   };
 
+  const contextValue: UserContextType = {
+    loading,
+    isAuthenticated,
+    login,
+    logout,
+  };
+
   return (
-    <UserContext.Provider value={{ login, loading, isAuthenticated, logout }}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );
 };
