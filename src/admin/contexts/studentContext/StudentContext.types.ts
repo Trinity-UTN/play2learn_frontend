@@ -1,4 +1,4 @@
-import type { CreateStudentPayload } from "../../services/Student/StudentService";
+import type { CreateStudentPayload } from "../../services/student/StudentService";
 
 export interface StudentContextType {
   loading: boolean;
