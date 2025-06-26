@@ -63,10 +63,6 @@ const CreateStudentView: React.FC = () => {
 
   useEffect(() => {
     getYear();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     getCourse();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
