@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { YearContext } from "../contexts/YearContext";
+import { YearContext } from "../contexts/yearContext/YearContext";
 
 export const useYear = () => {
   const context = useContext(YearContext);
