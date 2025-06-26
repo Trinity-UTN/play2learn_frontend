@@ -49,7 +49,6 @@ const CreateStudentView: React.FC = () => {
       course_id: formData.course_id,
     };
     try {
-      console.log(payload);
       await registerStudent(payload);
       alert("Estudiante creado exitosamente.");
       resetFormData();

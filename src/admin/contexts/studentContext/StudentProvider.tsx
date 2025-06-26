@@ -16,7 +16,6 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
   const registerStudent = async (data: CreateStudentPayload): Promise<void> => {
     setLoading(true);
     try {
-      console.log(data);
       await StudentService.registerStudentApi(data);
     } catch (error) {
       console.error("Error al crear el estudiante:", error);
