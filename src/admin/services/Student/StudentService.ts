@@ -3,13 +3,15 @@ import { urls } from "../../urls";
 
 export interface CreateStudentPayload {
   name: string;
-  lastName: string;
-  dni: number;
+  lastname: string;
+  dni: string;
   email: string;
-  class_id: number;
+  course_id: number;
 }
 
-const registerStudentApi = async (data: CreateStudentPayload): Promise<void> => {
+const registerStudentApi = async (
+  data: CreateStudentPayload
+): Promise<void> => {
   try {
     await api.post(urls.Students, data);
   } catch (error) {
