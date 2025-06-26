@@ -10,6 +10,7 @@ import { UserProvider } from "./user/contexts/UserProvider";
 import { YearProvider } from "./admin/contexts/yearContext/YearProvider";
 import { TeacherProvider } from "./admin/contexts/teacherContext/TeacherProvider";
 import { CourseProvider } from "./admin/contexts/courseContext/CourseProvider";
+import { StudentProvider } from "./admin/contexts/studentContext/StudentProvider";
 
 import { useAuth } from "./user/hooks/useAuth";
 import Login from "./user/pages/Login/LoginPage";
@@ -57,21 +58,23 @@ const AppContent: React.FC = () => {
             path="/dashboard/*"
             element={
               isAuthenticated ? (
-                <TeacherProvider>
-                  <YearProvider>
-                    <CourseProvider>
-                      <motion.div
-                        key="dashboard"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <AdminDashboard />
-                      </motion.div>
-                    </CourseProvider>
-                  </YearProvider>
-                </TeacherProvider>
+                <StudentProvider>
+                  <TeacherProvider>
+                    <YearProvider>
+                      <CourseProvider>
+                        <motion.div
+                          key="dashboard"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <AdminDashboard />
+                        </motion.div>
+                      </CourseProvider>
+                    </YearProvider>
+                  </TeacherProvider>
+                </StudentProvider>
               ) : (
                 <Navigate to="/login" replace />
               )

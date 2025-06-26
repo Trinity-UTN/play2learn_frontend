@@ -1,29 +1,71 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaGraduationCap, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import styles from "./CreateStudentView.module.css";
+import { useYear } from "../../hooks/useYear";
+import { useCourse } from "../../hooks/useCourse";
+import { useStudent } from "../../hooks/useStudent";
 
 const CreateStudentView: React.FC = () => {
+  const { getYear, years } = useYear();
+  const { getCourse, courses } = useCourse();
+  const { registerStudent, loading } = useStudent();
+
   const [formData, setFormData] = useState({
     name: "",
-    lastName: "",
+    lastname: "",
     dni: "",
     email: "",
-    class: "",
+    year_id: 0,
+    course_id: 0,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Estudiante creado:", formData);
+  const filteredCourses = courses.filter(
+    (course) => course.year.id === formData.year_id
+  );
+
+  const resetFormData = () => {
+    setFormData({
+      name: "",
+      lastname: "",
+      dni: "",
+      email: "",
+      year_id: 0,
+      course_id: 0,
+    });
   };
 
-  const handleChange = (field: string, value: string) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const payload = {
+      name: formData.name.trim(),
+      lastname: formData.lastname.trim(),
+      dni: formData.dni.trim(),
+      email: formData.email.trim(),
+      course_id: formData.course_id,
+    };
+    try {
+      await registerStudent(payload);
+      alert("Estudiante creado exitosamente.");
+      resetFormData();
+    } catch (err) {
+      alert("Hubo un error al crear el estudiante.");
+    }
+  };
+
+  const handleChange = (field: string, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  useEffect(() => {
+    getYear();
+    getCourse();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div
@@ -60,8 +102,8 @@ const CreateStudentView: React.FC = () => {
               <label className={styles.label}>Apellidos *</label>
               <Input
                 placeholder="Apellido del estudiante"
-                value={formData.lastName}
-                onChange={(e) => handleChange("lastName", e.target.value)}
+                value={formData.lastname}
+                onChange={(e) => handleChange("lastname", e.target.value)}
                 required
               />
             </div>
@@ -69,11 +111,12 @@ const CreateStudentView: React.FC = () => {
 
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
-              <label className={styles.label}>DNI</label>
+              <label className={styles.label}>DNI *</label>
               <Input
                 placeholder="DNI del estudiante"
                 value={formData.dni}
                 onChange={(e) => handleChange("dni", e.target.value)}
+                required
               />
             </div>
             <div className={styles.inputGroup}>
@@ -90,29 +133,55 @@ const CreateStudentView: React.FC = () => {
 
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Año *</label>
+              <label className={styles.label}>Año del Curso *</label>
               <select
                 className={styles.select}
-                value={formData.class}
-                onChange={(e) => handleChange("class", e.target.value)}
+                value={formData.year_id}
+                onChange={(e) => {
+                  const yearId = Number(e.target.value);
+                  setFormData((prev) => ({
+                    ...prev,
+                    year_id: yearId,
+                    course_id: 0, // reset curso al cambiar año
+                  }));
+                }}
                 required
               >
                 <option value="">Seleccionar año</option>
-                <option value="1">Primer Año</option>
-                <option value="2">Segundo Año</option>
-                <option value="3">Tercer Año</option>
-                <option value="4">Cuarto Año</option>
-                <option value="5">Quinto Año</option>
+                {years.map((year) => (
+                  <option value={year.id} key={year.id}>
+                    {year.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>Curso *</label>
+              <select
+                className={styles.select}
+                value={formData.course_id}
+                onChange={(e) =>
+                  handleChange("course_id", Number(e.target.value))
+                }
+                required
+                disabled={formData.year_id === 0}
+              >
+                <option value="">Seleccionar curso</option>
+                {filteredCourses.map((course) => (
+                  <option value={course.id} key={course.id}>
+                    {course.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
 
           <div className={styles.buttonGroup}>
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" disabled={loading}>
               <FaSave className={styles.buttonIcon} />
-              Crear Estudiante
+              {loading ? "Cargando..." : "Crear Estudiante"}
             </Button>
-            <Button type="button" variant="outline">
+            <Button type="button" variant="outline" disabled={loading}>
               Cancelar
             </Button>
           </div>

@@ -8,6 +8,11 @@ export interface GetYearPayload {
   id: number;
   name: string;
 }
+// Es igual a GetYearPayload pero quería ponerle este nombre para que fuera más claro
+export interface YearResponseDto {
+  id: number;
+  name: string;
+}
 
 const registerYearApi = async (data: CreateYearPayload): Promise<void> => {
   try {
