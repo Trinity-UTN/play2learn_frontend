@@ -1,26 +1,48 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaBook, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import styles from "./CreateCourseView.module.css";
+import { useYear } from "../../hooks/useYear";
+import { useCourse } from "../../hooks/useCourse";
 
 const CreateCourseView: React.FC = () => {
+  const { getYear, years } = useYear();
+  const { registerCourse, loading } = useCourse();
+
   const [formData, setFormData] = useState({
     name: "",
-    year_id: "",
+    year_id: 0,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const resetFormData = () => {
+    setFormData({
+      name: "",
+      year_id: 0,
+    });
+  };
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Curso creado:", formData);
+    try {
+      await registerCourse(formData);
+      alert("Docente creado exitosamente.");
+      resetFormData();
+    } catch (err) {
+      alert("Hubo un error al crear el Docente.");
+    }
   };
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: string, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  useEffect(() => {
+    getYear();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div
@@ -47,15 +69,17 @@ const CreateCourseView: React.FC = () => {
               <select
                 className={styles.select}
                 value={formData.year_id}
-                onChange={(e) => handleChange("year_id", e.target.value)}
+                onChange={
+                  (e) => handleChange("year_id", Number(e.target.value)) // agrego el number porque los select a los value los setea como string siempre
+                }
                 required
               >
                 <option value="">Seleccionar año</option>
-                <option value="1">Primer Año</option>
-                <option value="2">Segundo Año</option>
-                <option value="3">Tercer Año</option>
-                <option value="4">Cuarto Año</option>
-                <option value="5">Quinto Año</option>
+                {years.map((year) => (
+                  <option value={year.id} key={year.id}>
+                    {year.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className={styles.inputGroup}>
@@ -72,9 +96,9 @@ const CreateCourseView: React.FC = () => {
           <div className={styles.buttonGroup}>
             <Button type="submit" variant="primary">
               <FaSave className={styles.buttonIcon} />
-              Crear Curso
+              {loading ? "cargando..." : "Crear Curso"}
             </Button>
-            <Button type="button" variant="outline">
+            <Button type="button" variant="outline" disabled={loading}>
               Cancelar
             </Button>
           </div>

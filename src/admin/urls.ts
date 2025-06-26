@@ -1,4 +1,5 @@
-export const urls={
-    Years: '/admin/years',
-    Teacher:'/admin/teachers',
-}
+export const urls = {
+  Years: "/admin/years",
+  Teacher: "/admin/teachers",
+  Course: "/admin/courses",
+};
