@@ -1,11 +1,11 @@
 import { useState, type ReactNode } from "react";
 import { YearContext } from "./YearContext";
-import type { YearContextType } from "./YearContext.types";
-import { YearService } from "../../services/Year/YearService";
+import type { YearContextType } from "./YearContext.type";
+import { YearService } from "../../services/year/YearService";
 import type {
   CreateYearPayload,
   GetYearPayload,
-} from "../../services/Year/YearService";
+} from "../../services/year/YearService";
 
 interface YearProviderProps {
   children: ReactNode;
@@ -33,7 +33,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
       const response = await YearService.getYearApi();
       setYears(response.data.data);
     } catch (error) {
-      console.error("Error al obtener los años:", error);
+      console.error("Error al obtener los años:", error); // TODO: REMOVE_DEBUG
       throw error;
     } finally {
       setLoading(false);

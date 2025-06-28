@@ -1,5 +1,5 @@
 import api from "../../../shared/utils/api";
-import { urls } from "../../urls";
+import { urls } from "../urls";
 
 export interface CreateStudentPayload {
   name: string;
@@ -15,7 +15,7 @@ const registerStudentApi = async (
   try {
     await api.post(urls.Students, data);
   } catch (error) {
-    console.error("Error al crear el estudiante:", error);
+    console.error("Error al crear el estudiante:", error); // TODO: REMOVE_DEBUG
     throw error;
   }
 };

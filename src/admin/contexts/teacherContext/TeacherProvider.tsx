@@ -16,10 +16,9 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
   const registerTeacher = async (data: CreateTeacherPayload): Promise<void> => {
     setLoading(true);
     try {
-      console.log(data);
       await TeacherService.registerTeacherApi(data);
     } catch (error) {
-      console.error("Error al crear el docente:", error);
+      console.error("Error al crear el docente:", error); // TODO: REMOVE_DEBUG
       throw error;
     } finally {
       setLoading(false);

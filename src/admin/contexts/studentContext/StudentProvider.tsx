@@ -18,7 +18,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
     try {
       await StudentService.registerStudentApi(data);
     } catch (error) {
-      console.error("Error al crear el estudiante:", error);
+      console.error("Error al crear el estudiante:", error); // TODO: REMOVE_DEBUG
       throw error;
     } finally {
       setLoading(false);

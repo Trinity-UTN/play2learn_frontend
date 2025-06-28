@@ -20,7 +20,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
     try {
       await CourseService.registerCourseApi(data);
     } catch (error) {
-      console.error("Error al crear el curso:", error);
+      console.error("Error al crear el curso:", error); // TODO: REMOVE_DEBUG
       throw error;
     } finally {
       setLoading(false);
@@ -33,7 +33,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
       const response = await CourseService.getCourseApi();
       setCourses(response.data.data);
     } catch (error) {
-      console.error("Error al obtener los cursos:", error);
+      console.error("Error al obtener los cursos:", error); // TODO: REMOVE_DEBUG
       throw error;
     } finally {
       setLoading(false);

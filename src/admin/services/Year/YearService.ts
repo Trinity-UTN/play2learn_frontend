@@ -1,5 +1,5 @@
 import api from "../../../shared/utils/api";
-import { urls } from "../../urls";
+import { urls } from "../urls";
 
 export interface CreateYearPayload {
   name: string;
@@ -18,7 +18,7 @@ const registerYearApi = async (data: CreateYearPayload): Promise<void> => {
   try {
     await api.post(urls.Years, data);
   } catch (error) {
-    console.error("Error al crear el año:", error);
+    console.error("Error al crear el año:", error); // TODO: REMOVE_DEBUG
     throw error;
   }
 };
@@ -28,7 +28,7 @@ const getYearApi = async () => {
     const response = await api.get(urls.Years);
     return response;
   } catch (error) {
-    console.error("Error al obtener los años:", error);
+    console.error("Error al obtener los años:", error); // TODO: REMOVE_DEBUG
     throw error;
   }
 };
