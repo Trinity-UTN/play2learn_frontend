@@ -14,7 +14,7 @@ import {
 import { useAuth } from "../../../user/hooks/useAuth";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import styles from "./Sidebar.module.css";
-import { AdminRoutes } from "../../routes";
+import { AdminRoutes } from "../../routes/routes";
 
 const Sidebar: React.FC = () => {
   const { logout } = useAuth();
