@@ -2,13 +2,12 @@ import type React from "react";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaTools } from "react-icons/fa";
 // import { FaUsers, FaEdit, FaTrash } from "react-icons/fa";
-// import type { Year } from "../../types/adminTypes";
 // import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 // import Badge from "../../../shared/components/Badge/BadgeComponent";
-import styles from "./ViewYearsView.module.css";
+import styles from "./ListYearView.module.css";
 
-const ViewYearsView: React.FC = () => {
+const ListYearView: React.FC = () => {
   // const years: Year[] = [
   //   {
   //     id: 1,
@@ -152,4 +151,4 @@ const ViewYearsView: React.FC = () => {
   );
 };
 
-export default ViewYearsView;
+export default ListYearView;

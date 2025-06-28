@@ -5,10 +5,10 @@ import { FaGraduationCap, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
-import styles from "./CreateStudentView.module.css";
 import { useYear } from "../../hooks/useYear";
 import { useCourse } from "../../hooks/useCourse";
 import { useStudent } from "../../hooks/useStudent";
+import styles from "./CreateStudentView.module.css";
 
 const CreateStudentView: React.FC = () => {
   const { getYear, years } = useYear();

@@ -3,11 +3,10 @@ import type React from "react";
 import { motion } from "framer-motion";
 import { FaBook, FaTools } from "react-icons/fa";
 // import { FaSearch, FaEdit, FaTrash } from "react-icons/fa";
-// import type { Course } from "../../types/adminTypes";
 // import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 // import Input from "../../../shared/components/Input/InputComponent";
-import styles from "./ViewCoursesView.module.css";
+import styles from "./ListCourseView.module.css";
 
 const ViewCoursesView: React.FC = () => {
   // const [searchTerm, setSearchTerm] = useState("");
@@ -80,9 +79,7 @@ const ViewCoursesView: React.FC = () => {
               <h1 className={styles.title}>
                 Vista de Cursos - En Construcción
               </h1>
-              <p className={styles.subtitle}>
-                Esta página está en desarrollo.
-              </p>
+              <p className={styles.subtitle}>Esta página está en desarrollo.</p>
             </div>
           </div>
         </div>

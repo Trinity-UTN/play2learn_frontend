@@ -37,7 +37,7 @@ const CreateYearView: React.FC = () => {
       <div className={styles.header}>
         <h1 className={styles.title}>Generar Año</h1>
         <p className={styles.subtitle}>
-          Crea un nuevo año en el sistema
+          Crea un nuevo año académico en el sistema
         </p>
       </div>
 
