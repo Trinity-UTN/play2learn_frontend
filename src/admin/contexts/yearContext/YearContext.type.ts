@@ -1,7 +1,7 @@
 import type {
   CreateYearPayload,
   GetYearPayload,
-} from "../../services/year/YearService";
+} from "../../services/Year/YearService";
 
 export interface YearContextType {
   loading: boolean;

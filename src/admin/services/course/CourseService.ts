@@ -1,6 +1,6 @@
 import api from "../../../shared/utils/api";
 import { urls } from "../urls";
-import type { YearResponseDto } from "../year/YearService";
+import type { YearResponseDto } from "../Year/YearService";
 
 export interface CreateCoursePayload {
   name: string;
