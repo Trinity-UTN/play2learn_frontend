@@ -1,8 +1,8 @@
 import { useState, type ReactNode } from "react";
 import { StudentContext } from "./StudentContext";
 import type { StudentContextType } from "./StudentContext.type";
-import { StudentService } from "../../services/student/StudentService";
-import type { CreateStudentPayload } from "../../services/student/StudentService";
+import { StudentService } from "../../services/Student/StudentService";
+import type { CreateStudentPayload } from "../../services/Student/StudentService";
 
 interface StudentProviderProps {
   children: ReactNode;

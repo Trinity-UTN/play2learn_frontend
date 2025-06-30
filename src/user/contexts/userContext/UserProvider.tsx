@@ -1,8 +1,8 @@
 import { useState, type ReactNode } from "react";
 import { UserContext } from "./UserContext";
 import type { UserContextType } from "./UserContext.type";
-import { LoginService } from "../../services/login/LoginService";
-import type { LoginPayload } from "../../services/login/LoginService";
+import { LoginService } from "../../services/Login/LoginService";
+import type { LoginPayload } from "../../services/Login/LoginService";
 
 interface UserProviderProps {
   children: ReactNode;

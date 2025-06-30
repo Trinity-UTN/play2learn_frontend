@@ -1,11 +1,11 @@
 import { useState, type ReactNode } from "react";
 import { YearContext } from "./YearContext";
 import type { YearContextType } from "./YearContext.type";
-import { YearService } from "../../services/year/YearService";
+import { YearService } from "../../services/Year/YearService";
 import type {
   CreateYearPayload,
   GetYearPayload,
-} from "../../services/year/YearService";
+} from "../../services/Year/YearService";
 
 interface YearProviderProps {
   children: ReactNode;
