@@ -5,9 +5,9 @@ import { FaBook, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
-import styles from "./CreateCourseView.module.css";
 import { useYear } from "../../hooks/useYear";
 import { useCourse } from "../../hooks/useCourse";
+import styles from "./CreateCourseView.module.css";
 
 const CreateCourseView: React.FC = () => {
   const { getYear, years } = useYear();
@@ -28,10 +28,10 @@ const CreateCourseView: React.FC = () => {
     e.preventDefault();
     try {
       await registerCourse(formData);
-      alert("Docente creado exitosamente.");
+      alert("Curso creado exitosamente.");
       resetFormData();
     } catch (err) {
-      alert("Hubo un error al crear el Docente.");
+      alert("Hubo un error al crear el curso.");
     }
   };
 

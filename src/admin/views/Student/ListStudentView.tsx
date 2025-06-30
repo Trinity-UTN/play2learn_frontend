@@ -3,14 +3,13 @@ import type React from "react";
 import { motion } from "framer-motion";
 import { FaGraduationCap, FaTools } from "react-icons/fa";
 // import { FaSearch, FaEdit, FaTrash, FaEnvelope, FaPhone } from "react-icons/fa";
-// import type { Student } from "../../types/adminTypes";
 // import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 // import Input from "../../../shared/components/Input/InputComponent";
 // import Badge from "../../../shared/components/Badge/BadgeComponent";
-import styles from "./ViewStudentsView.module.css";
+import styles from "./ListStudentView.module.css";
 
-const ViewStudentsView: React.FC = () => {
+const ListStudentView: React.FC = () => {
   // const [searchTerm, setSearchTerm] = useState("");
 
   // const students: Student[] = [
@@ -180,4 +179,4 @@ const ViewStudentsView: React.FC = () => {
   );
 };
 
-export default ViewStudentsView;
+export default ListStudentView;

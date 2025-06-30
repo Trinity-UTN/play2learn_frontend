@@ -5,28 +5,27 @@ import {
   Navigate,
 } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-//PROVIDERS
-import { UserProvider } from "./user/contexts/UserProvider";
+// PROVIDERS
+import { UserProvider } from "./user/contexts/userContext/UserProvider";
 import { YearProvider } from "./admin/contexts/yearContext/YearProvider";
 import { TeacherProvider } from "./admin/contexts/teacherContext/TeacherProvider";
 import { CourseProvider } from "./admin/contexts/courseContext/CourseProvider";
 import { StudentProvider } from "./admin/contexts/studentContext/StudentProvider";
-
+// PAGES
+import AdminDashboard from "./admin/pages/Dashboard/AdminDashboardPage";
 import { useAuth } from "./user/hooks/useAuth";
 import Login from "./user/pages/Login/LoginPage";
-import AdminDashboard from "./admin/pages/Dashboard/AdminDashboardPage";
-import { AdminRoutes } from "./admin/routes";
 import styles from "./App.module.css";
-
-import OverviewView from "./admin/views/OverviewView/OverviewView";
-import ViewCoursesView from "./admin/views/ViewCoursesView/ViewCoursesView";
-import CreateCourseView from "./admin/views/CreateCourseView/CreateCourseView";
-import ViewYearsView from "./admin/views/ViewYearsView/ViewYearsView";
-import CreateYearView from "./admin/views/CreateYearView/CreateYearView";
-import ViewStudentsView from "./admin/views/ViewStudentsView/ViewStudentsView";
-import CreateStudentView from "./admin/views/CreateStudentView/CreateStudentView";
-import ViewTeachersView from "./admin/views/ViewTeachersView/ViewTeachersView";
-import CreateTeacherView from "./admin/views/CreateTeacherView/CreateTeacherView";
+// VIEWS
+import OverviewView from "./admin/views/Overview/OverviewView";
+import ListCourseView from "./admin/views/Course/ListCourseView";
+import CreateCourseView from "./admin/views/Course/CreateCourseView";
+import ListYearView from "./admin/views/Year/ListYearView";
+import CreateYearView from "./admin/views/Year/CreateYearView";
+import ListStudentView from "./admin/views/Student/ListStudentView";
+import CreateStudentView from "./admin/views/Student/CreateStudentView";
+import ListTeacherView from "./admin/views/Teacher/ListTeacherView";
+import CreateTeacherView from "./admin/views/Teacher/CreateTeacherView";
 
 const AppContent: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -86,22 +85,22 @@ const AppContent: React.FC = () => {
             {/* Cursos */}
             <Route path="courses/create" element={<CreateCourseView />} />
             <Route path="courses/edit/:id" element={<CreateCourseView />} />
-            <Route path="courses/list" element={<ViewCoursesView />} />
+            <Route path="courses/list" element={<ListCourseView />} />
 
             {/* Años */}
             <Route path="years/create" element={<CreateYearView />} />
             <Route path="years/edit/:id" element={<CreateYearView />} />
-            <Route path="years/list" element={<ViewYearsView />} />
+            <Route path="years/list" element={<ListYearView />} />
 
             {/* Estudiantes */}
             <Route path="students/create" element={<CreateStudentView />} />
             <Route path="students/edit/:id" element={<CreateStudentView />} />
-            <Route path="students/list" element={<ViewStudentsView />} />
+            <Route path="students/list" element={<ListStudentView />} />
 
             {/* Docentes */}
             <Route path="teachers/create" element={<CreateTeacherView />} />
             <Route path="teachers/edit/:id" element={<CreateTeacherView />} />
-            <Route path="teachers/list" element={<ViewTeachersView />} />
+            <Route path="teachers/list" element={<ListTeacherView />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/login" replace />} />

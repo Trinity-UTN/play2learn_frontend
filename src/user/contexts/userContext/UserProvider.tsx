@@ -1,8 +1,8 @@
 import { useState, type ReactNode } from "react";
 import { UserContext } from "./UserContext";
-import type { UserContextType } from "./UserContext.types";
-import { LoginService } from "../services/Login/LoginService";
-import type { LoginPayload } from "../services/Login/LoginService";
+import type { UserContextType } from "./UserContext.type";
+import { LoginService } from "../../services/login/LoginService";
+import type { LoginPayload } from "../../services/login/LoginService";
 
 interface UserProviderProps {
   children: ReactNode;
@@ -10,10 +10,6 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(false);
-
-  // const [token, setToken] = useState<string>(
-  //   () => localStorage.getItem("token") || ""
-  // );
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     localStorage.getItem("token") ? true : false
@@ -27,7 +23,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setIsAuthenticated(true);
       return true;
     } catch (error) {
-      console.error("Error al obtener Logines:", error);
+      console.error("Error al obtener Logines:", error); // TODO: REMOVE_DEBUG
       return false;
     } finally {
       setLoading(false);

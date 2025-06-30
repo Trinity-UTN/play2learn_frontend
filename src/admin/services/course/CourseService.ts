@@ -1,6 +1,6 @@
 import api from "../../../shared/utils/api";
-import { urls } from "../../urls";
-import type { YearResponseDto } from "../Year/YearService";
+import { urls } from "../urls";
+import type { YearResponseDto } from "../year/YearService";
 
 export interface CreateCoursePayload {
   name: string;
@@ -17,7 +17,7 @@ const registerCourseApi = async (data: CreateCoursePayload): Promise<void> => {
   try {
     await api.post(urls.Course, data);
   } catch (error) {
-    console.error("Error al crear el curso:", error);
+    console.error("Error al crear el curso:", error); // TODO: REMOVE_DEBUG
     throw error;
   }
 };
@@ -27,7 +27,7 @@ const getCourseApi = async () => {
     const response = await api.get(urls.Course);
     return response;
   } catch (error) {
-    console.error("Error al obtener los cursos:", error);
+    console.error("Error al obtener los cursos:", error); // TODO: REMOVE_DEBUG
     throw error;
   }
 };

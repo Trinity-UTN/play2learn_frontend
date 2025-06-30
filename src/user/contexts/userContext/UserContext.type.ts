@@ -1,4 +1,4 @@
-import type { LoginPayload } from "../services/Login/LoginService";
+import type { LoginPayload } from "../../services/login/LoginService";
 
 export interface UserContextType {
   loading: boolean;
