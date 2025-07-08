@@ -26,9 +26,9 @@ const LoginPage: React.FC = () => {
       password: password,
     };
 
-    const success = await login(data);
-    if (success) {
-      navigate("/dashboard");
+    const destination = await login(data);
+    if (destination) {
+      navigate(destination, { replace: true });
     }
 
     setIsLoading(false);
