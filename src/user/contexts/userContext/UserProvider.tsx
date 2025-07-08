@@ -3,6 +3,8 @@ import { UserContext } from "./UserContext";
 import type { UserContextType } from "./UserContext.type";
 import { LoginService } from "../../services/Login/LoginService";
 import type { LoginPayload } from "../../services/Login/LoginService";
+import type { Role } from "../../../shared/utils/ProtectedRoute";
+import { roleLandingRoutes } from "../../services/roleLandingRoutes";
 
 interface UserProviderProps {
   children: ReactNode;
@@ -10,21 +12,25 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [role, setRole] = useState<Role>(localStorage.getItem("role") as Role);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     localStorage.getItem("token") ? true : false
   );
 
-  const login = async (data: LoginPayload): Promise<boolean> => {
+  const login = async (data: LoginPayload): Promise<string | null> => {
     setLoading(true);
     try {
       const response = await LoginService.loginApi(data);
+      const userRole = response.data.role as Role;
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", response.data.role);
       setIsAuthenticated(true);
-      return true;
+      setRole(response.data.role);
+
+      return roleLandingRoutes[userRole];
     } catch (error) {
       console.error("Error al obtener Logines:", error); // TODO: REMOVE_DEBUG
-      return false;
+      return null;
     } finally {
       setLoading(false);
     }
@@ -35,11 +41,19 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     localStorage.removeItem("token");
   };
 
+  //FUNCION QUE DEVUELVE EL ROL PARA VALIDACIONES MAS CONCRETAS
+  const hasRole = (allowed: Role[]): boolean => {
+    if (!role) return false;
+    return allowed.includes(role);
+  };
+
   const contextValue: UserContextType = {
     loading,
     isAuthenticated,
     login,
     logout,
+    role,
+    hasRole,
   };
 
   return (
