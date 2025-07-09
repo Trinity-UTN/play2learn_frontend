@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "../App.module.css";
 
@@ -6,7 +6,10 @@ import ProtectedRoute from "../shared/utils/ProtectedRoute";
 //PAGES
 import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
 //VIEWS
-import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
+import ActivitiesView from "../teacher/views/activitiesView/ActivitiesView";
+import BenefitsView from "../teacher/views/benefitsView/BenefitsView";
+import BenefitCreateView from "../teacher/views/benefitsView/BenefitsCreateView";
+import OverviewView from "../teacher/views/overviewView/Overview";
 
 const TeacherApp = () => {
   return (
@@ -36,7 +39,15 @@ const TeacherApp = () => {
               </ProtectedRoute>
             }
           >
+            <Route index element={<Navigate to="overview" replace />} />
+            <Route path="overview" element={<OverviewView />} />
+
+            {/* ACTIVIDADES */}
             <Route path="actividades/list" element={<ActivitiesView />} />
+
+            {/* BENEFICIOS */}
+            <Route path="beneficio/list" element={<BenefitsView />} />
+            <Route path="beneficio/create" element={<BenefitCreateView />} />
           </Route>
         </Routes>
       </AnimatePresence>

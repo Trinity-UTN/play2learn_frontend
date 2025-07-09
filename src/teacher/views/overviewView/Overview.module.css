@@ -1,0 +1,713 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.welcomeSection {
+  flex: 1;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2e2e2e;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #007bff, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.headerStats {
+  display: flex;
+  gap: 2rem;
+}
+
+.headerStat {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+}
+
+.headerStatIcon {
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
+.headerStatNumber {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2e2e2e;
+  display: block;
+  line-height: 1;
+}
+
+.headerStatLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.statHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.statIcon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.statInfo {
+  flex: 1;
+}
+
+.statNumber {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2e2e2e;
+  display: block;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.statProgress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.progressBar {
+  flex: 1;
+  height: 6px;
+  background-color: #f3f4f6;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2e2e2e;
+}
+
+.buttonIcon {
+  margin-right: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.coursesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.courseCard {
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.courseCard:hover {
+  border-color: rgba(0, 123, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.courseHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.courseIcon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.courseInfo {
+  flex: 1;
+}
+
+.courseName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2e2e2e;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.courseCode {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.courseStats {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.courseStat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.courseStatIcon {
+  font-size: 1rem;
+  color: #007bff;
+}
+
+.courseProgress {
+  margin-top: 1rem;
+}
+
+.courseProgressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.courseProgressLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.courseProgressValue {
+  font-size: 0.875rem;
+  color: #2e2e2e;
+  font-weight: 600;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+}
+
+.contentCard {
+  padding: 1.5rem;
+  height: fit-content;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2e2e2e;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cardIcon {
+  font-size: 1rem;
+  color: #007bff;
+}
+
+.activitiesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.activityItem:hover {
+  background-color: #f3f4f6;
+  transform: translateX(4px);
+}
+
+.activityIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.activityContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.activityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.activityName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2e2e2e;
+  line-height: 1.2;
+}
+
+.difficultyBadge {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  flex-shrink: 0;
+}
+
+.activityMeta {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.activityProgress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.activityProgressBar {
+  flex: 1;
+  height: 4px;
+  background-color: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.activityProgressFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.activityProgressText {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.benefitsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.benefitItem:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-2px);
+}
+
+.benefitIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.benefitContent {
+  flex: 1;
+}
+
+.benefitName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2e2e2e;
+  margin-bottom: 0.25rem;
+}
+
+.benefitCourse {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.benefitUsage {
+  text-align: center;
+}
+
+.benefitUsageNumber {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #2e2e2e;
+  display: block;
+  line-height: 1;
+}
+
+.benefitUsageLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.eventsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.eventItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.eventItem:hover {
+  background-color: #f3f4f6;
+  transform: scale(1.02);
+}
+
+.eventDate {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.eventDateText {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.eventContent {
+  flex: 1;
+}
+
+.eventTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2e2e2e;
+  margin-bottom: 0.25rem;
+}
+
+.eventCourse {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.eventBadge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  background: transparent;
+}
+
+.actionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.actionIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.actionContent {
+  flex: 1;
+}
+
+.actionTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2e2e2e;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.actionDescription {
+  font-size: 0.75rem;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .coursesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .headerStats {
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .headerStat {
+    flex: 1;
+    padding: 0.75rem 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .coursesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .actionsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .activityHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .courseStats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .headerStats {
+    flex-direction: column;
+  }
+
+  .statCard {
+    padding: 1rem;
+  }
+
+  .contentCard {
+    padding: 1rem;
+  }
+
+  .activityItem,
+  .benefitItem,
+  .eventItem {
+    padding: 0.75rem;
+  }
+
+  .actionButton {
+    padding: 0.75rem;
+  }
+}
+
+/* Animaciones adicionales */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.statCard {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.statCard:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.statCard:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.statCard:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.statCard:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+/* Estados especiales */
+.courseCard[data-low-completion="true"] {
+  border-left: 4px solid #f59e0b;
+}
+
+.courseCard[data-high-completion="true"] {
+  border-left: 4px solid #10b981;
+}
+
+.activityItem[data-urgent="true"] {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-left: 4px solid #f59e0b;
+}
+
+.eventItem[data-urgent="true"] {
+  background: linear-gradient(135deg, #fecaca, #fca5a5);
+  border-left: 4px solid #dc2626;
+}

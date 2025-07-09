@@ -27,16 +27,11 @@ const Sidebar: React.FC = () => {
   const menuItems = [
     {
       title: "Panel Principal",
-      items: [{ title: "Resumen", icon: FaHome, path: "overview" }],
+      items: [{ title: "Resumen", icon: FaHome, path: TeacherRoutes.Overview }],
     },
     {
       title: "Gestion de Actividades",
       items: [
-        {
-          title: "Crear Actividad",
-          icon: FaPlus,
-          path: TeacherRoutes.Actividades.Create,
-        },
         {
           title: "Ver Actividades",
           icon: FaGamepad,
@@ -50,12 +45,12 @@ const Sidebar: React.FC = () => {
         {
           title: "Crear Beneficio",
           icon: FaPlus,
-          path: TeacherRoutes.Actividades.Create,
+          path: TeacherRoutes.Beneficios.Create,
         },
         {
           title: "Ver Beneficios",
           icon: FaUserTie,
-          path: TeacherRoutes.Actividades.Create,
+          path: TeacherRoutes.Beneficios.List,
         },
       ],
     },
