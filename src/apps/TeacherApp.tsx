@@ -1,9 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-// import ProtectedRoute from "../shared/utils/ProtectedRoute";
 import styles from "../App.module.css";
-import Prueba1 from "../teacher/pages/prueba1";
+
 import ProtectedRoute from "../shared/utils/ProtectedRoute";
+//PAGES
+import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
+//VIEWS
+import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
+
 const TeacherApp = () => {
   return (
     <motion.div
@@ -20,10 +24,20 @@ const TeacherApp = () => {
             path="/dashboard/teacher/*"
             element={
               <ProtectedRoute allowedRoles={["ROLE_TEACHER"]}>
-                <Prueba1 />
+                <motion.div
+                  key="dashboardTeacher"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <TeacherDashboardPage />
+                </motion.div>
               </ProtectedRoute>
             }
-          />
+          >
+            <Route path="actividades/list" element={<ActivitiesView />} />
+          </Route>
         </Routes>
       </AnimatePresence>
     </motion.div>
