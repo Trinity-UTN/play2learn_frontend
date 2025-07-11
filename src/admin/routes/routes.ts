@@ -24,6 +24,12 @@ export const AdminRoutes = {
     Edit: (id: string | number) => `teachers/edit/${id}`,
     List: "teachers/list",
   },
+
+  Subjects: {
+    Create: "subjects/create",
+    Edit: (id: string | number) => `subjects/edit/${id}`,
+    List: "subjects/list",
+  },
 };
 
 export default AdminRoutes;
