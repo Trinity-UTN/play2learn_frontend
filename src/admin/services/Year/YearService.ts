@@ -4,10 +4,6 @@ import { urls } from "../urls";
 export interface CreateYearPayload {
   name: string;
 }
-export interface GetYearPayload {
-  id: number;
-  name: string;
-}
 
 export interface GetPaginatedYearPayload {
   page?: number;
@@ -20,21 +16,30 @@ export interface GetPaginatedYearPayload {
 }
 
 export interface PaginatedData<T> {
-  content: T[];
+  results: T[];
   currentPage: number;
   pageSize: number;
-  totalItems: number;
+  count: number;
   totalPages: number;
 }
 
-// Es igual a GetYearPayload pero quería ponerle este nombre para que fuera más claro
 export interface YearResponseDto {
   id: number;
   name: string;
 }
 
+export interface BaseResponse<T> {
+  data: T;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
 export interface PaginatedYearResponse {
   data: PaginatedData<YearResponseDto>;
+  message: string;
+  errors: any;
+  timestamp: string;
 }
 
 const registerYearApi = async (data: CreateYearPayload): Promise<void> => {
@@ -60,17 +65,26 @@ const getPaginatedYearApi = async (
   params: GetPaginatedYearPayload
 ): Promise<PaginatedYearResponse> => {
   try {
+    // Filtrar parámetros undefined/null para evitar enviar valores vacíos
+    const cleanParams: any = {};
+
+    if (params.page !== undefined) cleanParams.page = params.page;
+    if (params.page_size !== undefined)
+      cleanParams.page_size = params.page_size;
+    if (params.order_by !== undefined) cleanParams.order_by = params.order_by;
+    if (params.order_type !== undefined)
+      cleanParams.order_type = params.order_type;
+    if (params.search !== undefined && params.search !== "")
+      cleanParams.search = params.search;
+    if (params.filters !== undefined && params.filters.length > 0)
+      cleanParams.filters = params.filters;
+    if (params.filtersValues !== undefined && params.filtersValues.length > 0)
+      cleanParams.filtersValues = params.filtersValues;
+
     const response = await api.get(urls.YearsPaginated, {
-      params: {
-        page: params.page ?? 1,
-        page_size: params.page_size ?? 10,
-        order_by: params.order_by ?? "id",
-        order_type: params.order_type ?? "asc",
-        search: params.search ?? "",
-        filters: params.filters ?? [],
-        filtersValues: params.filtersValues ?? [],
-      },
+      params: cleanParams,
     });
+
     return response.data;
   } catch (error) {
     console.error("Error al obtener años paginados:", error); // TODO: REMOVE_DEBUG
