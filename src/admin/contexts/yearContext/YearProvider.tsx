@@ -1,10 +1,10 @@
-import { useState, type ReactNode } from "react";
+import type React from "react";
+import { useCallback, useState, type ReactNode } from "react";
 import { YearContext } from "./YearContext";
 import type { YearContextType } from "./YearContext.type";
 import { YearService } from "../../services/year/YearService";
 import type {
   CreateYearPayload,
-  GetYearPayload,
   GetPaginatedYearPayload,
   PaginatedData,
   YearResponseDto,
@@ -15,10 +15,10 @@ interface YearProviderProps {
 }
 
 export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [years, setYears] = useState<GetYearPayload[]>([]);
+  const [years, setYears] = useState<YearResponseDto[]>([]);
   const [paginatedYears, setPaginatedYears] =
     useState<PaginatedData<YearResponseDto> | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const registerYear = async (data: CreateYearPayload): Promise<void> => {
     setLoading(true);
@@ -32,7 +32,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
     }
   };
 
-  const getYear = async () => {
+  const getYear = useCallback(async () => {
     setLoading(true);
     try {
       const response = await YearService.getYearApi();
@@ -43,22 +43,23 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const getPaginatedYear = async (
-    params: GetPaginatedYearPayload
-  ): Promise<void> => {
-    setLoading(true);
-    try {
-      const response = await YearService.getPaginatedYearApi(params);
-      setPaginatedYears(response.data);
-    } catch (error) {
-      console.error("Error al obtener los años paginados:", error);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
+  const getPaginatedYear = useCallback(
+    async (params: GetPaginatedYearPayload): Promise<void> => {
+      setLoading(true);
+      try {
+        const response = await YearService.getPaginatedYearApi(params);
+        setPaginatedYears(response.data);
+      } catch (error) {
+        console.error("Error al obtener los años paginados:", error); // TODO: REMOVE_DEBUG
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   const deleteYear = async (id: number): Promise<void> => {
     setLoading(true);
