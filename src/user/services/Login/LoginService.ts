@@ -1,4 +1,4 @@
-import api from "../../../shared/utils/api";
+import apiLogin from "../../../shared/utils/apiAuth";
 import { urls } from "../urls";
 
 export interface LoginPayload {
@@ -8,7 +8,7 @@ export interface LoginPayload {
 
 const loginApi = async (data: LoginPayload): Promise<any> => {
   try {
-    const response = await api.post(urls.login, data);
+    const response = await apiLogin.post(urls.login, data);
     return response.data;
   } catch (error) {
     console.error("Error en LogIn:", error); // TODO: REMOVE_DEBUG

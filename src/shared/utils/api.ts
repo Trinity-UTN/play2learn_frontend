@@ -1,4 +1,5 @@
 import axios from "axios";
+import AuthService from "../../user/services/auth/AuthService";
 
 const BASE_URL = "https://play2learn.backend.desarrollo.systemsbinary.com";
 
@@ -9,10 +10,13 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+api.interceptors.request.use(async config => {
+  try {
+    const validToken = await AuthService.getValidAccessToken();
+    config.headers.Authorization = `Bearer ${validToken}`;
+  } catch (err) {
+    console.error("Error obteniendo token válido:", err);
+    AuthService.logout();
   }
   return config;
 });
