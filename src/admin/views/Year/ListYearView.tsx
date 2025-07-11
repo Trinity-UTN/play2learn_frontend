@@ -2,32 +2,34 @@ import type React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  FaCalendarAlt,
-  FaSearch,
-  FaEdit,
-  FaTrash,
-  FaPlus,
-  FaSort,
-  FaSortUp,
-  FaSortDown,
-} from "react-icons/fa";
+import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import Button from "../../../shared/components/Button/ButtonComponent";
-import Card from "../../../shared/components/Card/CardComponent";
 import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
-import Input from "../../../shared/components/Input/InputComponent";
-import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { DataTable } from "../../../shared/components/DataTable";
+import type {
+  DataTableColumn,
+  DataTableAction,
+} from "../../../shared/components/DataTable";
 import { useYear } from "../../hooks/useYear";
-import type { GetYearPayload } from "../../services/year/YearService";
+import type {
+  GetPaginatedYearPayload,
+  YearResponseDto,
+} from "../../services/year/YearService";
 import styles from "./ListYearView.module.css";
 
 const ListYearView: React.FC = () => {
   const navigate = useNavigate();
-  const { loading, getYear, deleteYear, years } = useYear();
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState<"id" | "name">("id");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const { loading, getPaginatedYear, deleteYear, paginatedYears } = useYear();
+  const [paginationParams, setPaginationParams] =
+    useState<GetPaginatedYearPayload>({
+      page: 1,
+      page_size: 10,
+      order_by: "id",
+      order_type: "asc",
+      search: "",
+      filters: [],
+      filtersValues: [],
+    });
   const [alertConfig, setAlertConfig] = useState({
     title: "",
     message: "",
@@ -37,93 +39,51 @@ const ListYearView: React.FC = () => {
     onConfirm: () => {},
   });
 
-  // Comentado: Configuración de paginación para uso futuro
-  // const [paginationParams, setPaginationParams] = useState<GetPaginatedYearPayload>({
-  //   page: 1,
-  //   page_size: 10,
-  //   order_by: "id",
-  //   order_type: "asc",
-  //   search: "",
-  //   filters: [],
-  //   filtersValues: [],
-  // })
-
   useEffect(() => {
-    const loadYears = async () => {
+    const loadPaginatedYears = async () => {
       try {
-        await getYear();
+        await getPaginatedYear(paginationParams);
       } catch (error) {
-        console.error("Error al cargar años:", error);
+        console.error("Error al cargar años paginados:", error);
       }
     };
-
-    loadYears();
-  }, []);
-
-  // Filtrado y ordenamiento local por ahora
-  const filteredAndSortedYears =
-    years
-      ?.filter((year: GetYearPayload) =>
-        year.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      ?.sort((a: GetYearPayload, b: GetYearPayload) => {
-        const aValue = sortBy === "id" ? a.id : a.name.toLowerCase();
-        const bValue = sortBy === "id" ? b.id : b.name.toLowerCase();
-
-        if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-        if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-        return 0;
-      }) || [];
+    loadPaginatedYears();
+  }, [paginationParams, getPaginatedYear]);
 
   const handleSearch = (value: string) => {
-    setSearchTerm(value);
+    setPaginationParams((prev) => ({
+      ...prev,
+      search: value,
+      page: 1, // Resetear a la primera página al buscar
+    }));
   };
 
-  // Funciones de paginación para uso futuro
-  // const handlePageChange = (page: number) => {
-  //   setPaginationParams((prev) => ({
-  //     ...prev,
-  //     page,
-  //   }))
-  // }
-
-  // const handlePageSizeChange = (pageSize: number) => {
-  //   setPaginationParams((prev) => ({
-  //     ...prev,
-  //     page_size: pageSize,
-  //     page: 1,
-  //   }))
-  // }
-
-  const handleSort = (column: "id" | "name") => {
-    if (sortBy === column) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(column);
-      setSortOrder("asc");
-    }
-
-    // Lógica de ordenamiento para API
-    // setPaginationParams((prev) => ({
-    //   ...prev,
-    //   order_by: column,
-    //   order_type: prev.order_by === column && prev.order_type === "asc" ? "desc" : "asc",
-    //   page: 1,
-    // }))
+  const handleSort = (column: string) => {
+    setPaginationParams((prev) => ({
+      ...prev,
+      order_by: column,
+      order_type:
+        prev.order_by === column && prev.order_type === "asc" ? "desc" : "asc",
+      page: 1, // Resetear a la primera página al ordenar
+    }));
   };
 
-  const getSortIcon = (column: "id" | "name") => {
-    if (sortBy !== column) {
-      return <FaSort className={styles.sortIcon} />;
-    }
-    return sortOrder === "asc" ? (
-      <FaSortUp className={styles.sortIcon} />
-    ) : (
-      <FaSortDown className={styles.sortIcon} />
-    );
+  const handlePageChange = (page: number) => {
+    setPaginationParams((prev) => ({
+      ...prev,
+      page,
+    }));
   };
 
-  const handleEdit = (year: GetYearPayload) => {
+  const handlePageSizeChange = (pageSize: number) => {
+    setPaginationParams((prev) => ({
+      ...prev,
+      page_size: pageSize,
+      page: 1, // Resetear a la primera página al cambiar el tamaño
+    }));
+  };
+
+  const handleEdit = (year: YearResponseDto) => {
     setAlertConfig({
       title: "Modificar Año",
       message: `¿Está seguro que desea modificar el año "${year.name}"?`,
@@ -137,7 +97,7 @@ const ListYearView: React.FC = () => {
     });
   };
 
-  const handleDelete = (year: GetYearPayload) => {
+  const handleDelete = (year: YearResponseDto) => {
     setAlertConfig({
       title: "Eliminar Año",
       message: `¿Está seguro que desea eliminar el año "${year.name}"?`,
@@ -148,7 +108,8 @@ const ListYearView: React.FC = () => {
         try {
           console.log(`Eliminando año con ID: ${year.id}`);
           await deleteYear(year.id);
-          await getYear();
+          // Recargar la página actual después de eliminar
+          await getPaginatedYear(paginationParams);
           setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
           console.error("Error al eliminar año:", error);
@@ -156,6 +117,49 @@ const ListYearView: React.FC = () => {
       },
     });
   };
+
+  // Definición de columnas para la tabla
+  const columns: DataTableColumn<YearResponseDto>[] = [
+    {
+      key: "id",
+      label: "ID",
+      sortable: true,
+      width: "100px",
+      className: styles.idColumn,
+      render: (year) => <span className={styles.idBadge}>{year.id}</span>,
+    },
+    {
+      key: "name",
+      label: "Nombre del Año",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (year) => (
+        <div className={styles.nameWrapper}>
+          <span>{year.name}</span>
+        </div>
+      ),
+    },
+  ];
+
+  // Definición de acciones para la tabla
+  const actions: DataTableAction<YearResponseDto>[] = [
+    {
+      label: "Editar",
+      icon: <FaEdit />,
+      onClick: handleEdit,
+      variant: "ghost",
+      className: styles.editButton,
+      title: "Modificar año",
+    },
+    {
+      label: "Eliminar",
+      icon: <FaTrash />,
+      onClick: handleDelete,
+      variant: "ghost",
+      className: styles.deleteButton,
+      title: "Eliminar año",
+    },
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -193,136 +197,41 @@ const ListYearView: React.FC = () => {
       </motion.div>
 
       <motion.div variants={itemVariants}>
-        <Card className={styles.tableCard}>
-          <div className={styles.searchSection}>
-            <div className={styles.searchWrapper}>
-              <FaSearch className={styles.searchIcon} />
-              <Input
-                placeholder="Buscar años..."
-                value={searchTerm}
-                onChange={(e) => handleSearch(e.target.value)}
-                className={styles.searchInput}
-              />
-            </div>
-            <div className={styles.resultsInfo}>
-              {searchTerm ? (
-                <span>
-                  Mostrando {filteredAndSortedYears.length} de{" "}
-                  {years?.length || 0} años
-                </span>
-              ) : (
-                <span>Total: {years?.length || 0} años</span>
-              )}
-            </div>
-          </div>
-
-          <div className={styles.tableWrapper}>
-            {loading ? (
-              <div className={styles.loadingContainer}>
-                <LoadingSpinnerComponent text="Cargando años..." />
-              </div>
-            ) : (
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th
-                      className={`${styles.idColumn} ${styles.sortableHeader}`}
-                      onClick={() => handleSort("id")}
-                    >
-                      <div className={styles.headerContent}>
-                        ID
-                        {getSortIcon("id")}
-                      </div>
-                    </th>
-                    <th
-                      className={`${styles.nameColumn} ${styles.sortableHeader}`}
-                      onClick={() => handleSort("name")}
-                    >
-                      <div className={styles.headerContent}>
-                        Nombre del Año
-                        {getSortIcon("name")}
-                      </div>
-                    </th>
-                    <th className={styles.actionsColumn}>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredAndSortedYears.length > 0 ? (
-                    filteredAndSortedYears.map(
-                      (year: GetYearPayload, index: number) => (
-                        <motion.tr
-                          key={year.id}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.05 }}
-                          className={styles.tableRow}
-                        >
-                          <td className={styles.idCell}>
-                            <span className={styles.idBadge}>{year.id}</span>
-                          </td>
-                          <td className={styles.nameCell}>
-                            <div className={styles.nameWrapper}>
-                              <FaCalendarAlt className={styles.yearIcon} />
-                              <span>{year.name}</span>
-                            </div>
-                          </td>
-                          <td className={styles.actionsCell}>
-                            <div className={styles.actions}>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => handleEdit(year)}
-                                className={styles.editButton}
-                                title="Modificar año"
-                              >
-                                <FaEdit />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => handleDelete(year)}
-                                className={styles.deleteButton}
-                                title="Eliminar año"
-                              >
-                                <FaTrash />
-                              </Button>
-                            </div>
-                          </td>
-                        </motion.tr>
-                      )
-                    )
-                  ) : (
-                    <tr>
-                      <td colSpan={3} className={styles.emptyState}>
-                        <div className={styles.emptyContent}>
-                          <FaCalendarAlt className={styles.emptyIcon} />
-                          <p>No se encontraron años</p>
-                          <small>
-                            {searchTerm
-                              ? "Intenta con otros términos de búsqueda"
-                              : "Comienza creando un nuevo año"}
-                          </small>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            )}
-          </div>
-
-          {/* Paginación para uso futuro */}
-          {/* {paginatedYears && paginatedYears.totalPages > 0 && !loading && (
-            <PaginationComponent
-              currentPage={paginatedYears.currentPage}
-              totalPages={paginatedYears.totalPages}
-              pageSize={paginatedYears.pageSize}
-              totalItems={paginatedYears.totalItems}
-              onPageChange={handlePageChange}
-              onPageSizeChange={handlePageSizeChange}
-            />
-          )} */}
-        </Card>
+        <DataTable
+          data={paginatedYears?.results || []}
+          columns={columns}
+          actions={actions}
+          loading={loading}
+          searchable={true}
+          searchPlaceholder="Buscar años..."
+          searchValue={paginationParams.search || ""}
+          onSearchChange={handleSearch}
+          sortBy={paginationParams.order_by}
+          sortOrder={paginationParams.order_type}
+          onSort={handleSort}
+          emptyStateIcon={<FaCalendarAlt />}
+          emptyStateTitle="No se encontraron años"
+          emptyStateSubtitle={
+            paginationParams.search
+              ? "Intenta con otros términos de búsqueda"
+              : "Comienza creando un nuevo año"
+          }
+          loadingText="Cargando años..."
+          totalItems={paginatedYears?.count}
+          getRowKey={(year) => year.id}
+          pagination={
+            paginatedYears
+              ? {
+                  currentPage: paginatedYears.currentPage,
+                  totalPages: paginatedYears.totalPages,
+                  pageSize: paginatedYears.pageSize,
+                  totalItems: paginatedYears.count,
+                  onPageChange: handlePageChange,
+                  onPageSizeChange: handlePageSizeChange,
+                }
+              : undefined
+          }
+        />
       </motion.div>
 
       <ConfirmationModal
