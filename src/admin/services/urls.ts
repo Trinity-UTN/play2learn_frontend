@@ -3,4 +3,5 @@ export const urls = {
   Years: "/admin/years",
   Teacher: "/admin/teachers",
   Course: "/admin/courses",
+  Subject: "/admin/subjects",
 };

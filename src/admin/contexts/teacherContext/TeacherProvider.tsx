@@ -2,7 +2,10 @@ import { useState, type ReactNode } from "react";
 import { TeacherContext } from "./TeacherContext";
 import type { TeacherContextType } from "./TeacherContext.type";
 import { TeacherService } from "../../services/teacher/TeacherService";
-import type { CreateTeacherPayload } from "../../services/teacher/TeacherService";
+import type {
+  CreateTeacherPayload,
+  GetTeacherPayload,
+} from "../../services/teacher/TeacherService";
 
 interface TeacherProviderProps {
   children: ReactNode;
@@ -12,6 +15,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
   children,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [teachers, setTeachers] = useState<GetTeacherPayload[]>([]);
 
   const registerTeacher = async (data: CreateTeacherPayload): Promise<void> => {
     setLoading(true);
@@ -25,9 +29,24 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     }
   };
 
+  const getTeacher = async () => {
+    setLoading(true);
+    try {
+      const response = await TeacherService.getTeacherApi();
+      setTeachers(response.data.data);
+    } catch (error) {
+      console.error("Error al obtener los docentes:", error); // TODO: REMOVE_DEBUG
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const contextValue: TeacherContextType = {
     loading,
     registerTeacher,
+    getTeacher,
+    teachers,
   };
 
   return (
