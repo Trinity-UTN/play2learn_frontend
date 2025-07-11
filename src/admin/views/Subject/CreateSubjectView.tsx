@@ -91,7 +91,7 @@ const CreateSubjectView: React.FC = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Nombres *</label>
+              <label className={styles.label}>Nombre *</label>
               <Input
                 placeholder="Nombre de la materia"
                 value={formData.name}
@@ -148,14 +148,13 @@ const CreateSubjectView: React.FC = () => {
 
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Docente *</label>
+              <label className={styles.label}>Docente</label>
               <select
                 className={styles.select}
                 value={formData.teacherId}
                 onChange={(e) =>
                   handleChange("teacherId", Number(e.target.value))
                 }
-                required
               >
                 <option value="">Seleccionar docente</option>
                 {teachers.map((teacher) => (
