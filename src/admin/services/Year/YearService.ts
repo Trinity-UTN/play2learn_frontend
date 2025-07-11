@@ -81,6 +81,7 @@ const getPaginatedYearApi = async (
     if (params.filtersValues !== undefined && params.filtersValues.length > 0)
       cleanParams.filtersValues = params.filtersValues;
 
+    //console.log("Params:", cleanParams); // TODO: REMOVE_DEBUG
     const response = await api.get(urls.YearsPaginated, {
       params: cleanParams,
     });
@@ -94,8 +95,7 @@ const getPaginatedYearApi = async (
 
 const deleteYearApi = async (id: number): Promise<void> => {
   try {
-    console.log(`Eliminando año con ID: ${id}`);
-    console.log(`${urls.Years}/${id}`);
+    //console.log(`Eliminando año con ID: ${id}`); // TODO: REMOVE_DEBUG
     await api.delete(`${urls.Years}/${id}`);
   } catch (error) {
     console.error("Error al eliminar el año:", error); // TODO: REMOVE_DEBUG

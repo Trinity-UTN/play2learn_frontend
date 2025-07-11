@@ -5,8 +5,8 @@ import Button from "../Button/ButtonComponent";
 import Card from "../Card/CardComponent";
 import Input from "../Input/InputComponent";
 import LoadingSpinnerComponent from "../LoadingSpinner/LoadingSpinnerComponent";
-import styles from "./DataTable.module.css";
 import PaginationComponent from "../Pagination/PaginationComponent";
+import styles from "./DataTable.module.css";
 
 export interface DataTableColumn<T> {
   key: string;
@@ -110,8 +110,6 @@ const DataTable = <T,>({
     if (item && typeof item === "object" && "id" in item) {
       return (item as any).id;
     }
-
-    // Fallback al índice
     return index;
   };
 
@@ -248,7 +246,7 @@ const DataTable = <T,>({
           </table>
         )}
       </div>
-      {pagination && pagination.totalPages > 1 && !loading && (
+      {pagination && !loading && (
         <PaginationComponent
           currentPage={pagination.currentPage}
           totalPages={pagination.totalPages}

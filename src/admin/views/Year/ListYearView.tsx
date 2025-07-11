@@ -190,7 +190,10 @@ const ListYearView: React.FC = () => {
             Administra los años académicos del sistema
           </p>
         </div>
-        <Button variant="primary" onClick={() => navigate("/years/create")}>
+        <Button
+          variant="primary"
+          onClick={() => navigate("/dashboard/years/create")}
+        >
           <FaPlus className={styles.buttonIcon} />
           Nuevo Año
         </Button>
