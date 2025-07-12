@@ -91,7 +91,7 @@ const ListYearView: React.FC = () => {
       isOpen: true,
       showDoubleConfirmation: false,
       onConfirm: () => {
-        navigate(`/years/edit/${year.id}`);
+        navigate(`/dashboard/years/edit/${year.id}`);
         setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
     });
@@ -106,7 +106,7 @@ const ListYearView: React.FC = () => {
       showDoubleConfirmation: true,
       onConfirm: async () => {
         try {
-          console.log(`Eliminando año con ID: ${year.id}`);
+          //console.log(`Eliminando año con ID: ${year.id}`); // TODO: REMOVE_DEBUG
           await deleteYear(year.id);
           // Recargar la página actual después de eliminar
           await getPaginatedYear(paginationParams);

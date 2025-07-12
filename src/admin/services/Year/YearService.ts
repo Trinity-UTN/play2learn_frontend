@@ -5,6 +5,11 @@ export interface CreateYearPayload {
   name: string;
 }
 
+export interface UpdateYearPayload {
+  id: number;
+  name: string;
+}
+
 export interface GetPaginatedYearPayload {
   page?: number;
   page_size?: number;
@@ -28,13 +33,6 @@ export interface YearResponseDto {
   name: string;
 }
 
-export interface BaseResponse<T> {
-  data: T;
-  message: string;
-  errors: any;
-  timestamp: string;
-}
-
 export interface PaginatedYearResponse {
   data: PaginatedData<YearResponseDto>;
   message: string;
@@ -47,6 +45,15 @@ const registerYearApi = async (data: CreateYearPayload): Promise<void> => {
     await api.post(urls.Years, data);
   } catch (error) {
     console.error("Error al crear el año:", error); // TODO: REMOVE_DEBUG
+    throw error;
+  }
+};
+
+const updateYearApi = async (data: UpdateYearPayload): Promise<void> => {
+  try {
+    await api.put(`${urls.Years}/${data.id}`, data);
+  } catch (error) {
+    console.error("Error al actualizar el año:", error); // TODO: REMOVE_DEBUG
     throw error;
   }
 };
@@ -105,6 +112,7 @@ const deleteYearApi = async (id: number): Promise<void> => {
 
 export const YearService = {
   registerYearApi,
+  updateYearApi,
   getYearApi,
   getPaginatedYearApi,
   deleteYearApi,

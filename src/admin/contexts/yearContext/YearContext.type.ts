@@ -1,5 +1,6 @@
 import type {
   CreateYearPayload,
+  UpdateYearPayload,
   GetPaginatedYearPayload,
   PaginatedData,
   YearResponseDto,
@@ -8,6 +9,7 @@ import type {
 export interface YearContextType {
   loading: boolean;
   registerYear: (data: CreateYearPayload) => Promise<void>;
+  updateYear: (data: UpdateYearPayload) => Promise<void>;
   getYear: () => void;
   getPaginatedYear: (params: GetPaginatedYearPayload) => Promise<void>;
   deleteYear: (id: number) => Promise<void>;

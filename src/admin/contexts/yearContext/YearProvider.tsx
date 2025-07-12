@@ -5,6 +5,7 @@ import type { YearContextType } from "./YearContext.type";
 import { YearService } from "../../services/year/YearService";
 import type {
   CreateYearPayload,
+  UpdateYearPayload,
   GetPaginatedYearPayload,
   PaginatedData,
   YearResponseDto,
@@ -26,6 +27,18 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
       await YearService.registerYearApi(data);
     } catch (error) {
       console.error("Error al crear el año:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateYear = async (data: UpdateYearPayload): Promise<void> => {
+    setLoading(true);
+    try {
+      await YearService.updateYearApi(data);
+    } catch (error) {
+      console.error("Error al actualizar el año:", error);
       throw error;
     } finally {
       setLoading(false);
@@ -76,6 +89,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
   const contextValue: YearContextType = {
     loading,
     registerYear,
+    updateYear,
     getYear,
     getPaginatedYear,
     deleteYear,
