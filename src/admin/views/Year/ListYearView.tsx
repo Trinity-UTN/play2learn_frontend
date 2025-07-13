@@ -1,47 +1,165 @@
 import type React from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaTools } from "react-icons/fa";
-// import { FaUsers, FaEdit, FaTrash } from "react-icons/fa";
-// import Card from "../../../shared/components/Card/CardComponent";
+import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import Button from "../../../shared/components/Button/ButtonComponent";
-// import Badge from "../../../shared/components/Badge/BadgeComponent";
+import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
+import { DataTable } from "../../../shared/components/DataTable";
+import type {
+  DataTableColumn,
+  DataTableAction,
+} from "../../../shared/components/DataTable";
+import { useYear } from "../../hooks/useYear";
+import type {
+  GetPaginatedYearPayload,
+  YearResponseDto,
+} from "../../services/year/YearService";
 import styles from "./ListYearView.module.css";
 
 const ListYearView: React.FC = () => {
-  // const years: Year[] = [
-  //   {
-  //     id: 1,
-  //     name: "1er Año",
-  //     students: 245,
-  //     courses: 8,
-  //     status: "Activo",
-  //     period: "2024",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "2do Año",
-  //     students: 198,
-  //     courses: 9,
-  //     status: "Activo",
-  //     period: "2024",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "3er Año",
-  //     students: 156,
-  //     courses: 10,
-  //     status: "Activo",
-  //     period: "2024",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "4to Año",
-  //     students: 134,
-  //     courses: 8,
-  //     status: "Inactivo",
-  //     period: "2023",
-  //   },
-  // ];
+  const navigate = useNavigate();
+  const { loading, getPaginatedYear, deleteYear, paginatedYears } = useYear();
+  const [paginationParams, setPaginationParams] =
+    useState<GetPaginatedYearPayload>({
+      page: 1,
+      page_size: 10,
+      order_by: "id",
+      order_type: "asc",
+      search: "",
+      filters: [],
+      filtersValues: [],
+    });
+  const [alertConfig, setAlertConfig] = useState({
+    title: "",
+    message: "",
+    type: "warning" as "warning" | "danger",
+    isOpen: false,
+    showDoubleConfirmation: false,
+    onConfirm: () => {},
+  });
+
+  useEffect(() => {
+    const loadPaginatedYears = async () => {
+      try {
+        await getPaginatedYear(paginationParams);
+      } catch (error) {
+        console.error("Error al cargar años paginados:", error);
+      }
+    };
+    loadPaginatedYears();
+  }, [paginationParams, getPaginatedYear]);
+
+  const handleSearch = (value: string) => {
+    setPaginationParams((prev) => ({
+      ...prev,
+      search: value,
+      page: 1, // Resetear a la primera página al buscar
+    }));
+  };
+
+  const handleSort = (column: string) => {
+    setPaginationParams((prev) => ({
+      ...prev,
+      order_by: column,
+      order_type:
+        prev.order_by === column && prev.order_type === "asc" ? "desc" : "asc",
+      page: 1, // Resetear a la primera página al ordenar
+    }));
+  };
+
+  const handlePageChange = (page: number) => {
+    setPaginationParams((prev) => ({
+      ...prev,
+      page,
+    }));
+  };
+
+  const handlePageSizeChange = (pageSize: number) => {
+    setPaginationParams((prev) => ({
+      ...prev,
+      page_size: pageSize,
+      page: 1, // Resetear a la primera página al cambiar el tamaño
+    }));
+  };
+
+  const handleEdit = (year: YearResponseDto) => {
+    setAlertConfig({
+      title: "Modificar Año",
+      message: `¿Está seguro que desea modificar el año "${year.name}"?`,
+      type: "warning",
+      isOpen: true,
+      showDoubleConfirmation: false,
+      onConfirm: () => {
+        navigate(`/dashboard/years/edit/${year.id}`);
+        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+      },
+    });
+  };
+
+  const handleDelete = (year: YearResponseDto) => {
+    setAlertConfig({
+      title: "Eliminar Año",
+      message: `¿Está seguro que desea eliminar el año "${year.name}"?`,
+      type: "danger",
+      isOpen: true,
+      showDoubleConfirmation: true,
+      onConfirm: async () => {
+        try {
+          //console.log(`Eliminando año con ID: ${year.id}`); // TODO: REMOVE_DEBUG
+          await deleteYear(year.id);
+          // Recargar la página actual después de eliminar
+          await getPaginatedYear(paginationParams);
+          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+        } catch (error) {
+          console.error("Error al eliminar año:", error);
+        }
+      },
+    });
+  };
+
+  // Definición de columnas para la tabla
+  const columns: DataTableColumn<YearResponseDto>[] = [
+    {
+      key: "id",
+      label: "ID",
+      sortable: true,
+      width: "100px",
+      className: styles.idColumn,
+      render: (year) => <span className={styles.idBadge}>{year.id}</span>,
+    },
+    {
+      key: "name",
+      label: "Nombre del Año",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (year) => (
+        <div className={styles.nameWrapper}>
+          <span>{year.name}</span>
+        </div>
+      ),
+    },
+  ];
+
+  // Definición de acciones para la tabla
+  const actions: DataTableAction<YearResponseDto>[] = [
+    {
+      label: "Editar",
+      icon: <FaEdit />,
+      onClick: handleEdit,
+      variant: "ghost",
+      className: styles.editButton,
+      title: "Modificar año",
+    },
+    {
+      label: "Eliminar",
+      icon: <FaTrash />,
+      onClick: handleDelete,
+      variant: "ghost",
+      className: styles.deleteButton,
+      title: "Eliminar año",
+    },
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -67,86 +185,68 @@ const ListYearView: React.FC = () => {
     >
       <motion.div variants={itemVariants} className={styles.header}>
         <div>
-          <div className={styles.constructionBanner}>
-            <FaTools className={styles.constructionIcon} />
-            <h1 className={styles.title}>
-              Visualización de Años - En Construcción
-            </h1>
-            <p className={styles.subtitle}>Esta página está en desarrollo.</p>
-          </div>
+          <h1 className={styles.title}>Gestión de Años</h1>
+          <p className={styles.subtitle}>
+            Administra los años académicos del sistema
+          </p>
         </div>
-        <Button variant="primary">
-          <FaCalendarAlt className={styles.buttonIcon} />
+        <Button
+          variant="primary"
+          onClick={() => navigate("/dashboard/years/create")}
+        >
+          <FaPlus className={styles.buttonIcon} />
           Nuevo Año
         </Button>
       </motion.div>
 
-      {/* <motion.div variants={itemVariants} className={styles.yearsGrid}>
-        {years.map((year) => (
-          <motion.div
-            key={year.id}
-            variants={itemVariants}
-            whileHover={{ y: -5, scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Card className={styles.yearCard} hover>
-              <div className={styles.cardHeader}>
-                <div>
-                  <h3 className={styles.yearName}>{year.name}</h3>
-                  <p className={styles.yearPeriod}>Período {year.period}</p>
-                </div>
-                <Badge
-                  variant={year.status === "Activo" ? "success" : "secondary"}
-                >
-                  {year.status}
-                </Badge>
-              </div>
+      <motion.div variants={itemVariants}>
+        <DataTable
+          data={paginatedYears?.results || []}
+          columns={columns}
+          actions={actions}
+          loading={loading}
+          searchable={true}
+          searchPlaceholder="Buscar años..."
+          searchValue={paginationParams.search || ""}
+          onSearchChange={handleSearch}
+          sortBy={paginationParams.order_by}
+          sortOrder={paginationParams.order_type}
+          onSort={handleSort}
+          emptyStateIcon={<FaCalendarAlt />}
+          emptyStateTitle="No se encontraron años"
+          emptyStateSubtitle={
+            paginationParams.search
+              ? "Intenta con otros términos de búsqueda"
+              : "Comienza creando un nuevo año"
+          }
+          loadingText="Cargando años..."
+          totalItems={paginatedYears?.count}
+          getRowKey={(year) => year.id}
+          pagination={
+            paginatedYears
+              ? {
+                  currentPage: paginatedYears.currentPage,
+                  totalPages: paginatedYears.totalPages,
+                  pageSize: paginatedYears.pageSize,
+                  totalItems: paginatedYears.count,
+                  onPageChange: handlePageChange,
+                  onPageSizeChange: handlePageSizeChange,
+                }
+              : undefined
+          }
+        />
+      </motion.div>
 
-              <div className={styles.statsGrid}>
-                <div className={styles.statItem}>
-                  <div
-                    className={styles.statIcon}
-                    style={{ backgroundColor: "#007bff" }}
-                  >
-                    <FaUsers />
-                  </div>
-                  <div className={styles.statContent}>
-                    <span className={styles.statValue}>{year.students}</span>
-                    <span className={styles.statLabel}>Estudiantes</span>
-                  </div>
-                </div>
-                <div className={styles.statItem}>
-                  <div
-                    className={styles.statIcon}
-                    style={{ backgroundColor: "#ff6f3c" }}
-                  >
-                    <FaCalendarAlt />
-                  </div>
-                  <div className={styles.statContent}>
-                    <span className={styles.statValue}>{year.courses}</span>
-                    <span className={styles.statLabel}>Cursos</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.cardActions}>
-                <Button variant="ghost" size="sm">
-                  <FaEdit className={styles.actionIcon} />
-                  Editar
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={styles.deleteButton}
-                >
-                  <FaTrash className={styles.actionIcon} />
-                  Eliminar
-                </Button>
-              </div>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div> */}
+      <ConfirmationModal
+        title={alertConfig.title}
+        message={alertConfig.message}
+        type={alertConfig.type}
+        isOpen={alertConfig.isOpen}
+        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
+        doubleConfirmationText="¿Está completamente seguro? Esta acción no se puede deshacer."
+        onConfirm={alertConfig.onConfirm}
+        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
+      />
     </motion.div>
   );
 };
