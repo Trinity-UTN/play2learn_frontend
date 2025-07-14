@@ -101,6 +101,17 @@ const ViewCoursesView: React.FC = () => {
         </div>
       ),
     },
+    {
+      key: "year",
+      label: "Nombre del año",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (course) => (
+        <div className={styles.nameWrapper}>
+          <span>{course.year.name}</span>
+        </div>
+      ),
+    },
   ];
 
   // Definición de acciones para la tabla
