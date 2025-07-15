@@ -68,6 +68,16 @@ const getYearApi = async () => {
   }
 };
 
+const getYearByIdApi = async (id: number): Promise<YearResponseDto> => {
+  try {
+    const response = await api.get(`${urls.Years}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el año (por id):", error); // TODO: REMOVE_DEBUG
+    throw error;
+  }
+};
+
 const getPaginatedYearApi = async (
   params: GetPaginatedYearPayload
 ): Promise<PaginatedYearResponse> => {
@@ -114,6 +124,7 @@ export const YearService = {
   registerYearApi,
   updateYearApi,
   getYearApi,
+  getYearByIdApi,
   getPaginatedYearApi,
   deleteYearApi,
 };

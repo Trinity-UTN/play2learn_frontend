@@ -58,6 +58,19 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const getYearById = async (id: number): Promise<YearResponseDto> => {
+    setLoading(true);
+    try {
+      const yearData = await YearService.getYearByIdApi(id);
+      return yearData;
+    } catch (error) {
+      console.error("Error al obtener el año:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getPaginatedYear = useCallback(
     async (params: GetPaginatedYearPayload): Promise<void> => {
       setLoading(true);
@@ -91,6 +104,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
     registerYear,
     updateYear,
     getYear,
+    getYearById,
     getPaginatedYear,
     deleteYear,
     years,

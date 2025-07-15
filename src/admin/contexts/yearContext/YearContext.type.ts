@@ -11,6 +11,7 @@ export interface YearContextType {
   registerYear: (data: CreateYearPayload) => Promise<void>;
   updateYear: (data: UpdateYearPayload) => Promise<void>;
   getYear: () => void;
+  getYearById: (id: number) => Promise<YearResponseDto>;
   getPaginatedYear: (params: GetPaginatedYearPayload) => Promise<void>;
   deleteYear: (id: number) => Promise<void>;
   years: YearResponseDto[];
