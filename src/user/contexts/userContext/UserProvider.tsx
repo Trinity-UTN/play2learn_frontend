@@ -17,10 +17,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     localStorage.getItem("token") ? true : false
   );
+  const authService = AuthService.getInstance();
   useEffect(() => {
-    AuthService.setOnSessionExpiredCallback(() => {
-      setIsAuthenticated(false);
-    });
+    authService.setOnSessionExpiredCallback(() => setIsAuthenticated(false));
   }, []);
 
   const login = async (data: LoginPayload): Promise<string | null> => {
@@ -29,10 +28,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const response = await LoginService.loginApi(data);
       const userRole = response.data.role as Role;
 
-      AuthService.setTokens(
+      authService.setTokens(
         response.data.accessToken,
         response.data.refreshToken
       );
+
       localStorage.setItem("role", response.data.role);
 
       setIsAuthenticated(true);
@@ -48,7 +48,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   const logout = (): void => {
-    AuthService.logout();
+    authService.logout();
     setIsAuthenticated(false);
   };
 

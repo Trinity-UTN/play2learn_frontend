@@ -1,11 +1,20 @@
 import type {
   CreateCoursePayload,
-  GetCoursePayload,
+  CourseResponseDto,
+  UpdateCoursePayload,
+
 } from "../../services/course/CourseService";
+import type { GetPaginated, PaginatedData } from "../../../shared/types/PaginacionType";
 
 export interface CourseContextType {
   loading: boolean;
   registerCourse: (data: CreateCoursePayload) => Promise<void>;
+  updateCourse: (data: UpdateCoursePayload) => Promise<void>;
+  deleteCourse: (id: number) => Promise<void>;
   getCourse: () => void;
-  courses: GetCoursePayload[];
+  getPaginatedCourse: (params: GetPaginated) => Promise<void>;
+  courses: CourseResponseDto[];
+  paginatedCourse: PaginatedData<CourseResponseDto> | null;
 }
+
+
