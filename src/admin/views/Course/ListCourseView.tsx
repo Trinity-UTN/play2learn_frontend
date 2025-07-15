@@ -39,7 +39,7 @@ const ViewCoursesView: React.FC = () => {
       try {
         await getPaginatedCourse(paginationParams);
       } catch (error) {
-        console.error("Error al cargar años paginados:", error);
+        console.error("Error al cargar cursos paginados:", error);
       }
     };
     loadPaginatedCourses();
@@ -47,8 +47,8 @@ const ViewCoursesView: React.FC = () => {
 
   const handleEdit = (course: CourseResponseDto) => {
     setAlertConfig({
-      title: "Modificar Año",
-      message: `¿Está seguro que desea modificar el año "${course.name}"?`,
+      title: "Modificar Curso",
+      message: `¿Está seguro que desea modificar el curso "${course.name}"?`,
       type: "warning",
       isOpen: true,
       showDoubleConfirmation: false,
@@ -61,14 +61,13 @@ const ViewCoursesView: React.FC = () => {
 
   const handleDelete = (course: CourseResponseDto) => {
     setAlertConfig({
-      title: "Eliminar Año",
-      message: `¿Está seguro que desea eliminar el año "${course.name}"?`,
+      title: "Eliminar Curso",
+      message: `¿Está seguro que desea eliminar el curso "${course.name}"?`,
       type: "danger",
       isOpen: true,
       showDoubleConfirmation: true,
       onConfirm: async () => {
         try {
-          //console.log(`Eliminando año con ID: ${year.id}`); // TODO: REMOVE_DEBUG
           await deleteCourse(course.id);
           // Recargar la página actual después de eliminar
           await getPaginatedCourse(paginationParams);
@@ -88,7 +87,7 @@ const ViewCoursesView: React.FC = () => {
       sortable: true,
       width: "100px",
       className: styles.idColumn,
-      render: (year) => <span className={styles.idBadge}>{year.id}</span>,
+      render: (curso) => <span className={styles.idBadge}>{curso.id}</span>,
     },
     {
       key: "name",
@@ -103,7 +102,7 @@ const ViewCoursesView: React.FC = () => {
     },
     {
       key: "year",
-      label: "Nombre del año",
+      label: "Nombre del Año",
       sortable: true,
       className: styles.nameColumn,
       render: (course) => (
@@ -179,20 +178,20 @@ const ViewCoursesView: React.FC = () => {
           actions={actions}
           loading={loading}
           searchable={true}
-          searchPlaceholder="Buscar años..."
+          searchPlaceholder="Buscar cursos..."
           searchValue={paginationParams.search || ""}
           onSearchChange={handleSearch}
           sortBy={paginationParams.order_by}
           sortOrder={paginationParams.order_type}
           onSort={handleSort}
           emptyStateIcon={<FaCalendarAlt />}
-          emptyStateTitle="No se encontraron años"
+          emptyStateTitle="No se encontraron cursos"
           emptyStateSubtitle={
             paginationParams.search
               ? "Intenta con otros términos de búsqueda"
-              : "Comienza creando un nuevo año"
+              : "Comienza creando un nuevo cursos"
           }
-          loadingText="Cargando años..."
+          loadingText="Cargando cursos..."
           totalItems={paginatedCourse?.count}
           getRowKey={(year) => year.id}
           pagination={
