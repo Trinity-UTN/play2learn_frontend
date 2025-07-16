@@ -1,7 +1,7 @@
 import axios from "axios";
 import AuthService from "../../user/services/auth/AuthService";
 
-const BASE_URL = "http://localhost:8081";
+const BASE_URL = "https://play2learn.backend.desarrollo.systemsbinary.com";
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -10,8 +10,8 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use(async config => {
-  const authService= AuthService.getInstance()
+api.interceptors.request.use(async (config) => {
+  const authService = AuthService.getInstance();
   try {
     const validToken = await authService.getValidAccessToken();
     config.headers.Authorization = `Bearer ${validToken}`;
