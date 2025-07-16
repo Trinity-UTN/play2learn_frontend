@@ -1,5 +1,7 @@
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+// import { useLocation } from "react-router-dom"; // DEBUG: Para testear sin los cambios del backend
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
@@ -9,8 +11,35 @@ import { useYear } from "../../hooks/useYear";
 import styles from "./CreateYearView.module.css";
 
 const CreateYearView: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const isEditMode = Boolean(id);
+
   const [formData, setFormData] = useState({ name: "" });
-  const { registerYear, loading } = useYear();
+  const { registerYear, updateYear, getYearById, loading } = useYear(); // DEBUG: { registerYear, updateYear, loading }
+
+  // DEBUG: Para testear sin los cambios del backend
+  // const location = useLocation();
+  // const yearNameFromState = location.state?.yearName;
+
+  useEffect(() => {
+    if (isEditMode && id) {
+      const loadYearData = async () => {
+        try {
+          // DEBUG: Para probar sin los cambios del backend
+          // if (yearNameFromState) {
+          //   setFormData({ name: yearNameFromState });
+          // }
+          const yearData = await getYearById(Number(id));
+          setFormData({ name: yearData.name });
+        } catch (error) {
+          console.error("Error al cargar el año:", error);
+          navigate("/dashboard/years/list");
+        }
+      };
+      loadYearData();
+    }
+  }, [id, isEditMode, getYearById, navigate]); // DEBUG: [id, isEditMode, yearNameFromState, navigate]
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -19,12 +48,29 @@ const CreateYearView: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await registerYear(formData);
-      alert("Año creado exitosamente.");
-      setFormData({ name: "" });
+      if (isEditMode && id) {
+        await updateYear({
+          id: Number(id),
+          name: formData.name,
+        });
+        alert("Año actualizado exitosamente.");
+        navigate("/dashboard/years/list");
+      } else {
+        await registerYear(formData);
+        alert("Año creado exitosamente.");
+        setFormData({ name: "" });
+      }
     } catch (err) {
-      alert("Hubo un error al crear el año.");
+      alert(
+        isEditMode
+          ? "Hubo un error al actualizar el año."
+          : "Hubo un error al crear el año."
+      );
     }
+  };
+
+  const handleCancel = () => {
+    navigate("/dashboard/years/list");
   };
 
   return (
@@ -35,9 +81,13 @@ const CreateYearView: React.FC = () => {
       className={styles.container}
     >
       <div className={styles.header}>
-        <h1 className={styles.title}>Generar Año</h1>
+        <h1 className={styles.title}>
+          {isEditMode ? "Modificar Año" : "Generar Año"}
+        </h1>
         <p className={styles.subtitle}>
-          Crea un nuevo año académico en el sistema
+          {isEditMode
+            ? "Modifica la información del año académico"
+            : "Crea un nuevo año académico en el sistema"}
         </p>
       </div>
 
@@ -63,11 +113,24 @@ const CreateYearView: React.FC = () => {
           <div className={styles.buttonGroup}>
             <Button type="submit" variant="primary" disabled={loading}>
               <FaSave className={styles.buttonIcon} />
-              {loading ? "Creando..." : "Crear Año"}
+              {loading
+                ? isEditMode
+                  ? "Actualizando..."
+                  : "Creando..."
+                : isEditMode
+                ? "Actualizar Año"
+                : "Crear Año"}
             </Button>
-            <Button type="button" variant="outline" disabled={loading}>
-              Cancelar
-            </Button>
+            {isEditMode && (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={loading}
+                onClick={handleCancel}
+              >
+                Cancelar
+              </Button>
+            )}
           </div>
         </form>
       </Card>

@@ -53,6 +53,10 @@ const ListYearView: React.FC = () => {
       isOpen: true,
       showDoubleConfirmation: false,
       onConfirm: () => {
+        // DEBUG: Para probar sin los cambios del backend
+        // navigate(`/dashboard/years/edit/${year.id}`, {
+        //   state: { yearName: year.name },
+        // });
         navigate(`/dashboard/years/edit/${year.id}`);
         setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
