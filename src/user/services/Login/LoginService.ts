@@ -6,6 +6,11 @@ export interface LoginPayload {
   password: string;
 }
 
+export interface UserResponseDto {
+  id: number;
+  email: string;
+}
+
 const loginApi = async (data: LoginPayload): Promise<any> => {
   try {
     const response = await apiLogin.post(urls.login, data);
