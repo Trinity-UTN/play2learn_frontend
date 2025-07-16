@@ -1,76 +1,161 @@
 import type React from "react";
-// import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaUserTie, FaTools } from "react-icons/fa";
-// import { FaSearch, FaEdit, FaTrash, FaEnvelope, FaPhone, FaBook} from "react-icons/fa";
-// import Card from "../../../shared/components/Card/CardComponent";
+import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import Button from "../../../shared/components/Button/ButtonComponent";
-// import Input from "../../../shared/components/Input/InputComponent";
-// import Badge from "../../../shared/components/Badge/BadgeComponent";
+import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
+import { DataTable } from "../../../shared/components/DataTable";
+import type {
+  DataTableColumn,
+  DataTableAction,
+} from "../../../shared/components/DataTable";
+import { useTeacher } from "../../hooks/useTeacher";
+import type { TeacherResponseDto } from "../../services/teacher/TeacherService";
 import styles from "./ListTeacherView.module.css";
+import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 
-const ListTeacherView: React.FC = () => {
-  // const [searchTerm, setSearchTerm] = useState("");
+const ViewTeacherView: React.FC = () => {
+  const navigate = useNavigate();
 
-  // const teachers: Teacher[] = [
-  //   {
-  //     id: 1,
-  //     name: "Prof. María García",
-  //     email: "maria.garcia@escuela.com",
-  //     phone: "+1234567890",
-  //     specialty: "Matemáticas",
-  //     courses: 3,
-  //     status: "Activo",
-  //     experience: "5 años",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Prof. Carlos Martínez",
-  //     email: "carlos.martinez@escuela.com",
-  //     phone: "+1234567891",
-  //     specialty: "Literatura",
-  //     courses: 2,
-  //     status: "Activo",
-  //     experience: "8 años",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Prof. Ana López",
-  //     email: "ana.lopez@escuela.com",
-  //     phone: "+1234567892",
-  //     specialty: "Ciencias",
-  //     courses: 4,
-  //     status: "Activo",
-  //     experience: "3 años",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Prof. José Rodríguez",
-  //     email: "jose.rodriguez@escuela.com",
-  //     phone: "+1234567893",
-  //     specialty: "Historia",
-  //     courses: 1,
-  //     status: "Inactivo",
-  //     experience: "12 años",
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Prof. Laura Fernández",
-  //     email: "laura.fernandez@escuela.com",
-  //     phone: "+1234567894",
-  //     specialty: "Física",
-  //     courses: 2,
-  //     status: "Activo",
-  //     experience: "6 años",
-  //   },
-  // ];
+  const { loading, getPaginatedTeacher, deleteTeacher, paginatedTeacher } =
+    useTeacher();
+  const {
+    paginationParams,
+    handleSearch,
+    handleSort,
+    handlePageChange,
+    handlePageSizeChange,
+  } = usePaginationParams();
+  const [alertConfig, setAlertConfig] = useState({
+    title: "",
+    message: "",
+    type: "warning" as "warning" | "danger",
+    isOpen: false,
+    showDoubleConfirmation: false,
+    onConfirm: () => {},
+  });
 
-  // const filteredTeachers = teachers.filter(
-  //   (teacher) =>
-  //     teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     teacher.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     teacher.specialty.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+  useEffect(() => {
+    const loadPaginatedTeacher = async () => {
+      try {
+        await getPaginatedTeacher(paginationParams);
+      } catch (error) {
+        console.error("Error al cargar docentes paginados:", error);
+      }
+    };
+    loadPaginatedTeacher();
+  }, [paginationParams, getPaginatedTeacher]);
+
+  const handleEdit = (teacher: TeacherResponseDto) => {
+    setAlertConfig({
+      title: "Modificar Docente",
+      message: `¿Está seguro que desea modificar el docente "${teacher.name}"?`,
+      type: "warning",
+      isOpen: true,
+      showDoubleConfirmation: false,
+      onConfirm: () => {
+        navigate(`/dashboard/teachers/edit/${teacher.id}`);
+        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+      },
+    });
+  };
+
+  const handleDelete = (teacher: TeacherResponseDto) => {
+    setAlertConfig({
+      title: "Eliminar Docente",
+      message: `¿Está seguro que desea eliminar el docente "${teacher.name}"?`,
+      type: "danger",
+      isOpen: true,
+      showDoubleConfirmation: true,
+      onConfirm: async () => {
+        try {
+          await deleteTeacher(teacher.id);
+          // Recargar la página actual después de eliminar
+          await getPaginatedTeacher(paginationParams);
+          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+        } catch (error) {
+          console.error("Error al eliminar docente:", error);
+        }
+      },
+    });
+  };
+
+  // Definición de columnas para la tabla
+  const columns: DataTableColumn<TeacherResponseDto>[] = [
+    {
+      key: "id",
+      label: "ID",
+      sortable: true,
+      width: "100px",
+      className: styles.idColumn,
+      render: (teacher) => <span className={styles.idBadge}>{teacher.id}</span>,
+    },
+    {
+      key: "name",
+      label: "Nombre del docente",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (teacher) => (
+        <div className={styles.nameWrapper}>
+          <span>{teacher.name}</span>
+        </div>
+      ),
+    },
+    {
+      key: "lastname",
+      label: "Apellido del docente",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (teacher) => (
+        <div className={styles.nameWrapper}>
+          <span>{teacher.lastname}</span>
+        </div>
+      ),
+    },
+    {
+      key: "dni",
+      label: "DNI del docente",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (teacher) => (
+        <div className={styles.nameWrapper}>
+          <span>{teacher.dni}</span>
+        </div>
+      ),
+    },
+    {
+      key: "user",
+      label: "Email del docente",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (teacher) => (
+        <div className={styles.nameWrapper}>
+          <span>{teacher.user.email}</span>
+        </div>
+      ),
+    },
+  ];
+
+  // Definición de acciones para la tabla
+  const actions: DataTableAction<TeacherResponseDto>[] = [
+    {
+      label: "Editar",
+      icon: <FaEdit />,
+      onClick: handleEdit,
+      variant: "ghost",
+      className: styles.editButton,
+      title: "Modificar docente",
+    },
+    {
+      label: "Eliminar",
+      icon: <FaTrash />,
+      onClick: handleDelete,
+      variant: "ghost",
+      className: styles.deleteButton,
+      title: "Eliminar docente",
+    },
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -96,96 +181,70 @@ const ListTeacherView: React.FC = () => {
     >
       <motion.div variants={itemVariants} className={styles.header}>
         <div>
-          <div className={styles.constructionBanner}>
-            <FaTools className={styles.constructionIcon} />
-            <h1 className={styles.title}>
-              Visualización de Docentes - En Construcción
-            </h1>
-            <p className={styles.subtitle}>Esta página está en desarrollo.</p>
-          </div>
+          <h1 className={styles.title}>Gestión de Docente</h1>
+          <p className={styles.subtitle}>
+            Administra los docentes académicos del sistema
+          </p>
         </div>
-        <Button variant="primary">
-          <FaUserTie className={styles.buttonIcon} />
+        <Button
+          variant="primary"
+          onClick={() => navigate("/dashboard/teacher/create")}
+        >
+          <FaPlus className={styles.buttonIcon} />
           Nuevo Docente
         </Button>
       </motion.div>
 
-      {/* <motion.div variants={itemVariants}>
-        <Card className={styles.searchCard}>
-          <div className={styles.searchWrapper}>
-            <FaSearch className={styles.searchIcon} />
-            <Input
-              placeholder="Buscar docentes..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={styles.searchInput}
-            />
-          </div>
-        </Card>
+      <motion.div variants={itemVariants}>
+        <DataTable
+          data={paginatedTeacher?.results || []}
+          columns={columns}
+          actions={actions}
+          loading={loading}
+          searchable={true}
+          searchPlaceholder="Buscar docentes..."
+          searchValue={paginationParams.search || ""}
+          onSearchChange={handleSearch}
+          sortBy={paginationParams.order_by}
+          sortOrder={paginationParams.order_type}
+          onSort={handleSort}
+          emptyStateIcon={<FaCalendarAlt />}
+          emptyStateTitle="No se encontraron docentes"
+          emptyStateSubtitle={
+            paginationParams.search
+              ? "Intenta con otros términos de búsqueda"
+              : "Comienza creando un nuevo docente"
+          }
+          loadingText="Cargando docentes..."
+          totalItems={paginatedTeacher?.count}
+          getRowKey={(teacher) => teacher.id}
+          pagination={
+            paginatedTeacher
+              ? {
+                  currentPage: paginatedTeacher.currentPage,
+                  totalPages: paginatedTeacher.totalPages,
+                  pageSize: paginatedTeacher.pageSize,
+                  totalItems: paginatedTeacher.count,
+                  onPageChange: handlePageChange,
+                  onPageSizeChange: handlePageSizeChange,
+                }
+              : undefined
+          }
+        />
       </motion.div>
 
-      <motion.div variants={itemVariants} className={styles.teachersGrid}>
-        {filteredTeachers.map((teacher) => (
-          <motion.div
-            key={teacher.id}
-            variants={itemVariants}
-            whileHover={{ y: -5, scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Card className={styles.teacherCard} hover>
-              <div className={styles.cardHeader}>
-                <div className={styles.teacherInfo}>
-                  <h3 className={styles.teacherName}>{teacher.name}</h3>
-                  <p className={styles.specialty}>{teacher.specialty}</p>
-                </div>
-                <Badge
-                  variant={
-                    teacher.status === "Activo" ? "success" : "secondary"
-                  }
-                >
-                  {teacher.status}
-                </Badge>
-              </div>
-
-              <div className={styles.teacherDetails}>
-                <div className={styles.detailItem}>
-                  <FaEnvelope className={styles.detailIcon} />
-                  <span className={styles.email}>{teacher.email}</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <FaPhone className={styles.detailIcon} />
-                  <span>{teacher.phone}</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <FaBook className={styles.detailIcon} />
-                  <span>{teacher.courses} cursos asignados</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <FaUserTie className={styles.detailIcon} />
-                  <span>{teacher.experience} de experiencia</span>
-                </div>
-              </div>
-
-              <div className={styles.cardActions}>
-                <Button variant="ghost" size="sm">
-                  <FaEdit className={styles.actionIcon} />
-                  Editar
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={styles.deleteButton}
-                >
-                  <FaTrash className={styles.actionIcon} />
-                  Eliminar
-                </Button>
-              </div>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div> */}
+      <ConfirmationModal
+        title={alertConfig.title}
+        message={alertConfig.message}
+        type={alertConfig.type}
+        isOpen={alertConfig.isOpen}
+        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
+        doubleConfirmationText="¿Está completamente seguro? Esta acción no se puede deshacer."
+        onConfirm={alertConfig.onConfirm}
+        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
+      />
     </motion.div>
   );
 };
 
-export default ListTeacherView;
+export default ViewTeacherView;
