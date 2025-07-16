@@ -51,7 +51,7 @@ const registerYearApi = async (data: CreateYearPayload): Promise<void> => {
 
 const updateYearApi = async (data: UpdateYearPayload): Promise<void> => {
   try {
-    await api.put(`${urls.Years}/${data.id}`, data);
+    await api.put(urls.Years, data);
   } catch (error) {
     console.error("Error al actualizar el año:", error); // TODO: REMOVE_DEBUG
     throw error;
