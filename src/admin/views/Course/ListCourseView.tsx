@@ -53,7 +53,7 @@ const ViewCoursesView: React.FC = () => {
       isOpen: true,
       showDoubleConfirmation: false,
       onConfirm: () => {
-        navigate(`/dashboard/years/edit/${course.id}`);
+        navigate(`/dashboard/courses/edit/${course.id}`);
         setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
     });
