@@ -10,13 +10,14 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use(async config => {
+api.interceptors.request.use(async (config) => {
+  const authService = AuthService.getInstance();
   try {
-    const validToken = await AuthService.getValidAccessToken();
+    const validToken = await authService.getValidAccessToken();
     config.headers.Authorization = `Bearer ${validToken}`;
   } catch (err) {
     console.error("Error obteniendo token válido:", err);
-    AuthService.logout();
+    authService.logout();
   }
   return config;
 });
