@@ -1,13 +1,14 @@
-import type React from "react";
 import { useCallback, useState, type ReactNode } from "react";
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../shared/types/PaginacionType";
 import { YearContext } from "./YearContext";
 import type { YearContextType } from "./YearContext.type";
 import { YearService } from "../../services/year/YearService";
 import type {
   CreateYearPayload,
   UpdateYearPayload,
-  GetPaginatedYearPayload,
-  PaginatedData,
   YearResponseDto,
 } from "../../services/year/YearService";
 
@@ -16,10 +17,10 @@ interface YearProviderProps {
 }
 
 export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [years, setYears] = useState<YearResponseDto[]>([]);
   const [paginatedYears, setPaginatedYears] =
     useState<PaginatedData<YearResponseDto> | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const registerYear = async (data: CreateYearPayload): Promise<void> => {
     setLoading(true);
@@ -59,7 +60,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
   }, []);
 
   const getPaginatedYear = useCallback(
-    async (params: GetPaginatedYearPayload): Promise<void> => {
+    async (params: GetPaginated): Promise<void> => {
       setLoading(true);
       try {
         const response = await YearService.getPaginatedYearApi(params);

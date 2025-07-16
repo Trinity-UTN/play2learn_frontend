@@ -6,30 +6,25 @@ import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
 import { DataTable } from "../../../shared/components/DataTable";
+import usePaginationParams from "../../../shared/hooks/UsePaginateParams";
 import type {
   DataTableColumn,
   DataTableAction,
 } from "../../../shared/components/DataTable";
 import { useYear } from "../../hooks/useYear";
-import type {
-  GetPaginatedYearPayload,
-  YearResponseDto,
-} from "../../services/year/YearService";
+import type { YearResponseDto } from "../../services/year/YearService";
 import styles from "./ListYearView.module.css";
 
 const ListYearView: React.FC = () => {
   const navigate = useNavigate();
   const { loading, getPaginatedYear, deleteYear, paginatedYears } = useYear();
-  const [paginationParams, setPaginationParams] =
-    useState<GetPaginatedYearPayload>({
-      page: 1,
-      page_size: 10,
-      order_by: "id",
-      order_type: "asc",
-      search: "",
-      filters: [],
-      filtersValues: [],
-    });
+  const {
+    paginationParams,
+    handleSearch,
+    handleSort,
+    handlePageChange,
+    handlePageSizeChange,
+  } = usePaginationParams();
   const [alertConfig, setAlertConfig] = useState({
     title: "",
     message: "",
@@ -49,39 +44,6 @@ const ListYearView: React.FC = () => {
     };
     loadPaginatedYears();
   }, [paginationParams, getPaginatedYear]);
-
-  const handleSearch = (value: string) => {
-    setPaginationParams((prev) => ({
-      ...prev,
-      search: value,
-      page: 1, // Resetear a la primera página al buscar
-    }));
-  };
-
-  const handleSort = (column: string) => {
-    setPaginationParams((prev) => ({
-      ...prev,
-      order_by: column,
-      order_type:
-        prev.order_by === column && prev.order_type === "asc" ? "desc" : "asc",
-      page: 1, // Resetear a la primera página al ordenar
-    }));
-  };
-
-  const handlePageChange = (page: number) => {
-    setPaginationParams((prev) => ({
-      ...prev,
-      page,
-    }));
-  };
-
-  const handlePageSizeChange = (pageSize: number) => {
-    setPaginationParams((prev) => ({
-      ...prev,
-      page_size: pageSize,
-      page: 1, // Resetear a la primera página al cambiar el tamaño
-    }));
-  };
 
   const handleEdit = (year: YearResponseDto) => {
     setAlertConfig({

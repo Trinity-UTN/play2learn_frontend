@@ -1,4 +1,9 @@
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../shared/types/PaginacionType";
 import api from "../../../shared/utils/api";
+import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import { urls } from "../urls";
 
 export interface CreateYearPayload {
@@ -8,24 +13,6 @@ export interface CreateYearPayload {
 export interface UpdateYearPayload {
   id: number;
   name: string;
-}
-
-export interface GetPaginatedYearPayload {
-  page?: number;
-  page_size?: number;
-  order_by?: string;
-  order_type?: "asc" | "desc";
-  search?: string;
-  filters?: string[];
-  filtersValues?: string[];
-}
-
-export interface PaginatedData<T> {
-  results: T[];
-  currentPage: number;
-  pageSize: number;
-  count: number;
-  totalPages: number;
 }
 
 export interface YearResponseDto {
@@ -69,26 +56,11 @@ const getYearApi = async () => {
 };
 
 const getPaginatedYearApi = async (
-  params: GetPaginatedYearPayload
+  params: GetPaginated
 ): Promise<PaginatedYearResponse> => {
   try {
-    // Filtrar parámetros undefined/null para evitar enviar valores vacíos
-    const cleanParams: any = {};
+    const cleanParams = buildCleanPaginatedParams(params);
 
-    if (params.page !== undefined) cleanParams.page = params.page;
-    if (params.page_size !== undefined)
-      cleanParams.page_size = params.page_size;
-    if (params.order_by !== undefined) cleanParams.order_by = params.order_by;
-    if (params.order_type !== undefined)
-      cleanParams.order_type = params.order_type;
-    if (params.search !== undefined && params.search !== "")
-      cleanParams.search = params.search;
-    if (params.filters !== undefined && params.filters.length > 0)
-      cleanParams.filters = params.filters;
-    if (params.filtersValues !== undefined && params.filtersValues.length > 0)
-      cleanParams.filtersValues = params.filtersValues;
-
-    //console.log("Params:", cleanParams); // TODO: REMOVE_DEBUG
     const response = await api.get(urls.YearsPaginated, {
       params: cleanParams,
     });
