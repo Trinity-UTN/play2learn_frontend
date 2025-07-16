@@ -1,4 +1,8 @@
 import { useCallback, useState, type ReactNode } from "react";
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../shared/types/PaginacionType";
 import { CourseContext } from "./CourseContext";
 import type { CourseContextType } from "./CourseContext.type";
 import { CourseService } from "../../services/course/CourseService";
@@ -7,10 +11,6 @@ import type {
   CourseResponseDto,
   UpdateCoursePayload,
 } from "../../services/course/CourseService";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
 
 interface CourseProviderProps {
   children: ReactNode;
@@ -87,11 +87,11 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
   const contextValue: CourseContextType = {
     loading,
     registerCourse,
-    getCourse,
-    courses,
-    deleteCourse,
-    getPaginatedCourse,
     updateCourse,
+    getCourse,
+    getPaginatedCourse,
+    deleteCourse,
+    courses,
     paginatedCourse,
   };
 
