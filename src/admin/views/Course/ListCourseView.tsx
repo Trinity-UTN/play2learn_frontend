@@ -13,7 +13,8 @@ import type {
 import { useCourse } from "../../hooks/useCourse";
 import type { CourseResponseDto } from "../../services/course/CourseService";
 import styles from "./ListCourseView.module.css";
-import usePaginationParams from "../../../shared/hook/UsePaginateParams";
+import usePaginationParams from "../../../shared/hooks/UsePaginateParams";
+
 const ViewCoursesView: React.FC = () => {
   const navigate = useNavigate();
   const { loading, getPaginatedCourse, deleteCourse, paginatedCourse } =
