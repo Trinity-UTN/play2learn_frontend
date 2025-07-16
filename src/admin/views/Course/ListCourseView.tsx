@@ -1,53 +1,137 @@
 import type React from "react";
-// import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaBook, FaTools } from "react-icons/fa";
-// import { FaSearch, FaEdit, FaTrash } from "react-icons/fa";
-// import Card from "../../../shared/components/Card/CardComponent";
+import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import Button from "../../../shared/components/Button/ButtonComponent";
-// import Input from "../../../shared/components/Input/InputComponent";
+import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
+import { DataTable } from "../../../shared/components/DataTable";
+import type {
+  DataTableColumn,
+  DataTableAction,
+} from "../../../shared/components/DataTable";
+import { useCourse } from "../../hooks/useCourse";
+import type { CourseResponseDto } from "../../services/course/CourseService";
 import styles from "./ListCourseView.module.css";
-
+import usePaginationParams from "../../../shared/hook/UsePaginateParams";
 const ViewCoursesView: React.FC = () => {
-  // const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+  const { loading, getPaginatedCourse, deleteCourse, paginatedCourse } =
+    useCourse();
+  const {
+    paginationParams,
+    handleSearch,
+    handleSort,
+    handlePageChange,
+    handlePageSizeChange,
+  } = usePaginationParams();
+  const [alertConfig, setAlertConfig] = useState({
+    title: "",
+    message: "",
+    type: "warning" as "warning" | "danger",
+    isOpen: false,
+    showDoubleConfirmation: false,
+    onConfirm: () => {},
+  });
 
-  // // Datos de ejemplo simplificados para mostrar cómo quedaría la vista
-  // const courses: Course[] = [
-  //   {
-  //     id: 1,
-  //     name: "A",
-  //     year_id: 1,
-  //     students: 28,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "B",
-  //     year_id: 1,
-  //     students: 28,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "C",
-  //     year_id: 1,
-  //     students: 28,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "A",
-  //     year_id: 2,
-  //     students: 28,
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "B",
-  //     year_id: 2,
-  //     students: 28,
-  //   },
-  // ];
+  useEffect(() => {
+    const loadPaginatedCourses = async () => {
+      try {
+        await getPaginatedCourse(paginationParams);
+      } catch (error) {
+        console.error("Error al cargar cursos paginados:", error);
+      }
+    };
+    loadPaginatedCourses();
+  }, [paginationParams, getPaginatedCourse]);
 
-  // const filteredCourses = courses.filter((course) =>
-  //   course.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+  const handleEdit = (course: CourseResponseDto) => {
+    setAlertConfig({
+      title: "Modificar Curso",
+      message: `¿Está seguro que desea modificar el curso "${course.name}"?`,
+      type: "warning",
+      isOpen: true,
+      showDoubleConfirmation: false,
+      onConfirm: () => {
+        navigate(`/dashboard/courses/edit/${course.id}`);
+        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+      },
+    });
+  };
+
+  const handleDelete = (course: CourseResponseDto) => {
+    setAlertConfig({
+      title: "Eliminar Curso",
+      message: `¿Está seguro que desea eliminar el curso "${course.name}"?`,
+      type: "danger",
+      isOpen: true,
+      showDoubleConfirmation: true,
+      onConfirm: async () => {
+        try {
+          await deleteCourse(course.id);
+          // Recargar la página actual después de eliminar
+          await getPaginatedCourse(paginationParams);
+          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+        } catch (error) {
+          console.error("Error al eliminar curso:", error);
+        }
+      },
+    });
+  };
+
+  // Definición de columnas para la tabla
+  const columns: DataTableColumn<CourseResponseDto>[] = [
+    {
+      key: "id",
+      label: "ID",
+      sortable: true,
+      width: "100px",
+      className: styles.idColumn,
+      render: (curso) => <span className={styles.idBadge}>{curso.id}</span>,
+    },
+    {
+      key: "name",
+      label: "Nombre del curso",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (course) => (
+        <div className={styles.nameWrapper}>
+          <span>{course.name}</span>
+        </div>
+      ),
+    },
+    {
+      key: "year",
+      label: "Nombre del Año",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (course) => (
+        <div className={styles.nameWrapper}>
+          <span>{course.year.name}</span>
+        </div>
+      ),
+    },
+  ];
+
+  // Definición de acciones para la tabla
+  const actions: DataTableAction<CourseResponseDto>[] = [
+    {
+      label: "Editar",
+      icon: <FaEdit />,
+      onClick: handleEdit,
+      variant: "ghost",
+      className: styles.editButton,
+      title: "Modificar curso",
+    },
+    {
+      label: "Eliminar",
+      icon: <FaTrash />,
+      onClick: handleDelete,
+      variant: "ghost",
+      className: styles.deleteButton,
+      title: "Eliminar curso",
+    },
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -73,93 +157,68 @@ const ViewCoursesView: React.FC = () => {
     >
       <motion.div variants={itemVariants} className={styles.header}>
         <div>
-          <div className={styles.constructionBanner}>
-            <FaTools className={styles.constructionIcon} />
-            <div>
-              <h1 className={styles.title}>
-                Vista de Cursos - En Construcción
-              </h1>
-              <p className={styles.subtitle}>Esta página está en desarrollo.</p>
-            </div>
-          </div>
+          <h1 className={styles.title}>Gestión de Curso</h1>
+          <p className={styles.subtitle}>
+            Administra los curso académicos del sistema
+          </p>
         </div>
-        <Button variant="primary" disabled>
-          <FaBook className={styles.buttonIcon} />
+        <Button
+          variant="primary"
+          onClick={() => navigate("/dashboard/course/create")}
+        >
+          <FaPlus className={styles.buttonIcon} />
           Nuevo Curso
         </Button>
       </motion.div>
 
-      {/* <motion.div variants={itemVariants}>
-        <Card className={styles.exampleCard}>
-          <div className={styles.exampleHeader}>
-            <h3>Ejemplo de Vista de Cursos</h3>
-            <p>Así podría verse la tabla de cursos una vez implementada:</p>
-          </div>
+      <motion.div variants={itemVariants}>
+        <DataTable
+          data={paginatedCourse?.results || []}
+          columns={columns}
+          actions={actions}
+          loading={loading}
+          searchable={true}
+          searchPlaceholder="Buscar cursos..."
+          searchValue={paginationParams.search || ""}
+          onSearchChange={handleSearch}
+          sortBy={paginationParams.order_by}
+          sortOrder={paginationParams.order_type}
+          onSort={handleSort}
+          emptyStateIcon={<FaCalendarAlt />}
+          emptyStateTitle="No se encontraron cursos"
+          emptyStateSubtitle={
+            paginationParams.search
+              ? "Intenta con otros términos de búsqueda"
+              : "Comienza creando un nuevo cursos"
+          }
+          loadingText="Cargando cursos..."
+          totalItems={paginatedCourse?.count}
+          getRowKey={(year) => year.id}
+          pagination={
+            paginatedCourse
+              ? {
+                  currentPage: paginatedCourse.currentPage,
+                  totalPages: paginatedCourse.totalPages,
+                  pageSize: paginatedCourse.pageSize,
+                  totalItems: paginatedCourse.count,
+                  onPageChange: handlePageChange,
+                  onPageSizeChange: handlePageSizeChange,
+                }
+              : undefined
+          }
+        />
+      </motion.div>
 
-          <div className={styles.searchSection}>
-            <div className={styles.searchWrapper}>
-              <FaSearch className={styles.searchIcon} />
-              <Input
-                placeholder="Buscar por año o sección..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={styles.searchInput}
-              />
-            </div>
-          </div>
-
-          <div className={styles.tableWrapper}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Año de Curso</th>
-                  <th>Curso</th>
-                  <th>Estudiantes</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredCourses.map((course, index) => (
-                  <motion.tr
-                    key={course.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className={styles.tableRow}
-                  >
-                    <td className={styles.yearCell}>{course.year_id}</td>
-                    <td className={styles.nameCell}>{course.name}</td>
-                    <td>{course.students}</td>
-                    <td>
-                      <div className={styles.actions}>
-                        <Button variant="ghost" size="sm" disabled>
-                          <FaEdit />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className={styles.deleteButton}
-                          disabled
-                        >
-                          <FaTrash />
-                        </Button>
-                      </div>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className={styles.constructionNote}>
-            <p>
-              <strong>Nota:</strong> Los datos mostrados son ejemplos. En la
-              implementación final, esta información se cargará desde la base de
-              datos.
-            </p>
-          </div>
-        </Card>
-      </motion.div> */}
+      <ConfirmationModal
+        title={alertConfig.title}
+        message={alertConfig.message}
+        type={alertConfig.type}
+        isOpen={alertConfig.isOpen}
+        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
+        doubleConfirmationText="¿Está completamente seguro? Esta acción no se puede deshacer."
+        onConfirm={alertConfig.onConfirm}
+        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
+      />
     </motion.div>
   );
 };
