@@ -1,8 +1,11 @@
 import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../shared/types/PaginacionType";
+import type {
   CreateCoursePayload,
   CourseResponseDto,
   UpdateCoursePayload,
-
 } from "../../services/course/CourseService";
 import type { GetPaginated, PaginatedData } from "../../../shared/types/PaginacionType";
 
