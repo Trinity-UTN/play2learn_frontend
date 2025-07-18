@@ -1,5 +1,6 @@
 import type React from "react";
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaGraduationCap, FaSave } from "react-icons/fa";
 import BooleanInput from "../../../shared/components/BooleanInput/BooleanInputComponent";
@@ -13,10 +14,15 @@ import { useSubject } from "../../hooks/useSubject";
 import styles from "./CreateSubjectView.module.css";
 
 const CreateSubjectView: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const isEditMode = Boolean(id);
+
   const { getYear, years } = useYear();
   const { getCourse, courses } = useCourse();
   const { getTeacher, teachers } = useTeacher();
-  const { registerSubject, loading } = useSubject();
+  const { registerSubject, updateSubject, loading, selectedSubject } =
+    useSubject();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -40,20 +46,54 @@ const CreateSubjectView: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    const loadInitialData = async () => {
+      await Promise.all([getYear(), getCourse(), getTeacher()]);
+    };
+
+    loadInitialData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (isEditMode && selectedSubject) {
+      setFormData({
+        name: selectedSubject.name || "",
+        yearId: selectedSubject.course?.year?.id || 0,
+        courseId: selectedSubject.course?.id || 0,
+        teacherId: selectedSubject.teacher?.id || 0,
+        optional: selectedSubject.optional || false,
+      });
+    }
+  }, [isEditMode, selectedSubject]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const payload = {
       name: formData.name.trim(),
       courseId: formData.courseId,
-      teacherId: formData.teacherId,
+      teacherId: formData.teacherId === 0 ? null : formData.teacherId,
       optional: formData.optional,
     };
     try {
-      await registerSubject(payload);
-      alert("Materia creada exitosamente.");
-      resetFormData();
+      if (isEditMode && id) {
+        await updateSubject({
+          id: Number(id),
+          ...payload,
+        });
+        alert("Materia actualizada exitosamente.");
+        navigate("/dashboard/subjects/list");
+      } else {
+        await registerSubject(payload);
+        alert("Materia creada exitosamente.");
+        resetFormData();
+      }
     } catch (err) {
-      alert("Hubo un error al crear la materia.");
+      alert(
+        isEditMode
+          ? "Hubo un error al actualizar la materia."
+          : "Hubo un error al crear la materia."
+      );
     }
   };
 
@@ -61,12 +101,11 @@ const CreateSubjectView: React.FC = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  useEffect(() => {
-    getYear();
-    getCourse();
-    getTeacher();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleCancel = () => {
+    if (isEditMode) {
+      navigate("/dashboard/subjects/list");
+    }
+  };
 
   return (
     <motion.div
@@ -76,9 +115,13 @@ const CreateSubjectView: React.FC = () => {
       className={styles.container}
     >
       <div className={styles.header}>
-        <h1 className={styles.title}>Generar Materia</h1>
+        <h1 className={styles.title}>
+          {isEditMode ? "Modificar Materia" : "Generar Materia"}
+        </h1>
         <p className={styles.subtitle}>
-          Registra un nueva materia en el sistema
+          {isEditMode
+            ? "Modifica la información de la materia"
+            : "Registra una nueva materia en el sistema"}
         </p>
       </div>
 
@@ -125,6 +168,7 @@ const CreateSubjectView: React.FC = () => {
                 ))}
               </select>
             </div>
+
             <div className={styles.inputGroup}>
               <label className={styles.label}>Curso *</label>
               <select
@@ -149,8 +193,7 @@ const CreateSubjectView: React.FC = () => {
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
               <label className={styles.label}>Docente</label>
-              {/* Mientras se arregla el getTeacher, pongo un input */}
-              {/* <select
+              <select
                 className={styles.select}
                 value={formData.teacherId}
                 onChange={(e) =>
@@ -163,16 +206,11 @@ const CreateSubjectView: React.FC = () => {
                     {teacher.name}
                   </option>
                 ))}
-              </select> */}
-              <Input
-                placeholder="Docente"
-                value={formData.teacherId}
-                onChange={(e) => handleChange("teacherId", e.target.value)}
-                required
-              />
+              </select>
             </div>
+
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Materia Opcional</label>
+              <label className={styles.label}>Materia Opcional *</label>
               <BooleanInput
                 checked={formData.optional}
                 onChange={(checked) => handleChange("optional", checked)}
@@ -187,11 +225,24 @@ const CreateSubjectView: React.FC = () => {
           <div className={styles.buttonGroup}>
             <Button type="submit" variant="primary" disabled={loading}>
               <FaSave className={styles.buttonIcon} />
-              {loading ? "Cargando..." : "Crear Materia"}
+              {loading
+                ? isEditMode
+                  ? "Actualizando..."
+                  : "Creando..."
+                : isEditMode
+                ? "Actualizar Materia"
+                : "Crear Materia"}
             </Button>
-            <Button type="button" variant="outline" disabled={loading}>
-              Cancelar
-            </Button>
+            {isEditMode && (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={loading}
+                onClick={handleCancel}
+              >
+                Cancelar
+              </Button>
+            )}
           </div>
         </form>
       </Card>
