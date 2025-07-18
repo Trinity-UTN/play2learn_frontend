@@ -15,7 +15,7 @@ import type { TeacherResponseDto } from "../../services/teacher/TeacherService";
 import styles from "./ListTeacherView.module.css";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 
-const ViewTeacherView: React.FC = () => {
+const ListTeacherView: React.FC = () => {
   const navigate = useNavigate();
 
   const { loading, getPaginatedTeacher, deleteTeacher, paginatedTeacher } =
@@ -81,6 +81,45 @@ const ViewTeacherView: React.FC = () => {
     });
   };
 
+  //Implementar cuando este listo el restaurar
+  const handleRestore = (teacher: TeacherResponseDto) => {
+    setAlertConfig({
+      title: "Restaurar Docente",
+      message: `¿Está seguro que desea restaurar el docente "${teacher.name}"?`,
+      type: "danger",
+      isOpen: true,
+      showDoubleConfirmation: true,
+      onConfirm: async () => {
+        try {
+          // await deleteTeacher(teacher.id);
+          await getPaginatedTeacher(paginationParams);
+          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+        } catch (error) {
+          console.error("Error al restaurar docente:", error);
+        }
+      },
+    });
+  };
+
+  //Definicion de los botones de Status
+  const BtnStatusTrue = () => {
+    return (
+      <div className={styles.status} style={{ backgroundColor: "#059669" }}>
+        Activo
+      </div>
+    );
+  };
+  const BtnStatusFalse = ({ teacher }: { teacher: TeacherResponseDto }) => {
+    return (
+      <button
+        className={styles.btnStatus}
+        style={{ backgroundColor: "#dc2626" }}
+        onClick={() => handleRestore(teacher)}
+      >
+        De baja
+      </button>
+    );
+  };
   // Definición de columnas para la tabla
   const columns: DataTableColumn<TeacherResponseDto>[] = [
     {
@@ -132,6 +171,21 @@ const ViewTeacherView: React.FC = () => {
       render: (teacher) => (
         <div className={styles.nameWrapper}>
           <span>{teacher.user.email}</span>
+        </div>
+      ),
+    },
+    {
+      key: "active",
+      label: "Estado del docente",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (teacher) => (
+        <div className={styles.nameWrapper}>
+          {teacher.active ? (
+            <BtnStatusTrue />
+          ) : (
+            <BtnStatusFalse teacher={teacher} />
+          )}
         </div>
       ),
     },
@@ -188,7 +242,7 @@ const ViewTeacherView: React.FC = () => {
         </div>
         <Button
           variant="primary"
-          onClick={() => navigate("/dashboard/teacher/create")}
+          onClick={() => navigate("/dashboard/teachers/create")}
         >
           <FaPlus className={styles.buttonIcon} />
           Nuevo Docente
@@ -247,4 +301,4 @@ const ViewTeacherView: React.FC = () => {
   );
 };
 
-export default ViewTeacherView;
+export default ListTeacherView;

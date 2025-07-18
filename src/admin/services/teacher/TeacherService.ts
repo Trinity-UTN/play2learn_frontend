@@ -33,6 +33,7 @@ export interface TeacherResponseDto {
   lastname:string;
   dni:string;
   user:User;  
+  active:boolean
 }
 
 export interface PaginatedTeacherResponse {
