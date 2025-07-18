@@ -9,6 +9,7 @@ import { SubjectService } from "../../services/subject/SubjectService";
 import type {
   CreateSubjectPayload,
   SubjectResponseDto,
+  UpdateSubjectPayload,
 } from "../../services/subject/SubjectService";
 
 interface SubjectProviderProps {
@@ -22,6 +23,8 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
   const [subjects, setSubjects] = useState<SubjectResponseDto[]>([]);
   const [paginatedSubjects, setPaginatedSubjects] =
     useState<PaginatedData<SubjectResponseDto> | null>(null);
+  const [selectedSubject, setSelectedSubject] =
+    useState<SubjectResponseDto | null>(null);
 
   const registerSubject = async (data: CreateSubjectPayload): Promise<void> => {
     setLoading(true);
@@ -29,6 +32,18 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
       await SubjectService.registerSubjectApi(data);
     } catch (error) {
       console.error("Error al crear la materia:", error); // TODO: REMOVE_DEBUG
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateSubject = async (data: UpdateSubjectPayload): Promise<void> => {
+    setLoading(true);
+    try {
+      await SubjectService.updateSubjectApi(data);
+    } catch (error) {
+      console.error("Error al actualizar la materia:", error);
       throw error;
     } finally {
       setLoading(false);
@@ -79,11 +94,14 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
   const contextValue: SubjectContextType = {
     loading,
     registerSubject,
+    updateSubject,
     getSubject,
     getPaginatedSubject,
     deleteSubject,
     subjects,
     paginatedSubjects,
+    selectedSubject,
+    setSelectedSubject,
   };
 
   return (

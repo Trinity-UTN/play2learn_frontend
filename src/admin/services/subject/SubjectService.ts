@@ -11,7 +11,15 @@ import type { TeacherResponseDto } from "../teacher/TeacherService";
 export interface CreateSubjectPayload {
   name: string;
   courseId: number;
-  teacherId: number;
+  teacherId: number | null;
+  optional: boolean;
+}
+
+export interface UpdateSubjectPayload {
+  id: number;
+  name: string;
+  courseId: number;
+  teacherId: number | null;
   optional: boolean;
 }
 
@@ -37,6 +45,16 @@ const registerSubjectApi = async (
     await api.post(urls.Subject, data);
   } catch (error) {
     console.error("Error al crear la materia:", error); // TODO: REMOVE_DEBUG
+    throw error;
+  }
+};
+
+const updateSubjectApi = async (data: UpdateSubjectPayload): Promise<void> => {
+  try {
+    const { id, ...payload } = data;
+    await api.put(`${urls.Subject}/${data.id}`, payload);
+  } catch (error) {
+    console.error("Error al actualizar la materia:", error); // TODO: REMOVE_DEBUG
     throw error;
   }
 };
@@ -80,6 +98,7 @@ const deleteSubjectApi = async (id: number): Promise<void> => {
 
 export const SubjectService = {
   registerSubjectApi,
+  updateSubjectApi,
   getSubjectApi,
   getPaginatedSubjectApi,
   deleteSubjectApi,
