@@ -21,6 +21,9 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
   const [years, setYears] = useState<YearResponseDto[]>([]);
   const [paginatedYears, setPaginatedYears] =
     useState<PaginatedData<YearResponseDto> | null>(null);
+  const [selectedYear, setSelectedYear] = useState<YearResponseDto | null>(
+    null
+  );
 
   const registerYear = async (data: CreateYearPayload): Promise<void> => {
     setLoading(true);
@@ -102,6 +105,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
 
   const contextValue: YearContextType = {
     loading,
+    setSelectedYear,
     registerYear,
     updateYear,
     getYear,
@@ -110,6 +114,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
     deleteYear,
     years,
     paginatedYears,
+    selectedYear,
   };
 
   return (
