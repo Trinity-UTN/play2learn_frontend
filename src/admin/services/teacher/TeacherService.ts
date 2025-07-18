@@ -111,11 +111,22 @@ const deleteTeacherApi = async (id: number): Promise<void> => {
   }
 };
 
+const restoreTeacherApi = async (id: number): Promise<void> => {
+  try {
+    
+    await api.patch(`${urls.TeacherRestore}/${id}`);
+  } catch (error) {
+    console.error("Error al restaurar el docente:", error); // TODO: REMOVE_DEBUG
+    throw error;
+  }
+};
+
 export const TeacherService = {
   registerTeacherApi,
   updateTeacherApi,
   deleteTeacherApi,
   getTeacherApi,
   getPaginatedTeacherApi,
-  getTeacherByIdApi
+  getTeacherByIdApi,
+  restoreTeacherApi 
 };

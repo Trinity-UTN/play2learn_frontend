@@ -6,6 +6,7 @@ export interface TeacherContextType {
   registerTeacher: (data: CreateTeacherPayload) => Promise<void>;
   updateTeacher: (data: UpdateTeacherPayload) => Promise<void>;
   deleteTeacher: (id: number) => Promise<void>;
+  restoreTeacher: (id: number) => Promise<void>;
   getTeacher: () => void;
   getTeacherById: (id: number) => Promise<TeacherResponseDto>;
   getPaginatedTeacher: (params: GetPaginated) => Promise<void>;
