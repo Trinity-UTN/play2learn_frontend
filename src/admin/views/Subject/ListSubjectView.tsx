@@ -138,7 +138,10 @@ const ListSubjectView: React.FC = () => {
                   : styles.teacherIconUnassigned
               }
             />
-            <span>{subject.teacher?.name || "Sin asignar"}</span>
+            <span>
+              {subject.teacher?.name + " " + subject.teacher?.lastname ||
+                "Sin asignar"}
+            </span>
           </div>
         </div>
       ),
