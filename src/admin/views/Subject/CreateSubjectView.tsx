@@ -149,8 +149,7 @@ const CreateSubjectView: React.FC = () => {
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
               <label className={styles.label}>Docente</label>
-              {/* Mientras se arregla el getTeacher, pongo un input */}
-              {/* <select
+              <select
                 className={styles.select}
                 value={formData.teacherId}
                 onChange={(e) =>
@@ -163,16 +162,10 @@ const CreateSubjectView: React.FC = () => {
                     {teacher.name}
                   </option>
                 ))}
-              </select> */}
-              <Input
-                placeholder="Docente"
-                value={formData.teacherId}
-                onChange={(e) => handleChange("teacherId", e.target.value)}
-                required
-              />
+              </select>
             </div>
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Materia Opcional</label>
+              <label className={styles.label}>Materia Opcional *</label>
               <BooleanInput
                 checked={formData.optional}
                 onChange={(checked) => handleChange("optional", checked)}
