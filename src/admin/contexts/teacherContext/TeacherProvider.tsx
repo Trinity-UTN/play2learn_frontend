@@ -21,7 +21,8 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [teacher, setTeachers] = useState<TeacherResponseDto[]>([]);
-
+  const [selectedTeacher, setSelectedTeacher] =
+    useState<TeacherResponseDto | null>(null);
   const [paginatedTeacher, setPaginatedTeacher] =
     useState<PaginatedData<TeacherResponseDto> | null>(null);
 
@@ -62,6 +63,19 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     }
   }, []);
 
+  const getTeacherById = async (id: number): Promise<TeacherResponseDto> => {
+    setLoading(true);
+    try {
+      const TeacherData = await TeacherService.getTeacherByIdApi(id);
+      return TeacherData;
+    } catch (error) {
+      console.error("Error al obtener el docente:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getPaginatedTeacher = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
@@ -97,8 +111,11 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     deleteTeacher,
     getPaginatedTeacher,
     getTeacher,
+    getTeacherById,
     paginatedTeacher,
     teacher,
+    selectedTeacher,
+    setSelectedTeacher,
   };
 
   return (

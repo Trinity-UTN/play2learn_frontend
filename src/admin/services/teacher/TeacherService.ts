@@ -74,6 +74,15 @@ const getTeacherApi = async () => {
     throw error;
   }
 };
+const getTeacherByIdApi = async (id: number): Promise<TeacherResponseDto> => {
+  try {
+    const response = await api.get(`${urls.Teacher}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el docente (por id):", error); // TODO: REMOVE_DEBUG
+    throw error;
+  }
+};
 
 const getPaginatedTeacherApi = async (
   params: GetPaginated
@@ -107,5 +116,6 @@ export const TeacherService = {
   updateTeacherApi,
   deleteTeacherApi,
   getTeacherApi,
-  getPaginatedTeacherApi
+  getPaginatedTeacherApi,
+  getTeacherByIdApi
 };

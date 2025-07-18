@@ -18,8 +18,13 @@ import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 const ListTeacherView: React.FC = () => {
   const navigate = useNavigate();
 
-  const { loading, getPaginatedTeacher, deleteTeacher, paginatedTeacher } =
-    useTeacher();
+  const {
+    loading,
+    getPaginatedTeacher,
+    deleteTeacher,
+    paginatedTeacher,
+    setSelectedTeacher,
+  } = useTeacher();
   const {
     paginationParams,
     handleSearch,
@@ -55,6 +60,7 @@ const ListTeacherView: React.FC = () => {
       isOpen: true,
       showDoubleConfirmation: false,
       onConfirm: () => {
+        setSelectedTeacher(teacher);
         navigate(`/dashboard/teachers/edit/${teacher.id}`);
         setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
