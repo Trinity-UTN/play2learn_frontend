@@ -18,4 +18,6 @@ export interface YearContextType {
   deleteYear: (id: number) => Promise<void>;
   years: YearResponseDto[];
   paginatedYears: PaginatedData<YearResponseDto> | null;
+  selectedYear: YearResponseDto | null;
+  setSelectedYear: React.Dispatch<React.SetStateAction<YearResponseDto | null>>;
 }

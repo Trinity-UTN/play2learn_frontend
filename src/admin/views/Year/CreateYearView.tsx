@@ -1,7 +1,6 @@
 import type React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import { useLocation } from "react-router-dom"; // DEBUG: Para testear sin los cambios del backend
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
@@ -16,22 +15,14 @@ const CreateYearView: React.FC = () => {
   const isEditMode = Boolean(id);
 
   const [formData, setFormData] = useState({ name: "" });
-  const { registerYear, updateYear, getYearById, loading } = useYear(); // DEBUG: { registerYear, updateYear, loading }
-
-  // DEBUG: Para testear sin los cambios del backend
-  // const location = useLocation();
-  // const yearNameFromState = location.state?.yearName;
+  const { registerYear, updateYear, getYearById, loading, selectedYear } =
+    useYear();
 
   useEffect(() => {
     if (isEditMode && id) {
       const loadYearData = async () => {
         try {
-          // DEBUG: Para probar sin los cambios del backend
-          // if (yearNameFromState) {
-          //   setFormData({ name: yearNameFromState });
-          // }
-          const yearData = await getYearById(Number(id));
-          setFormData({ name: yearData.name });
+          setFormData({ name: selectedYear?.name || "" });
         } catch (error) {
           console.error("Error al cargar el año:", error);
           navigate("/dashboard/years/list");
@@ -39,10 +30,10 @@ const CreateYearView: React.FC = () => {
       };
       loadYearData();
     }
-  }, [id, isEditMode, getYearById, navigate]); // DEBUG: [id, isEditMode, yearNameFromState, navigate]
+  }, [id, isEditMode, getYearById, navigate]);
 
   const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value || "" }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -103,7 +94,7 @@ const CreateYearView: React.FC = () => {
               <label className={styles.label}>Nombre del Año *</label>
               <Input
                 placeholder="Ej: Primer Año"
-                value={formData.name}
+                value={formData.name || ""}
                 onChange={(e) => handleChange("name", e.target.value)}
                 required
               />
