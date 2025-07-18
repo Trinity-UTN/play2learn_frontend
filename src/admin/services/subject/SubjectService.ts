@@ -51,8 +51,7 @@ const registerSubjectApi = async (
 
 const updateSubjectApi = async (data: UpdateSubjectPayload): Promise<void> => {
   try {
-    const { id, ...payload } = data;
-    await api.put(`${urls.Subject}/${data.id}`, payload);
+    await api.put(`${urls.Subject}/${data.id}`, data);
   } catch (error) {
     console.error("Error al actualizar la materia:", error); // TODO: REMOVE_DEBUG
     throw error;
