@@ -17,8 +17,13 @@ import styles from "./ListSubjectView.module.css";
 
 const ListSubjectView: React.FC = () => {
   const navigate = useNavigate();
-  const { loading, getPaginatedSubject, deleteSubject, paginatedSubjects } =
-    useSubject();
+  const {
+    loading,
+    setSelectedSubject,
+    getPaginatedSubject,
+    deleteSubject,
+    paginatedSubjects,
+  } = useSubject();
   const {
     paginationParams,
     handleSearch,
@@ -54,6 +59,7 @@ const ListSubjectView: React.FC = () => {
       isOpen: true,
       showDoubleConfirmation: false,
       onConfirm: () => {
+        setSelectedSubject(subject);
         navigate(`/dashboard/subjects/edit/${subject.id}`);
         setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
@@ -132,7 +138,10 @@ const ListSubjectView: React.FC = () => {
                   : styles.teacherIconUnassigned
               }
             />
-            <span>{subject.teacher?.name || "Sin asignar"}</span>
+            <span>
+              {subject.teacher?.name + " " + subject.teacher?.lastname ||
+                "Sin asignar"}
+            </span>
           </div>
         </div>
       ),
