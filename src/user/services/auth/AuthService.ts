@@ -1,11 +1,11 @@
 import axios from "axios";
-
+import { BASE_URL } from "../../../shared/utils/apiAuth";
 
 class AuthService {
     private  ACCESS_KEY = "accessToken";
     private  REFRESH_KEY = "refreshToken";
     private  ROLE = "role";
-    private  BASE_URL = "https://play2learn.backend.desarrollo.systemsbinary.com";
+    private  BASE_URL = BASE_URL ;
     public static instance: AuthService;
     public  onSessionExpiredCallback: (() => void) | null = null;
 
@@ -81,11 +81,9 @@ class AuthService {
             const response = await axios.post(`${this.BASE_URL}/refresh`, {
             refreshToken,
             });
-
-            const { accessToken, refreshToken: newRefreshToken } = response.data;
-
-            this.setTokens(accessToken, newRefreshToken);
-
+        
+            const  accessToken = response.data.data.accessToken;
+            this.setTokens(accessToken, refreshToken);
             return accessToken;
         } catch (err) {
             this.logout();
