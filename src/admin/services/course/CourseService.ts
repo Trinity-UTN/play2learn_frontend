@@ -5,7 +5,8 @@ import type {
 import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import { urls } from "../urls";
-import type { YearResponseDto } from "../year/YearService";
+import type { YearResponseDto } from "../Year/YearService";
+import axios from "axios";
 
 export interface CreateCoursePayload {
   name: string;
@@ -57,6 +58,16 @@ const getCourseApi = async () => {
   }
 };
 
+const getCourseByIdApi = async (id: number): Promise<CourseResponseDto> => {
+  try {
+    const response = await api.get(`${urls.Course}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el curso (por id):", error); // TODO: REMOVE_DEBUG
+    throw error;
+  }
+};
+
 const getPaginatedCourseApi = async (
   params: GetPaginated
 ): Promise<PaginatedCourseResponse> => {
@@ -79,6 +90,9 @@ const deleteCourseApi = async (id: number): Promise<void> => {
     //console.log(`Eliminando curso con ID: ${id}`); // TODO: REMOVE_DEBUG
     await api.delete(`${urls.Course}/${id}`);
   } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 409) {
+      alert("El curso está asignado a una materia.");
+    }
     console.error("Error al eliminar el curso:", error); // TODO: REMOVE_DEBUG
     throw error;
   }
@@ -90,4 +104,5 @@ export const CourseService = {
   updateCourseApi,
   getPaginatedCourseApi,
   deleteCourseApi,
+  getCourseByIdApi,
 };

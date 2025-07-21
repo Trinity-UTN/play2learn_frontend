@@ -17,8 +17,13 @@ import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 
 const ViewCoursesView: React.FC = () => {
   const navigate = useNavigate();
-  const { loading, getPaginatedCourse, deleteCourse, paginatedCourse } =
-    useCourse();
+  const {
+    loading,
+    getPaginatedCourse,
+    deleteCourse,
+    paginatedCourse,
+    setSelectedCourse,
+  } = useCourse();
   const {
     paginationParams,
     handleSearch,
@@ -54,6 +59,7 @@ const ViewCoursesView: React.FC = () => {
       isOpen: true,
       showDoubleConfirmation: false,
       onConfirm: () => {
+        setSelectedCourse(course);
         navigate(`/dashboard/courses/edit/${course.id}`);
         setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
@@ -75,6 +81,7 @@ const ViewCoursesView: React.FC = () => {
           setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
           console.error("Error al eliminar curso:", error);
+          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         }
       },
     });
@@ -165,7 +172,7 @@ const ViewCoursesView: React.FC = () => {
         </div>
         <Button
           variant="primary"
-          onClick={() => navigate("/dashboard/course/create")}
+          onClick={() => navigate("/dashboard/courses/create")}
         >
           <FaPlus className={styles.buttonIcon} />
           Nuevo Curso

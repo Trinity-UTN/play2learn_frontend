@@ -21,6 +21,8 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
   const [courses, setCourses] = useState<CourseResponseDto[]>([]);
   const [paginatedCourse, setPaginatedCourse] =
     useState<PaginatedData<CourseResponseDto> | null>(null);
+  const [selectedCourse, setSelectedCourse] =
+    useState<CourseResponseDto | null>(null);
 
   const registerCourse = async (data: CreateCoursePayload): Promise<void> => {
     setLoading(true);
@@ -56,6 +58,19 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
       setLoading(false);
     }
   }, []);
+
+  const getCourseById = async (id: number): Promise<CourseResponseDto> => {
+    setLoading(true);
+    try {
+      const courseData = await CourseService.getCourseByIdApi(id);
+      return courseData;
+    } catch (error) {
+      console.error("Error al obtener el curso:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getPaginatedCourse = useCallback(
     async (params: GetPaginated): Promise<void> => {
@@ -93,6 +108,9 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
     deleteCourse,
     courses,
     paginatedCourse,
+    selectedCourse,
+    setSelectedCourse,
+    getCourseById,
   };
 
   return (
