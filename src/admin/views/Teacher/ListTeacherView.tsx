@@ -18,8 +18,14 @@ import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 const ListTeacherView: React.FC = () => {
   const navigate = useNavigate();
 
-  const { loading, getPaginatedTeacher, deleteTeacher, paginatedTeacher } =
-    useTeacher();
+  const {
+    loading,
+    getPaginatedTeacher,
+    deleteTeacher,
+    paginatedTeacher,
+    setSelectedTeacher,
+    restoreTeacher,
+  } = useTeacher();
   const {
     paginationParams,
     handleSearch,
@@ -55,6 +61,7 @@ const ListTeacherView: React.FC = () => {
       isOpen: true,
       showDoubleConfirmation: false,
       onConfirm: () => {
+        setSelectedTeacher(teacher);
         navigate(`/dashboard/teachers/edit/${teacher.id}`);
         setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
@@ -71,7 +78,6 @@ const ListTeacherView: React.FC = () => {
       onConfirm: async () => {
         try {
           await deleteTeacher(teacher.id);
-          // Recargar la página actual después de eliminar
           await getPaginatedTeacher(paginationParams);
           setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
@@ -86,12 +92,12 @@ const ListTeacherView: React.FC = () => {
     setAlertConfig({
       title: "Restaurar Docente",
       message: `¿Está seguro que desea restaurar el docente "${teacher.name}"?`,
-      type: "danger",
+      type: "warning",
       isOpen: true,
       showDoubleConfirmation: true,
       onConfirm: async () => {
         try {
-          // await deleteTeacher(teacher.id);
+          await restoreTeacher(teacher.id);
           await getPaginatedTeacher(paginationParams);
           setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
@@ -293,7 +299,7 @@ const ListTeacherView: React.FC = () => {
         type={alertConfig.type}
         isOpen={alertConfig.isOpen}
         showDoubleConfirmation={alertConfig.showDoubleConfirmation}
-        doubleConfirmationText="¿Está completamente seguro? Esta acción no se puede deshacer."
+        doubleConfirmationText="¿Está completamente seguro?"
         onConfirm={alertConfig.onConfirm}
         onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
       />

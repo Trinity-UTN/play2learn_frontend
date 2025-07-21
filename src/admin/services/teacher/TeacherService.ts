@@ -74,6 +74,15 @@ const getTeacherApi = async () => {
     throw error;
   }
 };
+const getTeacherByIdApi = async (id: number): Promise<TeacherResponseDto> => {
+  try {
+    const response = await api.get(`${urls.Teacher}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el docente (por id):", error); // TODO: REMOVE_DEBUG
+    throw error;
+  }
+};
 
 const getPaginatedTeacherApi = async (
   params: GetPaginated
@@ -102,10 +111,22 @@ const deleteTeacherApi = async (id: number): Promise<void> => {
   }
 };
 
+const restoreTeacherApi = async (id: number): Promise<void> => {
+  try {
+    
+    await api.patch(`${urls.TeacherRestore}/${id}`);
+  } catch (error) {
+    console.error("Error al restaurar el docente:", error); // TODO: REMOVE_DEBUG
+    throw error;
+  }
+};
+
 export const TeacherService = {
   registerTeacherApi,
   updateTeacherApi,
   deleteTeacherApi,
   getTeacherApi,
-  getPaginatedTeacherApi
+  getPaginatedTeacherApi,
+  getTeacherByIdApi,
+  restoreTeacherApi 
 };
