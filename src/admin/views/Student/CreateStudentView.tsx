@@ -1,5 +1,6 @@
 import type React from "react";
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaGraduationCap, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
@@ -11,9 +12,14 @@ import { useStudent } from "../../hooks/useStudent";
 import styles from "./CreateStudentView.module.css";
 
 const CreateStudentView: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const isEditMode = Boolean(id);
+
   const { getYear, years } = useYear();
   const { getCourse, courses } = useCourse();
-  const { registerStudent, loading } = useStudent();
+  const { registerStudent, updateStudent, selectedStudent, loading } =
+    useStudent();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -23,6 +29,33 @@ const CreateStudentView: React.FC = () => {
     year_id: 0,
     course_id: 0,
   });
+
+  useEffect(() => {
+    getYear();
+    getCourse();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (isEditMode && id) {
+      const loadYearData = async () => {
+        try {
+          setFormData({
+            name: selectedStudent?.name || "",
+            lastname: selectedStudent?.lastname || "",
+            dni: selectedStudent?.dni || "",
+            email: selectedStudent?.user.email || "",
+            year_id: selectedStudent?.course.year.id || 0,
+            course_id: selectedStudent?.course.id || 0,
+          });
+        } catch (error) {
+          console.error("Error al cargar el estudiante:", error);
+          navigate("/dashboard/students/list");
+        }
+      };
+      loadYearData();
+    }
+  }, [id, isEditMode, navigate]);
 
   const filteredCourses = courses.filter(
     (course) => course.year.id === formData.year_id
@@ -49,11 +82,24 @@ const CreateStudentView: React.FC = () => {
       course_id: formData.course_id,
     };
     try {
-      await registerStudent(payload);
-      alert("Estudiante creado exitosamente.");
-      resetFormData();
+      if (isEditMode && id) {
+        const idN = id ? Number(id) : 0;
+        const data = { id: idN, ...payload };
+
+        await updateStudent(data);
+        alert("Estudiante actualizado exitosamente.");
+        navigate("/dashboard/students/list");
+      } else {
+        await registerStudent(formData);
+        alert("Estudiante creado exitosamente.");
+        resetFormData();
+      }
     } catch (err) {
-      alert("Hubo un error al crear el estudiante.");
+      alert(
+        isEditMode
+          ? "Hubo un error al actualizar el Estudiante."
+          : "Hubo un error al crear el Estudiante."
+      );
     }
   };
 
@@ -61,11 +107,9 @@ const CreateStudentView: React.FC = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  useEffect(() => {
-    getYear();
-    getCourse();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleCancel = () => {
+    navigate("/dashboard/students/list");
+  };
 
   return (
     <motion.div
@@ -75,9 +119,13 @@ const CreateStudentView: React.FC = () => {
       className={styles.container}
     >
       <div className={styles.header}>
-        <h1 className={styles.title}>Generar Estudiante</h1>
+        <h1 className={styles.title}>
+          {isEditMode ? "Modificar Estudiante" : "Generar Estudiante"}
+        </h1>
         <p className={styles.subtitle}>
-          Registra un nuevo estudiante en el sistema
+          {isEditMode
+            ? "Modifica la información del estudiante"
+            : "Registra un nuevo estudiante en el sistema"}
         </p>
       </div>
 
@@ -179,11 +227,24 @@ const CreateStudentView: React.FC = () => {
           <div className={styles.buttonGroup}>
             <Button type="submit" variant="primary" disabled={loading}>
               <FaSave className={styles.buttonIcon} />
-              {loading ? "Cargando..." : "Crear Estudiante"}
+              {loading
+                ? isEditMode
+                  ? "Actualizando..."
+                  : "Creando..."
+                : isEditMode
+                ? "Actualizar Estudiante"
+                : "Crear Estudiante"}
             </Button>
-            <Button type="button" variant="outline" disabled={loading}>
-              Cancelar
-            </Button>
+            {isEditMode && (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={loading}
+                onClick={handleCancel}
+              >
+                Cancelar
+              </Button>
+            )}
           </div>
         </form>
       </Card>
