@@ -1,71 +1,236 @@
 import type React from "react";
-// import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaGraduationCap, FaTools } from "react-icons/fa";
-// import { FaSearch, FaEdit, FaTrash, FaEnvelope, FaPhone } from "react-icons/fa";
-// import Card from "../../../shared/components/Card/CardComponent";
+import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import Button from "../../../shared/components/Button/ButtonComponent";
-// import Input from "../../../shared/components/Input/InputComponent";
-// import Badge from "../../../shared/components/Badge/BadgeComponent";
+import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
+import { DataTable } from "../../../shared/components/DataTable";
+import type {
+  DataTableColumn,
+  DataTableAction,
+} from "../../../shared/components/DataTable";
+import { useStudent } from "../../hooks/useStudent";
+import type { StudentResponseDto } from "../../services/student/StudentService";
 import styles from "./ListStudentView.module.css";
+import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 
 const ListStudentView: React.FC = () => {
-  // const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
-  // const students: Student[] = [
-  //   {
-  //     id: 1,
-  //     name: "Ana García López",
-  //     email: "ana.garcia@email.com",
-  //     phone: "+1234567890",
-  //     year: "1er Año",
-  //     status: "Activo",
-  //     enrollment: "2024001",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Carlos Martínez Ruiz",
-  //     email: "carlos.martinez@email.com",
-  //     phone: "+1234567891",
-  //     year: "2do Año",
-  //     status: "Activo",
-  //     enrollment: "2023045",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "María Rodríguez Silva",
-  //     email: "maria.rodriguez@email.com",
-  //     phone: "+1234567892",
-  //     year: "3er Año",
-  //     status: "Activo",
-  //     enrollment: "2022089",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "José López Fernández",
-  //     email: "jose.lopez@email.com",
-  //     phone: "+1234567893",
-  //     year: "1er Año",
-  //     status: "Inactivo",
-  //     enrollment: "2024012",
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Laura Sánchez Torres",
-  //     email: "laura.sanchez@email.com",
-  //     phone: "+1234567894",
-  //     year: "2do Año",
-  //     status: "Activo",
-  //     enrollment: "2023067",
-  //   },
-  // ];
+  const {
+    loading,
+    getPaginatedStudent,
+    deleteStudent,
+    paginatedStudents,
+    setSelectedStudent,
+    restoreStudent,
+  } = useStudent();
+  const {
+    paginationParams,
+    handleSearch,
+    handleSort,
+    handlePageChange,
+    handlePageSizeChange,
+  } = usePaginationParams();
+  const [alertConfig, setAlertConfig] = useState({
+    title: "",
+    message: "",
+    type: "warning" as "warning" | "danger",
+    isOpen: false,
+    showDoubleConfirmation: false,
+    onConfirm: () => {},
+  });
 
-  // const filteredStudents = students.filter(
-  //   (student) =>
-  //     student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     student.enrollment.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+  useEffect(() => {
+    const loadPaginatedStudents = async () => {
+      try {
+        await getPaginatedStudent(paginationParams);
+      } catch (error) {
+        console.error("Error al cargar estudiantes paginados:", error); // TODO: REMOVE_DEBUG
+      }
+    };
+    loadPaginatedStudents();
+  }, [paginationParams, getPaginatedStudent]);
+
+  const handleEdit = (student: StudentResponseDto) => {
+    setAlertConfig({
+      title: "Modificar Estudiante",
+      message: `¿Está seguro que desea modificar el estudiante "${student.name} ${student.lastname}"?`,
+      type: "warning",
+      isOpen: true,
+      showDoubleConfirmation: false,
+      onConfirm: () => {
+        setSelectedStudent(student);
+        navigate(`/dashboard/students/edit/${student.id}`);
+        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+      },
+    });
+  };
+
+  const handleDelete = (student: StudentResponseDto) => {
+    setAlertConfig({
+      title: "Eliminar Estudiante",
+      message: `¿Está seguro que desea eliminar el estudiante "${student.name} ${student.lastname}"?`,
+      type: "danger",
+      isOpen: true,
+      showDoubleConfirmation: true,
+      onConfirm: async () => {
+        try {
+          await deleteStudent(student.id);
+          await getPaginatedStudent(paginationParams);
+          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+        } catch (error) {
+          console.error("Error al eliminar estudiante:", error); // TODO: REMOVE_DEBUG
+        }
+      },
+    });
+  };
+
+  //Implementar cuando este listo el restaurar
+  const handleRestore = (student: StudentResponseDto) => {
+    setAlertConfig({
+      title: "Restaurar Estudiante",
+      message: `¿Está seguro que desea restaurar el estudiante "${student.name}"?`,
+      type: "warning",
+      isOpen: true,
+      showDoubleConfirmation: true,
+      onConfirm: async () => {
+        try {
+          await restoreStudent(student.id);
+          await getPaginatedStudent(paginationParams);
+          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+        } catch (error) {
+          console.error("Error al restaurar estudiante:", error); // TODO: REMOVE_DEBUG
+        }
+      },
+    });
+  };
+
+  //Definicion de los botones de Status
+  const BtnStatusTrue = () => {
+    return (
+      <div className={styles.status} style={{ backgroundColor: "#059669" }}>
+        Activo
+      </div>
+    );
+  };
+
+  const BtnStatusFalse = ({ student }: { student: StudentResponseDto }) => {
+    return (
+      <button
+        className={styles.btnStatus}
+        style={{ backgroundColor: "#dc2626" }}
+        onClick={() => handleRestore(student)}
+      >
+        De baja
+      </button>
+    );
+  };
+
+  // Definición de columnas para la tabla
+  const columns: DataTableColumn<StudentResponseDto>[] = [
+    {
+      key: "id",
+      label: "ID",
+      sortable: true,
+      width: "100px",
+      className: styles.idColumn,
+      render: (student) => <span className={styles.idBadge}>{student.id}</span>,
+    },
+    {
+      key: "name",
+      label: "Nombre",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (student) => (
+        <div className={styles.nameWrapper}>
+          <span>{student.name}</span>
+        </div>
+      ),
+    },
+    {
+      key: "lastname",
+      label: "Apellido",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (student) => (
+        <div className={styles.nameWrapper}>
+          <span>{student.lastname}</span>
+        </div>
+      ),
+    },
+    {
+      key: "dni",
+      label: "DNI",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (student) => (
+        <div className={styles.nameWrapper}>
+          <span>{student.dni}</span>
+        </div>
+      ),
+    },
+    {
+      key: "user",
+      label: "Email",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (student) => (
+        <div className={styles.nameWrapper}>
+          <span>{student.user.email}</span>
+        </div>
+      ),
+    },
+    {
+      key: "course",
+      label: "Curso",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (student) => (
+        <div className={styles.nameWrapper}>
+          <span>
+            {student.course.year.name} "{student.course.name}"
+          </span>
+        </div>
+      ),
+    },
+    {
+      key: "active",
+      label: "Estado",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (student) => (
+        <div className={styles.nameWrapper}>
+          {student.active ? (
+            <BtnStatusTrue />
+          ) : (
+            <BtnStatusFalse student={student} />
+          )}
+        </div>
+      ),
+    },
+  ];
+
+  // Definición de acciones para la tabla
+  const actions: DataTableAction<StudentResponseDto>[] = [
+    {
+      label: "Editar",
+      icon: <FaEdit />,
+      onClick: handleEdit,
+      variant: "ghost",
+      className: styles.editButton,
+      title: "Modificar estudiante",
+    },
+    {
+      label: "Eliminar",
+      icon: <FaTrash />,
+      onClick: handleDelete,
+      variant: "ghost",
+      className: styles.deleteButton,
+      title: "Eliminar estudiante",
+    },
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -91,90 +256,68 @@ const ListStudentView: React.FC = () => {
     >
       <motion.div variants={itemVariants} className={styles.header}>
         <div>
-          <div className={styles.constructionBanner}>
-            <FaTools className={styles.constructionIcon} />
-            <h1 className={styles.title}>
-              Visualización de Estudiantes - En Construcción
-            </h1>
-            <p className={styles.subtitle}>Esta página está en desarrollo.</p>
-          </div>
+          <h1 className={styles.title}>Gestión de Estudiantes</h1>
+          <p className={styles.subtitle}>
+            Administra los estudiantes del sistema
+          </p>
         </div>
-        <Button variant="primary">
-          <FaGraduationCap className={styles.buttonIcon} />
+        <Button
+          variant="primary"
+          onClick={() => navigate("/dashboard/students/create")}
+        >
+          <FaPlus className={styles.buttonIcon} />
           Nuevo Estudiante
         </Button>
       </motion.div>
 
-      {/* <motion.div variants={itemVariants}>
-        <Card className={styles.searchCard}>
-          <div className={styles.searchWrapper}>
-            <FaSearch className={styles.searchIcon} />
-            <Input
-              placeholder="Buscar estudiantes..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={styles.searchInput}
-            />
-          </div>
-        </Card>
+      <motion.div variants={itemVariants}>
+        <DataTable
+          data={paginatedStudents?.results || []}
+          columns={columns}
+          actions={actions}
+          loading={loading}
+          searchable={true}
+          searchPlaceholder="Buscar estudiantes..."
+          searchValue={paginationParams.search || ""}
+          onSearchChange={handleSearch}
+          sortBy={paginationParams.order_by}
+          sortOrder={paginationParams.order_type}
+          onSort={handleSort}
+          emptyStateIcon={<FaCalendarAlt />}
+          emptyStateTitle="No se encontraron estudiantes"
+          emptyStateSubtitle={
+            paginationParams.search
+              ? "Intenta con otros términos de búsqueda"
+              : "Comienza creando un nuevo estudiante"
+          }
+          loadingText="Cargando estudiantes..."
+          totalItems={paginatedStudents?.count}
+          getRowKey={(student) => student.id}
+          pagination={
+            paginatedStudents
+              ? {
+                  currentPage: paginatedStudents.currentPage,
+                  totalPages: paginatedStudents.totalPages,
+                  pageSize: paginatedStudents.pageSize,
+                  totalItems: paginatedStudents.count,
+                  onPageChange: handlePageChange,
+                  onPageSizeChange: handlePageSizeChange,
+                }
+              : undefined
+          }
+        />
       </motion.div>
 
-      <motion.div variants={itemVariants} className={styles.studentsGrid}>
-        {filteredStudents.map((student) => (
-          <motion.div
-            key={student.id}
-            variants={itemVariants}
-            whileHover={{ y: -5, scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Card className={styles.studentCard} hover>
-              <div className={styles.cardHeader}>
-                <div className={styles.studentInfo}>
-                  <h3 className={styles.studentName}>{student.name}</h3>
-                  <p className={styles.enrollment}>{student.enrollment}</p>
-                </div>
-                <Badge
-                  variant={
-                    student.status === "Activo" ? "success" : "secondary"
-                  }
-                >
-                  {student.status}
-                </Badge>
-              </div>
-
-              <div className={styles.studentDetails}>
-                <div className={styles.detailItem}>
-                  <FaGraduationCap className={styles.detailIcon} />
-                  <span>{student.year}</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <FaEnvelope className={styles.detailIcon} />
-                  <span className={styles.email}>{student.email}</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <FaPhone className={styles.detailIcon} />
-                  <span>{student.phone}</span>
-                </div>
-              </div>
-
-              <div className={styles.cardActions}>
-                <Button variant="ghost" size="sm">
-                  <FaEdit className={styles.actionIcon} />
-                  Editar
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={styles.deleteButton}
-                >
-                  <FaTrash className={styles.actionIcon} />
-                  Eliminar
-                </Button>
-              </div>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div> */}
+      <ConfirmationModal
+        title={alertConfig.title}
+        message={alertConfig.message}
+        type={alertConfig.type}
+        isOpen={alertConfig.isOpen}
+        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
+        doubleConfirmationText="¿Está completamente seguro?"
+        onConfirm={alertConfig.onConfirm}
+        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
+      />
     </motion.div>
   );
 };
