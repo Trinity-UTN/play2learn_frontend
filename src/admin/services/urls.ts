@@ -1,5 +1,7 @@
 export const urls = {
   Students: "/admin/students",
+  StudentsPaginated: "/admin/students/paginated",
+  StudentsRestore: "/admin/students/restore",
   Years: "/admin/years",
   YearsPaginated: "/admin/years/paginated",
   Teacher: "/admin/teachers",
