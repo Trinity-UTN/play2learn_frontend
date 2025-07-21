@@ -9,4 +9,6 @@ export const urls = {
   TeacherRestore: "/admin/teachers/restore",
   Course: "/admin/courses",
   CoursePaginated: "/admin/courses/paginated",
+  Subject: "/admin/subjects",
+  SubjectPaginated: "admin/subjects/paginated",
 };

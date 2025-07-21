@@ -82,6 +82,21 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
+    {
+      title: "Gestión de Materias",
+      items: [
+        {
+          title: "Crear Materia",
+          icon: FaPlus,
+          path: AdminRoutes.Subjects.Create,
+        },
+        {
+          title: "Ver Materias",
+          icon: FaUserTie,
+          path: AdminRoutes.Subjects.List,
+        },
+      ],
+    },
   ];
 
   const containerVariants: Variants = {

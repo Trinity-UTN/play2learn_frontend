@@ -6,6 +6,12 @@ import type {
 } from "../../../shared/types/PaginacionType";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 
+export interface CreateTeacherPayload {
+  name: string;
+  lastname: string;
+  dni: string;
+  email: string;
+}
 
 export interface CreateTeacherPayload {
   name: string;
@@ -25,15 +31,16 @@ export interface UpdateTeacherPayload {
 // Despues ver si esta interface es comun en otros response y sacarla de aca
 interface User {
   id: number;
-  email:string;
+  email: string;
 }
+
 export interface TeacherResponseDto {
   id: number;
   name: string;
-  lastname:string;
-  dni:string;
-  user:User;  
-  active:boolean
+  lastname: string;
+  dni: string;
+  user: User;  
+  active: boolean;
 }
 
 export interface PaginatedTeacherResponse {
@@ -42,8 +49,6 @@ export interface PaginatedTeacherResponse {
   errors: any;
   timestamp: string;
 }
-
-
 
 const registerTeacherApi = async (
   data: CreateTeacherPayload
@@ -74,6 +79,7 @@ const getTeacherApi = async () => {
     throw error;
   }
 };
+
 const getTeacherByIdApi = async (id: number): Promise<TeacherResponseDto> => {
   try {
     const response = await api.get(`${urls.Teacher}/${id}`);
@@ -128,5 +134,5 @@ export const TeacherService = {
   getTeacherApi,
   getPaginatedTeacherApi,
   getTeacherByIdApi,
-  restoreTeacherApi 
+  restoreTeacherApi,
 };

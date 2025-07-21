@@ -43,7 +43,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     try {
       await TeacherService.updateTeacherApi(data);
     } catch (error) {
-      console.error("Error al actualizar el docente:", error);
+      console.error("Error al actualizar el docente:", error);  // TODO: REMOVE_DEBUG
       throw error;
     } finally {
       setLoading(false);
@@ -69,7 +69,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
       const TeacherData = await TeacherService.getTeacherByIdApi(id);
       return TeacherData;
     } catch (error) {
-      console.error("Error al obtener el docente:", error);
+      console.error("Error al obtener el docente:", error); // TODO: REMOVE_DEBUG
       throw error;
     } finally {
       setLoading(false);
@@ -97,18 +97,19 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     try {
       await TeacherService.deleteTeacherApi(id);
     } catch (error) {
-      console.error("Error al eliminar el docente:", error);
+      console.error("Error al eliminar el docente:", error); // TODO: REMOVE_DEBUG
       throw error;
     } finally {
       setLoading(false);
     }
   };
+
   const restoreTeacher = async (id: number): Promise<void> => {
     setLoading(true);
     try {
       await TeacherService.restoreTeacherApi(id);
     } catch (error) {
-      console.error("Error al restaurar el docente:", error);
+      console.error("Error al restaurar el docente:", error); // TODO: REMOVE_DEBUG
       throw error;
     } finally {
       setLoading(false);
