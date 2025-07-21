@@ -1,8 +1,4 @@
 import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-import type {
   CreateCoursePayload,
   CourseResponseDto,
   UpdateCoursePayload,

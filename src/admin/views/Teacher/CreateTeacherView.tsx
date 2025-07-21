@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaUserTie, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
@@ -7,15 +7,45 @@ import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import { useTeacher } from "../../hooks/useTeacher";
 import styles from "./CreateTeacherView.module.css";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CreateTeacherView: React.FC = () => {
-  const { loading, registerTeacher } = useTeacher();
+  const { id } = useParams<{ id: string }>();
+  const isEditMode = Boolean(id);
+  const {
+    loading,
+    registerTeacher,
+    getTeacherById,
+    selectedTeacher,
+    updateTeacher,
+  } = useTeacher();
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
     dni: "",
     email: "",
   });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isEditMode && id) {
+      const loadTeacherData = async () => {
+        try {
+          setFormData({
+            name: selectedTeacher?.name || "",
+            lastname: selectedTeacher?.lastname || "",
+            dni: selectedTeacher?.dni || "",
+            email: selectedTeacher?.user.email || "",
+          });
+        } catch (error) {
+          console.error("Error al cargar el docente:", error);
+          navigate("/dashboard/teachers/list");
+        }
+      };
+      loadTeacherData();
+    }
+  }, [id, isEditMode, getTeacherById, navigate]);
 
   const resetFormData = () => {
     setFormData({
@@ -29,16 +59,32 @@ const CreateTeacherView: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await registerTeacher(formData);
-      alert("Docente creado exitosamente.");
-      resetFormData();
+      if (isEditMode && id) {
+        const idN = id ? Number(id) : 0;
+        const data = { id: idN, ...formData };
+
+        await updateTeacher(data);
+        alert("Docente actualizado exitosamente.");
+        navigate("/dashboard/teachers/list");
+      } else {
+        await registerTeacher(formData);
+        alert("Docente creado exitosamente.");
+        resetFormData();
+      }
     } catch (err) {
-      alert("Hubo un error al crear el Docente.");
+      alert(
+        isEditMode
+          ? "Hubo un error al actualizar el Docente."
+          : "Hubo un error al crear el Docente."
+      );
     }
   };
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+  const handleCancel = () => {
+    navigate("/dashboard/teachers/list");
   };
 
   return (
@@ -108,9 +154,20 @@ const CreateTeacherView: React.FC = () => {
           <div className={styles.buttonGroup}>
             <Button type="submit" variant="primary">
               <FaSave className={styles.buttonIcon} />
-              {loading ? "Creando..." : "Crear Docente"}
+              {loading
+                ? isEditMode
+                  ? "Actualizando..."
+                  : "Creando..."
+                : isEditMode
+                ? "Actualizar Docente"
+                : "Crear Docente"}
             </Button>
-            <Button type="button" variant="outline" disabled={loading}>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={loading}
+              onClick={handleCancel}
+            >
               Cancelar
             </Button>
           </div>

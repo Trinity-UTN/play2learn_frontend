@@ -3,6 +3,8 @@ export const urls = {
   Years: "/admin/years",
   YearsPaginated: "/admin/years/paginated",
   Teacher: "/admin/teachers",
+  TeacherPaginated: "/admin/teachers/paginated",
+  TeacherRestore: "/admin/teachers/restore",
   Course: "/admin/courses",
   CoursePaginated: "/admin/courses/paginated",
   Subject: "/admin/subjects",

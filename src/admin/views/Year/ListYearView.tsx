@@ -17,7 +17,13 @@ import styles from "./ListYearView.module.css";
 
 const ListYearView: React.FC = () => {
   const navigate = useNavigate();
-  const { loading, getPaginatedYear, deleteYear, paginatedYears } = useYear();
+  const {
+    loading,
+    setSelectedYear,
+    getPaginatedYear,
+    deleteYear,
+    paginatedYears,
+  } = useYear();
   const {
     paginationParams,
     handleSearch,
@@ -53,6 +59,7 @@ const ListYearView: React.FC = () => {
       isOpen: true,
       showDoubleConfirmation: false,
       onConfirm: () => {
+        setSelectedYear(year);
         navigate(`/dashboard/years/edit/${year.id}`);
         setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },

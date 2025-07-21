@@ -13,7 +13,7 @@ import type {
 import { useCourse } from "../../hooks/useCourse";
 import type { CourseResponseDto } from "../../services/course/CourseService";
 import styles from "./ListCourseView.module.css";
-import usePaginationParams from "../../../shared/hooks/UsePaginateParams";
+import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 
 const ViewCoursesView: React.FC = () => {
   const navigate = useNavigate();
@@ -194,7 +194,7 @@ const ViewCoursesView: React.FC = () => {
           }
           loadingText="Cargando cursos..."
           totalItems={paginatedCourse?.count}
-          getRowKey={(year) => year.id}
+          getRowKey={(course) => course.id}
           pagination={
             paginatedCourse
               ? {

@@ -1,7 +1,8 @@
 import axios from "axios";
 import AuthService from "../../user/services/auth/AuthService";
 
-const BASE_URL = "https://play2learn.backend.desarrollo.systemsbinary.com";
+import { BASE_URL } from "./apiAuth";
+
 
 const api = axios.create({
   baseURL: BASE_URL,
