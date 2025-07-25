@@ -21,6 +21,7 @@ import Badge from "../../../shared/components/Badge/BadgeComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import styles from "./ActivityCard.module.css";
 import type { IconType } from "react-icons";
+import { useNavigate } from "react-router-dom";
 
 interface ActivityCardProps {
   activity: Activity;
@@ -62,7 +63,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
 }) => {
   const IconComponent = getActivityIcon(activity.icon);
   const difficultyColor = getDifficultyColor(activity.difficulty);
-
+  const navigate = useNavigate();
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -81,10 +82,8 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
     },
   };
 
-  const handleSelect = () => {
-    if (onSelect) {
-      onSelect(activity);
-    }
+  const handleNavigate = () => {
+    navigate(`/dashboard/teacher/actividades/configuration`);
   };
 
   return (
@@ -170,7 +169,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
           <Button
             variant="primary"
             fullWidth
-            onClick={handleSelect}
+            onClick={handleNavigate}
             className={styles.selectButton}
           >
             Crear Actividad

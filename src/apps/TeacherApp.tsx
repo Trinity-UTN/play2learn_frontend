@@ -6,10 +6,11 @@ import ProtectedRoute from "../shared/utils/ProtectedRoute";
 //PAGES
 import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
 //VIEWS
-import ActivitiesView from "../teacher/views/activitiesView/ActivitiesView";
+import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsView from "../teacher/views/benefitsView/BenefitsView";
 import BenefitCreateView from "../teacher/views/benefitsView/BenefitsCreateView";
 import OverviewView from "../teacher/views/overviewView/Overview";
+import ConfigureActivityView from "../activity/views/configurationView/ConfigureActivityView";
 
 const TeacherApp = () => {
   return (
@@ -44,6 +45,10 @@ const TeacherApp = () => {
 
             {/* ACTIVIDADES */}
             <Route path="actividades/list" element={<ActivitiesView />} />
+            <Route
+              path="actividades/configuration"
+              element={<ConfigureActivityView />}
+            />
 
             {/* BENEFICIOS */}
             <Route path="beneficio/list" element={<BenefitsView />} />
