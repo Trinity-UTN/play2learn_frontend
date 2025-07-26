@@ -24,6 +24,9 @@ import Input from "../../../shared/components/Input/InputComponent";
 import Card from "../../../shared/components/Card/CardComponent";
 import Badge from "../../../shared/components/Badge/BadgeComponent";
 import styles from "./ConfigureActivityView.module.css";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSubject } from "../../../admin/hooks/useSubject";
+import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 
 const ConfigureActivityView: React.FC = () => {
   const [configuration, setConfiguration] = useState<ConfigurationActivity>({
@@ -34,10 +37,13 @@ const ConfigureActivityView: React.FC = () => {
     maxTime: 30,
     subjectId: 0,
   });
+  const { code_game } = useParams();
 
   const [errors, setErrors] = useState<ConfigurationErrors>({});
   const [isPreviewMode, setIsPreviewMode] = useState(false);
-
+  // const {subjects, getSubject } = useSubject();
+  const { registerConfigurationActivity } = useConfigurationActivity();
+  const navigate = useNavigate();
   // Mock data para materias
   const subjects = [
     { id: 1, name: "Matemáticas Básicas", code: "MAT101" },
@@ -117,19 +123,13 @@ const ConfigureActivityView: React.FC = () => {
     e.preventDefault();
     if (validateForm()) {
       console.log("Configuración guardada:", configuration);
-      // Aquí iría la lógica para guardar la configuración
+      registerConfigurationActivity(configuration);
+      navigate(`/dashboard/teacher/actividad/configuration/${code_game}`);
     }
   };
 
   const getSelectedSubject = () => {
     return subjects.find((subject) => subject.id === configuration.subjectId);
-  };
-
-  const getDifficultyColor = () => {
-    const difficulty = difficultyOptions.find(
-      (opt) => opt.value === configuration.dificulty
-    );
-    return difficulty?.color || "#6B7280";
   };
 
   const containerVariants = {

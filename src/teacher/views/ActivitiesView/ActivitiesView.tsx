@@ -17,124 +17,13 @@ import Card from "../../../shared/components/Card/CardComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import ActivityCard from "../../components/activityCard/ActivityCard";
 import styles from "./ActivitiesView.module.css";
+import { activities } from "../../data/DataActivity";
 
 const ActivitiesView: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("all");
   const [selectedSubject, setSelectedSubject] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("name");
-
-  const activities: Activity[] = [
-    {
-      id: 1,
-      name: "Ahorcado Educativo",
-      type: "Juego de Palabras",
-      description:
-        "Adivina la palabra oculta letra por letra. Perfecto para mejorar vocabulario y ortografía.",
-      difficulty: "Fácil",
-      duration: "10-15 min",
-      subject: "Lengua",
-      icon: "hangman",
-      color: "#b9e769",
-      features: ["Vocabulario", "Ortografía", "Concentración"],
-      isPopular: true,
-    },
-    {
-      id: 2,
-      name: "Completar Oraciones",
-      type: "Ejercicio Gramatical",
-      description:
-        "Completa las oraciones con las palabras correctas para formar textos coherentes.",
-      difficulty: "Medio",
-      duration: "15-20 min",
-      subject: "Lengua",
-      icon: "complete",
-      color: "#ff6f3c",
-      features: ["Gramática", "Comprensión", "Sintaxis", "Vocabulario"],
-    },
-    {
-      id: 3,
-      name: "Preguntados",
-      type: "Trivia Educativa",
-      description:
-        "Responde preguntas de múltiple opción sobre diferentes materias y temas.",
-      difficulty: "Medio",
-      duration: "20-30 min",
-      subject: "General",
-      icon: "questions",
-      color: "#007bff",
-      features: ["Conocimiento", "Rapidez", "Memoria"],
-      isPopular: true,
-    },
-    {
-      id: 4,
-      name: "Ordenar Secuencias",
-      type: "Lógica y Orden",
-      description:
-        "Organiza elementos en el orden correcto según criterios específicos.",
-      difficulty: "Medio",
-      duration: "10-15 min",
-      subject: "Matemáticas",
-      icon: "sequence",
-      color: "#9333ea",
-      features: ["Lógica", "Secuencias", "Orden", "Análisis"],
-    },
-    {
-      id: 5,
-      name: "Rompecabezas Numérico",
-      type: "Puzzle Matemático",
-      description:
-        "Resuelve puzzles numéricos y problemas matemáticos de forma interactiva.",
-      difficulty: "Difícil",
-      duration: "25-35 min",
-      subject: "Matemáticas",
-      icon: "puzzle",
-      color: "#dc2626",
-      features: ["Cálculo", "Lógica", "Resolución"],
-      isNew: true,
-    },
-    {
-      id: 6,
-      name: "Memoria Visual",
-      type: "Juego de Memoria",
-      description:
-        "Ejercita tu memoria visual recordando patrones, colores y secuencias.",
-      difficulty: "Fácil",
-      duration: "8-12 min",
-      subject: "General",
-      icon: "memory",
-      color: "#059669",
-      features: ["Memoria", "Atención", "Concentración"],
-      isNew: true,
-    },
-    {
-      id: 7,
-      name: "Sopa de Letras",
-      type: "Búsqueda de Palabras",
-      description:
-        "Encuentra palabras ocultas en una cuadrícula de letras aleatorias.",
-      difficulty: "Fácil",
-      duration: "12-18 min",
-      subject: "Lengua",
-      icon: "random",
-      color: "#f59e0b",
-      features: ["Vocabulario", "Atención", "Paciencia"],
-    },
-    {
-      id: 8,
-      name: "Quiz Científico",
-      type: "Evaluación Interactiva",
-      description:
-        "Pon a prueba tus conocimientos científicos con preguntas desafiantes.",
-      difficulty: "Difícil",
-      duration: "30-40 min",
-      subject: "Ciencias",
-      icon: "questions",
-      color: "#8b5cf6",
-      features: ["Ciencia", "Análisis", "Conocimiento", "Razonamiento"],
-      isPopular: true,
-    },
-  ];
 
   const difficulties = ["all", "Fácil", "Medio", "Difícil"];
   const subjects = ["all", "Lengua", "Matemáticas", "Ciencias", "General"];

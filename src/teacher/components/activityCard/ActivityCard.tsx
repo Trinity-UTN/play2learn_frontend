@@ -82,8 +82,11 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
     },
   };
 
-  const handleNavigate = () => {
-    navigate(`/dashboard/teacher/actividades/configuration`);
+  const handleNavigate = (activity: Activity) => {
+    onSelect?.(activity);
+    navigate(
+      `/dashboard/teacher/actividades/configuration/${activity.code_game}`
+    );
   };
 
   return (
@@ -169,7 +172,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
           <Button
             variant="primary"
             fullWidth
-            onClick={handleNavigate}
+            onClick={() => handleNavigate(activity)}
             className={styles.selectButton}
           >
             Crear Actividad
