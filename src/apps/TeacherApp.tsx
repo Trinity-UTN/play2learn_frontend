@@ -5,11 +5,18 @@ import styles from "../App.module.css";
 import ProtectedRoute from "../shared/utils/ProtectedRoute";
 //PAGES
 import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
+//PROVIDERS
+import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
+import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
+import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
+import { CreateAhorcadoProvider } from "../activity/components/createAhorcado/CreateAhorcadoContext";
 //VIEWS
-import ActivitiesView from "../teacher/views/activitiesView/ActivitiesView";
+import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsView from "../teacher/views/benefitsView/BenefitsView";
 import BenefitCreateView from "../teacher/views/benefitsView/BenefitsCreateView";
 import OverviewView from "../teacher/views/overviewView/Overview";
+import ConfigureActivityView from "../activity/views/configurationView/ConfigureActivityView";
+import ActivityView from "../activity/views/activityView/ActivityView";
 
 const TeacherApp = () => {
   return (
@@ -27,15 +34,21 @@ const TeacherApp = () => {
             path="/dashboard/teacher/*"
             element={
               <ProtectedRoute allowedRoles={["ROLE_TEACHER"]}>
-                <motion.div
-                  key="dashboardTeacher"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <TeacherDashboardPage />
-                </motion.div>
+                <SubjectProvider>
+                  <ConfigurationActivityProvider>
+                    <AhorcadoProvider>
+                      <motion.div
+                        key="dashboardTeacher"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <TeacherDashboardPage />
+                      </motion.div>
+                    </AhorcadoProvider>
+                  </ConfigurationActivityProvider>
+                </SubjectProvider>
               </ProtectedRoute>
             }
           >
@@ -44,6 +57,21 @@ const TeacherApp = () => {
 
             {/* ACTIVIDADES */}
             <Route path="actividades/list" element={<ActivitiesView />} />
+            {/* VIEW GENERAL CONFIGURATION */}
+            <Route
+              path="actividades/configuration/:code_game"
+              element={<ConfigureActivityView />}
+            />
+
+            {/* VIEW SPECIFIC ACTIVITY */}
+            <Route
+              path="actividad/configuration/:code_game"
+              element={
+                <CreateAhorcadoProvider>
+                  <ActivityView />
+                </CreateAhorcadoProvider>
+              }
+            />
 
             {/* BENEFICIOS */}
             <Route path="beneficio/list" element={<BenefitsView />} />
