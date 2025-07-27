@@ -56,6 +56,7 @@
   gap: 0.75rem;
 }
 
+.layoutButton,
 .previewButton {
   display: flex;
   align-items: center;
@@ -75,6 +76,13 @@
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.formGrid.verticalLayout {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
 }
 
 .formSection {
@@ -201,6 +209,24 @@
   background: white;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.difficultyOption::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(102, 126, 234, 0.05) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .difficultyOption:hover {
@@ -209,20 +235,46 @@
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
 }
 
+.difficultyOption:hover::before {
+  opacity: 1;
+}
+
 .difficultyOption.selected {
   background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+  position: relative;
+}
+
+.difficultyOption.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: #667eea;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
 }
 
 .difficultyIcon {
   font-size: 1.5rem;
+  z-index: 1;
+  position: relative;
 }
 
 .difficultyText {
   font-weight: 600;
   color: #374151;
   font-size: 0.875rem;
+  z-index: 1;
+  position: relative;
 }
 
 .timeInputWrapper {
@@ -283,15 +335,45 @@
 
 .submitSection {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
   padding-top: 1rem;
+  gap: 1rem;
 }
 
+.backButton,
 .submitButton {
-  min-width: 200px;
+  min-width: 150px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.backButton {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.backButton:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
 }
 
 .preview {
@@ -302,6 +384,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 1rem;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .previewHeader {
@@ -333,23 +416,35 @@
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 1rem;
-  background: #f8fafc;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   border-radius: 0.75rem;
   border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.previewItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .previewIcon {
   font-size: 1.25rem;
   color: #667eea;
   margin-top: 0.25rem;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
 }
 
 .previewItem h4 {
   font-size: 0.875rem;
   font-weight: 600;
   color: #374151;
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .previewItem p {
@@ -357,6 +452,29 @@
   color: #6b7280;
   margin: 0;
   line-height: 1.4;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formCard,
+.previewCard {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.submitButton:focus,
+.backButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
 }
 
 /* Responsive Design */
@@ -375,12 +493,23 @@
     gap: 1rem;
   }
 
+  .formGrid.verticalLayout {
+    max-width: none;
+  }
+
   .dateGrid {
     grid-template-columns: 1fr;
   }
 
   .difficultyGrid {
     grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .difficultyOption {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 0.75rem;
   }
 
   .previewGrid {
@@ -399,6 +528,17 @@
 
   .titleIcon {
     font-size: 1.25rem;
+  }
+
+  .submitSection {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .backButton,
+  .submitButton {
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -424,5 +564,55 @@
     flex-direction: column;
     gap: 0.5rem;
     align-items: flex-start;
+  }
+
+  .difficultyOption {
+    padding: 0.5rem;
+  }
+
+  .difficultyIcon {
+    font-size: 1.25rem;
+  }
+
+  .difficultyText {
+    font-size: 0.8125rem;
+  }
+
+  .previewItem {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .previewIcon {
+    align-self: center;
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .layoutButton,
+  .previewButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .formCard,
+  .previewCard,
+  .periodOption {
+    animation: none;
+  }
+
+  .difficultyOption:hover,
+  .formCard:hover,
+  .previewItem:hover,
+  .submitButton:hover,
+  .backButton:hover {
+    transform: none;
   }
 }
