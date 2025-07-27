@@ -2,16 +2,19 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  FaCog,
   FaCalendarAlt,
   FaClock,
   FaGraduationCap,
   FaChartLine,
-  FaSave,
+  FaArrowRight,
+  FaArrowLeft,
   FaEye,
   FaBook,
   FaInfoCircle,
   FaExclamationTriangle,
+  FaColumns,
+  FaList,
+  FaGamepad,
 } from "react-icons/fa";
 import type {
   ConfigurationActivity,
@@ -29,16 +32,17 @@ import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 const ConfigureActivityView: React.FC = () => {
   const [configuration, setConfiguration] = useState<ConfigurationActivity>({
     description: "",
-    startDate: "",
+    startDate: new Date().toISOString().slice(0, 16), // Fecha actual por defecto
     endDate: "",
     dificulty: "",
     maxTime: 30,
     subjectId: 0,
   });
-  const { code_game } = useParams();
 
+  const { code_game } = useParams();
   const [errors, setErrors] = useState<ConfigurationErrors>({});
   const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [isVerticalLayout, setIsVerticalLayout] = useState(false);
   const { subjects, getSubject } = useSubject();
   const { registerConfigurationActivity } = useConfigurationActivity();
   const navigate = useNavigate();
@@ -47,10 +51,37 @@ const ConfigureActivityView: React.FC = () => {
     getSubject();
   }, []);
 
+  // Mapeo de nombres de actividades TODO: Traerlo bien de otro lado
+  const getActivityName = (code: string) => {
+    const activityNames: { [key: string]: string } = {
+      ahorcado: "Ahorcado",
+      "completar-oracion": "Completar Oración",
+      "verdadero-falso": "Verdadero o Falso",
+      "multiple-choice": "Opción Múltiple",
+    };
+    return activityNames[code] || "Actividad";
+  };
+
+  // Opciones de dificultad que coinciden con el enum del backend
   const difficultyOptions = [
-    { value: "Fácil", color: "#10B981", icon: "🟢" },
-    { value: "Medio", color: "#F59E0B", icon: "🟡" },
-    { value: "Difícil", color: "#EF4444", icon: "🔴" },
+    {
+      value: "FACIL",
+      label: "Fácil",
+      color: "#10B981",
+      icon: "🟢",
+    },
+    {
+      value: "MEDIO",
+      label: "Medio",
+      color: "#F59E0B",
+      icon: "🟡",
+    },
+    {
+      value: "DIFICIL",
+      label: "Difícil",
+      color: "#EF4444",
+      icon: "🔴",
+    },
   ];
 
   const handleInputChange = (
@@ -115,14 +146,24 @@ const ConfigureActivityView: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (validateForm()) {
       registerConfigurationActivity(configuration);
       navigate(`/dashboard/teacher/actividad/configuration/${code_game}`);
     }
   };
 
+  const handleGoBack = () => {
+    navigate("/dashboard/teacher/actividades/list");
+  };
+
   const getSelectedSubject = () => {
     return subjects.find((subject) => subject.id === configuration.subjectId);
+  };
+
+  const getDifficultyLabel = (value: string) => {
+    const option = difficultyOptions.find((opt) => opt.value === value);
+    return option ? option.label : value;
   };
 
   const containerVariants = {
@@ -152,16 +193,30 @@ const ConfigureActivityView: React.FC = () => {
       <motion.div variants={itemVariants} className={styles.header}>
         <div className={styles.titleSection}>
           <div className={styles.iconWrapper}>
-            <FaCog className={styles.titleIcon} />
+            <FaGamepad className={styles.titleIcon} />
           </div>
           <div>
-            <h1 className={styles.title}>Configurar Actividad</h1>
+            <h1 className={styles.title}>
+              Creando Actividad: {getActivityName(code_game || "")}
+            </h1>
             <p className={styles.subtitle}>
               Personaliza los parámetros de tu actividad educativa
             </p>
           </div>
         </div>
         <div className={styles.actions}>
+          <Button
+            variant="ghost"
+            onClick={() => setIsVerticalLayout(!isVerticalLayout)}
+            className={styles.layoutButton}
+            title={
+              isVerticalLayout
+                ? "Cambiar a diseño horizontal"
+                : "Cambiar a diseño vertical"
+            }
+          >
+            {isVerticalLayout ? <FaColumns /> : <FaList />}
+          </Button>
           <Button
             variant={isPreviewMode ? "primary" : "ghost"}
             onClick={() => setIsPreviewMode(!isPreviewMode)}
@@ -180,7 +235,11 @@ const ConfigureActivityView: React.FC = () => {
             onSubmit={handleSubmit}
             className={styles.form}
           >
-            <div className={styles.formGrid}>
+            <div
+              className={`${styles.formGrid} ${
+                isVerticalLayout ? styles.verticalLayout : ""
+              }`}
+            >
               {/* Descripción */}
               <motion.div
                 variants={itemVariants}
@@ -289,9 +348,9 @@ const ConfigureActivityView: React.FC = () => {
                           <button
                             key={option.value}
                             type="button"
-                            onClick={() =>
-                              handleInputChange("dificulty", option.value)
-                            }
+                            onClick={() => {
+                              handleInputChange("dificulty", option.value);
+                            }}
                             className={`${styles.difficultyOption} ${
                               configuration.dificulty === option.value
                                 ? styles.selected
@@ -308,7 +367,7 @@ const ConfigureActivityView: React.FC = () => {
                               {option.icon}
                             </span>
                             <span className={styles.difficultyText}>
-                              {option.value}
+                              {option.label}
                             </span>
                           </button>
                         ))}
@@ -320,7 +379,6 @@ const ConfigureActivityView: React.FC = () => {
                         </span>
                       )}
                     </div>
-
                     <div className={styles.inputGroup}>
                       <label className={styles.label}>
                         Tiempo Máximo (minutos) *
@@ -401,13 +459,23 @@ const ConfigureActivityView: React.FC = () => {
               className={styles.submitSection}
             >
               <Button
+                type="button"
+                variant="secondary"
+                size="lg"
+                onClick={handleGoBack}
+                className={styles.backButton}
+              >
+                <FaArrowLeft />
+                Volver
+              </Button>
+              <Button
                 type="submit"
                 variant="primary"
                 size="lg"
                 className={styles.submitButton}
               >
-                <FaSave />
-                Guardar Configuración
+                <FaArrowRight />
+                Siguiente
               </Button>
             </motion.div>
           </motion.form>
@@ -455,7 +523,8 @@ const ConfigureActivityView: React.FC = () => {
                         //   color: "white",
                         // }}
                       >
-                        {configuration.dificulty || "Sin definir"}
+                        {getDifficultyLabel(configuration.dificulty) ||
+                          "Sin definir"}
                       </Badge>
                     </div>
                   </div>
