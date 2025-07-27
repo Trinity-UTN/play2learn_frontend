@@ -9,6 +9,7 @@ import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
 import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
 import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
+import { CreateAhorcadoProvider } from "../activity/components/createAhorcado/CreateAhorcadoContext";
 //VIEWS
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsView from "../teacher/views/benefitsView/BenefitsView";
@@ -65,7 +66,11 @@ const TeacherApp = () => {
             {/* VIEW SPECIFIC ACTIVITY */}
             <Route
               path="actividad/configuration/:code_game"
-              element={<ActivityView />}
+              element={
+                <CreateAhorcadoProvider>
+                  <ActivityView />
+                </CreateAhorcadoProvider>
+              }
             />
 
             {/* BENEFICIOS */}

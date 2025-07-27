@@ -12,7 +12,7 @@ import {
   FaStar,
   FaClock,
 } from "react-icons/fa";
-import type { Activity } from "../../types/ActivityType";
+
 import Card from "../../../shared/components/Card/CardComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import ActivityCard from "../../components/activityCard/ActivityCard";
@@ -57,11 +57,6 @@ const ActivitiesView: React.FC = () => {
           return 0;
       }
     });
-
-  const handleActivitySelect = (activity: Activity) => {
-    console.log("Actividad seleccionada:", activity);
-    // Aquí puedes navegar a la página de creación de la actividad específica
-  };
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -249,10 +244,7 @@ const ActivitiesView: React.FC = () => {
               variants={itemVariants}
               transition={{ delay: index * 0.1 }}
             >
-              <ActivityCard
-                activity={activity}
-                onSelect={handleActivitySelect}
-              />
+              <ActivityCard activity={activity} />
             </motion.div>
           ))}
         </div>

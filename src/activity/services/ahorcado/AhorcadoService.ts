@@ -8,9 +8,10 @@ export interface CreateAhorcadoPayload extends ConfigurationActivity, AhorcadoIn
 
 const registerAhorcadoApi = async (data: CreateAhorcadoPayload): Promise<void> => {
   try {
+    
     await api.post(urls.Ahorcado, data);
   } catch (error) {
-    console.error("Error al crear el curso:", error); // TODO: REMOVE_DEBUG
+    console.error("Error al crear el ahorcado:", error); 
     throw error;
   }
 };

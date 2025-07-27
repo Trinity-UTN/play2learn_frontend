@@ -1,7 +1,5 @@
-"use client";
-
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaCog,
@@ -41,17 +39,13 @@ const ConfigureActivityView: React.FC = () => {
 
   const [errors, setErrors] = useState<ConfigurationErrors>({});
   const [isPreviewMode, setIsPreviewMode] = useState(false);
-  // const {subjects, getSubject } = useSubject();
+  const { subjects, getSubject } = useSubject();
   const { registerConfigurationActivity } = useConfigurationActivity();
   const navigate = useNavigate();
-  // Mock data para materias
-  const subjects = [
-    { id: 1, name: "Matemáticas Básicas", code: "MAT101" },
-    { id: 2, name: "Álgebra Avanzada", code: "MAT201" },
-    { id: 3, name: "Cálculo I", code: "MAT301" },
-    { id: 4, name: "Geometría", code: "GEO101" },
-    { id: 5, name: "Estadística", code: "EST101" },
-  ];
+
+  useEffect(() => {
+    getSubject();
+  }, []);
 
   const difficultyOptions = [
     { value: "Fácil", color: "#10B981", icon: "🟢" },
@@ -122,7 +116,6 @@ const ConfigureActivityView: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Configuración guardada:", configuration);
       registerConfigurationActivity(configuration);
       navigate(`/dashboard/teacher/actividad/configuration/${code_game}`);
     }
@@ -386,7 +379,8 @@ const ConfigureActivityView: React.FC = () => {
                         <option value={0}>Seleccionar materia...</option>
                         {subjects.map((subject) => (
                           <option key={subject.id} value={subject.id}>
-                            {subject.code} - {subject.name}
+                            {subject.name} - {subject.course.year.name}{" "}
+                            {subject.course.name}{" "}
                           </option>
                         ))}
                       </select>

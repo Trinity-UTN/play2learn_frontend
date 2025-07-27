@@ -1,0 +1,184 @@
+.previewCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+.previewCard:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.cardIcon {
+  font-size: 1.5rem;
+  color: #667eea;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.previewBadge {
+  margin-left: auto;
+}
+.gamePreview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.hangmanDisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 2rem;
+  min-height: 300px;
+}
+
+.hangmanArt {
+  font-family: "Courier New", monospace;
+  font-size: 1rem;
+  line-height: 1.2;
+  color: #374151;
+  margin: 0;
+  white-space: pre;
+  text-align: center;
+}
+
+.gameInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.wordDisplay {
+  text-align: center;
+}
+
+.wordTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 0.75rem 0;
+}
+
+.wordLetters {
+  font-family: "Courier New", monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  letter-spacing: 0.5rem;
+  background: #f3f4f6;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px dashed #d1d5db;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gameStats {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 6px;
+}
+
+.statLabel {
+  font-weight: 500;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.statValue {
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 0.875rem;
+}
+
+.previewControls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.guessInput {
+  flex: 1;
+  max-width: 80px;
+  text-align: center;
+  font-family: "Courier New", monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.guessButton {
+  white-space: nowrap;
+}
+
+.guessedLetters {
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.guessedLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.lettersList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.guessedLetter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.guessedLetter.correct {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.guessedLetter.incorrect {
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
