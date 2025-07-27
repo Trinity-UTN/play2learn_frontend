@@ -8,11 +8,20 @@ import Input from "../../../shared/components/Input/InputComponent";
 import { useYear } from "../../hooks/useYear";
 import { useCourse } from "../../hooks/useCourse";
 import styles from "./CreateCourseView.module.css";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CreateCourseView: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const isEditMode = Boolean(id);
   const { getYear, years } = useYear();
-  const { registerCourse, loading } = useCourse();
-
+  const {
+    registerCourse,
+    loading,
+    updateCourse,
+    getCourseById,
+    selectedCourse,
+  } = useCourse();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     year_id: 0,
@@ -24,14 +33,44 @@ const CreateCourseView: React.FC = () => {
       year_id: 0,
     });
   };
+  useEffect(() => {
+    if (isEditMode && id) {
+      const loadCourseData = async () => {
+        try {
+          setFormData({
+            name: selectedCourse?.name || "",
+            year_id: selectedCourse?.year.id || 0,
+          });
+        } catch (error) {
+          console.error("Error al cargar el curso:", error);
+          navigate("/dashboard/courses/list");
+        }
+      };
+      loadCourseData();
+    }
+  }, [id, isEditMode, getCourseById, navigate]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await registerCourse(formData);
-      alert("Curso creado exitosamente.");
-      resetFormData();
+      if (isEditMode && id) {
+        const idN = id ? Number(id) : 0;
+        const data = { id: idN, ...formData };
+
+        await updateCourse(data);
+        alert("Curso actualizado exitosamente.");
+        navigate("/dashboard/courses/list");
+      } else {
+        await registerCourse(formData);
+        alert("Curso creado exitosamente.");
+        resetFormData();
+      }
     } catch (err) {
-      alert("Hubo un error al crear el curso.");
+      alert(
+        isEditMode
+          ? "Hubo un error al actualizar el Curso."
+          : "Hubo un error al crear el Curso."
+      );
     }
   };
 
@@ -43,7 +82,9 @@ const CreateCourseView: React.FC = () => {
     getYear();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const handleCancel = () => {
+    navigate("/dashboard/courses/list");
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -96,9 +137,20 @@ const CreateCourseView: React.FC = () => {
           <div className={styles.buttonGroup}>
             <Button type="submit" variant="primary">
               <FaSave className={styles.buttonIcon} />
-              {loading ? "cargando..." : "Crear Curso"}
+              {loading
+                ? isEditMode
+                  ? "Actualizando..."
+                  : "Creando..."
+                : isEditMode
+                ? "Actualizar Curso"
+                : "Crear Curso"}
             </Button>
-            <Button type="button" variant="outline" disabled={loading}>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={loading}
+              onClick={handleCancel}
+            >
               Cancelar
             </Button>
           </div>
