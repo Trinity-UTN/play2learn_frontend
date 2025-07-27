@@ -1,10 +1,10 @@
-interface Word {
+export interface Word {
   word: string;
   wordOrder: number;
   isMissing: boolean;
 }
 
-interface Sentence {
+export interface Sentence {
   words: Word[];
 }
 

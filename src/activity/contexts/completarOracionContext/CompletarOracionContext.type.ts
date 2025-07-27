@@ -1,8 +1,6 @@
-import type { CreateCompletarOracionPayload } from "../../services/completarOracion/CompletarOracionService";
+import type { CompletarOracionInterface } from "../../types/CompletarOracion.type";
 
 export interface CompletarOracionContextType {
   loading: boolean;
-  registrarCompletarOracion: (
-    data: CreateCompletarOracionPayload
-  ) => Promise<void>;
+  registrarCompletarOracion: (data: CompletarOracionInterface) => Promise<void>;
 }

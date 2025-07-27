@@ -1,0 +1,283 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.previewHeader {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.description {
+  color: #374151;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.stat {
+  text-align: center;
+  padding: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  min-width: 100px;
+}
+
+.statNumber {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.previewControls {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.activityContainer {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.activityHeader {
+  margin-bottom: 1.5rem;
+}
+
+.activityHeader h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.sentenceContainer {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+
+.sentenceNumber {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1rem;
+  margin-top: 0.25rem;
+  min-width: 1.5rem;
+}
+
+.sentenceContent {
+  flex: 1;
+  line-height: 2;
+  font-size: 1rem;
+}
+
+.wordContainer {
+  display: inline;
+}
+
+.blankContainer {
+  display: inline-block;
+  position: relative;
+  margin: 0 0.125rem;
+}
+
+.blankInput {
+  border: none;
+  border-bottom: 2px solid #374151;
+  background: transparent;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  min-width: 80px;
+  text-align: center;
+  transition: border-color 0.2s ease;
+}
+
+.blankInput:focus {
+  outline: none;
+  border-bottom-color: #667eea;
+}
+
+.blankInput.correct {
+  border-bottom-color: #10b981;
+  background-color: #d1fae5;
+}
+
+.blankInput.incorrect {
+  border-bottom-color: #ef4444;
+  background-color: #fee2e2;
+}
+
+.correctAnswer {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #10b981;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-top: 0.25rem;
+}
+
+.correctAnswer::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid #10b981;
+}
+
+.visibleWord {
+  color: #374151;
+}
+
+.completeSentence {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #1e40af;
+}
+
+.completeSentence strong {
+  color: #1e3a8a;
+}
+
+.previewFooter {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.instructions h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.75rem 0;
+}
+
+.instructions ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: #374151;
+}
+
+.instructions li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.instructions li:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats {
+    gap: 1rem;
+  }
+
+  .stat {
+    padding: 0.75rem;
+    min-width: 80px;
+  }
+
+  .statNumber {
+    font-size: 1.25rem;
+  }
+
+  .previewControls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .activityContainer {
+    padding: 1.5rem;
+  }
+
+  .sentenceContainer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sentenceNumber {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .blankInput {
+    min-width: 60px;
+    font-size: 0.875rem;
+  }
+
+  .activityContainer {
+    padding: 1rem;
+  }
+
+  .sentenceContent {
+    font-size: 0.875rem;
+    line-height: 1.8;
+  }
+}
+
+/* Animation Classes */
+.fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
