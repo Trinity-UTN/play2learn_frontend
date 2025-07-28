@@ -1,8 +1,7 @@
-import CreateAhorcado from '../components/createAhorcado/CreateAhorcado';
-import JuegoPrueba from '../components/juegoPrueba/JuegoPrueba';
-
+import CreateAhorcado from "../components/createAhorcado/CreateAhorcado";
+import CreateCompletarOracion from "../components/createCompletarOracion/CreateCompletarOracion";
 
 export const activityComponentMap: Record<string, React.ComponentType> = {
-    ahorcado_educativo: CreateAhorcado,
-    completar_oraciones: JuegoPrueba,
+  ahorcado_educativo: CreateAhorcado,
+  completar_oraciones: CreateCompletarOracion,
 };
