@@ -15,6 +15,9 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
   children,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [questionErrors, setQuestionErrorsState] = useState<{
+    [questionIndex: number]: { [field: string]: string };
+  }>({});
   const { configurationActivity } = useConfigurationActivity();
 
   const registrarPreguntados = async (
@@ -34,6 +37,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
 
     try {
       await PreguntadosService.registerPreguntadosApi(dataMandar);
+      clearAllQuestionErrors();
     } catch (error) {
       console.error("Error al crear la actividad (completar oración):", error); // TODO: REMOVE_DEBUG
       throw error;
@@ -42,9 +46,35 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
     }
   };
 
+  const setQuestionErrors = (
+    questionIndex: number,
+    errors: { [field: string]: string }
+  ) => {
+    setQuestionErrorsState((prev) => ({
+      ...prev,
+      [questionIndex]: errors,
+    }));
+  };
+
+  const clearQuestionErrors = (questionIndex: number) => {
+    setQuestionErrorsState((prev) => {
+      const newErrors = { ...prev };
+      delete newErrors[questionIndex];
+      return newErrors;
+    });
+  };
+
+  const clearAllQuestionErrors = () => {
+    setQuestionErrorsState({});
+  };
+
   const contextValue: PreguntadosContextType = {
     loading,
+    questionErrors,
     registrarPreguntados,
+    setQuestionErrors,
+    clearQuestionErrors,
+    clearAllQuestionErrors,
   };
 
   return (

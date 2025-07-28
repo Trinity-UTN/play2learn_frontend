@@ -8,6 +8,11 @@ export interface Question {
   options: Option[];
 }
 
+export interface PreguntadosConfig {
+  totalQuestions: number;
+  maxTimePerQuestionInSeconds: number;
+}
+
 export interface PreguntadosInterface {
   attempts: number;
   maxTimePerQuestionInSeconds: number;
