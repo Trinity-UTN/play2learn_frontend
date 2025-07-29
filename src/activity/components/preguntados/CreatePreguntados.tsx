@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaQuestionCircle, FaArrowRight, FaUndo } from "react-icons/fa";
 import Button from "../../../shared/components/Button/ButtonComponent";
+import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
 import GeneralConfiguration from "./components/generalConfig/GeneralConfiguration";
 import QuestionCreator from "./components/questionCreator/QuestionCreator";
 import PreguntadosPreview from "./components/preguntadosPreview/PreguntadosPreview";
@@ -18,6 +19,14 @@ const CreatePreguntados = () => {
   const { loading, registrarPreguntados } = usePreguntados();
   const navigate = useNavigate();
 
+  const [alertConfig, setAlertConfig] = useState({
+    title: "",
+    message: "",
+    type: "warning" as "warning" | "danger",
+    isOpen: false,
+    showDoubleConfirmation: false,
+    onConfirm: () => {},
+  });
   const [currentStep, setCurrentStep] = useState<
     "config" | "questions" | "preview"
   >("config");
@@ -234,11 +243,21 @@ const CreatePreguntados = () => {
   };
 
   const handleReset = () => {
-    setConfig({ totalQuestions: 5, maxTimePerQuestionInSeconds: 30 });
-    setQuestions([]);
-    setCurrentStep("config");
-    setCurrentQuestionIndex(0);
-    setErrors([]);
+    setAlertConfig({
+      title: "Reiniciar Actividad",
+      message: "¿Está seguro que desea reiniciar la creación de la actividad?",
+      type: "warning",
+      isOpen: true,
+      showDoubleConfirmation: false,
+      onConfirm: () => {
+        setConfig({ totalQuestions: 5, maxTimePerQuestionInSeconds: 30 });
+        setQuestions([]);
+        setCurrentStep("config");
+        setCurrentQuestionIndex(0);
+        setErrors([]);
+        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+      },
+    });
   };
 
   const getStepTitle = () => {
@@ -444,6 +463,17 @@ const CreatePreguntados = () => {
             )}
           </div>
         </div>
+
+        <ConfirmationModal
+          title={alertConfig.title}
+          message={alertConfig.message}
+          type={alertConfig.type}
+          isOpen={alertConfig.isOpen}
+          showDoubleConfirmation={alertConfig.showDoubleConfirmation}
+          doubleConfirmationText=""
+          onConfirm={alertConfig.onConfirm}
+          onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
+        />
       </motion.div>
     </>
   );
