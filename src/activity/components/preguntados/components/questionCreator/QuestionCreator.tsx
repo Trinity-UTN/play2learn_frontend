@@ -53,6 +53,7 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
     visible: { opacity: 1, y: 0 },
   };
 
+  // Función para validar la pregunta actual y retornar errores específicos
   const validateCurrentQuestion = (
     questionData: Question
   ): { [key: string]: string } => {
@@ -160,21 +161,48 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
   };
 
   const handleSaveAndGoToQuestion = (index: number) => {
-    // Guardar antes de cambiar de pregunta
-    handleSave();
-    onGoToQuestion(index);
+    if (index !== questionIndex) {
+      handleSave();
+      onGoToQuestion(index);
+    }
+  };
+
+  // TODO: DELETE - Comentar o eliminar esta sección en producción
+  const handleDebugFill = () => {
+    const debugQuestion: Question = {
+      question: `Pregunta ${questionIndex + 1}`,
+      options: [
+        { option: "R1", isCorrect: true },
+        { option: "R2", isCorrect: false },
+        { option: "R3", isCorrect: false },
+        { option: "R4", isCorrect: false },
+      ],
+    };
+    setFormData(debugQuestion);
   };
 
   const currentErrors = questionErrors[questionIndex] || {};
   const hasErrors = Object.keys(currentErrors).length > 0;
-
   const currentStatus = getQuestionStatus(formData);
 
   return (
     <motion.div variants={itemVariants} className={styles.container}>
       {/* Navegador de preguntas */}
       <div className={styles.questionNavigator}>
-        <h4 className={styles.navigatorTitle}>Navegador de Preguntas</h4>
+        <div className={styles.navigatorHeader}>
+          <h4 className={styles.navigatorTitle}>Navegador de Preguntas</h4>
+          {/* ========== INICIO BOTÓN DEBUG ========== */}
+          {/* TODO: DELETE - Comentar o eliminar esta sección en producción */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleDebugFill}
+            className={styles.debugButton}
+          >
+            DEBUG
+          </Button>
+          {/* ========== FIN BOTÓN DEBUG ========== */}
+        </div>
         <div className={styles.questionTabs}>
           {questions.map((q, index) => {
             const status = getQuestionStatus(q);
