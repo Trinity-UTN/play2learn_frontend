@@ -2,7 +2,6 @@ import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  FaPlay,
   FaRedo,
   FaClock,
   FaQuestionCircle,
@@ -30,7 +29,6 @@ const PreguntadosPreview: React.FC<PreguntadosPreviewProps> = ({
     [key: number]: number;
   }>({});
   const [showAnswers, setShowAnswers] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -62,16 +60,10 @@ const PreguntadosPreview: React.FC<PreguntadosPreviewProps> = ({
     setCurrentQuestionIndex(0);
     setSelectedAnswers({});
     setShowAnswers(false);
-    setIsPlaying(false);
   };
 
   const toggleAnswers = () => {
     setShowAnswers(!showAnswers);
-  };
-
-  const startPreview = () => {
-    setIsPlaying(true);
-    resetPreview();
   };
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -112,36 +104,7 @@ const PreguntadosPreview: React.FC<PreguntadosPreviewProps> = ({
             </span>
             <span className={styles.statLabel}>Segundos por pregunta</span>
           </div>
-          <div className={styles.stat}>
-            <span className={styles.statNumber}>
-              {Math.ceil(
-                (questions.length * config.maxTimePerQuestionInSeconds) / 60
-              )}
-            </span>
-            <span className={styles.statLabel}>Minutos totales</span>
-          </div>
         </div>
-      </div>
-
-      <div className={styles.previewControls}>
-        <Button variant="secondary" onClick={resetPreview} size="sm">
-          <FaRedo />
-          Reiniciar
-        </Button>
-        <Button
-          variant={showAnswers ? "danger" : "primary"}
-          onClick={toggleAnswers}
-          size="sm"
-        >
-          {showAnswers ? <FaTimes /> : <FaCheck />}
-          {showAnswers ? "Ocultar" : "Mostrar"} Respuestas
-        </Button>
-        {!isPlaying && (
-          <Button variant="primary" onClick={startPreview} size="sm">
-            <FaPlay />
-            Iniciar Preview
-          </Button>
-        )}
       </div>
 
       {questions.length > 0 && (
@@ -262,19 +225,19 @@ const PreguntadosPreview: React.FC<PreguntadosPreviewProps> = ({
         </div>
       )}
 
-      <div className={styles.previewFooter}>
-        <div className={styles.instructions}>
-          <h5>Instrucciones para los estudiantes:</h5>
-          <ul>
-            <li>Lee cada pregunta cuidadosamente</li>
-            <li>
-              Tienes {config.maxTimePerQuestionInSeconds} segundos para
-              responder cada pregunta
-            </li>
-            <li>Selecciona la opción que consideres correcta</li>
-            <li>Una vez seleccionada, no podrás cambiar tu respuesta</li>
-          </ul>
-        </div>
+      <div className={styles.previewControls}>
+        <Button variant="secondary" onClick={resetPreview} size="sm">
+          <FaRedo />
+          Reiniciar
+        </Button>
+        <Button
+          variant={showAnswers ? "danger" : "primary"}
+          onClick={toggleAnswers}
+          size="sm"
+        >
+          {showAnswers ? <FaTimes /> : <FaCheck />}
+          {showAnswers ? "Ocultar" : "Mostrar"} Respuestas
+        </Button>
       </div>
     </motion.div>
   );
