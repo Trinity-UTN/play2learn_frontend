@@ -28,7 +28,7 @@ const CreateAhorcado = () => {
     setIsFormValid(formValid);
   }, [ahorcadoData.word, errors, isPreviewMode]);
 
-  const handleSummit = async () => {
+  const handleSubmit = async () => {
     handleSave();
     alert("Actividad creada exitosamente");
     navigate("/dashboard/teacher/actividades/list");
