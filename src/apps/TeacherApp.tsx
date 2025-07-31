@@ -8,8 +8,8 @@ import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
 //PROVIDERS
 import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
-import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
-import { CreateAhorcadoProvider } from "../activity/components/createAhorcado/CreateAhorcadoContext";
+
+import { CreateAhorcadoProvider } from "../activity/contexts/createAhorcadoContext/CreateAhorcadoProvider";
 import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 //VIEWS
@@ -38,7 +38,7 @@ const TeacherApp = () => {
               <ProtectedRoute allowedRoles={["ROLE_TEACHER"]}>
                 <SubjectProvider>
                   <ConfigurationActivityProvider>
-                    <AhorcadoProvider>
+                    <CreateAhorcadoProvider>
                       <CompletarOracionProvider>
                         <PreguntadosProvider>
                           <motion.div
@@ -52,7 +52,7 @@ const TeacherApp = () => {
                           </motion.div>
                         </PreguntadosProvider>
                       </CompletarOracionProvider>
-                    </AhorcadoProvider>
+                    </CreateAhorcadoProvider>
                   </ConfigurationActivityProvider>
                 </SubjectProvider>
               </ProtectedRoute>
@@ -72,11 +72,7 @@ const TeacherApp = () => {
             {/* VIEW SPECIFIC ACTIVITY */}
             <Route
               path="actividad/configuration/:code_game"
-              element={
-                <CreateAhorcadoProvider>
-                  <ActivityView />
-                </CreateAhorcadoProvider>
-              }
+              element={<ActivityView />}
             />
 
             {/* BENEFICIOS */}

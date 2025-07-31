@@ -1,6 +1,6 @@
-import CreateAhorcado from "../components/createAhorcado/CreateAhorcado";
-import CreateCompletarOracion from "../components/createCompletarOracion/CreateCompletarOracion";
-import CreatePreguntados from "../components/preguntados/CreatePreguntados";
+import CreateAhorcado from "../views/createAhorcadoView/CreateAhorcado";
+import CreateCompletarOracion from "../views/createCompletarOracionView/CreateCompletarOracion";
+import CreatePreguntados from "../views/createPreguntadosView/CreatePreguntados";
 
 export const activityComponentMap: Record<string, React.ComponentType> = {
   ahorcado_educativo: CreateAhorcado,
