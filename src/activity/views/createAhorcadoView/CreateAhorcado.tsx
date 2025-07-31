@@ -88,7 +88,7 @@ const CreateAhorcado = () => {
 
           <Button
             variant="primary"
-            onClick={handleSummit}
+            onClick={handleSubmit}
             disabled={!isFormValid}
             className={styles.saveButton}
           >
