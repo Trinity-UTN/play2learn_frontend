@@ -12,41 +12,28 @@ import {
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import type { Question } from "../../../types/Preguntados.type";
-import { usePreguntados } from "../../../hooks/usePreguntados";
+import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./QuestionCreator.module.css";
 
-interface QuestionCreatorProps {
-  question: Question;
-  questionIndex: number;
-  totalQuestions: number;
-  timePerQuestion: number;
-  questions: Question[];
-  onSave: (question: Question) => void;
-  onNext: () => void;
-  onPrevious: () => void;
-  onGoToQuestion: (index: number) => void;
-  onDeleteQuestion: (index: number) => void;
-  canDelete: boolean;
-  getQuestionStatus: (q: Question) => "complete" | "incomplete" | "empty";
-}
+const QuestionCreator: React.FC = () => {
+  const {
+    questions,
+    currentQuestionIndex,
+    config,
+    questionErrors,
+    handleQuestionSave,
+    handleNextQuestion,
+    handlePreviousQuestion,
+    handleGoToQuestion,
+    handleDeleteQuestion,
+    getQuestionStatus,
+    setQuestionErrors,
+    clearQuestionErrors,
+  } = useCreatePreguntados();
 
-const QuestionCreator: React.FC<QuestionCreatorProps> = ({
-  question,
-  questionIndex,
-  totalQuestions,
-  timePerQuestion,
-  questions,
-  onSave,
-  onNext,
-  onPrevious,
-  onGoToQuestion,
-  onDeleteQuestion,
-  canDelete,
-  getQuestionStatus,
-}) => {
-  const [formData, setFormData] = useState<Question>(question);
-  const { questionErrors, setQuestionErrors, clearQuestionErrors } =
-    usePreguntados();
+  const [formData, setFormData] = useState<Question>(
+    questions[currentQuestionIndex]
+  );
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -95,8 +82,8 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
 
   // Actualizar formData cuando cambie la pregunta
   useEffect(() => {
-    setFormData(question);
-  }, [question, questionIndex]);
+    setFormData(questions[currentQuestionIndex]);
+  }, [questions, currentQuestionIndex]);
 
   const handleQuestionChange = (value: string) => {
     setFormData((prev) => ({ ...prev, question: value }));
@@ -117,14 +104,14 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
   };
 
   const handleSave = () => {
-    onSave(formData);
+    handleQuestionSave(formData);
 
     // Validar y guardar errores
     const currentErrors = validateCurrentQuestion(formData);
     if (Object.keys(currentErrors).length > 0) {
-      setQuestionErrors(questionIndex, currentErrors);
+      setQuestionErrors(currentQuestionIndex, currentErrors);
     } else {
-      clearQuestionErrors(questionIndex);
+      clearQuestionErrors(currentQuestionIndex);
     }
   };
 
@@ -132,7 +119,8 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
     handleSave();
 
     // Si es la última pregunta (Finalizar), validar antes de continuar
-    if (questionIndex === totalQuestions - 1) {
+    if (currentQuestionIndex === config.totalQuestions - 1) {
+      // Validar que todas las preguntas estén completas
       const incompleteQuestions = questions
         .map((q, index) => ({
           question: q,
@@ -151,26 +139,27 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
         return;
       }
     }
-    onNext();
+    handleNextQuestion();
   };
 
   const handleSaveAndPrevious = () => {
     // Guardar antes de ir a la pregunta anterior
     handleSave();
-    onPrevious();
+    handlePreviousQuestion();
   };
 
   const handleSaveAndGoToQuestion = (index: number) => {
-    if (index !== questionIndex) {
+    if (index !== currentQuestionIndex) {
       handleSave();
-      onGoToQuestion(index);
+      handleGoToQuestion(index);
     }
   };
 
   // TODO: DELETE - Comentar o eliminar esta sección en producción
+  // ========== INICIO SECCIÓN DEBUG ==========
   const handleDebugFill = () => {
     const debugQuestion: Question = {
-      question: `Pregunta ${questionIndex + 1}`,
+      question: `Pregunta ${currentQuestionIndex + 1}`,
       options: [
         { option: "R1", isCorrect: true },
         { option: "R2", isCorrect: false },
@@ -180,8 +169,9 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
     };
     setFormData(debugQuestion);
   };
+  // ========== FIN SECCIÓN DEBUG ==========
 
-  const currentErrors = questionErrors[questionIndex] || {};
+  const currentErrors = questionErrors[currentQuestionIndex] || {};
   const hasErrors = Object.keys(currentErrors).length > 0;
   const currentStatus = getQuestionStatus(formData);
 
@@ -215,7 +205,7 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
                 type="button"
                 onClick={() => handleSaveAndGoToQuestion(index)}
                 className={`${styles.questionTab} ${
-                  index === questionIndex ? styles.active : ""
+                  index === currentQuestionIndex ? styles.active : ""
                 } ${styles[status]} ${hasTabErrors ? styles.hasErrors : ""}`}
                 title={
                   hasTabErrors
@@ -277,19 +267,21 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
             <FaQuestionCircle className={styles.questionIcon} />
             <div>
               <h3 className={styles.questionTitle}>
-                Pregunta {questionIndex + 1} de {totalQuestions}
+                Pregunta {currentQuestionIndex + 1} de {config.totalQuestions}
               </h3>
               <div className={styles.timeInfo}>
                 <FaClock className={styles.timeIcon} />
-                <span>Tiempo: {timePerQuestion} segundos</span>
+                <span>
+                  Tiempo: {config.maxTimePerQuestionInSeconds} segundos
+                </span>
               </div>
             </div>
           </div>
-          {canDelete && (
+          {questions.length > 5 && (
             <Button
               variant="danger"
               size="sm"
-              onClick={() => onDeleteQuestion(questionIndex)}
+              onClick={() => handleDeleteQuestion(currentQuestionIndex)}
               className={styles.deleteButton}
             >
               <FaTrash />
@@ -392,7 +384,7 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
           <Button
             variant="secondary"
             onClick={handleSaveAndPrevious}
-            disabled={questionIndex === 0}
+            disabled={currentQuestionIndex === 0}
             className={styles.navButton}
           >
             <FaArrowLeft />
@@ -413,11 +405,13 @@ const QuestionCreator: React.FC<QuestionCreatorProps> = ({
             onClick={handleSaveAndNext}
             className={styles.navButton}
             disabled={
-              questionIndex === totalQuestions - 1 &&
+              currentQuestionIndex === config.totalQuestions - 1 &&
               questions.some((q) => getQuestionStatus(q) !== "complete")
             }
           >
-            {questionIndex === totalQuestions - 1 ? "Finalizar" : "Siguiente"}
+            {currentQuestionIndex === config.totalQuestions - 1
+              ? "Finalizar"
+              : "Siguiente"}
             <FaArrowRight />
           </Button>
         </div>

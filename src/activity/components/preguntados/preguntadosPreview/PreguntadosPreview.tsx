@@ -9,21 +9,11 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
-import type {
-  Question,
-  PreguntadosConfig,
-} from "../../../types/Preguntados.type";
+import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./PreguntadosPreview.module.css";
 
-interface PreguntadosPreviewProps {
-  questions: Question[];
-  config: PreguntadosConfig;
-}
-
-const PreguntadosPreview: React.FC<PreguntadosPreviewProps> = ({
-  questions,
-  config,
-}) => {
+const PreguntadosPreview: React.FC = () => {
+  const { questions, config } = useCreatePreguntados();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<{
     [key: number]: number;
@@ -105,6 +95,21 @@ const PreguntadosPreview: React.FC<PreguntadosPreviewProps> = ({
             <span className={styles.statLabel}>Segundos por pregunta</span>
           </div>
         </div>
+      </div>
+
+      <div className={styles.previewControls}>
+        <Button variant="secondary" onClick={resetPreview} size="sm">
+          <FaRedo />
+          Reiniciar
+        </Button>
+        <Button
+          variant={showAnswers ? "danger" : "primary"}
+          onClick={toggleAnswers}
+          size="sm"
+        >
+          {showAnswers ? <FaTimes /> : <FaCheck />}
+          {showAnswers ? "Ocultar" : "Mostrar"} Respuestas
+        </Button>
       </div>
 
       {questions.length > 0 && (
@@ -224,21 +229,6 @@ const PreguntadosPreview: React.FC<PreguntadosPreviewProps> = ({
           </div>
         </div>
       )}
-
-      <div className={styles.previewControls}>
-        <Button variant="secondary" onClick={resetPreview} size="sm">
-          <FaRedo />
-          Reiniciar
-        </Button>
-        <Button
-          variant={showAnswers ? "danger" : "primary"}
-          onClick={toggleAnswers}
-          size="sm"
-        >
-          {showAnswers ? <FaTimes /> : <FaCheck />}
-          {showAnswers ? "Ocultar" : "Mostrar"} Respuestas
-        </Button>
-      </div>
     </motion.div>
   );
 };
