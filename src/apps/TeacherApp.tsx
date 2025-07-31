@@ -11,6 +11,7 @@ import { ConfigurationActivityProvider } from "../activity/contexts/configuratio
 import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
 import { CreateAhorcadoProvider } from "../activity/components/createAhorcado/CreateAhorcadoContext";
 import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
+import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 //VIEWS
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsView from "../teacher/views/benefitsView/BenefitsView";
@@ -39,15 +40,17 @@ const TeacherApp = () => {
                   <ConfigurationActivityProvider>
                     <AhorcadoProvider>
                       <CompletarOracionProvider>
-                        <motion.div
-                          key="dashboardTeacher"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <TeacherDashboardPage />
-                        </motion.div>
+                        <PreguntadosProvider>
+                          <motion.div
+                            key="dashboardTeacher"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <TeacherDashboardPage />
+                          </motion.div>
+                        </PreguntadosProvider>
                       </CompletarOracionProvider>
                     </AhorcadoProvider>
                   </ConfigurationActivityProvider>
