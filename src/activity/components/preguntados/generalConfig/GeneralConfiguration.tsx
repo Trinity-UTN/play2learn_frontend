@@ -5,17 +5,11 @@ import { FaCog, FaClock, FaQuestionCircle, FaArrowRight } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
 import type { PreguntadosConfig } from "../../../types/Preguntados.type";
+import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./GeneralConfiguration.module.css";
 
-interface GeneralConfigProps {
-  config: PreguntadosConfig;
-  onSubmit: (config: PreguntadosConfig) => void;
-}
-
-const GeneralConfiguration: React.FC<GeneralConfigProps> = ({
-  config,
-  onSubmit,
-}) => {
+const GeneralConfiguration: React.FC = () => {
+  const { config, handleConfigSubmit } = useCreatePreguntados();
   const [formData, setFormData] = useState<PreguntadosConfig>(config);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -57,7 +51,7 @@ const GeneralConfiguration: React.FC<GeneralConfigProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      onSubmit(formData);
+      handleConfigSubmit(formData);
     }
   };
 
@@ -164,7 +158,7 @@ const GeneralConfiguration: React.FC<GeneralConfigProps> = ({
             className={styles.submitButton}
           >
             <FaArrowRight />
-            Crear Preguntas
+            Comenzar a Crear Preguntas
           </Button>
         </div>
       </form>
