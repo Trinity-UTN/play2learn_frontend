@@ -1,0 +1,338 @@
+.container {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", sans-serif;
+}
+
+.container.topCenter {
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.container.topRight {
+  top: 20px;
+  right: 20px;
+}
+
+.container.bottomRight {
+  bottom: 20px;
+  right: 20px;
+}
+
+.container.bottomCenter {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toastList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.toast {
+  border-radius: 50px;
+  padding: 16px 20px;
+  pointer-events: auto;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  min-width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  overflow: visible;
+}
+
+.toast:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.toast.success {
+  background: #047857; /* Más oscuro que #059669 */
+  color: white;
+}
+
+.toast.error {
+  background: #b91c1c; /* Más oscuro que #dc2626 */
+  color: white;
+}
+
+.toast.warning {
+  background: #c2410c; /* Más oscuro que #d97706 */
+  color: white;
+}
+
+.toast.update {
+  background: #0284c7; /* Más oscuro que #0ea5e9 */
+  color: white;
+}
+
+.toast.info {
+  background: #1d4ed8; /* Más oscuro que #2563eb */
+  color: white;
+}
+
+/* Animación de fade-out */
+.toast.fadingOut {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.4s ease-out;
+}
+
+/* Línea de progreso que va por el borde exterior */
+.toast::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 53px;
+  padding: 3px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(75, 75, 75, 0.8) var(--progress, 0deg),
+    transparent var(--progress, 0deg)
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+  opacity: var(--show-progress, 0);
+  transition: opacity 0.2s ease;
+}
+
+.toast.withProgress::before {
+  opacity: 1;
+}
+
+.closeButton {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  width: 24px;
+  height: 24px;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 40px;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.2); /* Mantiene el fondo claro */
+}
+
+.icon {
+  font-size: 16px;
+  color: white;
+}
+
+.textContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Cuando hay mensaje, agregar margen inferior al título */
+.title.withMessage {
+  margin-bottom: 2px;
+}
+
+/* Cuando solo hay título, centrarlo verticalmente mejor */
+.textContent.titleOnly {
+  display: flex;
+  align-items: center;
+}
+
+.textContent.titleOnly .title {
+  font-size: 15px; /* Ligeramente más grande cuando es solo título */
+}
+
+.message {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.4;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.actionButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.actionButton:active {
+  transform: translateY(0);
+}
+
+/* Animaciones de entrada y salida */
+.toastEnter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.toastEnterActive {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toastExit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toastExitActive {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Animaciones para posiciones específicas */
+.container.topCenter .toastEnter,
+.container.bottomCenter .toastEnter {
+  transform: translateY(-100%) scale(0.8);
+}
+
+.container.topCenter .toastEnterActive,
+.container.bottomCenter .toastEnterActive {
+  transform: translateY(0) scale(1);
+}
+
+.container.topCenter .toastExit,
+.container.bottomCenter .toastExit {
+  transform: translateY(0) scale(1);
+}
+
+.container.topCenter .toastExitActive,
+.container.bottomCenter .toastExitActive {
+  transform: translateY(-100%) scale(0.8);
+}
+
+.container.bottomCenter .toastEnter {
+  transform: translateY(100%) scale(0.8);
+}
+
+.container.bottomCenter .toastExitActive {
+  transform: translateY(100%) scale(0.8);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .container {
+    left: 16px !important;
+    right: 16px !important;
+    transform: none !important;
+  }
+
+  .container.topCenter,
+  .container.bottomCenter {
+    left: 16px !important;
+    transform: none !important;
+  }
+
+  .toast {
+    min-width: auto;
+    width: 100%;
+    border-radius: 40px;
+  }
+
+  .toast::before {
+    border-radius: 43px;
+  }
+
+  .toastList {
+    max-width: none;
+  }
+
+  .content {
+    margin-right: 36px;
+  }
+
+  .title {
+    font-size: 13px;
+  }
+
+  .textContent.titleOnly .title {
+    font-size: 14px;
+  }
+
+  .message {
+    font-size: 12px;
+  }
+
+  .iconWrapper {
+    width: 28px;
+    height: 28px;
+  }
+
+  .icon {
+    font-size: 14px;
+  }
+
+  .closeButton {
+    width: 20px;
+    height: 20px;
+    right: 12px;
+  }
+}
