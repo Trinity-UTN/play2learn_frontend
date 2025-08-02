@@ -8,7 +8,7 @@ import type {
 } from "../../types/OrdenarSecuencia.type";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import { OrdenarSecuenciaService } from "../../services/ordenarSecuencia/OrdenarSecuenciaService";
-
+import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 interface OrdenarSecuenciaProviderProps {
   children: ReactNode;
 }
@@ -24,18 +24,19 @@ export const OrdenarSecuenciaProvider: React.FC<
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [eventImages, setEventImages] = useState<(File | null)[]>([]);
   const { showToast } = useToaster();
-
+  const { configurationActivity } = useConfigurationActivity();
   //ACTIONS
   const registrarOrdernarSecuencia = async (formData: FormData) => {
     await OrdenarSecuenciaService.registerOrdenarSecuenciaApi(formData);
   };
+  //Agregar un nuevo evento
   const addEvent = (eventData: Omit<SequenceEvent, "id" | "order">) => {
     if (events.length >= cantEvents) return;
 
     const newEvent: SequenceEvent = {
       ...eventData,
       id: `event-${Date.now()}-${Math.random()}`,
-      order: events.length + 1,
+      order: events.length,
     };
 
     setEvents((prev) => [...prev, newEvent]);
@@ -50,6 +51,7 @@ export const OrdenarSecuenciaProvider: React.FC<
     }
   };
 
+  //modificar evento
   const updateEvent = (id: string, updatedEvent: Partial<SequenceEvent>) => {
     setEvents((prev) =>
       prev.map((event) =>
@@ -58,6 +60,7 @@ export const OrdenarSecuenciaProvider: React.FC<
     );
   };
 
+  //borrar elemento
   const deleteEvent = (id: string) => {
     const indexToRemove = events.findIndex((event) => event.id === id);
     if (indexToRemove === -1) return;
@@ -66,7 +69,7 @@ export const OrdenarSecuenciaProvider: React.FC<
       const filtered = prev.filter((event) => event.id !== id);
       return filtered.map((event, index) => ({
         ...event,
-        order: index + 1,
+        order: index,
       }));
     });
     setEventImages((prev) => {
@@ -76,10 +79,11 @@ export const OrdenarSecuenciaProvider: React.FC<
     });
   };
 
+  //reordenar eventos
   const reorderEvents = (newOrder: SequenceEvent[]) => {
     const reorderedEvents = newOrder.map((event, index) => ({
       ...event,
-      order: index + 1,
+      order: index,
     }));
     const reorderedImages = newOrder.map((event) => {
       const originalIndex = events.findIndex((e) => e.id === event.id);
@@ -89,7 +93,14 @@ export const OrdenarSecuenciaProvider: React.FC<
     setEvents(reorderedEvents);
     setEventImages(reorderedImages);
   };
-
+  //Resetear formulario
+  const resetForm = () => {
+    setEvents([]);
+    setEventImages([]);
+    setAttempts(3);
+    setShowPreview(false);
+  };
+  //Mandar enventos
   const handleSubmit = async () => {
     if (events.length < 2) {
       showToast({
@@ -115,19 +126,21 @@ export const OrdenarSecuenciaProvider: React.FC<
         events: eventPayloads,
       };
 
+      //Anidamos los atributos de la configuracion general con la de la actividad particular
+      const sequenceDataFinal = {
+        ...sequencePayload,
+        ...configurationActivity,
+      };
       // Agregar el payload como JSON
-      formData.append("payload", JSON.stringify(sequencePayload));
+      formData.append("payload", JSON.stringify(sequenceDataFinal));
 
       // Agregar las imágenes
       eventImages.forEach((image, index) => {
         if (image) {
-          formData.append(`${index + 1}`, image);
+          formData.append(`${index}`, image);
         }
       });
 
-      formData.forEach((value, key) => {
-        console.log(`${key}:`, value);
-      });
       await registrarOrdernarSecuencia(formData);
       showToast({
         title: "Secuencia creada exitosamente!",
@@ -136,9 +149,7 @@ export const OrdenarSecuenciaProvider: React.FC<
       });
 
       // Reset del formulario
-      //   setEvents([]);
-      //   setAttempts(3);
-      setShowPreview(false);
+      resetForm();
     } catch (error) {
       console.error("Error al crear la secuencia:", error);
       showToast({

@@ -89,7 +89,7 @@ const EventCard: React.FC<EventCardProps> = ({
           <FaGripVertical className={styles.gripIcon} />
         </div>
         <div className={styles.orderBadge}>
-          <span className={styles.orderNumber}>{event.order}</span>
+          <span className={styles.orderNumber}>{event.order + 1}</span>
         </div>
         <div className={styles.cardActions}>
           {!isEditing ? (
