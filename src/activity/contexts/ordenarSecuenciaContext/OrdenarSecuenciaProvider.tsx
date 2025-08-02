@@ -7,6 +7,7 @@ import type {
   SequenceEvent,
 } from "../../types/OrdenarSecuencia.type";
 import { useToaster } from "../../../shared/hooks/useToaster";
+import { OrdenarSecuenciaService } from "../../services/ordenarSecuencia/OrdenarSecuenciaService";
 
 interface OrdenarSecuenciaProviderProps {
   children: ReactNode;
@@ -25,6 +26,9 @@ export const OrdenarSecuenciaProvider: React.FC<
   const { showToast } = useToaster();
 
   //ACTIONS
+  const registrarOrdernarSecuencia = async (formData: FormData) => {
+    await OrdenarSecuenciaService.registerOrdenarSecuenciaApi(formData);
+  };
   const addEvent = (eventData: Omit<SequenceEvent, "id" | "order">) => {
     if (events.length >= cantEvents) return;
 
@@ -53,7 +57,11 @@ export const OrdenarSecuenciaProvider: React.FC<
       )
     );
   };
+
   const deleteEvent = (id: string) => {
+    const indexToRemove = events.findIndex((event) => event.id === id);
+    if (indexToRemove === -1) return;
+
     setEvents((prev) => {
       const filtered = prev.filter((event) => event.id !== id);
       return filtered.map((event, index) => ({
@@ -61,14 +69,27 @@ export const OrdenarSecuenciaProvider: React.FC<
         order: index + 1,
       }));
     });
+    setEventImages((prev) => {
+      const newImages = [...prev];
+      newImages.splice(indexToRemove, 1);
+      return newImages;
+    });
   };
+
   const reorderEvents = (newOrder: SequenceEvent[]) => {
     const reorderedEvents = newOrder.map((event, index) => ({
       ...event,
       order: index + 1,
     }));
+    const reorderedImages = newOrder.map((event) => {
+      const originalIndex = events.findIndex((e) => e.id === event.id);
+      return eventImages[originalIndex] ?? null;
+    });
+
     setEvents(reorderedEvents);
+    setEventImages(reorderedImages);
   };
+
   const handleSubmit = async () => {
     if (events.length < 2) {
       showToast({
@@ -78,9 +99,7 @@ export const OrdenarSecuenciaProvider: React.FC<
       });
       return;
     }
-
     setIsSubmitting(true);
-
     try {
       const formData = new FormData();
 
@@ -97,19 +116,19 @@ export const OrdenarSecuenciaProvider: React.FC<
       };
 
       // Agregar el payload como JSON
-      formData.append("sequenceData", JSON.stringify(sequencePayload));
+      formData.append("payload", JSON.stringify(sequencePayload));
 
       // Agregar las imágenes
       eventImages.forEach((image, index) => {
         if (image) {
-          formData.append(`${index}`, image);
+          formData.append(`${index + 1}`, image);
         }
       });
 
       formData.forEach((value, key) => {
         console.log(`${key}:`, value);
       });
-
+      await registrarOrdernarSecuencia(formData);
       showToast({
         title: "Secuencia creada exitosamente!",
         type: "success",
@@ -131,6 +150,7 @@ export const OrdenarSecuenciaProvider: React.FC<
       setIsSubmitting(false);
     }
   };
+
   const contextValue: OrdenarSecuenciaContextType = {
     //STATES
     attempts,
