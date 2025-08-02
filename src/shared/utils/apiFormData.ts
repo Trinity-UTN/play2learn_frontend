@@ -4,7 +4,6 @@ import AuthService from "../../user/services/auth/AuthService";
 import { BASE_URL } from "./apiAuth";
 const formDataApi = axios.create({
   baseURL: BASE_URL,
-  // NO pongas Content-Type acá
 });
 
 formDataApi.interceptors.request.use(async (config) => {
