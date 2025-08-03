@@ -5,7 +5,7 @@ export const useCreateOrdenarSecuencia = () => {
   const context = useContext(OrdenarSecuenciaContext);
   if (!context) {
     throw new Error(
-      "useCreatePreguntados must be used within an CreatePreguntadosProvider"
+      "useOrdenarSecuencia must be used within an OrdenarSecuenciaProvider"
     );
   }
   return context;
