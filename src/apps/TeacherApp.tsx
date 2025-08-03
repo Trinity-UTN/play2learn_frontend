@@ -8,7 +8,7 @@ import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
 //PROVIDERS
 import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
-
+import { OrdenarSecuenciaProvider } from "../activity/contexts/ordenarSecuenciaContext/OrdenarSecuenciaProvider";
 import { CreateAhorcadoProvider } from "../activity/contexts/createAhorcadoContext/CreateAhorcadoProvider";
 import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
@@ -41,15 +41,17 @@ const TeacherApp = () => {
                     <CreateAhorcadoProvider>
                       <CompletarOracionProvider>
                         <PreguntadosProvider>
-                          <motion.div
-                            key="dashboardTeacher"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <TeacherDashboardPage />
-                          </motion.div>
+                          <OrdenarSecuenciaProvider>
+                            <motion.div
+                              key="dashboardTeacher"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <TeacherDashboardPage />
+                            </motion.div>
+                          </OrdenarSecuenciaProvider>
                         </PreguntadosProvider>
                       </CompletarOracionProvider>
                     </CreateAhorcadoProvider>

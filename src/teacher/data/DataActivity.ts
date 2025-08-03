@@ -45,19 +45,20 @@ export const activities: Activity[] = [
     features: ["Conocimiento", "Rapidez", "Memoria"],
     isPopular: true,
   },
-  // {
-  //   id: 4,
-  //   name: "Ordenar Secuencias",
-  //   type: "Lógica y Orden",
-  //   description:
-  //     "Organiza elementos en el orden correcto según criterios específicos.",
-  //   difficulty: "Medio",
-  //   duration: "10-15 min",
-  //   subject: "Matemáticas",
-  //   icon: "sequence",
-  //   color: "#9333ea",
-  //   features: ["Lógica", "Secuencias", "Orden", "Análisis"],
-  // },
+  {
+    id: 4,
+    name: "Ordenar Secuencias",
+    code_game: "ordenar_secuencia",
+    type: "Lógica y Orden",
+    description:
+      "Organiza elementos en el orden correcto según criterios específicos.",
+    difficulty: "Medio",
+    duration: "10-15 min",
+    subject: "Matemáticas",
+    icon: "sequence",
+    color: "#9333ea",
+    features: ["Lógica", "Secuencias", "Orden", "Análisis"],
+  },
   // {
   //   id: 5,
   //   name: "Rompecabezas Numérico",
