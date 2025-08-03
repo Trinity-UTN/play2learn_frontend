@@ -5,7 +5,7 @@ export interface EventPayload {
 }
 
 export interface CreateSequencePayload {
-  attempts: number;
+  attempts: number; // TODO: ATTEMPTS REMOVAL
   events: EventPayload[];
 }
 
