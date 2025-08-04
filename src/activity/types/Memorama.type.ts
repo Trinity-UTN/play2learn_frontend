@@ -1,4 +1,4 @@
-export interface MemoraPair {
+export interface MemoramaPair {
   concept: string;
   image: File | null;
 }
@@ -10,18 +10,6 @@ export interface MemoramaConfig {
 
 export interface MemoramaInterface {
   attempts: number; //TODO: ATTEMPTS REMOVAL
-  concepts: string[];
-  images: File[];
-}
-
-export interface MemoramaFormData {
-  description: string;
-  startDate: string;
-  endDate: string;
-  dificulty: string;
-  maxTime: string;
-  subjectId: string;
-  attempts: string;
   concepts: string[];
   images: File[];
 }

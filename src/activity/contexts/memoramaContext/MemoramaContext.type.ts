@@ -1,4 +1,4 @@
-import type { MemoraPair, MemoramaConfig } from "../../types/Memorama.type";
+import type { MemoramaPair, MemoramaConfig } from "../../types/Memorama.type";
 import type { MemoramaInterface } from "../../types/Memorama.type";
 
 export interface MemoramaContextType {
@@ -6,7 +6,7 @@ export interface MemoramaContextType {
   loading: boolean;
   currentStep: "config" | "pairs" | "preview";
   config: MemoramaConfig;
-  pairs: MemoraPair[];
+  pairs: MemoramaPair[];
   currentPairIndex: number;
   errors: string[];
   pairErrors: { [pairIndex: number]: { [field: string]: string } };
@@ -17,7 +17,7 @@ export interface MemoramaContextType {
 
   // Handlers principales
   handleConfigSubmit: (newConfig: MemoramaConfig) => void;
-  handlePairSave: (pairData: MemoraPair) => void;
+  handlePairSave: (pairData: MemoramaPair) => void;
   handleNextPair: () => void;
   handlePreviousPair: () => void;
   handleGoToPair: (index: number) => void;
@@ -27,7 +27,7 @@ export interface MemoramaContextType {
   handleReset: () => void;
 
   // Funciones de utilidad
-  getPairStatus: (pair: MemoraPair) => "complete" | "incomplete" | "empty";
+  getPairStatus: (pair: MemoramaPair) => "complete" | "incomplete" | "empty";
   getStepTitle: () => string;
   getCompletedPairs: () => number;
   getIncompletePairs: () => number;

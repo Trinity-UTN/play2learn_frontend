@@ -4,7 +4,7 @@ import { MemoramaContext } from "./MemoramaContext";
 import type { MemoramaContextType } from "./MemoramaContext.type";
 import { MemoramaService } from "../../services/memorama/MemoramaService";
 import type {
-  MemoraPair,
+  MemoramaPair,
   MemoramaConfig,
   MemoramaInterface,
 } from "../../types/Memorama.type";
@@ -34,7 +34,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     totalPairs: 4,
     maxTimeInSeconds: 300,
   });
-  const [pairs, setPairs] = useState<MemoraPair[]>([]);
+  const [pairs, setPairs] = useState<MemoramaPair[]>([]);
   const [currentPairIndex, setCurrentPairIndex] = useState(0);
   const [errors, setErrors] = useState<string[]>([]);
   const [pairErrors, setPairErrorsState] = useState<{
@@ -53,7 +53,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
 
   // Función para determinar el estado de una pareja
   const getPairStatus = (
-    pair: MemoraPair
+    pair: MemoramaPair
   ): "complete" | "incomplete" | "empty" => {
     if (!pair.concept.trim() && !pair.image) {
       return "empty";
@@ -155,7 +155,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     };
 
     setConfig(limitedConfig);
-    const emptyPairs: MemoraPair[] = Array(limitedConfig.totalPairs)
+    const emptyPairs: MemoramaPair[] = Array(limitedConfig.totalPairs)
       .fill(null)
       .map(() => ({
         concept: "",
@@ -166,7 +166,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     setCurrentPairIndex(0);
   };
 
-  const handlePairSave = (pairData: MemoraPair) => {
+  const handlePairSave = (pairData: MemoramaPair) => {
     const updatedPairs = [...pairs];
     updatedPairs[currentPairIndex] = pairData;
     setPairs(updatedPairs);

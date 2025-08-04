@@ -16,7 +16,7 @@ import {
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
-import type { MemoraPair } from "../../../types/Memorama.type";
+import type { MemoramaPair } from "../../../types/Memorama.type";
 import { useCreateMemorama } from "../../../hooks/useCreateMemorama";
 import styles from "./PairCreator.module.css";
 
@@ -36,7 +36,9 @@ const PairCreator: React.FC = () => {
     clearPairErrors,
   } = useCreateMemorama();
 
-  const [formData, setFormData] = useState<MemoraPair>(pairs[currentPairIndex]);
+  const [formData, setFormData] = useState<MemoramaPair>(
+    pairs[currentPairIndex]
+  );
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -45,7 +47,7 @@ const PairCreator: React.FC = () => {
 
   // Función para validar la pareja actual
   const validateCurrentPair = (
-    pairData: MemoraPair
+    pairData: MemoramaPair
   ): { [key: string]: string } => {
     const validationErrors: { [key: string]: string } = {};
 
@@ -135,7 +137,7 @@ const PairCreator: React.FC = () => {
 
   // Función debug para llenar automáticamente
   const handleDebugFill = () => {
-    const debugPair: MemoraPair = {
+    const debugPair: MemoramaPair = {
       concept: `Concepto ${currentPairIndex + 1}`,
       image: null, // In debug mode, we can't create a real file easily
     };
