@@ -1,15 +1,7 @@
-import type { ConfigurationActivity } from "../../types/Configuration.type";
-import type { MemoramaInterface } from "../../types/Memorama.type";
 import api from "../../../shared/utils/apiFormData";
 import { urls } from "../urls";
 
-export interface CreateMemoramaPayload
-  extends ConfigurationActivity,
-    MemoramaInterface {}
-
-const registerMemoramaApi = async (
-  data: CreateMemoramaPayload
-): Promise<void> => {
+const registerMemoramaApi = async (data: FormData): Promise<void> => {
   try {
     await api.post(urls.Memorama, data);
   } catch (error) {

@@ -9,7 +9,7 @@ import type {
   MemoramaInterface,
 } from "../../types/Memorama.type";
 import type { ConfigurationActivity } from "../../types/Configuration.type";
-import { makeData } from "../../utils/MakeData";
+import { makeFormData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useToaster } from "../../../shared/hooks/useToaster";
@@ -126,15 +126,15 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
   const registrarMemorama = async (data: MemoramaInterface): Promise<void> => {
     setLoading(true);
 
-    // console.log("=== MEMORAMA DEBUG ===")
-    // console.log("Datos del memorama recibidos:", data)
-    // console.log("Configuración de actividad:", configurationActivity)
-    const dataMandar = makeData(
+    // console.log("=== MEMORAMA DEBUG ===");
+    // console.log("Datos del memorama recibidos:", data);
+    // console.log("Configuración de actividad:", configurationActivity);
+    const dataMandar = makeFormData(
       data,
       configurationActivity as ConfigurationActivity
     );
-    // console.log("Payload final a enviar:", dataMandar)
-    // console.log("=== FIN DEBUG ===")
+    // console.log("Payload final a enviar:", dataMandar); // Descomentar para debug
+    // console.log("=== FIN DEBUG ==="); // Descomentar para debug
 
     try {
       await MemoramaService.registerMemoramaApi(dataMandar);
