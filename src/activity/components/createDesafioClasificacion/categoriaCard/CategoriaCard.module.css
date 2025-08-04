@@ -1,0 +1,329 @@
+.container {
+  height: 100%;
+}
+
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-top: 4px solid;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.categoryInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.editCategoryForm {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.editInput {
+  flex: 1;
+  min-width: 0;
+}
+
+.inputError {
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+.editActions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.categoryTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.categoryIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.categoryName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.conceptCount {
+  flex-shrink: 0;
+}
+
+.categoryActions {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.actionButton {
+  padding: 0.5rem;
+  min-width: auto;
+  width: 36px;
+  height: 36px;
+}
+
+.deleteButton:hover {
+  background-color: #fed7d7;
+  color: #c53030;
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #fed7d7;
+  border-top: 1px solid #feb2b2;
+  color: #c53030;
+  font-size: 0.875rem;
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  color: #e53e3e;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.conceptsSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.conceptsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.conceptsTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+.addConceptButton {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.addConceptForm {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 8px;
+  border: 2px dashed #cbd5e0;
+}
+
+.conceptInput {
+  flex: 1;
+}
+
+.addConceptActions {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.conceptsList {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 100px;
+}
+
+.conceptItem {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.conceptItem:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+}
+
+.editConceptForm {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.conceptContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.conceptName {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #2d3748;
+  word-break: break-word;
+}
+
+.conceptActions {
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.conceptItem:hover .conceptActions {
+  opacity: 1;
+}
+
+.conceptActionButton {
+  padding: 0.25rem;
+  min-width: auto;
+  width: 28px;
+  height: 28px;
+  font-size: 0.75rem;
+}
+
+.conceptActionButton.deleteButton:hover {
+  background-color: #fed7d7;
+  color: #c53030;
+}
+
+.emptyConcepts {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  color: #718096;
+  border: 2px dashed #cbd5e0;
+  border-radius: 8px;
+  background: #f7fafc;
+}
+
+.emptyConceptsText {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0 0 0.25rem 0;
+}
+
+.emptyConceptsHint {
+  font-size: 0.75rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  background: rgba(247, 250, 252, 0.8);
+}
+
+.footerInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footerText {
+  font-size: 0.75rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+.maxBadge {
+  font-size: 0.7rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .categoryTitle {
+    justify-content: center;
+  }
+
+  .categoryActions {
+    justify-content: center;
+  }
+
+  .content {
+    padding: 0 1rem 1rem 1rem;
+  }
+
+  .conceptsHeader {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .addConceptButton {
+    width: 100%;
+  }
+
+  .addConceptForm {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .addConceptActions {
+    justify-content: center;
+  }
+
+  .conceptActions {
+    opacity: 1;
+  }
+
+  .footer {
+    padding: 0.75rem 1rem;
+  }
+}
