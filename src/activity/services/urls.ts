@@ -1,6 +1,7 @@
 export const urls = {
   Ahorcado: "/activities/ahorcado",
   CompletarOracion: "/activities/completar-oracion",
-  Preguntados: "/activities/preguntados",
+  Memorama: "/activities/memorama",
   OrdenarSecuencia: "/activities/ordenar-secuencia",
+  Preguntados: "/activities/preguntados",
 };
