@@ -12,6 +12,7 @@ import { OrdenarSecuenciaProvider } from "../activity/contexts/ordenarSecuenciaC
 import { CreateAhorcadoProvider } from "../activity/contexts/createAhorcadoContext/CreateAhorcadoProvider";
 import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
+import { MemoramaProvider } from "../activity/contexts/memoramaContext/MemoramaProvider";
 //VIEWS
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsView from "../teacher/views/benefitsView/BenefitsView";
@@ -42,15 +43,17 @@ const TeacherApp = () => {
                       <CompletarOracionProvider>
                         <PreguntadosProvider>
                           <OrdenarSecuenciaProvider>
-                            <motion.div
-                              key="dashboardTeacher"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              exit={{ opacity: 0 }}
-                              transition={{ duration: 0.3 }}
-                            >
-                              <TeacherDashboardPage />
-                            </motion.div>
+                            <MemoramaProvider>
+                              <motion.div
+                                key="dashboardTeacher"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                              >
+                                <TeacherDashboardPage />
+                              </motion.div>
+                            </MemoramaProvider>
                           </OrdenarSecuenciaProvider>
                         </PreguntadosProvider>
                       </CompletarOracionProvider>
