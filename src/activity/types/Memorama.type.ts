@@ -5,7 +5,6 @@ export interface MemoramaPair {
 
 export interface MemoramaConfig {
   totalPairs: number;
-  maxTimeInSeconds: number;
 }
 
 export interface MemoramaInterface {

@@ -7,7 +7,6 @@ import {
   FaArrowLeft,
   FaCheck,
   FaTrash,
-  FaClock,
   FaEdit,
   FaExclamationTriangle,
   FaImage,
@@ -136,12 +135,26 @@ const PairCreator: React.FC = () => {
   };
 
   // Función debug para llenar automáticamente
-  const handleDebugFill = () => {
-    const debugPair: MemoramaPair = {
-      concept: `Concepto ${currentPairIndex + 1}`,
-      image: null, // In debug mode, we can't create a real file easily
-    };
-    setFormData(debugPair);
+  const handleDebugFill = async () => {
+    try {
+      const response = await fetch("/preview.png");
+      const blob = await response.blob();
+      const file = new File([blob], "preview.png", {
+        type: blob.type || "image/png",
+      });
+
+      const debugPair: MemoramaPair = {
+        concept: `Concepto`,
+        image: file,
+      };
+      setFormData(debugPair);
+    } catch (error) {
+      const debugPair: MemoramaPair = {
+        concept: `Concepto`,
+        image: null,
+      };
+      setFormData(debugPair);
+    }
   };
 
   const currentErrors = pairErrors[currentPairIndex] || {};
@@ -239,13 +252,6 @@ const PairCreator: React.FC = () => {
               <h3 className={styles.questionTitle}>
                 Pareja {currentPairIndex + 1} de {config.totalPairs}
               </h3>
-              <div className={styles.timeInfo}>
-                <FaClock className={styles.timeIcon} />
-                <span>
-                  Tiempo total: {Math.ceil(config.maxTimeInSeconds / 60)}{" "}
-                  minutos
-                </span>
-              </div>
             </div>
           </div>
           {pairs.length > 4 && (

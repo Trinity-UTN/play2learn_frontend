@@ -1,20 +1,14 @@
 import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  FaRedo,
-  FaClock,
-  FaPuzzlePiece,
-  FaEye,
-  FaEyeSlash,
-} from "react-icons/fa";
+import { FaRedo, FaPuzzlePiece, FaEye, FaEyeSlash } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import { useCreateMemorama } from "../../../hooks/useCreateMemorama";
 import styles from "./MemoramaPreview.module.css";
 
 const MemoramaPreview: React.FC = () => {
-  const { pairs, config } = useCreateMemorama();
+  const { pairs } = useCreateMemorama();
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
   const [showAllCards, setShowAllCards] = useState(false);
@@ -128,12 +122,6 @@ const MemoramaPreview: React.FC = () => {
             </span>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statNumber}>
-              {Math.ceil(config.maxTimeInSeconds / 60)}
-            </span>
-            <span className={styles.statLabel}>Minutos</span>
-          </div>
-          <div className={styles.stat}>
             <span className={styles.statNumber}>{pairs.length * 2}</span>
             <span className={styles.statLabel}>Cartas</span>
           </div>
@@ -162,10 +150,6 @@ const MemoramaPreview: React.FC = () => {
             <div className={styles.gameTitle}>
               <FaPuzzlePiece className={styles.gameIcon} />
               <span>Memorama</span>
-            </div>
-            <div className={styles.timeIndicator}>
-              <FaClock className={styles.timeIcon} />
-              <span>{Math.ceil(config.maxTimeInSeconds / 60)} minutos</span>
             </div>
           </div>
 

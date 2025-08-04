@@ -32,7 +32,6 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
   >("config");
   const [config, setConfig] = useState<MemoramaConfig>({
     totalPairs: 4,
-    maxTimeInSeconds: 300,
   });
   const [pairs, setPairs] = useState<MemoramaPair[]>([]);
   const [currentPairIndex, setCurrentPairIndex] = useState(0);
@@ -50,6 +49,16 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
       setErrors([]);
     }
   }, [currentStep, pairs]);
+
+  // Función para reiniciar todos los estados
+  const resetAllStates = () => {
+    setConfig({ totalPairs: 4 });
+    setPairs([]);
+    setCurrentStep("config");
+    setCurrentPairIndex(0);
+    setErrors([]);
+    setPairErrorsState({});
+  };
 
   // Función para determinar el estado de una pareja
   const getPairStatus = (
@@ -243,13 +252,16 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
         title: "Actividad creada exitosamente",
         message: "La actividad ha sido creada exitosamente.",
         type: "success",
+        position: "bottom-right",
       });
+      resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
       showToast({
         title: "Error al crear la actividad",
         message: "Hubo un error al crear la actividad",
         type: "error",
+        position: "bottom-right",
       });
       console.error("Error al crear la actividad (memorama):", error);
     }
@@ -274,11 +286,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
           type: "info",
           position: "bottom-right",
         });
-        setConfig({ totalPairs: 4, maxTimeInSeconds: 300 });
-        setPairs([]);
-        setCurrentStep("config");
-        setCurrentPairIndex(0);
-        setErrors([]);
+        resetAllStates();
       },
     });
   };

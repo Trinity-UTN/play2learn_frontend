@@ -1,7 +1,7 @@
 import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaCog, FaClock, FaPuzzlePiece, FaArrowRight } from "react-icons/fa";
+import { FaCog, FaPuzzlePiece, FaArrowRight } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
@@ -34,13 +34,6 @@ const GeneralConfiguration: React.FC = () => {
       newErrors.totalPairs = "Debe crear al menos 4 parejas";
     } else if (formData.totalPairs > 8) {
       newErrors.totalPairs = "No puede crear más de 8 parejas";
-    }
-
-    if (formData.maxTimeInSeconds < 60) {
-      newErrors.maxTimeInSeconds = "El tiempo mínimo es de 60 segundos";
-    } else if (formData.maxTimeInSeconds > 1800) {
-      newErrors.maxTimeInSeconds =
-        "El tiempo máximo es de 1800 segundos (30 minutos)";
     }
 
     setErrors(newErrors);
@@ -93,30 +86,6 @@ const GeneralConfiguration: React.FC = () => {
                 className={styles.input}
               />
             </div>
-
-            <div className={styles.inputGroup}>
-              <label className={styles.label}>
-                <FaClock className={styles.labelIcon} />
-                Tiempo Total (segundos) *
-                <span className={styles.labelHint}>
-                  Mínimo 60 segundos, máximo 1800 segundos
-                </span>
-              </label>
-              <Input
-                type="number"
-                value={formData.maxTimeInSeconds}
-                onChange={(e) =>
-                  handleInputChange(
-                    "maxTimeInSeconds",
-                    Number.parseInt(e.target.value) || 300
-                  )
-                }
-                error={errors.maxTimeInSeconds}
-                min="60"
-                max="1800"
-                className={styles.input}
-              />
-            </div>
           </div>
 
           <Card className={styles.summary}>
@@ -126,12 +95,6 @@ const GeneralConfiguration: React.FC = () => {
                 <span className={styles.summaryLabel}>Total de parejas:</span>
                 <span className={styles.summaryValue}>
                   {formData.totalPairs}
-                </span>
-              </div>
-              <div className={styles.summaryItem}>
-                <span className={styles.summaryLabel}>Tiempo total:</span>
-                <span className={styles.summaryValue}>
-                  {Math.ceil(formData.maxTimeInSeconds / 60)} minutos
                 </span>
               </div>
               <div className={styles.summaryItem}>
