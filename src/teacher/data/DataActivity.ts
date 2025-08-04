@@ -59,6 +59,20 @@ export const activities: Activity[] = [
     color: "#9333ea",
     features: ["Lógica", "Secuencias", "Orden", "Análisis"],
   },
+  {
+    id: 8,
+    code_game: "actividad_no_ludica",
+    name: "Actividad No Lúdica",
+    type: "Trabajo Práctico",
+    description:
+      "Actividad orientada a producciones escritas, reflexiones o presentaciones.",
+    difficulty: "Variable",
+    duration: "Variable",
+    subject: "General",
+    icon: "assignment",
+    color: "#f59e0b",
+    features: ["Producción", "Expresión", "Análisis", "Reflexión"],
+  },
   // {
   //   id: 5,
   //   name: "Rompecabezas Numérico",
