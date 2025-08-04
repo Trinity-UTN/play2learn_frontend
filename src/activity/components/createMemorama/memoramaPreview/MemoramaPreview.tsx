@@ -23,22 +23,20 @@ const MemoramaPreview: React.FC = () => {
     const cards: Array<{
       id: number;
       pairIndex: number;
-      type: "concept" | "image";
-      content: string | File;
+      content: File;
     }> = [];
 
     pairs.forEach((pair, pairIndex) => {
-      if (pair.concept && pair.image) {
+      if (pair.image) {
+        // Si solo hay una imagen por par, la duplicamos
         cards.push({
           id: pairIndex * 2,
           pairIndex,
-          type: "concept",
-          content: pair.concept,
+          content: pair.image,
         });
         cards.push({
           id: pairIndex * 2 + 1,
           pairIndex,
-          type: "image",
           content: pair.image,
         });
       }
@@ -111,8 +109,8 @@ const MemoramaPreview: React.FC = () => {
       <Card className={styles.previewHeader}>
         <h3 className={styles.sectionTitle}>Vista Previa de la Actividad</h3>
         <p className={styles.description}>
-          Así es como verán la actividad tus estudiantes. Puedes probar el
-          memorama haciendo clic en las cartas.
+          Así es como verán la actividad tus estudiantes. Encuentra las parejas
+          de imágenes iguales.
         </p>
         <div className={styles.stats}>
           <div className={styles.stat}>
@@ -149,7 +147,7 @@ const MemoramaPreview: React.FC = () => {
           <div className={styles.gameHeader}>
             <div className={styles.gameTitle}>
               <FaPuzzlePiece className={styles.gameIcon} />
-              <span>Memorama</span>
+              <span>Memorama de Imágenes</span>
             </div>
           </div>
 
@@ -170,26 +168,20 @@ const MemoramaPreview: React.FC = () => {
               >
                 <div className={styles.cardContent}>
                   {isCardVisible(card.id) ? (
-                    card.type === "concept" ? (
-                      <span className={styles.conceptText}>
-                        {card.content as string}
-                      </span>
-                    ) : (
-                      <img
-                        src={
-                          card.content instanceof File
-                            ? URL.createObjectURL(card.content)
-                            : "/placeholder.svg"
-                        }
-                        alt="Imagen del memorama"
-                        className={styles.cardImage}
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src =
-                            "/placeholder.svg?height=80&width=80&text=Error";
-                        }}
-                      />
-                    )
+                    <img
+                      src={
+                        card.content instanceof File
+                          ? URL.createObjectURL(card.content)
+                          : "/placeholder.svg"
+                      }
+                      alt="Imagen del memorama"
+                      className={styles.cardImage}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src =
+                          "/placeholder.svg?height=80&width=80&text=Error";
+                      }}
+                    />
                   ) : (
                     <div className={styles.cardBack}>
                       <FaPuzzlePiece className={styles.cardBackIcon} />
@@ -217,7 +209,8 @@ const MemoramaPreview: React.FC = () => {
             >
               <h3 className={styles.completionTitle}>¡Felicidades! 🎉</h3>
               <p className={styles.completionText}>
-                Has completado el memorama encontrando todas las parejas.
+                Has completado el memorama encontrando todas las parejas de
+                imágenes.
               </p>
             </motion.div>
           )}
