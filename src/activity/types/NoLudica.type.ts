@@ -1,8 +1,4 @@
-export enum TipoEntrega {
-  ENTREGA = "ENTREGA",
-  ENLACE = "ENLACE",
-  TEXTO = "TEXTO",
-}
+export type TipoEntrega = "ENTREGA" | "ENLACE" | "TEXTO";
 
 export interface NoLudicaConfig {
   excercise: string;
@@ -10,6 +6,7 @@ export interface NoLudicaConfig {
 }
 
 export interface NoLudicaInterface {
+  attempts: number;
   excercise: string;
   tipoEntrega: TipoEntrega;
 }

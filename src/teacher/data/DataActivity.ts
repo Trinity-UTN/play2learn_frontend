@@ -61,7 +61,7 @@ export const activities: Activity[] = [
   },
   {
     id: 8,
-    code_game: "actividad_no_ludica",
+    code_game: "no_ludica",
     name: "Actividad No Lúdica",
     type: "Trabajo Práctico",
     description:
