@@ -60,6 +60,20 @@ export const activities: Activity[] = [
     features: ["Lógica", "Secuencias", "Orden", "Análisis"],
   },
   {
+    id: 5,
+    code_game: "memorama",
+    name: "Memorama",
+    type: "Juego de Memoria",
+    description:
+      "Relaciona conceptos con sus imágenes correspondientes. Ideal para reforzar asociaciones visuales y comprensión temática.",
+    difficulty: "Fácil",
+    duration: "10-15 min",
+    subject: "General",
+    icon: "memory",
+    color: "#f9c74f",
+    features: ["Memoria visual", "Asociación", "Comprensión"],
+  },
+  {
     id: 8,
     code_game: "no_ludica",
     name: "Actividad No Lúdica",
@@ -73,20 +87,6 @@ export const activities: Activity[] = [
     color: "#f59e0b",
     features: ["Producción", "Expresión", "Análisis", "Reflexión"],
   },
-  // {
-  //   id: 5,
-  //   name: "Rompecabezas Numérico",
-  //   type: "Puzzle Matemático",
-  //   description:
-  //     "Resuelve puzzles numéricos y problemas matemáticos de forma interactiva.",
-  //   difficulty: "Difícil",
-  //   duration: "25-35 min",
-  //   subject: "Matemáticas",
-  //   icon: "puzzle",
-  //   color: "#dc2626",
-  //   features: ["Cálculo", "Lógica", "Resolución"],
-  //   isNew: true,
-  // },
   // {
   //   id: 6,
   //   name: "Memoria Visual",
