@@ -1,4 +1,3 @@
-import type React from "react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -16,32 +15,21 @@ import Input from "../../../../shared/components/Input/InputComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
 import styles from "./CategoriaCard.module.css";
-
-interface CategoryCardProps {
+import { useCreateDesafioClasificacion } from "../../../hooks/useDesafioClasificacion";
+type Props = {
   category: ClassificationCategory;
-  onEditCategory: (categoryId: string, newName: string) => void;
-  onDeleteCategory: (categoryId: string) => void;
-  onAddConcept: (categoryId: string, conceptName: string) => void;
-  onEditConcept: (
-    categoryId: string,
-    conceptId: string,
-    newName: string
-  ) => void;
-  onDeleteConcept: (categoryId: string, conceptId: string) => void;
-  existingConcepts: string[];
-  existingCategoryNames: string[];
-}
+};
+const CategoryCard = ({ category }: Props) => {
+  const {
+    handleEditCategory,
+    handleDeleteCategory,
+    handleAddConcept,
+    handleEditConcept,
+    handleDeleteConcept,
+    getAllConcepts,
+    getCategoryNames,
+  } = useCreateDesafioClasificacion();
 
-const CategoryCard: React.FC<CategoryCardProps> = ({
-  category,
-  onEditCategory,
-  onDeleteCategory,
-  onAddConcept,
-  onEditConcept,
-  onDeleteConcept,
-  existingConcepts,
-  existingCategoryNames,
-}) => {
   const [isEditingCategory, setIsEditingCategory] = useState(false);
   const [editCategoryName, setEditCategoryName] = useState(category.name);
   const [newConceptName, setNewConceptName] = useState("");
@@ -49,7 +37,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   const [editConceptName, setEditConceptName] = useState("");
   const [showAddConcept, setShowAddConcept] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
+  let existingCategoryNames = getCategoryNames();
+  existingCategoryNames = existingCategoryNames.filter(
+    (name) => name !== category.name.toLowerCase()
+  );
   const validateCategoryName = (name: string): string => {
     if (!name.trim()) return "El nombre es requerido";
     if (name.length < 2) return "Mínimo 2 caracteres";
@@ -64,7 +55,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     if (!name.trim()) return "El nombre es requerido";
     if (name.length < 2) return "Mínimo 2 caracteres";
     if (name.length > 100) return "Máximo 100 caracteres";
-    if (existingConcepts.includes(name.toLowerCase().trim())) {
+    if (getAllConcepts().includes(name.toLowerCase().trim())) {
       return "Ya existe un concepto con este nombre";
     }
     return "";
@@ -77,7 +68,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       return;
     }
 
-    onEditCategory(category.id, editCategoryName.trim());
+    handleEditCategory(category.id, editCategoryName.trim());
     setIsEditingCategory(false);
     setErrors({ ...errors, category: "" });
   };
@@ -88,7 +79,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     setErrors({ ...errors, category: "" });
   };
 
-  const handleAddConcept = () => {
+  const AddConcept = () => {
     const error = validateConceptName(newConceptName);
     if (error) {
       setErrors({ ...errors, newConcept: error });
@@ -100,13 +91,13 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       return;
     }
 
-    onAddConcept(category.id, newConceptName.trim());
+    handleAddConcept(category.id, newConceptName.trim());
     setNewConceptName("");
     setShowAddConcept(false);
     setErrors({ ...errors, newConcept: "" });
   };
 
-  const handleEditConcept = (conceptId: string) => {
+  const EditConcept = (conceptId: string) => {
     const concept = category.concepts.find((c) => c.id === conceptId);
     if (concept) {
       setEditingConceptId(conceptId);
@@ -123,7 +114,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       return;
     }
 
-    onEditConcept(category.id, editingConceptId, editConceptName.trim());
+    handleEditConcept(category.id, editingConceptId, editConceptName.trim());
     setEditingConceptId(null);
     setEditConceptName("");
     setErrors({ ...errors, [editingConceptId]: "" });
@@ -135,20 +126,20 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     setErrors({ ...errors, [editingConceptId || ""]: "" });
   };
 
-  const handleDeleteCategory = () => {
+  const DeleteCategory = () => {
     if (
       window.confirm(
         `¿Estás seguro de eliminar la categoría "${category.name}"?`
       )
     ) {
-      onDeleteCategory(category.id);
+      handleDeleteCategory(category.id);
     }
   };
 
-  const handleDeleteConcept = (conceptId: string) => {
+  const DeleteConcept = (conceptId: string) => {
     const concept = category.concepts.find((c) => c.id === conceptId);
     if (concept && window.confirm(`¿Eliminar el concepto "${concept.name}"?`)) {
-      onDeleteConcept(category.id, conceptId);
+      handleDeleteConcept(category.id, conceptId);
     }
   };
 
@@ -223,7 +214,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={handleDeleteCategory}
+                  onClick={DeleteCategory}
                   className={`${styles.actionButton} ${styles.deleteButton}`}
                 >
                   <FaTrash />
@@ -283,7 +274,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                     <Button
                       variant="primary"
                       size="sm"
-                      onClick={handleAddConcept}
+                      onClick={AddConcept}
                       disabled={!newConceptName.trim()}
                     >
                       <FaCheck />
@@ -366,7 +357,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => handleEditConcept(concept.id)}
+                            onClick={() => EditConcept(concept.id)}
                             className={styles.conceptActionButton}
                           >
                             <FaEdit />
@@ -374,7 +365,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => handleDeleteConcept(concept.id)}
+                            onClick={() => DeleteConcept(concept.id)}
                             className={`${styles.conceptActionButton} ${styles.deleteButton}`}
                           >
                             <FaTrash />

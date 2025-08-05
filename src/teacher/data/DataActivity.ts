@@ -60,7 +60,7 @@ export const activities: Activity[] = [
     features: ["Lógica", "Secuencias", "Orden", "Análisis"],
   },
   {
-    id: 5,
+    id: 6,
     name: "Desafio de Clasificación",
     code_game: "desafio_clasificacion",
     type: "Juego de Memoria",

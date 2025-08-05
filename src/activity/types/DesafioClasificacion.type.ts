@@ -19,7 +19,7 @@ export interface ClassificationCategory {
   color: string;
 }
 
-export interface CreateClassificationPayload {
+export interface CreateClassification {
   attempts: number;
   maxTimePerQuestionInSeconds: number;
   categories: CategoryPayload[];

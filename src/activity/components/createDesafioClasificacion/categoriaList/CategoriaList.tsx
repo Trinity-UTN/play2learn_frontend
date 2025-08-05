@@ -1,36 +1,12 @@
-import type React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaLayerGroup, FaPlus } from "react-icons/fa";
-import type { ClassificationCategory } from "../../../types/DesafioClasificacion.type";
 import Card from "../../../../shared/components/Card/CardComponent";
 import CategoryCard from "../categoriaCard/CategoriaCard";
 import styles from "./CategoriaList.module.css";
+import { useCreateDesafioClasificacion } from "../../../hooks/useDesafioClasificacion";
 
-interface CategoryListProps {
-  categories: ClassificationCategory[];
-  onEditCategory: (categoryId: string, newName: string) => void;
-  onDeleteCategory: (categoryId: string) => void;
-  onAddConcept: (categoryId: string, conceptName: string) => void;
-  onEditConcept: (
-    categoryId: string,
-    conceptId: string,
-    newName: string
-  ) => void;
-  onDeleteConcept: (categoryId: string, conceptId: string) => void;
-  existingConcepts: string[];
-  existingCategoryNames: string[];
-}
-
-const CategoryList: React.FC<CategoryListProps> = ({
-  categories,
-  onEditCategory,
-  onDeleteCategory,
-  onAddConcept,
-  onEditConcept,
-  onDeleteConcept,
-  existingConcepts,
-  existingCategoryNames,
-}) => {
+const CategoryList = ({}) => {
+  const { categories } = useCreateDesafioClasificacion();
   if (categories.length === 0) {
     return (
       <motion.div
@@ -90,18 +66,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
               }}
               layout
             >
-              <CategoryCard
-                category={category}
-                onEditCategory={onEditCategory}
-                onDeleteCategory={onDeleteCategory}
-                onAddConcept={onAddConcept}
-                onEditConcept={onEditConcept}
-                onDeleteConcept={onDeleteConcept}
-                existingConcepts={existingConcepts}
-                existingCategoryNames={existingCategoryNames.filter(
-                  (name) => name !== category.name.toLowerCase()
-                )}
-              />
+              <CategoryCard category={category} />
             </motion.div>
           ))}
         </AnimatePresence>

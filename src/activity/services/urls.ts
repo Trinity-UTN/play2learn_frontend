@@ -3,4 +3,5 @@ export const urls = {
   CompletarOracion: "/activities/completar-oracion",
   Preguntados: "/activities/preguntados",
   OrdenarSecuencia: "/activities/ordenar-secuencia",
+  DesafioClasificacion: "/activities/clasificacion",
 };

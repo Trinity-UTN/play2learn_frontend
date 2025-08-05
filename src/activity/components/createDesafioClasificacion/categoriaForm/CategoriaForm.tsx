@@ -5,23 +5,15 @@ import { FaPlus, FaExclamationTriangle } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
 import styles from "./CategoriaForm.module.css";
+import { useCreateDesafioClasificacion } from "../../../hooks/useDesafioClasificacion";
 
-interface CategoryFormProps {
-  onAddCategory: (name: string) => void;
-  existingNames: string[];
-  maxCategories: number;
-  currentCount: number;
-}
-
-const CategoryForm: React.FC<CategoryFormProps> = ({
-  onAddCategory,
-  existingNames,
-  maxCategories,
-  currentCount,
-}) => {
+const CategoryForm = ({}) => {
   const [categoryName, setCategoryName] = useState("");
   const [error, setError] = useState("");
-
+  const { handleAddCategory, getCategoryNames, categories } =
+    useCreateDesafioClasificacion();
+  const existingNames = getCategoryNames();
+  const maxCategories = 10;
   const validateCategoryName = (name: string): string => {
     if (!name.trim()) {
       return "El nombre de la categoría es requerido";
@@ -45,7 +37,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (currentCount >= maxCategories) {
+    if (categories.length >= maxCategories) {
       setError(`No se pueden agregar más de ${maxCategories} categorías`);
       return;
     }
@@ -56,7 +48,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       return;
     }
 
-    onAddCategory(categoryName.trim());
+    handleAddCategory(categoryName.trim());
     setCategoryName("");
     setError("");
   };
@@ -69,7 +61,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     }
   };
 
-  const isMaxReached = currentCount >= maxCategories;
+  const isMaxReached = categories.length >= maxCategories;
   const charactersLeft = 50 - categoryName.length;
   const isValid =
     categoryName.trim().length >= 2 && !validateCategoryName(categoryName);
