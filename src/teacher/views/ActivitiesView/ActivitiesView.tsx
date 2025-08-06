@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
@@ -47,7 +45,12 @@ const ActivitiesView: React.FC = () => {
         case "name":
           return a.name.localeCompare(b.name);
         case "difficulty":
-          const difficultyOrder = { Fácil: 1, Medio: 2, Difícil: 3 };
+          const difficultyOrder = {
+            Variable: 1,
+            Fácil: 2,
+            Medio: 3,
+            Difícil: 4,
+          };
           return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
         case "duration":
           return Number.parseInt(a.duration) - Number.parseInt(b.duration);

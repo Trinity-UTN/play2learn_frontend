@@ -73,6 +73,20 @@ export const activities: Activity[] = [
     color: "#f9c74f",
     features: ["Memoria visual", "Asociación", "Comprensión"],
   },
+  {
+    id: 8,
+    code_game: "no_ludica",
+    name: "Actividad No Lúdica",
+    type: "Trabajo Práctico",
+    description:
+      "Actividad orientada a producciones escritas, reflexiones o presentaciones.",
+    difficulty: "Variable",
+    duration: "Variable",
+    subject: "General",
+    icon: "assignment",
+    color: "#f59e0b",
+    features: ["Producción", "Expresión", "Análisis", "Reflexión"],
+  },
   // {
   //   id: 6,
   //   name: "Memoria Visual",

@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 import { motion, type Variants } from "framer-motion";
 import {
@@ -45,6 +43,8 @@ const getActivityIcon = (iconName: string) => {
 
 const getDifficultyColor = (difficulty: string) => {
   switch (difficulty) {
+    case "Variable":
+      return "#c084fc";
     case "Fácil":
       return "#b9e769";
     case "Medio":
