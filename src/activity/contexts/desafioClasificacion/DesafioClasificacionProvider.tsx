@@ -10,6 +10,9 @@ import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 interface DesafioClasificacionProviderProps {
   children: ReactNode;
 }
+import { DesafioClasificacionService } from "../../services/desafioClasificacion/DesafioClasificacionService";
+import type { CreateDesafioClasificacionPayload } from "../../services/desafioClasificacion/DesafioClasificacionService";
+import { useToaster } from "../../../shared/hooks/useToaster";
 
 export const DesafioClasificacionProvider: React.FC<
   DesafioClasificacionProviderProps
@@ -19,7 +22,8 @@ export const DesafioClasificacionProvider: React.FC<
   const [attempts, setAttempts] = useState(3);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { configurationActivity } = useConfigurationActivity();
-
+  const desafioService = DesafioClasificacionService;
+  const { showToast } = useToaster();
   const categoryColors = [
     "#3B82F6",
     "#EF4444",
@@ -137,7 +141,11 @@ export const DesafioClasificacionProvider: React.FC<
 
   const validations = () => {
     if (categories.length < 2) {
-      alert("Debe agregar al menos 2 categorías");
+      showToast({
+        title: "Debe agregar al menos 2 categorías",
+        type: "warning",
+        position: "top-center",
+      });
       return;
     }
 
@@ -145,15 +153,18 @@ export const DesafioClasificacionProvider: React.FC<
       (category) => category.concepts.length === 0
     );
     if (hasEmptyCategories) {
-      alert("Todas las categorías deben tener al menos un concepto");
+      showToast({
+        title: "Todas las categorías deben tener al menos un concepto",
+        type: "warning",
+        position: "top-center",
+      });
       return;
     }
   };
 
-  const payloadCategories = () => {
-    let payload: CreateClassification = {
+  const generateCreatePayload = () => {
+    const payload: CreateClassification = {
       attempts,
-      maxTimePerQuestionInSeconds: 15, //DEBUG
       categories: categories.map((category) => ({
         name: category.name,
         concepts: category.concepts.map((concept) => ({
@@ -162,28 +173,50 @@ export const DesafioClasificacionProvider: React.FC<
       })),
     };
     if (configurationActivity) {
-      payload = makeData(payload, configurationActivity);
+      const createPayload: CreateDesafioClasificacionPayload = makeData(
+        payload,
+        configurationActivity
+      );
+      return createPayload;
     }
-    return payload;
   };
+
   const resetForm = () => {
     // Reset form
-    //   setCategories([]);
-    //   setAttempts(3);
-    //   setShowPreview(false);
+    setCategories([]);
+    setAttempts(3);
+    setShowPreview(false);
   };
 
   const handleSubmit = async () => {
     validations();
     setIsSubmitting(true);
     try {
-      const payload = payloadCategories();
-      console.log("Enviando clasificación:", payload);
-      alert("¡Actividad de clasificación creada exitosamente!");
+      const createPayload = generateCreatePayload();
+      if (!createPayload) {
+        showToast({
+          title: "Falta la configuración de la actividad.",
+          type: "error",
+          position: "top-center",
+        });
+        throw new Error("Falta la configuración de la actividad.");
+      }
+
+      await desafioService.registerDesafioClasificacionApi(createPayload);
+
+      showToast({
+        title: "¡Actividad de clasificación creada exitosamente!",
+        type: "success",
+        position: "top-center",
+      });
       resetForm();
     } catch (error) {
       console.error("Error al crear clasificación:", error);
-      alert("Error al crear la actividad. Intente nuevamente.");
+      showToast({
+        title: "Error al crear la actividad. Intente nuevamente.",
+        type: "error",
+        position: "top-center",
+      });
     } finally {
       setIsSubmitting(false);
     }

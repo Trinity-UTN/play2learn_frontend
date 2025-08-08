@@ -21,6 +21,5 @@ export interface ClassificationCategory {
 
 export interface CreateClassification {
   attempts: number;
-  maxTimePerQuestionInSeconds: number;
   categories: CategoryPayload[];
 }
