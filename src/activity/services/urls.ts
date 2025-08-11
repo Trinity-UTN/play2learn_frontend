@@ -5,5 +5,5 @@ export const urls = {
   NoLudica: "/activities/no-ludica",
   Preguntados: "/activities/preguntados",
   OrdenarSecuencia: "/activities/ordenar-secuencia",
-  Preguntados: "/activities/preguntados",
+  DesafioClasificacion: "/activities/clasificacion",
 };
