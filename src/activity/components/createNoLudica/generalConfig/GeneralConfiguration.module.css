@@ -1,0 +1,386 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.headerIcon {
+  font-size: 2rem;
+  color: #667eea;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.description {
+  color: #6b7280;
+  font-size: 1rem;
+  margin: 0.5rem 0 0 0;
+  line-height: 1.5;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.formSection {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.sectionHeader {
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.sectionDescription {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.labelHint {
+  display: block;
+  font-weight: 400;
+  color: #6b7280;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+  line-height: 1.5;
+  background: white;
+  color: #1f2937;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.textarea.error {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.charCount {
+  text-align: right;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.overLimit {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.tipoEntregaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.tipoEntregaOption {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.tipoEntregaOption::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(102, 126, 234, 0.05) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tipoEntregaOption:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+}
+
+.tipoEntregaOption:hover::before {
+  opacity: 1;
+}
+
+.tipoEntregaOption.selected {
+  border-color: #667eea;
+  background: #f0f4ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+.tipoEntregaOption.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #667eea;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.optionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.optionIcon {
+  font-size: 2rem;
+  z-index: 1;
+  position: relative;
+}
+
+.optionIconReact {
+  font-size: 1.25rem;
+  color: #667eea;
+  z-index: 1;
+  position: relative;
+}
+
+.optionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+  z-index: 1;
+  position: relative;
+}
+
+.optionDescription {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.4;
+  margin: 0 0 1rem 0;
+  z-index: 1;
+  position: relative;
+}
+
+.acceptedFormats,
+.placeholderPreview {
+  background: #f0f4ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  z-index: 1;
+  position: relative;
+}
+
+.formatsLabel,
+.placeholderLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #667eea;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.formatsList,
+.placeholderText {
+  font-size: 0.75rem;
+  color: #374151;
+  font-family: monospace;
+}
+
+.submitSection {
+  display: flex;
+  justify-content: right;
+  padding-top: 1rem;
+}
+
+.submitButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.errorMessage {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tipoEntregaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryContent {
+    grid-template-columns: 1fr;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+
+  .optionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .tipoEntregaOption {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .formSection {
+    padding: 1rem;
+  }
+
+  .summary {
+    padding: 1rem;
+  }
+
+  .optionIcon {
+    font-size: 1.5rem;
+  }
+
+  .optionTitle {
+    font-size: 0.875rem;
+  }
+
+  .optionDescription {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formSection {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.tipoEntregaOption {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.tipoEntregaOption:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.tipoEntregaOption:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.tipoEntregaOption:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Estados de focus mejorados */
+.tipoEntregaOption:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.submitButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .formSection,
+  .tipoEntregaOption {
+    animation: none;
+  }
+
+  .tipoEntregaOption:hover {
+    transform: none;
+  }
+}

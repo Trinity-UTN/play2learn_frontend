@@ -60,6 +60,20 @@ export const activities: Activity[] = [
     features: ["Lógica", "Secuencias", "Orden", "Análisis"],
   },
   {
+    id: 5,
+    code_game: "memorama",
+    name: "Memorama",
+    type: "Juego de Memoria",
+    description:
+      "Relaciona conceptos con sus imágenes correspondientes. Ideal para reforzar asociaciones visuales y comprensión temática.",
+    difficulty: "Fácil",
+    duration: "10-15 min",
+    subject: "General",
+    icon: "memory",
+    color: "#f9c74f",
+    features: ["Memoria visual", "Asociación", "Comprensión"],
+  },
+   {
     id: 6,
     name: "Desafio de Clasificación",
     code_game: "desafio_clasificacion",
@@ -72,6 +86,20 @@ export const activities: Activity[] = [
     color: "#dc2626",
     features: ["Orden", "Lógica", "Resolución"],
     isNew: true,
+   },
+  {
+    id: 8,
+    code_game: "no_ludica",
+    name: "Actividad No Lúdica",
+    type: "Trabajo Práctico",
+    description:
+      "Actividad orientada a producciones escritas, reflexiones o presentaciones.",
+    difficulty: "Variable",
+    duration: "Variable",
+    subject: "General",
+    icon: "assignment",
+    color: "#f59e0b",
+    features: ["Producción", "Expresión", "Análisis", "Reflexión"],
   },
   // {
   //   id: 6,

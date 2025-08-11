@@ -5,7 +5,7 @@ export const useCreateDesafioClasificacion = () => {
   const context = useContext(DesafioClasificacionContext);
   if (!context) {
     throw new Error(
-      "useDesafioClasificaciona must be used within an DesafioClasificacionProvider"
+      "useDesafioClasificacion must be used within an DesafioClasificacionProvider"
     );
   }
   return context;
