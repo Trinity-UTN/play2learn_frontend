@@ -7,23 +7,28 @@ import type {
 } from "../../types/DesafioClasificacion.type";
 import { makeData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
-interface DesafioClasificacionProviderProps {
-  children: ReactNode;
-}
 import { DesafioClasificacionService } from "../../services/desafioClasificacion/DesafioClasificacionService";
 import type { CreateDesafioClasificacionPayload } from "../../services/desafioClasificacion/DesafioClasificacionService";
 import { useToaster } from "../../../shared/hooks/useToaster";
+import { useNavigate } from "react-router-dom";
+
+interface DesafioClasificacionProviderProps {
+  children: ReactNode;
+}
 
 export const DesafioClasificacionProvider: React.FC<
   DesafioClasificacionProviderProps
 > = ({ children }) => {
+  const { configurationActivity } = useConfigurationActivity();
+  const { showToast } = useToaster();
+  const navigate = useNavigate();
+
   const [categories, setCategories] = useState<ClassificationCategory[]>([]);
   const [showPreview, setShowPreview] = useState(false);
   const [attempts, setAttempts] = useState(3);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { configurationActivity } = useConfigurationActivity();
+
   const desafioService = DesafioClasificacionService;
-  const { showToast } = useToaster();
   const categoryColors = [
     "#3B82F6",
     "#EF4444",
@@ -210,6 +215,7 @@ export const DesafioClasificacionProvider: React.FC<
         position: "top-center",
       });
       resetForm();
+      navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
       console.error("Error al crear clasificación:", error);
       showToast({

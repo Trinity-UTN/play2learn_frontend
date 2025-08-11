@@ -20,6 +20,6 @@ export interface ClassificationCategory {
 }
 
 export interface CreateClassification {
-  attempts: number;
+  attempts: number; // TODO: ATTEMPTS REMOVAL
   categories: CategoryPayload[];
 }
