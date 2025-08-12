@@ -204,7 +204,6 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     }
   };
 
-  // Función para validar la configuración
   const validateConfig = (
     configToValidate: ArbolDecisionConfig
   ): ValidationError[] => {
@@ -251,27 +250,37 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
         });
       }
 
-      // Si tiene opciones, debe tener exactamente 2
-      if (node.options.length > 0 && node.options.length !== 2) {
+      // Validar que tenga opciones O consecuencia, no ambas ni ninguna
+      const hasOptions = node.options.length > 0;
+      const hasConsequence = node.consecuence !== null;
+
+      if (!hasOptions && !hasConsequence) {
         validationErrors.push({
           path,
-          message:
-            "Debe tener exactamente 2 opciones o ninguna (para consecuencia)",
+          message: "Debe tener opciones o una consecuencia",
+          field: "content",
+        });
+      }
+
+      if (hasOptions && hasConsequence) {
+        validationErrors.push({
+          path,
+          message: "No puede tener opciones y consecuencia al mismo tiempo",
+          field: "content",
+        });
+      }
+
+      // Si tiene opciones, debe tener exactamente 2
+      if (hasOptions && node.options.length !== 2) {
+        validationErrors.push({
+          path,
+          message: "Debe tener exactamente 2 opciones",
           field: "options",
         });
       }
 
-      // Si no tiene opciones, debe tener consecuencia
-      if (node.options.length === 0 && !node.consecuence) {
-        validationErrors.push({
-          path,
-          message: "Debe tener opciones o una consecuencia",
-          field: "consecuence",
-        });
-      }
-
       // Validar consecuencia si existe
-      if (node.consecuence) {
+      if (hasConsequence && node.consecuence) {
         if (!node.consecuence.name.trim()) {
           validationErrors.push({
             path,
@@ -315,6 +324,14 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
       });
     }
 
+    if (configToValidate.introduction.length > 500) {
+      validationErrors.push({
+        path: [],
+        message: "La introducción no puede superar los 500 caracteres",
+        field: "introduction",
+      });
+    }
+
     // Validar que haya exactamente 2 opciones iniciales
     if (configToValidate.decisionTree.length !== 2) {
       validationErrors.push({
@@ -344,20 +361,31 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     return validationErrors;
   };
 
-  const addDecisionNode = (path: number[]) => {
+  const updateNodeName = (path: number[], name: string) => {
     setConfig((prevConfig) => {
       const newConfig = { ...prevConfig };
       newConfig.decisionTree = deepCloneTree(newConfig.decisionTree);
 
       const targetNode = getNodeByPath(newConfig.decisionTree, path);
-
       if (targetNode) {
-        // Agregar dos opciones vacías al nodo
+        targetNode.name = name;
+      }
+
+      return newConfig;
+    });
+  };
+
+  const addSubOptions = (path: number[]) => {
+    setConfig((prevConfig) => {
+      const newConfig = { ...prevConfig };
+      newConfig.decisionTree = deepCloneTree(newConfig.decisionTree);
+
+      const targetNode = getNodeByPath(newConfig.decisionTree, path);
+      if (targetNode) {
         targetNode.options = [
           { name: "", options: [], consecuence: null },
           { name: "", options: [], consecuence: null },
         ];
-        // Limpiar consecuencia si existía
         targetNode.consecuence = null;
       }
 
@@ -365,24 +393,14 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     });
   };
 
-  const addConsequence = (
-    path: number[],
-    name: string,
-    approvesActivity: boolean
-  ) => {
+  const addConsequence = (path: number[]) => {
     setConfig((prevConfig) => {
       const newConfig = { ...prevConfig };
       newConfig.decisionTree = deepCloneTree(newConfig.decisionTree);
 
       const targetNode = getNodeByPath(newConfig.decisionTree, path);
-
       if (targetNode) {
-        // Agregar consecuencia al nodo
-        targetNode.consecuence = {
-          name: name.trim(),
-          approvesActivity,
-        };
-        // Limpiar opciones si existían
+        targetNode.consecuence = { name: "", approvesActivity: true };
         targetNode.options = [];
       }
 
@@ -390,40 +408,15 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     });
   };
 
-  const removeNode = (path: number[]) => {
+  const removeContent = (path: number[]) => {
     setConfig((prevConfig) => {
       const newConfig = { ...prevConfig };
       newConfig.decisionTree = deepCloneTree(newConfig.decisionTree);
 
       const targetNode = getNodeByPath(newConfig.decisionTree, path);
-
       if (targetNode) {
-        // Si es un nodo raíz, solo limpiar contenido
-        if (path.length === 1) {
-          targetNode.name = "";
-          targetNode.options = [];
-          targetNode.consecuence = null;
-        } else {
-          // Para nodos anidados, también limpiar
-          targetNode.name = "";
-          targetNode.options = [];
-          targetNode.consecuence = null;
-        }
-      }
-
-      return newConfig;
-    });
-  };
-
-  const updateNodeName = (path: number[], name: string) => {
-    setConfig((prevConfig) => {
-      const newConfig = { ...prevConfig };
-      newConfig.decisionTree = deepCloneTree(newConfig.decisionTree);
-
-      const targetNode = getNodeByPath(newConfig.decisionTree, path);
-
-      if (targetNode) {
-        targetNode.name = name;
+        targetNode.options = [];
+        targetNode.consecuence = null;
       }
 
       return newConfig;
@@ -440,7 +433,6 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
       newConfig.decisionTree = deepCloneTree(newConfig.decisionTree);
 
       const targetNode = getNodeByPath(newConfig.decisionTree, path);
-
       if (targetNode && targetNode.consecuence) {
         if (field === "name" && typeof value === "string") {
           targetNode.consecuence.name = value;
@@ -474,10 +466,10 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     getStepTitle,
     validateConfig,
     validateInitialConfig,
-    addDecisionNode,
-    addConsequence,
-    removeNode,
     updateNodeName,
+    addSubOptions,
+    addConsequence,
+    removeContent,
     updateConsequence,
   };
 

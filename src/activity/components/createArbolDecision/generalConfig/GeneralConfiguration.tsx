@@ -1,26 +1,23 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  FaCog,
-  FaArrowRight,
-  FaPlus,
-  FaTrash,
-  FaFlag,
-  FaCheck,
-  FaTimes,
-} from "react-icons/fa";
+import { FaCog, FaArrowRight } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
-import type {
-  ArbolDecisionConfig,
-  DecisionNode,
-  Consequence,
-} from "../../../types/ArbolDecision.type";
+import type { ArbolDecisionConfig } from "../../../types/ArbolDecision.type";
 import { useCreateArbolDecision } from "../../../hooks/useCreateArbolDecision";
+import DecisionTreeNode from "../decisionTreeNode/DecisionTreeNode";
 import styles from "./GeneralConfiguration.module.css";
 
 const GeneralConfiguration: React.FC = () => {
-  const { config, handleConfigSubmit, validateConfig, updateConsequence } =
-    useCreateArbolDecision();
+  const {
+    config,
+    handleConfigSubmit,
+    updateNodeName,
+    addSubOptions,
+    addConsequence,
+    removeContent,
+    updateConsequence,
+  } = useCreateArbolDecision();
+
   const [formData, setFormData] = useState<ArbolDecisionConfig>(config);
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
 
@@ -31,7 +28,7 @@ const GeneralConfiguration: React.FC = () => {
 
   const handleInputChange = (
     field: keyof ArbolDecisionConfig,
-    value: string | DecisionNode[]
+    value: string
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
 
@@ -41,19 +38,88 @@ const GeneralConfiguration: React.FC = () => {
   };
 
   const validateForm = (): boolean => {
-    const validationErrors = validateConfig(formData);
-    const fieldErrors: { [key: string]: string } = {};
+    const newErrors: { [key: string]: string } = {};
 
-    validationErrors.forEach((error) => {
-      if (error.field === "introduction") {
-        fieldErrors.introduction = error.message;
-      } else if (error.field === "decisionTree") {
-        fieldErrors.decisionTree = error.message;
+    // Validar introducción
+    if (!formData.introduction.trim()) {
+      newErrors.introduction = "La introducción es obligatoria";
+    } else if (formData.introduction.length > 500) {
+      newErrors.introduction =
+        "La introducción no puede superar los 500 caracteres";
+    }
+
+    // Validar que haya exactamente 2 opciones iniciales
+    if (formData.decisionTree.length !== 2) {
+      newErrors.decisionTree = "Debe haber exactamente 2 opciones iniciales";
+    }
+
+    // Validar cada nodo del árbol recursivamente
+    const validateNode = (node: any, path: number[], nodeName: string) => {
+      // Validar nombre del nodo
+      if (!node.name.trim()) {
+        newErrors[
+          `node_${path.join("_")}_name`
+        ] = `El nombre de ${nodeName} es obligatorio`;
+      } else if (node.name.length > 200) {
+        newErrors[
+          `node_${path.join("_")}_name`
+        ] = `El nombre de ${nodeName} no puede superar los 200 caracteres`;
       }
+
+      // Validar que tenga opciones O consecuencia, no ambas ni ninguna
+      const hasOptions = node.options && node.options.length > 0;
+      const hasConsequence = node.consecuence !== null;
+
+      if (!hasOptions && !hasConsequence) {
+        newErrors[
+          `node_${path.join("_")}_content`
+        ] = `${nodeName} debe tener opciones o una consecuencia`;
+      }
+
+      if (hasOptions && hasConsequence) {
+        newErrors[
+          `node_${path.join("_")}_content`
+        ] = `${nodeName} no puede tener opciones y consecuencia al mismo tiempo`;
+      }
+
+      // Si tiene opciones, debe tener exactamente 2
+      if (hasOptions && node.options.length !== 2) {
+        newErrors[
+          `node_${path.join("_")}_options`
+        ] = `${nodeName} debe tener exactamente 2 opciones`;
+      }
+
+      // Validar consecuencia si existe
+      if (hasConsequence && node.consecuence) {
+        if (!node.consecuence.name.trim()) {
+          newErrors[
+            `node_${path.join("_")}_consequence_name`
+          ] = `La consecuencia de ${nodeName} es obligatoria`;
+        } else if (node.consecuence.name.length > 200) {
+          newErrors[
+            `node_${path.join("_")}_consequence_name`
+          ] = `La consecuencia de ${nodeName} no puede superar los 200 caracteres`;
+        }
+      }
+
+      // Validar opciones recursivamente
+      if (hasOptions) {
+        node.options.forEach((option: any, index: number) => {
+          validateNode(
+            option,
+            [...path, index],
+            `la opción ${index + 1} de ${nodeName}`
+          );
+        });
+      }
+    };
+
+    formData.decisionTree.forEach((node, index) => {
+      validateNode(node, [index], `la decisión ${index + 1}`);
     });
 
-    setFormErrors(fieldErrors);
-    return Object.keys(fieldErrors).length === 0;
+    setFormErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -63,236 +129,53 @@ const GeneralConfiguration: React.FC = () => {
     }
   };
 
-  const initializeDecisionTree = () => {
-    const newTree: DecisionNode[] = [
-      {
-        name: "",
-        options: [],
-        consecuence: null,
-      },
-      {
-        name: "",
-        options: [],
-        consecuence: null,
-      },
-    ];
-    handleInputChange("decisionTree", newTree);
+  const handleNodeNameUpdate = (path: number[], name: string) => {
+    updateNodeName(path, name);
+    setFormData((prev) => {
+      const newConfig = { ...prev };
+      newConfig.decisionTree = [...config.decisionTree];
+      return newConfig;
+    });
   };
 
-  if (formData.decisionTree.length === 0) {
-    initializeDecisionTree();
-  }
-
-  const updateDecisionName = (path: number[], name: string) => {
-    const newTree = [...formData.decisionTree];
-    const node = getNodeByPath(newTree, path);
-    if (node) {
-      node.name = name;
-      handleInputChange("decisionTree", newTree);
-    }
+  const handleAddOptions = (path: number[]) => {
+    addSubOptions(path);
+    setFormData((prev) => {
+      const newConfig = { ...prev };
+      newConfig.decisionTree = [...config.decisionTree];
+      return newConfig;
+    });
   };
 
-  const getNodeByPath = (
-    tree: DecisionNode[],
-    path: number[]
-  ): DecisionNode | null => {
-    let current: DecisionNode | null = null;
-
-    if (path.length === 0) return null;
-
-    current = tree[path[0]];
-
-    for (let i = 1; i < path.length; i++) {
-      if (current && current.options && current.options[path[i]]) {
-        current = current.options[path[i]];
-      } else {
-        return null;
-      }
-    }
-
-    return current;
+  const handleAddConsequence = (path: number[]) => {
+    addConsequence(path);
+    setFormData((prev) => {
+      const newConfig = { ...prev };
+      newConfig.decisionTree = [...config.decisionTree];
+      return newConfig;
+    });
   };
 
-  const addSubOptions = (path: number[]) => {
-    const newTree = [...formData.decisionTree];
-    const node = getNodeByPath(newTree, path);
-
-    if (node) {
-      node.options = [
-        { name: "", options: [], consecuence: null },
-        { name: "", options: [], consecuence: null },
-      ];
-      node.consecuence = null;
-      handleInputChange("decisionTree", newTree);
-    }
+  const handleRemoveContent = (path: number[]) => {
+    removeContent(path);
+    setFormData((prev) => {
+      const newConfig = { ...prev };
+      newConfig.decisionTree = [...config.decisionTree];
+      return newConfig;
+    });
   };
 
-  const addConsequence = (path: number[]) => {
-    const newTree = [...formData.decisionTree];
-    const node = getNodeByPath(newTree, path);
-
-    if (node) {
-      node.consecuence = { name: "", approvesActivity: true };
-      node.options = [];
-      handleInputChange("decisionTree", newTree);
-    }
-  };
-
-  const handleConsequenceUpdate = (
+  const handleUpdateConsequence = (
     path: number[],
-    field: keyof Consequence,
+    field: keyof import("../../../types/ArbolDecision.type").Consequence,
     value: string | boolean
   ) => {
     updateConsequence(path, field, value);
-  };
-
-  const removeContent = (path: number[]) => {
-    const newTree = [...formData.decisionTree];
-    const node = getNodeByPath(newTree, path);
-
-    if (node) {
-      node.options = [];
-      node.consecuence = null;
-      handleInputChange("decisionTree", newTree);
-    }
-  };
-
-  const hasContent = (node: DecisionNode): boolean => {
-    return node.options.length > 0 || node.consecuence !== null;
-  };
-
-  const getLevelText = (depth: number): string => {
-    if (depth === 0) return "Principal";
-    return `Nivel ${depth}`;
-  };
-
-  const renderNode = (
-    node: DecisionNode,
-    path: number[],
-    depth: number
-  ): React.ReactNode => {
-    const isRootLevel = depth === 0;
-    const nodeClass = isRootLevel ? styles.decisionNode : styles.optionNode;
-    const inputClass = isRootLevel ? styles.decisionInput : styles.optionInput;
-    const placeholder = isRootLevel
-      ? `Decisión ${path[0] + 1}`
-      : `${depth === 1 ? "Opción" : "Sub-opción"} ${path[path.length - 1] + 1}`;
-
-    return (
-      <div
-        key={path.join("-")}
-        className={depth === 0 ? styles.decisionBranch : styles.subOptionBranch}
-      >
-        {/* Nodo actual */}
-        <div className={nodeClass} data-depth={depth}>
-          {/* Badge de nivel */}
-          <div className={styles.levelBadge}>{getLevelText(depth)}</div>
-
-          <input
-            type="text"
-            value={node.name}
-            onChange={(e) => updateDecisionName(path, e.target.value)}
-            placeholder={placeholder}
-            className={inputClass}
-          />
-
-          {/* Botones de Acción */}
-          {!hasContent(node) && (
-            <div className={styles.nodeActions}>
-              <button
-                type="button"
-                onClick={() => addSubOptions(path)}
-                className={styles.actionBtn}
-                title="Agregar opciones"
-              >
-                <FaPlus />
-              </button>
-              <button
-                type="button"
-                onClick={() => addConsequence(path)}
-                className={styles.actionBtn}
-                title="Agregar consecuencia"
-              >
-                <FaFlag />
-              </button>
-            </div>
-          )}
-          {hasContent(node) && (
-            <div className={styles.nodeActions}>
-              <button
-                type="button"
-                onClick={() => removeContent(path)}
-                className={styles.removeBtn}
-                title="Limpiar contenido"
-              >
-                <FaTrash />
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Opciones hijas */}
-        {node.options.length > 0 && (
-          <div
-            className={
-              depth === 0 ? styles.optionsContainer : styles.subOptionsContainer
-            }
-          >
-            {node.options.map((option, optionIndex) =>
-              renderNode(option, [...path, optionIndex], depth + 1)
-            )}
-          </div>
-        )}
-
-        {/* Consecuencia */}
-        {node.consecuence && (
-          <div className={styles.consequenceContainer}>
-            <div
-              className={`${styles.consequenceNode} ${
-                node.consecuence.approvesActivity
-                  ? styles.approved
-                  : styles.rejected
-              }`}
-            >
-              <FaFlag className={styles.consequenceIcon} />
-              <textarea
-                value={node.consecuence.name}
-                onChange={(e) =>
-                  handleConsequenceUpdate(path, "name", e.target.value)
-                }
-                placeholder="Describe la consecuencia..."
-                className={styles.consequenceTextarea}
-                rows={2}
-              />
-              <div className={styles.approvalButtons}>
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleConsequenceUpdate(path, "approvesActivity", true)
-                  }
-                  className={`${styles.approvalBtn} ${styles.approve} ${
-                    node.consecuence.approvesActivity ? styles.active : ""
-                  }`}
-                >
-                  <FaCheck /> Aprueba
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleConsequenceUpdate(path, "approvesActivity", false)
-                  }
-                  className={`${styles.approvalBtn} ${styles.reject} ${
-                    !node.consecuence.approvesActivity ? styles.active : ""
-                  }`}
-                >
-                  <FaTimes /> No Aprueba
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
+    setFormData((prev) => {
+      const newConfig = { ...prev };
+      newConfig.decisionTree = [...config.decisionTree];
+      return newConfig;
+    });
   };
 
   return (
@@ -339,6 +222,7 @@ const GeneralConfiguration: React.FC = () => {
               }`}
               placeholder="Ej: Año 1810. Sos un joven criollo con formación ilustrada, testigo del colapso del poder virreinal en el Río de la Plata..."
               rows={4}
+              maxLength={500}
             />
             {formErrors.introduction && (
               <span className={styles.errorMessage}>
@@ -362,18 +246,40 @@ const GeneralConfiguration: React.FC = () => {
           <div className={styles.sectionHeader}>
             <h4 className={styles.sectionTitle}>Árbol de Decisiones</h4>
             <p className={styles.sectionDescription}>
-              Construye tu árbol de decisiones de forma visual e interactiva.
-              Puedes crear niveles infinitos de opciones anidadas.
+              Construye tu árbol de decisiones. Cada nodo debe tener exactamente
+              2 opciones O una consecuencia.
             </p>
           </div>
 
           <div className={styles.treeContainer}>
             <div className={styles.treeWrapper}>
-              {formData.decisionTree.map((decision, decisionIndex) =>
-                renderNode(decision, [decisionIndex], 0)
-              )}
+              {config.decisionTree.map((decision, decisionIndex) => (
+                <DecisionTreeNode
+                  key={decisionIndex}
+                  node={decision}
+                  path={[decisionIndex]}
+                  depth={0}
+                  onUpdateName={handleNodeNameUpdate}
+                  onAddOptions={handleAddOptions}
+                  onAddConsequence={handleAddConsequence}
+                  onRemoveContent={handleRemoveContent}
+                  onUpdateConsequence={handleUpdateConsequence}
+                />
+              ))}
             </div>
           </div>
+
+          {/* Mostrar errores de validación */}
+          {Object.entries(formErrors).map(([key, error]) => {
+            if (key !== "introduction" && key !== "decisionTree") {
+              return (
+                <div key={key} className={styles.errorMessage}>
+                  {error}
+                </div>
+              );
+            }
+            return null;
+          })}
 
           {formErrors.decisionTree && (
             <span className={styles.errorMessage}>

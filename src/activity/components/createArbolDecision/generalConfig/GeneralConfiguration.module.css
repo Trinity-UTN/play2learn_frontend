@@ -102,12 +102,14 @@
   color: #ef4444;
   font-size: 0.8rem;
   font-weight: 500;
+  margin-top: 0.25rem;
 }
 
 .charCount {
   text-align: right;
   font-size: 0.8rem;
   color: #6b7280;
+  margin-top: 0.25rem;
 }
 
 .charCount .overLimit {
@@ -590,51 +592,45 @@
   font-style: italic;
 }
 
-/* Botones de Aprobación */
-.approvalButtons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.approvalBtn {
-  flex: 1;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background: white;
-  color: #6b7280;
-  font-size: 0.75rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* Sección de aprobación con checkbox */
+.approvalSection {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
+  margin-top: 0.5rem;
 }
 
-.approvalBtn.approve.active {
-  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-  color: white;
-  border-color: #16a34a;
-  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #374151;
 }
 
-.approvalBtn.reject.active {
-  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-  color: white;
+.checkbox {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkbox:checked {
+  background-color: #dc2626;
   border-color: #dc2626;
-  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
 }
 
-.approvalBtn:hover:not(.active) {
-  background: #f9fafb;
-  border-color: #9ca3af;
-  transform: translateY(-1px);
+.checkbox:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
 }
 
-.approvalBtn:active {
-  transform: translateY(0);
+.checkboxText {
+  user-select: none;
 }
 
 /* Responsive Design */
@@ -747,11 +743,6 @@
     min-width: 28px;
     height: 28px;
     font-size: 0.7rem;
-  }
-
-  .approvalButtons {
-    flex-direction: column;
-    gap: 0.25rem;
   }
 
   .title {

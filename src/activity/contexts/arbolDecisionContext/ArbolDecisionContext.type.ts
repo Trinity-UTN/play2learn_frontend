@@ -26,14 +26,10 @@ export interface ArbolDecisionContextType {
   getStepTitle: () => string;
   validateConfig: (config: ArbolDecisionConfig) => ValidationError[];
   validateInitialConfig: (config: ArbolDecisionConfig) => ValidationError[];
-  addDecisionNode: (path: number[], name: string) => void;
-  addConsequence: (
-    path: number[],
-    name: string,
-    approvesActivity: boolean
-  ) => void;
-  removeNode: (path: number[]) => void;
   updateNodeName: (path: number[], name: string) => void;
+  addSubOptions: (path: number[]) => void;
+  addConsequence: (path: number[]) => void;
+  removeContent: (path: number[]) => void;
   updateConsequence: (
     path: number[],
     field: keyof Consequence,
