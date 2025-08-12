@@ -74,18 +74,19 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   ): Promise<void> => {
     setLoading(true);
 
-    console.log("=== ÁRBOL DE DECISIÓN DEBUG ===");
-    console.log("Datos del juego recibidos:", data);
-    console.log("Configuración de actividad:", configurationActivity);
+    // console.log("=== ÁRBOL DE DECISIÓN DEBUG ===");
+    // console.log("Datos del juego recibidos:", data);
+    // console.log("Configuración de actividad:", configurationActivity);
     const dataMandar = makeData(
       data,
       configurationActivity as ConfigurationActivity
     );
-    console.log("Payload final a enviar:", dataMandar);
-    console.log("=== FIN DEBUG ===");
+    // console.log("Payload final a enviar:", dataMandar);
+    // console.log("=== FIN DEBUG ===");
 
     try {
       await ArbolDecisionService.registerArbolDecisionApi(dataMandar);
+      resetAllStates();
     } catch (error) {
       console.error("Error al crear la actividad (árbol de decisión):", error);
       throw error;

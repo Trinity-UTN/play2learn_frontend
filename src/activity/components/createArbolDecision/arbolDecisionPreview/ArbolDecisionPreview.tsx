@@ -1,15 +1,33 @@
-import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaEye, FaTree, FaArrowRight, FaCheck, FaTimes } from "react-icons/fa";
+import {
+  FaEye,
+  FaTree,
+  FaArrowRight,
+  FaCheck,
+  FaTimes,
+  FaUndo,
+  FaFlag,
+} from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import { useCreateArbolDecision } from "../../../hooks/useCreateArbolDecision";
+import type { DecisionNode } from "../../../types/ArbolDecision.type";
 import styles from "./ArbolDecisionPreview.module.css";
+
+interface DecisionPath {
+  nodeIndex: number;
+  nodeName: string;
+  depth: number;
+}
 
 const ArbolDecisionPreview: React.FC = () => {
   const { config } = useCreateArbolDecision();
-  const [currentPath, setCurrentPath] = useState<number[]>([]);
-  const [selectedDecisions, setSelectedDecisions] = useState<string[]>([]);
+  const [currentPath, setCurrentPath] = useState<DecisionPath[]>([]);
+  const [availableOptions, setAvailableOptions] = useState<DecisionNode[]>(
+    config.decisionTree
+  );
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [finalConsequence, setFinalConsequence] = useState<any>(null);
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -17,41 +35,93 @@ const ArbolDecisionPreview: React.FC = () => {
   };
 
   const handleDecisionSelect = (
-    decisionIndex: number,
-    decisionText: string
+    selectedNode: DecisionNode,
+    nodeIndex: number
   ) => {
-    setCurrentPath([...currentPath, decisionIndex]);
-    setSelectedDecisions([...selectedDecisions, decisionText]);
+    const newPathItem: DecisionPath = {
+      nodeIndex,
+      nodeName: selectedNode.name,
+      depth: currentPath.length,
+    };
+
+    const newPath = [...currentPath, newPathItem];
+    setCurrentPath(newPath);
+
+    // Si el nodo seleccionado tiene una consecuencia, terminar la actividad
+    if (selectedNode.consecuence) {
+      setFinalConsequence(selectedNode.consecuence);
+      setIsCompleted(true);
+      setAvailableOptions([]);
+    } else if (selectedNode.options.length > 0) {
+      // Si tiene opciones, mostrarlas para la siguiente decisión
+      setAvailableOptions(selectedNode.options);
+    }
   };
 
   const handleReset = () => {
     setCurrentPath([]);
-    setSelectedDecisions([]);
+    setAvailableOptions(config.decisionTree);
+    setIsCompleted(false);
+    setFinalConsequence(null);
   };
+
+  const getNodeStats = () => {
+    let totalNodes = 0;
+    let totalConsequences = 0;
+    let maxDepth = 0;
+
+    const countNodes = (nodes: DecisionNode[], depth = 0) => {
+      maxDepth = Math.max(maxDepth, depth);
+      nodes.forEach((node) => {
+        totalNodes++;
+        if (node.consecuence) {
+          totalConsequences++;
+        }
+        if (node.options.length > 0) {
+          countNodes(node.options, depth + 1);
+        }
+      });
+    };
+
+    countNodes(config.decisionTree);
+    return { totalNodes, totalConsequences, maxDepth };
+  };
+
+  const stats = getNodeStats();
 
   return (
     <motion.div variants={itemVariants} className={styles.container}>
       <div className={styles.previewHeader}>
         <h3 className={styles.sectionTitle}>Vista Previa del Simulador</h3>
         <p className={styles.description}>
-          Así es como verán el árbol de decisión tus estudiantes. Esta es una
-          simulación básica con las opciones iniciales.
+          Esta es una simulación de cómo los estudiantes experimentarán tu árbol
+          de decisión. Navega por las opciones para probar todos los caminos
+          posibles.
         </p>
 
         <div className={styles.stats}>
           <div className={styles.stat}>
             <span className={styles.statIcon}>🌳</span>
             <div>
-              <span className={styles.statLabel}>Tipo de actividad</span>
-              <span className={styles.statValue}>Árbol de Decisión</span>
+              <span className={styles.statLabel}>Nodos totales</span>
+              <span className={styles.statValue}>{stats.totalNodes}</span>
             </div>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>📝</span>
+            <span className={styles.statIcon}>🎯</span>
             <div>
-              <span className={styles.statLabel}>Longitud de introducción</span>
+              <span className={styles.statLabel}>Consecuencias</span>
               <span className={styles.statValue}>
-                {config.introduction.length} caracteres
+                {stats.totalConsequences}
+              </span>
+            </div>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statIcon}>📊</span>
+            <div>
+              <span className={styles.statLabel}>Profundidad máxima</span>
+              <span className={styles.statValue}>
+                {stats.maxDepth + 1} niveles
               </span>
             </div>
           </div>
@@ -62,17 +132,19 @@ const ArbolDecisionPreview: React.FC = () => {
         <div className={styles.simulatorHeader}>
           <div className={styles.simulatorTitle}>
             <FaEye className={styles.simulatorIcon} />
-            <h4>Simulador de Decisiones</h4>
+            <h4>Simulador Interactivo</h4>
           </div>
           <Button
             variant="secondary"
             onClick={handleReset}
             className={styles.resetButton}
           >
+            <FaUndo />
             Reiniciar Simulación
           </Button>
         </div>
 
+        {/* Introducción */}
         <div className={styles.scenarioCard}>
           <div className={styles.scenarioHeader}>
             <h5 className={styles.scenarioTitle}>Situación:</h5>
@@ -82,77 +154,145 @@ const ArbolDecisionPreview: React.FC = () => {
           </div>
         </div>
 
-        {selectedDecisions.length > 0 && (
+        {/* Camino de decisiones tomadas */}
+        {currentPath.length > 0 && (
           <div className={styles.pathSection}>
             <h5 className={styles.pathTitle}>Tu camino de decisiones:</h5>
             <div className={styles.pathList}>
-              {selectedDecisions.map((decision, index) => (
-                <div key={index} className={styles.pathItem}>
+              {currentPath.map((pathItem, index) => (
+                <motion.div
+                  key={index}
+                  className={styles.pathItem}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
                   <span className={styles.pathNumber}>{index + 1}</span>
-                  <span className={styles.pathText}>{decision}</span>
-                </div>
+                  <span className={styles.pathText}>{pathItem.nodeName}</span>
+                </motion.div>
               ))}
             </div>
           </div>
         )}
 
-        <div className={styles.decisionsSection}>
-          <div className={styles.decisionsSectionHeader}>
-            <h5 className={styles.decisionsSectionTitle}>
-              ¿Qué decides hacer?
-            </h5>
-            <div className={styles.decisionsInfo}>
-              <FaTree />
-              <span>Selecciona una opción para continuar</span>
+        {/* Resultado final */}
+        {isCompleted && finalConsequence && (
+          <motion.div
+            className={styles.resultSection}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div
+              className={`${styles.resultCard} ${
+                finalConsequence.approvesActivity
+                  ? styles.approved
+                  : styles.rejected
+              }`}
+            >
+              <div className={styles.resultHeader}>
+                <FaFlag className={styles.resultIcon} />
+                <h5 className={styles.resultTitle}>
+                  {finalConsequence.approvesActivity
+                    ? "¡Actividad Aprobada!"
+                    : "Actividad No Aprobada"}
+                </h5>
+              </div>
+              <div className={styles.resultContent}>
+                <p className={styles.resultText}>{finalConsequence.name}</p>
+              </div>
+              <div className={styles.resultFooter}>
+                {finalConsequence.approvesActivity ? (
+                  <div className={styles.successBadge}>
+                    <FaCheck />
+                    <span>Resultado Positivo</span>
+                  </div>
+                ) : (
+                  <div className={styles.failureBadge}>
+                    <FaTimes />
+                    <span>Resultado Negativo</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Opciones disponibles */}
+        {!isCompleted && availableOptions.length > 0 && (
+          <div className={styles.decisionsSection}>
+            <div className={styles.decisionsSectionHeader}>
+              <h5 className={styles.decisionsSectionTitle}>
+                {currentPath.length === 0
+                  ? "¿Qué decides hacer?"
+                  : "¿Cuál es tu siguiente decisión?"}
+              </h5>
+              <div className={styles.decisionsInfo}>
+                <FaTree />
+                <span>Selecciona una opción para continuar</span>
+              </div>
+            </div>
+
+            <div className={styles.decisionsGrid}>
+              {availableOptions.map((option, index) => (
+                <motion.button
+                  key={index}
+                  onClick={() => handleDecisionSelect(option, index)}
+                  className={styles.decisionOption}
+                  disabled={!option.name.trim()}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className={styles.optionHeader}>
+                    <span className={styles.optionNumber}>{index + 1}</span>
+                    <FaArrowRight className={styles.optionIcon} />
+                  </div>
+                  <div className={styles.optionContent}>
+                    <p className={styles.optionText}>
+                      {option.name || "Opción no configurada"}
+                    </p>
+                  </div>
+                  <div className={styles.optionFooter}>
+                    {option.name.trim() ? (
+                      <span className={styles.optionStatus}>
+                        <FaCheck className={styles.statusIcon} />
+                        Disponible
+                      </span>
+                    ) : (
+                      <span className={styles.optionStatusError}>
+                        <FaTimes className={styles.statusIcon} />
+                        No configurada
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Indicador de qué hay después */}
+                  <div className={styles.optionPreview}>
+                    {option.consecuence ? (
+                      <span className={styles.previewBadge}>
+                        <FaFlag />
+                        Resultado final
+                      </span>
+                    ) : option.options.length > 0 ? (
+                      <span className={styles.previewBadge}>
+                        <FaTree />
+                        {option.options.length} opciones más
+                      </span>
+                    ) : (
+                      <span className={styles.previewBadge}>
+                        <FaTimes />
+                        Sin configurar
+                      </span>
+                    )}
+                  </div>
+                </motion.button>
+              ))}
             </div>
           </div>
-
-          <div className={styles.decisionsGrid}>
-            {config.decisionTree.map((decision, index) => (
-              <button
-                key={index}
-                onClick={() => handleDecisionSelect(index, decision.name)}
-                className={styles.decisionOption}
-                disabled={!decision.name.trim()}
-              >
-                <div className={styles.optionHeader}>
-                  <span className={styles.optionNumber}>{index + 1}</span>
-                  <FaArrowRight className={styles.optionIcon} />
-                </div>
-                <div className={styles.optionContent}>
-                  <p className={styles.optionText}>
-                    {decision.name || "Opción no configurada"}
-                  </p>
-                </div>
-                <div className={styles.optionFooter}>
-                  {decision.name.trim() ? (
-                    <span className={styles.optionStatus}>
-                      <FaCheck className={styles.statusIcon} />
-                      Listo
-                    </span>
-                  ) : (
-                    <span className={styles.optionStatusError}>
-                      <FaTimes className={styles.statusIcon} />
-                      Pendiente
-                    </span>
-                  )}
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.nextStepsInfo}>
-          <h5>Próximos pasos en la configuración:</h5>
-          <ul>
-            <li>
-              Definir las consecuencias o siguientes decisiones para cada opción
-            </li>
-            <li>Configurar qué caminos aprueban o desaprueban la actividad</li>
-            <li>Establecer el árbol completo de decisiones</li>
-            <li>Probar todos los caminos posibles</li>
-          </ul>
-        </div>
+        )}
       </div>
     </motion.div>
   );
