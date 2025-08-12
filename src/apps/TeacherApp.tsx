@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "../App.module.css";
-
 import ProtectedRoute from "../shared/utils/ProtectedRoute";
 //PAGES
 import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
@@ -15,7 +14,7 @@ import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/Pre
 import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacion/DesafioClasificacionProvider";
 import { MemoramaProvider } from "../activity/contexts/memoramaContext/MemoramaProvider";
 import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
-
+import { ArbolDecisionProvider } from "../activity/contexts/arbolDecisionContext/ArbolDecisionProvider";
 //VIEWS
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsView from "../teacher/views/benefitsView/BenefitsView";
@@ -49,15 +48,17 @@ const TeacherApp = () => {
                             <DesafioClasificacionProvider>
                               <MemoramaProvider>
                                 <NoLudicaProvider>
-                                  <motion.div
-                                    key="dashboardTeacher"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.3 }}
-                                  >
-                                    <TeacherDashboardPage />
-                                  </motion.div>
+                                  <ArbolDecisionProvider>
+                                    <motion.div
+                                      key="dashboardTeacher"
+                                      initial={{ opacity: 0 }}
+                                      animate={{ opacity: 1 }}
+                                      exit={{ opacity: 0 }}
+                                      transition={{ duration: 0.3 }}
+                                    >
+                                      <TeacherDashboardPage />
+                                    </motion.div>
+                                  </ArbolDecisionProvider>
                                 </NoLudicaProvider>
                               </MemoramaProvider>
                             </DesafioClasificacionProvider>
