@@ -15,7 +15,7 @@ import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/Pre
 import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacion/DesafioClasificacionProvider";
 import { MemoramaProvider } from "../activity/contexts/memoramaContext/MemoramaProvider";
 import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
-
+import { BenefitProvider } from "../teacher/contexts/benefitsContext/BenefitProvider";
 //VIEWS
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsView from "../teacher/views/benefitsView/BenefitsView";
@@ -49,15 +49,17 @@ const TeacherApp = () => {
                             <DesafioClasificacionProvider>
                               <MemoramaProvider>
                                 <NoLudicaProvider>
-                                  <motion.div
-                                    key="dashboardTeacher"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.3 }}
-                                  >
-                                    <TeacherDashboardPage />
-                                  </motion.div>
+                                  <BenefitProvider>
+                                    <motion.div
+                                      key="dashboardTeacher"
+                                      initial={{ opacity: 0 }}
+                                      animate={{ opacity: 1 }}
+                                      exit={{ opacity: 0 }}
+                                      transition={{ duration: 0.3 }}
+                                    >
+                                      <TeacherDashboardPage />
+                                    </motion.div>
+                                  </BenefitProvider>
                                 </NoLudicaProvider>
                               </MemoramaProvider>
                             </DesafioClasificacionProvider>

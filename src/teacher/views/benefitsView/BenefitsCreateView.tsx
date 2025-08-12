@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import type { ReactElement } from "react";
 import { useState } from "react";
@@ -24,63 +24,72 @@ import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import styles from "./BenefitsCreateView.module.css";
+import type { CreateBenefitInterface } from "../../types/BeneficeType";
+import { useSubject } from "../../../admin/hooks/useSubject";
 import type { IconType } from "react-icons";
 
 const BenefitCreateView: React.FC = (): ReactElement => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<CreateBenefitInterface>({
     name: "",
     description: "",
-    cost: "",
-    category: "",
-    icon: "",
-    color: "#007bff",
-    duration: "",
-    maxUsage: "",
-    isLimited: false,
-    isPremium: false,
-    restrictions: [""],
+    cost: 0,
+    totalRedeemableAmount: null,
+    redeemableAmountPerStudent: null,
+    subjectId: 0,
+    // category: "",
+    // icon: "",
+    // color: "#007bff",
+    // duration: "",
+    // maxUsage: "",
+    // isLimited: false,
+    // isPremium: false,
+    // restrictions: [""],
   });
 
   const [previewMode, setPreviewMode] = useState(false);
+  const { getSubject, subjects } = useSubject();
 
-  const categories = [
-    {
-      value: "Evaluaciones",
-      label: "Evaluaciones",
-      icon: FaGraduationCap,
-      color: "#007bff",
-    },
-    { value: "Trabajos", label: "Trabajos", icon: FaFileAlt, color: "#ff6f3c" },
-    {
-      value: "Asistencia",
-      label: "Asistencia",
-      icon: FaCalendarCheck,
-      color: "#10b981",
-    },
-    { value: "Extras", label: "Extras", icon: FaStar, color: "#8b5cf6" },
-  ];
+  useEffect(() => {
+    getSubject();
+  }, []);
+  // const categories = [
+  //   {
+  //     value: "Evaluaciones",
+  //     label: "Evaluaciones",
+  //     icon: FaGraduationCap,
+  //     color: "#007bff",
+  //   },
+  //   { value: "Trabajos", label: "Trabajos", icon: FaFileAlt, color: "#ff6f3c" },
+  //   {
+  //     value: "Asistencia",
+  //     label: "Asistencia",
+  //     icon: FaCalendarCheck,
+  //     color: "#10b981",
+  //   },
+  //   { value: "Extras", label: "Extras", icon: FaStar, color: "#8b5cf6" },
+  // ];
 
-  const iconOptions = [
-    { value: "exam", label: "Examen", icon: FaGraduationCap },
-    { value: "file", label: "Archivo", icon: FaFileAlt },
-    { value: "skip", label: "Saltar", icon: FaStar },
-    { value: "calendar", label: "Calendario", icon: FaCalendarCheck },
-    { value: "chat", label: "Chat", icon: FaUsers },
-    { value: "clock", label: "Reloj", icon: FaCoins },
-    { value: "book", label: "Libro", icon: FaChartLine },
-    { value: "retry", label: "Reintentar", icon: FaGift },
-  ];
+  // const iconOptions = [
+  //   { value: "exam", label: "Examen", icon: FaGraduationCap },
+  //   { value: "file", label: "Archivo", icon: FaFileAlt },
+  //   { value: "skip", label: "Saltar", icon: FaStar },
+  //   { value: "calendar", label: "Calendario", icon: FaCalendarCheck },
+  //   { value: "chat", label: "Chat", icon: FaUsers },
+  //   { value: "clock", label: "Reloj", icon: FaCoins },
+  //   { value: "book", label: "Libro", icon: FaChartLine },
+  //   { value: "retry", label: "Reintentar", icon: FaGift },
+  // ];
 
-  const colorOptions = [
-    "#007bff",
-    "#ff6f3c",
-    "#b9e769",
-    "#10b981",
-    "#8b5cf6",
-    "#f59e0b",
-    "#dc2626",
-    "#6b7280",
-  ];
+  // const colorOptions = [
+  //   "#007bff",
+  //   "#ff6f3c",
+  //   "#b9e769",
+  //   "#10b981",
+  //   "#8b5cf6",
+  //   "#f59e0b",
+  //   "#dc2626",
+  //   "#6b7280",
+  // ];
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
@@ -94,41 +103,41 @@ const BenefitCreateView: React.FC = (): ReactElement => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const addRestriction = (): void => {
-    setFormData((prev) => ({
-      ...prev,
-      restrictions: [...prev.restrictions, ""],
-    }));
-  };
+  // const addRestriction = (): void => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     restrictions: [...prev.restrictions, ""],
+  //   }));
+  // };
 
-  const removeRestriction = (index: number): void => {
-    setFormData((prev) => ({
-      ...prev,
-      restrictions: prev.restrictions.filter((_, i) => i !== index),
-    }));
-  };
+  // const removeRestriction = (index: number): void => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     restrictions: prev.restrictions.filter((_, i) => i !== index),
+  //   }));
+  // };
 
-  const updateRestriction = (index: number, value: string): void => {
-    setFormData((prev) => ({
-      ...prev,
-      restrictions: prev.restrictions.map((restriction, i) =>
-        i === index ? value : restriction
-      ),
-    }));
-  };
+  // const updateRestriction = (index: number, value: string): void => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     restrictions: prev.restrictions.map((restriction, i) =>
+  //       i === index ? value : restriction
+  //     ),
+  //   }));
+  // };
 
-  const getSelectedIcon = (): IconType => {
-    const selected = iconOptions.find(
-      (option) => option.value === formData.icon
-    );
-    return selected ? selected.icon : FaGift;
-  };
+  // const getSelectedIcon = (): IconType => {
+  //   const selected = iconOptions.find(
+  //     (option) => option.value === formData.icon
+  //   );
+  //   return selected ? selected.icon : FaGift;
+  // };
 
-  const getSelectedCategory = ():
-    | { value: string; label: string; icon: IconType; color: string }
-    | undefined => {
-    return categories.find((cat) => cat.value === formData.category);
-  };
+  // const getSelectedCategory = ():
+  //   | { value: string; label: string; icon: IconType; color: string }
+  //   | undefined => {
+  //   return categories.find((cat) => cat.value === formData.category);
+  // };
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -212,7 +221,9 @@ const BenefitCreateView: React.FC = (): ReactElement => {
                         type="number"
                         placeholder="15"
                         value={formData.cost}
-                        onChange={(e) => handleChange("cost", e.target.value)}
+                        onChange={(e) =>
+                          handleChange("cost", Number(e.target.value))
+                        }
                         min="1"
                         required
                       />
@@ -230,13 +241,14 @@ const BenefitCreateView: React.FC = (): ReactElement => {
                       handleChange("description", e.target.value)
                     }
                     rows={3}
+                    maxLength={1000}
                     required
                   />
                 </div>
               </div>
 
               {/* Category and Appearance */}
-              <div className={styles.section}>
+              {/* <div className={styles.section}>
                 <h3 className={styles.sectionTitle}>Categoría y Apariencia</h3>
                 <div className={styles.formGrid}>
                   <div className={styles.inputGroup}>
@@ -303,34 +315,90 @@ const BenefitCreateView: React.FC = (): ReactElement => {
                     ))}
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Configuration */}
               <div className={styles.section}>
                 <h3 className={styles.sectionTitle}>Configuración</h3>
                 <div className={styles.formGrid}>
-                  <div className={styles.inputGroup}>
+                  {/* <div className={styles.inputGroup}>
                     <label className={styles.label}>Duración/Validez</label>
                     <Input
                       placeholder="Ej: 1 uso, 7 días, 1 mes"
                       value={formData.duration}
                       onChange={(e) => handleChange("duration", e.target.value)}
                     />
-                  </div>
+                  </div> */}
                   <div className={styles.inputGroup}>
-                    <label className={styles.label}>Límite de Uso</label>
+                    <label className={styles.label}>Límite de Uso Total</label>
                     <Input
                       type="number"
                       placeholder="Ej: 50"
-                      value={formData.maxUsage}
-                      onChange={(e) => handleChange("maxUsage", e.target.value)}
+                      value={
+                        formData.totalRedeemableAmount
+                          ? formData.totalRedeemableAmount
+                          : "Ilimitado"
+                      }
+                      onChange={(e) =>
+                        handleChange(
+                          "totalRedeemableAmount",
+                          Number(e.target.value)
+                        )
+                      }
+                      min="1"
+                    />
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <label className={styles.label}>
+                      Límite de Uso Por Estudiante
+                    </label>
+                    <Input
+                      type="number"
+                      placeholder="Ej: 50"
+                      value={
+                        formData.redeemableAmountPerStudent
+                          ? formData.redeemableAmountPerStudent
+                          : "Ilimitado"
+                      }
+                      onChange={(e) =>
+                        handleChange(
+                          "redeemableAmountPerStudent",
+                          Number(e.target.value)
+                        )
+                      }
                       min="1"
                     />
                   </div>
                 </div>
 
+                <div className={styles.inputGroup}>
+                  <label className={styles.label}>Materia *</label>
+                  <select
+                    value={formData.subjectId}
+                    onChange={(e) =>
+                      handleChange("subjectId", Number.parseInt(e.target.value))
+                    }
+                    className={`${styles.select} 
+                      // errors.subjectId ? styles.inputError : ""
+                    `}
+                  >
+                    <option value={0}>Seleccionar materia...</option>
+                    {subjects.map((subject) => (
+                      <option key={subject.id} value={subject.id}>
+                        {subject.name} - {subject.course.year.name}{" "}
+                        {subject.course.name}{" "}
+                      </option>
+                    ))}
+                  </select>
+                  {/* {errors.subjectId && (
+                    <span className={styles.errorMessage}>
+                      <FaExclamationTriangle />
+                      {errors.subjectId}
+                    </span>
+                  )} */}
+                </div>
                 <div className={styles.checkboxGroup}>
-                  <label className={styles.checkboxLabel}>
+                  {/* <label className={styles.checkboxLabel}>
                     <input
                       type="checkbox"
                       checked={formData.isLimited}
@@ -356,12 +424,12 @@ const BenefitCreateView: React.FC = (): ReactElement => {
                       <FaCrown className={styles.premiumIcon} />
                       Beneficio premium (exclusivo)
                     </span>
-                  </label>
+                  </label> */}
                 </div>
               </div>
 
               {/* Restrictions */}
-              <div className={styles.section}>
+              {/* <div className={styles.section}>
                 <h3 className={styles.sectionTitle}>
                   Restricciones y Condiciones
                 </h3>
@@ -399,7 +467,7 @@ const BenefitCreateView: React.FC = (): ReactElement => {
                     Agregar Restricción
                   </Button>
                 </div>
-              </div>
+              </div> */}
 
               {/* Submit */}
               <div className={styles.submitSection}>
@@ -436,7 +504,7 @@ const BenefitCreateView: React.FC = (): ReactElement => {
               <div className={styles.benefitPreview}>
                 {/* Preview Header */}
                 <div className={styles.previewHeader}>
-                  <div className={styles.previewBadges}>
+                  {/* <div className={styles.previewBadges}>
                     {formData.isPremium && (
                       <span className={styles.premiumBadge}>
                         <FaCrown className={styles.badgeIcon} />
@@ -446,7 +514,7 @@ const BenefitCreateView: React.FC = (): ReactElement => {
                     {formData.isLimited && (
                       <span className={styles.limitedBadge}>Limitado</span>
                     )}
-                  </div>
+                  </div> */}
                   <span className={styles.statusBadge}>Activo</span>
                 </div>
 
@@ -454,20 +522,20 @@ const BenefitCreateView: React.FC = (): ReactElement => {
                 <div className={styles.previewContent}>
                   <div
                     className={styles.previewIconWrapper}
-                    style={{ backgroundColor: formData.color }}
+                    style={{ backgroundColor: "#8b5cf6" }}
                   >
-                    {React.createElement(getSelectedIcon(), {
+                    {/* {React.createElement(getSelectedIcon(), {
                       className: styles.previewIcon,
-                    })}
+                    })} */}
                   </div>
                   <div className={styles.previewInfo}>
                     <h4 className={styles.previewName}>
                       {formData.name || "Nombre del Beneficio"}
                     </h4>
-                    <p className={styles.previewCategory}>
+                    {/* <p className={styles.previewCategory}>
                       {getSelectedCategory()?.label ||
                         "Selecciona una categoría"}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
 
@@ -481,14 +549,14 @@ const BenefitCreateView: React.FC = (): ReactElement => {
                     <FaCoins className={styles.previewCostIcon} />
                     <span>{formData.cost || "0"} puntos</span>
                   </div>
-                  {formData.duration && (
+                  {/* {formData.duration && (
                     <div className={styles.previewDuration}>
                       Duración: {formData.duration}
                     </div>
-                  )}
+                  )} */}
                 </div>
 
-                {formData.restrictions.some((r) => r.trim()) && (
+                {/* {formData.restrictions.some((r) => r.trim()) && (
                   <div className={styles.previewRestrictions}>
                     <span className={styles.previewRestrictionsTitle}>
                       Restricciones:
@@ -502,7 +570,7 @@ const BenefitCreateView: React.FC = (): ReactElement => {
                         ))}
                     </ul>
                   </div>
-                )}
+                )} */}
               </div>
             </Card>
           </motion.div>
