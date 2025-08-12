@@ -1,6 +1,3 @@
-"use client";
-
-import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -164,6 +161,11 @@ const GeneralConfiguration: React.FC = () => {
     return node.options.length > 0 || node.consecuence !== null;
   };
 
+  const getLevelText = (depth: number): string => {
+    if (depth === 0) return "Principal";
+    return `Nivel ${depth}`;
+  };
+
   const renderNode = (
     node: DecisionNode,
     path: number[],
@@ -183,6 +185,9 @@ const GeneralConfiguration: React.FC = () => {
       >
         {/* Nodo actual */}
         <div className={nodeClass} data-depth={depth}>
+          {/* Badge de nivel */}
+          <div className={styles.levelBadge}>{getLevelText(depth)}</div>
+
           <input
             type="text"
             value={node.name}
