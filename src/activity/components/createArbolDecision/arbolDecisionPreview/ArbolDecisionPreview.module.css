@@ -1,0 +1,351 @@
+.container {
+  padding: 2rem;
+}
+
+.previewHeader {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.description {
+  color: #6b7280;
+  margin: 0 0 1.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.statIcon {
+  font-size: 1.5rem;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.statValue {
+  display: block;
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+.simulatorContainer {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 2px solid #e2e8f0;
+}
+
+.simulatorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.simulatorTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.simulatorIcon {
+  color: #667eea;
+  font-size: 1.2rem;
+}
+
+.simulatorTitle h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.resetButton {
+  font-size: 0.8rem;
+}
+
+.scenarioCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.scenarioHeader {
+  margin-bottom: 1rem;
+}
+
+.scenarioTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.scenarioContent {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid #667eea;
+}
+
+.scenarioText {
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.pathSection {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e5e7eb;
+}
+
+.pathTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 1rem 0;
+}
+
+.pathList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pathItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: #f0f9ff;
+  border-radius: 8px;
+  border-left: 4px solid #0ea5e9;
+}
+
+.pathNumber {
+  background: #0ea5e9;
+  color: white;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.pathText {
+  color: #0c4a6e;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.decisionsSection {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e5e7eb;
+}
+
+.decisionsSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.decisionsSectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.decisionsInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.decisionsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.decisionOption {
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.decisionOption:hover:not(:disabled) {
+  border-color: #667eea;
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+}
+
+.decisionOption:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.optionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.optionNumber {
+  background: #667eea;
+  color: white;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.optionIcon {
+  color: #667eea;
+}
+
+.optionContent {
+  margin-bottom: 1rem;
+}
+
+.optionText {
+  color: #374151;
+  line-height: 1.5;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.optionFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.optionStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #10b981;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.optionStatusError {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ef4444;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.statusIcon {
+  font-size: 0.7rem;
+}
+
+.nextStepsInfo {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.nextStepsInfo h5 {
+  color: #92400e;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+.nextStepsInfo ul {
+  color: #78350f;
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.nextStepsInfo li {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .simulatorContainer {
+    padding: 1rem;
+  }
+
+  .simulatorHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .decisionsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .decisionsSectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

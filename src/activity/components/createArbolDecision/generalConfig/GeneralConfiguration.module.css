@@ -1,0 +1,593 @@
+.container {
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.headerIcon {
+  font-size: 2rem;
+  color: #82018d;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.description {
+  color: #6b7280;
+  margin: 0.25rem 0 0 0;
+  font-size: 0.9rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.formSection {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.sectionHeader {
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 0.5rem 0;
+}
+
+.sectionDescription {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.labelHint {
+  display: block;
+  font-weight: 400;
+  color: #6b7280;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.textarea {
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #82018d;
+  box-shadow: 0 0 0 3px rgba(130, 1, 141, 0.1);
+}
+
+.textarea.error {
+  border-color: #ef4444;
+}
+
+.errorMessage {
+  color: #ef4444;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.charCount {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.charCount .overLimit {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.submitSection {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #82018d 0%, #a855f7 100%);
+  border: none;
+  box-shadow: 0 4px 15px rgba(130, 1, 141, 0.3);
+  transition: all 0.3s ease;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(130, 1, 141, 0.4);
+}
+
+/* Nuevos estilos para el árbol de decisión visual */
+.treeContainer {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 2px solid #e5e7eb;
+  overflow-x: auto;
+  min-height: 400px;
+}
+
+.treeWrapper {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.decisionBranch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  min-width: 300px;
+  max-width: 450px;
+}
+
+/* Nodos de Decisión Principal - Nivel 0 (más oscuro) */
+.decisionNode {
+  background: linear-gradient(135deg, #82018d 0%, #9333ea 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(130, 1, 141, 0.4);
+  position: relative;
+  width: 100%;
+  text-align: center;
+  border: 2px solid #6b21a8;
+}
+
+.decisionNode::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid #9333ea;
+}
+
+.decisionInput {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  outline: none;
+  padding: 0.25rem;
+}
+
+.decisionInput::placeholder {
+  color: #e9d5ff;
+  opacity: 0.8;
+}
+
+/* Contenedor de Opciones */
+.optionsContainer {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Sistema de colores por niveles - cada nivel es más claro */
+.optionNode {
+  color: white;
+  padding: 0.875rem 1.25rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 200px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border: 2px solid transparent;
+}
+
+/* Nivel 1 de opciones */
+.optionNode[data-depth="1"] {
+  background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+  box-shadow: 0 6px 18px rgba(168, 85, 247, 0.3);
+  border-color: #9333ea;
+}
+
+/* Nivel 2 de opciones */
+.optionNode[data-depth="2"] {
+  background: linear-gradient(135deg, #c084fc 0%, #d8b4fe 100%);
+  box-shadow: 0 6px 18px rgba(192, 132, 252, 0.3);
+  border-color: #a855f7;
+}
+
+/* Nivel 3 de opciones */
+.optionNode[data-depth="3"] {
+  background: linear-gradient(135deg, #d8b4fe 0%, #e9d5ff 100%);
+  box-shadow: 0 6px 18px rgba(216, 180, 254, 0.3);
+  border-color: #c084fc;
+  color: #581c87;
+}
+
+/* Nivel 4 y más */
+.optionNode[data-depth="4"],
+.optionNode[data-depth="5"],
+.optionNode[data-depth="6"],
+.optionNode[data-depth="7"],
+.optionNode[data-depth="8"],
+.optionNode[data-depth="9"] {
+  background: linear-gradient(135deg, #f3e8ff 0%, #faf5ff 100%);
+  box-shadow: 0 4px 12px rgba(243, 232, 255, 0.4);
+  border-color: #d8b4fe;
+  color: #581c87;
+}
+
+.optionInput {
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+  outline: none;
+  padding: 0.25rem;
+  color: inherit;
+}
+
+.optionInput::placeholder {
+  opacity: 0.7;
+}
+
+/* Placeholders específicos por nivel */
+.optionNode[data-depth="1"] .optionInput::placeholder {
+  color: #e9d5ff;
+}
+
+.optionNode[data-depth="2"] .optionInput::placeholder {
+  color: #f3e8ff;
+}
+
+.optionNode[data-depth="3"] .optionInput::placeholder,
+.optionNode[data-depth="4"] .optionInput::placeholder,
+.optionNode[data-depth="5"] .optionInput::placeholder,
+.optionNode[data-depth="6"] .optionInput::placeholder,
+.optionNode[data-depth="7"] .optionInput::placeholder,
+.optionNode[data-depth="8"] .optionInput::placeholder,
+.optionNode[data-depth="9"] .optionInput::placeholder {
+  color: #a855f7;
+}
+
+/* Contenedor de Sub-opciones - anidamiento infinito */
+.subOptionsContainer {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.subOptionBranch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 150px;
+}
+
+/* Botones de Acción */
+.nodeActions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.actionBtn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 0.375rem 0.5rem;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  min-width: 32px;
+  height: 32px;
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.removeBtn {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 6px;
+  padding: 0.375rem 0.5rem;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  min-width: 32px;
+  height: 32px;
+}
+
+.removeBtn:hover {
+  background: rgba(239, 68, 68, 0.4);
+  border-color: #ef4444;
+  transform: translateY(-1px);
+}
+
+/* Contenedor y Nodo de Consecuencia */
+.consequenceContainer {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.consequenceNode {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 250px;
+  box-shadow: 0 4px 16px rgba(148, 163, 184, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.consequenceNode.approved {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: #16a34a;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.2);
+}
+
+.consequenceNode.rejected {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-color: #dc2626;
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.2);
+}
+
+.consequenceIcon {
+  color: #64748b;
+  font-size: 1rem;
+  align-self: center;
+}
+
+.consequenceNode.approved .consequenceIcon {
+  color: #16a34a;
+}
+
+.consequenceNode.rejected .consequenceIcon {
+  color: #dc2626;
+}
+
+.consequenceTextarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.4;
+  min-height: 60px;
+  background: white;
+}
+
+.consequenceTextarea:focus {
+  outline: none;
+  border-color: #82018d;
+  box-shadow: 0 0 0 2px rgba(130, 1, 141, 0.15);
+}
+
+.consequenceTextarea::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Botones de Aprobación */
+.approvalButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.approvalBtn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.approvalBtn.approve.active {
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+  color: white;
+  border-color: #16a34a;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+.approvalBtn.reject.active {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  color: white;
+  border-color: #dc2626;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+
+.approvalBtn:hover:not(.active) {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+}
+
+.approvalBtn:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .treeWrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .decisionBranch {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .treeContainer {
+    padding: 1rem;
+    overflow-x: visible;
+  }
+
+  .treeWrapper {
+    gap: 2rem;
+  }
+
+  .decisionBranch {
+    min-width: auto;
+    width: 100%;
+    max-width: none;
+  }
+
+  .optionsContainer {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .subOptionBranch {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .optionNode {
+    max-width: none;
+  }
+
+  .subOptionsContainer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .consequenceNode {
+    max-width: none;
+  }
+
+  .header {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .headerIcon {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .formSection {
+    padding: 1rem;
+  }
+
+  .treeContainer {
+    padding: 0.75rem;
+  }
+
+  .nodeActions {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .actionBtn,
+  .removeBtn {
+    min-width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+  }
+
+  .approvalButtons {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
+}
