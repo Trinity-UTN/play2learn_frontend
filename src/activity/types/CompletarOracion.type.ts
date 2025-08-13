@@ -9,6 +9,5 @@ export interface Sentence {
 }
 
 export interface CompletarOracionInterface {
-  attempts: number;
   sentences: Sentence[];
 }

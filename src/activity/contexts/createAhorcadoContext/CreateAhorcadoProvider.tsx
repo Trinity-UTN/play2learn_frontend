@@ -20,7 +20,6 @@ export const CreateAhorcadoProvider = ({
   const [ahorcadoData, setAhorcadoData] = useState<AhorcadoInterface>({
     word: "",
     errorsPermited: "TRES",
-    attempts: 1,
   });
   const [errors, setErrors] = useState<Partial<AhorcadoErrors>>({});
   const [isPreviewMode, setIsPreviewMode] = useState(false);
@@ -59,10 +58,6 @@ export const CreateAhorcadoProvider = ({
       newErrors.word = "Solo puede contener letras";
     }
 
-    if (ahorcadoData.attempts < 1 || ahorcadoData.attempts > 5) {
-      newErrors.attempts = "Los intentos deben estar entre 1 y 5";
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -94,7 +89,6 @@ export const CreateAhorcadoProvider = ({
     setAhorcadoData({
       word: "",
       errorsPermited: "TRES",
-      attempts: 1,
     });
     setErrors({});
     setGuessedLetters([]);
@@ -126,8 +120,8 @@ export const CreateAhorcadoProvider = ({
   };
 
   const difficultyLevels = [
-    { errors: "TRES", label: "Difícil", color: "#ef4444", valor: "3" },
     { errors: "CINCO", label: "Fácil", color: "#10b981", valor: "5" },
+    { errors: "TRES", label: "Difícil", color: "#ef4444", valor: "3" },
   ];
 
   const wordSuggestions = [

@@ -9,7 +9,6 @@ import styles from "./SequencePreview.module.css";
 
 interface SequencePreviewProps {
   events: SequenceEvent[];
-  attempts: number;
 }
 
 interface PreviewEvent extends SequenceEvent {
@@ -17,12 +16,8 @@ interface PreviewEvent extends SequenceEvent {
   isCorrect?: boolean;
 }
 
-const SequencePreview: React.FC<SequencePreviewProps> = ({
-  events,
-  attempts,
-}) => {
+const SequencePreview: React.FC<SequencePreviewProps> = ({ events }) => {
   const [previewEvents, setPreviewEvents] = useState<PreviewEvent[]>([]);
-  const [currentAttempt, setCurrentAttempt] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameResult, setGameResult] = useState<"win" | "lose" | null>(null);
 
@@ -44,7 +39,6 @@ const SequencePreview: React.FC<SequencePreviewProps> = ({
     }));
 
     setPreviewEvents(shuffledEvents);
-    setCurrentAttempt(1);
     setIsPlaying(true);
     setGameResult(null);
   };
@@ -57,11 +51,9 @@ const SequencePreview: React.FC<SequencePreviewProps> = ({
     if (isCorrect) {
       setGameResult("win");
       setIsPlaying(false);
-    } else if (currentAttempt >= attempts) {
+    } else {
       setGameResult("lose");
       setIsPlaying(false);
-    } else {
-      setCurrentAttempt((prev) => prev + 1);
       // Marcar eventos incorrectos
       const updatedEvents = previewEvents.map((event, index) => ({
         ...event,
@@ -80,7 +72,6 @@ const SequencePreview: React.FC<SequencePreviewProps> = ({
 
   const resetPreview = () => {
     setPreviewEvents([]);
-    setCurrentAttempt(0);
     setIsPlaying(false);
     setGameResult(null);
   };
@@ -104,7 +95,6 @@ const SequencePreview: React.FC<SequencePreviewProps> = ({
         <h3 className={styles.previewTitle}>Vista Previa del Juego</h3>
         <div className={styles.previewStats}>
           <span className={styles.stat}>Eventos: {events.length}</span>
-          <span className={styles.stat}>Intentos: {attempts}</span>
         </div>
       </div>
 
@@ -129,12 +119,6 @@ const SequencePreview: React.FC<SequencePreviewProps> = ({
       {isPlaying && (
         <div className={styles.gameSection}>
           <div className={styles.gameHeader}>
-            <div className={styles.attemptInfo}>
-              <span className={styles.attemptLabel}>Intento:</span>
-              <span className={styles.attemptValue}>
-                {currentAttempt}/{attempts}
-              </span>
-            </div>
             <Button
               variant="outline"
               size="sm"
@@ -227,7 +211,7 @@ const SequencePreview: React.FC<SequencePreviewProps> = ({
             <p className={styles.resultDescription}>
               {gameResult === "win"
                 ? "Los eventos están en el orden correcto."
-                : `Se agotaron los ${attempts} intentos disponibles.`}
+                : `Los eventos no estan en el orden correcto. Intenta de nuevo.`}
             </p>
             <Button
               variant="primary"

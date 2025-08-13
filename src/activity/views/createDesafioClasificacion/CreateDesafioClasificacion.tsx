@@ -13,12 +13,10 @@ const CreateDesafioClasificacionView = () => {
   const {
     //Estados
     categories,
-    attempts,
     showPreview,
     isSubmitting,
     canSubmit,
     //Setters
-    setAttempts,
     setShowPreview,
     //Envio
     handleSubmit,
@@ -68,21 +66,6 @@ const CreateDesafioClasificacionView = () => {
           >
             <Card className={styles.configCard}>
               <h3 className={styles.configTitle}>Configuración</h3>
-
-              <div className={styles.configSection}>
-                <label className={styles.configLabel}>Número de intentos</label>
-                <select
-                  value={attempts}
-                  onChange={(e) => setAttempts(Number(e.target.value))}
-                  className={styles.configSelect}
-                >
-                  {[...Array(5)].map((_, i) => (
-                    <option key={i + 1} value={i + 1}>
-                      {i + 1} intento{i + 1 > 1 ? "s" : ""}
-                    </option>
-                  ))}
-                </select>
-              </div>
 
               <div className={styles.configSection}>
                 <Button
@@ -152,7 +135,6 @@ const CreateDesafioClasificacionView = () => {
         >
           <ClassificationPreview
             categories={categories}
-            attempts={attempts}
             onClose={() => setShowPreview(false)}
           />
         </motion.div>

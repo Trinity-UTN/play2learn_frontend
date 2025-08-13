@@ -147,7 +147,6 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
 
     try {
       const gameData: ArbolDecisionInterface = {
-        attempts: 5, // TODO: ATTEMPTS REMOVAL,
         introduction: config.introduction.trim(),
         decisionTree: config.decisionTree,
       };

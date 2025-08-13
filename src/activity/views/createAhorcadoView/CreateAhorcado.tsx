@@ -4,7 +4,6 @@ import { FaGamepad, FaEye, FaEdit, FaSave, FaUndo } from "react-icons/fa";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import AhorcadoWordConfig from "../../components/createAhorcado/ahorcadoWordConfig/AhorcadoWordConfig";
 import AhorcadoDificultySelector from "../../components/createAhorcado/ahorcadoDifficultySelector/AhorcadoDificultySelector";
-import AhorcadoAttemptsSelector from "../../components/createAhorcado/ahorcadoAttemptsSelector/AhorcadoAttemptsSelector";
 import AhorcadoPreview from "../../components/createAhorcado/ahorcadoPreview/AhorcadoPreview";
 import { useEffect, useState } from "react";
 import { useCreateAhorcado } from "../../hooks/useCreateAhorcado";
@@ -65,8 +64,6 @@ const CreateAhorcado = () => {
             <AhorcadoWordConfig />
             {/* Configuración de Dificultad */}
             <AhorcadoDificultySelector />
-            {/* Configuración de Intentos */}
-            <AhorcadoAttemptsSelector />
           </>
         ) : (
           /* Vista Previa del Juego */

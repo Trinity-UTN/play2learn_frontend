@@ -86,24 +86,6 @@
   border: 1px solid rgba(102, 126, 234, 0.1);
 }
 
-.attemptInfo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.attemptLabel {
-  font-size: 0.875rem;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.attemptValue {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #667eea;
-}
-
 .checkButton {
   display: flex;
   align-items: center;

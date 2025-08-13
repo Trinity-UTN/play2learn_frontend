@@ -14,7 +14,6 @@ export interface PreguntadosConfig {
 }
 
 export interface PreguntadosInterface {
-  attempts: number;
   maxTimePerQuestionInSeconds: number;
   questions: Question[];
 }

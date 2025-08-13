@@ -15,6 +15,7 @@ import {
   FaColumns,
   FaList,
   FaGamepad,
+  FaRedoAlt,
 } from "react-icons/fa";
 import type {
   ConfigurationActivity,
@@ -37,6 +38,7 @@ const ConfigureActivityView: React.FC = () => {
     dificulty: "",
     maxTime: 30,
     subjectId: 0,
+    attempts: 1,
   });
 
   const { code_game } = useParams();
@@ -54,10 +56,14 @@ const ConfigureActivityView: React.FC = () => {
   // Mapeo de nombres de actividades TODO: Traerlo bien de otro lado
   const getActivityName = (code: string) => {
     const activityNames: { [key: string]: string } = {
-      ahorcado: "Ahorcado",
-      "completar-oracion": "Completar Oración",
-      "verdadero-falso": "Verdadero o Falso",
-      "multiple-choice": "Opción Múltiple",
+      ahorcado_educativo: "Ahorcado",
+      arbol_decision: "Árbol de Decisión",
+      completear_oraciones: "Completar Oraciones",
+      desafio_clasificacion: "Desafío de Clasificación",
+      memorama: "Memorama",
+      no_ludica: "No Lúdica",
+      ordenar_secuencia: "Ordenar Secuencia",
+      preguntados: "Preguntados",
     };
     return activityNames[code] || "Actividad";
   };
@@ -138,6 +144,10 @@ const ConfigureActivityView: React.FC = () => {
 
     if (configuration.subjectId === 0) {
       newErrors.subjectId = "Debe seleccionar una materia";
+    }
+
+    if (configuration.attempts <= 0) {
+      newErrors.attempts = "El numero de intentos debe ser mayor a 0";
     }
 
     setErrors(newErrors);
@@ -386,8 +396,8 @@ const ConfigureActivityView: React.FC = () => {
                           Tiempo límite para completar la actividad
                         </span>
                       </label>
-                      <div className={styles.timeInputWrapper}>
-                        <FaClock className={styles.timeIcon} />
+                      <div className={styles.dcInputWrapper}>
+                        <FaClock className={styles.dcIcon} />
                         <Input
                           type="number"
                           value={configuration.maxTime}
@@ -402,7 +412,33 @@ const ConfigureActivityView: React.FC = () => {
                           max="180"
                           className={styles.timeInput}
                         />
-                        <span className={styles.timeUnit}>min</span>
+                        <span className={styles.dcUnit}>min</span>
+                      </div>
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <label className={styles.label}>
+                        Número de Intentos *
+                        <span className={styles.labelHint}>
+                          Número de intentos para completar la actividad
+                        </span>
+                      </label>
+                      <div className={styles.dcInputWrapper}>
+                        <FaRedoAlt className={styles.dcIcon} />
+                        <Input
+                          type="number"
+                          value={configuration.attempts}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "attempts",
+                              Number.parseInt(e.target.value) || 0
+                            )
+                          }
+                          error={errors.attempts}
+                          min="1"
+                          max="10"
+                          className={styles.attemptsInput}
+                        />
+                        <span className={styles.dcUnit}>intentos</span>
                       </div>
                     </div>
                   </div>
@@ -533,6 +569,13 @@ const ConfigureActivityView: React.FC = () => {
                     <div>
                       <h4>Tiempo Máximo</h4>
                       <p>{configuration.maxTime} minutos</p>
+                    </div>
+                  </div>
+                  <div className={styles.previewItem}>
+                    <FaRedoAlt className={styles.previewIcon} />
+                    <div>
+                      <h4>Cantidad de Intentos</h4>
+                      <p>{configuration.attempts} intento/s</p>
                     </div>
                   </div>
                   <div className={styles.previewItem}>
