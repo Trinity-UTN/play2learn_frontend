@@ -105,7 +105,6 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
 
     try {
       const gameData: NoLudicaInterface = {
-        attempts: 5, // TODO: ATTEMPTS REMOVAL
         excercise: config.excercise.trim(),
         tipoEntrega: config.tipoEntrega,
       };
