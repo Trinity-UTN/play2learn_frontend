@@ -8,7 +8,6 @@ import {
   FaCheck,
   FaExclamationTriangle,
   FaTrophy,
-  FaHeart,
 } from "react-icons/fa";
 import type {
   ClassificationCategory,
@@ -21,7 +20,6 @@ import styles from "./ClasificacionPreview.module.css";
 
 interface ClassificationPreviewProps {
   categories: ClassificationCategory[];
-  attempts: number;
   onClose: () => void;
 }
 
@@ -32,11 +30,9 @@ interface GameConcept extends ClassificationConcept {
 
 const ClassificationPreview: React.FC<ClassificationPreviewProps> = ({
   categories,
-  attempts,
   onClose,
 }) => {
   const [gameStarted, setGameStarted] = useState(false);
-  const [currentAttempt, setCurrentAttempt] = useState(1);
   const [shuffledConcepts, setShuffledConcepts] = useState<GameConcept[]>([]);
   const [gameCategories, setGameCategories] = useState<
     ClassificationCategory[]
@@ -159,19 +155,16 @@ const ClassificationPreview: React.FC<ClassificationPreviewProps> = ({
 
     if (correctCount === totalConcepts) {
       setGameStatus("won");
-    } else if (currentAttempt >= attempts) {
-      setGameStatus("lost");
     } else {
+      setGameStatus("lost");
       // Permitir otro intento
       setTimeout(() => {
-        setCurrentAttempt((prev) => prev + 1);
         setFeedback({});
       }, 2000);
     }
   };
 
   const resetGame = () => {
-    setCurrentAttempt(1);
     initializeGame();
   };
 
@@ -240,10 +233,6 @@ const ClassificationPreview: React.FC<ClassificationPreviewProps> = ({
                     </span>
                     <span className={styles.gameStatLabel}>Conceptos</span>
                   </div>
-                  <div className={styles.gameStat}>
-                    <span className={styles.gameStatNumber}>{attempts}</span>
-                    <span className={styles.gameStatLabel}>Intentos</span>
-                  </div>
                 </div>
 
                 <Button
@@ -260,12 +249,6 @@ const ClassificationPreview: React.FC<ClassificationPreviewProps> = ({
             <div className={styles.gameArea}>
               <div className={styles.gameHeader}>
                 <div className={styles.gameProgress}>
-                  <div className={styles.attempts}>
-                    <FaHeart className={styles.heartIcon} />
-                    <span>
-                      Intento {currentAttempt} de {attempts}
-                    </span>
-                  </div>
                   {score > 0 && (
                     <div className={styles.score}>
                       <FaTrophy className={styles.trophyIcon} />

@@ -25,7 +25,6 @@ export const DesafioClasificacionProvider: React.FC<
 
   const [categories, setCategories] = useState<ClassificationCategory[]>([]);
   const [showPreview, setShowPreview] = useState(false);
-  const [attempts, setAttempts] = useState(3);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const desafioService = DesafioClasificacionService;
@@ -169,7 +168,6 @@ export const DesafioClasificacionProvider: React.FC<
 
   const generateCreatePayload = () => {
     const payload: CreateClassification = {
-      attempts,
       categories: categories.map((category) => ({
         name: category.name,
         concepts: category.concepts.map((concept) => ({
@@ -189,7 +187,6 @@ export const DesafioClasificacionProvider: React.FC<
   const resetForm = () => {
     // Reset form
     setCategories([]);
-    setAttempts(3);
     setShowPreview(false);
   };
 
@@ -241,14 +238,12 @@ export const DesafioClasificacionProvider: React.FC<
   const contextValue: ClasificacionContextType = {
     //Estados
     categories,
-    attempts,
     showPreview,
     isSubmitting,
     canSubmit,
     totalConcepts,
     //Setters
     setCategories,
-    setAttempts,
     setShowPreview,
     //Gets
     getAllConcepts,
