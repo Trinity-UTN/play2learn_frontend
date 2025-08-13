@@ -242,7 +242,6 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
 
     try {
       const gameData: MemoramaInterface = {
-        attempts: 5, //TODO: ATTEMPTS REMOVAL
         concepts: pairs.map((pair) => pair.concept),
         images: pairs.map((pair) => pair.image!).filter(Boolean),
       };
