@@ -255,7 +255,6 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
 
     try {
       const gameData: PreguntadosInterface = {
-        attempts: 5, // TODO: ATTEMPTS REMOVAL
         maxTimePerQuestionInSeconds: config.maxTimePerQuestionInSeconds,
         questions: questions,
       };
