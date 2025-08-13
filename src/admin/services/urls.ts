@@ -10,5 +10,6 @@ export const urls = {
   Course: "/admin/courses",
   CoursePaginated: "/admin/courses/paginated",
   Subject: "/admin/subjects",
+  SubjectTeacher: "/admin/subjects/teacher",
   SubjectPaginated: "admin/subjects/paginated",
 };

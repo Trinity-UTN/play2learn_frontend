@@ -67,6 +67,15 @@ const getSubjectApi = async () => {
     throw error;
   }
 };
+const getSubjectByTeacherApi = async () => {
+  try {
+    const response = await api.get(urls.SubjectTeacher);
+    return response;
+  } catch (error) {
+    console.error("Error al obtener las materias:", error); // TODO: REMOVE_DEBUG
+    throw error;
+  }
+};
 
 const getPaginatedSubjectApi = async (
   params: GetPaginated
@@ -101,4 +110,5 @@ export const SubjectService = {
   getSubjectApi,
   getPaginatedSubjectApi,
   deleteSubjectApi,
+  getSubjectByTeacherApi,
 };

@@ -13,6 +13,7 @@ export interface SubjectContextType {
   registerSubject: (data: CreateSubjectPayload) => Promise<void>;
   updateSubject: (data: UpdateSubjectPayload) => Promise<void>;
   getSubject: () => void;
+  getSubjectByTeacher: () => void;
   getPaginatedSubject: (params: GetPaginated) => Promise<void>;
   deleteSubject: (id: number) => Promise<void>;
   subjects: SubjectResponseDto[];
