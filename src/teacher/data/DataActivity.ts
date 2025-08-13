@@ -73,7 +73,7 @@ export const activities: Activity[] = [
     color: "#f9c74f",
     features: ["Memoria visual", "Asociación", "Comprensión"],
   },
-   {
+  {
     id: 6,
     name: "Desafio de Clasificación",
     code_game: "desafio_clasificacion",
@@ -86,7 +86,27 @@ export const activities: Activity[] = [
     color: "#dc2626",
     features: ["Orden", "Lógica", "Resolución"],
     isNew: true,
-   },
+  },
+  {
+    id: 7,
+    code_game: "arbol_decision",
+    name: "Árbol de Decisión",
+    type: "Lógica y Clasificación",
+    description:
+      "Analiza diferentes opciones y clasifica la información para llegar a una conclusión",
+    difficulty: "Difícil",
+    duration: "20-30 min",
+    subject: "General",
+    icon: "tree",
+    color: "#ef4444",
+    features: [
+      "Análisis",
+      "Clasificación",
+      "Pensamiento lógico",
+      "Resolución de problemas",
+    ],
+    isNew: true,
+  },
   {
     id: 8,
     code_game: "no_ludica",
@@ -101,45 +121,4 @@ export const activities: Activity[] = [
     color: "#f59e0b",
     features: ["Producción", "Expresión", "Análisis", "Reflexión"],
   },
-  // {
-  //   id: 6,
-  //   name: "Memoria Visual",
-  //   type: "Juego de Memoria",
-  //   description:
-  //     "Ejercita tu memoria visual recordando patrones, colores y secuencias.",
-  //   difficulty: "Fácil",
-  //   duration: "8-12 min",
-  //   subject: "General",
-  //   icon: "memory",
-  //   color: "#059669",
-  //   features: ["Memoria", "Atención", "Concentración"],
-  //   isNew: true,
-  // },
-  // {
-  //   id: 7,
-  //   name: "Sopa de Letras",
-  //   type: "Búsqueda de Palabras",
-  //   description:
-  //     "Encuentra palabras ocultas en una cuadrícula de letras aleatorias.",
-  //   difficulty: "Fácil",
-  //   duration: "12-18 min",
-  //   subject: "Lengua",
-  //   icon: "random",
-  //   color: "#f59e0b",
-  //   features: ["Vocabulario", "Atención", "Paciencia"],
-  // },
-  // {
-  //   id: 8,
-  //   name: "Quiz Científico",
-  //   type: "Evaluación Interactiva",
-  //   description:
-  //     "Pon a prueba tus conocimientos científicos con preguntas desafiantes.",
-  //   difficulty: "Difícil",
-  //   duration: "30-40 min",
-  //   subject: "Ciencias",
-  //   icon: "questions",
-  //   color: "#8b5cf6",
-  //   features: ["Ciencia", "Análisis", "Conocimiento", "Razonamiento"],
-  //   isPopular: true,
-  // },
 ];
