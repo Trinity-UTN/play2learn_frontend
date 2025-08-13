@@ -12,11 +12,9 @@ import { useCreateOrdenarSecuencia } from "../../hooks/useOrdenarSecuencia";
 const CreateSequenceView = () => {
   const {
     events,
-    attempts,
     cantEvents,
     showPreview,
     isSubmitting,
-    setAttempts,
     setCantEvents,
     setShowPreview,
     addEvent,
@@ -77,23 +75,6 @@ const CreateSequenceView = () => {
               </div>
               <div className={styles.configSection}>
                 <div className={styles.inputGroup}>
-                  <label htmlFor="attempts" className={styles.label}>
-                    Número de Intentos
-                  </label>
-                  <select
-                    id="attempts"
-                    value={attempts}
-                    onChange={(e) => setAttempts(Number(e.target.value))}
-                    className={styles.select}
-                  >
-                    {[...Array(5)].map((_, i) => (
-                      <option key={i + 1} value={i + 1}>
-                        {i + 1} intento{i + 1 > 1 ? "s" : ""}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className={styles.inputGroup}>
                   <label htmlFor="events" className={styles.label}>
                     Número de eventos
                   </label>
@@ -103,9 +84,9 @@ const CreateSequenceView = () => {
                     onChange={(e) => setCantEvents(Number(e.target.value))}
                     className={styles.select}
                   >
-                    {[...Array(10)].map((_, i) => (
-                      <option key={i + 1} value={i + 1}>
-                        {i + 1} intento{i + 1 > 1 ? "s" : ""}
+                    {[...Array(8)].map((_, i) => (
+                      <option key={i + 3} value={i + 3}>
+                        {i + 3} evento{i + 3 > 1 ? "s" : ""}
                       </option>
                     ))}
                   </select>
@@ -116,10 +97,6 @@ const CreateSequenceView = () => {
                     <span className={styles.statValue}>
                       {events.length}/{cantEvents}
                     </span>
-                  </div>
-                  <div className={styles.stat}>
-                    <span className={styles.statLabel}>Intentos:</span>
-                    <span className={styles.statValue}>{attempts}</span>
                   </div>
                 </div>
               </div>
@@ -174,7 +151,7 @@ const CreateSequenceView = () => {
 
         {showPreview && (
           <motion.div variants={itemVariants} className={styles.previewSection}>
-            <SequencePreview events={events} attempts={attempts} />
+            <SequencePreview events={events} />
           </motion.div>
         )}
       </div>

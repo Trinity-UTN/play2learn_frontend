@@ -3,14 +3,12 @@ import type { SequenceEvent } from "../../types/OrdenarSecuencia.type"; // Ajust
 export interface OrdenarSecuenciaContextType {
   // States
   events: SequenceEvent[];
-  attempts: number;
   cantEvents: number;
   showPreview: boolean;
   isSubmitting: boolean;
 
   // Setters
   setEvents: React.Dispatch<React.SetStateAction<SequenceEvent[]>>;
-  setAttempts: React.Dispatch<React.SetStateAction<number>>;
   setCantEvents: React.Dispatch<React.SetStateAction<number>>;
   setShowPreview: React.Dispatch<React.SetStateAction<boolean>>;
   setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;

@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 import type { OrdenarSecuenciaContextType } from "./OrdenarSecuenciaContext.type";
 import { OrdenarSecuenciaContext } from "./OrdenarSecuenciaContext";
 import type {
@@ -9,6 +10,7 @@ import type {
 import { useToaster } from "../../../shared/hooks/useToaster";
 import { OrdenarSecuenciaService } from "../../services/ordenarSecuencia/OrdenarSecuenciaService";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
+
 interface OrdenarSecuenciaProviderProps {
   children: ReactNode;
 }
@@ -18,17 +20,19 @@ export const OrdenarSecuenciaProvider: React.FC<
 > = ({ children }) => {
   //CONST y SETTERS
   const [events, setEvents] = useState<SequenceEvent[]>([]);
-  const [attempts, setAttempts] = useState<number>(3);
   const [cantEvents, setCantEvents] = useState<number>(5);
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [eventImages, setEventImages] = useState<(File | null)[]>([]);
   const { showToast } = useToaster();
   const { configurationActivity } = useConfigurationActivity();
+  const navigate = useNavigate();
+
   //ACTIONS
   const registrarOrdernarSecuencia = async (formData: FormData) => {
     await OrdenarSecuenciaService.registerOrdenarSecuenciaApi(formData);
   };
+
   //Agregar un nuevo evento
   const addEvent = (eventData: Omit<SequenceEvent, "id" | "order">) => {
     if (events.length >= cantEvents) return;
@@ -97,7 +101,6 @@ export const OrdenarSecuenciaProvider: React.FC<
   const resetForm = () => {
     setEvents([]);
     setEventImages([]);
-    setAttempts(3);
     setShowPreview(false);
   };
   //Mandar enventos
@@ -122,7 +125,6 @@ export const OrdenarSecuenciaProvider: React.FC<
       }));
 
       const sequencePayload: CreateSequencePayload = {
-        attempts,
         events: eventPayloads,
       };
 
@@ -150,6 +152,8 @@ export const OrdenarSecuenciaProvider: React.FC<
 
       // Reset del formulario
       resetForm();
+
+      navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
       console.error("Error al crear la secuencia:", error);
       showToast({
@@ -164,14 +168,12 @@ export const OrdenarSecuenciaProvider: React.FC<
 
   const contextValue: OrdenarSecuenciaContextType = {
     //STATES
-    attempts,
     events,
     cantEvents,
     showPreview,
     isSubmitting,
     //SETTERS
     setEvents,
-    setAttempts,
     setCantEvents,
     setShowPreview,
     setIsSubmitting,
