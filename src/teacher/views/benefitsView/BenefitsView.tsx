@@ -22,13 +22,14 @@ import styles from "./BenefitsView.module.css";
 import type { IconType } from "react-icons";
 import BenefitsList from "../../components/benefitsView/benefitsList/BenefitsList";
 import { useBenefit } from "../../hooks/useBenefit";
-
+import { useNavigate } from "react-router-dom";
 const BenefitsView: React.FC = () => {
   // const [searchTerm, setSearchTerm] = useState("");
   // const [selectedCategory, setSelectedCategory] = useState<string>("all");
   // const [selectedStatus, setSelectedStatus] = useState<string>("all");
   // const [sortBy, setSortBy] = useState<string>("name");
   const { benefits, getBenefits } = useBenefit();
+  const navigate = useNavigate();
   const beneficiosEjemeplo: BenefitResponse[] = [
     // {
     //   id: 7,
@@ -154,7 +155,11 @@ const BenefitsView: React.FC = () => {
             Administra las recompensas disponibles para los estudiantes
           </p>
         </div>
-        <Button variant="primary" className={styles.createButton}>
+        <Button
+          variant="primary"
+          className={styles.createButton}
+          onClick={() => navigate("/dashboard/teacher/beneficio/create")}
+        >
           <FaGift className={styles.buttonIcon} />
           Nuevo Beneficio
         </Button>
