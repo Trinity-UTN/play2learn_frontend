@@ -15,7 +15,6 @@ export interface ArbolDecisionConfig {
 }
 
 export interface ArbolDecisionInterface {
-  attempts: number; //TODO: ATTEMPTS REMOVAL
   introduction: string;
   decisionTree: DecisionNode[];
 }
