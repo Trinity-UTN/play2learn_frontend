@@ -52,14 +52,6 @@ const AhorcadoPreview = () => {
                   </span>
                 </div>
                 <div className={styles.stat}>
-                  <span className={styles.statLabel}>
-                    Intentos Disponibles:
-                  </span>
-                  <span className={styles.statValue}>
-                    {ahorcadoData.attempts}
-                  </span>
-                </div>
-                <div className={styles.stat}>
                   <span className={styles.statLabel}>Longitud de Palabra:</span>
                   <span className={styles.statValue}>
                     {ahorcadoData.word.length} letras
