@@ -134,10 +134,8 @@ const CreateCompletarOracion = () => {
     if (!isFormValid) return;
 
     try {
-      console.log("Oraciones a enviar:", sentences);
-      // Crear solo los datos específicos del juego (CompletarOracionInterface)
+      // console.log("Oraciones a enviar:", sentences);
       const gameData = {
-        attempts: 5, // TODO: Cambiar interfaz de configurationActivity para que tenga attempts.
         sentences: sentences.map((sentence) => ({
           words: sentence.words.map((word) => ({
             word: word.word,
@@ -146,7 +144,7 @@ const CreateCompletarOracion = () => {
           })),
         })),
       };
-      console.log("Datos del juego preparados:", gameData);
+      // console.log("Datos del juego preparados:", gameData);
       await registrarCompletarOracion(gameData);
       alert("Actividad creada exitosamente");
       navigate("/dashboard/teacher/actividades/list");

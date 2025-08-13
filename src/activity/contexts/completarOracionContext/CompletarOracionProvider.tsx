@@ -22,15 +22,15 @@ export const CompletarOracionProvider: React.FC<
   ): Promise<void> => {
     setLoading(true);
 
-    console.log("=== COMPLETAR ORACIÓN DEBUG ===");
-    console.log("Datos del juego recibidos:", data);
-    console.log("Configuración de actividad:", configurationActivity);
+    // console.log("=== COMPLETAR ORACIÓN DEBUG ===");
+    // console.log("Datos del juego recibidos:", data);
+    // console.log("Configuración de actividad:", configurationActivity);
     const dataMandar = makeData(
       data,
       configurationActivity as ConfigurationActivity
     );
-    console.log("Payload final a enviar:", dataMandar);
-    console.log("=== FIN DEBUG ===");
+    // console.log("Payload final a enviar:", dataMandar);
+    // console.log("=== FIN DEBUG ===");
 
     try {
       await CompletarOracionService.registerCompletarOracionApi(dataMandar);
