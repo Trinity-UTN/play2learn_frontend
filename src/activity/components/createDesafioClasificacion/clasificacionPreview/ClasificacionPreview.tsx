@@ -424,7 +424,7 @@ const ClassificationPreview: React.FC<ClassificationPreviewProps> = ({
                     <div className={styles.loseMessage}>
                       <FaExclamationTriangle className={styles.loseIcon} />
                       <h3>Juego terminado</h3>
-                      <p>Has agotado todos tus intentos</p>
+                      <p>Has clasificado todos los conceptos incorrectamente</p>
                       <p className={styles.finalScore}>
                         Puntuación final: {score}%
                       </p>
