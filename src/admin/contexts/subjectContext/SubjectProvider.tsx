@@ -67,7 +67,6 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     setLoading(true);
     try {
       const response = await SubjectService.getSubjectByTeacherApi();
-      console.log(response.data.data);
       setSubjects(response.data.data);
     } catch (error) {
       console.error("Error al obtener las materias:", error); // TODO: REMOVE_DEBUG

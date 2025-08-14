@@ -20,7 +20,7 @@ const CreateSubjectView: React.FC = () => {
 
   const { getYear, years } = useYear();
   const { getCourse, courses } = useCourse();
-  const { getTeacher, teachers } = useTeacher();
+  const { getTeacher, teacher } = useTeacher();
   const { registerSubject, updateSubject, loading, selectedSubject } =
     useSubject();
 
@@ -201,7 +201,7 @@ const CreateSubjectView: React.FC = () => {
                 }
               >
                 <option value="">Seleccionar docente</option>
-                {teachers.map((teacher) => (
+                {teacher.map((teacher) => (
                   <option value={teacher.id} key={teacher.id}>
                     {teacher.name}
                   </option>

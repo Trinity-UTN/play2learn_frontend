@@ -45,12 +45,12 @@ const ConfigureActivityView: React.FC = () => {
   const [errors, setErrors] = useState<ConfigurationErrors>({});
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [isVerticalLayout, setIsVerticalLayout] = useState(false);
-  const { subjects, getSubject } = useSubject();
+  const { subjects, getSubjectByTeacher } = useSubject();
   const { registerConfigurationActivity } = useConfigurationActivity();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getSubject();
+    getSubjectByTeacher();
   }, []);
 
   // Mapeo de nombres de actividades TODO: Traerlo bien de otro lado
