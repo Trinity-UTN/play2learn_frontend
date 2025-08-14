@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../user/hooks/useAuth";
 
-export type Role = "ROLE_ADMIN" | "ROLE_TEACHER" | "estudiante";
+export type Role = "ROLE_ADMIN" | "ROLE_TEACHER" | "ROLE_STUDENT";
 
 const ProtectedRoute = ({
   allowedRoles,

@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.title {
+  font-size: 2rem;
+  color: #ffe3db;
+  margin-bottom: 10px;
+}
+
+.message {
+  font-size: 1.2rem;
+  color: #b3b3b3;
+}
