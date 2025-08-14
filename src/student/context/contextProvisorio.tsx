@@ -1,6 +1,6 @@
 import type React from "react";
 import { createContext, useContext, useState, useEffect } from "react";
-import type { StudentProfile } from "../types/walletType";
+import type { StudentProfile } from "../types/generalType";
 
 interface StudentAuthContextType {
   isAuthenticated: boolean;

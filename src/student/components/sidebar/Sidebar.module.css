@@ -21,13 +21,34 @@
 }
 
 .header {
-  padding: 2rem 1.5rem;
+  display: flex;
+  min-height: 150px;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.3rem 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   z-index: 1;
 }
+.buttonPerfil {
+  width: 80%;
+  border-radius: 10px;
+  border: none;
+  background-color: transparent;
+  padding: 0.5rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.buttonPerfil:hover {
+  /* border: 1px solid #ef4444; */
+  background-color: #10b98139;
+  transform: scale(1.05);
+}
 
 .profile {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -38,11 +59,16 @@
 }
 
 .avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 3px solid #3b82f6;
+  position: relative;
+  width: 70px !important;
+  height: 70px !important;
   object-fit: cover;
+  z-index: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.avatar:hover {
+  transform: scale(1.5);
 }
 
 .levelBadge {

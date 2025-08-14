@@ -45,21 +45,19 @@ const StudentApp = () => {
           >
             <Route index element={<Navigate to="overview" replace />} />
             <Route path="overview" element={<StudentOverviewView />} />
-
+            {/*WALLET */}
+            <Route path="wallet" element={<StudentWalletView />} />
             {/* ACTIVIDADES */}
             <Route
               path="actividades/list"
               element={<StudentActivitiesView />}
             />
-            {/* RANKING */}
-            <Route path="ranking/list" element={<StudentRankingView />} />
+            {/* BENEFICIOS */}
+            <Route path="beneficios/list" element={<StudentBenefitsView />} />
             {/*STORE */}
             <Route path="store" element={<StudentStoreView />} />
-            {/*WALLET */}
-            <Route path="wallet" element={<StudentWalletView />} />
-
-            {/* BENEFICIOS */}
-            <Route path="beneficio/list" element={<StudentBenefitsView />} />
+            {/* RANKING */}
+            <Route path="ranking/list" element={<StudentRankingView />} />
           </Route>
         </Routes>
       </AnimatePresence>

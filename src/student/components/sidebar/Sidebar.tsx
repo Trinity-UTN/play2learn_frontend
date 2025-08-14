@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 import { motion, type Variants } from "framer-motion";
 import {
@@ -13,66 +11,69 @@ import {
   FaFire,
   FaStar,
 } from "react-icons/fa";
-import { useStudentAuth } from "../../context/contextProvisorio";
-import type { StudentDashboardView } from "../../types/walletType";
+import { useAuth } from "../../../user/hooks/useAuth";
+import type { StudentDashboardView } from "../../types/generalType";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import styles from "./Sidebar.module.css";
+import { StudentRoutes } from "../../routes/routes";
+import { useNavigate } from "react-router-dom";
 
 interface StudentSidebarProps {
   currentView: StudentDashboardView;
-  onViewChange: (view: StudentDashboardView) => void;
 }
 
 interface MenuItem {
   title: string;
   icon: React.ComponentType;
-  view: StudentDashboardView;
+  path: string;
   color: string;
   badge?: string | number;
 }
 
-const StudentSidebar: React.FC<StudentSidebarProps> = ({
-  currentView,
-  onViewChange,
-}) => {
-  const { logout, student } = useStudentAuth();
-
+const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const menuItems: MenuItem[] = [
     {
       title: "Panel Principal",
       icon: FaHome,
-      view: "overview",
+      path: StudentRoutes.Overview,
       color: "#3B82F6",
     },
     {
       title: "Mi Billetera",
       icon: FaWallet,
-      view: "wallet",
+      path: StudentRoutes.Wallet,
       color: "#10B981",
       badge: "2,450",
     },
     {
       title: "Mis Actividades",
       icon: FaGamepad,
-      view: "activities",
+      path: StudentRoutes.Activities.list,
       color: "#8B5CF6",
       badge: 3,
     },
     {
       title: "Mis Beneficios",
       icon: FaGift,
-      view: "benefits",
+      path: StudentRoutes.Benefit.list,
       color: "#F59E0B",
       badge: 5,
     },
     {
       title: "Tienda",
       icon: FaStore,
-      view: "store",
+      path: StudentRoutes.Store,
       color: "#EF4444",
       badge: "¡Nuevo!",
     },
-    { title: "Ranking", icon: FaTrophy, view: "ranking", color: "#F97316" },
+    {
+      title: "Ranking",
+      icon: FaTrophy,
+      path: StudentRoutes.Ranking,
+      color: "#F97316",
+    },
   ];
 
   const containerVariants: Variants = {
@@ -92,7 +93,9 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
     hidden: { x: -20, opacity: 0 },
     visible: { x: 0, opacity: 1 },
   };
-
+  const onViewChange = (path: string) => {
+    navigate(`/dashboard/${path}`);
+  };
   return (
     <motion.aside
       variants={containerVariants}
@@ -104,29 +107,35 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
         <div className={styles.profile}>
           <div className={styles.avatarContainer}>
             <img
-              src={student?.avatar || "/placeholder.svg"}
+              // src={student?.avatar || "/placeholder.svg"} EN PROXIMA IMPLEMENTACIONES...
+              src={"/userfotoL.png"}
               alt="Avatar"
               className={styles.avatar}
             />
             <div className={styles.levelBadge}>
               <FaStar className={styles.levelIcon} />
-              <span>{student?.level}</span>
+              {/* <span>{student?.level}</span>  EN PROXIMA IMPLEMENTACIONES... */}
+              <span>30</span>
             </div>
           </div>
           <div className={styles.profileInfo}>
-            <h2 className={styles.studentName}>{student?.name}</h2>
+            {/* <h2 className={styles.studentName}>{student?.name}</h2> EN PROXIMA IMPLEMENTACIONES... */}
+            <h2 className={styles.studentName}>Pedrito</h2>
             <div className={styles.stats}>
               <div className={styles.stat}>
                 <FaFire className={styles.statIcon} />
-                <span>{student?.streak} días</span>
+                {/* <span>{student?.streak} días</span> EN PROXIMA IMPLEMENTACIONES... */}
+                <span>10 días</span>
               </div>
               <div className={styles.stat}>
                 <FaTrophy className={styles.statIcon} />
-                <span>#{student?.rank}</span>
+                {/* <span>#{student?.rank}</span>  EN PROXIMA IMPLEMENTACIONES...*/}
+                <span>#8</span>
               </div>
             </div>
           </div>
         </div>
+        <button className={styles.buttonPerfil}>Ver Perfil</button>
       </motion.div>
 
       <div className={styles.content}>
@@ -134,16 +143,16 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
           <ul className={styles.menu}>
             {menuItems.map((item) => (
               <motion.li
-                key={item.view}
+                key={item.path}
                 variants={itemVariants}
                 whileHover={{ x: 5 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <button
                   className={`${styles.menuItem} ${
-                    currentView === item.view ? styles.active : ""
+                    currentView === item.path ? styles.active : ""
                   }`}
-                  onClick={() => onViewChange(item.view)}
+                  onClick={() => onViewChange(item.path)}
                   style={{ "--item-color": item.color } as React.CSSProperties}
                 >
                   <div className={styles.menuItemContent}>

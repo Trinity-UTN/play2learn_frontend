@@ -26,6 +26,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const response = await LoginService.loginApi(data);
+
       const userRole = response.data.role as Role;
 
       authService.setTokens(
