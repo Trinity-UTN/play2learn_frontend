@@ -5,7 +5,6 @@ import type { BenefitResponseInterface } from "../../../types/BenefitType";
 import styles from "./BenefitCard.module.css";
 import { useBenefitUI } from "../../../hooks/useBenefitUI";
 import {
-  FaEdit,
   FaTrash,
   //   FaEye,
   FaCoins,
@@ -100,10 +99,6 @@ const BenefitCard = ({ benefit }: Props) => {
 
       {/* Actions */}
       <div className={styles.cardActions}>
-        <Button variant="ghost" size="sm" className={styles.actionButton}>
-          <FaEdit className={styles.actionIcon} />
-          Editar
-        </Button>
         <Button variant="ghost" size="sm" className={styles.deleteButton}>
           <FaTrash className={styles.actionIcon} />
           Eliminar
