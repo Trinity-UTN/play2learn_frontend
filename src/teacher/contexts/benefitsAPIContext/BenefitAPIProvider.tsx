@@ -4,33 +4,51 @@ import type {
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
 import { BenefitsService } from "../../services/benefitsService/BenefitsService";
-import type { BenefitContextType } from "./BenefitContext.type";
-import type { BenefitResponse } from "../../types/BeneficeType";
-import { BenefitContext } from "./BenefitContext";
-
+import type { BenefitAPIContextType } from "./BenefitAPIContext.type";
+import type {
+  BenefitResponseInterface,
+  CreateBenefitInterface,
+} from "../../types/BenefitType";
+import { BenefitAPIContext } from "./BenefitAPIContext";
+import { useToaster } from "../../../shared/hooks/useToaster";
 interface BenefitProviderProps {
   children: ReactNode;
 }
 
-export const BenefitProvider: React.FC<BenefitProviderProps> = ({
+export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   children,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [benefits, setBenefits] = useState<BenefitResponse[]>([]);
+  const [benefits, setBenefits] = useState<BenefitResponseInterface[]>([]);
+  const { showToast } = useToaster();
   const [paginatedBenefits, setPaginatedBenefits] =
-    useState<PaginatedData<BenefitResponse> | null>(null);
+    useState<PaginatedData<BenefitResponseInterface> | null>(null);
 
-  //   const registerBenefit= async (data: CreateBenefitPayload): Promise<void> => {
-  //     setLoading(true);
-  //     try {
-  //       await YearService.registerYearApi(data);
-  //     } catch (error) {
-  //       console.error("Error al crear el año:", error);
-  //       throw error;
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  const registerBenefit = async (
+    data: CreateBenefitInterface
+  ): Promise<void> => {
+    setLoading(true);
+    try {
+      console.log(data);
+      await BenefitsService.registerBenefitApi(data);
+      showToast({
+        title: "Beneficio creado exitosamente",
+        message: "El beneficio ha sido creado exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
+    } catch (error) {
+      showToast({
+        title: "Error",
+        message: "Error al crear el beneficion.",
+        type: "error",
+        position: "bottom-right",
+      });
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getBenefits = useCallback(async () => {
     setLoading(true);
@@ -63,17 +81,18 @@ export const BenefitProvider: React.FC<BenefitProviderProps> = ({
     []
   );
 
-  const contextValue: BenefitContextType = {
+  const contextValue: BenefitAPIContextType = {
     loading,
     benefits,
     paginatedBenefits,
     getBenefits,
     getPaginatedBenefits,
+    registerBenefit,
   };
 
   return (
-    <BenefitContext.Provider value={contextValue}>
+    <BenefitAPIContext.Provider value={contextValue}>
       {children}
-    </BenefitContext.Provider>
+    </BenefitAPIContext.Provider>
   );
 };

@@ -5,7 +5,7 @@ import type {
 import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import { urls } from "../urls";
-import type { BenefitResponse } from "../../types/BeneficeType";
+import type { BenefitResponse } from "../../types/BenefitType";
 
 export interface CreateYearPayload {
   name: string;

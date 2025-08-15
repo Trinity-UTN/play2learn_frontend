@@ -15,11 +15,12 @@ import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/Pre
 import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacion/DesafioClasificacionProvider";
 import { MemoramaProvider } from "../activity/contexts/memoramaContext/MemoramaProvider";
 import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
-import { BenefitProvider } from "../teacher/contexts/benefitsContext/BenefitProvider";
+import { BenefitAPIProvider } from "../teacher/contexts/benefitsAPIContext/BenefitAPIProvider";
+import { BenefitUIProvider } from "../teacher/contexts/benefitsUIContext/BenefitUIProvider";
 //VIEWS
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
-import BenefitsView from "../teacher/views/benefitsView/BenefitsView";
-import BenefitCreateView from "../teacher/views/benefitsView/BenefitsCreateView";
+import BenefitsListView from "../teacher/views/benefitsView/benefitsViewList/BenefitsListView";
+import BenefitCreateView from "../teacher/views/benefitsView/benefitCreateView/BenefitsCreateView";
 import OverviewView from "../teacher/views/overviewView/Overview";
 import ConfigureActivityView from "../activity/views/configurationView/ConfigureActivityView";
 import ActivityView from "../activity/views/activityView/ActivityView";
@@ -49,17 +50,19 @@ const TeacherApp = () => {
                             <DesafioClasificacionProvider>
                               <MemoramaProvider>
                                 <NoLudicaProvider>
-                                  <BenefitProvider>
-                                    <motion.div
-                                      key="dashboardTeacher"
-                                      initial={{ opacity: 0 }}
-                                      animate={{ opacity: 1 }}
-                                      exit={{ opacity: 0 }}
-                                      transition={{ duration: 0.3 }}
-                                    >
-                                      <TeacherDashboardPage />
-                                    </motion.div>
-                                  </BenefitProvider>
+                                  <BenefitAPIProvider>
+                                    <BenefitUIProvider>
+                                      <motion.div
+                                        key="dashboardTeacher"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                      >
+                                        <TeacherDashboardPage />
+                                      </motion.div>
+                                    </BenefitUIProvider>
+                                  </BenefitAPIProvider>
                                 </NoLudicaProvider>
                               </MemoramaProvider>
                             </DesafioClasificacionProvider>
@@ -90,7 +93,7 @@ const TeacherApp = () => {
             />
 
             {/* BENEFICIOS */}
-            <Route path="beneficio/list" element={<BenefitsView />} />
+            <Route path="beneficio/list" element={<BenefitsListView />} />
             <Route path="beneficio/create" element={<BenefitCreateView />} />
           </Route>
         </Routes>

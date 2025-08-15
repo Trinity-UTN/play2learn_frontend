@@ -1,9 +1,9 @@
 // import Badge from "../../../../shared/components/Badge/BadgeComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
-import type { BenefitResponse } from "../../../types/BeneficeType";
+import type { BenefitResponseInterface } from "../../../types/BenefitType";
 import styles from "./BenefitCard.module.css";
-
+import { useBenefitUI } from "../../../hooks/useBenefitUI";
 import {
   FaEdit,
   FaTrash,
@@ -14,43 +14,24 @@ import {
 } from "react-icons/fa";
 
 type Props = {
-  benefit: BenefitResponse;
+  benefit: BenefitResponseInterface;
 };
 
 const BenefitCard = ({ benefit }: Props) => {
+  const { getColor } = useBenefitUI();
   return (
     <Card className={styles.benefitCard}>
-      {/* Header */}
-      <div className={styles.cardHeader}>
-        {/* <div className={styles.badges}>
-          {benefit.isPremium && (
-            <Badge variant="warning" className={styles.premiumBadge}>
-              <FaCrown className={styles.badgeIcon} />
-              Premium
-            </Badge>
-          )}
-          {benefit.isLimited && (
-            <Badge variant="secondary" className={styles.limitedBadge}>
-              Limitado
-            </Badge>
-          )}
-        </div> */}
-        {/* <Badge variant={benefit.status === "Activo" ? "success" : "secondary"}>
-          {benefit.status}
-        </Badge> */}
-      </div>
-
       {/* Icon and Title */}
       <div className={styles.benefitHeader}>
         <div
           className={styles.iconWrapper}
-          style={{ backgroundColor: "#8b5cf6" }}
+          style={{ backgroundColor: getColor(benefit.color) }}
         >
           <FaGraduationCap className={styles.benefitIcon} />
         </div>
         <div className={styles.benefitInfo}>
           <h3 className={styles.benefitName}>{benefit.name}</h3>
-          {/* <p className={styles.benefitCategory}>{benefit.category}</p> */}
+          <p className={styles.benefitCategory}>{benefit.category}</p>
         </div>
       </div>
 
@@ -65,26 +46,29 @@ const BenefitCard = ({ benefit }: Props) => {
         </div>
         <div className={styles.usageSection}>
           <span className={styles.usageText}>
-            {benefit.totalRedeemableAmount ? benefit.totalRedeemableAmount : 0}{" "}
+            {benefit.redeemableAmountPerStudent
+              ? benefit.redeemableAmountPerStudent
+              : 0}{" "}
             uso
             {/* {benefit. !== 1 ? "s" : ""} */}
             {benefit.totalRedeemableAmount &&
               ` / ${benefit.totalRedeemableAmount}`}
           </span>
-          {benefit.totalRedeemableAmount && (
-            <div className={styles.usageBar}>
-              <div
-                className={styles.usageProgress}
-                style={{
-                  width: `${
-                    (benefit.redeemableAmountPerStudent /
-                      benefit.totalRedeemableAmount) *
-                    100
-                  }%`,
-                }}
-              />
-            </div>
-          )}
+          {benefit.totalRedeemableAmount &&
+            benefit.redeemableAmountPerStudent && (
+              <div className={styles.usageBar}>
+                <div
+                  className={styles.usageProgress}
+                  style={{
+                    width: `${
+                      (benefit.redeemableAmountPerStudent /
+                        benefit.totalRedeemableAmount) *
+                      100
+                    }%`,
+                  }}
+                />
+              </div>
+            )}
         </div>
       </div>
 

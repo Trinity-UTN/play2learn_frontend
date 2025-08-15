@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import styles from "./BenefitsList.module.css";
-import type { BenefitResponse } from "../../../types/BeneficeType";
+import type { BenefitResponseInterface } from "../../../types/BenefitType";
 import { FaGift } from "react-icons/fa";
 import BenefitCard from "../benefitCard/BenefitCard";
 
 type Props = {
-  filteredBenefits: BenefitResponse[];
+  filteredBenefits: BenefitResponseInterface[];
 };
 
 const BenefitsList = ({ filteredBenefits }: Props) => {
