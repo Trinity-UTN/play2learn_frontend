@@ -1,0 +1,255 @@
+.sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ef4444, #10b981);
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.header {
+  display: flex;
+  min-height: 150px;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.3rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1;
+}
+.buttonPerfil {
+  width: 80%;
+  border-radius: 10px;
+  border: none;
+  background-color: transparent;
+  padding: 0.5rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.buttonPerfil:hover {
+  /* border: 1px solid #ef4444; */
+  background-color: #10b98139;
+  transform: scale(1.05);
+}
+
+.profile {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatarContainer {
+  position: relative;
+}
+
+.avatar {
+  position: relative;
+  width: 70px !important;
+  height: 70px !important;
+  object-fit: cover;
+  z-index: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.avatar:hover {
+  transform: scale(1.5);
+}
+
+.levelBadge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background: linear-gradient(45deg, #f59e0b, #f97316);
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border: 2px solid #1e293b;
+}
+
+.levelIcon {
+  font-size: 0.6rem;
+  margin-right: 2px;
+}
+
+.profileInfo {
+  flex: 1;
+}
+
+.studentName {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+}
+
+.statIcon {
+  font-size: 0.75rem;
+  color: #f59e0b;
+}
+
+.content {
+  flex: 1;
+  padding: 1rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.section {
+  padding: 0 1.5rem;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.menuItem::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--item-color);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 12px;
+}
+
+.menuItem:hover::before {
+  opacity: 0.1;
+}
+
+.menuItem.active::before {
+  opacity: 0.2;
+}
+
+.menuItemContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.menuItemLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.menuIcon {
+  font-size: 1.25rem;
+  color: var(--item-color);
+  transition: transform 0.3s ease;
+}
+
+.menuItem:hover .menuIcon {
+  transform: scale(1.1);
+}
+
+.menuItem span {
+  color: white;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.badge {
+  background: var(--item-color);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.logoutButton {
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.logoutButton:hover {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.logoutIcon {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
