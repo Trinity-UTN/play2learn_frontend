@@ -29,7 +29,6 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   ): Promise<void> => {
     setLoading(true);
     try {
-      console.log(data);
       await BenefitsService.registerBenefitApi(data);
       showToast({
         title: "Beneficio creado exitosamente",
@@ -50,14 +49,22 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     }
   };
 
+  const errorBenefits = () => {
+    showToast({
+      title: "Error",
+      message: "Error al obtener los beneficion.",
+      type: "error",
+      position: "bottom-right",
+    });
+  };
   const getBenefits = useCallback(async () => {
     setLoading(true);
     try {
       const response = await BenefitsService.getBenefitsApi();
-      console.log(response.data);
+
       setBenefits(response.data.data);
     } catch (error) {
-      console.error("Error al obtener los beneficios:", error); // TODO: REMOVE_DEBUG
+      errorBenefits();
       throw error;
     } finally {
       setLoading(false);
@@ -69,10 +76,10 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
       setLoading(true);
       try {
         const response = await BenefitsService.getPaginatedBenefitsApi(params);
-        console.log(response.data);
+
         setPaginatedBenefits(response.data);
       } catch (error) {
-        console.error("Error al obtener los beneficios paginados:", error); // TODO: REMOVE_DEBUG
+        errorBenefits();
         throw error;
       } finally {
         setLoading(false);

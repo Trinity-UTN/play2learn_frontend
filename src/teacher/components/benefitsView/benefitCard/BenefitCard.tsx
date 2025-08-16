@@ -4,20 +4,15 @@ import Card from "../../../../shared/components/Card/CardComponent";
 import type { BenefitResponseInterface } from "../../../types/BenefitType";
 import styles from "./BenefitCard.module.css";
 import { useBenefitUI } from "../../../hooks/useBenefitUI";
-import {
-  FaTrash,
-  //   FaEye,
-  FaCoins,
-  FaGraduationCap,
-  //   FaCrown,
-} from "react-icons/fa";
+import { FaTrash, FaCoins } from "react-icons/fa";
+import React from "react";
 
 type Props = {
   benefit: BenefitResponseInterface;
 };
 
 const BenefitCard = ({ benefit }: Props) => {
-  const { getColor } = useBenefitUI();
+  const { getColor, getSelectedIcon } = useBenefitUI();
   return (
     <Card className={styles.benefitCard}>
       {/* Icon and Title */}
@@ -26,7 +21,9 @@ const BenefitCard = ({ benefit }: Props) => {
           className={styles.iconWrapper}
           style={{ backgroundColor: getColor(benefit.color) }}
         >
-          <FaGraduationCap className={styles.benefitIcon} />
+          {React.createElement(getSelectedIcon(benefit.icon), {
+            className: styles.benefitIcon,
+          })}
         </div>
         <div className={styles.benefitInfo}>
           <h3 className={styles.benefitName}>{benefit.name}</h3>

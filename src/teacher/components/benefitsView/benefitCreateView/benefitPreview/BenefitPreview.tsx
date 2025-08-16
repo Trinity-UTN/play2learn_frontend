@@ -33,7 +33,7 @@ const BenefitPreview = () => {
               className={styles.previewIconWrapper}
               style={{ backgroundColor: getColor(formData.color) }}
             >
-              {React.createElement(getSelectedIcon(), {
+              {React.createElement(getSelectedIcon(formData.icon), {
                 className: styles.previewIcon,
               })}
             </div>

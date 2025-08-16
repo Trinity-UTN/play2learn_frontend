@@ -5,14 +5,14 @@ import type {
 import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import { urls } from "../urls";
-import type { BenefitResponse } from "../../types/BenefitType";
-
+import type { BenefitResponseInterface } from "../../types/BenefitType";
+import qs from "qs";
 export interface CreateYearPayload {
   name: string;
 }
 
 export interface PaginatedBenefitsResponse {
-  data: PaginatedData<BenefitResponse>;
+  data: PaginatedData<BenefitResponseInterface>;
   message: string;
   errors: any;
   timestamp: string;
@@ -45,6 +45,7 @@ const getPaginatedBenefitsApi = async (
 
     const response = await api.get(urls.BenefitsPaginate, {
       params: cleanParams,
+      paramsSerializer: (params) => qs.stringify(params, { indices: false }),
     });
 
     return response.data;

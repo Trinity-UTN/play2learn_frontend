@@ -46,6 +46,21 @@ function usePaginationParams(initialParams?: Partial<GetPaginated>) {
     }));
   };
 
+  const handleFilter = (filter: string[], value: string[]) => {
+    if (value.length === 0) {
+      setPaginationParams((prev) => ({
+        ...prev,
+        filters: [],
+        filtersValues: [],
+      }));
+    }
+    setPaginationParams((prev) => ({
+      ...prev,
+      filters: filter,
+      filtersValues: value,
+    }));
+  };
+
   return {
     paginationParams,
     setPaginationParams,
@@ -53,6 +68,7 @@ function usePaginationParams(initialParams?: Partial<GetPaginated>) {
     handleSort,
     handlePageChange,
     handlePageSizeChange,
+    handleFilter,
   };
 }
 

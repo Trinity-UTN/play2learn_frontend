@@ -1,5 +1,4 @@
 import { useEffect, useState, type ReactNode } from "react";
-
 import { BenefitUIContext } from "./BenefitUIContext";
 import type { BenefitUIContextType } from "./BenefitUIContext.type";
 import type {
@@ -92,10 +91,10 @@ export const BenefitUIProvider: React.FC<BenefitUIProviderProps> = ({
     { value: "RED", color: "#dc2626" },
     { value: "GRAY", color: "#6b7280" },
   ];
-  const getSelectedIcon = (): IconType => {
-    const selected = iconOptions.find(
-      (option) => option.value === formData.icon
-    );
+
+  const getSelectedIcon = (icon: Icon): IconType => {
+    const selected = iconOptions.find((option) => option.value === icon);
+
     return selected ? selected.icon : FaGift;
   };
 
@@ -106,12 +105,11 @@ export const BenefitUIProvider: React.FC<BenefitUIProviderProps> = ({
   };
   const getColor = (color: Color): string | undefined => {
     const colorResult = colorOptions.find((co) => co.value === color);
-    return colorResult?.value;
+    return colorResult?.color;
   };
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    console.log("Beneficio creado:", formData);
     registerBenefit(formData);
     resetForm();
   };

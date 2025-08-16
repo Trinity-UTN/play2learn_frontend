@@ -35,7 +35,7 @@ export interface BenefitUIContextType {
   }[];
 
   // Métodos utilitarios
-  getSelectedIcon: () => IconType;
+  getSelectedIcon: (icon: Icon) => IconType;
   getSelectedCategory: () =>
     | { value: Category; label: string; icon: IconType; color: string }
     | undefined;

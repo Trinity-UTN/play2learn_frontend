@@ -1,66 +1,25 @@
 import type React from "react";
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import {
-  FaGift,
-  FaSearch,
-  FaFilter,
-  FaSortAmountDown,
-  FaGraduationCap,
-  FaFileAlt,
-  FaCalendarCheck,
-  FaStar,
-  FaCoins,
-  FaCrown,
-  FaUsers,
-  FaChartLine,
-} from "react-icons/fa";
-import type { BenefitResponseInterface } from "../../../types/BenefitType";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Input from "../../../../shared/components/Input/InputComponent";
-import styles from "./BenefitsListView.module.css";
-import type { IconType } from "react-icons";
-import BenefitsList from "../../../components/benefitsView/benefitsList/BenefitsList";
-import { useBenefitAPI } from "../../../hooks/useBenefitAPI";
+import { FaGift } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import Card from "../../../../shared/components/Card/CardComponent";
-import { categories } from "../../../types/BenefitType";
+import styles from "./BenefitsListView.module.css";
+import { useBenefitAPI } from "../../../hooks/useBenefitAPI";
+import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
+import BenefitSearch from "../../../components/benefitsView/benefitSearch/BenefitSearch";
+import BenefitsList from "../../../components/benefitsView/benefitsList/BenefitsList";
+import Button from "../../../../shared/components/Button/ButtonComponent";
+
 const BenefitsListView: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
-  const [sortBy, setSortBy] = useState<string>("name");
-  const { benefits, getBenefits } = useBenefitAPI();
+  const { paginatedBenefits } = useBenefitAPI();
+  const {
+    paginationParams,
+    handlePageChange,
+    handlePageSizeChange,
+    handleFilter,
+    handleSearch,
+  } = usePaginationParams();
 
   const navigate = useNavigate();
-
-  const categoriesForFilter = ["ALL", ...categories] as const;
-
-  const filteredBenefits = benefits
-    .filter((benefit) => {
-      const matchesSearch =
-        benefit.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        benefit.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory =
-        selectedCategory === "ALL" || benefit.category === selectedCategory;
-
-      return matchesSearch && matchesCategory;
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case "name":
-          return a.name.localeCompare(b.name);
-        case "cost":
-          return a.cost - b.cost;
-        case "category":
-          return a.category.localeCompare(b.category);
-        default:
-          return 0;
-      }
-    });
-
-  useEffect(() => {
-    getBenefits();
-  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -112,8 +71,10 @@ const BenefitsListView: React.FC = () => {
             <FaGift />
           </div>
           <div className={styles.statContent}>
-            <span className={styles.statNumber}>{benefits.length}</span>
-            <span className={styles.statLabel}>Total Beneficios</span>
+            <span className={styles.statNumber}>
+              {paginatedBenefits?.results.length}
+            </span>
+            <span className={styles.statLabel}>Beneficios Encontrados</span>
           </div>
         </div>
 
@@ -145,63 +106,15 @@ const BenefitsListView: React.FC = () => {
       </motion.div>
 
       {/* Filters */}
-      <motion.div variants={itemVariants}>
-        <Card className={styles.filtersCard}>
-          <div className={styles.filtersContent}>
-            <div className={styles.searchWrapper}>
-              <FaSearch className={styles.searchIcon} />
-              <Input
-                placeholder="Buscar beneficios..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={styles.searchInput}
-              />
-            </div>
-
-            <div className={styles.filters}>
-              <div className={styles.filterGroup}>
-                <FaFilter className={styles.filterIcon} />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className={styles.filterSelect}
-                >
-                  {categoriesForFilter.map((category) => (
-                    <option key={category} value={category}>
-                      {category === "ALL" ? "Todas las categorías" : category}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className={styles.filterGroup}>
-                <FaSortAmountDown className={styles.filterIcon} />
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className={styles.filterSelect}
-                >
-                  <option value="name">Ordenar por nombre</option>
-                  <option value="cost">Ordenar por costo</option>
-                  <option value="category">Ordenar por categoría</option>
-                  <option value="usage">Ordenar por uso</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </Card>
-      </motion.div>
+      <BenefitSearch handleFilter={handleFilter} handleSearch={handleSearch} />
 
       {/* Benefits Grid */}
       <motion.div variants={itemVariants} className={styles.benefitsSection}>
-        <div className={styles.resultsHeader}>
-          <h2 className={styles.resultsTitle}>
-            {benefits.length} beneficio
-            {benefits.length !== 1 ? "s" : ""} encontrado
-            {benefits.length !== 1 ? "s" : ""}
-          </h2>
-        </div>
-        <BenefitsList filteredBenefits={filteredBenefits} />
+        <BenefitsList
+          paginationParams={paginationParams}
+          handlePageChange={handlePageChange}
+          handlePageSizeChange={handlePageSizeChange}
+        />
       </motion.div>
     </motion.div>
   );
