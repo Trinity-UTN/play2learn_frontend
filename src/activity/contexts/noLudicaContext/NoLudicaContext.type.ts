@@ -19,11 +19,16 @@ export interface NoLudicaContextType {
   handleConfigSubmit: (newConfig: NoLudicaConfig) => void;
   handleSubmit: () => Promise<void>;
   handleBack: () => void;
+  handleNext: () => void;
   handleReset: () => void;
 
   // Funciones de utilidad
-  getStepTitle: () => string;
   validateConfig: (config: NoLudicaConfig) => string[];
+  getStepTitle: () => string;
+  getCurrentStepNumber: () => number;
+  getStepDescription: () => string;
+
+  // Funciones específicas de noLudica
   getTipoEntregaOptions: () => Array<{
     value: TipoEntrega;
     label: string;
