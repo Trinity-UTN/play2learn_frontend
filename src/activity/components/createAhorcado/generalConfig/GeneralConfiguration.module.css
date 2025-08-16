@@ -1,0 +1,251 @@
+.container {
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.headerIcon {
+  font-size: 2rem;
+  color: #667eea;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.description {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0.25rem 0 0 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.formSection {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.sectionHeader {
+  margin-bottom: 1rem;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionIcon {
+  font-size: 0.875rem;
+  color: #fbbf24;
+  margin-right: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.sectionTooltip {
+  margin-left: 0.5rem;
+}
+
+.sectionDescription {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0.25rem 0 0 0;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.label {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.labelHint {
+  display: block;
+  font-weight: 400;
+  color: #6b7280;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.input {
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s;
+  background: white;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.errorMessage {
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 4px;
+}
+
+.charCount {
+  font-size: 12px;
+  color: #6b7280;
+  text-align: right;
+}
+
+.overLimit {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.suggestions {
+  margin-top: 16px;
+}
+
+.suggestionsLabel {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #374151;
+  gap: 0.5rem;
+  margin-bottom: 12px;
+}
+
+.suggestionIcon {
+  color: #667eea;
+}
+
+.suggestionsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.suggestionButton {
+  padding: 6px 12px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.suggestionButton:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+.difficultyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.difficultyOption {
+  padding: 20px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.difficultyOption:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.difficultyOption.selected {
+  border-width: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.optionHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.optionIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+}
+
+.optionContent {
+  flex: 1;
+}
+
+.optionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.optionDescription {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.errorCount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.errorLabel {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.errorNumber {
+  font-size: 14px;
+  font-weight: 600;
+}
