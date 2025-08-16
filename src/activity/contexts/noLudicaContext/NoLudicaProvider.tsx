@@ -51,7 +51,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     setCurrentStep("config");
     setConfig({
       excercise: "",
-      tipoEntrega: "TEXTO",
+      tipoEntrega: "ENTREGA",
     });
     setErrors([]);
   };
@@ -134,6 +134,15 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     }
   };
 
+  const handleNext = () => {
+    if (currentStep === "config") {
+      const configForm = document.querySelector("form");
+      if (configForm) {
+        configForm.requestSubmit();
+      }
+    }
+  };
+
   const handleReset = () => {
     showConfirmation({
       title: "Reiniciar Actividad",
@@ -151,18 +160,6 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
   };
 
   // Funciones de utilidad
-  const getStepTitle = () => {
-    switch (currentStep) {
-      case "config":
-        return "Configuración de la Actividad";
-      case "preview":
-        return "Vista Previa";
-      default:
-        return "Crear Actividad No Lúdica";
-    }
-  };
-
-  // Función para validar la configuración
   const validateConfig = (configToValidate: NoLudicaConfig): string[] => {
     const validationErrors: string[] = [];
 
@@ -183,6 +180,29 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     return validationErrors;
   };
 
+  const getStepTitle = () => {
+    switch (currentStep) {
+      case "config":
+        return "Configuración de la Actividad";
+      case "preview":
+        return "Vista Previa";
+      default:
+        return "Crear Actividad No Lúdica";
+    }
+  };
+
+  const getCurrentStepNumber = () => (currentStep === "config" ? 1 : 2);
+
+  const getStepDescription = () => {
+    switch (currentStep) {
+      case "config":
+        return "Describe la consigna que deben cumplir los estudiantes.";
+      case "preview":
+        return "Así es como verán la actividad tus estudiantes";
+      default:
+        return "";
+    }
+  };
   // Opciones de tipo de entrega
   const getTipoEntregaOptions = () => [
     {
@@ -221,11 +241,16 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     handleConfigSubmit,
     handleSubmit,
     handleBack,
+    handleNext,
     handleReset,
 
     // Funciones de utilidad
-    getStepTitle,
     validateConfig,
+    getStepTitle,
+    getCurrentStepNumber,
+    getStepDescription,
+
+    // Funciones específicas de noLudica
     getTipoEntregaOptions,
   };
 
