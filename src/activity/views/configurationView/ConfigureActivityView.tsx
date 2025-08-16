@@ -58,7 +58,7 @@ const ConfigureActivityView: React.FC = () => {
     const activityNames: { [key: string]: string } = {
       ahorcado_educativo: "Ahorcado",
       arbol_decision: "Árbol de Decisión",
-      completear_oraciones: "Completar Oraciones",
+      completar_oraciones: "Completar Oraciones",
       desafio_clasificacion: "Desafío de Clasificación",
       memorama: "Memorama",
       no_ludica: "No Lúdica",
