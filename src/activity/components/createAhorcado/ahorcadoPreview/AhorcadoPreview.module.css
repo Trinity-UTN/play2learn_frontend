@@ -1,54 +1,145 @@
-.previewCard {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
-  transition: all 0.3s ease;
-}
-.previewCard:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-.cardHeader {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #f3f4f6;
+.container {
+  padding: 2rem;
 }
 
-.cardIcon {
-  font-size: 1.5rem;
-  color: #667eea;
+.header {
+  margin-bottom: 1rem;
 }
 
-.cardTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerIcon {
+  font-size: 0.875rem;
+  color: #4f46e5;
+  margin-right: 0.5rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
   color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.tooltip {
+  margin-left: 0.5rem;
+}
+
+.description {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.statIcon {
+  font-size: 1.5rem;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.statValue {
+  display: block;
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+.activityContainer {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.activityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.activityTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.activityIcon {
+  font-size: 1.25rem;
+}
+
+.activityTitle h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
   margin: 0;
 }
 
-.previewBadge {
-  margin-left: auto;
+.deliveryType {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
-.gamePreview {
+
+.gameCard {
+  padding: 2rem;
+  background: white;
+}
+
+.gameContent {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: start;
 }
 
-.hangmanDisplay {
+.hangmanSection {
   display: flex;
   justify-content: center;
-  align-items: center;
+}
+
+.hangmanDisplay {
   background: #f9fafb;
-  border-radius: 8px;
+  border-radius: 0.75rem;
   padding: 2rem;
+  border: 1px solid #e5e7eb;
   min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hangmanArt {
@@ -61,7 +152,7 @@
   text-align: center;
 }
 
-.gameInfo {
+.wordSection {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -76,6 +167,8 @@
   font-weight: 600;
   color: #374151;
   margin: 0 0 0.75rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .wordLetters {
@@ -84,73 +177,97 @@
   font-weight: 700;
   color: #1f2937;
   letter-spacing: 0.5rem;
-  background: #f3f4f6;
+  background: #f8fafc;
   padding: 1rem;
-  border-radius: 8px;
-  border: 2px dashed #d1d5db;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
   min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.gameStats {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.stat {
+.startSection {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.startButton {
+  display: flex;
   align-items: center;
-  padding: 0.75rem;
-  background: #f9fafb;
-  border-radius: 6px;
+  gap: 0.5rem;
+  min-width: 200px;
+  justify-content: center;
 }
 
-.statLabel {
-  font-weight: 500;
-  color: #6b7280;
+.gameControls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputLabel {
+  font-weight: 600;
+  color: #374151;
   font-size: 0.875rem;
 }
 
-.statValue {
-  font-weight: 700;
-  color: #1f2937;
-  font-size: 0.875rem;
-}
-
-.previewControls {
+.guessInput {
   display: flex;
   gap: 0.75rem;
   align-items: flex-end;
 }
 
-.guessInput {
-  flex: 1;
-  max-width: 80px;
-  text-align: center;
-  font-family: "Courier New", monospace;
+.letterInput {
+  width: 80px;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
   font-size: 1.25rem;
   font-weight: 700;
+  text-align: center;
+  font-family: "Courier New", monospace;
   text-transform: uppercase;
+  transition: all 0.3s ease;
+  background: white;
+  color: #1f2937;
+}
+
+.letterInput:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.letterInput:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
 }
 
 .guessButton {
   white-space: nowrap;
 }
 
-.guessedLetters {
+.guessedSection {
   padding-top: 1rem;
   border-top: 1px solid #e5e7eb;
 }
 
-.guessedLabel {
-  display: block;
+.guessedTitle {
   font-size: 0.875rem;
   font-weight: 600;
   color: #374151;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.75rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .lettersList {
@@ -165,10 +282,11 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: 0.375rem;
   font-family: "Courier New", monospace;
   font-weight: 700;
   font-size: 0.875rem;
+  transition: all 0.3s ease;
 }
 
 .guessedLetter.correct {
@@ -181,4 +299,132 @@
   background: #fee2e2;
   color: #dc2626;
   border: 1px solid #fecaca;
+}
+
+.gameResult {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.resultMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.winMessage {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.loseMessage {
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.restartButton {
+  align-self: center;
+  min-width: 150px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stat {
+    min-width: auto;
+  }
+
+  .activityHeader {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .gameContent {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .gameCard {
+    padding: 1.5rem;
+  }
+
+  .hangmanDisplay {
+    padding: 1.5rem;
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .previewHeader {
+    padding: 1rem;
+  }
+
+  .gameCard {
+    padding: 1rem;
+  }
+
+  .hangmanDisplay {
+    padding: 1rem;
+    min-height: 200px;
+  }
+
+  .wordLetters {
+    font-size: 1.5rem;
+    letter-spacing: 0.25rem;
+  }
+
+  .guessInput {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .letterInput {
+    width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gameCard {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.startButton:focus,
+.guessButton:focus,
+.restartButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gameCard {
+    animation: none;
+  }
 }
