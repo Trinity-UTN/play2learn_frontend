@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
-import { FaTree, FaArrowRight, FaUndo } from "react-icons/fa";
-import Button from "../../../shared/components/Button/ButtonComponent";
+import { FaTree } from "react-icons/fa";
+import ActivityStepHeader from "../../components/common/ActivityStepHeader/ActivityStepHeader";
+import ActivityErrorContainer from "../../components/common/ActivityErrorContainer/ActivityErrorContainer";
+import ActivityFooter from "../../components/common/ActivityFooter/ActivityFooter";
 import GeneralConfiguration from "../../components/createArbolDecision/generalConfig/GeneralConfiguration";
 import ArbolDecisionPreview from "../../components/createArbolDecision/arbolDecisionPreview/ArbolDecisionPreview";
 import { useCreateArbolDecision } from "../../hooks/useCreateArbolDecision";
@@ -8,14 +9,15 @@ import styles from "./CreateArbolDecision.module.css";
 
 const CreateArbolDecision = () => {
   const {
+    loading,
     currentStep,
     errors,
-    loading,
-    isFormValid,
     handleSubmit,
     handleBack,
+    handleNext,
     handleReset,
     getStepTitle,
+    getCurrentStepNumber,
   } = useCreateArbolDecision();
 
   const itemVariants = {
@@ -25,93 +27,34 @@ const CreateArbolDecision = () => {
 
   return (
     <>
-      <motion.div variants={itemVariants} className={styles.header}>
-        <div className={styles.titleSection}>
-          <FaTree className={styles.titleIcon} />
-          <div>
-            <h1 className={styles.title}>Crear Actividad: Árbol de Decisión</h1>
-            <p className={styles.subtitle}>
-              {getStepTitle()} - Paso {currentStep === "config" ? "1" : "2"} de
-              2
-            </p>
-          </div>
-        </div>
-
-        <div className={styles.stepIndicator}>
-          <div
-            className={`${styles.step} ${
-              currentStep === "config" ? styles.active : styles.completed
-            }`}
-          >
-            1
-          </div>
-          <div className={styles.stepLine}></div>
-          <div
-            className={`${styles.step} ${
-              currentStep === "preview" ? styles.active : ""
-            }`}
-          >
-            2
-          </div>
-        </div>
-      </motion.div>
-
-      {errors.length > 0 && (
-        <motion.div variants={itemVariants} className={styles.errorContainer}>
-          <div className={styles.errorHeader}>
-            <h4>⚠️ Errores encontrados ({errors.length})</h4>
-            <p>Debes corregir los siguientes problemas antes de continuar:</p>
-          </div>
-          {errors.map((error, index) => (
-            <div key={index} className={styles.errorMessage}>
-              • {error.message}
-            </div>
-          ))}
-        </motion.div>
-      )}
+      <ActivityStepHeader
+        icon={<FaTree />}
+        title="Crear Actividad: Árbol de Decisión"
+        subtitle={`${getStepTitle()} - Paso ${getCurrentStepNumber()} de 2`}
+        currentStep={getCurrentStepNumber()}
+        totalSteps={2}
+        itemVariants={itemVariants}
+      />
 
       <div className={styles.content}>
         {currentStep === "config" && <GeneralConfiguration />}
         {currentStep === "preview" && <ArbolDecisionPreview />}
       </div>
 
-      <motion.div variants={itemVariants} className={styles.footer}>
-        <div className={styles.footerActions}>
-          <Button
-            variant="secondary"
-            onClick={handleReset}
-            className={styles.resetButton}
-            disabled={loading}
-          >
-            <FaUndo />
-            Reiniciar
-          </Button>
+      <ActivityErrorContainer errors={errors} itemVariants={itemVariants} />
 
-          <div className={styles.navigationButtons}>
-            {currentStep !== "config" && (
-              <Button
-                variant="secondary"
-                onClick={handleBack}
-                disabled={loading}
-              >
-                Atrás
-              </Button>
-            )}
-
-            {currentStep === "preview" && (
-              <Button
-                variant="primary"
-                onClick={handleSubmit}
-                disabled={!isFormValid || loading}
-                className={styles.nextButton}
-              >
-                <FaArrowRight />
-                {loading ? "Creando..." : "Crear Actividad"}
-              </Button>
-            )}
-          </div>
-        </div>
-      </motion.div>
+      <ActivityFooter
+        loading={loading}
+        currentStep={getCurrentStepNumber()}
+        totalSteps={2}
+        onReset={handleReset}
+        onBack={currentStep !== "config" ? handleBack : undefined}
+        onNext={currentStep === "config" ? handleNext : undefined}
+        onSubmit={currentStep === "preview" ? handleSubmit : undefined}
+        nextButtonText="Siguiente"
+        submitButtonText="Crear Actividad"
+        itemVariants={itemVariants}
+      />
     </>
   );
 };

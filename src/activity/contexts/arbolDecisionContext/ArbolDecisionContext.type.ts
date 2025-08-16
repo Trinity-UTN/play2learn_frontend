@@ -20,12 +20,17 @@ export interface ArbolDecisionContextType {
   handleConfigSubmit: (newConfig: ArbolDecisionConfig) => void;
   handleSubmit: () => Promise<void>;
   handleBack: () => void;
+  handleNext: () => void;
   handleReset: () => void;
 
   // Funciones de utilidad
-  getStepTitle: () => string;
   validateConfig: (config: ArbolDecisionConfig) => ValidationError[];
   validateInitialConfig: (config: ArbolDecisionConfig) => ValidationError[];
+  getStepTitle: () => string;
+  getCurrentStepNumber: () => number;
+  getStepDescription: () => string;
+
+  // Funciones específicas de arbolDecision
   updateNodeName: (path: number[], name: string) => void;
   addSubOptions: (path: number[]) => void;
   addConsequence: (path: number[]) => void;

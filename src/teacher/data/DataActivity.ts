@@ -99,12 +99,7 @@ export const activities: Activity[] = [
     subject: "General",
     icon: "tree",
     color: "#ef4444",
-    features: [
-      "Análisis",
-      "Clasificación",
-      "Pensamiento lógico",
-      "Resolución de problemas",
-    ],
+    features: ["Análisis", "Clasificación", "Resolución de problemas"],
     isNew: true,
   },
   {

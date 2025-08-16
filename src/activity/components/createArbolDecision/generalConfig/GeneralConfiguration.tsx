@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaCog, FaArrowRight } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import { FaCog, FaTree, FaLightbulb } from "react-icons/fa";
+import TextArea from "../../../../shared/components/TextArea/TextAreaComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import type { ArbolDecisionConfig } from "../../../types/ArbolDecision.type";
 import { useCreateArbolDecision } from "../../../hooks/useCreateArbolDecision";
+import ActivityFormError from "../../common/ActivityFormError/ActivityFormError";
 import DecisionTreeNode from "../decisionTreeNode/DecisionTreeNode";
 import styles from "./GeneralConfiguration.module.css";
 
@@ -52,71 +54,6 @@ const GeneralConfiguration: React.FC = () => {
     if (formData.decisionTree.length !== 2) {
       newErrors.decisionTree = "Debe haber exactamente 2 opciones iniciales";
     }
-
-    // Validar cada nodo del árbol recursivamente
-    const validateNode = (node: any, path: number[], nodeName: string) => {
-      // Validar nombre del nodo
-      if (!node.name.trim()) {
-        newErrors[
-          `node_${path.join("_")}_name`
-        ] = `El nombre de ${nodeName} es obligatorio`;
-      } else if (node.name.length > 200) {
-        newErrors[
-          `node_${path.join("_")}_name`
-        ] = `El nombre de ${nodeName} no puede superar los 200 caracteres`;
-      }
-
-      // Validar que tenga opciones O consecuencia, no ambas ni ninguna
-      const hasOptions = node.options && node.options.length > 0;
-      const hasConsequence = node.consecuence !== null;
-
-      if (!hasOptions && !hasConsequence) {
-        newErrors[
-          `node_${path.join("_")}_content`
-        ] = `${nodeName} debe tener opciones o una consecuencia`;
-      }
-
-      if (hasOptions && hasConsequence) {
-        newErrors[
-          `node_${path.join("_")}_content`
-        ] = `${nodeName} no puede tener opciones y consecuencia al mismo tiempo`;
-      }
-
-      // Si tiene opciones, debe tener exactamente 2
-      if (hasOptions && node.options.length !== 2) {
-        newErrors[
-          `node_${path.join("_")}_options`
-        ] = `${nodeName} debe tener exactamente 2 opciones`;
-      }
-
-      // Validar consecuencia si existe
-      if (hasConsequence && node.consecuence) {
-        if (!node.consecuence.name.trim()) {
-          newErrors[
-            `node_${path.join("_")}_consequence_name`
-          ] = `La consecuencia de ${nodeName} es obligatoria`;
-        } else if (node.consecuence.name.length > 200) {
-          newErrors[
-            `node_${path.join("_")}_consequence_name`
-          ] = `La consecuencia de ${nodeName} no puede superar los 200 caracteres`;
-        }
-      }
-
-      // Validar opciones recursivamente
-      if (hasOptions) {
-        node.options.forEach((option: any, index: number) => {
-          validateNode(
-            option,
-            [...path, index],
-            `la opción ${index + 1} de ${nodeName}`
-          );
-        });
-      }
-    };
-
-    formData.decisionTree.forEach((node, index) => {
-      validateNode(node, [index], `la decisión ${index + 1}`);
-    });
 
     setFormErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -178,76 +115,76 @@ const GeneralConfiguration: React.FC = () => {
     });
   };
 
+  const handleDismissError = (key: string) => {
+    setFormErrors((prev) => {
+      const newErrors = { ...prev };
+      delete newErrors[key];
+      return newErrors;
+    });
+  };
+
   return (
     <motion.div variants={itemVariants} className={styles.container}>
       <div className={styles.header}>
         <FaCog className={styles.headerIcon} />
-        <div>
-          <h3 className={styles.title}>Configuración del Árbol de Decisión</h3>
+        <div className={styles.headerContent}>
+          <h3 className={styles.title}>Configuración de Actividad</h3>
           <p className={styles.description}>
             Define la situación inicial y construye un árbol de decisiones
-            interactivo.
+            interactivo para que los estudiantes exploren diferentes caminos.
           </p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        {/* Introducción */}
         <div className={styles.formSection}>
           <div className={styles.sectionHeader}>
-            <h4 className={styles.sectionTitle}>
-              Introducción de la Situación
-            </h4>
+            <div className={styles.sectionTitleRow}>
+              <h4 className={styles.sectionTitle}>
+                <FaLightbulb className={styles.sectionIcon} />
+                Introducción de la Situación
+                <span className={styles.sectionTooltip}>
+                  <Tooltip content="La introducción no puede tener mas de 500 caracteres" />
+                </span>
+              </h4>
+            </div>
             <p className={styles.sectionDescription}>
               Describe el escenario sobre el que los estudiantes tomarán
-              decisiones. Máximo 500 caracteres.
+              decisiones.
             </p>
           </div>
 
           <div className={styles.inputGroup}>
-            <label className={styles.label}>
-              Situación *
-              <span className={styles.labelHint}>
-                Presenta un contexto claro que requiera tomar decisiones
-                importantes
-              </span>
-            </label>
-            <textarea
+            <TextArea
+              id="introduction"
               value={formData.introduction}
               onChange={(e) =>
                 handleInputChange("introduction", e.target.value)
               }
-              className={`${styles.textarea} ${
-                formErrors.introduction ? styles.error : ""
-              }`}
+              error={!!formErrors.introduction}
+              helperText={formErrors.introduction}
               placeholder="Ej: Año 1810. Sos un joven criollo con formación ilustrada, testigo del colapso del poder virreinal en el Río de la Plata..."
               rows={4}
               maxLength={500}
+              showCharCount={true}
+              resize="vertical"
             />
-            {formErrors.introduction && (
-              <span className={styles.errorMessage}>
-                {formErrors.introduction}
-              </span>
-            )}
-            <div className={styles.charCount}>
-              <span
-                className={
-                  formData.introduction.length > 500 ? styles.overLimit : ""
-                }
-              >
-                {formData.introduction.length}/500 caracteres
-              </span>
-            </div>
           </div>
         </div>
 
-        {/* Árbol de Decisiones */}
         <div className={styles.formSection}>
           <div className={styles.sectionHeader}>
-            <h4 className={styles.sectionTitle}>Árbol de Decisiones</h4>
+            <div className={styles.sectionTitleRow}>
+              <h4 className={styles.sectionTitle}>
+                <FaTree className={styles.sectionIcon} />
+                Arbol de Decisiones
+                <span className={styles.sectionTooltip}>
+                  <Tooltip content="Cada nodo debe tener exactamente 2 opciones o una consecuencia." />
+                </span>
+              </h4>
+            </div>
             <p className={styles.sectionDescription}>
-              Construye tu árbol de decisiones. Cada nodo debe tener exactamente
-              2 opciones O una consecuencia.
+              Construye tu árbol de decisiones.
             </p>
           </div>
 
@@ -268,37 +205,12 @@ const GeneralConfiguration: React.FC = () => {
               ))}
             </div>
           </div>
-
-          {/* Mostrar errores de validación */}
-          {Object.entries(formErrors).map(([key, error]) => {
-            if (key !== "introduction" && key !== "decisionTree") {
-              return (
-                <div key={key} className={styles.errorMessage}>
-                  {error}
-                </div>
-              );
-            }
-            return null;
-          })}
-
-          {formErrors.decisionTree && (
-            <span className={styles.errorMessage}>
-              {formErrors.decisionTree}
-            </span>
-          )}
         </div>
-
-        <div className={styles.submitSection}>
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            className={styles.submitButton}
-          >
-            <FaArrowRight />
-            Continuar con el Árbol
-          </Button>
-        </div>
+        <ActivityFormError
+          errors={formErrors}
+          onDismiss={handleDismissError}
+          showToaster
+        />
       </form>
     </motion.div>
   );

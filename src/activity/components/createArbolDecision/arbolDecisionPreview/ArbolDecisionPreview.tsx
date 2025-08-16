@@ -10,6 +10,7 @@ import {
   FaFlag,
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import { useCreateArbolDecision } from "../../../hooks/useCreateArbolDecision";
 import type { DecisionNode } from "../../../types/ArbolDecision.type";
 import styles from "./ArbolDecisionPreview.module.css";
@@ -22,6 +23,7 @@ interface DecisionPath {
 
 const ArbolDecisionPreview: React.FC = () => {
   const { config } = useCreateArbolDecision();
+
   const [currentPath, setCurrentPath] = useState<DecisionPath[]>([]);
   const [availableOptions, setAvailableOptions] = useState<DecisionNode[]>(
     config.decisionTree
@@ -91,13 +93,22 @@ const ArbolDecisionPreview: React.FC = () => {
 
   return (
     <motion.div variants={itemVariants} className={styles.container}>
-      <div className={styles.previewHeader}>
-        <h3 className={styles.sectionTitle}>Vista Previa del Simulador</h3>
-        <p className={styles.description}>
-          Esta es una simulación de cómo los estudiantes experimentarán tu árbol
-          de decisión. Navega por las opciones para probar todos los caminos
-          posibles.
-        </p>
+      <div className={styles.header}>
+        <div className={styles.header}>
+          <div className={styles.titleRow}>
+            <h4 className={styles.title}>
+              <FaEye className={styles.headerIcon} />
+              Vista Previa de Actividad
+              <span className={styles.tooltip}>
+                <Tooltip content="Navega por las opciones para probar todos los caminos posibles." />
+              </span>
+            </h4>
+          </div>
+          <p className={styles.description}>
+            Esta es una simulación de cómo los estudiantes experimentarán tu
+            árbol de decisión.
+          </p>
+        </div>
 
         <div className={styles.stats}>
           <div className={styles.stat}>
@@ -129,21 +140,6 @@ const ArbolDecisionPreview: React.FC = () => {
       </div>
 
       <div className={styles.simulatorContainer}>
-        <div className={styles.simulatorHeader}>
-          <div className={styles.simulatorTitle}>
-            <FaEye className={styles.simulatorIcon} />
-            <h4>Simulador Interactivo</h4>
-          </div>
-          <Button
-            variant="secondary"
-            onClick={handleReset}
-            className={styles.resetButton}
-          >
-            <FaUndo />
-            Reiniciar Simulación
-          </Button>
-        </div>
-
         {/* Introducción */}
         <div className={styles.scenarioCard}>
           <div className={styles.scenarioHeader}>
@@ -293,6 +289,16 @@ const ArbolDecisionPreview: React.FC = () => {
             </div>
           </div>
         )}
+        <div className={styles.simulatorHeader}>
+          <Button
+            variant="secondary"
+            onClick={handleReset}
+            className={styles.resetButton}
+          >
+            <FaUndo />
+            Reiniciar Simulación
+          </Button>
+        </div>
       </div>
     </motion.div>
   );
