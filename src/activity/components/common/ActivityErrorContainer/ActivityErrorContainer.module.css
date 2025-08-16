@@ -1,0 +1,27 @@
+.errorContainer {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border: 1px solid #f87171;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.errorHeader h4 {
+  color: #dc2626;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.errorHeader p {
+  color: #7f1d1d;
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+}
+
+.errorMessage {
+  color: #991b1b;
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+  padding-left: 1rem;
+}
