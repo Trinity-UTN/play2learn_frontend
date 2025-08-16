@@ -176,6 +176,15 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     }
   };
 
+  const handleNext = () => {
+    if (currentStep === "config") {
+      const configForm = document.querySelector("form");
+      if (configForm) {
+        configForm.requestSubmit();
+      }
+    }
+  };
+
   const handleReset = () => {
     showConfirmation({
       title: "Reiniciar Actividad",
@@ -193,17 +202,6 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   };
 
   // Funciones de utilidad
-  const getStepTitle = () => {
-    switch (currentStep) {
-      case "config":
-        return "Configuración del Árbol de Decisión";
-      case "preview":
-        return "Vista Previa";
-      default:
-        return "Crear Actividad Árbol de Decisión";
-    }
-  };
-
   const validateConfig = (
     configToValidate: ArbolDecisionConfig
   ): ValidationError[] => {
@@ -361,6 +359,31 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     return validationErrors;
   };
 
+  const getStepTitle = () => {
+    switch (currentStep) {
+      case "config":
+        return "Configuración de Actividad";
+      case "preview":
+        return "Vista Previa";
+      default:
+        return "Crear Actividad Árbol de Decisión";
+    }
+  };
+
+  const getCurrentStepNumber = () => (currentStep === "config" ? 1 : 2);
+
+  const getStepDescription = () => {
+    switch (currentStep) {
+      case "config":
+        return "Define la situación inicial y construye un árbol de decisiones interactivo para que los estudiantes exploren diferentes caminos.";
+      case "preview":
+        return "Esta es una simulación de cómo los estudiantes experimentarán tu árbol de decisión.";
+      default:
+        return "";
+    }
+  };
+
+  // Funciones específicas de arbolDecision
   const updateNodeName = (path: number[], name: string) => {
     setConfig((prevConfig) => {
       const newConfig = { ...prevConfig };
@@ -460,12 +483,17 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     handleConfigSubmit,
     handleSubmit,
     handleBack,
+    handleNext,
     handleReset,
 
     // Funciones de utilidad
-    getStepTitle,
     validateConfig,
     validateInitialConfig,
+    getStepTitle,
+    getCurrentStepNumber,
+    getStepDescription,
+
+    // Funciones específicas de arbolDecision
     updateNodeName,
     addSubOptions,
     addConsequence,
