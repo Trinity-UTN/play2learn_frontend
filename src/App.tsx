@@ -15,8 +15,8 @@ import styles from "./App.module.css";
 const App: React.FC = () => {
   return (
     <Router>
-      <UserProvider>
-        <ToasterProvider>
+      <ToasterProvider>
+        <UserProvider>
           <ConfirmationProvider>
             <div className={styles.app}>
               <Routes>
@@ -27,8 +27,8 @@ const App: React.FC = () => {
               </Routes>
             </div>
           </ConfirmationProvider>
-        </ToasterProvider>
-      </UserProvider>
+        </UserProvider>
+      </ToasterProvider>
     </Router>
   );
 };

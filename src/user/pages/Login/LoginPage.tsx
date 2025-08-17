@@ -2,7 +2,13 @@ import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { FaGraduationCap, FaEye, FaEyeSlash } from "react-icons/fa";
+import {
+  FaGraduationCap,
+  FaEye,
+  FaEyeSlash,
+  FaUser,
+  FaLock,
+} from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
@@ -36,6 +42,9 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.contLogo}>
+        <img src="/Logo.png" alt="logo" />
+      </div>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -43,26 +52,22 @@ const LoginPage: React.FC = () => {
         className={styles.loginWrapper}
       >
         <Card className={styles.loginCard}>
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className={styles.iconWrapper}
-          >
-            <FaGraduationCap className={styles.icon} />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className={styles.header}
-          >
-            <h1 className={styles.title}>Panel de Administración</h1>
-            <p className={styles.subtitle}>
-              Ingresa tus credenciales para acceder al sistema
-            </p>
-          </motion.div>
+          <div className={styles.header}>
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              Iniciar Sesión
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              Accede a tu cuenta institucional
+            </motion.p>
+          </div>
 
           <motion.form
             initial={{ opacity: 0, y: 20 }}
@@ -75,21 +80,25 @@ const LoginPage: React.FC = () => {
               <label htmlFor="email" className={styles.label}>
                 Correo Electrónico
               </label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="admin@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+              <div className={styles.inputWrapper}>
+                <FaUser className={styles.inputIcon} />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
             <div className={styles.inputGroup}>
               <label htmlFor="password" className={styles.label}>
                 Contraseña
               </label>
-              <div className={styles.passwordWrapper}>
+              <div className={styles.inputWrapper}>
+                <FaLock className={styles.inputIcon} />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
