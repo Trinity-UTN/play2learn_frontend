@@ -64,8 +64,7 @@ export const activities: Activity[] = [
     code_game: "memorama",
     name: "Memorama",
     type: "Juego de Memoria",
-    description:
-      "Relaciona conceptos con sus imágenes correspondientes. Ideal para reforzar asociaciones visuales y comprensión temática.",
+    description: "Relaciona conceptos con sus imágenes correspondientes.",
     difficulty: "Fácil",
     duration: "10-15 min",
     subject: "General",
