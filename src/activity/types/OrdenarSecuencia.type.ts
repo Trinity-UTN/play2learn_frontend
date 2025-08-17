@@ -4,6 +4,10 @@ export interface EventPayload {
   order: number;
 }
 
+export interface OrdenarSecuenciaConfig {
+  cantEvents: number;
+}
+
 export interface CreateSequencePayload {
   events: EventPayload[];
 }

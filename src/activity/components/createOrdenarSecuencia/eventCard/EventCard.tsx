@@ -1,4 +1,3 @@
-import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -12,6 +11,7 @@ import {
 import type { SequenceEvent } from "../../../types/OrdenarSecuencia.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
+import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
 import styles from "./EventCard.module.css";
 
 interface EventCardProps {
@@ -27,6 +27,8 @@ const EventCard: React.FC<EventCardProps> = ({
   onUpdate,
   onDelete,
 }) => {
+  const { showConfirmation } = useConfirmation();
+
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(event.name);
   const [editDescription, setEditDescription] = useState(event.description);
@@ -73,9 +75,14 @@ const EventCard: React.FC<EventCardProps> = ({
   };
 
   const handleDelete = () => {
-    if (window.confirm("¿Está seguro de que desea eliminar este evento?")) {
-      onDelete();
-    }
+    showConfirmation({
+      title: "Borrar evento",
+      message: "¿Está seguro de que desea eliminar este evento?",
+      type: "warning",
+      onConfirm: () => {
+        onDelete();
+      },
+    });
   };
 
   return (
