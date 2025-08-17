@@ -11,7 +11,7 @@ import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoP
 import { OrdenarSecuenciaProvider } from "../activity/contexts/ordenarSecuenciaContext/OrdenarSecuenciaProvider";
 import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
-import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacion/DesafioClasificacionProvider";
+import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
 import { MemoramaProvider } from "../activity/contexts/memoramaContext/MemoramaProvider";
 import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
 import { ArbolDecisionProvider } from "../activity/contexts/arbolDecisionContext/ArbolDecisionProvider";
