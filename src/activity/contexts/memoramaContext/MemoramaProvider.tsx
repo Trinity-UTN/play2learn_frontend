@@ -60,7 +60,6 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     setPairErrorsState({});
   };
 
-  // Función para determinar el estado de una pareja
   const getPairStatus = (
     pair: MemoramaPair
   ): "complete" | "incomplete" | "empty" => {
@@ -175,6 +174,117 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     setCurrentPairIndex(0);
   };
 
+  const handleSubmit = async () => {
+    const finalValidationErrors = validateAllPairs();
+    if (finalValidationErrors.length > 0) {
+      setErrors(finalValidationErrors);
+      return;
+    }
+
+    try {
+      const gameData: MemoramaInterface = {
+        concepts: pairs.map((pair) => pair.concept),
+        images: pairs.map((pair) => pair.image!).filter(Boolean),
+      };
+
+      await registrarMemorama(gameData);
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
+      resetAllStates();
+      navigate("/dashboard/teacher/actividades/list");
+    } catch (error) {
+      showToast({
+        title: "Error al crear la actividad",
+        message: "Hubo un error al crear la actividad",
+        type: "error",
+        position: "bottom-right",
+      });
+      console.error("Error al crear la actividad (memorama):", error);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep === "preview") {
+      setCurrentStep("pairs");
+    } else if (currentStep === "pairs") {
+      showConfirmation({
+        title: "Ir a la configuración",
+        message:
+          "¿Está seguro que desea ir a la configuración de la actividad? Se perderán los cambios realizados.",
+        type: "danger",
+        showDoubleConfirmation: true,
+        onConfirm: () => {
+          setPairs([]);
+          setCurrentStep("config");
+        },
+      });
+    }
+  };
+
+  const handleNext = () => {
+    if (currentStep === "config") {
+      const configForm = document.querySelector("form");
+      if (configForm) {
+        configForm.requestSubmit();
+      }
+    }
+  };
+
+  const handleReset = () => {
+    showConfirmation({
+      title: "Reiniciar Actividad",
+      message: "¿Está seguro que desea reiniciar la creación de la actividad?",
+      type: "warning",
+      onConfirm: () => {
+        showToast({
+          title: "Actividad reiniciada",
+          type: "info",
+          position: "bottom-right",
+        });
+        resetAllStates();
+      },
+    });
+  };
+
+  // Funciones de utilidad
+
+  const getStepTitle = () => {
+    switch (currentStep) {
+      case "config":
+        return "Configuración del Memorama";
+      case "pairs":
+        return `Pareja ${currentPairIndex + 1} de ${config.totalPairs}`;
+      case "preview":
+        return "Vista Previa";
+      default:
+        return "Crear Actividad";
+    }
+  };
+
+  const getCurrentStepNumber = () => {
+    if (currentStep === "config") return 1;
+    if (currentStep === "pairs") return 2;
+    return 3;
+  };
+
+  const getStepDescription = () => {
+    switch (currentStep) {
+      case "config":
+        return "Define la cantidad de parejas que tendrá el memorama.";
+      case "pairs":
+        return "Agrega las parejas que deseas para el memorama.";
+      case "preview":
+        return "Así es como verán la actividad tus estudiantes.";
+      default:
+        return "";
+    }
+  };
+
+  // Handlers específicos de memorama
   const handlePairSave = (pairData: MemoramaPair) => {
     const updatedPairs = [...pairs];
     updatedPairs[currentPairIndex] = pairData;
@@ -219,6 +329,15 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     setCurrentPairIndex(index);
   };
 
+  const handleAddPair = () => {
+    const updatedPairs = [...pairs, { concept: "", image: null }];
+    setConfig((prev) => ({
+      ...prev,
+      totalPairs: prev.totalPairs + 1,
+    }));
+    setPairs(updatedPairs);
+  };
+
   const handleDeletePair = (index: number) => {
     if (pairs.length > 4) {
       const updatedPairs = pairs.filter((_, i) => i !== index);
@@ -233,77 +352,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     }
   };
 
-  const handleSubmit = async () => {
-    const finalValidationErrors = validateAllPairs();
-    if (finalValidationErrors.length > 0) {
-      setErrors(finalValidationErrors);
-      return;
-    }
-
-    try {
-      const gameData: MemoramaInterface = {
-        concepts: pairs.map((pair) => pair.concept),
-        images: pairs.map((pair) => pair.image!).filter(Boolean),
-      };
-
-      await registrarMemorama(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
-      resetAllStates();
-      navigate("/dashboard/teacher/actividades/list");
-    } catch (error) {
-      showToast({
-        title: "Error al crear la actividad",
-        message: "Hubo un error al crear la actividad",
-        type: "error",
-        position: "bottom-right",
-      });
-      console.error("Error al crear la actividad (memorama):", error);
-    }
-  };
-
-  const handleBack = () => {
-    if (currentStep === "preview") {
-      setCurrentStep("pairs");
-    } else if (currentStep === "pairs") {
-      setCurrentStep("config");
-    }
-  };
-
-  const handleReset = () => {
-    showConfirmation({
-      title: "Reiniciar Actividad",
-      message: "¿Está seguro que desea reiniciar la creación de la actividad?",
-      type: "warning",
-      onConfirm: () => {
-        showToast({
-          title: "Actividad reiniciada",
-          type: "info",
-          position: "bottom-right",
-        });
-        resetAllStates();
-      },
-    });
-  };
-
-  // Funciones de utilidad
-  const getStepTitle = () => {
-    switch (currentStep) {
-      case "config":
-        return "Configuración del Memorama";
-      case "pairs":
-        return `Pareja ${currentPairIndex + 1} de ${config.totalPairs}`;
-      case "preview":
-        return "Vista Previa";
-      default:
-        return "Crear Actividad";
-    }
-  };
-
+  // Funciones específicas de memorama
   const getCompletedPairs = () => {
     return pairs.filter((pair) => getPairStatus(pair) === "complete").length;
   };
@@ -354,18 +403,26 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
 
     // Handlers principales
     handleConfigSubmit,
-    handlePairSave,
-    handleNextPair,
-    handlePreviousPair,
-    handleGoToPair,
-    handleDeletePair,
     handleSubmit,
     handleBack,
+    handleNext,
     handleReset,
 
     // Funciones de utilidad
     getPairStatus,
     getStepTitle,
+    getCurrentStepNumber,
+    getStepDescription,
+
+    // Handlers específicos de memorama
+    handlePairSave,
+    handleNextPair,
+    handlePreviousPair,
+    handleGoToPair,
+    handleAddPair,
+    handleDeletePair,
+
+    // Funciones específicas de memorama
     getCompletedPairs,
     getIncompletePairs,
     getEmptyPairs,

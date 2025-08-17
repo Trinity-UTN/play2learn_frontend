@@ -297,6 +297,18 @@
   font-size: 0.75rem;
 }
 
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .deleteButton {
   display: flex;
   align-items: center;

@@ -4,11 +4,13 @@ import { motion } from "framer-motion";
 import { FaRedo, FaPuzzlePiece, FaEye, FaEyeSlash } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import { useCreateMemorama } from "../../../hooks/useCreateMemorama";
 import styles from "./MemoramaPreview.module.css";
 
 const MemoramaPreview: React.FC = () => {
   const { pairs } = useCreateMemorama();
+
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
   const [showAllCards, setShowAllCards] = useState(false);
@@ -105,41 +107,40 @@ const MemoramaPreview: React.FC = () => {
 
   return (
     <motion.div variants={itemVariants} className={styles.container}>
-      {/* Header de preview */}
-      <Card className={styles.previewHeader}>
-        <h3 className={styles.sectionTitle}>Vista Previa de la Actividad</h3>
-        <p className={styles.description}>
-          Así es como verán la actividad tus estudiantes. Encuentra las parejas
-          de imágenes iguales.
-        </p>
+      <div className={styles.header}>
+        <div className={styles.header}>
+          <div className={styles.titleRow}>
+            <h4 className={styles.title}>
+              <FaEye className={styles.headerIcon} />
+              Vista Previa de Actividad
+              <span className={styles.tooltip}>
+                <Tooltip content="Encuentra las parejas de imágenes iguales." />
+              </span>
+            </h4>
+          </div>
+          <p className={styles.description}>
+            Así es como verán la actividad tus estudiantes.
+          </p>
+        </div>
+
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statNumber}>{pairs.length}</span>
-            <span className={styles.statLabel}>
-              Pareja{pairs.length !== 1 ? "s" : ""}
-            </span>
+            <span className={styles.statIcon}>🧩</span>
+            <div>
+              <span className={styles.statLabel}>
+                Pareja{pairs.length !== 1 ? "s" : ""}
+              </span>
+              <span className={styles.statValue}>{pairs.length}</span>
+            </div>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statNumber}>{pairs.length * 2}</span>
-            <span className={styles.statLabel}>Cartas</span>
+            <span className={styles.statIcon}>🃏</span>
+            <div>
+              <span className={styles.statLabel}>Cartas</span>
+              <span className={styles.statValue}>{pairs.length * 2}</span>
+            </div>
           </div>
         </div>
-      </Card>
-
-      {/* Controles de preview */}
-      <div className={styles.previewControls}>
-        <Button variant="secondary" onClick={resetGame} size="sm">
-          <FaRedo />
-          Reiniciar
-        </Button>
-        <Button
-          variant={showAllCards ? "danger" : "primary"}
-          onClick={toggleShowAll}
-          size="sm"
-        >
-          {showAllCards ? <FaEyeSlash /> : <FaEye />}
-          {showAllCards ? "Ocultar" : "Mostrar"} Todas
-        </Button>
       </div>
 
       {pairs.length > 0 && (
@@ -216,6 +217,21 @@ const MemoramaPreview: React.FC = () => {
           )}
         </Card>
       )}
+      {/* Controles de preview */}
+      <div className={styles.previewControls}>
+        <Button variant="secondary" onClick={resetGame} size="sm">
+          <FaRedo />
+          Reiniciar
+        </Button>
+        <Button
+          variant={showAllCards ? "danger" : "primary"}
+          onClick={toggleShowAll}
+          size="sm"
+        >
+          {showAllCards ? <FaEyeSlash /> : <FaEye />}
+          {showAllCards ? "Ocultar" : "Mostrar"} Todas
+        </Button>
+      </div>
     </motion.div>
   );
 };

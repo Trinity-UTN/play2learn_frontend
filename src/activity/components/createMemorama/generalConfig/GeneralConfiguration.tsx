@@ -1,10 +1,8 @@
-import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaCog, FaPuzzlePiece, FaArrowRight } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import { FaCog, FaPuzzlePiece, FaListAlt } from "react-icons/fa";
 import Input from "../../../../shared/components/Input/InputComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import type { MemoramaConfig } from "../../../types/Memorama.type";
 import { useCreateMemorama } from "../../../hooks/useCreateMemorama";
 import styles from "./GeneralConfiguration.module.css";
@@ -49,76 +47,71 @@ const GeneralConfiguration: React.FC = () => {
 
   return (
     <motion.div variants={itemVariants} className={styles.container}>
-      <Card className={styles.card}>
-        <div className={styles.header}>
-          <FaCog className={styles.headerIcon} />
-          <div>
-            <h3 className={styles.title}>Configuración del Memorama</h3>
-            <p className={styles.description}>
-              Define la cantidad de parejas y el tiempo que tendrán los
-              estudiantes para completar el memorama.
+      <div className={styles.header}>
+        <FaCog className={styles.headerIcon} />
+        <div className={styles.headerContent}>
+          <h3 className={styles.title}>Configuración de Actividad</h3>
+          <p className={styles.description}>
+            Define la cantidad de parejas que tendrá el memorama.
+          </p>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formSection}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTitleRow}>
+              <h4 className={styles.sectionTitle}>
+                <FaPuzzlePiece className={styles.sectionIcon} />
+                Cantidad de Parejas
+                <span className={styles.sectionTooltip}>
+                  <Tooltip content="Mínimo 4 parejas, máximo 8" />
+                </span>
+              </h4>
+            </div>
+            <p className={styles.sectionDescription}>
+              Indica la cantidad de parejas que tendrá el memorama.
             </p>
+          </div>
+          <div className={styles.inputGroup}>
+            <Input
+              type="number"
+              value={formData.totalPairs}
+              onChange={(e) =>
+                handleInputChange(
+                  "totalPairs",
+                  Number.parseInt(e.target.value) || 4
+                )
+              }
+              error={errors.totalPairs}
+              min="4"
+              max="8"
+              className={styles.input}
+            />
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.formGrid}>
-            <div className={styles.inputGroup}>
-              <label className={styles.label}>
-                <FaPuzzlePiece className={styles.labelIcon} />
-                Cantidad de Parejas *
-                <span className={styles.labelHint}>
-                  Mínimo 4 parejas, máximo 8
-                </span>
-              </label>
-              <Input
-                type="number"
-                value={formData.totalPairs}
-                onChange={(e) =>
-                  handleInputChange(
-                    "totalPairs",
-                    Number.parseInt(e.target.value) || 4
-                  )
-                }
-                error={errors.totalPairs}
-                min="4"
-                max="8"
-                className={styles.input}
-              />
+        <div className={styles.formSection}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTitleRow}>
+              <h4 className={styles.sectionTitle}>
+                <FaListAlt className={styles.sectionIcon} />
+                Resumen de la Actividad
+              </h4>
             </div>
           </div>
-
-          <Card className={styles.summary}>
-            <h4 className={styles.summaryTitle}>Resumen de la Actividad</h4>
-            <div className={styles.summaryGrid}>
-              <div className={styles.summaryItem}>
-                <span className={styles.summaryLabel}>Total de parejas:</span>
-                <span className={styles.summaryValue}>
-                  {formData.totalPairs}
-                </span>
-              </div>
-              <div className={styles.summaryItem}>
-                <span className={styles.summaryLabel}>Cartas totales:</span>
-                <span className={styles.summaryValue}>
-                  {formData.totalPairs * 2}
-                </span>
-              </div>
-            </div>
-          </Card>
-
-          <div className={styles.submitSection}>
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              className={styles.submitButton}
-            >
-              <FaArrowRight />
-              Comenzar a Crear Parejas
-            </Button>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>Total de parejas:</span>
+            <span className={styles.summaryValue}>{formData.totalPairs}</span>
           </div>
-        </form>
-      </Card>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>Cartas totales:</span>
+            <span className={styles.summaryValue}>
+              {formData.totalPairs * 2}
+            </span>
+          </div>
+        </div>
+      </form>
     </motion.div>
   );
 };
