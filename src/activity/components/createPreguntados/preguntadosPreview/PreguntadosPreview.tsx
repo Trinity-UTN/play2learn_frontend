@@ -1,7 +1,7 @@
-import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
+  FaEye,
   FaRedo,
   FaClock,
   FaQuestionCircle,
@@ -9,6 +9,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./PreguntadosPreview.module.css";
 
@@ -74,42 +75,42 @@ const PreguntadosPreview: React.FC = () => {
 
   return (
     <motion.div variants={itemVariants} className={styles.container}>
-      <div className={styles.previewHeader}>
-        <h3 className={styles.sectionTitle}>Vista Previa de la Actividad</h3>
-        <p className={styles.description}>
-          Así es como verán la actividad tus estudiantes. Puedes probar
-          respondiendo las preguntas.
-        </p>
+      <div className={styles.header}>
+        <div className={styles.header}>
+          <div className={styles.titleRow}>
+            <h4 className={styles.title}>
+              <FaEye className={styles.headerIcon} />
+              Vista Previa de Actividad
+              <span className={styles.tooltip}>
+                <Tooltip content="Puedes probar respondiendo las preguntas." />
+              </span>
+            </h4>
+          </div>
+          <p className={styles.description}>
+            Así es como verán la actividad tus estudiantes.
+          </p>
+        </div>
 
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statNumber}>{questions.length}</span>
-            <span className={styles.statLabel}>
-              Pregunta{questions.length !== 1 ? "s" : ""}
-            </span>
+            <span className={styles.statIcon}>❓</span>
+            <div>
+              <span className={styles.statLabel}>Preguntas</span>
+              <span className={styles.statValue}>{questions.length}</span>
+            </div>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statNumber}>
-              {config.maxTimePerQuestionInSeconds}
-            </span>
-            <span className={styles.statLabel}>Segundos por pregunta</span>
+            <span className={styles.statIcon}>⏱️</span>
+            <div>
+              <span className={styles.statLabel}>
+                Tiempo por pregunta (seg)
+              </span>
+              <span className={styles.statValue}>
+                {config.maxTimePerQuestionInSeconds}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className={styles.previewControls}>
-        <Button variant="secondary" onClick={resetPreview} size="sm">
-          <FaRedo />
-          Reiniciar
-        </Button>
-        <Button
-          variant={showAnswers ? "danger" : "primary"}
-          onClick={toggleAnswers}
-          size="sm"
-        >
-          {showAnswers ? <FaTimes /> : <FaCheck />}
-          {showAnswers ? "Ocultar" : "Mostrar"} Respuestas
-        </Button>
       </div>
 
       {questions.length > 0 && (
@@ -229,6 +230,20 @@ const PreguntadosPreview: React.FC = () => {
           </div>
         </div>
       )}
+      <div className={styles.previewControls}>
+        <Button variant="secondary" onClick={resetPreview} size="sm">
+          <FaRedo />
+          Reiniciar
+        </Button>
+        <Button
+          variant={showAnswers ? "danger" : "primary"}
+          onClick={toggleAnswers}
+          size="sm"
+        >
+          {showAnswers ? <FaTimes /> : <FaCheck />}
+          {showAnswers ? "Ocultar" : "Mostrar"} Respuestas
+        </Button>
+      </div>
     </motion.div>
   );
 };

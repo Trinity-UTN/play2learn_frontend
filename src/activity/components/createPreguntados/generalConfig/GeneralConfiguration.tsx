@@ -1,15 +1,15 @@
-import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaCog, FaClock, FaQuestionCircle, FaArrowRight } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import { FaCog, FaClock, FaQuestionCircle, FaListAlt } from "react-icons/fa";
 import Input from "../../../../shared/components/Input/InputComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import type { PreguntadosConfig } from "../../../types/Preguntados.type";
 import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./GeneralConfiguration.module.css";
 
 const GeneralConfiguration: React.FC = () => {
   const { config, handleConfigSubmit } = useCreatePreguntados();
+
   const [formData, setFormData] = useState<PreguntadosConfig>(config);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -69,22 +69,29 @@ const GeneralConfiguration: React.FC = () => {
       </div>
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.formGrid}>
+        <div className={styles.formSection}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTitleRow}>
+              <h4 className={styles.sectionTitle}>
+                <FaQuestionCircle className={styles.sectionIcon} />
+                Cantidad de Preguntas
+                <span className={styles.sectionTooltip}>
+                  <Tooltip content="Mínimo 5 preguntas, máximo 50" />
+                </span>
+              </h4>
+            </div>
+            <p className={styles.sectionDescription}>
+              Indica la cantidad de preguntas que tendrá la actividad.
+            </p>
+          </div>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>
-              <FaQuestionCircle className={styles.labelIcon} />
-              Cantidad de Preguntas *
-              <span className={styles.labelHint}>
-                Mínimo 5 preguntas, máximo 50
-              </span>
-            </label>
             <Input
               type="number"
               value={formData.totalQuestions}
               onChange={(e) =>
                 handleInputChange(
                   "totalQuestions",
-                  Number.parseInt(e.target.value) || 5
+                  Number.parseInt(e.target.value) || 4
                 )
               }
               error={errors.totalQuestions}
@@ -93,15 +100,25 @@ const GeneralConfiguration: React.FC = () => {
               className={styles.input}
             />
           </div>
+        </div>
 
+        <div className={styles.formSection}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTitleRow}>
+              <h4 className={styles.sectionTitle}>
+                <FaClock className={styles.sectionIcon} />
+                Tiempo por Pregunta (segundos)
+                <span className={styles.sectionTooltip}>
+                  <Tooltip content="Mínimo 10 segundos, máximo 300 segundos" />
+                </span>
+              </h4>
+            </div>
+            <p className={styles.sectionDescription}>
+              Indica la cantidad de tiempo que tendrá el estudiante para
+              responder cada pregunta.
+            </p>
+          </div>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>
-              <FaClock className={styles.labelIcon} />
-              Tiempo por Pregunta (segundos) *
-              <span className={styles.labelHint}>
-                Mínimo 10 segundos, máximo 300 segundos
-              </span>
-            </label>
             <Input
               type="number"
               value={formData.maxTimePerQuestionInSeconds}
@@ -119,47 +136,38 @@ const GeneralConfiguration: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.summary}>
-          <h4 className={styles.summaryTitle}>Resumen de la Actividad</h4>
-          <div className={styles.summaryGrid}>
-            <div className={styles.summaryItem}>
-              <span className={styles.summaryLabel}>Total de preguntas:</span>
-              <span className={styles.summaryValue}>
-                {formData.totalQuestions}
-              </span>
-            </div>
-            <div className={styles.summaryItem}>
-              <span className={styles.summaryLabel}>Tiempo por pregunta:</span>
-              <span className={styles.summaryValue}>
-                {formData.maxTimePerQuestionInSeconds} segundos
-              </span>
-            </div>
-            <div className={styles.summaryItem}>
-              <span className={styles.summaryLabel}>
-                Tiempo total estimado:
-              </span>
-              <span className={styles.summaryValue}>
-                {Math.ceil(
-                  (formData.totalQuestions *
-                    formData.maxTimePerQuestionInSeconds) /
-                    60
-                )}{" "}
-                minutos
-              </span>
+        <div className={styles.formSection}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTitleRow}>
+              <h4 className={styles.sectionTitle}>
+                <FaListAlt className={styles.sectionIcon} />
+                Resumen de la Actividad
+              </h4>
             </div>
           </div>
-        </div>
-
-        <div className={styles.submitSection}>
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            className={styles.submitButton}
-          >
-            <FaArrowRight />
-            Comenzar a Crear Preguntas
-          </Button>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>Total de preguntas:</span>
+            <span className={styles.summaryValue}>
+              {formData.totalQuestions}
+            </span>
+          </div>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>Tiempo por pregunta:</span>
+            <span className={styles.summaryValue}>
+              {formData.maxTimePerQuestionInSeconds} segundos
+            </span>
+          </div>
+          <div className={styles.summaryItem}>
+            <span className={styles.summaryLabel}>Tiempo total estimado:</span>
+            <span className={styles.summaryValue}>
+              {Math.ceil(
+                (formData.totalQuestions *
+                  formData.maxTimePerQuestionInSeconds) /
+                  60
+              )}{" "}
+              minutos
+            </span>
+          </div>
         </div>
       </form>
     </motion.div>

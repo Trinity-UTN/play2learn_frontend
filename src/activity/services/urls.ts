@@ -5,6 +5,6 @@ export const urls = {
   DesafioClasificacion: "/activities/clasificacion",
   Memorama: "/activities/memorama",
   NoLudica: "/activities/no-ludica",
-  Preguntados: "/activities/preguntados",
   OrdenarSecuencia: "/activities/ordenar-secuencia",
+  Preguntados: "/activities/preguntados",
 };
