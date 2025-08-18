@@ -1,9 +1,14 @@
 export interface ConceptPayload {
   name: string;
 }
+
 export interface CategoryPayload {
   name: string;
   concepts: ConceptPayload[];
+}
+
+export interface DesafioClasificacionConfig {
+  categories: ClassificationCategory[];
 }
 
 export interface ClassificationConcept {

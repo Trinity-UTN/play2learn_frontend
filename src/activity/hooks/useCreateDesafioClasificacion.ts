@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { DesafioClasificacionContext } from "../contexts/desafioClasificacion/DesafioClasificacionContext";
+import { DesafioClasificacionContext } from "../contexts/desafioClasificacionContext/DesafioClasificacionContext";
 
 export const useCreateDesafioClasificacion = () => {
   const context = useContext(DesafioClasificacionContext);
   if (!context) {
     throw new Error(
-      "useDesafioClasificacion must be used within an DesafioClasificacionProvider"
+      "useCreateDesafioClasificacion must be used within an DesafioClasificacionProvider"
     );
   }
   return context;

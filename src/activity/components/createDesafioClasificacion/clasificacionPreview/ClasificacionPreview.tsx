@@ -1,443 +1,430 @@
-import type React from "react";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
+  FaEye,
   FaPlay,
   FaRedo,
-  FaTimes,
   FaCheck,
-  FaExclamationTriangle,
   FaTrophy,
+  FaExclamationTriangle,
 } from "react-icons/fa";
-import type {
-  ClassificationCategory,
-  ClassificationConcept,
-} from "../../../types/DesafioClasificacion.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
 import styles from "./ClasificacionPreview.module.css";
 
-interface ClassificationPreviewProps {
-  categories: ClassificationCategory[];
-  onClose: () => void;
-}
-
-interface GameConcept extends ClassificationConcept {
-  isPlaced: boolean;
-  currentCategoryId?: string;
-}
-
-const ClassificationPreview: React.FC<ClassificationPreviewProps> = ({
-  categories,
-  onClose,
-}) => {
+const ClasificacionPreview: React.FC = () => {
+  const { config, getAllConcepts } = useCreateDesafioClasificacion();
   const [gameStarted, setGameStarted] = useState(false);
-  const [shuffledConcepts, setShuffledConcepts] = useState<GameConcept[]>([]);
-  const [gameCategories, setGameCategories] = useState<
-    ClassificationCategory[]
-  >([]);
+  const [score, setScore] = useState(0);
   const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
     "playing"
   );
-  const [score, setScore] = useState(0);
-  const [feedback, setFeedback] = useState<{
-    [key: string]: "correct" | "incorrect" | null;
+  const [draggedConcept, setDraggedConcept] = useState<string | null>(null);
+  const [conceptsInCategories, setConceptsInCategories] = useState<{
+    [key: string]: string[];
   }>({});
+  const [availableConcepts, setAvailableConcepts] = useState<string[]>([]);
+  const [verificationResults, setVerificationResults] = useState<{
+    correct: { concept: string; category: string }[];
+    incorrect: { concept: string; placedIn: string; shouldBe: string }[];
+    totalCorrect: number;
+    totalConcepts: number;
+  } | null>(null);
 
-  const shuffleArray = <T,>(array: T[]): T[] => {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
+  const totalCategories = config.categories.length;
+  const totalConcepts = getAllConcepts().length;
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
   };
 
-  const initializeGame = () => {
-    // Crear conceptos mezclados
-    const allConcepts: GameConcept[] = categories.flatMap((category) =>
-      category.concepts.map((concept) => ({
-        ...concept,
-        isPlaced: false,
-      }))
-    );
-
-    setShuffledConcepts(shuffleArray(allConcepts));
-
-    // Crear categorías vacías para el juego
-    const emptyCats = categories.map((category) => ({
-      ...category,
-      concepts: [],
-    }));
-
-    setGameCategories(emptyCats);
-    setGameStatus("playing");
-    setScore(0);
-    setFeedback({});
+  const startGame = () => {
     setGameStarted(true);
-  };
-
-  const handleConceptDrop = (conceptId: string, targetCategoryId: string) => {
-    const concept = shuffledConcepts.find((c) => c.id === conceptId);
-    if (!concept || concept.isPlaced) return;
-
-    // Marcar concepto como colocado
-    setShuffledConcepts((prev) =>
-      prev.map((c) =>
-        c.id === conceptId
-          ? { ...c, isPlaced: true, currentCategoryId: targetCategoryId }
-          : c
-      )
-    );
-
-    // Agregar concepto a la categoría
-    setGameCategories((prev) =>
-      prev.map((category) =>
-        category.id === targetCategoryId
-          ? {
-              ...category,
-              concepts: [...category.concepts, concept],
-            }
-          : category
-      )
-    );
-  };
-
-  const handleConceptRemove = (conceptId: string, fromCategoryId: string) => {
-    // Remover de la categoría
-    setGameCategories((prev) =>
-      prev.map((category) =>
-        category.id === fromCategoryId
-          ? {
-              ...category,
-              concepts: category.concepts.filter((c) => c.id !== conceptId),
-            }
-          : category
-      )
-    );
-
-    // Marcar como no colocado
-    setShuffledConcepts((prev) =>
-      prev.map((c) =>
-        c.id === conceptId
-          ? { ...c, isPlaced: false, currentCategoryId: undefined }
-          : c
-      )
-    );
-  };
-
-  const checkAnswers = () => {
-    let correctCount = 0;
-    const newFeedback: { [key: string]: "correct" | "incorrect" | null } = {};
-
-    gameCategories.forEach((gameCategory) => {
-      const originalCategory = categories.find((c) => c.id === gameCategory.id);
-      if (!originalCategory) return;
-
-      const originalConceptIds = originalCategory.concepts.map((c) => c.id);
-
-      gameCategory.concepts.forEach((concept) => {
-        const isCorrect = originalConceptIds.includes(concept.id);
-        newFeedback[concept.id] = isCorrect ? "correct" : "incorrect";
-        if (isCorrect) correctCount++;
-      });
-    });
-
-    setFeedback(newFeedback);
-
-    const totalConcepts = categories.reduce(
-      (total, cat) => total + cat.concepts.length,
-      0
-    );
-    const newScore = Math.round((correctCount / totalConcepts) * 100);
-    setScore(newScore);
-
-    if (correctCount === totalConcepts) {
-      setGameStatus("won");
-    } else {
-      setGameStatus("lost");
-      // Permitir otro intento
-      setTimeout(() => {
-        setFeedback({});
-      }, 2000);
-    }
+    setScore(0);
+    setGameStatus("playing");
+    const allConcepts = getAllConcepts();
+    setAvailableConcepts([...allConcepts]);
+    setConceptsInCategories({});
+    setVerificationResults(null);
   };
 
   const resetGame = () => {
-    initializeGame();
+    setGameStarted(false);
+    setScore(0);
+    setGameStatus("playing");
+    setAvailableConcepts([]);
+    setConceptsInCategories({});
+    setVerificationResults(null);
   };
 
-  const allConceptsPlaced = shuffledConcepts.every(
-    (concept) => concept.isPlaced
-  );
+  const verifyAnswers = () => {
+    const correct: { concept: string; category: string }[] = [];
+    const incorrect: { concept: string; placedIn: string; shouldBe: string }[] =
+      [];
+
+    // Create a map of concept to its correct category
+    const conceptToCategoryMap: { [concept: string]: string } = {};
+    config.categories.forEach((category) => {
+      category.concepts.forEach((concept) => {
+        conceptToCategoryMap[concept.name.toLowerCase()] = category.name;
+      });
+    });
+
+    // Check each placed concept
+    Object.keys(conceptsInCategories).forEach((categoryId) => {
+      const category = config.categories.find((cat) => cat.id === categoryId);
+      if (!category) return;
+
+      conceptsInCategories[categoryId].forEach((placedConcept) => {
+        const correctCategory =
+          conceptToCategoryMap[placedConcept.toLowerCase()];
+
+        if (correctCategory === category.name) {
+          correct.push({
+            concept: placedConcept,
+            category: category.name,
+          });
+        } else {
+          incorrect.push({
+            concept: placedConcept,
+            placedIn: category.name,
+            shouldBe: correctCategory,
+          });
+        }
+      });
+    });
+
+    const totalPlacedConcepts = correct.length + incorrect.length;
+    const calculatedScore =
+      totalPlacedConcepts > 0
+        ? Math.round((correct.length / totalPlacedConcepts) * 100)
+        : 0;
+
+    const results = {
+      correct,
+      incorrect,
+      totalCorrect: correct.length,
+      totalConcepts: totalPlacedConcepts,
+    };
+
+    setVerificationResults(results);
+    setScore(calculatedScore);
+    setGameStatus(calculatedScore >= 70 ? "won" : "lost");
+  };
+
+  const handleDragStart = (e: React.DragEvent, concept: string) => {
+    setDraggedConcept(concept);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDrop = (e: React.DragEvent, categoryId: string) => {
+    e.preventDefault();
+    if (!draggedConcept) return;
+
+    // Remove concept from available concepts
+    setAvailableConcepts((prev) => prev.filter((c) => c !== draggedConcept));
+
+    // Add concept to category
+    setConceptsInCategories((prev) => ({
+      ...prev,
+      [categoryId]: [...(prev[categoryId] || []), draggedConcept],
+    }));
+
+    setDraggedConcept(null);
+  };
+
+  const handleDropToPool = (e: React.DragEvent) => {
+    e.preventDefault();
+    if (!draggedConcept) return;
+
+    // Find which category the concept was in
+    const categoryWithConcept = Object.keys(conceptsInCategories).find(
+      (categoryId) => conceptsInCategories[categoryId].includes(draggedConcept)
+    );
+
+    if (categoryWithConcept) {
+      // Remove from category
+      setConceptsInCategories((prev) => ({
+        ...prev,
+        [categoryWithConcept]: prev[categoryWithConcept].filter(
+          (c) => c !== draggedConcept
+        ),
+      }));
+
+      // Add back to available concepts
+      setAvailableConcepts((prev) => [...prev, draggedConcept]);
+    }
+
+    setDraggedConcept(null);
+  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className={styles.overlay}
-    >
-      <motion.div
-        initial={{ scale: 0.9, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.9, y: 20 }}
-        className={styles.container}
-      >
-        <Card className={styles.previewCard}>
-          <div className={styles.header}>
-            <div className={styles.titleSection}>
-              <h2 className={styles.title}>
-                Vista Previa - Clasificar Conceptos
-              </h2>
-              <p className={styles.subtitle}>
-                Así es como los estudiantes verán y jugarán esta actividad
-              </p>
-            </div>
-
-            <Button
-              variant="ghost"
-              onClick={onClose}
-              className={styles.closeButton}
-            >
-              <FaTimes />
-            </Button>
+    <motion.div variants={itemVariants} className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.header}>
+          <div className={styles.titleRow}>
+            <h4 className={styles.title}>
+              <FaEye className={styles.headerIcon} />
+              Vista Previa de Actividad
+              <span className={styles.tooltip}>
+                <Tooltip content="Los conceptos se mostrarán mezclados para clasificarlos" />
+              </span>
+            </h4>
           </div>
+          <p className={styles.description}>
+            Así verán la actividad tus estudiantes
+          </p>
+        </div>
 
-          {!gameStarted ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={styles.startScreen}
-            >
-              <div className={styles.gameInfo}>
-                <h3 className={styles.gameTitle}>Clasificar Conceptos</h3>
-                <p className={styles.gameDescription}>
-                  Arrastra cada concepto a la categoría correcta
-                </p>
+        <div className={styles.stats}>
+          <div className={styles.stat}>
+            <span className={styles.statIcon}>📂</span>
+            <div>
+              <span className={styles.statLabel}>Categorías</span>
+              <span className={styles.statValue}>{totalCategories}</span>
+            </div>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statIcon}>🏷️</span>
+            <div>
+              <span className={styles.statLabel}>Conceptos totales</span>
+              <span className={styles.statValue}>{totalConcepts}</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                <div className={styles.gameStats}>
-                  <div className={styles.gameStat}>
-                    <span className={styles.gameStatNumber}>
-                      {categories.length}
-                    </span>
-                    <span className={styles.gameStatLabel}>Categorías</span>
-                  </div>
-                  <div className={styles.gameStat}>
-                    <span className={styles.gameStatNumber}>
-                      {categories.reduce(
-                        (total, cat) => total + cat.concepts.length,
-                        0
-                      )}
-                    </span>
-                    <span className={styles.gameStatLabel}>Conceptos</span>
-                  </div>
-                </div>
+      <div className={styles.simulatorContainer}>
+        <div className={styles.simulatorHeader}>
+          <div className={styles.simulatorTitle}>
+            <FaEye className={styles.simulatorIcon} />
+            <h4>Desafío de Clasificación</h4>
+          </div>
+          <Button
+            variant="secondary"
+            onClick={resetGame}
+            className={styles.resetButton}
+          >
+            <FaRedo />
+            Reiniciar
+          </Button>
+        </div>
 
-                <Button
-                  variant="primary"
-                  onClick={initializeGame}
-                  className={styles.startButton}
-                >
-                  <FaPlay />
-                  Comenzar Juego
-                </Button>
-              </div>
-            </motion.div>
-          ) : (
-            <div className={styles.gameArea}>
-              <div className={styles.gameHeader}>
-                <div className={styles.gameProgress}>
-                  {score > 0 && (
-                    <div className={styles.score}>
-                      <FaTrophy className={styles.trophyIcon} />
-                      <span>{score}% correcto</span>
+        {!gameStarted ? (
+          <div className={styles.scenarioCard}>
+            <div className={styles.scenarioHeader}>
+              <h5 className={styles.scenarioTitle}>Clasificar Conceptos</h5>
+            </div>
+            <div className={styles.scenarioContent}>
+              <p className={styles.scenarioText}>
+                Arrastra cada concepto a la categoría correcta. ¡Demuestra tu
+                conocimiento!
+              </p>
+
+              <div className={styles.pathSection}>
+                <h6 className={styles.pathTitle}>Categorías disponibles:</h6>
+                <div className={styles.pathList}>
+                  {config.categories.map((category, index) => (
+                    <div key={category.id} className={styles.pathItem}>
+                      <div className={styles.pathNumber}>{index + 1}</div>
+                      <span className={styles.pathText}>
+                        {category.name} ({category.concepts.length} conceptos)
+                      </span>
                     </div>
-                  )}
-                </div>
-
-                <div className={styles.gameActions}>
-                  <Button
-                    variant="secondary"
-                    onClick={resetGame}
-                    className={styles.resetButton}
-                  >
-                    <FaRedo />
-                    Reiniciar
-                  </Button>
-
-                  {allConceptsPlaced && gameStatus === "playing" && (
-                    <Button
-                      variant="primary"
-                      onClick={checkAnswers}
-                      className={styles.checkButton}
-                    >
-                      <FaCheck />
-                      Verificar Respuestas
-                    </Button>
-                  )}
-                </div>
-              </div>
-
-              <div className={styles.gameContent}>
-                <div className={styles.conceptsPool}>
-                  <h4 className={styles.poolTitle}>
-                    Conceptos para clasificar (
-                    {shuffledConcepts.filter((c) => !c.isPlaced).length})
-                  </h4>
-
-                  <div className={styles.conceptsList}>
-                    <AnimatePresence>
-                      {shuffledConcepts
-                        .filter((concept) => !concept.isPlaced)
-                        .map((concept) => (
-                          <motion.div
-                            key={concept.id}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            drag
-                            dragConstraints={{
-                              left: 0,
-                              right: 0,
-                              top: 0,
-                              bottom: 0,
-                            }}
-                            whileDrag={{ scale: 1.05, zIndex: 1000 }}
-                            className={`${styles.conceptChip} ${
-                              feedback[concept.id] === "correct"
-                                ? styles.correct
-                                : feedback[concept.id] === "incorrect"
-                                ? styles.incorrect
-                                : ""
-                            }`}
-                            onDragEnd={(event, info) => {
-                              // Lógica simple de drop - en una implementación real usarías una librería como react-dnd
-                              const element = document.elementFromPoint(
-                                info.point.x,
-                                info.point.y
-                              );
-                              const categoryElement =
-                                element?.closest("[data-category-id]");
-                              if (categoryElement) {
-                                const categoryId =
-                                  categoryElement.getAttribute(
-                                    "data-category-id"
-                                  );
-                                if (categoryId) {
-                                  handleConceptDrop(concept.id, categoryId);
-                                }
-                              }
-                            }}
-                          >
-                            {concept.name}
-                          </motion.div>
-                        ))}
-                    </AnimatePresence>
-                  </div>
-                </div>
-
-                <div className={styles.categoriesGrid}>
-                  {gameCategories.map((category) => (
-                    <motion.div
-                      key={category.id}
-                      className={styles.categoryDropZone}
-                      data-category-id={category.id}
-                      style={{ borderColor: category.color }}
-                    >
-                      <div
-                        className={styles.categoryHeader}
-                        style={{ backgroundColor: `${category.color}20` }}
-                      >
-                        <h4 className={styles.categoryName}>{category.name}</h4>
-                        <Badge variant="secondary">
-                          {category.concepts.length} conceptos
-                        </Badge>
-                      </div>
-
-                      <div className={styles.categoryContent}>
-                        <AnimatePresence>
-                          {category.concepts.map((concept) => (
-                            <motion.div
-                              key={concept.id}
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -10 }}
-                              className={`${styles.placedConcept} ${
-                                feedback[concept.id] === "correct"
-                                  ? styles.correct
-                                  : feedback[concept.id] === "incorrect"
-                                  ? styles.incorrect
-                                  : ""
-                              }`}
-                              onClick={() =>
-                                handleConceptRemove(concept.id, category.id)
-                              }
-                            >
-                              {concept.name}
-                              {feedback[concept.id] === "correct" && (
-                                <FaCheck className={styles.feedbackIcon} />
-                              )}
-                              {feedback[concept.id] === "incorrect" && (
-                                <FaTimes className={styles.feedbackIcon} />
-                              )}
-                            </motion.div>
-                          ))}
-                        </AnimatePresence>
-
-                        {category.concepts.length === 0 && (
-                          <div className={styles.emptyCategory}>
-                            Arrastra conceptos aquí
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
                   ))}
                 </div>
               </div>
 
-              <AnimatePresence>
-                {gameStatus === "won" && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    className={styles.gameResult}
-                  >
-                    <div className={styles.winMessage}>
-                      <FaTrophy className={styles.winIcon} />
-                      <h3>¡Excelente trabajo!</h3>
-                      <p>Has clasificado todos los conceptos correctamente</p>
-                      <p className={styles.finalScore}>Puntuación: {score}%</p>
-                    </div>
-                  </motion.div>
-                )}
-
-                {gameStatus === "lost" && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    className={styles.gameResult}
-                  >
-                    <div className={styles.loseMessage}>
-                      <FaExclamationTriangle className={styles.loseIcon} />
-                      <h3>Juego terminado</h3>
-                      <p>Has clasificado todos los conceptos incorrectamente</p>
-                      <p className={styles.finalScore}>
-                        Puntuación final: {score}%
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <div className={styles.completedActions}>
+                <Button
+                  variant="primary"
+                  onClick={startGame}
+                  className={styles.tryAgainButton}
+                >
+                  <FaPlay />
+                  Comenzar Actividad
+                </Button>
+              </div>
             </div>
-          )}
-        </Card>
-      </motion.div>
+          </div>
+        ) : (
+          <>
+            <div className={styles.decisionsSection}>
+              <div className={styles.decisionsSectionHeader}>
+                <h6 className={styles.decisionsSectionTitle}>
+                  Conceptos para clasificar
+                </h6>
+                <div className={styles.decisionsInfo}>
+                  <span>{availableConcepts.length} restantes</span>
+                </div>
+              </div>
+
+              <div
+                className={styles.conceptsPool}
+                onDragOver={handleDragOver}
+                onDrop={handleDropToPool}
+              >
+                <div className={styles.conceptsList}>
+                  {availableConcepts.map((concept, index) => (
+                    <div
+                      key={index}
+                      className={styles.conceptChip}
+                      draggable
+                      onDragStart={(e) => handleDragStart(e, concept)}
+                    >
+                      {concept}
+                    </div>
+                  ))}
+                  {availableConcepts.length === 0 && (
+                    <div className={styles.emptyPool}>
+                      Todos los conceptos han sido clasificados
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.decisionsGrid}>
+              {config.categories.map((category) => (
+                <div
+                  key={category.id}
+                  className={styles.decisionOption}
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, category.id)}
+                >
+                  <div className={styles.optionHeader}>
+                    <div className={styles.optionNumber}>
+                      {conceptsInCategories[category.id]?.length || 0}
+                    </div>
+                    <div className={styles.optionIcon}>📂</div>
+                  </div>
+                  <div className={styles.optionContent}>
+                    <h6 className={styles.categoryName}>{category.name}</h6>
+                    <div className={styles.categoryDropZone}>
+                      {conceptsInCategories[category.id]?.length > 0 ? (
+                        <div className={styles.droppedConcepts}>
+                          {conceptsInCategories[category.id].map(
+                            (concept, index) => (
+                              <div
+                                key={index}
+                                className={styles.droppedConcept}
+                                draggable
+                                onDragStart={(e) => handleDragStart(e, concept)}
+                              >
+                                {concept}
+                              </div>
+                            )
+                          )}
+                        </div>
+                      ) : (
+                        <div className={styles.emptyCategory}>
+                          Arrastra conceptos aquí
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.optionFooter}>
+                    <div className={styles.optionStatus}>
+                      <span className={styles.statusIcon}>✓</span>
+                      <span>Listo para clasificar</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {availableConcepts.length === 0 && (
+              <div className={styles.completedActions}>
+                <Button
+                  variant="primary"
+                  onClick={verifyAnswers}
+                  className={styles.tryAgainButton}
+                >
+                  <FaCheck />
+                  Verificar Respuestas
+                </Button>
+              </div>
+            )}
+
+            {gameStatus !== "playing" && verificationResults && (
+              <div className={styles.resultSection}>
+                <div
+                  className={`${styles.resultCard} ${
+                    gameStatus === "won" ? styles.approved : styles.rejected
+                  }`}
+                >
+                  <div className={styles.resultHeader}>
+                    {gameStatus === "won" ? (
+                      <FaTrophy className={styles.resultIcon} />
+                    ) : (
+                      <FaExclamationTriangle className={styles.resultIcon} />
+                    )}
+                    <h5 className={styles.resultTitle}>
+                      {gameStatus === "won"
+                        ? "¡Excelente trabajo!"
+                        : "¡Sigue intentando!"}
+                    </h5>
+                  </div>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultText}>
+                      {gameStatus === "won"
+                        ? "Has clasificado correctamente los conceptos"
+                        : "Puedes mejorar tu clasificación"}
+                    </p>
+                    <div className={styles.verificationDetails}>
+                      <div className={styles.verificationSummary}>
+                        <span className={styles.correctCount}>
+                          ✅ Correctos: {verificationResults.totalCorrect}
+                        </span>
+                        <span className={styles.incorrectCount}>
+                          ❌ Incorrectos: {verificationResults.incorrect.length}
+                        </span>
+                      </div>
+
+                      {verificationResults.incorrect.length > 0 && (
+                        <div className={styles.incorrectDetails}>
+                          <h6>Conceptos mal clasificados:</h6>
+                          <ul>
+                            {verificationResults.incorrect.map(
+                              (item, index) => (
+                                <li key={index}>
+                                  <strong>{item.concept}</strong> → Colocado en
+                                  "{item.placedIn}", debería estar en "
+                                  {item.shouldBe}"
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.resultFooter}>
+                    <div
+                      className={
+                        gameStatus === "won"
+                          ? styles.successBadge
+                          : styles.failureBadge
+                      }
+                    >
+                      <span>Puntuación: {score}%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </motion.div>
   );
 };
 
-export default ClassificationPreview;
+export default ClasificacionPreview;

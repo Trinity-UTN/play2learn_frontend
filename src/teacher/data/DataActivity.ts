@@ -77,7 +77,7 @@ export const activities: Activity[] = [
     name: "Desafio de Clasificación",
     code_game: "desafio_clasificacion",
     type: "Juego de Memoria",
-    description: "Relacione los conceptos con su categoria",
+    description: "Relacione los conceptos con su categoria correspondiente.",
     difficulty: "Difícil",
     duration: "25-35 min",
     subject: "General",

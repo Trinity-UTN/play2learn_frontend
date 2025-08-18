@@ -1,42 +1,34 @@
-import type React from "react";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { FaPlus, FaExclamationTriangle } from "react-icons/fa";
+import { FaPlus, FaLightbulb } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
 import styles from "./CategoriaForm.module.css";
-import { useCreateDesafioClasificacion } from "../../../hooks/useDesafioClasificacion";
 
-const CategoryForm = ({}) => {
+const CategoryForm: React.FC = () => {
+  const { categories, handleAddCategory, getCategoryNames } =
+    useCreateDesafioClasificacion();
   const [categoryName, setCategoryName] = useState("");
   const [error, setError] = useState("");
-  const { handleAddCategory, getCategoryNames, categories } =
-    useCreateDesafioClasificacion();
+
   const existingNames = getCategoryNames();
   const maxCategories = 10;
+
   const validateCategoryName = (name: string): string => {
-    if (!name.trim()) {
-      return "El nombre de la categoría es requerido";
+    if (name) {
+      if (name.length < 2) return "El nombre debe tener al menos 2 caracteres";
+      if (name.length > 50)
+        return "El nombre no puede superar los 50 caracteres";
+      if (existingNames.includes(name.toLowerCase().trim())) {
+        return "Ya existe una categoría con este nombre";
+      }
     }
-
-    if (name.length < 2) {
-      return "El nombre debe tener al menos 2 caracteres";
-    }
-
-    if (name.length > 50) {
-      return "El nombre no puede superar los 50 caracteres";
-    }
-
-    if (existingNames.includes(name.toLowerCase().trim())) {
-      return "Ya existe una categoría con este nombre";
-    }
-
     return "";
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (categories.length >= maxCategories) {
       setError(`No se pueden agregar más de ${maxCategories} categorías`);
       return;
@@ -53,93 +45,47 @@ const CategoryForm = ({}) => {
     setError("");
   };
 
-  const handleInputChange = (value: string) => {
-    setCategoryName(value);
-    if (error) {
-      const validationError = validateCategoryName(value);
-      setError(validationError);
-    }
-  };
-
-  const isMaxReached = categories.length >= maxCategories;
-  const charactersLeft = 50 - categoryName.length;
-  const isValid =
-    categoryName.trim().length >= 2 && !validateCategoryName(categoryName);
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={styles.container}
-    >
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.inputGroup}>
-          <div className={styles.inputWrapper}>
-            <Input
-              type="text"
-              placeholder="Nombre de la categoría (ej: Animales, Colores, etc.)"
-              value={categoryName}
-              onChange={(e) => handleInputChange(e.target.value)}
-              disabled={isMaxReached}
-              className={`${styles.input} ${error ? styles.inputError : ""}`}
-              maxLength={50}
-            />
-            <div className={styles.inputMeta}>
-              <span
-                className={`${styles.charCounter} ${
-                  charactersLeft < 10 ? styles.charCounterWarning : ""
-                }`}
-              >
-                {charactersLeft} caracteres restantes
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.formSection}>
+        <div className={styles.sectionHeader}>
+          <div className={styles.sectionTitleRow}>
+            <h4 className={styles.sectionTitle}>
+              <FaLightbulb className={styles.sectionIcon} />
+              Nombre de la categoría
+              <span className={styles.sectionTooltip}>
+                <Tooltip content="" />
               </span>
-            </div>
+            </h4>
           </div>
+          <p className={styles.sectionDescription}>
+            Ingresa el nombre de la categoría que deseas crear
+          </p>
+        </div>
 
+        <div className={styles.inputGroup}>
+          <Input
+            type="text"
+            placeholder="Nombre de la categoría (ej: Animales, Colores, etc.)"
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
+            disabled={categories.length >= maxCategories}
+            className={error ? styles.inputError : styles.input}
+            maxLength={50}
+          />
           <Button
             type="submit"
             variant="primary"
-            disabled={!isValid || isMaxReached}
+            disabled={
+              !categoryName.trim() || categories.length >= maxCategories
+            }
             className={styles.addButton}
           >
             <FaPlus />
-            Agregar
           </Button>
         </div>
-
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className={styles.errorMessage}
-          >
-            <FaExclamationTriangle className={styles.errorIcon} />
-            {error}
-          </motion.div>
-        )}
-
-        {isMaxReached && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            className={styles.warningMessage}
-          >
-            <FaExclamationTriangle className={styles.warningIcon} />
-            Has alcanzado el límite máximo de {maxCategories} categorías
-          </motion.div>
-        )}
-
-        <div className={styles.hints}>
-          <h4 className={styles.hintsTitle}>Consejos:</h4>
-          <ul className={styles.hintsList}>
-            <li>Usa nombres descriptivos y claros</li>
-            <li>Evita categorías muy similares</li>
-            <li>Piensa en conceptos que los estudiantes puedan confundir</li>
-          </ul>
-        </div>
-      </form>
-    </motion.div>
+      </div>
+    </form>
   );
 };
 

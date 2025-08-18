@@ -10,34 +10,30 @@ import {
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
-import styles from "./ConceptList.module.css";
-import { useCreateDesafioClasificacion } from "../../../hooks/useDesafioClasificacion";
+import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
 import type { ClassificationCategory } from "../../../types/DesafioClasificacion.type";
-import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
+import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
+import styles from "./ConceptList.module.css";
 
 type Props = {
   category: ClassificationCategory;
 };
+
 const ConceptList = ({ category }: Props) => {
-  const [newConceptName, setNewConceptName] = useState("");
-  const [editingConceptId, setEditingConceptId] = useState<string | null>(null);
-  const [editConceptName, setEditConceptName] = useState("");
-  const [showAddConcept, setShowAddConcept] = useState(false);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [alertConfig, setAlertConfig] = useState({
-    title: "",
-    message: "",
-    type: "warning" as "warning" | "danger",
-    isOpen: false,
-    showDoubleConfirmation: false,
-    onConfirm: () => {},
-  });
   const {
     handleAddConcept,
     handleEditConcept,
     handleDeleteConcept,
     getAllConcepts,
   } = useCreateDesafioClasificacion();
+  const { showConfirmation } = useConfirmation();
+
+  const [newConceptName, setNewConceptName] = useState("");
+  const [editingConceptId, setEditingConceptId] = useState<string | null>(null);
+  const [editConceptName, setEditConceptName] = useState("");
+  const [showAddConcept, setShowAddConcept] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   const validateConceptName = (name: string): string => {
     if (!name.trim()) return "El nombre es requerido";
     if (name.length < 2) return "Mínimo 2 caracteres";
@@ -47,7 +43,8 @@ const ConceptList = ({ category }: Props) => {
     }
     return "";
   };
-  const AddConcept = () => {
+
+  const addConcept = () => {
     const error = validateConceptName(newConceptName);
     if (error) {
       setErrors({ ...errors, newConcept: error });
@@ -67,7 +64,8 @@ const ConceptList = ({ category }: Props) => {
     setShowAddConcept(false);
     setErrors({ ...errors, newConcept: "" });
   };
-  const EditConcept = (conceptId: string) => {
+
+  const editConcept = (conceptId: string) => {
     const concept = category.concepts.find((c) => c.id === conceptId);
     if (concept) {
       setEditingConceptId(conceptId);
@@ -89,27 +87,25 @@ const ConceptList = ({ category }: Props) => {
     setEditConceptName("");
     setErrors({ ...errors, [editingConceptId]: "" });
   };
+
   const handleCancelConceptEdit = () => {
     setEditingConceptId(null);
     setEditConceptName("");
     setErrors({ ...errors, [editingConceptId || ""]: "" });
   };
-  const DeleteConcept = (conceptId: string) => {
+
+  const deleteConcept = (conceptId: string) => {
     const concept = category.concepts.find((c) => c.id === conceptId);
-    setAlertConfig({
-      title: "Eliminar Concepto",
-      message: `¿Está seguro que desea eliminar el concepto ${
-        concept && concept.name
-      }?`,
+    showConfirmation({
+      title: "Borrar concepto",
+      message: `¿Está seguro de que desea eliminar el concepto ${concept?.name}?`,
       type: "warning",
-      isOpen: true,
-      showDoubleConfirmation: false,
       onConfirm: () => {
         handleDeleteConcept(category.id, conceptId);
-        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
     });
   };
+
   return (
     <div className={styles.content}>
       <div className={styles.conceptsSection}>
@@ -123,7 +119,6 @@ const ConceptList = ({ category }: Props) => {
             className={styles.addConceptButton}
           >
             <FaPlus />
-            Agregar
           </Button>
         </div>
 
@@ -149,7 +144,7 @@ const ConceptList = ({ category }: Props) => {
                 <Button
                   variant="primary"
                   size="sm"
-                  onClick={AddConcept}
+                  onClick={addConcept}
                   disabled={!newConceptName.trim()}
                 >
                   <FaCheck />
@@ -225,12 +220,15 @@ const ConceptList = ({ category }: Props) => {
                   </div>
                 ) : (
                   <div className={styles.conceptContent}>
+                    <div className={styles.conceptBadge}>
+                      <span className={styles.conceptNumber}>{index + 1}</span>
+                    </div>
                     <span className={styles.conceptName}>{concept.name}</span>
                     <div className={styles.conceptActions}>
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => EditConcept(concept.id)}
+                        onClick={() => editConcept(concept.id)}
                         className={styles.conceptActionButton}
                       >
                         <FaEdit />
@@ -238,7 +236,7 @@ const ConceptList = ({ category }: Props) => {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => DeleteConcept(concept.id)}
+                        onClick={() => deleteConcept(concept.id)}
                         className={`${styles.conceptActionButton} ${styles.deleteButton}`}
                       >
                         <FaTrash />
@@ -274,16 +272,6 @@ const ConceptList = ({ category }: Props) => {
           )}
         </div>
       </div>
-      <ConfirmationModal
-        title={alertConfig.title}
-        message={alertConfig.message}
-        type={alertConfig.type}
-        isOpen={alertConfig.isOpen}
-        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
-        doubleConfirmationText="¿Está completamente seguro?"
-        onConfirm={alertConfig.onConfirm}
-        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
-      />
     </div>
   );
 };
