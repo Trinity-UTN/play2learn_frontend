@@ -32,8 +32,6 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
         studentId
       );
       setCurrentStudent(studentData);
-      console.log("studentData", studentData);
-      console.log("currentStudent", currentStudent);
     } catch (error) {
       console.error("Error al obtener el estudiante actual:", error);
       throw error;
@@ -64,7 +62,6 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
 
   useEffect(() => {
     if (user?.id) {
-      console.log("user?.id", user?.id);
       getCurrentStudent();
     }
   }, [user?.id, getCurrentStudent]);
