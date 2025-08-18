@@ -1,13 +1,13 @@
-import type React from "react";
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { FaPlus, FaImage, FaTimes } from "react-icons/fa";
+import { FaPlus, FaImage, FaTimes, FaTag, FaAlignLeft } from "react-icons/fa";
 import type { SequenceEvent } from "../../../types/OrdenarSecuencia.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import styles from "./EventForm.module.css";
+import TextArea from "../../../../shared/components/TextArea/TextAreaComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import { useToaster } from "../../../../shared/hooks/useToaster";
+import styles from "./EventForm.module.css";
 
 interface EventFormProps {
   onAddEvent: (event: Omit<SequenceEvent, "id" | "order">) => void;
@@ -115,58 +115,76 @@ const EventForm: React.FC<EventFormProps> = ({
   };
 
   return (
-    <Card className={styles.eventForm}>
-      <div className={styles.cardHeader}>
-        <h3 className={styles.cardTitle}>Agregar Nuevo Evento</h3>
-        {disabled && (
-          <span className={styles.limitWarning}>
-            Máximo {cantEvents} eventos alcanzado
-          </span>
-        )}
-      </div>
-
+    <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.inputRow}>
+        <div className={styles.formSection}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTitleRow}>
+              <h4 className={styles.sectionTitle}>
+                <FaTag className={styles.sectionIcon} />
+                Nombre del evento
+                <span className={styles.sectionTooltip}>
+                  <Tooltip content="Máximo 50 caracteres" />
+                </span>
+              </h4>
+            </div>
+            {disabled ? (
+              <p className={styles.sectionDescriptionWarning}>
+                Máximo de {cantEvents} eventos alcanzado
+              </p>
+            ) : (
+              <p className={styles.sectionDescription}>
+                Indica el nombre del evento que deseas crear
+              </p>
+            )}
+          </div>
           <div className={styles.inputGroup}>
             <Input
               type="text"
-              placeholder="Nombre del evento (máx. 50 caracteres)"
               value={name}
               onChange={(e) => setName(e.target.value)}
               error={errors.name}
+              min={3}
+              max={50}
               disabled={disabled}
               className={styles.nameInput}
             />
-            <div className={styles.charCounter}>
-              <span className={name.length > 50 ? styles.overLimit : ""}>
-                {name.length}/50
-              </span>
-            </div>
           </div>
         </div>
 
-        <div className={styles.inputRow}>
+        <div className={styles.formSection}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTitleRow}>
+              <h4 className={styles.sectionTitle}>
+                <FaAlignLeft className={styles.sectionIcon} />
+                Descripción del evento
+                <span className={styles.sectionTooltip}>
+                  <Tooltip content="Máximo 100 caracteres" />
+                </span>
+              </h4>
+            </div>
+            {disabled ? (
+              <p className={styles.sectionDescriptionWarning}>
+                Máximo de {cantEvents} eventos alcanzado
+              </p>
+            ) : (
+              <p className={styles.sectionDescription}>
+                Indica la descripción del evento
+              </p>
+            )}
+          </div>
           <div className={styles.inputGroup}>
-            <textarea
-              placeholder="Descripción del evento (máx. 100 caracteres)"
+            <TextArea
+              id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              rows={2}
+              maxLength={100}
+              showCharCount={true}
+              resize="vertical"
               disabled={disabled}
-              className={`${styles.textarea} ${
-                errors.description ? styles.error : ""
-              }`}
-              rows={3}
+              className={styles.descriptionTextarea}
             />
-            {errors.description && (
-              <span className={styles.errorText}>{errors.description}</span>
-            )}
-            <div className={styles.charCounter}>
-              <span
-                className={description.length > 100 ? styles.overLimit : ""}
-              >
-                {description.length}/100
-              </span>
-            </div>
           </div>
         </div>
 
@@ -227,7 +245,7 @@ const EventForm: React.FC<EventFormProps> = ({
           </Button>
         </div>
       </form>
-    </Card>
+    </div>
   );
 };
 
