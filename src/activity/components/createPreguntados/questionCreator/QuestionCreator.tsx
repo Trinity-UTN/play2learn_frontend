@@ -5,12 +5,17 @@ import {
   FaArrowRight,
   FaArrowLeft,
   FaCheck,
+  FaPlus,
   FaTrash,
   FaClock,
   FaEdit,
   FaExclamationTriangle,
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
+import Card from "../../../../shared/components/Card/CardComponent";
+import Input from "../../../../shared/components/Input/InputComponent";
+import TextArea from "../../../../shared/components/TextArea/TextAreaComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import type { Question } from "../../../types/Preguntados.type";
 import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./QuestionCreator.module.css";
@@ -25,6 +30,7 @@ const QuestionCreator: React.FC = () => {
     handleNextQuestion,
     handlePreviousQuestion,
     handleGoToQuestion,
+    handleAddQuestion,
     handleDeleteQuestion,
     getQuestionStatus,
     setQuestionErrors,
@@ -39,6 +45,11 @@ const QuestionCreator: React.FC = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
+  // Actualizar formData cuando cambie la pregunta
+  useEffect(() => {
+    setFormData(questions[currentQuestionIndex]);
+  }, [questions, currentQuestionIndex]);
 
   // Función para validar la pregunta actual y retornar errores específicos
   const validateCurrentQuestion = (
@@ -80,11 +91,6 @@ const QuestionCreator: React.FC = () => {
     return validationErrors;
   };
 
-  // Actualizar formData cuando cambie la pregunta
-  useEffect(() => {
-    setFormData(questions[currentQuestionIndex]);
-  }, [questions, currentQuestionIndex]);
-
   const handleQuestionChange = (value: string) => {
     setFormData((prev) => ({ ...prev, question: value }));
   };
@@ -105,7 +111,6 @@ const QuestionCreator: React.FC = () => {
 
   const handleSave = () => {
     handleQuestionSave(formData);
-
     // Validar y guardar errores
     const currentErrors = validateCurrentQuestion(formData);
     if (Object.keys(currentErrors).length > 0) {
@@ -117,10 +122,8 @@ const QuestionCreator: React.FC = () => {
 
   const handleSaveAndNext = () => {
     handleSave();
-
     // Si es la última pregunta (Finalizar), validar antes de continuar
     if (currentQuestionIndex === config.totalQuestions - 1) {
-      // Validar que todas las preguntas estén completas
       const incompleteQuestions = questions
         .map((q, index) => ({
           question: q,
@@ -143,7 +146,6 @@ const QuestionCreator: React.FC = () => {
   };
 
   const handleSaveAndPrevious = () => {
-    // Guardar antes de ir a la pregunta anterior
     handleSave();
     handlePreviousQuestion();
   };
@@ -226,6 +228,182 @@ const QuestionCreator: React.FC = () => {
         </div>
       </div>
 
+      {/* Formulario de pregunta */}
+      <Card className={styles.questionForm}>
+        <div className={styles.questionHeader}>
+          <div className={styles.questionInfo}>
+            <FaQuestionCircle className={styles.questionIcon} />
+            <div>
+              <h3 className={styles.questionTitle}>
+                Pregunta {currentQuestionIndex + 1} de {config.totalQuestions}
+              </h3>
+              <div className={styles.timeInfo}>
+                <FaClock className={styles.timeIcon} />
+                <span>
+                  Tiempo: {config.maxTimePerQuestionInSeconds} segundos
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className={styles.buttonGroup}>
+            {questions.length < 50 && (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => handleAddQuestion()}
+                className={styles.addButton}
+              >
+                <FaPlus />
+                Agregar Pregunta
+              </Button>
+            )}
+            {questions.length > 5 && (
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={() => handleDeleteQuestion(currentQuestionIndex)}
+                className={styles.deleteButton}
+              >
+                <FaTrash />
+                Eliminar
+              </Button>
+            )}
+          </div>
+        </div>
+
+        <div className={styles.formSection}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTitleRow}>
+              <h4 className={styles.sectionTitle}>
+                <FaQuestionCircle className={styles.sectionIcon} />
+                Pregunta
+                <span className={styles.sectionTooltip}>
+                  <Tooltip content="Máximo 200 caracteres" />
+                </span>
+              </h4>
+            </div>
+          </div>
+          <div className={styles.inputGroup}>
+            <TextArea
+              value={formData.question}
+              onChange={(e) => handleQuestionChange(e.target.value)}
+              rows={3}
+              maxLength={200}
+              showCharCount
+              resize="vertical"
+              className={`${styles.questionInput} ${
+                currentErrors.question ? styles.error : ""
+              }`}
+            />
+            {currentErrors.question && (
+              <span className={styles.errorMessage}>
+                {currentErrors.question}
+              </span>
+            )}
+          </div>
+
+          {/* Opciones de respuesta */}
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTitleRowTwo}>
+              <h4 className={styles.sectionTitle}>
+                <FaQuestionCircle className={styles.sectionIcon} />
+                Opciones de Respuesta
+                <span className={styles.sectionTooltip}>
+                  <Tooltip
+                    content="Máximo 100 caracteres por opción. Selecciona la respuesta
+                correcta"
+                  />
+                </span>
+              </h4>
+            </div>
+
+            {currentErrors.correctAnswer && (
+              <div className={styles.errorMessage}>
+                {currentErrors.correctAnswer}
+              </div>
+            )}
+
+            <div className={styles.optionsGrid}>
+              {formData.options.map((option, index) => (
+                <div key={index} className={styles.optionItem}>
+                  <div className={styles.optionHeader}>
+                    <span className={styles.optionLabel}>
+                      Opción {index + 1}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleCorrectAnswerChange(index)}
+                      className={`${styles.correctButton} ${
+                        option.isCorrect ? styles.selected : ""
+                      }`}
+                      title={
+                        option.isCorrect
+                          ? "Respuesta correcta seleccionada"
+                          : "Marcar como correcta"
+                      }
+                      disabled={option.isCorrect}
+                    >
+                      <FaCheck />
+                      {option.isCorrect ? "Correcta" : "Marcar"}
+                    </Button>
+                  </div>
+                  <Input
+                    type="text"
+                    value={option.option}
+                    onChange={(e) => handleOptionChange(index, e.target.value)}
+                    className={`${styles.optionInput} ${
+                      currentErrors[`option${index}`] ? styles.error : ""
+                    } ${option.isCorrect ? styles.correct : ""}`}
+                  />
+                  {currentErrors[`option${index}`] && (
+                    <span className={styles.errorMessage}>
+                      {currentErrors[`option${index}`]}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Botones de navegación */}
+        <div className={styles.navigationButtons}>
+          <Button
+            variant="secondary"
+            onClick={handleSaveAndPrevious}
+            disabled={currentQuestionIndex === 0}
+            className={styles.navButton}
+          >
+            <FaArrowLeft />
+            Anterior
+          </Button>
+
+          <Button
+            variant="ghost"
+            onClick={handleSave}
+            className={styles.saveButton}
+          >
+            <FaEdit />
+            Guardar
+          </Button>
+
+          {currentQuestionIndex != config.totalQuestions - 1 && (
+            <Button
+              variant="primary"
+              onClick={handleSaveAndNext}
+              className={styles.navButton}
+              disabled={
+                currentQuestionIndex === config.totalQuestions - 1 &&
+                questions.some((q) => getQuestionStatus(q) !== "complete")
+              }
+            >
+              Siguiente
+              <FaArrowRight />
+            </Button>
+          )}
+        </div>
+      </Card>
+
       {/* Indicador de estado de la pregunta actual */}
       {hasErrors && (
         <div className={styles.statusIndicator}>
@@ -259,163 +437,6 @@ const QuestionCreator: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Formulario de pregunta */}
-      <div className={styles.questionForm}>
-        <div className={styles.questionHeader}>
-          <div className={styles.questionInfo}>
-            <FaQuestionCircle className={styles.questionIcon} />
-            <div>
-              <h3 className={styles.questionTitle}>
-                Pregunta {currentQuestionIndex + 1} de {config.totalQuestions}
-              </h3>
-              <div className={styles.timeInfo}>
-                <FaClock className={styles.timeIcon} />
-                <span>
-                  Tiempo: {config.maxTimePerQuestionInSeconds} segundos
-                </span>
-              </div>
-            </div>
-          </div>
-          {questions.length > 5 && (
-            <Button
-              variant="danger"
-              size="sm"
-              onClick={() => handleDeleteQuestion(currentQuestionIndex)}
-              className={styles.deleteButton}
-            >
-              <FaTrash />
-              Eliminar
-            </Button>
-          )}
-        </div>
-
-        <div className={styles.formContent}>
-          {/* Campo de pregunta */}
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>
-              Pregunta *
-              <span className={styles.labelHint}>Máximo 200 caracteres</span>
-            </label>
-            <textarea
-              value={formData.question}
-              onChange={(e) => handleQuestionChange(e.target.value)}
-              className={`${styles.questionInput} ${
-                currentErrors.question ? styles.error : ""
-              }`}
-              placeholder="Escribe tu pregunta aquí..."
-              rows={3}
-            />
-            {currentErrors.question && (
-              <span className={styles.errorMessage}>
-                {currentErrors.question}
-              </span>
-            )}
-            <div className={styles.charCount}>
-              {formData.question.length}/200 caracteres
-            </div>
-          </div>
-
-          {/* Opciones de respuesta */}
-          <div className={styles.optionsSection}>
-            <label className={styles.label}>
-              Opciones de Respuesta *
-              <span className={styles.labelHint}>
-                Máximo 100 caracteres por opción. Selecciona la respuesta
-                correcta.
-              </span>
-            </label>
-
-            {currentErrors.correctAnswer && (
-              <div className={styles.errorMessage}>
-                {currentErrors.correctAnswer}
-              </div>
-            )}
-
-            <div className={styles.optionsGrid}>
-              {formData.options.map((option, index) => (
-                <div key={index} className={styles.optionItem}>
-                  <div className={styles.optionHeader}>
-                    <span className={styles.optionLabel}>
-                      Opción {index + 1}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleCorrectAnswerChange(index)}
-                      className={`${styles.correctButton} ${
-                        option.isCorrect ? styles.selected : ""
-                      }`}
-                      title={
-                        option.isCorrect
-                          ? "Respuesta correcta seleccionada"
-                          : "Marcar como correcta"
-                      }
-                      disabled={option.isCorrect} // TODO: Cambiar este comportamiento
-                    >
-                      <FaCheck />
-                      {option.isCorrect ? "Correcta" : "Marcar"}
-                    </button>
-                  </div>
-                  <input
-                    type="text"
-                    value={option.option}
-                    onChange={(e) => handleOptionChange(index, e.target.value)}
-                    className={`${styles.optionInput} ${
-                      currentErrors[`option${index}`] ? styles.error : ""
-                    } ${option.isCorrect ? styles.correct : ""}`}
-                    placeholder={`Opción ${index + 1}...`}
-                  />
-                  {currentErrors[`option${index}`] && (
-                    <span className={styles.errorMessage}>
-                      {currentErrors[`option${index}`]}
-                    </span>
-                  )}
-                  <div className={styles.charCount}>
-                    {option.option.length}/100 caracteres
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Botones de navegación */}
-        <div className={styles.navigationButtons}>
-          <Button
-            variant="secondary"
-            onClick={handleSaveAndPrevious}
-            disabled={currentQuestionIndex === 0}
-            className={styles.navButton}
-          >
-            <FaArrowLeft />
-            Anterior
-          </Button>
-
-          <Button
-            variant="ghost"
-            onClick={handleSave}
-            className={styles.saveButton}
-          >
-            <FaEdit />
-            Guardar
-          </Button>
-
-          <Button
-            variant="primary"
-            onClick={handleSaveAndNext}
-            className={styles.navButton}
-            disabled={
-              currentQuestionIndex === config.totalQuestions - 1 &&
-              questions.some((q) => getQuestionStatus(q) !== "complete")
-            }
-          >
-            {currentQuestionIndex === config.totalQuestions - 1
-              ? "Finalizar"
-              : "Siguiente"}
-            <FaArrowRight />
-          </Button>
-        </div>
-      </div>
     </motion.div>
   );
 };

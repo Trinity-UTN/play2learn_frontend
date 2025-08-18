@@ -51,6 +51,16 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
     }
   }, [currentStep, questions]);
 
+  // Función para reiniciar todos los estados
+  const resetAllStates = () => {
+    setConfig({ totalQuestions: 5, maxTimePerQuestionInSeconds: 30 });
+    setQuestions([]);
+    setCurrentStep("config");
+    setCurrentQuestionIndex(0);
+    setErrors([]);
+    setQuestionErrorsState({});
+  };
+
   // Función para determinar el estado de una pregunta
   const getQuestionStatus = (
     q: Question
@@ -187,6 +197,118 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
     setCurrentQuestionIndex(0);
   };
 
+  const handleSubmit = async () => {
+    const finalValidationErrors = validateAllQuestions();
+    if (finalValidationErrors.length > 0) {
+      setErrors(finalValidationErrors);
+      return;
+    }
+
+    try {
+      const gameData: PreguntadosInterface = {
+        maxTimePerQuestionInSeconds: config.maxTimePerQuestionInSeconds,
+        questions: questions,
+      };
+
+      await registrarPreguntados(gameData);
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
+      resetAllStates();
+      navigate("/dashboard/teacher/actividades/list");
+    } catch (error) {
+      showToast({
+        title: "Error al crear la actividad",
+        message: "Hubo un error al crear la actividad",
+        type: "error",
+        position: "bottom-right",
+      });
+      console.error("Error al crear la actividad (preguntados):", error); // TODO: REMOVE_DEBUG
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep === "preview") {
+      setCurrentStep("questions");
+    } else if (currentStep === "questions") {
+      showConfirmation({
+        title: "Ir a la configuración",
+        message:
+          "¿Está seguro que desea ir a la configuración de la actividad? Se perderán los cambios realizados.",
+        type: "danger",
+        showDoubleConfirmation: true,
+        onConfirm: () => {
+          setQuestions([]);
+          setCurrentStep("config");
+        },
+      });
+    }
+  };
+
+  const handleNext = () => {
+    if (currentStep === "config") {
+      const configForm = document.querySelector("form");
+      if (configForm) {
+        configForm.requestSubmit();
+      }
+    }
+  };
+
+  const handleReset = () => {
+    showConfirmation({
+      title: "Reiniciar Actividad",
+      message: "¿Está seguro que desea reiniciar la creación de la actividad?",
+      type: "warning",
+      onConfirm: () => {
+        showToast({
+          title: "Actividad reiniciada",
+          type: "info",
+          position: "bottom-right",
+        });
+        resetAllStates();
+      },
+    });
+  };
+
+  // Funciones de utilidad
+  const getStepTitle = () => {
+    switch (currentStep) {
+      case "config":
+        return "Configuración General";
+      case "questions":
+        return `Pregunta ${currentQuestionIndex + 1} de ${
+          config.totalQuestions
+        }`;
+      case "preview":
+        return "Vista Previa";
+      default:
+        return "Crear Actividad";
+    }
+  };
+
+  const getCurrentStepNumber = () => {
+    if (currentStep === "config") return 1;
+    if (currentStep === "questions") return 2;
+    return 3;
+  };
+
+  const getStepDescription = () => {
+    switch (currentStep) {
+      case "config":
+        return "Define la cantidad de preguntas y el tiempo que tendrán los estudiantes para responder cada una.";
+      case "questions":
+        return "Agrega las preguntas que deseas para el preguntados.";
+      case "preview":
+        return "Así es como verán la actividad tus estudiantes.";
+      default:
+        return "";
+    }
+  };
+
+  // Handlers específicos de preguntados
   const handleQuestionSave = (questionData: Question) => {
     const updatedQuestions = [...questions];
     updatedQuestions[currentQuestionIndex] = questionData;
@@ -213,7 +335,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
           title: "Preguntas incompletas",
           message: `Debes completar todas las preguntas antes de continuar. Preguntas incompletas o vacías: ${incompleteNumbers}`,
           type: "warning",
-          position: "top-center",
+          position: "bottom-right",
         });
         return;
       }
@@ -231,6 +353,15 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
     setCurrentQuestionIndex(index);
   };
 
+  const handleAddQuestion = () => {
+    const updatedQuestions = [...questions, { question: "", options: [] }];
+    setConfig((prev) => ({
+      ...prev,
+      totalQuestions: prev.totalQuestions + 1,
+    }));
+    setQuestions(updatedQuestions);
+  };
+
   const handleDeleteQuestion = (index: number) => {
     if (questions.length > 5) {
       const updatedQuestions = questions.filter((_, i) => i !== index);
@@ -246,80 +377,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
     }
   };
 
-  const handleSubmit = async () => {
-    const finalValidationErrors = validateAllQuestions();
-    if (finalValidationErrors.length > 0) {
-      setErrors(finalValidationErrors);
-      return;
-    }
-
-    try {
-      const gameData: PreguntadosInterface = {
-        maxTimePerQuestionInSeconds: config.maxTimePerQuestionInSeconds,
-        questions: questions,
-      };
-
-      await registrarPreguntados(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-      });
-      navigate("/dashboard/teacher/actividades/list");
-    } catch (error) {
-      showToast({
-        title: "Error al crear la actividad",
-        message: "Hubo un error al crear la actividad",
-        type: "error",
-      });
-      console.error("Error al crear la actividad (preguntados):", error); // TODO: REMOVE_DEBUG
-    }
-  };
-
-  const handleBack = () => {
-    if (currentStep === "preview") {
-      setCurrentStep("questions");
-    } else if (currentStep === "questions") {
-      setCurrentStep("config");
-    }
-  };
-
-  const handleReset = () => {
-    showConfirmation({
-      title: "Reiniciar Actividad",
-      message: "¿Está seguro que desea reiniciar la creación de la actividad?",
-      type: "warning",
-      onConfirm: () => {
-        showToast({
-          title: "Actividad reiniciada",
-          type: "info",
-          position: "bottom-right",
-        });
-        setConfig({ totalQuestions: 5, maxTimePerQuestionInSeconds: 30 });
-        setQuestions([]);
-        setCurrentStep("config");
-        setCurrentQuestionIndex(0);
-        setErrors([]);
-      },
-    });
-  };
-
-  // Funciones de utilidad
-  const getStepTitle = () => {
-    switch (currentStep) {
-      case "config":
-        return "Configuración General";
-      case "questions":
-        return `Pregunta ${currentQuestionIndex + 1} de ${
-          config.totalQuestions
-        }`;
-      case "preview":
-        return "Vista Previa";
-      default:
-        return "Crear Actividad";
-    }
-  };
-
+  // Funciones específicas de preguntados
   const getCompletedQuestions = () => {
     return questions.filter((q) => getQuestionStatus(q) === "complete").length;
   };
@@ -360,29 +418,37 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
     loading,
     currentStep,
     config,
-    questions,
-    currentQuestionIndex,
     errors,
-    questionErrors,
     isFormValid,
+    questions,
+    questionErrors,
+    currentQuestionIndex,
 
     // Funciones principales
     registrarPreguntados,
 
     // Handlers principales
     handleConfigSubmit,
-    handleQuestionSave,
-    handleNextQuestion,
-    handlePreviousQuestion,
-    handleGoToQuestion,
-    handleDeleteQuestion,
     handleSubmit,
     handleBack,
+    handleNext,
     handleReset,
 
     // Funciones de utilidad
     getQuestionStatus,
+    getCurrentStepNumber,
     getStepTitle,
+    getStepDescription,
+
+    // Handlers específicos de preguntados
+    handleQuestionSave,
+    handleNextQuestion,
+    handlePreviousQuestion,
+    handleGoToQuestion,
+    handleAddQuestion,
+    handleDeleteQuestion,
+
+    // Funciones específicas de preguntados
     getCompletedQuestions,
     getIncompleteQuestions,
     getEmptyQuestions,
