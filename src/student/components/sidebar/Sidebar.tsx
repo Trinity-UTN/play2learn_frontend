@@ -1,4 +1,3 @@
-import type React from "react";
 import { motion, type Variants } from "framer-motion";
 import {
   FaHome,
@@ -17,6 +16,7 @@ import Button from "../../../shared/components/Button/ButtonComponent";
 import styles from "./Sidebar.module.css";
 import { StudentRoutes } from "../../routes/routes";
 import { useNavigate } from "react-router-dom";
+import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 
 interface StudentSidebarProps {
   currentView: StudentDashboardView;
@@ -32,7 +32,9 @@ interface MenuItem {
 
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
   const { logout } = useAuth();
+  const { currentStudent } = useCurrentStudent();
   const navigate = useNavigate();
+
   const menuItems: MenuItem[] = [
     {
       title: "Panel Principal",
@@ -93,9 +95,26 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
     hidden: { x: -20, opacity: 0 },
     visible: { x: 0, opacity: 1 },
   };
+
   const onViewChange = (path: string) => {
     navigate(`/dashboard/${path}`);
   };
+
+  const handleProfileClick = () => {
+    navigate(`/dashboard/${StudentRoutes.Profile}`);
+  };
+
+  const getAvatarComponents = () => {
+    const profile = currentStudent?.profile;
+    return {
+      body:
+        profile?.selectedBody?.image || "/placeholder.svg?height=60&width=60",
+      shirt:
+        profile?.selectedShirt?.image || "/placeholder.svg?height=60&width=60",
+      hat: profile?.selectedHat?.image || "/placeholder.svg?height=60&width=60",
+    };
+  };
+
   return (
     <motion.aside
       variants={containerVariants}
@@ -105,37 +124,52 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
     >
       <motion.div variants={itemVariants} className={styles.header}>
         <div className={styles.profile}>
-          <div className={styles.avatarContainer}>
-            <img
-              // src={student?.avatar || "/placeholder.svg"} EN PROXIMA IMPLEMENTACIONES...
-              src={"/userfotoL.png"}
-              alt="Avatar"
-              className={styles.avatar}
-            />
+          <div className={styles.avatarContainer} onClick={handleProfileClick}>
+            <div className={styles.avatarLayers}>
+              <img
+                src={getAvatarComponents().body || "/placeholder.svg"}
+                alt="Cuerpo"
+                className={styles.avatarLayer}
+                style={{ zIndex: 1 }}
+              />
+              <img
+                src={getAvatarComponents().shirt || "/placeholder.svg"}
+                alt="Remera"
+                className={styles.avatarLayer}
+                style={{ zIndex: 2 }}
+              />
+              <img
+                src={getAvatarComponents().hat || "/placeholder.svg"}
+                alt="Sombrero"
+                className={styles.avatarLayer}
+                style={{ zIndex: 3 }}
+              />
+            </div>
             <div className={styles.levelBadge}>
               <FaStar className={styles.levelIcon} />
-              {/* <span>{student?.level}</span>  EN PROXIMA IMPLEMENTACIONES... */}
               <span>30</span>
             </div>
           </div>
           <div className={styles.profileInfo}>
-            {/* <h2 className={styles.studentName}>{student?.name}</h2> EN PROXIMA IMPLEMENTACIONES... */}
-            <h2 className={styles.studentName}>Pedrito</h2>
+            <h2 className={styles.studentName}>
+              {currentStudent?.name || "Estudiante"}{" "}
+              {currentStudent?.lastname || ""}
+            </h2>
             <div className={styles.stats}>
               <div className={styles.stat}>
                 <FaFire className={styles.statIcon} />
-                {/* <span>{student?.streak} días</span> EN PROXIMA IMPLEMENTACIONES... */}
                 <span>10 días</span>
               </div>
               <div className={styles.stat}>
                 <FaTrophy className={styles.statIcon} />
-                {/* <span>#{student?.rank}</span>  EN PROXIMA IMPLEMENTACIONES...*/}
                 <span>#8</span>
               </div>
             </div>
           </div>
         </div>
-        <button className={styles.buttonPerfil}>Ver Perfil</button>
+        <button className={styles.buttonPerfil} onClick={handleProfileClick}>
+          Ver Perfil
+        </button>
       </motion.div>
 
       <div className={styles.content}>
@@ -157,7 +191,6 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
                 >
                   <div className={styles.menuItemContent}>
                     <div className={styles.menuItemLeft}>
-                      {/* <item.icon className={styles.menuIcon} /> */}
                       <span>{item.title}</span>
                     </div>
                     {item.badge && (

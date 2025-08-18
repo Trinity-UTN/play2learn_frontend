@@ -56,6 +56,35 @@
 
 .avatarContainer {
   position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.avatarContainer:hover {
+  transform: scale(1.05);
+}
+
+/* Added styles for layered avatar system */
+.avatarLayers {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatarLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.3s ease-in-out;
+}
+
+.avatarLayers:hover .avatarLayer {
+  transform: scale(1.1);
 }
 
 .avatar {
@@ -226,6 +255,7 @@
   color: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
+  background: transparent;
 }
 
 .logoutButton:hover {

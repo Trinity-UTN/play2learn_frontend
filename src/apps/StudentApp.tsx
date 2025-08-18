@@ -6,11 +6,12 @@ import ProtectedRoute from "../shared/utils/ProtectedRoute";
 //PAGES
 import StudentDashboard from "../student/pages/dashboard/Dashboard";
 //PROVIDERS
-
+import { CurrentStudentProvider } from "../student/context/currentStudent/CurrentStudentProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentBenefitsView from "../student/views/studentBenefitsView/StudentBenefitsView";
 import StudentOverviewView from "../student/views/studentOverviewView/StudentOverviewView";
+import StudentProfileView from "../student/views/studentProfileView/StudentProfileView";
 import StudentRankingView from "../student/views/studentRankingView/StudentRankingView";
 import StudentStoreView from "../student/views/studentStoreView/StudentStoreView";
 import StudentWalletView from "../student/views/studentWalletView/StudentWalletView";
@@ -31,18 +32,21 @@ const StudentApp = () => {
             path="/dashboard/student/*"
             element={
               <ProtectedRoute allowedRoles={["ROLE_STUDENT"]}>
-                <motion.div
-                  key="dashboardStudent"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <StudentDashboard />
-                </motion.div>
+                <CurrentStudentProvider>
+                  <motion.div
+                    key="dashboardStudent"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <StudentDashboard />
+                  </motion.div>
+                </CurrentStudentProvider>
               </ProtectedRoute>
             }
           >
+            <Route path="profile" element={<StudentProfileView />} />
             <Route index element={<Navigate to="overview" replace />} />
             <Route path="overview" element={<StudentOverviewView />} />
             {/*WALLET */}
