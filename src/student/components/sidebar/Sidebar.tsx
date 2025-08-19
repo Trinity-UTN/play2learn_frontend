@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
 import {
   FaHome,
@@ -8,15 +9,14 @@ import {
   FaTrophy,
   FaSignOutAlt,
   FaFire,
-  FaStar,
 } from "react-icons/fa";
-import { useAuth } from "../../../user/hooks/useAuth";
 import type { StudentDashboardView } from "../../types/generalType";
 import Button from "../../../shared/components/Button/ButtonComponent";
-import styles from "./Sidebar.module.css";
+import Avatar from "../common/Avatar/AvatarComponent";
 import { StudentRoutes } from "../../routes/routes";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../user/hooks/useAuth";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
+import styles from "./Sidebar.module.css";
 
 interface StudentSidebarProps {
   currentView: StudentDashboardView;
@@ -104,17 +104,6 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
     navigate(`/dashboard/${StudentRoutes.Profile}`);
   };
 
-  const getAvatarComponents = () => {
-    const profile = currentStudent?.profile;
-    return {
-      body:
-        profile?.selectedBody?.image || "/placeholder.svg?height=60&width=60",
-      shirt:
-        profile?.selectedShirt?.image || "/placeholder.svg?height=60&width=60",
-      hat: profile?.selectedHat?.image || "/placeholder.svg?height=60&width=60",
-    };
-  };
-
   return (
     <motion.aside
       variants={containerVariants}
@@ -124,32 +113,12 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
     >
       <motion.div variants={itemVariants} className={styles.header}>
         <div className={styles.profile}>
-          <div className={styles.avatarContainer} onClick={handleProfileClick}>
-            <div className={styles.avatarLayers}>
-              <img
-                src={getAvatarComponents().body || "/placeholder.svg"}
-                alt="Cuerpo"
-                className={styles.avatarLayer}
-                style={{ zIndex: 1 }}
-              />
-              <img
-                src={getAvatarComponents().shirt || "/placeholder.svg"}
-                alt="Remera"
-                className={styles.avatarLayer}
-                style={{ zIndex: 2 }}
-              />
-              <img
-                src={getAvatarComponents().hat || "/placeholder.svg"}
-                alt="Sombrero"
-                className={styles.avatarLayer}
-                style={{ zIndex: 3 }}
-              />
-            </div>
-            <div className={styles.levelBadge}>
-              <FaStar className={styles.levelIcon} />
-              <span>30</span>
-            </div>
-          </div>
+          <Avatar
+            size="medium"
+            showLevel={true}
+            onClick={handleProfileClick}
+            className={styles.sidebarAvatar}
+          />
           <div className={styles.profileInfo}>
             <h2 className={styles.studentName}>
               {currentStudent?.name || "Estudiante"}{" "}
