@@ -4,7 +4,7 @@ import type { CurrentStudentContextType } from "./CurrentStudentContext.type";
 import { CurrentStudentService } from "../../services/student/CurrentStudentService";
 import type {
   CurrentStudent,
-  UpdateProfilePayload,
+  AvatarComponents,
 } from "../../types/CurrentStudent.type";
 import { useAuth } from "../../../user/hooks/useAuth";
 
@@ -22,12 +22,13 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     null
   );
 
+  // Funciones Principales
   const getCurrentStudent = useCallback(async (): Promise<void> => {
     if (!user?.id) return;
 
     setLoading(true);
     try {
-      const studentId = user.id - 2;
+      const studentId = user.id - 2; // TODO: REVAMP (cuando se implemente mejor en backend)
       const studentData = await CurrentStudentService.getCurrentStudentApi(
         studentId
       );
@@ -41,16 +42,13 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   }, [user?.id]);
 
   const updateStudentProfile = async (
-    profileData: UpdateProfilePayload
+    aspectUpdates: Array<{ aspectId: number; profileId: number }>
   ): Promise<void> => {
     if (!currentStudent?.id) return;
 
     setLoading(true);
     try {
-      await CurrentStudentService.updateCurrentStudentProfileApi(
-        currentStudent.id,
-        profileData
-      );
+      await CurrentStudentService.updateCurrentStudentProfileApi(aspectUpdates);
       await getCurrentStudent();
     } catch (error) {
       console.error("Error al actualizar el perfil del estudiante:", error);
@@ -66,12 +64,32 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     }
   }, [user?.id, getCurrentStudent]);
 
+  // Funcioens de utilidad
+  const getAvatarComponents = (): AvatarComponents => {
+    const profile = currentStudent?.profile;
+    return {
+      body:
+        profile?.selectedBody?.image || "/placeholder.svg?height=200&width=200",
+      shirt:
+        profile?.selectedShirt?.image ||
+        "/placeholder.svg?height=200&width=200",
+      hat:
+        profile?.selectedHat?.image || "/placeholder.svg?height=200&width=200",
+    };
+  };
+
   const contextValue: CurrentStudentContextType = {
+    // Estados principales
     loading,
     currentStudent,
+
+    // Funciones Principales
     getCurrentStudent,
     updateStudentProfile,
+
+    // Funciones de utilidad
     setCurrentStudent,
+    getAvatarComponents,
   };
 
   return (

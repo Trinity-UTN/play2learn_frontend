@@ -1,6 +1,6 @@
 import type {
   CurrentStudent,
-  UpdateProfilePayload,
+  AvatarComponents,
 } from "../../types/CurrentStudent.type";
 
 export interface CurrentStudentContextType {
@@ -10,10 +10,13 @@ export interface CurrentStudentContextType {
 
   // Funciones Principales
   getCurrentStudent: () => Promise<void>;
-  updateStudentProfile: (profileData: UpdateProfilePayload) => Promise<void>;
+  updateStudentProfile: (
+    aspectUpdates: Array<{ aspectId: number; profileId: number }>
+  ) => Promise<void>;
 
   // Funciones de utilidad
   setCurrentStudent: React.Dispatch<
     React.SetStateAction<CurrentStudent | null>
   >;
+  getAvatarComponents: () => AvatarComponents;
 }
