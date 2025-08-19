@@ -36,9 +36,6 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contLogo}>
-        <img src="/Logo.png" alt="logo" />
-      </div>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -46,6 +43,9 @@ const LoginPage: React.FC = () => {
         className={styles.loginWrapper}
       >
         <Card className={styles.loginCard}>
+          <div className={styles.contLogo}>
+            <img src="/Logo.png" alt="logo" />
+          </div>
           <div className={styles.header}>
             <motion.h1
               initial={{ opacity: 0 }}
