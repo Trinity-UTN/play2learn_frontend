@@ -94,14 +94,14 @@
 }
 
 .searchInput {
-  width: 100%;
-  padding: 1rem 1rem 1rem 3rem;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  color: white;
   font-size: 1rem;
+  color: white;
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 1rem 1rem 1rem 3rem;
   transition: all 0.3s ease;
 }
 
@@ -299,7 +299,6 @@
 
 .aspectCard:hover {
   background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-4px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
@@ -437,12 +436,8 @@
 }
 
 .avatarContainer {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 3rem;
   display: flex;
+  padding: 3rem;
   align-items: center;
   justify-content: center;
 }
