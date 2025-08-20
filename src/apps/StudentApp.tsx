@@ -11,6 +11,7 @@ import { CurrentStudentProvider } from "../student/context/currentStudent/Curren
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentBenefitsView from "../student/views/studentBenefitsView/StudentBenefitsView";
 import StudentOverviewView from "../student/views/studentOverviewView/StudentOverviewView";
+import StudentProfileAvatarView from "../student/views/studentProfileAvatarView/StudentProfileAvatarView";
 import StudentProfileView from "../student/views/studentProfileView/StudentProfileView";
 import StudentRankingView from "../student/views/studentRankingView/StudentRankingView";
 import StudentStoreView from "../student/views/studentStoreView/StudentStoreView";
@@ -47,6 +48,10 @@ const StudentApp = () => {
             }
           >
             <Route path="profile" element={<StudentProfileView />} />
+            <Route
+              path="profile/avatar"
+              element={<StudentProfileAvatarView />}
+            />
             <Route index element={<Navigate to="overview" replace />} />
             <Route path="overview" element={<StudentOverviewView />} />
             {/*WALLET */}
