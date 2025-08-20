@@ -5,7 +5,7 @@ import { urls } from "../urls";
 const getCurrentStudentApi = StudentService.getStudentByIdApi;
 
 const updateCurrentStudentProfileApi = async (
-  aspectUpdates: Array<{ aspectId: number; profileId: number }>
+  aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
 ): Promise<void> => {
   try {
     const updatePromises = aspectUpdates.map((update) =>

@@ -42,7 +42,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   }, [user?.id]);
 
   const updateStudentProfile = async (
-    aspectUpdates: Array<{ aspectId: number; profileId: number }>
+    aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
   ): Promise<void> => {
     if (!currentStudent?.id) return;
 
