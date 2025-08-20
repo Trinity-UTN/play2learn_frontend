@@ -1,5 +1,12 @@
 import { useEffect, useState, useMemo } from "react";
-import { FaGlobe, FaUser, FaTshirt, FaHatWizard } from "react-icons/fa";
+import {
+  FaGlobe,
+  FaUser,
+  FaTshirt,
+  FaHatWizard,
+  FaSearch,
+  FaTimes,
+} from "react-icons/fa";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import styles from "./StudentProfileAvatarView.module.css";
 
@@ -10,6 +17,16 @@ interface BodyPart {
   price: number;
   type: string;
   available: boolean;
+}
+
+interface NullAspect {
+  id: -1;
+  name: string;
+  image: "";
+  price: 0;
+  type: "REMERA" | "SOMBRERO";
+  available: true;
+  isNull: true;
 }
 
 interface PreviewState {
@@ -30,6 +47,31 @@ const StudentProfileAvatarView: React.FC = () => {
     selectedHat: null,
   });
   const [hasChanges, setHasChanges] = useState(false);
+  const [showSortFilter, setShowSortFilter] = useState(false);
+  const [sortBy, setSortBy] = useState<"name" | "type">("type");
+
+  const filterTypes = ["ALL", "CUERPO", "REMERA", "SOMBRERO"] as const;
+
+  const nullAspects: NullAspect[] = [
+    {
+      id: -1,
+      name: "Sin remera",
+      image: "",
+      price: 0,
+      type: "REMERA",
+      available: true,
+      isNull: true,
+    },
+    {
+      id: -1,
+      name: "Sin sombrero",
+      image: "",
+      price: 0,
+      type: "SOMBRERO",
+      available: true,
+      isNull: true,
+    },
+  ];
 
   useEffect(() => {
     if (currentStudent?.profile) {
@@ -41,10 +83,55 @@ const StudentProfileAvatarView: React.FC = () => {
     }
   }, [currentStudent]);
 
+  const getTitle = () => {
+    switch (selectedFilter) {
+      case "ALL":
+        return "ASPECTOS";
+      case "CUERPO":
+        return "CUERPO";
+      case "REMERA":
+        return "REMERA";
+      case "SOMBRERO":
+        return "SOMBRERO";
+    }
+  };
+
+  const getTitleIcon = () => {
+    return getFilterIcon(selectedFilter);
+  };
+
+  const getFilterIcon = (filter: (typeof filterTypes)[number]) => {
+    switch (filter) {
+      case "ALL":
+        return <FaGlobe />;
+      case "CUERPO":
+        return <FaUser />;
+      case "REMERA":
+        return <FaTshirt />;
+      case "SOMBRERO":
+        return <FaHatWizard />;
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest(`.${styles.sortFilterContainer}`)) {
+        setShowSortFilter(false);
+      }
+    };
+
+    if (showSortFilter) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [showSortFilter]);
+
   const filteredAspects = useMemo(() => {
     if (!currentStudent?.profile?.ownedAspects) return [];
 
-    return currentStudent.profile.ownedAspects.filter((aspect) => {
+    let filtered = currentStudent.profile.ownedAspects.filter((aspect) => {
       const matchesSearch = aspect.name
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
@@ -52,26 +139,64 @@ const StudentProfileAvatarView: React.FC = () => {
         selectedFilter === "ALL" || aspect.type === selectedFilter;
       return matchesSearch && matchesFilter;
     });
-  }, [currentStudent?.profile?.ownedAspects, searchTerm, selectedFilter]);
 
-  const handleAspectClick = (aspect: BodyPart) => {
+    if (
+      // Esto para aspectos null
+      !searchTerm &&
+      (selectedFilter === "REMERA" || selectedFilter === "SOMBRERO")
+    ) {
+      const nullAspect = nullAspects.find(
+        (aspect) => aspect.type === selectedFilter
+      );
+      if (nullAspect) {
+        filtered.unshift(nullAspect as any);
+      }
+    }
+
+    filtered.sort((a, b) => {
+      let comparison = 0;
+
+      switch (sortBy) {
+        case "name":
+          comparison = a.name.localeCompare(b.name);
+          break;
+        case "type":
+          comparison = a.type.localeCompare(b.type);
+          break;
+      }
+
+      return comparison;
+    });
+
+    return filtered;
+  }, [
+    currentStudent?.profile?.ownedAspects,
+    searchTerm,
+    selectedFilter,
+    sortBy,
+  ]);
+
+  const handleAspectClick = (aspect: BodyPart | NullAspect) => {
     const newPreviewState = { ...previewState };
 
     switch (aspect.type) {
       case "CUERPO":
-        newPreviewState.selectedBody = aspect;
+        newPreviewState.selectedBody = aspect as BodyPart;
         break;
       case "REMERA":
-        newPreviewState.selectedShirt = aspect;
+        newPreviewState.selectedShirt = (aspect as any).isNull
+          ? null
+          : (aspect as BodyPart);
         break;
       case "SOMBRERO":
-        newPreviewState.selectedHat = aspect;
+        newPreviewState.selectedHat = (aspect as any).isNull
+          ? null
+          : (aspect as BodyPart);
         break;
     }
 
     setPreviewState(newPreviewState);
 
-    // Check if there are changes
     const hasBodyChange =
       newPreviewState.selectedBody?.id !==
       currentStudent?.profile?.selectedBody?.id;
@@ -88,7 +213,7 @@ const StudentProfileAvatarView: React.FC = () => {
   const handleSaveChanges = async () => {
     if (!currentStudent?.profile?.id || !hasChanges) return;
 
-    const updates: Array<{ aspectId: number; profileId: number }> = [];
+    const updates: Array<{ aspectId: number | null; profileId: number }> = [];
 
     if (
       previewState.selectedBody?.id !==
@@ -103,21 +228,19 @@ const StudentProfileAvatarView: React.FC = () => {
 
     if (
       previewState.selectedShirt?.id !==
-        currentStudent.profile.selectedShirt?.id &&
-      previewState.selectedShirt
+      currentStudent.profile.selectedShirt?.id
     ) {
       updates.push({
-        aspectId: previewState.selectedShirt.id,
+        aspectId: previewState.selectedShirt?.id || null,
         profileId: currentStudent.profile.id,
       });
     }
 
     if (
-      previewState.selectedHat?.id !== currentStudent.profile.selectedHat?.id &&
-      previewState.selectedHat
+      previewState.selectedHat?.id !== currentStudent.profile.selectedHat?.id
     ) {
       updates.push({
-        aspectId: previewState.selectedHat.id,
+        aspectId: previewState.selectedHat?.id || null,
         profileId: currentStudent.profile.id,
       });
     }
@@ -128,6 +251,27 @@ const StudentProfileAvatarView: React.FC = () => {
     } catch (error) {
       console.error("Error al actualizar el avatar:", error);
     }
+  };
+
+  const isAspectSelected = (aspect: BodyPart | NullAspect) => {
+    if ((aspect as any).isNull) {
+      if (aspect.type === "REMERA") {
+        return previewState.selectedShirt === null;
+      }
+      if (aspect.type === "SOMBRERO") {
+        return previewState.selectedHat === null;
+      }
+    } else {
+      return (
+        (aspect.type === "CUERPO" &&
+          previewState.selectedBody?.id === aspect.id) ||
+        (aspect.type === "REMERA" &&
+          previewState.selectedShirt?.id === aspect.id) ||
+        (aspect.type === "SOMBRERO" &&
+          previewState.selectedHat?.id === aspect.id)
+      );
+    }
+    return false;
   };
 
   if (loading) {
@@ -152,79 +296,204 @@ const StudentProfileAvatarView: React.FC = () => {
       <div className={styles.content}>
         <div className={styles.inventorySection}>
           <div className={styles.inventoryHeader}>
-            <h1 className={styles.title}>Avatar</h1>
-
-            <div className={styles.searchContainer}>
-              <input
-                type="text"
-                placeholder="Buscar aspectos..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={styles.searchInput}
-              />
+            <div className={styles.titleContainer}>
+              <h1 className={styles.title}>
+                <span className={styles.titleIcon}>{getTitleIcon()}</span>
+                {getTitle()}
+              </h1>
             </div>
 
-            <div className={styles.filterContainer}>
-              {(["ALL", "CUERPO", "REMERA", "SOMBRERO"] as const).map(
-                (filter) => (
-                  <button
-                    key={filter}
-                    onClick={() => setSelectedFilter(filter)}
-                    className={`${styles.filterButton} ${
-                      selectedFilter === filter ? styles.filterButtonActive : ""
-                    }`}
-                  >
-                    {filter === "ALL" ? (
-                      <FaGlobe />
-                    ) : filter === "CUERPO" ? (
-                      <FaUser />
-                    ) : filter === "REMERA" ? (
-                      <FaTshirt />
-                    ) : filter === "SOMBRERO" ? (
-                      <FaHatWizard />
-                    ) : null}
-                  </button>
-                )
-              )}
+            <div className={styles.searchContainer}>
+              <div className={styles.searchInputWrapper}>
+                <FaSearch className={styles.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Buscar aspectos..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={styles.searchInput}
+                />
+              </div>
+              <div className={styles.sortFilterContainer}>
+                <button
+                  className={`${styles.sortFilterButton} ${
+                    showSortFilter ? styles.sortFilterButtonActive : ""
+                  }`}
+                  onClick={() => setShowSortFilter(!showSortFilter)}
+                >
+                  <span>ORDENAR Y FILTRAR</span>
+                </button>
+
+                {showSortFilter && (
+                  <div className={styles.sortFilterDropdown}>
+                    <div className={styles.sortFilterSection}>
+                      <h4 className={styles.sortFilterTitle}>ORDENAR POR</h4>
+                      <div className={styles.sortOptions}>
+                        <button
+                          className={`${styles.sortOption} ${
+                            sortBy === "name" ? styles.sortOptionActive : ""
+                          }`}
+                          onClick={() => setSortBy("name")}
+                        >
+                          NOMBRE
+                        </button>
+                        <button
+                          className={`${styles.sortOption} ${
+                            sortBy === "type" ? styles.sortOptionActive : ""
+                          }`}
+                          onClick={() => setSortBy("type")}
+                        >
+                          TIPO
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className={styles.sortFilterSection}>
+                      <h4 className={styles.sortFilterTitle}>
+                        FILTRAR POR TIPO
+                      </h4>
+                      <div className={styles.filterOptions}>
+                        {filterTypes.map((filter) => (
+                          <button
+                            key={filter}
+                            onClick={() => {
+                              setSelectedFilter(filter);
+                              setSearchTerm("");
+                            }}
+                            className={`${styles.filterOption} ${
+                              selectedFilter === filter
+                                ? styles.filterOptionActive
+                                : ""
+                            }`}
+                          >
+                            <span className={styles.filterIcon}>
+                              {getFilterIcon(filter)}
+                            </span>
+                            <span>{filter === "ALL" ? "TODOS" : filter}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className={styles.sortFilterActions}>
+                      <button
+                        className={styles.resetButton}
+                        onClick={() => {
+                          setSortBy("name");
+                          setSelectedFilter("ALL");
+                          setSearchTerm("");
+                        }}
+                      >
+                        RESETEAR
+                      </button>
+                      <button
+                        className={styles.applyButton}
+                        onClick={() => setShowSortFilter(false)}
+                      >
+                        APLICAR
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
           <div className={styles.aspectsGrid}>
-            {filteredAspects.map((aspect) => {
-              const isSelected =
-                (aspect.type === "CUERPO" &&
-                  previewState.selectedBody?.id === aspect.id) ||
-                (aspect.type === "REMERA" &&
-                  previewState.selectedShirt?.id === aspect.id) ||
-                (aspect.type === "SOMBRERO" &&
-                  previewState.selectedHat?.id === aspect.id);
+            {filteredAspects.map((aspect, index) => {
+              const isSelected = isAspectSelected(aspect);
+              const isNullAspect = (aspect as any).isNull;
 
               return (
                 <div
-                  key={aspect.id}
+                  key={
+                    isNullAspect ? `null-${aspect.type}-${index}` : aspect.id
+                  }
                   onClick={() => handleAspectClick(aspect)}
                   className={`${styles.aspectCard} ${
                     isSelected ? styles.aspectCardSelected : ""
-                  }`}
+                  } ${isNullAspect ? styles.aspectCardNull : ""}`}
                 >
                   <div className={styles.aspectImageContainer}>
-                    <img
-                      src={aspect.image || "/placeholder.svg"}
-                      alt={aspect.name}
-                      className={styles.aspectImage}
-                    />
+                    {isNullAspect ? (
+                      <div className={styles.nullAspectIcon}>
+                        <FaTimes />
+                      </div>
+                    ) : (
+                      <img
+                        src={aspect.image || "/placeholder.svg"}
+                        alt={aspect.name}
+                        className={styles.aspectImage}
+                      />
+                    )}
                     {isSelected && (
                       <div className={styles.selectedOverlay}>✓</div>
                     )}
                   </div>
                   <div className={styles.aspectInfo}>
                     <h3 className={styles.aspectName}>{aspect.name}</h3>
-                    <p className={styles.aspectType}>{aspect.type}</p>
-                    <p className={styles.aspectPrice}>${aspect.price}</p>
                   </div>
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        <div className={styles.middleSection}>
+          <div className={styles.typeSlots}>
+            <div
+              className={`${styles.typeSlot} ${
+                previewState.selectedBody ? styles.typeSlotFilled : ""
+              }`}
+            >
+              <div className={styles.typeSlotIcon}>
+                <FaUser />
+              </div>
+              <span className={styles.typeSlotLabel}>CUERPO</span>
+              {previewState.selectedBody && (
+                <img
+                  src={previewState.selectedBody.image || "/placeholder.svg"}
+                  alt="Cuerpo seleccionado"
+                  className={styles.typeSlotImage}
+                />
+              )}
+            </div>
+
+            <div
+              className={`${styles.typeSlot} ${
+                previewState.selectedShirt ? styles.typeSlotFilled : ""
+              }`}
+            >
+              <div className={styles.typeSlotIcon}>
+                <FaTshirt />
+              </div>
+              <span className={styles.typeSlotLabel}>REMERA</span>
+              {previewState.selectedShirt && (
+                <img
+                  src={previewState.selectedShirt.image || "/placeholder.svg"}
+                  alt="Remera seleccionada"
+                  className={styles.typeSlotImage}
+                />
+              )}
+            </div>
+
+            <div
+              className={`${styles.typeSlot} ${
+                previewState.selectedHat ? styles.typeSlotFilled : ""
+              }`}
+            >
+              <div className={styles.typeSlotIcon}>
+                <FaHatWizard />
+              </div>
+              <span className={styles.typeSlotLabel}>SOMBRERO</span>
+              {previewState.selectedHat && (
+                <img
+                  src={previewState.selectedHat.image || "/placeholder.svg"}
+                  alt="Sombrero seleccionado"
+                  className={styles.typeSlotImage}
+                />
+              )}
+            </div>
           </div>
         </div>
 
