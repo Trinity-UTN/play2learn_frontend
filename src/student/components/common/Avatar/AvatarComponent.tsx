@@ -1,29 +1,40 @@
 import { FaStar } from "react-icons/fa";
+import type { AvatarComponentsPreview } from "../../../types/CurrentStudent.type";
 import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 import styles from "./Avatar.module.css";
 
 interface AvatarComponentProps {
-  size?: "small" | "medium" | "large";
+  size?: "small" | "medium" | "large" | "preview";
   showLevel?: boolean;
   showRing?: boolean;
   onClick?: () => void;
   className?: string;
+  previewState?: AvatarComponentsPreview;
 }
 
 const Avatar: React.FC<AvatarComponentProps> = ({
   size = "medium",
-  showLevel = true,
+  showLevel = false,
   showRing = false,
   onClick,
   className = "",
+  previewState,
 }) => {
   const { getAvatarComponents } = useCurrentStudent();
-  const avatarComponents = getAvatarComponents();
+
+  const avatarComponents = previewState
+    ? {
+        body: previewState.selectedBody?.image || "/placeholder.svg",
+        shirt: previewState.selectedShirt?.image || "",
+        hat: previewState.selectedHat?.image || "",
+      }
+    : getAvatarComponents();
 
   const sizeClasses = {
     small: styles.small,
     medium: styles.medium,
     large: styles.large,
+    preview: styles.preview,
   };
 
   return (
@@ -33,11 +44,9 @@ const Avatar: React.FC<AvatarComponentProps> = ({
       }`}
       onClick={onClick}
     >
-      {/* Ring Effect - Outside wrapper for proper positioning */}
       {showRing && <div className={styles.avatarRing} />}
 
       <div className={styles.avatarWrapper}>
-        {/* Body Layer */}
         <img
           src={avatarComponents.body}
           alt="Cuerpo"
@@ -45,24 +54,25 @@ const Avatar: React.FC<AvatarComponentProps> = ({
           loading="lazy"
         />
 
-        {/* Shirt Layer */}
-        <img
-          src={avatarComponents.shirt}
-          alt="Remera"
-          className={`${styles.avatarImage} ${styles.avatarShirt}`}
-          loading="lazy"
-        />
+        {avatarComponents.shirt && (
+          <img
+            src={avatarComponents.shirt}
+            alt="Remera"
+            className={`${styles.avatarImage} ${styles.avatarShirt}`}
+            loading="lazy"
+          />
+        )}
 
-        {/* Hat Layer */}
-        <img
-          src={avatarComponents.hat}
-          alt="Sombrero"
-          className={`${styles.avatarImage} ${styles.avatarHat}`}
-          loading="lazy"
-        />
+        {avatarComponents.hat && (
+          <img
+            src={avatarComponents.hat}
+            alt="Sombrero"
+            className={`${styles.avatarImage} ${styles.avatarHat}`}
+            loading="lazy"
+          />
+        )}
       </div>
 
-      {/* Level Badge */}
       {showLevel && (
         <div className={styles.levelBadge}>
           <FaStar className={styles.levelIcon} />

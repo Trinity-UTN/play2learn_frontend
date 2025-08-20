@@ -30,7 +30,7 @@ interface User {
   email: string;
 }
 
-interface BodyPart {
+export interface BodyPart {
   id: number;
   name: string;
   image: string;
@@ -39,7 +39,7 @@ interface BodyPart {
   available: boolean;
 }
 
-interface Profile {
+export interface Profile {
   id: number;
   selectedBody: BodyPart | null;
   selectedShirt: BodyPart | null;
