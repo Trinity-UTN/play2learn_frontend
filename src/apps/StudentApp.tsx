@@ -7,6 +7,7 @@ import ProtectedRoute from "../shared/utils/ProtectedRoute";
 import StudentDashboard from "../student/pages/dashboard/Dashboard";
 //PROVIDERS
 import { CurrentStudentProvider } from "../student/context/currentStudent/CurrentStudentProvider";
+import { ProfileAvatarProvider } from "../student/context/profileAvatarContext/ProfileAvatarProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentBenefitsView from "../student/views/studentBenefitsView/StudentBenefitsView";
@@ -34,15 +35,17 @@ const StudentApp = () => {
             element={
               <ProtectedRoute allowedRoles={["ROLE_STUDENT"]}>
                 <CurrentStudentProvider>
-                  <motion.div
-                    key="dashboardStudent"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <StudentDashboard />
-                  </motion.div>
+                  <ProfileAvatarProvider>
+                    <motion.div
+                      key="dashboardStudent"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <StudentDashboard />
+                    </motion.div>
+                  </ProfileAvatarProvider>
                 </CurrentStudentProvider>
               </ProtectedRoute>
             }
