@@ -13,6 +13,10 @@ export interface CurrentStudentContextType {
   updateStudentProfile: (
     aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
   ) => Promise<void>;
+  unselectAspect: (
+    profileId: number,
+    typeAspect: "REMERA" | "SOMBRERO"
+  ) => Promise<void>;
 
   // Funciones de utilidad
   setCurrentStudent: React.Dispatch<

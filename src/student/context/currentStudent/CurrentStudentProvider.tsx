@@ -56,6 +56,24 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     }
   };
 
+  const unselectAspect = async (
+    profileId: number,
+    typeAspect: "REMERA" | "SOMBRERO"
+  ): Promise<void> => {
+    if (!currentStudent?.id) return;
+
+    setLoading(true);
+    try {
+      await CurrentStudentService.unselectAspectApi(profileId, typeAspect);
+      await getCurrentStudent();
+    } catch (error) {
+      console.error("Error al deseleccionar aspecto:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (role === "ROLE_STUDENT" && studentData) {
       setCurrentStudent(studentData);
@@ -84,6 +102,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     // Funciones Principales
     getCurrentStudent,
     updateStudentProfile,
+    unselectAspect,
 
     // Funciones de utilidad
     setCurrentStudent,

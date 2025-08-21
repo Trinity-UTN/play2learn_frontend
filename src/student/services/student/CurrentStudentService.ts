@@ -19,7 +19,23 @@ const updateCurrentStudentProfileApi = async (
   }
 };
 
+const unselectAspectApi = async (
+  profileId: number,
+  typeAspect: "REMERA" | "SOMBRERO"
+): Promise<void> => {
+  try {
+    await api.patch(urls.ProfileUnselectAspect, {
+      profileId,
+      typeAspect,
+    });
+  } catch (error) {
+    console.error("Error al deseleccionar aspecto:", error);
+    throw error;
+  }
+};
+
 export const CurrentStudentService = {
   getCurrentStudentApi,
   updateCurrentStudentProfileApi,
+  unselectAspectApi,
 };

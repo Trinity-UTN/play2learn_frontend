@@ -39,7 +39,8 @@ interface PreviewState {
 }
 
 const StudentProfileAvatarView: React.FC = () => {
-  const { currentStudent, updateStudentProfile, loading } = useCurrentStudent();
+  const { currentStudent, updateStudentProfile, unselectAspect, loading } =
+    useCurrentStudent();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<
     "ALL" | "CUERPO" | "REMERA" | "SOMBRERO"
@@ -215,40 +216,54 @@ const StudentProfileAvatarView: React.FC = () => {
   const handleSaveChanges = async () => {
     if (!currentStudent?.profile?.id || !hasChanges) return;
 
-    const updates: Array<{ aspectId: number | null; profileId: number }> = [];
-
-    if (
-      previewState.selectedBody?.id !==
-        currentStudent.profile.selectedBody?.id &&
-      previewState.selectedBody
-    ) {
-      updates.push({
-        aspectId: previewState.selectedBody.id,
-        profileId: currentStudent.profile.id,
-      });
-    }
-
-    if (
-      previewState.selectedShirt?.id !==
-      currentStudent.profile.selectedShirt?.id
-    ) {
-      updates.push({
-        aspectId: previewState.selectedShirt?.id || null,
-        profileId: currentStudent.profile.id,
-      });
-    }
-
-    if (
-      previewState.selectedHat?.id !== currentStudent.profile.selectedHat?.id
-    ) {
-      updates.push({
-        aspectId: previewState.selectedHat?.id || null,
-        profileId: currentStudent.profile.id,
-      });
-    }
-
     try {
-      await updateStudentProfile(updates);
+      // CUERPO
+      if (
+        previewState.selectedBody?.id !==
+          currentStudent.profile.selectedBody?.id &&
+        previewState.selectedBody
+      ) {
+        await updateStudentProfile([
+          {
+            aspectId: previewState.selectedBody.id,
+            profileId: currentStudent.profile.id,
+          },
+        ]);
+      }
+
+      // REMERA
+      if (
+        previewState.selectedShirt?.id !==
+        currentStudent.profile.selectedShirt?.id
+      ) {
+        if (previewState.selectedShirt === null) {
+          await unselectAspect(currentStudent.profile.id, "REMERA");
+        } else {
+          await updateStudentProfile([
+            {
+              aspectId: previewState.selectedShirt.id,
+              profileId: currentStudent.profile.id,
+            },
+          ]);
+        }
+      }
+
+      // SOMBRERO
+      if (
+        previewState.selectedHat?.id !== currentStudent.profile.selectedHat?.id
+      ) {
+        if (previewState.selectedHat === null) {
+          await unselectAspect(currentStudent.profile.id, "SOMBRERO");
+        } else {
+          await updateStudentProfile([
+            {
+              aspectId: previewState.selectedHat.id,
+              profileId: currentStudent.profile.id,
+            },
+          ]);
+        }
+      }
+
       setHasChanges(false);
     } catch (error) {
       console.error("Error al actualizar el avatar:", error);
