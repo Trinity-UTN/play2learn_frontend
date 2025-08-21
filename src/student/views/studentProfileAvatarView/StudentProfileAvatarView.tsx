@@ -1,17 +1,13 @@
 import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FaGlobe,
-  FaUser,
-  FaTshirt,
-  FaHatWizard,
-  FaSearch,
-  FaTimes,
-  FaInfoCircle,
-  FaSave,
-} from "react-icons/fa";
+import { FaGlobe, FaUser, FaTshirt, FaHatWizard } from "react-icons/fa";
 import Avatar from "../../components/common/Avatar/AvatarComponent";
-import AspectPopup from "../../components/profileAvatar/aspects/aspectPopup/AspectPopup";
+import ActionButtons from "../../components/profileAvatar/actionButtons/ActionButtons";
+import AspectHeader from "../../components/profileAvatar/aspectHeader/AspectHeader";
+import AspectGrid from "../../components/profileAvatar/aspectGrid/AspectGrid";
+import AspectPopup from "../../components/profileAvatar/aspectPopup/AspectPopup";
+import AspectSearchBar from "../../components/profileAvatar/aspectSearchBar/AspectSearchBar";
+import AspectSorter from "../../components/profileAvatar/aspectSorter/AspectSorter";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import styles from "./StudentProfileAvatarView.module.css";
 
@@ -303,8 +299,6 @@ const StudentProfileAvatarView: React.FC = () => {
     return false;
   };
 
-  const showActionButtons = selectedFilter !== "ALL";
-
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
@@ -341,199 +335,52 @@ const StudentProfileAvatarView: React.FC = () => {
           <div className={styles.content}>
             <div className={styles.inventorySection}>
               <div className={styles.inventoryHeader}>
-                <div className={styles.titleContainer}>
-                  <h1 className={styles.title}>
-                    <span className={styles.titleIcon}>{getTitleIcon()}</span>
-                    {getTitle()}
-                  </h1>
-                </div>
+                <AspectHeader title={getTitle()} icon={getTitleIcon()} />
 
                 <div className={styles.searchContainer}>
-                  <div className={styles.searchInputWrapper}>
-                    <FaSearch className={styles.searchIcon} />
-                    <input
-                      type="text"
-                      placeholder="Buscar aspectos..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className={styles.searchInput}
-                    />
-                  </div>
-                  <div className={styles.sortFilterContainer}>
-                    <button
-                      className={`${styles.sortFilterButton} ${
-                        showSortFilter ? styles.sortFilterButtonActive : ""
-                      }`}
-                      onClick={() => setShowSortFilter(!showSortFilter)}
-                    >
-                      <span>ORDENAR Y FILTRAR</span>
-                    </button>
+                  <AspectSearchBar
+                    searchTerm={searchTerm}
+                    onSearchChange={setSearchTerm}
+                  />
 
-                    {showSortFilter && (
-                      <div className={styles.sortFilterDropdown}>
-                        <div className={styles.sortFilterSection}>
-                          <h4 className={styles.sortFilterTitle}>
-                            ORDENAR POR
-                          </h4>
-                          <div className={styles.sortOptions}>
-                            <button
-                              className={`${styles.sortOption} ${
-                                sortBy === "name" ? styles.sortOptionActive : ""
-                              }`}
-                              onClick={() => setSortBy("name")}
-                            >
-                              NOMBRE
-                            </button>
-                            <button
-                              className={`${styles.sortOption} ${
-                                sortBy === "type" ? styles.sortOptionActive : ""
-                              }`}
-                              onClick={() => setSortBy("type")}
-                            >
-                              TIPO
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className={styles.sortFilterSection}>
-                          <h4 className={styles.sortFilterTitle}>
-                            FILTRAR POR TIPO
-                          </h4>
-                          <div className={styles.filterOptions}>
-                            {filterTypes.map((filter) => (
-                              <button
-                                key={filter}
-                                onClick={() => {
-                                  setSelectedFilter(filter);
-                                  setSearchTerm("");
-                                }}
-                                className={`${styles.filterOption} ${
-                                  selectedFilter === filter
-                                    ? styles.filterOptionActive
-                                    : ""
-                                }`}
-                              >
-                                <span className={styles.filterIcon}>
-                                  {getFilterIcon(filter)}
-                                </span>
-                                <span>
-                                  {filter === "ALL" ? "TODOS" : filter}
-                                </span>
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className={styles.sortFilterActions}>
-                          <button
-                            className={styles.resetButton}
-                            onClick={() => {
-                              setSortBy("name");
-                              setSelectedFilter("ALL");
-                              setSearchTerm("");
-                            }}
-                          >
-                            RESETEAR
-                          </button>
-                          <button
-                            className={styles.applyButton}
-                            onClick={() => setShowSortFilter(false)}
-                          >
-                            APLICAR
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <AspectSorter
+                    showSortFilter={showSortFilter}
+                    sortBy={sortBy}
+                    selectedFilter={selectedFilter}
+                    filterTypes={filterTypes}
+                    onToggleSortFilter={() =>
+                      setShowSortFilter(!showSortFilter)
+                    }
+                    onSortChange={setSortBy}
+                    onFilterChange={(filter) => {
+                      setSelectedFilter(filter);
+                      setSearchTerm("");
+                    }}
+                    onReset={() => {
+                      setSortBy("name");
+                      setSelectedFilter("ALL");
+                      setSearchTerm("");
+                    }}
+                    onApply={() => setShowSortFilter(false)}
+                    getFilterIcon={getFilterIcon}
+                  />
                 </div>
               </div>
 
-              <div className={styles.aspectsGrid}>
-                {filteredAspects.map((aspect, index) => {
-                  const isSelected = isAspectSelected(aspect);
-                  const isNullAspect = (aspect as any).isNull;
-
-                  return (
-                    <div
-                      key={
-                        isNullAspect
-                          ? `null-${aspect.type}-${index}`
-                          : aspect.id
-                      }
-                      onClick={() => handleAspectClick(aspect)}
-                      className={`${styles.aspectCard} ${
-                        isSelected ? styles.aspectCardSelected : ""
-                      } ${isNullAspect ? styles.aspectCardNull : ""}`}
-                    >
-                      {!isNullAspect && (
-                        <button
-                          className={styles.aspectInfoButton}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedAspectInfo(aspect as BodyPart);
-                            setShowInfoPopup(true);
-                          }}
-                        >
-                          <FaInfoCircle />
-                        </button>
-                      )}
-                      <div className={styles.aspectImageContainer}>
-                        {isNullAspect ? (
-                          <div className={styles.nullAspectIcon}>
-                            <FaTimes />
-                          </div>
-                        ) : (
-                          <img
-                            src={aspect.image || "/placeholder.svg"}
-                            alt={aspect.name}
-                            className={styles.aspectImage}
-                          />
-                        )}
-                        {isSelected && (
-                          <div className={styles.selectedOverlay}>✓</div>
-                        )}
-                      </div>
-                      <div className={styles.aspectInfo}>
-                        <h3 className={styles.aspectName}>{aspect.name}</h3>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {showActionButtons && (
-                <div className={styles.actionButtons}>
-                  <button
-                    onClick={handleSaveChanges}
-                    disabled={!hasChanges || loading}
-                    className={styles.saveButtonGrid}
-                  >
-                    <FaSave />
-                    <span>
-                      {hasChanges && loading
-                        ? "Guardando..."
-                        : "Guardar Cambios"}
-                    </span>
-                  </button>
-                </div>
-              )}
-
-              {!showActionButtons && (
-                <div className={styles.actionButtons}>
-                  <button
-                    onClick={handleSaveChanges}
-                    disabled={!hasChanges || loading}
-                    className={styles.saveButtonGrid}
-                  >
-                    <FaSave />
-                    <span>
-                      {hasChanges && loading
-                        ? "Guardando..."
-                        : "Guardar Cambios"}
-                    </span>
-                  </button>
-                </div>
-              )}
+              <AspectGrid
+                aspects={filteredAspects}
+                isAspectSelected={isAspectSelected}
+                onAspectClick={handleAspectClick}
+                onInfoClick={(aspect) => {
+                  setSelectedAspectInfo(aspect);
+                  setShowInfoPopup(true);
+                }}
+              />
+              <ActionButtons
+                hasChanges={hasChanges}
+                loading={loading}
+                onSave={handleSaveChanges}
+              />
             </div>
 
             <div className={styles.avatarPreviewSection}>

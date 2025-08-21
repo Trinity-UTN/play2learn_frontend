@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
-import type { BodyPart } from "../../../../types/CurrentStudent.type";
+import type { BodyPart } from "../../../types/CurrentStudent.type";
 import styles from "./AspectPopup.module.css";
 
 interface AspectPopupProps {
