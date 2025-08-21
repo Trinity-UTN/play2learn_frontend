@@ -15,7 +15,7 @@ interface CurrentStudentProviderProps {
 export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   children,
 }) => {
-  const { user } = useAuth();
+  const { role, studentData } = useAuth();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStudent, setCurrentStudent] = useState<CurrentStudent | null>(
@@ -24,22 +24,20 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
 
   // Funciones Principales
   const getCurrentStudent = useCallback(async (): Promise<void> => {
-    if (!user?.id) return;
+    if (!studentData?.id) return;
 
     setLoading(true);
     try {
-      const studentId = user.id - 2; // TODO: REVAMP (cuando se implemente mejor en backend)
-      const studentData = await CurrentStudentService.getCurrentStudentApi(
-        studentId
-      );
-      setCurrentStudent(studentData);
+      const studentDataFromApi =
+        await CurrentStudentService.getCurrentStudentApi(studentData.id);
+      setCurrentStudent(studentDataFromApi);
     } catch (error) {
       console.error("Error al obtener el estudiante actual:", error);
       throw error;
     } finally {
       setLoading(false);
     }
-  }, [user?.id]);
+  }, [studentData?.id]);
 
   const updateStudentProfile = async (
     aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
@@ -59,10 +57,10 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   };
 
   useEffect(() => {
-    if (user?.id) {
-      getCurrentStudent();
+    if (role === "ROLE_STUDENT" && studentData) {
+      setCurrentStudent(studentData);
     }
-  }, [user?.id, getCurrentStudent]);
+  }, [role, studentData]);
 
   // Funcioens de utilidad
   const getAvatarComponents = (): AvatarComponents => {

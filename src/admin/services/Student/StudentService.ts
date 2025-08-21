@@ -47,6 +47,12 @@ export interface Profile {
   ownedAspects: BodyPart[];
 }
 
+export interface Wallet {
+  id: number;
+  balance: number;
+  invertedBalance: number;
+}
+
 export interface StudentResponseDto {
   id: number;
   name: string;
@@ -56,6 +62,7 @@ export interface StudentResponseDto {
   course: CourseResponseDto;
   active: boolean;
   profile: Profile;
+  wallet: Wallet;
 }
 
 export interface PaginatedStudentResponse {
