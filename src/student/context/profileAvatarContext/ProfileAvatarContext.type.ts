@@ -30,6 +30,6 @@ export interface ProfileAvatarContextType {
 
   // Funciones principales
   handleAspectClick: (aspect: BodyPart | NullAspect) => void;
-  handleSaveChanges: () => Promise<void>;
+  handleSave: () => void;
   isAspectSelected: (aspect: BodyPart | NullAspect) => boolean;
 }

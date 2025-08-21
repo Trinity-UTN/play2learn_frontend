@@ -7,6 +7,8 @@ import type {
   AvatarComponentsPreview,
 } from "../../types/CurrentStudent.type";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
+import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useToaster } from "../../../shared/hooks/useToaster";
 
 const nullAspects: NullAspect[] = [
   {
@@ -38,6 +40,8 @@ export const ProfileAvatarProvider = ({
 }) => {
   const { currentStudent, updateStudentProfile, unselectAspect } =
     useCurrentStudent();
+  const { showConfirmation } = useConfirmation();
+  const { showToast } = useToaster();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] =
@@ -194,6 +198,22 @@ export const ProfileAvatarProvider = ({
     }
   };
 
+  const handleSave = () => {
+    showConfirmation({
+      title: "Guardar cambios",
+      message: "¿Está seguro que desea guardar los cambios?",
+      type: "info",
+      onConfirm: () => {
+        handleSaveChanges();
+        showToast({
+          title: "Avatar cambiado",
+          type: "success",
+          position: "bottom-right",
+        });
+      },
+    });
+  };
+
   const isAspectSelected = (aspect: BodyPart | NullAspect): boolean => {
     if ((aspect as any).isNull) {
       return aspect.type === "REMERA"
@@ -233,7 +253,7 @@ export const ProfileAvatarProvider = ({
 
     // Funciones principales
     handleAspectClick,
-    handleSaveChanges,
+    handleSave,
     isAspectSelected,
   };
 

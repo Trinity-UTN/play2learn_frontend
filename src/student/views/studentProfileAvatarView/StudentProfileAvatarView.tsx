@@ -44,7 +44,7 @@ const StudentProfileAvatarView: React.FC = () => {
     setShowInfoPopup,
     setSelectedAspectInfo,
     handleAspectClick,
-    handleSaveChanges,
+    handleSave,
     isAspectSelected,
   } = useProfileAvatar();
 
@@ -144,7 +144,7 @@ const StudentProfileAvatarView: React.FC = () => {
               <ActionButtons
                 hasChanges={hasChanges}
                 loading={loading}
-                onSave={handleSaveChanges}
+                onSave={handleSave}
               />
             </div>
 
