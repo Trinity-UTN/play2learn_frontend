@@ -1,4 +1,5 @@
 export const StudentRoutes = {
+  Profile: "student/profile",
   Overview: "student/overview",
   Wallet: "student/wallet",
   Activities: {
