@@ -157,6 +157,13 @@ const ConfigureActivityView: React.FC = () => {
       newErrors.initialBalance = "El balance inicial debe ser mayor a 0";
     }
 
+    const selectedSubject = getSelectedSubject();
+    const ssActualBalance = selectedSubject?.actualBalance || 0;
+    if (configuration.initialBalance > ssActualBalance) {
+      newErrors.initialBalance =
+        "El balance inicial debe ser mayor al balance actual de la materia";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
