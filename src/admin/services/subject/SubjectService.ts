@@ -29,6 +29,8 @@ export interface SubjectResponseDto {
   course: CourseResponseDto;
   teacher: TeacherResponseDto;
   optional: boolean;
+  actualBalance: number;
+  initialBalance: number;
 }
 
 export interface PaginatedSubjectResponse {

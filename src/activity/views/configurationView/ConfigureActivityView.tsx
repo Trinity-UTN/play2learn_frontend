@@ -16,6 +16,8 @@ import {
   FaList,
   FaGamepad,
   FaRedoAlt,
+  FaAward,
+  FaCoins,
 } from "react-icons/fa";
 import type {
   ConfigurationActivity,
@@ -39,12 +41,13 @@ const ConfigureActivityView: React.FC = () => {
     maxTime: 30,
     subjectId: 0,
     attempts: 1,
+    initialBalance: 0,
   });
 
   const { code_game } = useParams();
   const [errors, setErrors] = useState<ConfigurationErrors>({});
   const [isPreviewMode, setIsPreviewMode] = useState(false);
-  const [isVerticalLayout, setIsVerticalLayout] = useState(false);
+  const [isVerticalLayout, setIsVerticalLayout] = useState(true);
   const { subjects, getSubjectByTeacher } = useSubject();
   const { registerConfigurationActivity } = useConfigurationActivity();
   const navigate = useNavigate();
@@ -150,6 +153,10 @@ const ConfigureActivityView: React.FC = () => {
       newErrors.attempts = "El numero de intentos debe ser mayor a 0";
     }
 
+    if (configuration.initialBalance <= 0) {
+      newErrors.initialBalance = "El balance inicial debe ser mayor a 0";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -174,6 +181,15 @@ const ConfigureActivityView: React.FC = () => {
   const getDifficultyLabel = (value: string) => {
     const option = difficultyOptions.find((opt) => opt.value === value);
     return option ? option.label : value;
+  };
+
+  const getMaximumInitialBalance = () => {
+    const selectedSubject = getSelectedSubject();
+    if (selectedSubject) {
+      return selectedSubject.initialBalance * 0.3;
+    } else {
+      return 1;
+    }
   };
 
   const containerVariants = {
@@ -488,6 +504,48 @@ const ConfigureActivityView: React.FC = () => {
                   </div>
                 </Card>
               </motion.div>
+
+              {/* Recompensa */}
+              <motion.div
+                variants={itemVariants}
+                className={styles.formSection}
+              >
+                <Card className={styles.formCard}>
+                  <div className={styles.cardHeader}>
+                    <FaAward className={styles.cardIcon} />
+                    <h3 className={styles.cardTitle}>Recompensa</h3>
+                  </div>
+                  <div className={styles.cardContent}>
+                    <div className={styles.inputGroup}>
+                      <label className={styles.label}>
+                        Balance Inicial
+                        <span className={styles.labelHint}>
+                          Cantidad de recompensa que entregará la actividad si
+                          es aprobada
+                        </span>
+                      </label>
+                      <div className={styles.dcInputWrapper}>
+                        <FaCoins className={styles.dcIcon} />
+                        <Input
+                          type="number"
+                          value={configuration.initialBalance}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "initialBalance",
+                              Number.parseInt(e.target.value) || 0
+                            )
+                          }
+                          disabled={!configuration.subjectId}
+                          error={errors.initialBalance}
+                          max={getMaximumInitialBalance()}
+                          className={styles.rewardInput}
+                        />
+                        <span className={styles.dcUnit}>monedas</span>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
             </div>
 
             <motion.div
@@ -552,13 +610,7 @@ const ConfigureActivityView: React.FC = () => {
                     <FaChartLine className={styles.previewIcon} />
                     <div>
                       <h4>Dificultad</h4>
-                      <Badge
-                        variant="primary"
-                        // className={{
-                        //   backgroundColor: getDifficultyColor(),
-                        //   color: "white",
-                        // }}
-                      >
+                      <Badge variant="primary">
                         {getDifficultyLabel(configuration.dificulty) ||
                           "Sin definir"}
                       </Badge>

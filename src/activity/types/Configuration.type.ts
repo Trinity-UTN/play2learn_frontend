@@ -6,6 +6,7 @@ export interface ConfigurationActivity {
   maxTime: number;
   subjectId: number;
   attempts: number;
+  initialBalance: number;
 }
 
 export type ConfigurationErrors = {
@@ -16,4 +17,5 @@ export type ConfigurationErrors = {
   maxTime?: string;
   subjectId?: string;
   attempts?: string;
+  initialBalance?: string;
 };
