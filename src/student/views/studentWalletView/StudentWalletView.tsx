@@ -4,7 +4,7 @@ import WalletSummary from "../../components/studentWalletViewComponents/walletSu
 import FinancialOverview from "../../components/studentWalletViewComponents/financialOverview/FinancialOverview";
 import QuickActions from "../../components/studentWalletViewComponents/quickActions/QuickActions";
 import RecentTransactions from "../../components/studentWalletViewComponents/recentTransactions/RecentTransactions";
-import EducationalTips from "../../components/studentWalletViewComponents/educationalTips/educationTips";
+import EducationalTips from "../../components/studentWalletViewComponents/educationalTips/EducationTips";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import type { FinancialSummary } from "../../types/generalType";
 import styles from "./StudentWalletView.module.css";
