@@ -37,11 +37,12 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .scenarioButton:hover {
-  border-color: var(--scenario-color);
-  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--scenario-color);
+  background: rgba(255, 255, 255, 0.321) !important;
 }
 
 .scenarioIcon {
@@ -98,6 +99,10 @@
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
   font-size: 0.9rem;
+  color: white !important;
+}
+.controlButton:hover {
+  background-color: rgba(255, 255, 255, 0.294) !important;
 }
 
 .simulatorContent {
@@ -119,7 +124,7 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  background: linear-gradient(90deg, #faa267, #f76300);
   border-radius: 6px;
   transition: width 0.5s ease;
 }
@@ -143,7 +148,8 @@
   align-items: center;
   gap: 1rem;
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid #f7630080 !important;
+  background-color: #feb48219;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -166,26 +172,25 @@
 .resultValue {
   font-size: 1.5rem;
   font-weight: 700;
-  color: white;
   display: block;
   line-height: 1;
 }
 
 .resultLabel {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 253, 253, 0.7);
   font-size: 0.85rem;
   margin-top: 0.25rem;
 }
 
 .insightBox {
-  background: rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background: #feb48219;
+  border: 2px solid #f7630080;
   border-radius: 12px;
   padding: 1.5rem;
 }
 
 .insightTitle {
-  color: #8b5cf6;
+  color: #ffffff;
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0 0 0.75rem 0;

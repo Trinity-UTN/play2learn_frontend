@@ -42,7 +42,7 @@
 }
 
 .scoreInfo {
-  color: #8b5cf6;
+  color: #f8f8f8;
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -60,8 +60,8 @@
 }
 
 .conceptBadge {
-  background: rgba(139, 92, 246, 0.2);
-  color: #8b5cf6;
+  background: rgba(138, 92, 246, 0.389);
+  color: #ffffff;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -129,6 +129,7 @@
   font-weight: 700;
   font-size: 0.9rem;
   flex-shrink: 0;
+  color: #ffffffbb;
 }
 
 .optionButton.selected .optionLetter {

@@ -30,15 +30,20 @@
 
 .actionsGrid {
   padding: 1.5rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
   gap: 1rem;
 }
 
 .actionButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  width: 100%;
   padding: 0;
   height: auto;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   transition: all 0.3s ease;
@@ -59,7 +64,7 @@
 }
 
 .actionButton:hover::before {
-  opacity: 0.1;
+  opacity: 0.8;
 }
 
 .actionButton:hover {
@@ -69,6 +74,7 @@
 }
 
 .actionContent {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;

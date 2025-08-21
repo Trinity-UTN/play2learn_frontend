@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FaWallet, FaGraduationCap } from "react-icons/fa";
 import WalletSummary from "../../components/studentWalletViewComponents/walletSummary/WalletSummary";
-import FinancialOverview from "../../components/studentWalletViewComponents/financialOverview/FinancialOverview";
+// import FinancialOverview from "../../components/studentWalletViewComponents/financialOverview/FinancialOverview";
 import QuickActions from "../../components/studentWalletViewComponents/quickActions/QuickActions";
 import RecentTransactions from "../../components/studentWalletViewComponents/recentTransactions/RecentTransactions";
 import EducationalTips from "../../components/studentWalletViewComponents/educationalTips/EducationTips";
@@ -9,17 +9,22 @@ import Button from "../../../shared/components/Button/ButtonComponent";
 import type { FinancialSummary } from "../../types/generalType";
 import styles from "./StudentWalletView.module.css";
 import { useNavigate } from "react-router-dom";
+import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 
 const StudentWalletView = () => {
+  const { currentStudent } = useCurrentStudent();
+  const wallet = currentStudent?.wallet;
+
   const financialData: FinancialSummary = {
-    availableCoins: 2450,
-    investedCoins: 800,
-    totalBalance: 3250,
+    availableCoins: Number(wallet?.balance) - Number(wallet?.invertedBalance),
+    investedCoins: Number(wallet?.invertedBalance),
+    totalBalance: Number(wallet?.balance),
     lastMovementDate: "2024-03-15T14:30:00Z",
     monthlyGrowth: 12.5,
     savingsGoal: 5000,
     currentSavings: 1200,
   };
+
   const navigate = useNavigate();
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -54,11 +59,11 @@ const StudentWalletView = () => {
           </p>
         </div>
         <Button
-          variant="secondary"
+          variant="ghost"
           onClick={() => navigate("financial-education")}
           className={styles.educationButton}
         >
-          <FaGraduationCap />
+          <FaGraduationCap className={styles.educationIcon} />
           Aprende Finanzas
         </Button>
       </motion.div>
@@ -69,20 +74,19 @@ const StudentWalletView = () => {
             <WalletSummary data={financialData} />
           </motion.div>
 
+          {/* <motion.div variants={itemVariants}>
+          </motion.div> */}
+          {/* TODO: Componente para agregar en el panel principal */}
+          {/* <FinancialOverview data={financialData} /> */}
           <motion.div variants={itemVariants}>
-            <FinancialOverview data={financialData} />
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <QuickActions onNavigate={navigate} />
+            <EducationalTips />
           </motion.div>
         </div>
 
         <div className={styles.sideSection}>
           <motion.div variants={itemVariants}>
-            <EducationalTips />
+            <QuickActions />
           </motion.div>
-
           <motion.div variants={itemVariants}>
             <RecentTransactions />
           </motion.div>

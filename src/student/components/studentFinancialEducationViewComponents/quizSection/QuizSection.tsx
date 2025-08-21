@@ -1,15 +1,9 @@
-import type React from "react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCheck, FaTimes, FaTrophy, FaRedo } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
-import type { EducationalConcept } from "../../../types/generalType";
 import styles from "./QuizSection.module.css";
-
-interface QuizSectionProps {
-  concepts: EducationalConcept[];
-}
 
 interface QuizQuestion {
   id: string;
@@ -20,7 +14,7 @@ interface QuizQuestion {
   concept: string;
 }
 
-const QuizSection: React.FC<QuizSectionProps> = ({ concepts }) => {
+const QuizSection = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);

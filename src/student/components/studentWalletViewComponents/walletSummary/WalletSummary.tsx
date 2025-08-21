@@ -1,5 +1,9 @@
 import type React from "react";
-import { FaCoins, FaChartLine, FaClock } from "react-icons/fa";
+import {
+  FaCoins,
+  FaChartLine,
+  //  FaClock
+} from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import type { FinancialSummary } from "../../../types/generalType";
 import styles from "./WalletSummary.module.css";
@@ -9,18 +13,18 @@ interface WalletSummaryProps {
 }
 
 const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("es-ES", {
-      day: "numeric",
-      month: "long",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+  // const formatDate = (dateString: string) => {
+  //   const date = new Date(dateString);
+  //   return date.toLocaleDateString("es-ES", {
+  //     day: "numeric",
+  //     month: "long",
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //   });
+  // };
 
   const liquidityPercentage = (data.availableCoins / data.totalBalance) * 100;
-
+  const investmentPercentage = (data.investedCoins / data.totalBalance) * 100;
   return (
     <Card className={styles.summaryCard}>
       <div className={styles.cardHeader}>
@@ -28,10 +32,11 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
           <FaCoins className={styles.titleIcon} />
           Resumen Financiero
         </h2>
-        <div className={styles.lastMovement}>
+        {/* <div className={styles.lastMovement}>
           <FaClock className={styles.clockIcon} />
           <span>Último movimiento: {formatDate(data.lastMovementDate)}</span>
-        </div>
+        </div> */}{" "}
+        {/*AGREGAR CUANDO ESTE LA LOGICA DE MOVIMIENTOS */}
       </div>
 
       <div className={styles.balanceSection}>
@@ -42,7 +47,7 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
             </div>
             <div className={styles.balanceInfo}>
               <h3 className={styles.balanceAmount}>
-                {data.totalBalance.toLocaleString()}
+                {data.totalBalance.toLocaleString()} Monedas
               </h3>
               <p className={styles.balanceLabel}>Balance Total</p>
             </div>
@@ -61,7 +66,7 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
               <span className={styles.breakdownAmount}>
                 {data.availableCoins.toLocaleString()}
               </span>
-              <span className={styles.breakdownLabel}>Monedas Líquidas</span>
+              <span className={styles.breakdownLabel}> Monedas Líquidas</span>
               <div className={styles.liquidityBar}>
                 <div
                   className={styles.liquidityFill}
@@ -85,13 +90,25 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
               <span className={styles.breakdownAmount}>
                 {data.investedCoins.toLocaleString()}
               </span>
-              <span className={styles.breakdownLabel}>Monedas Invertidas</span>
-              <div className={styles.growthIndicator}>
+              <span className={styles.breakdownLabel}> Monedas Invertidas</span>
+              <div className={styles.liquidityBar}>
+                <div
+                  className={styles.investmentFill}
+                  style={{
+                    width: `${investmentPercentage}%`,
+                  }}
+                />
+              </div>
+              <span className={styles.investmentText}>
+                {investmentPercentage.toFixed(1)}% de monedas invertidas
+              </span>
+              {/* <div className={styles.growthIndicator}>
                 <FaChartLine className={styles.growthIcon} />
                 <span className={styles.growthText}>
                   +{data.monthlyGrowth}% este mes
                 </span>
-              </div>
+              </div> */}
+              {/* Posible implementacion */}
             </div>
           </div>
         </div>
@@ -100,10 +117,11 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
       <div className={styles.educationalNote}>
         <div className={styles.noteIcon}>💡</div>
         <div className={styles.noteContent}>
-          <strong>Concepto clave:</strong> La <em>liquidez</em> es qué tan fácil
-          puedes usar tus monedas. Las monedas líquidas están disponibles
-          inmediatamente, las invertidas generan más valor pero no las puedes
-          usar hasta que termine la inversión.
+          <strong>Concepto clave:</strong> La <em>liquidez</em> es la facilidad
+          con la que puedes usar tu dinero. Si algo tiene alta liquidez, como el
+          efectivo o el dinero en tu cuenta, puedes usarlo de inmediato. Si
+          tiene baja liquidez, como una inversión a plazo fijo, no puedes usarlo
+          hasta que termine el período de inversión.
         </div>
       </div>
     </Card>

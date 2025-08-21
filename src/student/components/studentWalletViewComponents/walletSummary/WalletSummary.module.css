@@ -168,9 +168,20 @@
   border-radius: 3px;
   transition: width 0.3s ease;
 }
+.investmentFill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #27549c);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
 
 .liquidityText {
   color: #10b981;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.investmentText {
+  color: #3b82f6;
   font-size: 0.8rem;
   font-weight: 600;
 }

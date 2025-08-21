@@ -17,19 +17,6 @@ const ConceptCard: React.FC<ConceptCardProps> = ({
   isSelected,
   onClick,
 }) => {
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case "Básico":
-        return "#10B981";
-      case "Intermedio":
-        return "#F59E0B";
-      case "Avanzado":
-        return "#EF4444";
-      default:
-        return "#6B7280";
-    }
-  };
-
   return (
     <motion.div
       whileHover={{ y: -5 }}
@@ -39,45 +26,38 @@ const ConceptCard: React.FC<ConceptCardProps> = ({
       <Card
         className={`${styles.conceptCard} ${isSelected ? styles.selected : ""}`}
       >
-        <div className={styles.cardHeader} onClick={onClick}>
-          <div className={styles.conceptIcon}>{concept.icon}</div>
-          <div className={styles.headerContent}>
-            <h3 className={styles.conceptTitle}>{concept.title}</h3>
-            <Badge
-              variant="secondary"
-              className={`${styles.difficultyBadge} `}
-              //   style={{
-              //     backgroundColor: getDifficultyColor(concept.difficulty),
-              //   }}
-            >
-              {concept.difficulty}
-            </Badge>
+        <div onClick={onClick}>
+          <div className={styles.cardHeader}>
+            <div className={styles.conceptIcon}>{concept.icon}</div>
+            <div className={styles.headerContent}>
+              <h3 className={styles.conceptTitle}>{concept.title}</h3>
+            </div>
+            <div className={styles.expandIcon}>
+              {isSelected ? <FaChevronUp /> : <FaChevronDown />}
+            </div>
           </div>
-          <div className={styles.expandIcon}>
-            {isSelected ? <FaChevronUp /> : <FaChevronDown />}
+
+          <div className={styles.conceptDescription}>
+            <p>{concept.description}</p>
           </div>
-        </div>
 
-        <div className={styles.conceptDescription}>
-          <p>{concept.description}</p>
+          <AnimatePresence>
+            {isSelected && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className={styles.expandedContent}
+              >
+                <div className={styles.exampleSection}>
+                  <h4 className={styles.exampleTitle}>💡 Ejemplo Práctico</h4>
+                  <p className={styles.exampleText}>{concept.example}</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-
-        <AnimatePresence>
-          {isSelected && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className={styles.expandedContent}
-            >
-              <div className={styles.exampleSection}>
-                <h4 className={styles.exampleTitle}>💡 Ejemplo Práctico</h4>
-                <p className={styles.exampleText}>{concept.example}</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </Card>
     </motion.div>
   );

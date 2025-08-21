@@ -11,12 +11,13 @@ import {
 import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import styles from "./QuickActions.module.css";
-
+import { useNavigate } from "react-router-dom";
 interface QuickActionsProps {
   onNavigate?: (view: string) => void;
 }
 
-const QuickActions: React.FC<QuickActionsProps> = ({ onNavigate }) => {
+const QuickActions = () => {
+  const navigate = useNavigate();
   const actions = [
     {
       title: "Inversiones",
@@ -25,6 +26,7 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onNavigate }) => {
       color: "#3B82F6",
       view: "investments",
       badge: "Nuevo",
+      url: "/dashboard/student/overview", //HASTA QUE SE REALICE LA VIEW DE INVERSIONES
     },
     {
       title: "Beneficios",
@@ -33,6 +35,7 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onNavigate }) => {
       color: "#F59E0B",
       view: "benefits",
       badge: "5 activos",
+      url: "/dashboard/student/beneficios/list",
     },
     {
       title: "Tienda",
@@ -41,6 +44,7 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onNavigate }) => {
       color: "#EF4444",
       view: "store",
       badge: "Ofertas",
+      url: "/dashboard/student/store",
     },
     {
       title: "Historial",
@@ -49,6 +53,7 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onNavigate }) => {
       color: "#8B5CF6",
       view: "wallet-history",
       badge: null,
+      url: "/dashboard/student/wallet", //HASTA QUE SE DESARROLLE UNA VIEW DE MOVIMIENTOS
     },
   ];
 
@@ -77,7 +82,7 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onNavigate }) => {
             <Button
               variant="ghost"
               fullWidth
-              onClick={() => onNavigate?.(action.view)}
+              onClick={() => navigate(action.url)}
               className={styles.actionButton}
               style={{ "--action-color": action.color } as React.CSSProperties}
             >

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaGraduationCap,
@@ -17,9 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 const StudentFinancialEducationView = () => {
   const [selectedConcept, setSelectedConcept] = useState<string | null>(null);
-  const [currentSection, setCurrentSection] = useState<
-    "concepts" | "examples" | "quiz"
-  >("concepts");
+  const [currentSection, setCurrentSection] = useState<string>("concepts");
   const navigate = useNavigate();
   const concepts: EducationalConcept[] = [
     {
@@ -90,6 +88,11 @@ const StudentFinancialEducationView = () => {
     },
   ];
 
+  const tabs = [
+    { id: 1, name: "concepts", icon: <FaBook />, label: "Conceptos" },
+    { id: 2, name: "examples", icon: <FaLightbulb />, label: "Ejemplos" },
+    { id: 3, name: "quiz", icon: <FaQuestionCircle />, label: "Quiz" },
+  ];
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -134,30 +137,19 @@ const StudentFinancialEducationView = () => {
 
       <motion.div variants={itemVariants} className={styles.navigation}>
         <div className={styles.navTabs}>
-          <Button
-            variant={currentSection === "concepts" ? "primary" : "ghost"}
-            onClick={() => setCurrentSection("concepts")}
-            className={styles.navTab}
-          >
-            <FaBook />
-            Conceptos
-          </Button>
-          <Button
-            variant={currentSection === "examples" ? "primary" : "ghost"}
-            onClick={() => setCurrentSection("examples")}
-            className={styles.navTab}
-          >
-            <FaLightbulb />
-            Ejemplos
-          </Button>
-          <Button
-            variant={currentSection === "quiz" ? "primary" : "ghost"}
-            onClick={() => setCurrentSection("quiz")}
-            className={styles.navTab}
-          >
-            <FaQuestionCircle />
-            Quiz
-          </Button>
+          {tabs.map((tab) => (
+            <Button
+              variant={"ghost"}
+              onClick={() => setCurrentSection(tab.name)}
+              className={`${styles.navTab} ${
+                currentSection === tab.name && styles.navTabSelect
+              }`}
+              key={tab.id}
+            >
+              {tab.icon}
+              {tab.label}
+            </Button>
+          ))}
         </div>
       </motion.div>
 
@@ -181,13 +173,13 @@ const StudentFinancialEducationView = () => {
 
         {currentSection === "examples" && (
           <motion.div variants={itemVariants}>
-            <InteractiveExample concepts={concepts} />
+            <InteractiveExample />
           </motion.div>
         )}
 
         {currentSection === "quiz" && (
           <motion.div variants={itemVariants}>
-            <QuizSection concepts={concepts} />
+            <QuizSection />
           </motion.div>
         )}
       </div>
