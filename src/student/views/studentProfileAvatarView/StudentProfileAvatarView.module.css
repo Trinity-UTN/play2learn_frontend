@@ -315,6 +315,28 @@
   opacity: 0.7;
 }
 
+.aspectInfoButton {
+  position: absolute;
+  top: 8px;
+  left: 4px;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.85rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.3s ease;
+}
+
+.aspectInfoButton:hover {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+}
+
 .aspectImageContainer {
   position: relative;
   width: 100%;
@@ -368,6 +390,39 @@
   color: white;
   margin: 0;
   line-height: 1.2;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.saveButtonGrid {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.saveButtonGrid:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+}
+
+.saveButtonGrid:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .avatarPreviewSection {
