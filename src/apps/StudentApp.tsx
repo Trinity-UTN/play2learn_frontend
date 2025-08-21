@@ -14,6 +14,7 @@ import StudentOverviewView from "../student/views/studentOverviewView/StudentOve
 import StudentRankingView from "../student/views/studentRankingView/StudentRankingView";
 import StudentStoreView from "../student/views/studentStoreView/StudentStoreView";
 import StudentWalletView from "../student/views/studentWalletView/StudentWalletView";
+import StudentFinancialEducationView from "../student/views/studentFinancialEducationView/StudentFinancialEducationView";
 
 const StudentApp = () => {
   return (
@@ -58,6 +59,11 @@ const StudentApp = () => {
             <Route path="store" element={<StudentStoreView />} />
             {/* RANKING */}
             <Route path="ranking/list" element={<StudentRankingView />} />
+            {/* EDUCACION FINANCIERA */}
+            <Route
+              path="wallet/financial-education"
+              element={<StudentFinancialEducationView />}
+            />
           </Route>
         </Routes>
       </AnimatePresence>

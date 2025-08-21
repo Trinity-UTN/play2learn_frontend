@@ -1,9 +1,13 @@
 .wallet {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  padding: 1rem;
 }
 
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 2rem;
 }
 
@@ -11,6 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  flex: 1;
 }
 
 .title {
@@ -34,7 +39,43 @@
 .subtitle {
   color: rgba(255, 255, 255, 0.8);
   font-size: 1.1rem;
-  margin: 0;
+  margin: 0.5rem 0 0 0;
+}
+
+.educationButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #8b5cf6, #a855f7);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.educationButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.mainSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sideSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .balanceSection {
@@ -207,9 +248,9 @@
 }
 
 .monthlyValue {
+  color: white;
   font-size: 1.5rem;
   font-weight: 700;
-  color: white;
   margin: 0;
   line-height: 1;
 }
@@ -256,6 +297,7 @@
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .filterButton {
@@ -357,9 +399,28 @@
   color: #ef4444;
 }
 
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .sideSection {
+    order: -1;
+  }
+}
+
 @media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   .title {
     font-size: 2rem;
+  }
+
+  .wallet {
+    padding: 0.5rem;
   }
 
   .balanceContent {
@@ -384,10 +445,6 @@
   .monthlyContent {
     flex-direction: column;
     gap: 1rem;
-  }
-
-  .filters {
-    justify-content: center;
   }
 
   .transactionLeft {

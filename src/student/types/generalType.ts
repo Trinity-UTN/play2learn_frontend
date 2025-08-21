@@ -99,3 +99,40 @@ export type StudentDashboardView =
   | "benefits"
   | "store"
   | "ranking";
+
+export interface EducationalConcept {
+  id: string;
+  title: string;
+  description: string;
+  example: string;
+  icon: string;
+  color: string;
+  difficulty: "Básico" | "Intermedio" | "Avanzado";
+}
+
+// Student Dashboard Types
+export interface StudentWallet {
+  balance: number;
+  totalEarned: number;
+  totalSpent: number;
+  transactions: WalletTransaction[];
+}
+
+export interface WalletTransaction {
+  id: string;
+  type: "earned" | "spent";
+  amount: number;
+  description: string;
+  date: string;
+  category: string;
+  icon: string;
+}
+export interface FinancialSummary {
+  availableCoins: number;
+  investedCoins: number;
+  totalBalance: number;
+  lastMovementDate: string;
+  monthlyGrowth: number;
+  savingsGoal: number;
+  currentSavings: number;
+}
