@@ -31,6 +31,7 @@
   position: relative;
   z-index: 1;
 }
+
 .buttonPerfil {
   width: 80%;
   border-radius: 10px;
@@ -41,8 +42,8 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
+
 .buttonPerfil:hover {
-  /* border: 1px solid #ef4444; */
   background-color: #10b98139;
   transform: scale(1.05);
 }
@@ -52,45 +53,6 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-}
-
-.avatarContainer {
-  position: relative;
-}
-
-.avatar {
-  position: relative;
-  width: 70px !important;
-  height: 70px !important;
-  object-fit: cover;
-  z-index: 0;
-  transition: all 0.3s ease-in-out;
-}
-
-.avatar:hover {
-  transform: scale(1.5);
-}
-
-.levelBadge {
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
-  background: linear-gradient(45deg, #f59e0b, #f97316);
-  color: white;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  font-weight: bold;
-  border: 2px solid #1e293b;
-}
-
-.levelIcon {
-  font-size: 0.6rem;
-  margin-right: 2px;
 }
 
 .profileInfo {
@@ -226,6 +188,7 @@
   color: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
+  background: transparent;
 }
 
 .logoutButton:hover {

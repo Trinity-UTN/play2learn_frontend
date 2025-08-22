@@ -30,6 +30,29 @@ interface User {
   email: string;
 }
 
+export interface BodyPart {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+  type: string;
+  available: boolean;
+}
+
+export interface Profile {
+  id: number;
+  selectedBody: BodyPart | null;
+  selectedShirt: BodyPart | null;
+  selectedHat: BodyPart | null;
+  ownedAspects: BodyPart[];
+}
+
+export interface Wallet {
+  id: number;
+  balance: number;
+  invertedBalance: number;
+}
+
 export interface StudentResponseDto {
   id: number;
   name: string;
@@ -38,6 +61,8 @@ export interface StudentResponseDto {
   user: User;
   course: CourseResponseDto;
   active: boolean;
+  profile: Profile;
+  wallet: Wallet;
 }
 
 export interface PaginatedStudentResponse {
@@ -80,7 +105,7 @@ const getStudentApi = async () => {
 const getStudentByIdApi = async (id: number): Promise<StudentResponseDto> => {
   try {
     const response = await api.get(`${urls.Students}/${id}`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Error al obtener el estudiante (por id):", error); // TODO: REMOVE_DEBUG
     throw error;
