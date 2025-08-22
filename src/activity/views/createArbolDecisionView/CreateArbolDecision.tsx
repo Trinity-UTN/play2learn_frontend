@@ -12,6 +12,7 @@ const CreateArbolDecision = () => {
     loading,
     currentStep,
     errors,
+    isFormValid,
     handleSubmit,
     handleBack,
     handleNext,
@@ -47,6 +48,7 @@ const CreateArbolDecision = () => {
         loading={loading}
         currentStep={getCurrentStepNumber()}
         totalSteps={2}
+        isFormValid={isFormValid}
         onReset={handleReset}
         onBack={currentStep !== "config" ? handleBack : undefined}
         onNext={currentStep === "config" ? handleNext : undefined}

@@ -14,6 +14,7 @@ const GeneralConfiguration: React.FC = () => {
     config,
     handleConfigSubmit,
     updateNodeName,
+    updateNodeContext,
     addSubOptions,
     addConsequence,
     removeContent,
@@ -50,11 +51,6 @@ const GeneralConfiguration: React.FC = () => {
         "La introducción no puede superar los 500 caracteres";
     }
 
-    // Validar que haya exactamente 2 opciones iniciales
-    if (formData.decisionTree.length !== 2) {
-      newErrors.decisionTree = "Debe haber exactamente 2 opciones iniciales";
-    }
-
     setFormErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -68,6 +64,15 @@ const GeneralConfiguration: React.FC = () => {
 
   const handleNodeNameUpdate = (path: number[], name: string) => {
     updateNodeName(path, name);
+    setFormData((prev) => {
+      const newConfig = { ...prev };
+      newConfig.decisionTree = [...config.decisionTree];
+      return newConfig;
+    });
+  };
+
+  const handleNodeContextUpdate = (path: number[], context: string) => {
+    updateNodeContext(path, context);
     setFormData((prev) => {
       const newConfig = { ...prev };
       newConfig.decisionTree = [...config.decisionTree];
@@ -197,6 +202,7 @@ const GeneralConfiguration: React.FC = () => {
                   path={[decisionIndex]}
                   depth={0}
                   onUpdateName={handleNodeNameUpdate}
+                  onUpdateContext={handleNodeContextUpdate}
                   onAddOptions={handleAddOptions}
                   onAddConsequence={handleAddConsequence}
                   onRemoveContent={handleRemoveContent}
