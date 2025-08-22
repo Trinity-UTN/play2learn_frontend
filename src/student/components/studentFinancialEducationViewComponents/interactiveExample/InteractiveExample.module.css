@@ -148,7 +148,7 @@
   align-items: center;
   gap: 1rem;
   padding: 1.25rem;
-  border: 2px solid #f7630080 !important;
+  border: 2px solid #8b5cf6 !important;
   background-color: #feb48219;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -184,7 +184,7 @@
 
 .insightBox {
   background: #feb48219;
-  border: 2px solid #f7630080;
+  border: 2px solid #8b5cf6;
   border-radius: 12px;
   padding: 1.5rem;
 }
