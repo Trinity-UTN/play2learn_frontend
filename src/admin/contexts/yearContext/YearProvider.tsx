@@ -5,12 +5,12 @@ import type {
 } from "../../../shared/types/PaginacionType";
 import { YearContext } from "./YearContext";
 import type { YearContextType } from "./YearContext.type";
-import { YearService } from "../../services/year/YearService";
+import { YearService } from "../../services/Year/YearService";
 import type {
   CreateYearPayload,
   UpdateYearPayload,
   YearResponseDto,
-} from "../../services/year/YearService";
+} from "../../services/Year/YearService";
 
 interface YearProviderProps {
   children: ReactNode;

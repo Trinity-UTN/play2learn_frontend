@@ -10,7 +10,7 @@ import type {
   DataTableColumn,
   DataTableAction,
 } from "../../../shared/components/DataTable";
-import usePaginationParams from "../../../shared/hooks/UsePaginateParams";
+import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import { useSubject } from "../../hooks/useSubject";
 import type { SubjectResponseDto } from "../../services/subject/SubjectService";
 import styles from "./ListSubjectView.module.css";

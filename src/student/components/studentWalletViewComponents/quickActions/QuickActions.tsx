@@ -12,9 +12,6 @@ import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import styles from "./QuickActions.module.css";
 import { useNavigate } from "react-router-dom";
-interface QuickActionsProps {
-  onNavigate?: (view: string) => void;
-}
 
 const QuickActions = () => {
   const navigate = useNavigate();
