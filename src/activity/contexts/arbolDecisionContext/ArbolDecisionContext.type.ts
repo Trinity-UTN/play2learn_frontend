@@ -32,6 +32,7 @@ export interface ArbolDecisionContextType {
 
   // Funciones específicas de arbolDecision
   updateNodeName: (path: number[], name: string) => void;
+  updateNodeContext: (path: number[], context: string) => void;
   addSubOptions: (path: number[]) => void;
   addConsequence: (path: number[]) => void;
   removeContent: (path: number[]) => void;

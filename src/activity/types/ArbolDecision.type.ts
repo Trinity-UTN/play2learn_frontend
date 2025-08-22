@@ -5,6 +5,7 @@ export interface Consequence {
 
 export interface DecisionNode {
   name: string;
+  context: string;
   options: DecisionNode[];
   consecuence: Consequence | null;
 }

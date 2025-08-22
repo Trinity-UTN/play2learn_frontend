@@ -17,6 +17,7 @@ import styles from "./ArbolDecisionPreview.module.css";
 
 interface DecisionPath {
   nodeIndex: number;
+  nodeContext: string | null;
   nodeName: string;
   depth: number;
 }
@@ -42,6 +43,7 @@ const ArbolDecisionPreview: React.FC = () => {
   ) => {
     const newPathItem: DecisionPath = {
       nodeIndex,
+      nodeContext: selectedNode.context,
       nodeName: selectedNode.name,
       depth: currentPath.length,
     };
@@ -247,6 +249,9 @@ const ArbolDecisionPreview: React.FC = () => {
                     <FaArrowRight className={styles.optionIcon} />
                   </div>
                   <div className={styles.optionContent}>
+                    <p className={styles.contextText}>
+                      {option.context || "No aplica"}
+                    </p>
                     <p className={styles.optionText}>
                       {option.name || "Opción no configurada"}
                     </p>

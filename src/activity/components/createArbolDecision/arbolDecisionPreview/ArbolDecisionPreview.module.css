@@ -372,6 +372,14 @@
   font-size: 0.9rem;
 }
 
+.contextText {
+  color: #374151;
+  line-height: 1.5;
+  font-size: 1rem;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
 .optionFooter {
   display: flex;
   justify-content: space-between;
@@ -462,6 +470,7 @@
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
