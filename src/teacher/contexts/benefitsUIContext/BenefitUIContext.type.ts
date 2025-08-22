@@ -15,7 +15,7 @@ export interface BenefitUIContextType {
 
   // Datos externos
   subjects: any[]; // Si tenés un tipo específico para subject, ponelo aquí
-  getSubject: () => void;
+  getSubjectByTeacher: () => void;
 
   // Listas de opciones
   categories: {
