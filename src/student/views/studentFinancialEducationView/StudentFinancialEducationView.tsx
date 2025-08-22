@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import {
-  FaGraduationCap,
-  FaArrowLeft,
-  FaBook,
-  FaQuestionCircle,
-  FaLightbulb,
-} from "react-icons/fa";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import ConceptCard from "../../components/studentFinancialEducationViewComponents/conceptCard/ConceptCard";
-import InteractiveExample from "../../components/studentFinancialEducationViewComponents/interactiveExample/InteractiveExample";
-import QuizSection from "../../components/studentFinancialEducationViewComponents/quizSection/QuizSection";
-import type { EducationalConcept } from "../../types/generalType";
-import styles from "./StudentFinancialEducationView.module.css";
-import { useNavigate } from "react-router-dom";
+// import { useState } from "react";
+// import { motion } from "framer-motion";
+// import {
+//   FaGraduationCap,
+//   FaArrowLeft,
+//   FaBook,
+//   FaQuestionCircle,
+//   FaLightbulb,
+// } from "react-icons/fa";
+// import Button from "../../../shared/components/Button/ButtonComponent";
+// import ConceptCard from "../../components/studentFinancialEducationViewComponents/conceptCard/ConceptCard";
+// import InteractiveExample from "../../components/studentFinancialEducationViewComponents/interactiveExample/InteractiveExample";
+// import QuizSection from "../../components/studentFinancialEducationViewComponents/quizSection/QuizSection";
+// import type { EducationalConcept } from "../../types/generalType";
+// import styles from "./StudentFinancialEducationView.module.css";
+// import { useNavigate } from "react-router-dom";
 import ComingSoon from "../../../shared/components/comingSoon/ComingSoon";
 const StudentFinancialEducationView = () => {
   // const [selectedConcept, setSelectedConcept] = useState<string | null>(null);

@@ -2,7 +2,6 @@ import type React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
 import type { EducationalConcept } from "../../../types/generalType";
 import styles from "./ConceptCard.module.css";
 

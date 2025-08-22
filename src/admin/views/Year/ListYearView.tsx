@@ -6,13 +6,13 @@ import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
 import { DataTable } from "../../../shared/components/DataTable";
-import usePaginationParams from "../../../shared/hooks/UsePaginateParams";
+import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import type {
   DataTableColumn,
   DataTableAction,
 } from "../../../shared/components/DataTable";
 import { useYear } from "../../hooks/useYear";
-import type { YearResponseDto } from "../../services/year/YearService";
+import type { YearResponseDto } from "../../services/Year/YearService";
 import styles from "./ListYearView.module.css";
 
 const ListYearView: React.FC = () => {

@@ -6,7 +6,7 @@ import type {
   CreateYearPayload,
   UpdateYearPayload,
   YearResponseDto,
-} from "../../services/year/YearService";
+} from "../../services/Year/YearService";
 
 export interface YearContextType {
   loading: boolean;

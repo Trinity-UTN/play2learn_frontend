@@ -1,20 +1,20 @@
 import type React from "react";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import {
-  FaTrophy,
-  FaMedal,
-  FaFire,
-  FaStar,
-  FaChartLine,
-  FaCrown,
-  FaArrowUp,
-  FaArrowDown,
-} from "react-icons/fa";
-import Card from "../../../shared/components/Card/CardComponent";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import type { RankingStudent } from "../../types/generalType";
-import styles from "./StudentRankingView.module.css";
+// import { useState } from "react";
+// import { motion } from "framer-motion";
+// import {
+//   FaTrophy,
+//   FaMedal,
+//   FaFire,
+//   FaStar,
+//   FaChartLine,
+//   FaCrown,
+//   FaArrowUp,
+//   FaArrowDown,
+// } from "react-icons/fa";
+// import Card from "../../../shared/components/Card/CardComponent";
+// import Button from "../../../shared/components/Button/ButtonComponent";
+// import type { RankingStudent } from "../../types/generalType";
+// import styles from "./StudentRankingView.module.css";
 import ComingSoon from "../../../shared/components/comingSoon/ComingSoon";
 
 const StudentRankingView: React.FC = () => {
