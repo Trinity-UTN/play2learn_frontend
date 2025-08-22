@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { UserContext } from "./UserContext";
+import type { StudentResponseDto } from "../../../admin/services/student/StudentService";
 import type { UserContextType } from "./UserContext.type";
 import {
   LoginService,
@@ -18,6 +19,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<UserResponseDto | null>(null);
   const [role, setRole] = useState<Role>(localStorage.getItem("role") as Role);
+  const [studentData, setStudentData] = useState<
+    StudentResponseDto | undefined
+  >();
+  // const [teacherData, setTeacherData] = useState<TeacherResponseDto | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     localStorage.getItem("token") ? true : false
   );
@@ -43,6 +48,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       setUser(response.data);
       setRole(response.data.role);
+
+      if (userRole === "ROLE_STUDENT") {
+        setStudentData(response.data.roleData as StudentResponseDto);
+      } else if (userRole === "ROLE_TEACHER") {
+        // TODO: Agregar setCurrentTeacher en prox sprint
+      }
+
       setIsAuthenticated(true);
       return roleLandingRoutes[userRole];
     } catch (error) {
@@ -70,6 +82,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     user,
     role,
     isAuthenticated,
+    studentData,
     login,
     logout,
     hasRole,

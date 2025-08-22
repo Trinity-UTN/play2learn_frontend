@@ -11,7 +11,11 @@ export interface CurrentStudentContextType {
   // Funciones Principales
   getCurrentStudent: () => Promise<void>;
   updateStudentProfile: (
-    aspectUpdates: Array<{ aspectId: number; profileId: number }>
+    aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
+  ) => Promise<void>;
+  unselectAspect: (
+    profileId: number,
+    typeAspect: "REMERA" | "SOMBRERO"
   ) => Promise<void>;
 
   // Funciones de utilidad

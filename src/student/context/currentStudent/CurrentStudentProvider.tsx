@@ -15,7 +15,7 @@ interface CurrentStudentProviderProps {
 export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   children,
 }) => {
-  const { user } = useAuth();
+  const { role, studentData } = useAuth();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStudent, setCurrentStudent] = useState<CurrentStudent | null>(
@@ -24,25 +24,23 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
 
   // Funciones Principales
   const getCurrentStudent = useCallback(async (): Promise<void> => {
-    if (!user?.id) return;
+    if (!studentData?.id) return;
 
     setLoading(true);
     try {
-      const studentId = user.id - 2; // TODO: REVAMP (cuando se implemente mejor en backend)
-      const studentData = await CurrentStudentService.getCurrentStudentApi(
-        studentId
-      );
-      setCurrentStudent(studentData);
+      const studentDataFromApi =
+        await CurrentStudentService.getCurrentStudentApi(studentData.id);
+      setCurrentStudent(studentDataFromApi);
     } catch (error) {
       console.error("Error al obtener el estudiante actual:", error);
       throw error;
     } finally {
       setLoading(false);
     }
-  }, [user?.id]);
+  }, [studentData?.id]);
 
   const updateStudentProfile = async (
-    aspectUpdates: Array<{ aspectId: number; profileId: number }>
+    aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
   ): Promise<void> => {
     if (!currentStudent?.id) return;
 
@@ -58,11 +56,29 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (user?.id) {
-      getCurrentStudent();
+  const unselectAspect = async (
+    profileId: number,
+    typeAspect: "REMERA" | "SOMBRERO"
+  ): Promise<void> => {
+    if (!currentStudent?.id) return;
+
+    setLoading(true);
+    try {
+      await CurrentStudentService.unselectAspectApi(profileId, typeAspect);
+      await getCurrentStudent();
+    } catch (error) {
+      console.error("Error al deseleccionar aspecto:", error);
+      throw error;
+    } finally {
+      setLoading(false);
     }
-  }, [user?.id, getCurrentStudent]);
+  };
+
+  useEffect(() => {
+    if (role === "ROLE_STUDENT" && studentData) {
+      setCurrentStudent(studentData);
+    }
+  }, [role, studentData]);
 
   // Funcioens de utilidad
   const getAvatarComponents = (): AvatarComponents => {
@@ -86,6 +102,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     // Funciones Principales
     getCurrentStudent,
     updateStudentProfile,
+    unselectAspect,
 
     // Funciones de utilidad
     setCurrentStudent,
