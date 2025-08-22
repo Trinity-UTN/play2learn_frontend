@@ -1,102 +1,60 @@
-import styles from "./CreateAhorcado.module.css";
-import { motion } from "framer-motion";
-import { FaGamepad, FaEye, FaEdit, FaSave, FaUndo } from "react-icons/fa";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import AhorcadoWordConfig from "../../components/createAhorcado/ahorcadoWordConfig/AhorcadoWordConfig";
-import AhorcadoDificultySelector from "../../components/createAhorcado/ahorcadoDifficultySelector/AhorcadoDificultySelector";
-import AhorcadoAttemptsSelector from "../../components/createAhorcado/ahorcadoAttemptsSelector/AhorcadoAttemptsSelector";
+import { FaGamepad } from "react-icons/fa";
+import ActivityStepHeader from "../../components/common/ActivityStepHeader/ActivityStepHeader";
+import ActivityErrorContainer from "../../components/common/ActivityErrorContainer/ActivityErrorContainer";
+import ActivityFooter from "../../components/common/ActivityFooter/ActivityFooter";
+import GeneralConfiguration from "../../components/createAhorcado/generalConfig/GeneralConfiguration";
 import AhorcadoPreview from "../../components/createAhorcado/ahorcadoPreview/AhorcadoPreview";
-import { useEffect, useState } from "react";
 import { useCreateAhorcado } from "../../hooks/useCreateAhorcado";
-import { useNavigate } from "react-router-dom";
+import styles from "./CreateAhorcado.module.css";
 
 const CreateAhorcado = () => {
   const {
-    ahorcadoData,
+    currentStep,
     errors,
-    isPreviewMode,
-    setIsPreviewMode,
-    handleSave,
+    loading,
+    handleSubmit,
+    handleBack,
+    handleNext,
     handleReset,
-    itemVariants,
+    getStepTitle,
+    getCurrentStepNumber,
   } = useCreateAhorcado();
 
-  const [isFormValid, setIsFormValid] = useState(false);
-  const navigate = useNavigate();
-  useEffect(() => {
-    const formValid = !!ahorcadoData.word && Object.keys(errors).length === 0;
-    setIsFormValid(formValid);
-  }, [ahorcadoData.word, errors, isPreviewMode]);
-
-  const handleSubmit = async () => {
-    handleSave();
-    alert("Actividad creada exitosamente");
-    navigate("/dashboard/teacher/actividades/list");
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
   };
+
   return (
     <>
-      <motion.div variants={itemVariants} className={styles.header}>
-        <div className={styles.titleSection}>
-          <FaGamepad className={styles.titleIcon} />
-          <div>
-            <h1 className={styles.title}>Crear Juego del Ahorcado</h1>
-            <p className={styles.subtitle}>
-              Configura una nueva actividad de ahorcado para tus estudiantes
-            </p>
-          </div>
-        </div>
-
-        <div className={styles.actions}>
-          <Button
-            variant={isPreviewMode ? "secondary" : "primary"}
-            onClick={() => setIsPreviewMode(!isPreviewMode)}
-            className={styles.toggleButton}
-          >
-            {isPreviewMode ? <FaEdit /> : <FaEye />}
-            {isPreviewMode ? "Editar" : "Vista Previa"}
-          </Button>
-        </div>
-      </motion.div>
+      <ActivityStepHeader
+        icon={<FaGamepad />}
+        title="Crear Actividad: Ahorcado"
+        subtitle={`${getStepTitle()} - Paso ${getCurrentStepNumber()} de 2`}
+        currentStep={getCurrentStepNumber()}
+        totalSteps={2}
+        itemVariants={itemVariants}
+      />
 
       <div className={styles.content}>
-        {!isPreviewMode ? (
-          <>
-            {/* Configuración del Juego */}
-            <AhorcadoWordConfig />
-            {/* Configuración de Dificultad */}
-            <AhorcadoDificultySelector />
-            {/* Configuración de Intentos */}
-            <AhorcadoAttemptsSelector />
-          </>
-        ) : (
-          /* Vista Previa del Juego */
-          <AhorcadoPreview />
-        )}
+        {currentStep === "config" && <GeneralConfiguration />}
+        {currentStep === "preview" && <AhorcadoPreview />}
       </div>
 
-      {/* Botones de Acción */}
-      <motion.div variants={itemVariants} className={styles.footer}>
-        <div className={styles.footerActions}>
-          <Button
-            variant="secondary"
-            onClick={handleReset}
-            className={styles.resetButton}
-          >
-            <FaUndo />
-            Reiniciar
-          </Button>
+      <ActivityErrorContainer errors={errors} itemVariants={itemVariants} />
 
-          <Button
-            variant="primary"
-            onClick={handleSubmit}
-            disabled={!isFormValid}
-            className={styles.saveButton}
-          >
-            <FaSave />
-            Guardar Juego
-          </Button>
-        </div>
-      </motion.div>
+      <ActivityFooter
+        currentStep={getCurrentStepNumber()}
+        totalSteps={2}
+        loading={loading}
+        onReset={handleReset}
+        onBack={currentStep !== "config" ? handleBack : undefined}
+        onNext={currentStep === "config" ? handleNext : undefined}
+        onSubmit={currentStep === "preview" ? handleSubmit : undefined}
+        nextButtonText="Siguiente"
+        submitButtonText="Crear Juego"
+        itemVariants={itemVariants}
+      />
     </>
   );
 };

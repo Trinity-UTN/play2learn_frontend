@@ -277,13 +277,13 @@
   position: relative;
 }
 
-.timeInputWrapper {
+.dcInputWrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.timeIcon {
+.dcIcon {
   position: absolute;
   left: 0.75rem;
   color: #6b7280;
@@ -292,10 +292,20 @@
 
 .timeInput {
   padding-left: 2.5rem !important;
-  padding-right: 3rem !important;
+  padding-right: 2.5rem !important;
 }
 
-.timeUnit {
+.attemptsInput {
+  padding-left: 2.5rem !important;
+  padding-right: 4.25rem !important;
+}
+
+.rewardInput {
+  padding-left: 2.5rem !important;
+  padding-right: 4.75rem !important;
+}
+
+.dcUnit {
   position: absolute;
   right: 0.75rem;
   color: #6b7280;

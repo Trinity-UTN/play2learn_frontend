@@ -6,7 +6,6 @@ export interface NoLudicaConfig {
 }
 
 export interface NoLudicaInterface {
-  attempts: number;
   excercise: string;
   tipoEntrega: TipoEntrega;
 }

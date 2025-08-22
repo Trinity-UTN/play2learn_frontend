@@ -1,19 +1,15 @@
-import type React from "react";
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import type { Sentence } from "../../../types/CompletarOracion.type";
+import ActivityErrorContainer from "../../common/ActivityErrorContainer/ActivityErrorContainer";
+import { useCreateCompletarOracion } from "../../../hooks/useCreateCompletarOracion";
 import styles from "./WordSelector.module.css";
 
-interface WordSelectorProps {
-  sentences: Sentence[];
-  onToggleWordMissing: (sentenceIndex: number, wordIndex: number) => void;
-}
+const WordSelector: React.FC = () => {
+  const { errors, sentences, handleWordToggle } = useCreateCompletarOracion();
 
-const WordSelector: React.FC<WordSelectorProps> = ({
-  sentences,
-  onToggleWordMissing,
-}) => {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -23,32 +19,46 @@ const WordSelector: React.FC<WordSelectorProps> = ({
     return sentence.words.filter((w) => w.isMissing).length;
   };
 
+  const getVisibleWordsCount = (sentence: Sentence) => {
+    return sentence.words.filter((w) => !w.isMissing).length;
+  };
+
   const handleToggleWord = (sentenceIndex: number, wordIndex: number) => {
     const sentence = sentences[sentenceIndex];
     const word = sentence.words[wordIndex];
+    const visibleWordsCount = getVisibleWordsCount(sentence);
 
-    // Si está intentando ocultar una palabra visible
-    if (!word.isMissing) {
-      onToggleWordMissing(sentenceIndex, wordIndex);
+    if (word.isMissing) {
+      handleWordToggle(sentenceIndex, wordIndex);
     } else {
-      // Si está intentando mostrar una palabra oculta, verificar que no sea la única visible
-      const visibleWords = sentence.words.filter((w) => !w.isMissing).length;
-      if (visibleWords > 1) {
-        onToggleWordMissing(sentenceIndex, wordIndex);
+      if (visibleWordsCount > 1) {
+        handleWordToggle(sentenceIndex, wordIndex);
       }
-      // Si es la única palabra visible, no hacer nada (no permitir ocultarla)
     }
+  };
+
+  const canHideWord = (sentence: Sentence, wordIndex: number) => {
+    const word = sentence.words[wordIndex];
+    const visibleWordsCount = getVisibleWordsCount(sentence);
+
+    return word.isMissing || visibleWordsCount > 1;
   };
 
   return (
     <motion.div variants={itemVariants} className={styles.container}>
-      <div className={styles.instructions}>
-        <h3 className={styles.sectionTitle}>Seleccionar Palabras a Ocultar</h3>
-        <p className={styles.description}>
-          Haz clic en las palabras que quieres que los estudiantes completen.
-          Debes seleccionar al menos una palabra por oración y dejar al menos
-          una palabra visible.
-        </p>
+      <div className={styles.header}>
+        <FaEye className={styles.headerIcon} />
+        <div className={styles.headerContent}>
+          <h3 className={styles.title}>
+            Configuración de Oraciones
+            <span className={styles.headerTooltip}>
+              <Tooltip content="Debes seleccionar al menos una palabra por oración y dejar al menos una palabra visible" />
+            </span>
+          </h3>
+          <p className={styles.headerDescription}>
+            Haz clic en las palabras que quieres que los estudiantes completen.
+          </p>
+        </div>
       </div>
 
       <div className={styles.sentencesList}>
@@ -74,6 +84,10 @@ const WordSelector: React.FC<WordSelectorProps> = ({
                   {getMissingWordsCount(sentence) !== 1 ? "s" : ""} oculta
                   {getMissingWordsCount(sentence) !== 1 ? "s" : ""}
                 </span>
+                <span className={styles.visibleCount}>
+                  {getVisibleWordsCount(sentence)} visible
+                  {getVisibleWordsCount(sentence) !== 1 ? "s" : ""}
+                </span>
               </div>
             </div>
 
@@ -86,10 +100,7 @@ const WordSelector: React.FC<WordSelectorProps> = ({
                   className={`${styles.wordButton} ${
                     word.isMissing ? styles.hiddenWord : styles.visibleWord
                   }`}
-                  disabled={
-                    !word.isMissing &&
-                    sentence.words.filter((w) => !w.isMissing).length === 1
-                  }
+                  disabled={!canHideWord(sentence, wordIndex)}
                 >
                   <span className={styles.wordText}>{word.word}</span>
                   {word.isMissing ? (
@@ -121,6 +132,8 @@ const WordSelector: React.FC<WordSelectorProps> = ({
           <span>Palabra oculta</span>
         </div>
       </div>
+
+      <ActivityErrorContainer errors={errors} itemVariants={itemVariants} />
     </motion.div>
   );
 };

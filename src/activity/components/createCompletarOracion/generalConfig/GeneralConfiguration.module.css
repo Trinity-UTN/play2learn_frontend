@@ -1,0 +1,305 @@
+.container {
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.headerIcon {
+  font-size: 2rem;
+  color: #667eea;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.description {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0.25rem 0 0 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.formSection {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.sectionHeader {
+  margin-bottom: 1rem;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionIcon {
+  font-size: 0.875rem;
+  color: #fbbf24;
+  margin-right: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.sectionTooltip {
+  margin-left: 0.5rem;
+}
+
+.sectionDescription {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0.25rem 0 0 0;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #a3aab3;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.inputError {
+  border-color: #ef4444;
+}
+
+.inputError:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.addButton {
+  padding: 1rem 1rem;
+  white-space: nowrap;
+}
+
+.sentencesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.sentenceItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border: 2px solid #d1d5db;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.sentenceItem:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.sentenceContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sentenceNumber {
+  background: #667eea;
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.sentenceText {
+  flex: 1;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.wordCount {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Added styles for sentence actions and edit mode */
+.sentenceActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editButton {
+  padding: 0.5rem;
+  min-width: auto;
+}
+
+.removeButton {
+  padding: 0.5rem;
+  min-width: auto;
+}
+
+.editMode {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.editInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.2s ease;
+}
+
+.editInput:focus {
+  outline: none;
+  border-color: #82018d;
+  box-shadow: 0 0 0 3px rgba(130, 1, 141, 0.1);
+}
+
+.editActions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.saveButton {
+  padding: 0.5rem 1rem;
+  min-width: auto;
+}
+
+.cancelButton {
+  padding: 0.5rem 1rem;
+  min-width: auto;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.emptyState p {
+  margin: 0;
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.helpText {
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.emptyState p {
+  margin: 0;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .inputGroup {
+    flex-direction: column;
+  }
+
+  .addButton {
+    align-self: stretch;
+  }
+
+  .sentenceContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .form {
+    padding: 1.5rem;
+  }
+
+  /* Added responsive styles for edit mode */
+  .editActions {
+    justify-content: stretch;
+  }
+
+  .saveButton,
+  .cancelButton {
+    flex: 1;
+  }
+}

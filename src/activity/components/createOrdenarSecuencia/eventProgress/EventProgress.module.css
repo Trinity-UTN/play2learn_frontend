@@ -1,0 +1,46 @@
+.progressSection {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.progressInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.progressText {
+  font-size: 0.95rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.incompleteText {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.progressBar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  transition: width 0.3s ease;
+}
+
+.progressIncomplete {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+  position: absolute;
+  top: 0;
+  transition: all 0.3s ease;
+}

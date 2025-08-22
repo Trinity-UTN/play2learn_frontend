@@ -7,11 +7,11 @@ import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
 //PROVIDERS
 import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
+import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
 import { OrdenarSecuenciaProvider } from "../activity/contexts/ordenarSecuenciaContext/OrdenarSecuenciaProvider";
-import { CreateAhorcadoProvider } from "../activity/contexts/createAhorcadoContext/CreateAhorcadoProvider";
 import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
-import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacion/DesafioClasificacionProvider";
+import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
 import { MemoramaProvider } from "../activity/contexts/memoramaContext/MemoramaProvider";
 import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
 import { BenefitAPIProvider } from "../teacher/contexts/benefitsAPIContext/BenefitAPIProvider";
@@ -43,7 +43,7 @@ const TeacherApp = () => {
               <ProtectedRoute allowedRoles={["ROLE_TEACHER"]}>
                 <SubjectProvider>
                   <ConfigurationActivityProvider>
-                    <CreateAhorcadoProvider>
+                    <AhorcadoProvider>
                       <CompletarOracionProvider>
                         <PreguntadosProvider>
                           <OrdenarSecuenciaProvider>
@@ -71,7 +71,7 @@ const TeacherApp = () => {
                           </OrdenarSecuenciaProvider>
                         </PreguntadosProvider>
                       </CompletarOracionProvider>
-                    </CreateAhorcadoProvider>
+                    </AhorcadoProvider>
                   </ConfigurationActivityProvider>
                 </SubjectProvider>
               </ProtectedRoute>

@@ -18,6 +18,23 @@
   margin-bottom: 1rem;
 }
 
+.conceptBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.conceptrNumber {
+  line-height: 1;
+}
+
 .conceptsTitle {
   font-size: 1rem;
   font-weight: 600;

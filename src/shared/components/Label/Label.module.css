@@ -1,0 +1,40 @@
+.labelContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.4;
+}
+
+.required {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+.hint {
+  font-weight: 400;
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin-top: -0.125rem;
+}
+
+/* Removed tooltip-related styles since they're now in the independent Tooltip component */
+
+@media (max-width: 768px) {
+  .label {
+    font-size: 0.9rem;
+  }
+
+  .hint {
+    font-size: 0.8rem;
+  }
+}

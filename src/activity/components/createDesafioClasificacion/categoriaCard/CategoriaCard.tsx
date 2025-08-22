@@ -8,34 +8,29 @@ import {
   FaTag,
   FaExclamationTriangle,
 } from "react-icons/fa";
-import type { ClassificationCategory } from "../../../types/DesafioClasificacion.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
-import styles from "./CategoriaCard.module.css";
-import { useCreateDesafioClasificacion } from "../../../hooks/useDesafioClasificacion";
-import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
 import ConceptList from "../conceptList/ConceptList";
+import type { ClassificationCategory } from "../../../types/DesafioClasificacion.type";
+import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
+import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
+import styles from "./CategoriaCard.module.css";
+
 type Props = {
   category: ClassificationCategory;
 };
+
 const CategoryCard = ({ category }: Props) => {
   const { handleEditCategory, handleDeleteCategory, getCategoryNames } =
     useCreateDesafioClasificacion();
+  const { showConfirmation } = useConfirmation();
 
   const [isEditingCategory, setIsEditingCategory] = useState(false);
   const [editCategoryName, setEditCategoryName] = useState(category.name);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [alertConfig, setAlertConfig] = useState({
-    title: "",
-    message: "",
-    type: "warning" as "warning" | "danger",
-    isOpen: false,
-    showDoubleConfirmation: false,
-    onConfirm: () => {},
-  });
 
   let existingCategoryNames = getCategoryNames();
   existingCategoryNames = existingCategoryNames.filter(
@@ -69,16 +64,13 @@ const CategoryCard = ({ category }: Props) => {
     setErrors({ ...errors, category: "" });
   };
 
-  const DeleteCategory = (categoria: string) => {
-    setAlertConfig({
-      title: "Eliminar Categoría",
-      message: `¿Está seguro que desea eliminar la categoría ${categoria}?`,
-      type: "warning",
-      isOpen: true,
-      showDoubleConfirmation: false,
+  const deleteCategory = (categoria: string) => {
+    showConfirmation({
+      title: "Borrar categoría",
+      message: `¿Está seguro de que desea eliminar la categoría ${categoria}?`,
+      type: "danger",
       onConfirm: () => {
         handleDeleteCategory(category.id);
-        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
     });
   };
@@ -154,7 +146,7 @@ const CategoryCard = ({ category }: Props) => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => DeleteCategory(editCategoryName)}
+                  onClick={() => deleteCategory(editCategoryName)}
                   className={`${styles.actionButton} ${styles.deleteButton}`}
                 >
                   <FaTrash />
@@ -192,16 +184,6 @@ const CategoryCard = ({ category }: Props) => {
           </div>
         </div>
       </Card>
-      <ConfirmationModal
-        title={alertConfig.title}
-        message={alertConfig.message}
-        type={alertConfig.type}
-        isOpen={alertConfig.isOpen}
-        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
-        doubleConfirmationText="¿Está completamente seguro?"
-        onConfirm={alertConfig.onConfirm}
-        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
-      />
     </motion.div>
   );
 };

@@ -10,12 +10,13 @@ import type { LoginPayload } from "../../services/login/LoginService";
 import type { Role } from "../../../shared/utils/ProtectedRoute";
 import { roleLandingRoutes } from "../../services/roleLandingRoutes";
 import AuthService from "../../services/auth/AuthService";
-
+import { useToaster } from "../../../shared/hooks/useToaster";
 interface UserProviderProps {
   children: ReactNode;
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+  const { showToast } = useToaster();
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<UserResponseDto | null>(null);
   const [role, setRole] = useState<Role>(localStorage.getItem("role") as Role);
@@ -58,7 +59,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setIsAuthenticated(true);
       return roleLandingRoutes[userRole];
     } catch (error) {
-      console.error("Error al obtener Logines:", error); // TODO: REMOVE_DEBUG
+      showToast({
+        title: "Inicio de Sesión Incorrecto",
+        message: "Credenciales invalidas.",
+        type: "error",
+        position: "top-right",
+      });
       return null;
     } finally {
       setLoading(false);

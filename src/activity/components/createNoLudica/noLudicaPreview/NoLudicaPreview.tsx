@@ -9,6 +9,7 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import { useCreateNoLudica } from "../../../hooks/useCreateNoLudica";
 import styles from "./NoLudicaPreview.module.css";
 
@@ -146,29 +147,20 @@ const NoLudicaPreview: React.FC = () => {
 
   return (
     <motion.div variants={itemVariants} className={styles.container}>
-      <div className={styles.previewHeader}>
-        <h3 className={styles.sectionTitle}>Vista Previa de la Actividad</h3>
-        <p className={styles.description}>
-          Así es como verán la actividad tus estudiantes. Puedes probar enviando
-          una respuesta de ejemplo.
-        </p>
-
-        <div className={styles.stats}>
-          <div className={styles.stat}>
-            <div>
-              <span className={styles.statLabel}>Tipo de entrega</span>
-              <span className={styles.statValue}>{selectedOption?.label}</span>
-            </div>
-          </div>
-          <div className={styles.stat}>
-            <span className={styles.statIcon}>📝</span>
-            <div>
-              <span className={styles.statLabel}>Longitud de consigna</span>
-              <span className={styles.statValue}>
-                {config.excercise.length} caracteres
+      <div className={styles.header}>
+        <div className={styles.header}>
+          <div className={styles.titleRow}>
+            <h4 className={styles.title}>
+              <FaEye className={styles.headerIcon} />
+              Vista Previa de Actividad
+              <span className={styles.tooltip}>
+                <Tooltip content="Puedes probar enviando una respuesta de ejemplo" />
               </span>
-            </div>
+            </h4>
           </div>
+          <p className={styles.description}>
+            Así es como verán la actividad tus estudiantes.
+          </p>
         </div>
       </div>
 
@@ -224,31 +216,6 @@ const NoLudicaPreview: React.FC = () => {
               )}
             </Button>
           </div>
-        </div>
-      </div>
-
-      <div className={styles.previewFooter}>
-        <div className={styles.instructions}>
-          <h5>Instrucciones para los estudiantes:</h5>
-          <ul>
-            <li>Lee cuidadosamente la consigna antes de comenzar</li>
-            {config.tipoEntrega === "TEXTO" && (
-              <li>No olvides escribir tu respuesta en el campo de texto</li>
-            )}
-            {config.tipoEntrega === "ENTREGA" && (
-              <li>
-                Sube un archivo en uno de los formatos permitidos (
-                {selectedOption?.acceptedFormats?.join(", ")})
-              </li>
-            )}
-            {config.tipoEntrega === "TEXTO" && (
-              <li>
-                Comparte un enlace válido que comience con http:// o https://
-              </li>
-            )}
-            <li>Revisa tu entrega antes de enviarla</li>
-            <li>Una vez enviada, no podrás modificar tu respuesta</li>
-          </ul>
         </div>
       </div>
     </motion.div>

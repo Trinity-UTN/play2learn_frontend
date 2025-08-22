@@ -1,28 +1,39 @@
 .container {
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.titleRow {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.previewHeader {
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
+.headerIcon {
+  font-size: 0.875rem;
+  color: #4f46e5;
+  margin-right: 0.5rem;
 }
 
-.sectionTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
   color: #1f2937;
   margin: 0 0 0.5rem 0;
 }
 
+.tooltip {
+  margin-left: 0.5rem;
+}
+
 .description {
-  color: #374151;
   font-size: 1rem;
-  line-height: 1.6;
-  margin: 0 0 1rem 0;
+  color: #6b7280;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
 }
 
 .stats {
@@ -286,36 +297,6 @@
   gap: 0.5rem;
   min-width: 200px;
   justify-content: center;
-}
-
-.previewFooter {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-}
-
-.instructions h5 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0 0 0.75rem 0;
-}
-
-.instructions ul {
-  margin: 0;
-  padding-left: 1.25rem;
-  color: #374151;
-}
-
-.instructions li {
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
-  font-size: 0.875rem;
-}
-
-.instructions li:last-child {
-  margin-bottom: 0;
 }
 
 /* Responsive Design */

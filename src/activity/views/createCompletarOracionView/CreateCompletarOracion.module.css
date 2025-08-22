@@ -1,198 +1,24 @@
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2rem;
-  gap: 1rem;
-}
-
-.titleSection {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.titleIcon {
-  font-size: 2.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.title {
-  font-size: 2rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin: 0;
-}
-
-.subtitle {
-  color: #6b7280;
-  font-size: 1rem;
-  margin: 0.25rem 0 0 0;
-}
-
-.stepIndicator {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.step {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 0.875rem;
-  background-color: #e5e7eb;
-  color: #6b7280;
-  transition: all 0.3s ease;
-}
-
-.step.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.step.completed {
-  background-color: #10b981;
-  color: white;
-}
-
-.stepLine {
-  width: 2rem;
-  height: 2px;
-  background-color: #e5e7eb;
-}
-
 .content {
-  display: grid;
-  gap: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   margin-bottom: 2rem;
+  overflow: hidden;
 }
 
-.errorContainer {
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.errorMessage {
-  color: #dc2626;
-  font-size: 0.875rem;
-  margin-bottom: 0.25rem;
+.sentencesStep {
   display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.errorMessage:last-child {
-  margin-bottom: 0;
-}
-
-.footer {
-  border-top: 1px solid #e5e7eb;
-  padding-top: 1.5rem;
-}
-
-.footerActions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.navigationButtons {
-  display: flex;
-  gap: 1rem;
-}
-
-.resetButton,
-.nextButton {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* Loading States */
-.loading {
-  opacity: 0.6;
-  pointer-events: none;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
+  .content {
+    gap: 1rem;
   }
 
-  .titleSection {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+  .sentencesStep {
+    gap: 1.5rem;
   }
-
-  .title {
-    font-size: 1.5rem;
-  }
-
-  .stepIndicator {
-    align-self: stretch;
-    justify-content: center;
-  }
-
-  .footerActions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .navigationButtons {
-    justify-content: space-between;
-  }
-}
-
-@media (max-width: 480px) {
-  .navigationButtons {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-}
-
-/* Animation Classes */
-.fadeIn {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Focus States */
-.nextButton:focus,
-.resetButton:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-/* Hover Effects */
-.step:hover {
-  transform: scale(1.05);
-  transition: transform 0.2s ease;
 }

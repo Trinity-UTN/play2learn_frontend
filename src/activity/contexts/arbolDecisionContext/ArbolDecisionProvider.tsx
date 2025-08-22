@@ -35,8 +35,8 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   const [config, setConfig] = useState<ArbolDecisionConfig>({
     introduction: "",
     decisionTree: [
-      { name: "", options: [], consecuence: null },
-      { name: "", options: [], consecuence: null },
+      { name: "", context: "", options: [], consecuence: null },
+      { name: "", context: "", options: [], consecuence: null },
     ],
   });
   const [errors, setErrors] = useState<ValidationError[]>([]);
@@ -57,16 +57,15 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     setConfig({
       introduction: "",
       decisionTree: [
-        { name: "", options: [], consecuence: null },
-        { name: "", options: [], consecuence: null },
+        { name: "", context: "", options: [], consecuence: null },
+        { name: "", context: "", options: [], consecuence: null },
       ],
     });
     setErrors([]);
   };
 
   // Determinar si el formulario es válido para envío
-  const isFormValid =
-    errors.length === 0 && config.introduction.trim().length > 0;
+  const isFormValid = errors.length === 0;
 
   // Función para registrar el árbol de decisión
   const registrarArbolDecision = async (
@@ -119,6 +118,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   const deepCloneTree = (tree: DecisionNode[]): DecisionNode[] => {
     return tree.map((node) => ({
       name: node.name,
+      context: node.context,
       options: deepCloneTree(node.options),
       consecuence: node.consecuence ? { ...node.consecuence } : null,
     }));
@@ -147,7 +147,6 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
 
     try {
       const gameData: ArbolDecisionInterface = {
-        attempts: 5, // TODO: ATTEMPTS REMOVAL,
         introduction: config.introduction.trim(),
         decisionTree: config.decisionTree,
       };
@@ -177,6 +176,15 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     }
   };
 
+  const handleNext = () => {
+    if (currentStep === "config") {
+      const configForm = document.querySelector("form");
+      if (configForm) {
+        configForm.requestSubmit();
+      }
+    }
+  };
+
   const handleReset = () => {
     showConfirmation({
       title: "Reiniciar Actividad",
@@ -194,17 +202,6 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   };
 
   // Funciones de utilidad
-  const getStepTitle = () => {
-    switch (currentStep) {
-      case "config":
-        return "Configuración del Árbol de Decisión";
-      case "preview":
-        return "Vista Previa";
-      default:
-        return "Crear Actividad Árbol de Decisión";
-    }
-  };
-
   const validateConfig = (
     configToValidate: ArbolDecisionConfig
   ): ValidationError[] => {
@@ -239,44 +236,36 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
       if (!node.name.trim()) {
         validationErrors.push({
           path,
-          message: "El nombre de la decisión es obligatorio",
+          message: "El nombre de las decisiones es obligatorio",
           field: "name",
         });
       } else if (node.name.length > 200) {
         validationErrors.push({
           path,
           message:
-            "El nombre de la decisión no puede superar los 200 caracteres",
+            "El nombre de las decisiones no puede superar los 200 caracteres",
           field: "name",
         });
       }
 
-      // Validar que tenga opciones O consecuencia, no ambas ni ninguna
+      // Validaciones de contexto
+      if (node.context && node.context.length > 500) {
+        validationErrors.push({
+          path,
+          message:
+            "El contexto de las decisiones no puede superar los 500 caracteres",
+          field: "context",
+        });
+      }
+      // Validar que tenga opciones O consecuencia
       const hasOptions = node.options.length > 0;
       const hasConsequence = node.consecuence !== null;
 
       if (!hasOptions && !hasConsequence) {
         validationErrors.push({
           path,
-          message: "Debe tener opciones o una consecuencia",
+          message: `Hay nodos del nivel ${path} sin opciones o consecuencia`,
           field: "content",
-        });
-      }
-
-      if (hasOptions && hasConsequence) {
-        validationErrors.push({
-          path,
-          message: "No puede tener opciones y consecuencia al mismo tiempo",
-          field: "content",
-        });
-      }
-
-      // Si tiene opciones, debe tener exactamente 2
-      if (hasOptions && node.options.length !== 2) {
-        validationErrors.push({
-          path,
-          message: "Debe tener exactamente 2 opciones",
-          field: "options",
         });
       }
 
@@ -285,14 +274,14 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
         if (!node.consecuence.name.trim()) {
           validationErrors.push({
             path,
-            message: "El nombre de la consecuencia es obligatorio",
+            message: "El nombre de las consecuencias es obligatorio",
             field: "consecuence.name",
           });
         } else if (node.consecuence.name.length > 200) {
           validationErrors.push({
             path,
             message:
-              "El nombre de la consecuencia no puede superar los 200 caracteres",
+              "El nombre de las consecuencias no puede superar los 200 caracteres",
             field: "consecuence.name",
           });
         }
@@ -362,6 +351,31 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     return validationErrors;
   };
 
+  const getStepTitle = () => {
+    switch (currentStep) {
+      case "config":
+        return "Configuración de Actividad";
+      case "preview":
+        return "Vista Previa";
+      default:
+        return "Crear Actividad Árbol de Decisión";
+    }
+  };
+
+  const getCurrentStepNumber = () => (currentStep === "config" ? 1 : 2);
+
+  const getStepDescription = () => {
+    switch (currentStep) {
+      case "config":
+        return "Define la situación inicial y construye un árbol de decisiones interactivo para que los estudiantes exploren diferentes caminos.";
+      case "preview":
+        return "Esta es una simulación de cómo los estudiantes experimentarán tu árbol de decisión.";
+      default:
+        return "";
+    }
+  };
+
+  // Funciones específicas de arbolDecision
   const updateNodeName = (path: number[], name: string) => {
     setConfig((prevConfig) => {
       const newConfig = { ...prevConfig };
@@ -376,6 +390,20 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     });
   };
 
+  const updateNodeContext = (path: number[], context: string) => {
+    setConfig((prevConfig) => {
+      const newConfig = { ...prevConfig };
+      newConfig.decisionTree = deepCloneTree(newConfig.decisionTree);
+
+      const targetNode = getNodeByPath(newConfig.decisionTree, path);
+      if (targetNode) {
+        targetNode.context = context;
+      }
+
+      return newConfig;
+    });
+  };
+
   const addSubOptions = (path: number[]) => {
     setConfig((prevConfig) => {
       const newConfig = { ...prevConfig };
@@ -384,8 +412,8 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
       const targetNode = getNodeByPath(newConfig.decisionTree, path);
       if (targetNode) {
         targetNode.options = [
-          { name: "", options: [], consecuence: null },
-          { name: "", options: [], consecuence: null },
+          { name: "", context: "", options: [], consecuence: null },
+          { name: "", context: "", options: [], consecuence: null },
         ];
         targetNode.consecuence = null;
       }
@@ -461,13 +489,19 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     handleConfigSubmit,
     handleSubmit,
     handleBack,
+    handleNext,
     handleReset,
 
     // Funciones de utilidad
-    getStepTitle,
     validateConfig,
     validateInitialConfig,
+    getStepTitle,
+    getCurrentStepNumber,
+    getStepDescription,
+
+    // Funciones específicas de arbolDecision
     updateNodeName,
+    updateNodeContext,
     addSubOptions,
     addConsequence,
     removeContent,

@@ -6,29 +6,37 @@ export interface MemoramaContextType {
   loading: boolean;
   currentStep: "config" | "pairs" | "preview";
   config: MemoramaConfig;
-  pairs: MemoramaPair[];
-  currentPairIndex: number;
   errors: string[];
-  pairErrors: { [pairIndex: number]: { [field: string]: string } };
   isFormValid: boolean;
+  pairs: MemoramaPair[];
+  pairErrors: { [pairIndex: number]: { [field: string]: string } };
+  currentPairIndex: number;
 
   // Funciones principales
   registrarMemorama: (data: MemoramaInterface) => Promise<void>;
 
   // Handlers principales
   handleConfigSubmit: (newConfig: MemoramaConfig) => void;
-  handlePairSave: (pairData: MemoramaPair) => void;
-  handleNextPair: () => void;
-  handlePreviousPair: () => void;
-  handleGoToPair: (index: number) => void;
-  handleDeletePair: (index: number) => void;
   handleSubmit: () => Promise<void>;
   handleBack: () => void;
+  handleNext: () => void;
   handleReset: () => void;
 
   // Funciones de utilidad
   getPairStatus: (pair: MemoramaPair) => "complete" | "incomplete" | "empty";
   getStepTitle: () => string;
+  getCurrentStepNumber: () => number;
+  getStepDescription: () => string;
+
+  // Handlers específicos de memorama
+  handlePairSave: (pairData: MemoramaPair) => void;
+  handleNextPair: () => void;
+  handlePreviousPair: () => void;
+  handleGoToPair: (index: number) => void;
+  handleAddPair: () => void;
+  handleDeletePair: (index: number) => void;
+
+  // Funciones específicas de memorama
   getCompletedPairs: () => number;
   getIncompletePairs: () => number;
   getEmptyPairs: () => number;
