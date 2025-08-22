@@ -25,6 +25,7 @@ export const CompletarOracionProvider: React.FC<
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
+  // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<
     "config" | "words" | "preview"
@@ -40,6 +41,14 @@ export const CompletarOracionProvider: React.FC<
       setErrors([]);
     }
   }, [currentStep, sentences]);
+
+  // Funciones auxiliares del propio context
+  const resetAllStates = () => {
+    setLoading(false);
+    setCurrentStep("config");
+    setSentences([]);
+    setErrors([]);
+  };
 
   const validateAllSentences = (): string[] => {
     const validationErrors: string[] = [];
@@ -90,6 +99,7 @@ export const CompletarOracionProvider: React.FC<
 
   const isFormValid = errors.length === 0 && sentences.length > 0;
 
+  // Funciones Principales
   const registrarCompletarOracion = async (
     data: CompletarOracionInterface
   ): Promise<void> => {
@@ -102,6 +112,7 @@ export const CompletarOracionProvider: React.FC<
 
     try {
       await CompletarOracionService.registerCompletarOracionApi(dataMandar);
+      resetAllStates();
     } catch (error) {
       console.error("Error al crear la actividad (completar oración):", error);
       throw error;
@@ -110,49 +121,10 @@ export const CompletarOracionProvider: React.FC<
     }
   };
 
+  // Handlers principales
   const handleConfigSubmit = (newSentences: Sentence[]) => {
     setSentences(newSentences);
     setCurrentStep("words");
-  };
-
-  const handleAddSentence = (sentenceText: string) => {
-    const words = sentenceText
-      .trim()
-      .split(/\s+/)
-      .map((word, index) => ({
-        word: word,
-        wordOrder: index,
-        isMissing: false,
-      }));
-
-    const newSentence: Sentence = { words };
-    setSentences([...sentences, newSentence]);
-  };
-
-  const handleEditSentence = (index: number, sentenceText: string) => {
-    const words = sentenceText
-      .trim()
-      .split(/\s+/)
-      .map((word, wordIndex) => ({
-        word: word,
-        wordOrder: wordIndex,
-        isMissing: false,
-      }));
-
-    const updatedSentences = [...sentences];
-    updatedSentences[index] = { words };
-    setSentences(updatedSentences);
-  };
-
-  const handleRemoveSentence = (index: number) => {
-    setSentences(sentences.filter((_, i) => i !== index));
-  };
-
-  const handleWordToggle = (sentenceIndex: number, wordIndex: number) => {
-    const updatedSentences = [...sentences];
-    updatedSentences[sentenceIndex].words[wordIndex].isMissing =
-      !updatedSentences[sentenceIndex].words[wordIndex].isMissing;
-    setSentences(updatedSentences);
   };
 
   const handleSubmit = async () => {
@@ -224,13 +196,12 @@ export const CompletarOracionProvider: React.FC<
           type: "info",
           position: "bottom-right",
         });
-        setSentences([]);
-        setCurrentStep("config");
-        setErrors([]);
+        resetAllStates();
       },
     });
   };
 
+  // Funciones de utilidad
   const getStepTitle = () => {
     switch (currentStep) {
       case "config":
@@ -258,6 +229,47 @@ export const CompletarOracionProvider: React.FC<
     return sentences.length > 0 && validateAllSentences().length === 0;
   };
 
+  // Handlers específicos de completar oracion
+  const handleAddSentence = (sentenceText: string) => {
+    const words = sentenceText
+      .trim()
+      .split(/\s+/)
+      .map((word, index) => ({
+        word: word,
+        wordOrder: index,
+        isMissing: false,
+      }));
+
+    const newSentence: Sentence = { words };
+    setSentences([...sentences, newSentence]);
+  };
+
+  const handleEditSentence = (index: number, sentenceText: string) => {
+    const words = sentenceText
+      .trim()
+      .split(/\s+/)
+      .map((word, wordIndex) => ({
+        word: word,
+        wordOrder: wordIndex,
+        isMissing: false,
+      }));
+
+    const updatedSentences = [...sentences];
+    updatedSentences[index] = { words };
+    setSentences(updatedSentences);
+  };
+
+  const handleRemoveSentence = (index: number) => {
+    setSentences(sentences.filter((_, i) => i !== index));
+  };
+
+  const handleWordToggle = (sentenceIndex: number, wordIndex: number) => {
+    const updatedSentences = [...sentences];
+    updatedSentences[sentenceIndex].words[wordIndex].isMissing =
+      !updatedSentences[sentenceIndex].words[wordIndex].isMissing;
+    setSentences(updatedSentences);
+  };
+
   const contextValue: CompletarOracionContextType = {
     // Estados principales
     loading,
@@ -271,10 +283,6 @@ export const CompletarOracionProvider: React.FC<
 
     // Handlers principales
     handleConfigSubmit,
-    handleAddSentence,
-    handleEditSentence,
-    handleRemoveSentence,
-    handleWordToggle,
     handleSubmit,
     handleBack,
     handleNext,
@@ -285,6 +293,12 @@ export const CompletarOracionProvider: React.FC<
     getCurrentStepNumber,
     validateConfig,
     validateWords,
+
+    // Handlers especificos de completar oración
+    handleAddSentence,
+    handleEditSentence,
+    handleRemoveSentence,
+    handleWordToggle,
   };
 
   return (

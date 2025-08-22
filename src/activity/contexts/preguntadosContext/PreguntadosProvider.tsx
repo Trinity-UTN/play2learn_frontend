@@ -26,6 +26,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
+  // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<
     "config" | "questions" | "preview"

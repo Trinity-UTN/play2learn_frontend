@@ -16,10 +16,6 @@ export interface CompletarOracionContextType {
 
   // Handlers principales
   handleConfigSubmit: (newSentences: Sentence[]) => void;
-  handleAddSentence: (sentenceText: string) => void;
-  handleEditSentence: (index: number, sentenceText: string) => void;
-  handleRemoveSentence: (index: number) => void;
-  handleWordToggle: (sentenceIndex: number, wordIndex: number) => void;
   handleSubmit: () => Promise<void>;
   handleBack: () => void;
   handleNext: () => void;
@@ -30,4 +26,10 @@ export interface CompletarOracionContextType {
   getCurrentStepNumber: () => number;
   validateConfig: () => boolean;
   validateWords: () => boolean;
+
+  // Handlers especificos de completar oracion
+  handleAddSentence: (sentenceText: string) => void;
+  handleEditSentence: (index: number, sentenceText: string) => void;
+  handleRemoveSentence: (index: number) => void;
+  handleWordToggle: (sentenceIndex: number, wordIndex: number) => void;
 }

@@ -36,7 +36,6 @@ export const DesafioClasificacionProvider: React.FC<
   });
   const [errors, setErrors] = useState<string[]>([]);
 
-  // Validación automática cuando cambia la configuración
   useEffect(() => {
     if (currentStep === "preview") {
       const validationErrors = validateConfig(config);
@@ -46,7 +45,7 @@ export const DesafioClasificacionProvider: React.FC<
     }
   }, [currentStep, config]);
 
-  // Función para reiniciar todos los estados
+  // Funciones auxiliares del propio context
   const resetAllStates = () => {
     setCurrentStep("config");
     setConfig({
@@ -55,7 +54,6 @@ export const DesafioClasificacionProvider: React.FC<
     setErrors([]);
   };
 
-  // Determinar si el formulario es válido para envío
   const isFormValid = errors.length === 0 && config.categories.length >= 2;
 
   // Funciones principales
@@ -64,10 +62,15 @@ export const DesafioClasificacionProvider: React.FC<
   ): Promise<void> => {
     setLoading(true);
 
+    // console.log("=== DESAFIO CLASIFICACION DEBUG ===");
+    // console.log("Datos del juego recibidos:", data);
+    // console.log("Configuración de actividad:", configurationActivity);
     const dataMandar = makeData(
       data,
       configurationActivity as ConfigurationActivity
     );
+    // console.log("Payload final a enviar:", dataMandar);
+    // console.log("=== FIN DEBUG ===");
 
     try {
       await DesafioClasificacionService.registerDesafioClasificacionApi(

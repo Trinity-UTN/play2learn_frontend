@@ -28,6 +28,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
+  // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<"config" | "preview">(
     "config"
@@ -41,7 +42,6 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   });
   const [errors, setErrors] = useState<ValidationError[]>([]);
 
-  // Validación automática cuando cambia la configuración
   useEffect(() => {
     if (currentStep === "preview") {
       const validationErrors = validateConfig(config);
@@ -51,8 +51,9 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     }
   }, [currentStep, config]);
 
-  // Función para reiniciar todos los estados
+  // Funciones auxiliares del propio context
   const resetAllStates = () => {
+    setLoading(false);
     setCurrentStep("config");
     setConfig({
       introduction: "",
@@ -64,10 +65,37 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     setErrors([]);
   };
 
-  // Determinar si el formulario es válido para envío
+  const getNodeByPath = (
+    tree: DecisionNode[],
+    path: number[]
+  ): DecisionNode | null => {
+    if (path.length === 0) return null;
+
+    let current = tree[path[0]];
+
+    for (let i = 1; i < path.length; i++) {
+      if (current && current.options && current.options[path[i]]) {
+        current = current.options[path[i]];
+      } else {
+        return null;
+      }
+    }
+
+    return current;
+  };
+
+  const deepCloneTree = (tree: DecisionNode[]): DecisionNode[] => {
+    return tree.map((node) => ({
+      name: node.name,
+      context: node.context,
+      options: deepCloneTree(node.options),
+      consecuence: node.consecuence ? { ...node.consecuence } : null,
+    }));
+  };
+
   const isFormValid = errors.length === 0;
 
-  // Función para registrar el árbol de decisión
+  // Funciones Principales
   const registrarArbolDecision = async (
     data: ArbolDecisionInterface
   ): Promise<void> => {
@@ -92,36 +120,6 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     } finally {
       setLoading(false);
     }
-  };
-
-  // Función auxiliar para obtener un nodo por path
-  const getNodeByPath = (
-    tree: DecisionNode[],
-    path: number[]
-  ): DecisionNode | null => {
-    if (path.length === 0) return null;
-
-    let current = tree[path[0]];
-
-    for (let i = 1; i < path.length; i++) {
-      if (current && current.options && current.options[path[i]]) {
-        current = current.options[path[i]];
-      } else {
-        return null;
-      }
-    }
-
-    return current;
-  };
-
-  // Función auxiliar para clonar profundamente el árbol
-  const deepCloneTree = (tree: DecisionNode[]): DecisionNode[] => {
-    return tree.map((node) => ({
-      name: node.name,
-      context: node.context,
-      options: deepCloneTree(node.options),
-      consecuence: node.consecuence ? { ...node.consecuence } : null,
-    }));
   };
 
   // Handlers principales
