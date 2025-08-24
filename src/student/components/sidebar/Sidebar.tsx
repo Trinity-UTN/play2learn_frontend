@@ -104,7 +104,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
   const handleProfileClick = () => {
     navigate(`/dashboard/${StudentRoutes.Profile}`);
   };
-  console.log(currentStudent?.wallet.balance);
+  // console.log(currentStudent?.wallet.balance);
   return (
     <motion.aside
       variants={containerVariants}
