@@ -93,8 +93,13 @@ const CreateCourseView: React.FC = () => {
       className={styles.container}
     >
       <div className={styles.header}>
-        <h1 className={styles.title}>Generar Curso</h1>
-        <p className={styles.subtitle}>Crea un nuevo curso en el sistema</p>
+        <h1 className={styles.title}>
+          {isEditMode ? "Actualizar Curso" : "Generar Curso"}
+        </h1>
+        <p className={styles.subtitle}>
+          {isEditMode ? "Actualiza" : "Crea "} {isEditMode ? "el" : "un nuevo"}{" "}
+          curso en el sistema
+        </p>
       </div>
 
       <Card className={styles.formCard}>

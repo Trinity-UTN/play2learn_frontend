@@ -203,7 +203,7 @@ const CreateSubjectView: React.FC = () => {
                 <option value="">Seleccionar docente</option>
                 {teacher.map((teacher) => (
                   <option value={teacher.id} key={teacher.id}>
-                    {teacher.name}
+                    {teacher.name} {teacher.lastname}
                   </option>
                 ))}
               </select>

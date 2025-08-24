@@ -95,9 +95,12 @@ const CreateTeacherView: React.FC = () => {
       className={styles.container}
     >
       <div className={styles.header}>
-        <h1 className={styles.title}>Generar Docente</h1>
+        <h1 className={styles.title}>
+          {isEditMode ? "Editar" : "Generar"} Docente
+        </h1>
         <p className={styles.subtitle}>
-          Registra un nuevo docente en el sistema
+          {isEditMode ? "Actualiza" : "Crea "} {isEditMode ? "el" : "un nuevo"}{" "}
+          docente en el sistema
         </p>
       </div>
 
