@@ -41,11 +41,11 @@ export const BenefitUIProvider: React.FC<BenefitUIProviderProps> = ({
   });
 
   const [previewMode, setPreviewMode] = useState(false);
-  const { getSubject, subjects } = useSubject();
+  const { subjects, getSubjectByTeacher } = useSubject();
   const { registerBenefit } = useBenefitAPI();
 
   useEffect(() => {
-    getSubject();
+    getSubjectByTeacher();
   }, []);
 
   const categories: {
@@ -162,7 +162,7 @@ export const BenefitUIProvider: React.FC<BenefitUIProviderProps> = ({
     getColor,
     getSelectedCategory,
     getSelectedIcon,
-    getSubject,
+    getSubjectByTeacher,
     handleChange,
     handleSubmit,
     iconOptions,

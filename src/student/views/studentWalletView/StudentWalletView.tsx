@@ -40,7 +40,6 @@ const StudentWalletView = () => {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
-
   return (
     <motion.div
       variants={containerVariants}
