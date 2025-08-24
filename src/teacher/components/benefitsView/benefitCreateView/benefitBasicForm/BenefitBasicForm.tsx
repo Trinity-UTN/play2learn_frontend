@@ -12,7 +12,7 @@ const BenefitBasicForm = () => {
         <div className={styles.inputGroup}>
           <label className={styles.label}>Nombre del Beneficio *</label>
           <Input
-            placeholder="Ej: Descuento en Parcial"
+            placeholder="Descuento en Parcial"
             value={formData.name}
             onChange={(e) => handleChange("name", e.target.value)}
             required
@@ -23,8 +23,8 @@ const BenefitBasicForm = () => {
           <div className={styles.costInput}>
             <FaCoins className={styles.costIcon} />
             <Input
-              type="number"
-              placeholder="15"
+              type="text"
+              placeholder="Ingrese una cantidad de monedas"
               value={formData.cost}
               onChange={(e) => handleChange("cost", Number(e.target.value))}
               min="1"

@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 import { motion, type Variants } from "framer-motion";
 import { useNavigate } from "react-router-dom";

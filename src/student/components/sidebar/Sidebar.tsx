@@ -47,7 +47,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
       icon: FaWallet,
       path: StudentRoutes.Wallet,
       color: "#10B981",
-      badge: currentStudent?.wallet.balance ?? "0"
+      badge: String(currentStudent?.wallet.balance) ?? "0",
     },
     {
       title: "Mis Actividades",

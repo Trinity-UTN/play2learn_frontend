@@ -20,7 +20,7 @@ const BenefitConfiguration = () => {
           <label className={styles.label}>Límite de Uso Total</label>
           <Input
             type="number"
-            placeholder="Ej: 50"
+            placeholder="50"
             value={
               formData.totalRedeemableAmount
                 ? formData.totalRedeemableAmount
@@ -36,7 +36,7 @@ const BenefitConfiguration = () => {
           <label className={styles.label}>Límite de Uso Por Estudiante</label>
           <Input
             type="number"
-            placeholder="Ej: 50"
+            placeholder="4"
             value={
               formData.redeemableAmountPerStudent
                 ? formData.redeemableAmountPerStudent
@@ -64,7 +64,7 @@ const BenefitConfiguration = () => {
           <option value={0}>Seleccionar materia...</option>
           {subjects.map((subject) => (
             <option key={subject.id} value={subject.id}>
-              {subject.name} - {subject.course.year.name} {subject.course.name}{" "}
+              {subject.course.year.name} {subject.course.name} - {subject.name}
             </option>
           ))}
         </select>

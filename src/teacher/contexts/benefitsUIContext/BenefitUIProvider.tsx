@@ -31,7 +31,7 @@ export const BenefitUIProvider: React.FC<BenefitUIProviderProps> = ({
   const [formData, setFormData] = useState<CreateBenefitInterface>({
     name: "",
     description: "",
-    cost: 0,
+    cost: "",
     totalRedeemableAmount: null,
     redeemableAmountPerStudent: null,
     subjectId: 0,
@@ -124,7 +124,7 @@ export const BenefitUIProvider: React.FC<BenefitUIProviderProps> = ({
     setFormData({
       name: "",
       description: "",
-      cost: 0,
+      cost: "",
       totalRedeemableAmount: null,
       redeemableAmountPerStudent: null,
       subjectId: 0,

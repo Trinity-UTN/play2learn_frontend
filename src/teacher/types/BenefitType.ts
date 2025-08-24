@@ -15,7 +15,7 @@ export interface BenefitResponseInterface {
 export interface CreateBenefitInterface {
   name: string;
   description: string;
-  cost: number;
+  cost: number | string;
   totalRedeemableAmount: number | null;
   redeemableAmountPerStudent: number | null;
   subjectId: number;
