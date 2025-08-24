@@ -28,6 +28,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
+  // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<"config" | "preview">(
     "config"
@@ -49,7 +50,9 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     }
   }, [currentStep, config]);
 
+  // Funciones auxiliares del propio context
   const resetAllStates = () => {
+    setLoading(false);
     setCurrentStep("config");
     setConfig({
       word: "",
@@ -75,6 +78,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     "GEOMETRIA",
   ];
 
+  // Funciones principales
   const registerAhorcado = async (data: AhorcadoInterface): Promise<void> => {
     setLoading(true);
     const dataMandar = makeData(
@@ -86,6 +90,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
       await AhorcadoService.registerAhorcadoApi(
         dataMandar as CreateAhorcadoPayload
       );
+      resetAllStates();
     } catch (error) {
       console.error("Error al crear el ahorcado:", error);
       throw error;

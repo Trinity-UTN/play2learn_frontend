@@ -26,6 +26,7 @@ import type {
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import Card from "../../../shared/components/Card/CardComponent";
+import Tooltip from "../../../shared/components/Tooltip/TooltipComponent";
 import Badge from "../../../shared/components/Badge/BadgeComponent";
 import styles from "./ConfigureActivityView.module.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -54,6 +55,7 @@ const ConfigureActivityView: React.FC = () => {
 
   useEffect(() => {
     getSubjectByTeacher();
+    window.scrollTo(0, 0);
   }, []);
 
   // Mapeo de nombres de actividades TODO: Traerlo bien de otro lado
@@ -480,7 +482,15 @@ const ConfigureActivityView: React.FC = () => {
                   </div>
                   <div className={styles.cardContent}>
                     <div className={styles.inputGroup}>
-                      <label className={styles.label}>Materia *</label>
+                      <label className={styles.label}>
+                        Materia *
+                        {configuration.subjectId > 0 && (
+                          <span className={styles.labelHint}>
+                            El balance de la materia seleccionada es{" "}
+                            {getSelectedSubject()?.actualBalance}
+                          </span>
+                        )}
+                      </label>
                       <select
                         value={configuration.subjectId}
                         onChange={(e) =>
@@ -496,8 +506,8 @@ const ConfigureActivityView: React.FC = () => {
                         <option value={0}>Seleccionar materia...</option>
                         {subjects.map((subject) => (
                           <option key={subject.id} value={subject.id}>
-                            {subject.name} - {subject.course.year.name}{" "}
-                            {subject.course.name}{" "}
+                            {subject.course.year.name} {subject.course.name} -{" "}
+                            {subject.name}
                           </option>
                         ))}
                       </select>
@@ -525,23 +535,31 @@ const ConfigureActivityView: React.FC = () => {
                   <div className={styles.cardContent}>
                     <div className={styles.inputGroup}>
                       <label className={styles.label}>
-                        Balance Inicial
+                        Balance Inicial *
                         <span className={styles.labelHint}>
                           Cantidad de recompensa que entregará la actividad si
                           es aprobada
+                        </span>
+                        <span className={styles.labelTooltip}>
+                          <Tooltip
+                            content={`Debe ser como maximo un 30% del balance actual de la materia (${
+                              getSelectedSubject()?.actualBalance
+                            }).`}
+                          />
                         </span>
                       </label>
                       <div className={styles.dcInputWrapper}>
                         <FaCoins className={styles.dcIcon} />
                         <Input
-                          type="number"
+                          type="text"
                           value={configuration.initialBalance}
                           onChange={(e) =>
                             handleInputChange(
                               "initialBalance",
-                              Number.parseInt(e.target.value) || 0
+                              Number(e.target.value)
                             )
                           }
+                          placeholder="0"
                           disabled={!configuration.subjectId}
                           error={errors.initialBalance}
                           max={getMaximumInitialBalance()}

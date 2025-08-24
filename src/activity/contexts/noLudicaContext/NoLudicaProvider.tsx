@@ -26,6 +26,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
+  // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<"config" | "preview">(
     "config"
@@ -36,7 +37,6 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
   });
   const [errors, setErrors] = useState<string[]>([]);
 
-  // Validación automática cuando cambia la configuración
   useEffect(() => {
     if (currentStep === "preview") {
       const validationErrors = validateConfig(config);
@@ -46,7 +46,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     }
   }, [currentStep, config]);
 
-  // Función para reiniciar todos los estados
+  // Funciones auxiliares del propio context
   const resetAllStates = () => {
     setCurrentStep("config");
     setConfig({
@@ -56,7 +56,6 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     setErrors([]);
   };
 
-  // Determinar si el formulario es válido para envío
   const isFormValid = errors.length === 0 && config.excercise.trim().length > 0;
 
   const registrarNoLudica = async (data: NoLudicaInterface): Promise<void> => {
@@ -74,6 +73,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
 
     try {
       await NoLudicaService.registerNoLudicaApi(dataMandar);
+      resetAllStates();
     } catch (error) {
       console.error("Error al crear la actividad (no lúdica):", error);
       throw error;
@@ -203,7 +203,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
         return "";
     }
   };
-  // Opciones de tipo de entrega
+
   const getTipoEntregaOptions = () => [
     {
       value: "ENTREGA" as TipoEntrega,

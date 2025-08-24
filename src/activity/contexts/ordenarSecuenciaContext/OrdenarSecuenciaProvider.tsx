@@ -25,6 +25,7 @@ export const OrdenarSecuenciaProvider: React.FC<
   const { configurationActivity } = useConfigurationActivity();
   const navigate = useNavigate();
 
+  // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<
     "config" | "sequence" | "preview"
