@@ -26,6 +26,7 @@ import type {
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import Card from "../../../shared/components/Card/CardComponent";
+import Tooltip from "../../../shared/components/Tooltip/TooltipComponent";
 import Badge from "../../../shared/components/Badge/BadgeComponent";
 import styles from "./ConfigureActivityView.module.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -496,11 +497,17 @@ const ConfigureActivityView: React.FC = () => {
                         <option value={0}>Seleccionar materia...</option>
                         {subjects.map((subject) => (
                           <option key={subject.id} value={subject.id}>
-                            {subject.name} - {subject.course.year.name}{" "}
-                            {subject.course.name}{" "}
+                            {subject.course.year.name} {subject.course.name} -{" "}
+                            {subject.name} ({subject.actualBalance})
                           </option>
                         ))}
                       </select>
+                      {configuration.subjectId > 0 && (
+                        <span className={styles.labelHint}>
+                          El balance de la materia seleccionada es{" "}
+                          {getSelectedSubject()?.actualBalance}
+                        </span>
+                      )}
                       {errors.subjectId && (
                         <span className={styles.errorMessage}>
                           <FaExclamationTriangle />
@@ -526,6 +533,13 @@ const ConfigureActivityView: React.FC = () => {
                     <div className={styles.inputGroup}>
                       <label className={styles.label}>
                         Balance Inicial
+                        <span className={styles.labelTooltip}>
+                          <Tooltip
+                            content={`Debe ser como maximo un 30% del balance actual de la materia (${
+                              getSelectedSubject()?.actualBalance
+                            }).`}
+                          />
+                        </span>
                         <span className={styles.labelHint}>
                           Cantidad de recompensa que entregará la actividad si
                           es aprobada
@@ -534,14 +548,15 @@ const ConfigureActivityView: React.FC = () => {
                       <div className={styles.dcInputWrapper}>
                         <FaCoins className={styles.dcIcon} />
                         <Input
-                          type="number"
+                          type="text"
                           value={configuration.initialBalance}
                           onChange={(e) =>
                             handleInputChange(
                               "initialBalance",
-                              Number.parseInt(e.target.value) || 0
+                              Number.parseInt(e.target.value)
                             )
                           }
+                          placeholder="0"
                           disabled={!configuration.subjectId}
                           error={errors.initialBalance}
                           max={getMaximumInitialBalance()}
