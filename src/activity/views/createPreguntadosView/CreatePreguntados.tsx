@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 import ActivityStepHeader from "../../components/common/ActivityStepHeader/ActivityStepHeader";
 import ActivityErrorContainer from "../../components/common/ActivityErrorContainer/ActivityErrorContainer";
@@ -29,11 +30,9 @@ const CreatePreguntados = () => {
     visible: { opacity: 1, y: 0 },
   };
 
-  const getCurrentStep = () => {
-    if (currentStep === "config") return 1;
-    if (currentStep === "questions") return 2;
-    return 3;
-  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentStep]);
 
   return (
     <div className={styles.container}>
@@ -41,8 +40,8 @@ const CreatePreguntados = () => {
         <ActivityStepHeader
           icon={<FaQuestionCircle />}
           title="Crear Actividad: Preguntados"
-          subtitle={`${getStepTitle()} - Paso ${getCurrentStep()} de 3`}
-          currentStep={getCurrentStep()}
+          subtitle={`${getStepTitle()} - Paso ${getCurrentStepNumber()} de 3`}
+          currentStep={getCurrentStepNumber()}
           totalSteps={3}
           itemVariants={itemVariants}
         />

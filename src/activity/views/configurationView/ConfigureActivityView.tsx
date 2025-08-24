@@ -55,6 +55,7 @@ const ConfigureActivityView: React.FC = () => {
 
   useEffect(() => {
     getSubjectByTeacher();
+    window.scrollTo(0, 0);
   }, []);
 
   // Mapeo de nombres de actividades TODO: Traerlo bien de otro lado
@@ -481,7 +482,15 @@ const ConfigureActivityView: React.FC = () => {
                   </div>
                   <div className={styles.cardContent}>
                     <div className={styles.inputGroup}>
-                      <label className={styles.label}>Materia *</label>
+                      <label className={styles.label}>
+                        Materia *
+                        {configuration.subjectId > 0 && (
+                          <span className={styles.labelHint}>
+                            El balance de la materia seleccionada es{" "}
+                            {getSelectedSubject()?.actualBalance}
+                          </span>
+                        )}
+                      </label>
                       <select
                         value={configuration.subjectId}
                         onChange={(e) =>
@@ -498,16 +507,10 @@ const ConfigureActivityView: React.FC = () => {
                         {subjects.map((subject) => (
                           <option key={subject.id} value={subject.id}>
                             {subject.course.year.name} {subject.course.name} -{" "}
-                            {subject.name} ({subject.actualBalance})
+                            {subject.name}
                           </option>
                         ))}
                       </select>
-                      {configuration.subjectId > 0 && (
-                        <span className={styles.labelHint}>
-                          El balance de la materia seleccionada es{" "}
-                          {getSelectedSubject()?.actualBalance}
-                        </span>
-                      )}
                       {errors.subjectId && (
                         <span className={styles.errorMessage}>
                           <FaExclamationTriangle />
@@ -532,17 +535,17 @@ const ConfigureActivityView: React.FC = () => {
                   <div className={styles.cardContent}>
                     <div className={styles.inputGroup}>
                       <label className={styles.label}>
-                        Balance Inicial
+                        Balance Inicial *
+                        <span className={styles.labelHint}>
+                          Cantidad de recompensa que entregará la actividad si
+                          es aprobada
+                        </span>
                         <span className={styles.labelTooltip}>
                           <Tooltip
                             content={`Debe ser como maximo un 30% del balance actual de la materia (${
                               getSelectedSubject()?.actualBalance
                             }).`}
                           />
-                        </span>
-                        <span className={styles.labelHint}>
-                          Cantidad de recompensa que entregará la actividad si
-                          es aprobada
                         </span>
                       </label>
                       <div className={styles.dcInputWrapper}>
@@ -553,7 +556,7 @@ const ConfigureActivityView: React.FC = () => {
                           onChange={(e) =>
                             handleInputChange(
                               "initialBalance",
-                              Number.parseInt(e.target.value)
+                              Number(e.target.value)
                             )
                           }
                           placeholder="0"

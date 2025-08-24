@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import ActivityStepHeader from "../../components/common/ActivityStepHeader/ActivityStepHeader";
 import ActivityFooter from "../../components/common/ActivityFooter/ActivityFooter";
@@ -24,6 +25,10 @@ const CreateCompletarOracion = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentStep]);
 
   return (
     <>

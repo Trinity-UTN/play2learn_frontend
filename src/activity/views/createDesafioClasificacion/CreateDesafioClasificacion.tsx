@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FaLayerGroup } from "react-icons/fa";
 import ActivityStepHeader from "../../components/common/ActivityStepHeader/ActivityStepHeader";
 import ActivityErrorContainer from "../../components/common/ActivityErrorContainer/ActivityErrorContainer";
@@ -25,6 +26,10 @@ const CreateDesafioClasificacion = () => {
     visible: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -20 },
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentStep]);
 
   return (
     <>
