@@ -97,6 +97,9 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     try {
       await SubjectService.deleteSubjectApi(id);
     } catch (error) {
+      alert(
+        `El recurso Materia con id ${id} no puede ser eliminado porque tiene asociaciones con estudiantes.`
+      );
       console.error("Error al eliminar la materia:", error);
       throw error;
     } finally {
