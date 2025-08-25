@@ -26,7 +26,6 @@ import type {
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import Card from "../../../shared/components/Card/CardComponent";
-import Tooltip from "../../../shared/components/Tooltip/TooltipComponent";
 import Badge from "../../../shared/components/Badge/BadgeComponent";
 import styles from "./ConfigureActivityView.module.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -533,41 +532,60 @@ const ConfigureActivityView: React.FC = () => {
                     <h3 className={styles.cardTitle}>Recompensa</h3>
                   </div>
                   <div className={styles.cardContent}>
-                    <div className={styles.inputGroup}>
-                      <label className={styles.label}>
-                        Balance Inicial *
-                        <span className={styles.labelHint}>
-                          Cantidad de recompensa que entregará la actividad si
-                          es aprobada
-                        </span>
-                        <span className={styles.labelTooltip}>
-                          <Tooltip
-                            content={`Debe ser como maximo un 30% del balance actual de la materia (${
-                              getSelectedSubject()?.actualBalance
-                            }).`}
-                          />
-                        </span>
-                      </label>
-                      <div className={styles.dcInputWrapper}>
-                        <FaCoins className={styles.dcIcon} />
-                        <Input
-                          type="text"
-                          value={configuration.initialBalance}
-                          onChange={(e) =>
-                            handleInputChange(
-                              "initialBalance",
-                              Number(e.target.value)
-                            )
-                          }
-                          placeholder="0"
-                          disabled={!configuration.subjectId}
-                          error={errors.initialBalance}
-                          max={getMaximumInitialBalance()}
-                          className={styles.rewardInput}
-                        />
-                        <span className={styles.dcUnit}>monedas</span>
-                      </div>
-                    </div>
+                    {configuration.subjectId === 0 ? (
+                      <p className={styles.noSubjectMessage}>
+                        Selecciona una materia para configurar la recompensa
+                        disponible.
+                      </p>
+                    ) : (
+                      <>
+                        <div className={styles.rewardsInfoContainer}>
+                          <div className={styles.rewardBox}>
+                            <span className={styles.rewardBoxTitle}>
+                              Balance actual
+                            </span>
+                            <span className={styles.rewardBoxValue}>
+                              {getSelectedSubject()?.actualBalance} monedas
+                            </span>
+                          </div>
+                          <div className={styles.rewardBox}>
+                            <span className={styles.rewardBoxTitle}>
+                              Recompensa máxima (30%)
+                            </span>
+                            <span className={styles.rewardBoxValue}>
+                              {getMaximumInitialBalance()} monedas
+                            </span>
+                          </div>
+                        </div>
+                        <div className={styles.inputGroup}>
+                          <label className={styles.label}>
+                            Balance Inicial *
+                            <span className={styles.labelHint}>
+                              Cantidad de recompensa que entregará la actividad
+                            </span>
+                          </label>
+                          <div className={styles.dcInputWrapper}>
+                            <FaCoins className={styles.dcIcon} />
+                            <Input
+                              type="text"
+                              value={configuration.initialBalance}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  "initialBalance",
+                                  Number(e.target.value)
+                                )
+                              }
+                              placeholder="0"
+                              disabled={!configuration.subjectId}
+                              error={errors.initialBalance}
+                              max={getMaximumInitialBalance()}
+                              className={styles.rewardInput}
+                            />
+                            <span className={styles.dcUnit}>monedas</span>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </Card>
               </motion.div>
