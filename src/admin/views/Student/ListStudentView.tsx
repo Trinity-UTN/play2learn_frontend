@@ -10,10 +10,10 @@ import type {
   DataTableColumn,
   DataTableAction,
 } from "../../../shared/components/DataTable";
-import { useStudent } from "../../hooks/useStudent";
 import type { StudentResponseDto } from "../../services/student/StudentService";
-import styles from "./ListStudentView.module.css";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
+import { useStudent } from "../../hooks/useStudent";
+import styles from "./ListStudentView.module.css";
 
 const ListStudentView: React.FC = () => {
   const navigate = useNavigate();

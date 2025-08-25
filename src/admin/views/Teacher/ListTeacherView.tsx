@@ -138,7 +138,7 @@ const ListTeacherView: React.FC = () => {
     },
     {
       key: "name",
-      label: "Nombre del docente",
+      label: "Nombre",
       sortable: true,
       className: styles.nameColumn,
       render: (teacher) => (
@@ -149,7 +149,7 @@ const ListTeacherView: React.FC = () => {
     },
     {
       key: "lastname",
-      label: "Apellido del docente",
+      label: "Apellido",
       sortable: true,
       className: styles.nameColumn,
       render: (teacher) => (
@@ -160,7 +160,7 @@ const ListTeacherView: React.FC = () => {
     },
     {
       key: "dni",
-      label: "DNI del docente",
+      label: "DNI",
       sortable: true,
       className: styles.nameColumn,
       render: (teacher) => (
@@ -171,7 +171,7 @@ const ListTeacherView: React.FC = () => {
     },
     {
       key: "user",
-      label: "Email del docente",
+      label: "Email",
       sortable: true,
       className: styles.nameColumn,
       render: (teacher) => (
@@ -182,7 +182,7 @@ const ListTeacherView: React.FC = () => {
     },
     {
       key: "active",
-      label: "Estado del docente",
+      label: "Estado",
       sortable: true,
       className: styles.nameColumn,
       render: (teacher) => (

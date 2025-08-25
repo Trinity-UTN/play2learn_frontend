@@ -115,7 +115,7 @@ const CreateTeacherView: React.FC = () => {
             <div className={styles.inputGroup}>
               <label className={styles.label}>Nombres *</label>
               <Input
-                placeholder="Nombre del docente"
+                placeholder="Nombre"
                 value={formData.name}
                 onChange={(e) => handleChange("name", e.target.value)}
                 required
@@ -124,7 +124,7 @@ const CreateTeacherView: React.FC = () => {
             <div className={styles.inputGroup}>
               <label className={styles.label}>Apellidos * </label>
               <Input
-                placeholder="Apellido del docente"
+                placeholder="Apellido"
                 value={formData.lastname}
                 onChange={(e) => handleChange("lastname", e.target.value)}
                 required
@@ -136,7 +136,7 @@ const CreateTeacherView: React.FC = () => {
             <div className={styles.inputGroup}>
               <label className={styles.label}>DNI *</label>
               <Input
-                placeholder="DNI del docente"
+                placeholder="DNI"
                 value={formData.dni}
                 onChange={(e) => handleChange("dni", e.target.value)}
                 required
@@ -146,7 +146,7 @@ const CreateTeacherView: React.FC = () => {
               <label className={styles.label}>Correo Electrónico *</label>
               <Input
                 type="email"
-                placeholder="Dirección de email del docente"
+                placeholder="Dirección de email"
                 value={formData.email}
                 onChange={(e) => handleChange("email", e.target.value)}
                 required
