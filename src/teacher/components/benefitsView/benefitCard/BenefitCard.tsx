@@ -13,6 +13,14 @@ type Props = {
 
 const BenefitCard = ({ benefit }: Props) => {
   const { getColor, getSelectedIcon } = useBenefitUI();
+  const fechaFormateada = new Date(benefit.endAt).toLocaleString("es-AR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
   return (
     <Card className={styles.benefitCard}>
       {/* Icon and Title */}
@@ -33,6 +41,9 @@ const BenefitCard = ({ benefit }: Props) => {
 
       {/* Description */}
       <p className={styles.benefitDescription}>{benefit.description}</p>
+      <p className={styles.benefitDescription}>
+        Fecha de finalizacion: {fechaFormateada}
+      </p>
 
       {/* Cost and Usage */}
       <div className={styles.benefitStats}>

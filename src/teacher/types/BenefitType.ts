@@ -9,6 +9,7 @@ export interface BenefitResponseInterface {
   redeemableAmountPerStudent: number | null;
   subjectDto: SubjectResponseDto;
   color: Color;
+  endAt: string;
   icon: Icon;
   category: Category;
 }
@@ -19,6 +20,7 @@ export interface CreateBenefitInterface {
   totalRedeemableAmount: number | null;
   redeemableAmountPerStudent: number | null;
   subjectId: number;
+  endAt: string;
   color: Color;
   icon: Icon;
   category: Category;

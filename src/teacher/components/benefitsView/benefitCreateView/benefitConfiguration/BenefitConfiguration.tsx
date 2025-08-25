@@ -48,6 +48,16 @@ const BenefitConfiguration = () => {
             min="1"
           />
         </div>
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Fecha de Fin *</label>
+          <Input
+            type="datetime-local"
+            value={formData.endAt}
+            onChange={(e) => handleChange("endAt", e.target.value)}
+            className={styles.dateInput}
+            required
+          />
+        </div>
       </div>
 
       <div className={styles.inputGroup}>
