@@ -154,15 +154,22 @@ const ConfigureActivityView: React.FC = () => {
       newErrors.attempts = "El numero de intentos debe ser mayor a 0";
     }
 
-    if (configuration.initialBalance <= 0) {
+    const selectedSubject = getSelectedSubject();
+    const ssActualBalance = selectedSubject?.actualBalance || 0;
+    const maxIB = getMaximumInitialBalance();
+
+    if (selectedSubject && configuration.initialBalance <= 0) {
       newErrors.initialBalance = "El balance inicial debe ser mayor a 0";
     }
 
-    const selectedSubject = getSelectedSubject();
-    const ssActualBalance = selectedSubject?.actualBalance || 0;
     if (configuration.initialBalance > ssActualBalance) {
       newErrors.initialBalance =
         "El balance inicial debe ser mayor al balance actual de la materia";
+    }
+
+    if (configuration.initialBalance > maxIB) {
+      newErrors.initialBalance =
+        "El balance inicial no puede ser mayor al 30% del balance actual de la materia";
     }
 
     setErrors(newErrors);
