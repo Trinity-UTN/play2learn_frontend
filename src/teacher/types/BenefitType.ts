@@ -19,6 +19,7 @@ export interface CreateBenefitInterface {
   totalRedeemableAmount: number | null;
   redeemableAmountPerStudent: number | null;
   subjectId: number;
+  endAt: string;
   color: Color;
   icon: Icon;
   category: Category;
