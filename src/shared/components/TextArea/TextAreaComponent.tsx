@@ -52,7 +52,7 @@ const TextArea: React.FC<TextAreaProps> = ({
         {showCharCount && maxLength && (
           <span
             className={`${styles.charCount} ${
-              isOverLimit ? styles.overLimit : ""
+              isOverLimit ? styles.overLimit : error ? styles.overLimit : ""
             }`}
           >
             {currentLength}/{maxLength} caracteres

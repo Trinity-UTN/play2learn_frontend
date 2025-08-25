@@ -9,17 +9,17 @@ import Input from "../../../shared/components/Input/InputComponent";
 import { useYear } from "../../hooks/useYear";
 import { useCourse } from "../../hooks/useCourse";
 import { useStudent } from "../../hooks/useStudent";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./CreateStudentView.module.css";
 
 const CreateStudentView: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const isEditMode = Boolean(id);
-
   const { getYear, years } = useYear();
   const { getCourse, courses } = useCourse();
-  const { registerStudent, updateStudent, selectedStudent, loading } =
+  const { loading, selectedStudent, registerStudent, updateStudent } =
     useStudent();
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const { showToast } = useToaster();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,6 +29,8 @@ const CreateStudentView: React.FC = () => {
     year_id: 0,
     course_id: 0,
   });
+
+  const isEditMode = Boolean(id);
 
   useEffect(() => {
     getYear();
@@ -49,7 +51,7 @@ const CreateStudentView: React.FC = () => {
             course_id: selectedStudent?.course.id || 0,
           });
         } catch (error) {
-          console.error("Error al cargar el estudiante:", error);
+          console.error("Error al cargar el estudiante:", error); // TODO: REMOVE_DEBUG
           navigate("/dashboard/students/list");
         }
       };
@@ -87,19 +89,32 @@ const CreateStudentView: React.FC = () => {
         const data = { id: idN, ...payload };
 
         await updateStudent(data);
-        alert("Estudiante actualizado exitosamente.");
+        showToast({
+          title: "Estudiante actualizado exitosamente",
+          message: "El estudiante ha sido actualizado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
         navigate("/dashboard/students/list");
       } else {
         await registerStudent(formData);
-        alert("Estudiante creado exitosamente.");
+        showToast({
+          title: "Estudiante creado exitosamente",
+          message: "El estudiante ha sido creado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
         resetFormData();
       }
     } catch (err) {
-      alert(
-        isEditMode
-          ? "Hubo un error al actualizar el Estudiante."
-          : "Hubo un error al crear el Estudiante."
-      );
+      showToast({
+        title:
+          "Error al" +
+          (isEditMode ? " actualizar" : " crear") +
+          " el estudiante",
+        type: "error",
+        position: "bottom-right",
+      });
     }
   };
 

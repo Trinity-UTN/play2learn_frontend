@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaCog,
@@ -22,6 +22,10 @@ const GeneralConfiguration: React.FC = () => {
   const [formData, setFormData] = useState<NoLudicaConfig>(config);
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
 
+  useEffect(() => {
+    setFormData(config);
+  }, [config]);
+
   const tipoEntregaOptions = getTipoEntregaOptions();
 
   const itemVariants = {
@@ -29,15 +33,16 @@ const GeneralConfiguration: React.FC = () => {
     visible: { opacity: 1, y: 0 },
   };
 
-  const handleInputChange = (
-    field: keyof NoLudicaConfig,
-    value: string | TipoEntrega
-  ) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-
-    // Limpiar error del campo
-    if (formErrors[field]) {
-      setFormErrors((prev) => ({ ...prev, [field]: "" }));
+  const getTypeIcon = (tipo: TipoEntrega) => {
+    switch (tipo) {
+      case "ENTREGA":
+        return <FaFileAlt />;
+      case "ENLACE":
+        return <FaLink />;
+      case "TEXTO":
+        return <FaEdit />;
+      default:
+        return <FaEdit />;
     }
   };
 
@@ -57,23 +62,22 @@ const GeneralConfiguration: React.FC = () => {
     return Object.keys(fieldErrors).length === 0;
   };
 
+  const handleInputChange = (
+    field: keyof NoLudicaConfig,
+    value: string | TipoEntrega
+  ) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
+    // Limpiar error del campo
+    if (formErrors[field]) {
+      setFormErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
       handleConfigSubmit(formData);
-    }
-  };
-
-  const getTypeIcon = (tipo: TipoEntrega) => {
-    switch (tipo) {
-      case "ENTREGA":
-        return <FaFileAlt />;
-      case "ENLACE":
-        return <FaLink />;
-      case "TEXTO":
-        return <FaEdit />;
-      default:
-        return <FaEdit />;
     }
   };
 
@@ -124,7 +128,7 @@ const GeneralConfiguration: React.FC = () => {
               error={!!formErrors.excercise}
               helperText={formErrors.excercise}
               placeholder="Redacta un ensayo de 500 palabras sobre el impacto de la tecnología en la educación..."
-              rows={4}
+              rows={2}
               maxLength={300}
               showCharCount={true}
               resize="vertical"

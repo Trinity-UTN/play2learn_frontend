@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaListOl } from "react-icons/fa";
 import ActivityStepHeader from "../../components/common/ActivityStepHeader/ActivityStepHeader";
@@ -35,6 +36,10 @@ const CreateOrdenarSecuencia = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentStep]);
 
   return (
     <>

@@ -1,30 +1,28 @@
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import type { TeacherResponseDto } from "../../services/teacher/TeacherService";
 import Button from "../../../shared/components/Button/ButtonComponent";
-import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
 import { DataTable } from "../../../shared/components/DataTable";
 import type {
   DataTableColumn,
   DataTableAction,
 } from "../../../shared/components/DataTable";
 import { useTeacher } from "../../hooks/useTeacher";
-import type { TeacherResponseDto } from "../../services/teacher/TeacherService";
-import styles from "./ListTeacherView.module.css";
+import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
+import styles from "./ListTeacherView.module.css";
 
 const ListTeacherView: React.FC = () => {
-  const navigate = useNavigate();
-
   const {
     loading,
+    paginatedTeacher,
     getPaginatedTeacher,
     deleteTeacher,
-    paginatedTeacher,
-    setSelectedTeacher,
     restoreTeacher,
+    setSelectedTeacher,
   } = useTeacher();
   const {
     paginationParams,
@@ -33,73 +31,58 @@ const ListTeacherView: React.FC = () => {
     handlePageChange,
     handlePageSizeChange,
   } = usePaginationParams();
-  const [alertConfig, setAlertConfig] = useState({
-    title: "",
-    message: "",
-    type: "warning" as "warning" | "danger",
-    isOpen: false,
-    showDoubleConfirmation: false,
-    onConfirm: () => {},
-  });
+  const { showConfirmation } = useConfirmation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadPaginatedTeacher = async () => {
       try {
         await getPaginatedTeacher(paginationParams);
       } catch (error) {
-        console.error("Error al cargar docentes paginados:", error);
+        console.error("Error al cargar docentes paginados:", error); // TODO: REMOVE_DEBUG
       }
     };
     loadPaginatedTeacher();
   }, [paginationParams, getPaginatedTeacher]);
 
   const handleEdit = (teacher: TeacherResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Modificar Docente",
       message: `¿Está seguro que desea modificar el docente "${teacher.name}"?`,
       type: "warning",
-      isOpen: true,
-      showDoubleConfirmation: false,
       onConfirm: () => {
         setSelectedTeacher(teacher);
         navigate(`/dashboard/teachers/edit/${teacher.id}`);
-        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
     });
   };
 
   const handleDelete = (teacher: TeacherResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Eliminar Docente",
       message: `¿Está seguro que desea eliminar el docente "${teacher.name}"?`,
       type: "danger",
-      isOpen: true,
       showDoubleConfirmation: true,
       onConfirm: async () => {
         try {
           await deleteTeacher(teacher.id);
           await getPaginatedTeacher(paginationParams);
-          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
-          console.error("Error al eliminar docente:", error);
+          console.error("Error al eliminar docente:", error); // TODO: REMOVE_DEBUG
         }
       },
     });
   };
 
-  //Implementar cuando este listo el restaurar
   const handleRestore = (teacher: TeacherResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Restaurar Docente",
       message: `¿Está seguro que desea restaurar el docente "${teacher.name}"?`,
       type: "warning",
-      isOpen: true,
-      showDoubleConfirmation: true,
       onConfirm: async () => {
         try {
           await restoreTeacher(teacher.id);
           await getPaginatedTeacher(paginationParams);
-          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
           console.error("Error al restaurar docente:", error);
         }
@@ -138,7 +121,7 @@ const ListTeacherView: React.FC = () => {
     },
     {
       key: "name",
-      label: "Nombre del docente",
+      label: "Nombre",
       sortable: true,
       className: styles.nameColumn,
       render: (teacher) => (
@@ -149,7 +132,7 @@ const ListTeacherView: React.FC = () => {
     },
     {
       key: "lastname",
-      label: "Apellido del docente",
+      label: "Apellido",
       sortable: true,
       className: styles.nameColumn,
       render: (teacher) => (
@@ -160,7 +143,7 @@ const ListTeacherView: React.FC = () => {
     },
     {
       key: "dni",
-      label: "DNI del docente",
+      label: "DNI",
       sortable: true,
       className: styles.nameColumn,
       render: (teacher) => (
@@ -171,7 +154,7 @@ const ListTeacherView: React.FC = () => {
     },
     {
       key: "user",
-      label: "Email del docente",
+      label: "Email",
       sortable: true,
       className: styles.nameColumn,
       render: (teacher) => (
@@ -182,7 +165,7 @@ const ListTeacherView: React.FC = () => {
     },
     {
       key: "active",
-      label: "Estado del docente",
+      label: "Estado",
       sortable: true,
       className: styles.nameColumn,
       render: (teacher) => (
@@ -292,17 +275,6 @@ const ListTeacherView: React.FC = () => {
           }
         />
       </motion.div>
-
-      <ConfirmationModal
-        title={alertConfig.title}
-        message={alertConfig.message}
-        type={alertConfig.type}
-        isOpen={alertConfig.isOpen}
-        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
-        doubleConfirmationText="¿Está completamente seguro?"
-        onConfirm={alertConfig.onConfirm}
-        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
-      />
     </motion.div>
   );
 };

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FaPuzzlePiece } from "react-icons/fa";
 import ActivityStepHeader from "../../components/common/ActivityStepHeader/ActivityStepHeader";
 import ActivityFooter from "../../components/common/ActivityFooter/ActivityFooter";
@@ -26,6 +27,10 @@ const CreateMemorama = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentStep]);
 
   return (
     <div className={styles.container}>

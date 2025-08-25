@@ -25,6 +25,7 @@ export const CompletarOracionProvider: React.FC<
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
+  // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<
     "config" | "words" | "preview"
@@ -40,6 +41,14 @@ export const CompletarOracionProvider: React.FC<
       setErrors([]);
     }
   }, [currentStep, sentences]);
+
+  // Funciones auxiliares del propio context
+  const resetAllStates = () => {
+    setLoading(false);
+    setCurrentStep("config");
+    setSentences([]);
+    setErrors([]);
+  };
 
   const validateAllSentences = (): string[] => {
     const validationErrors: string[] = [];
@@ -90,6 +99,7 @@ export const CompletarOracionProvider: React.FC<
 
   const isFormValid = errors.length === 0 && sentences.length > 0;
 
+  // Funciones Principales
   const registrarCompletarOracion = async (
     data: CompletarOracionInterface
   ): Promise<void> => {
@@ -102,6 +112,7 @@ export const CompletarOracionProvider: React.FC<
 
     try {
       await CompletarOracionService.registerCompletarOracionApi(dataMandar);
+      resetAllStates();
     } catch (error) {
       console.error("Error al crear la actividad (completar oración):", error);
       throw error;
@@ -110,11 +121,118 @@ export const CompletarOracionProvider: React.FC<
     }
   };
 
+  // Handlers principales
   const handleConfigSubmit = (newSentences: Sentence[]) => {
     setSentences(newSentences);
     setCurrentStep("words");
   };
 
+  const handleSubmit = async () => {
+    const finalValidationErrors = validateAllSentences();
+    if (finalValidationErrors.length > 0) {
+      setErrors(finalValidationErrors);
+      return;
+    }
+
+    try {
+      const gameData: CompletarOracionInterface = {
+        sentences: sentences.map((sentence) => ({
+          words: sentence.words.map((word) => ({
+            word: word.word,
+            wordOrder: word.wordOrder,
+            isMissing: word.isMissing,
+          })),
+        })),
+      };
+
+      await registrarCompletarOracion(gameData);
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
+      resetAllStates();
+      navigate("/dashboard/teacher/actividades/list");
+    } catch (error) {
+      showToast({
+        title: "Error al crear la actividad",
+        message: "Hubo un error al crear la actividad",
+        type: "error",
+        position: "bottom-right",
+      });
+      console.error("Error al crear la actividad (completar oración):", error);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep === "preview") {
+      setCurrentStep("words");
+    } else if (currentStep === "words") {
+      setCurrentStep("config");
+    }
+  };
+
+  const handleNext = () => {
+    if (currentStep === "config") {
+      const configForm = document.querySelector("form");
+      if (configForm) {
+        configForm.requestSubmit();
+      }
+    } else if (currentStep === "words") {
+      const validationErrors = validateAllSentences();
+      setErrors(validationErrors);
+      if (validateWords()) {
+        setCurrentStep("preview");
+      }
+    }
+  };
+
+  const handleReset = () => {
+    showConfirmation({
+      title: "Reiniciar Actividad",
+      message: "¿Está seguro que desea reiniciar la creación de la actividad?",
+      type: "warning",
+      onConfirm: () => {
+        showToast({
+          title: "Actividad reiniciada",
+          type: "success",
+          position: "bottom-right",
+        });
+        resetAllStates();
+      },
+    });
+  };
+
+  // Funciones de utilidad
+  const getStepTitle = () => {
+    switch (currentStep) {
+      case "config":
+        return "Agregar Oraciones";
+      case "words":
+        return "Seleccionar Palabras a Ocultar";
+      case "preview":
+        return "Vista Previa";
+      default:
+        return "Crear Actividad";
+    }
+  };
+
+  const getCurrentStepNumber = () => {
+    if (currentStep === "config") return 1;
+    if (currentStep === "words") return 2;
+    return 3;
+  };
+
+  const validateConfig = () => {
+    return sentences.length >= 1 && sentences.length <= 20;
+  };
+
+  const validateWords = () => {
+    return sentences.length > 0 && validateAllSentences().length === 0;
+  };
+
+  // Handlers específicos de completar oracion
   const handleAddSentence = (sentenceText: string) => {
     const words = sentenceText
       .trim()
@@ -155,109 +273,6 @@ export const CompletarOracionProvider: React.FC<
     setSentences(updatedSentences);
   };
 
-  const handleSubmit = async () => {
-    const finalValidationErrors = validateAllSentences();
-    if (finalValidationErrors.length > 0) {
-      setErrors(finalValidationErrors);
-      return;
-    }
-
-    try {
-      const gameData: CompletarOracionInterface = {
-        sentences: sentences.map((sentence) => ({
-          words: sentence.words.map((word) => ({
-            word: word.word,
-            wordOrder: word.wordOrder,
-            isMissing: word.isMissing,
-          })),
-        })),
-      };
-
-      await registrarCompletarOracion(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-      });
-      navigate("/dashboard/teacher/actividades/list");
-    } catch (error) {
-      showToast({
-        title: "Error al crear la actividad",
-        message: "Hubo un error al crear la actividad",
-        type: "error",
-      });
-      console.error("Error al crear la actividad (completar oración):", error);
-    }
-  };
-
-  const handleBack = () => {
-    if (currentStep === "preview") {
-      setCurrentStep("words");
-    } else if (currentStep === "words") {
-      setCurrentStep("config");
-    }
-  };
-
-  const handleNext = () => {
-    if (currentStep === "config") {
-      const configForm = document.querySelector("form");
-      if (configForm) {
-        configForm.requestSubmit();
-      }
-    } else if (currentStep === "words") {
-      const validationErrors = validateAllSentences();
-      setErrors(validationErrors);
-      if (validateWords()) {
-        setCurrentStep("preview");
-      }
-    }
-  };
-
-  const handleReset = () => {
-    showConfirmation({
-      title: "Reiniciar Actividad",
-      message: "¿Está seguro que desea reiniciar la creación de la actividad?",
-      type: "warning",
-      onConfirm: () => {
-        showToast({
-          title: "Actividad reiniciada",
-          type: "info",
-          position: "bottom-right",
-        });
-        setSentences([]);
-        setCurrentStep("config");
-        setErrors([]);
-      },
-    });
-  };
-
-  const getStepTitle = () => {
-    switch (currentStep) {
-      case "config":
-        return "Agregar Oraciones";
-      case "words":
-        return "Seleccionar Palabras a Ocultar";
-      case "preview":
-        return "Vista Previa";
-      default:
-        return "Crear Actividad";
-    }
-  };
-
-  const getCurrentStepNumber = () => {
-    if (currentStep === "config") return 1;
-    if (currentStep === "words") return 2;
-    return 3;
-  };
-
-  const validateConfig = () => {
-    return sentences.length >= 1 && sentences.length <= 20;
-  };
-
-  const validateWords = () => {
-    return sentences.length > 0 && validateAllSentences().length === 0;
-  };
-
   const contextValue: CompletarOracionContextType = {
     // Estados principales
     loading,
@@ -271,10 +286,6 @@ export const CompletarOracionProvider: React.FC<
 
     // Handlers principales
     handleConfigSubmit,
-    handleAddSentence,
-    handleEditSentence,
-    handleRemoveSentence,
-    handleWordToggle,
     handleSubmit,
     handleBack,
     handleNext,
@@ -285,6 +296,12 @@ export const CompletarOracionProvider: React.FC<
     getCurrentStepNumber,
     validateConfig,
     validateWords,
+
+    // Handlers especificos de completar oración
+    handleAddSentence,
+    handleEditSentence,
+    handleRemoveSentence,
+    handleWordToggle,
   };
 
   return (

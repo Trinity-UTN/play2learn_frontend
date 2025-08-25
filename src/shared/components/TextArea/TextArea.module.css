@@ -19,7 +19,7 @@
 
 .textarea:focus {
   outline: none;
-  border-color: #4f46e5;
+  border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
@@ -55,7 +55,7 @@
 
 .footer {
   display: flex;
-  justify-content: flex-end; /* cambiando justify-content para alinear contador a la derecha */
+  justify-content: flex-end;
   align-items: center;
   gap: 1rem;
 }
@@ -64,7 +64,7 @@
   font-size: 0.8rem;
   color: #6b7280;
   line-height: 1.4;
-  margin-right: auto; /* posicionando helperText a la izquierda absoluta */
+  margin-right: auto;
 }
 
 .errorText {
@@ -73,7 +73,7 @@
 }
 
 .charCount {
-  font-size: 0.7rem; /* haciendo el contador más pequeño y vanilla */
+  font-size: 0.7rem;
   color: #9ca3af;
   font-weight: 400;
   white-space: nowrap;

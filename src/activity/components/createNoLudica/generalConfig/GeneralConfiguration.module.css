@@ -357,7 +357,6 @@
   animation-delay: 0.3s;
 }
 
-/* Estados de focus mejorados */
 .tipoEntregaOption:focus {
   outline: none;
   border-color: #667eea;

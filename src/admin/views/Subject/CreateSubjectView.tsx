@@ -11,18 +11,18 @@ import { useYear } from "../../hooks/useYear";
 import { useCourse } from "../../hooks/useCourse";
 import { useTeacher } from "../../hooks/useTeacher";
 import { useSubject } from "../../hooks/useSubject";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./CreateSubjectView.module.css";
 
 const CreateSubjectView: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const isEditMode = Boolean(id);
-
   const { getYear, years } = useYear();
   const { getCourse, courses } = useCourse();
   const { getTeacher, teacher } = useTeacher();
-  const { registerSubject, updateSubject, loading, selectedSubject } =
+  const { loading, selectedSubject, registerSubject, updateSubject } =
     useSubject();
+  const { id } = useParams<{ id: string }>();
+  const { showToast } = useToaster();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -31,6 +31,8 @@ const CreateSubjectView: React.FC = () => {
     teacherId: 0,
     optional: false,
   });
+
+  const isEditMode = Boolean(id);
 
   const filteredCourses = courses.filter(
     (course) => course.year.id === formData.yearId
@@ -81,19 +83,30 @@ const CreateSubjectView: React.FC = () => {
           id: Number(id),
           ...payload,
         });
-        alert("Materia actualizada exitosamente.");
+        showToast({
+          title: "Materia actualizada exitosamente",
+          message: "La materia ha sido actualizada exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
         navigate("/dashboard/subjects/list");
       } else {
         await registerSubject(payload);
-        alert("Materia creada exitosamente.");
+        showToast({
+          title: "Materia creada exitosamente",
+          message: "La materia ha sido creada exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
         resetFormData();
       }
     } catch (err) {
-      alert(
-        isEditMode
-          ? "Hubo un error al actualizar la materia."
-          : "Hubo un error al crear la materia."
-      );
+      showToast({
+        title:
+          "Error al" + (isEditMode ? " actualizar" : " crear") + " la materia",
+        type: "error",
+        position: "bottom-right",
+      });
     }
   };
 
@@ -203,7 +216,7 @@ const CreateSubjectView: React.FC = () => {
                 <option value="">Seleccionar docente</option>
                 {teacher.map((teacher) => (
                   <option value={teacher.id} key={teacher.id}>
-                    {teacher.name}
+                    {teacher.name} {teacher.lastname}
                   </option>
                 ))}
               </select>

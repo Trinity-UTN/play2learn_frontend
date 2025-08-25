@@ -1,10 +1,10 @@
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import type { YearResponseDto } from "../../services/Year/YearService";
 import Button from "../../../shared/components/Button/ButtonComponent";
-import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
 import { DataTable } from "../../../shared/components/DataTable";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import type {
@@ -12,17 +12,16 @@ import type {
   DataTableAction,
 } from "../../../shared/components/DataTable";
 import { useYear } from "../../hooks/useYear";
-import type { YearResponseDto } from "../../services/Year/YearService";
+import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import styles from "./ListYearView.module.css";
 
 const ListYearView: React.FC = () => {
-  const navigate = useNavigate();
   const {
     loading,
-    setSelectedYear,
+    paginatedYears,
     getPaginatedYear,
     deleteYear,
-    paginatedYears,
+    setSelectedYear,
   } = useYear();
   const {
     paginationParams,
@@ -31,57 +30,44 @@ const ListYearView: React.FC = () => {
     handlePageChange,
     handlePageSizeChange,
   } = usePaginationParams();
-  const [alertConfig, setAlertConfig] = useState({
-    title: "",
-    message: "",
-    type: "warning" as "warning" | "danger",
-    isOpen: false,
-    showDoubleConfirmation: false,
-    onConfirm: () => {},
-  });
+  const { showConfirmation } = useConfirmation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadPaginatedYears = async () => {
       try {
         await getPaginatedYear(paginationParams);
       } catch (error) {
-        console.error("Error al cargar años paginados:", error);
+        console.error("Error al cargar años paginados:", error); // TODO: REMOVE_DEBUG
       }
     };
     loadPaginatedYears();
   }, [paginationParams, getPaginatedYear]);
 
   const handleEdit = (year: YearResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Modificar Año",
       message: `¿Está seguro que desea modificar el año "${year.name}"?`,
       type: "warning",
-      isOpen: true,
-      showDoubleConfirmation: false,
       onConfirm: () => {
         setSelectedYear(year);
         navigate(`/dashboard/years/edit/${year.id}`);
-        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
     });
   };
 
   const handleDelete = (year: YearResponseDto) => {
-    setAlertConfig({
-      title: "Eliminar Año",
+    showConfirmation({
+      title: "Eliminar Docente",
       message: `¿Está seguro que desea eliminar el año "${year.name}"?`,
       type: "danger",
-      isOpen: true,
       showDoubleConfirmation: true,
       onConfirm: async () => {
         try {
-          //console.log(`Eliminando año con ID: ${year.id}`); // TODO: REMOVE_DEBUG
           await deleteYear(year.id);
-          // Recargar la página actual después de eliminar
           await getPaginatedYear(paginationParams);
-          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
-          console.error("Error al eliminar año:", error);
+          console.error("Error al eliminar año:", error); // TODO: REMOVE_DEBUG
         }
       },
     });
@@ -205,17 +191,6 @@ const ListYearView: React.FC = () => {
           }
         />
       </motion.div>
-
-      <ConfirmationModal
-        title={alertConfig.title}
-        message={alertConfig.message}
-        type={alertConfig.type}
-        isOpen={alertConfig.isOpen}
-        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
-        doubleConfirmationText="¿Está completamente seguro? Esta acción no se puede deshacer."
-        onConfirm={alertConfig.onConfirm}
-        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
-      />
     </motion.div>
   );
 };

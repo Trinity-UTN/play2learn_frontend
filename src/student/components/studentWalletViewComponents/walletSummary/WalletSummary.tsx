@@ -23,8 +23,14 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
   //   });
   // };
 
-  const liquidityPercentage = (data.availableCoins / data.totalBalance) * 100;
-  const investmentPercentage = (data.investedCoins / data.totalBalance) * 100;
+  const liquidityPercentage = data.totalBalance
+    ? (data.availableCoins / data.totalBalance) * 100
+    : 0;
+
+  const investmentPercentage = data.totalBalance
+    ? (data.investedCoins / data.totalBalance) * 100
+    : 0;
+
   return (
     <Card className={styles.summaryCard}>
       <div className={styles.cardHeader}>

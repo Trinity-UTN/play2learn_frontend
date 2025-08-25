@@ -31,28 +31,6 @@ const Sidebar: React.FC = () => {
       items: [{ title: "Resumen", icon: FaHome, path: "overview" }],
     },
     {
-      title: "Gestión de Cursos",
-      items: [
-        {
-          title: "Crear Curso",
-          icon: FaPlus,
-          path: AdminRoutes.Courses.Create,
-        },
-        { title: "Ver Cursos", icon: FaBook, path: AdminRoutes.Courses.List },
-      ],
-    },
-    {
-      title: "Gestión de Años",
-      items: [
-        { title: "Crear Año", icon: FaPlus, path: AdminRoutes.Years.Create },
-        {
-          title: "Ver Años",
-          icon: FaCalendarAlt,
-          path: AdminRoutes.Years.List,
-        },
-      ],
-    },
-    {
       title: "Gestión de Estudiantes",
       items: [
         {
@@ -97,6 +75,28 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
+    {
+      title: "Gestión de Cursos",
+      items: [
+        {
+          title: "Crear Curso",
+          icon: FaPlus,
+          path: AdminRoutes.Courses.Create,
+        },
+        { title: "Ver Cursos", icon: FaBook, path: AdminRoutes.Courses.List },
+      ],
+    },
+    {
+      title: "Gestión de Años",
+      items: [
+        { title: "Crear Año", icon: FaPlus, path: AdminRoutes.Years.Create },
+        {
+          title: "Ver Años",
+          icon: FaCalendarAlt,
+          path: AdminRoutes.Years.List,
+        },
+      ],
+    },
   ];
 
   const containerVariants: Variants = {
@@ -129,7 +129,7 @@ const Sidebar: React.FC = () => {
           <FaGraduationCap className={styles.logoIcon} />
           <div>
             <h2 className={styles.logoTitle}>Sistema Escolar</h2>
-            <p className={styles.logoSubtitle}>Panel de Admin</p>
+            <p className={styles.logoSubtitle}>Panel de Administrador</p>
           </div>
         </div>
       </motion.div>

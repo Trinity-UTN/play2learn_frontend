@@ -43,7 +43,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     try {
       await TeacherService.updateTeacherApi(data);
     } catch (error) {
-      console.error("Error al actualizar el docente:", error);  // TODO: REMOVE_DEBUG
+      console.error("Error al actualizar el docente:", error); // TODO: REMOVE_DEBUG
       throw error;
     } finally {
       setLoading(false);
@@ -97,6 +97,9 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     try {
       await TeacherService.deleteTeacherApi(id);
     } catch (error) {
+      alert(
+        `El recurso Docente con id ${id} no puede ser eliminado porque tiene asociaciones con materias.`
+      );
       console.error("Error al eliminar el docente:", error); // TODO: REMOVE_DEBUG
       throw error;
     } finally {

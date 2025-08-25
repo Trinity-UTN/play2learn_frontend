@@ -20,7 +20,6 @@ const BenefitsListView: React.FC = () => {
   } = usePaginationParams();
 
   const navigate = useNavigate();
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {

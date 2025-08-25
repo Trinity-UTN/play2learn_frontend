@@ -26,6 +26,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
+  // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<
     "config" | "pairs" | "preview"
@@ -40,7 +41,6 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     [pairIndex: number]: { [field: string]: string };
   }>({});
 
-  // Validación del formulario cuando cambiamos al paso de preview
   useEffect(() => {
     if (currentStep === "preview") {
       const validationErrors = validateAllPairs();
@@ -50,7 +50,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     }
   }, [currentStep, pairs]);
 
-  // Función para reiniciar todos los estados
+  // Funciones auxiliares del propio context
   const resetAllStates = () => {
     setConfig({ totalPairs: 4 });
     setPairs([]);
@@ -76,7 +76,6 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     return "incomplete";
   };
 
-  // Función para validar todas las parejas
   const validateAllPairs = (): string[] => {
     const validationErrors: string[] = [];
 
@@ -123,12 +122,10 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     return validationErrors;
   };
 
-  // Función para verificar si todas las parejas están completas
   const areAllPairsComplete = (): boolean => {
     return pairs.every((pair) => getPairStatus(pair) === "complete");
   };
 
-  // Determinar si el formulario es válido para envío
   const isFormValid = errors.length === 0 && areAllPairsComplete();
 
   const registrarMemorama = async (data: MemoramaInterface): Promise<void> => {
@@ -242,7 +239,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
       onConfirm: () => {
         showToast({
           title: "Actividad reiniciada",
-          type: "info",
+          type: "success",
           position: "bottom-right",
         });
         resetAllStates();
@@ -251,7 +248,6 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
   };
 
   // Funciones de utilidad
-
   const getStepTitle = () => {
     switch (currentStep) {
       case "config":

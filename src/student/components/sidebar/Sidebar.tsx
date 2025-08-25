@@ -27,7 +27,7 @@ interface MenuItem {
   icon: React.ComponentType;
   path: string;
   color: string;
-  badge?: string | number;
+  badge: string | number;
 }
 
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
@@ -40,13 +40,14 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
       icon: FaHome,
       path: StudentRoutes.Overview,
       color: "#3B82F6",
+      badge: "",
     },
     {
       title: "Mi Billetera",
       icon: FaWallet,
       path: StudentRoutes.Wallet,
       color: "#10B981",
-      badge: currentStudent?.wallet.balance,
+      badge: String(currentStudent?.wallet.balance) ?? "0",
     },
     {
       title: "Mis Actividades",
@@ -74,6 +75,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
       icon: FaTrophy,
       path: StudentRoutes.Ranking,
       color: "#F97316",
+      badge: "",
     },
   ];
 
@@ -102,7 +104,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
   const handleProfileClick = () => {
     navigate(`/dashboard/${StudentRoutes.Profile}`);
   };
-
+  // console.log(currentStudent?.wallet.balance);
   return (
     <motion.aside
       variants={containerVariants}

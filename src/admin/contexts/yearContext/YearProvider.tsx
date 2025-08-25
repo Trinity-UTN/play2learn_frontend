@@ -96,6 +96,9 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
     try {
       await YearService.deleteYearApi(id);
     } catch (error) {
+      alert(
+        `El recurso Año con id ${id} no puede ser eliminado porque tiene asociaciones con cursos.`
+      );
       console.error("Error al eliminar el año:", error);
       throw error;
     } finally {
