@@ -1,191 +1,191 @@
 import { motion } from "framer-motion";
 import {
-  FaBook,
-  FaGamepad,
-  FaGift,
-  FaUsers,
-  FaChartLine,
-  FaClock,
-  FaCalendarAlt,
-  FaStar,
-  FaPlus,
-  FaEye,
-  FaTrophy,
-  FaCheckCircle,
-  FaBell,
+  FaTools,
+  // FaBook,
+  // FaGamepad,
+  // FaGift,
+  // FaUsers,
+  // FaChartLine,
+  // FaClock,
+  // FaCalendarAlt,
+  // FaStar,
+  // FaPlus,
+  // FaEye,
+  // FaTrophy,
+  // FaCheckCircle,
+  // FaBell,
 } from "react-icons/fa";
-import Card from "../../../shared/components/Card/CardComponent";
-import ComingSoon from "../../../shared/components/comingSoon/ComingSoon";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import Badge from "../../../shared/components/Badge/BadgeComponent";
+// import Card from "../../../shared/components/Card/CardComponent";
+// import Button from "../../../shared/components/Button/ButtonComponent";
+// import Badge from "../../../shared/components/Badge/BadgeComponent";
 import styles from "./Overview.module.css";
 
 export function OverviewView() {
   // Datos simulados del docente
-  const teacherData = {
-    name: "Prof. María García",
-    courses: [
-      {
-        id: 1,
-        name: "Matemáticas Básicas",
-        code: "MAT101",
-        year: "1er Año",
-        students: 32,
-        activities: 8,
-        completionRate: 78,
-        color: "#007bff",
-      },
-      {
-        id: 2,
-        name: "Álgebra Avanzada",
-        code: "MAT201",
-        year: "2do Año",
-        students: 24,
-        activities: 12,
-        completionRate: 85,
-        color: "#10b981",
-      },
-      {
-        id: 3,
-        name: "Cálculo I",
-        code: "MAT301",
-        year: "3er Año",
-        students: 18,
-        activities: 6,
-        completionRate: 92,
-        color: "#f59e0b",
-      },
-    ],
-    totalStudents: 74,
-    totalActivities: 26,
-    totalBenefitsUsed: 45,
-    averageCompletion: 85,
-  };
+  // const teacherData = {
+  //   name: "Prof. María García",
+  //   courses: [
+  //     {
+  //       id: 1,
+  //       name: "Matemáticas Básicas",
+  //       code: "MAT101",
+  //       year: "1er Año",
+  //       students: 32,
+  //       activities: 8,
+  //       completionRate: 78,
+  //       color: "#007bff",
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "Álgebra Avanzada",
+  //       code: "MAT201",
+  //       year: "2do Año",
+  //       students: 24,
+  //       activities: 12,
+  //       completionRate: 85,
+  //       color: "#10b981",
+  //     },
+  //     {
+  //       id: 3,
+  //       name: "Cálculo I",
+  //       code: "MAT301",
+  //       year: "3er Año",
+  //       students: 18,
+  //       activities: 6,
+  //       completionRate: 92,
+  //       color: "#f59e0b",
+  //     },
+  //   ],
+  //   totalStudents: 74,
+  //   totalActivities: 26,
+  //   totalBenefitsUsed: 45,
+  //   averageCompletion: 85,
+  // };
 
-  const recentActivities = [
-    {
-      id: 1,
-      name: "Ecuaciones Cuadráticas",
-      type: "Preguntados",
-      course: "MAT101",
-      completions: 28,
-      totalStudents: 32,
-      createdAt: "Hace 2 días",
-      difficulty: "Medio",
-      color: "#007bff",
-    },
-    {
-      id: 2,
-      name: "Factorización",
-      type: "Completar Oraciones",
-      course: "MAT201",
-      completions: 22,
-      totalStudents: 24,
-      createdAt: "Hace 4 días",
-      difficulty: "Difícil",
-      color: "#10b981",
-    },
-    {
-      id: 3,
-      name: "Límites Básicos",
-      type: "Ordenar Secuencias",
-      course: "MAT301",
-      completions: 16,
-      totalStudents: 18,
-      createdAt: "Hace 1 semana",
-      difficulty: "Fácil",
-      color: "#f59e0b",
-    },
-  ];
+  // const recentActivities = [
+  //   {
+  //     id: 1,
+  //     name: "Ecuaciones Cuadráticas",
+  //     type: "Preguntados",
+  //     course: "MAT101",
+  //     completions: 28,
+  //     totalStudents: 32,
+  //     createdAt: "Hace 2 días",
+  //     difficulty: "Medio",
+  //     color: "#007bff",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Factorización",
+  //     type: "Completar Oraciones",
+  //     course: "MAT201",
+  //     completions: 22,
+  //     totalStudents: 24,
+  //     createdAt: "Hace 4 días",
+  //     difficulty: "Difícil",
+  //     color: "#10b981",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Límites Básicos",
+  //     type: "Ordenar Secuencias",
+  //     course: "MAT301",
+  //     completions: 16,
+  //     totalStudents: 18,
+  //     createdAt: "Hace 1 semana",
+  //     difficulty: "Fácil",
+  //     color: "#f59e0b",
+  //   },
+  // ];
 
-  const topBenefits = [
-    {
-      name: "Extensión de Plazo",
-      uses: 12,
-      course: "MAT101",
-      icon: FaClock,
-      color: "#ff6f3c",
-    },
-    {
-      name: "Falta Justificada",
-      uses: 8,
-      course: "MAT201",
-      icon: FaCalendarAlt,
-      color: "#10b981",
-    },
-    {
-      name: "Consulta Privada",
-      uses: 6,
-      course: "MAT301",
-      icon: FaUsers,
-      color: "#8b5cf6",
-    },
-  ];
+  // const topBenefits = [
+  //   {
+  //     name: "Extensión de Plazo",
+  //     uses: 12,
+  //     course: "MAT101",
+  //     icon: FaClock,
+  //     color: "#ff6f3c",
+  //   },
+  //   {
+  //     name: "Falta Justificada",
+  //     uses: 8,
+  //     course: "MAT201",
+  //     icon: FaCalendarAlt,
+  //     color: "#10b981",
+  //   },
+  //   {
+  //     name: "Consulta Privada",
+  //     uses: 6,
+  //     course: "MAT301",
+  //     icon: FaUsers,
+  //     color: "#8b5cf6",
+  //   },
+  // ];
 
-  const upcomingEvents = [
-    {
-      title: "Parcial MAT101",
-      date: "15 Ene",
-      type: "Examen",
-      course: "Matemáticas Básicas",
-      color: "#dc2626",
-    },
-    {
-      title: "Entrega TP MAT201",
-      date: "18 Ene",
-      type: "Trabajo",
-      course: "Álgebra Avanzada",
-      color: "#f59e0b",
-    },
-    {
-      title: "Clase Especial MAT301",
-      date: "22 Ene",
-      type: "Clase",
-      course: "Cálculo I",
-      color: "#10b981",
-    },
-  ];
+  // const upcomingEvents = [
+  //   {
+  //     title: "Parcial MAT101",
+  //     date: "15 Ene",
+  //     type: "Examen",
+  //     course: "Matemáticas Básicas",
+  //     color: "#dc2626",
+  //   },
+  //   {
+  //     title: "Entrega TP MAT201",
+  //     date: "18 Ene",
+  //     type: "Trabajo",
+  //     course: "Álgebra Avanzada",
+  //     color: "#f59e0b",
+  //   },
+  //   {
+  //     title: "Clase Especial MAT301",
+  //     date: "22 Ene",
+  //     type: "Clase",
+  //     course: "Cálculo I",
+  //     color: "#10b981",
+  //   },
+  // ];
 
-  const quickActions = [
-    {
-      title: "Nueva Actividad",
-      description: "Crear actividad para tus cursos",
-      icon: FaGamepad,
-      color: "#007bff",
-      action: "create-activity",
-    },
-    {
-      title: "Nuevo Beneficio",
-      description: "Agregar recompensa para estudiantes",
-      icon: FaGift,
-      color: "#8b5cf6",
-      action: "create-benefit",
-    },
-    {
-      title: "Ver Estadísticas",
-      description: "Analizar progreso de estudiantes",
-      icon: FaChartLine,
-      color: "#10b981",
-      action: "view-stats",
-    },
-    {
-      title: "Gestionar Cursos",
-      description: "Administrar tus cursos asignados",
-      icon: FaBook,
-      color: "#ff6f3c",
-      action: "view-courses",
-    },
-  ];
+  // const quickActions = [
+  //   {
+  //     title: "Nueva Actividad",
+  //     description: "Crear actividad para tus cursos",
+  //     icon: FaGamepad,
+  //     color: "#007bff",
+  //     action: "create-activity",
+  //   },
+  //   {
+  //     title: "Nuevo Beneficio",
+  //     description: "Agregar recompensa para estudiantes",
+  //     icon: FaGift,
+  //     color: "#8b5cf6",
+  //     action: "create-benefit",
+  //   },
+  //   {
+  //     title: "Ver Estadísticas",
+  //     description: "Analizar progreso de estudiantes",
+  //     icon: FaChartLine,
+  //     color: "#10b981",
+  //     action: "view-stats",
+  //   },
+  //   {
+  //     title: "Gestionar Cursos",
+  //     description: "Administrar tus cursos asignados",
+  //     icon: FaBook,
+  //     color: "#ff6f3c",
+  //     action: "view-courses",
+  //   },
+  // ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
+  // const containerVariants = {
+  //   hidden: { opacity: 0 },
+  //   visible: {
+  //     opacity: 1,
+  //     transition: {
+  //       staggerChildren: 0.1,
+  //     },
+  //   },
+  // };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -193,9 +193,13 @@ export function OverviewView() {
   };
 
   return (
-    <div className={styles.comingSoon}>
-      <ComingSoon />
-    </div>
+    <motion.div variants={itemVariants} className={styles.header}>
+      <div className={styles.constructionBanner}>
+        <FaTools className={styles.constructionIcon} />
+        <h1 className={styles.title}>Panel de Docente - En Construcción</h1>
+        <p className={styles.subtitle}>Esta página está en desarrollo.</p>
+      </div>
+    </motion.div>
     // <motion.div
     //   variants={containerVariants}
     //   initial="hidden"
