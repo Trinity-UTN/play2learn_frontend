@@ -150,13 +150,16 @@ export const CompletarOracionProvider: React.FC<
         title: "Actividad creada exitosamente",
         message: "La actividad ha sido creada exitosamente.",
         type: "success",
+        position: "bottom-right",
       });
+      resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
       showToast({
         title: "Error al crear la actividad",
         message: "Hubo un error al crear la actividad",
         type: "error",
+        position: "bottom-right",
       });
       console.error("Error al crear la actividad (completar oración):", error);
     }
@@ -193,7 +196,7 @@ export const CompletarOracionProvider: React.FC<
       onConfirm: () => {
         showToast({
           title: "Actividad reiniciada",
-          type: "info",
+          type: "success",
           position: "bottom-right",
         });
         resetAllStates();

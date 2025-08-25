@@ -239,7 +239,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
       onConfirm: () => {
         showToast({
           title: "Actividad reiniciada",
-          type: "info",
+          type: "success",
           position: "bottom-right",
         });
         resetAllStates();

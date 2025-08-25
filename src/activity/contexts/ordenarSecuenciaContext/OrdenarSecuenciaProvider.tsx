@@ -181,7 +181,7 @@ export const OrdenarSecuenciaProvider: React.FC<
       onConfirm: () => {
         showToast({
           title: "Actividad reiniciada",
-          type: "info",
+          type: "success",
           position: "bottom-right",
         });
         resetAllStates();
@@ -228,8 +228,9 @@ export const OrdenarSecuenciaProvider: React.FC<
       await registrarOrdenarSecuencia(formData);
       showToast({
         title: "Actividad creada exitosamente",
-        message: "La secuencia ha sido creada exitosamente.",
+        message: "La actividad ha sido creada exitosamente.",
         type: "success",
+        position: "bottom-right",
       });
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
@@ -238,6 +239,7 @@ export const OrdenarSecuenciaProvider: React.FC<
         title: "Error al crear la actividad",
         message: "Hubo un error al crear la actividad",
         type: "error",
+        position: "bottom-right",
       });
       console.error("Error al crear la secuencia:", error);
     }

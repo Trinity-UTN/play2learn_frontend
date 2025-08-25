@@ -130,16 +130,17 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
 
       await registerAhorcado(gameData);
       showToast({
-        title: "Juego creado exitosamente",
-        message: "El juego del ahorcado ha sido creado exitosamente.",
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
         type: "success",
         position: "bottom-right",
       });
+      resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
       showToast({
-        title: "Error al crear el juego",
-        message: "Hubo un error al crear el juego del ahorcado",
+        title: "Error al crear la actividad",
+        message: "Hubo un error al crear la actividad",
         type: "error",
         position: "bottom-right",
       });
@@ -163,13 +164,13 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
 
   const handleReset = () => {
     showConfirmation({
-      title: "Reiniciar Juego",
-      message: "¿Está seguro que desea reiniciar la creación del juego?",
+      title: "Reiniciar Actividad",
+      message: "¿Está seguro que desea reiniciar la creación de la actividad?",
       type: "warning",
       onConfirm: () => {
         showToast({
-          title: "Juego reiniciado",
-          type: "info",
+          title: "Actividad reiniciada",
+          type: "success",
           position: "bottom-right",
         });
         resetAllStates();

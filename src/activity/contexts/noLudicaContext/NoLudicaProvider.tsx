@@ -116,6 +116,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
         type: "success",
         position: "bottom-right",
       });
+      resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
       showToast({
@@ -151,7 +152,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
       onConfirm: () => {
         showToast({
           title: "Actividad reiniciada",
-          type: "info",
+          type: "success",
           position: "bottom-right",
         });
         resetAllStates();

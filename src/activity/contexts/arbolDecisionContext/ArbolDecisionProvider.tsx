@@ -156,6 +156,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
         type: "success",
         position: "bottom-right",
       });
+      resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
       showToast({
@@ -164,7 +165,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
         type: "error",
         position: "bottom-right",
       });
-      console.error("Error al crear la actividad (no lúdica):", error);
+      console.error("Error al crear la actividad (arbol de decision):", error);
     }
   };
 
@@ -191,7 +192,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
       onConfirm: () => {
         showToast({
           title: "Actividad reiniciada",
-          type: "info",
+          type: "success",
           position: "bottom-right",
         });
         resetAllStates();
