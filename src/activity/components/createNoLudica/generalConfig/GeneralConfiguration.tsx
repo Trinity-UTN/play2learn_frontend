@@ -128,7 +128,7 @@ const GeneralConfiguration: React.FC = () => {
               error={!!formErrors.excercise}
               helperText={formErrors.excercise}
               placeholder="Redacta un ensayo de 500 palabras sobre el impacto de la tecnología en la educación..."
-              rows={4}
+              rows={2}
               maxLength={300}
               showCharCount={true}
               resize="vertical"
