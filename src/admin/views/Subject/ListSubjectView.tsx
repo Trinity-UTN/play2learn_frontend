@@ -97,6 +97,19 @@ const ListSubjectView: React.FC = () => {
       ),
     },
     {
+      key: "year",
+      label: "Año",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (subject) => (
+        <div className={styles.nameCell}>
+          <div className={styles.nameWrapper}>
+            <span>{subject.course?.year?.name || "Sin asignar"}</span>
+          </div>
+        </div>
+      ),
+    },
+    {
       key: "course",
       label: "Curso",
       sortable: true,
