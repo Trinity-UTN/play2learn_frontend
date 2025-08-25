@@ -1,32 +1,35 @@
 import type React from "react";
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaUserTie, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import { useTeacher } from "../../hooks/useTeacher";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./CreateTeacherView.module.css";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 const CreateTeacherView: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const isEditMode = Boolean(id);
   const {
     loading,
+    selectedTeacher,
     registerTeacher,
     getTeacherById,
-    selectedTeacher,
     updateTeacher,
   } = useTeacher();
+  const { id } = useParams<{ id: string }>();
+  const { showToast } = useToaster();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
     dni: "",
     email: "",
   });
-  const navigate = useNavigate();
+
+  const isEditMode = Boolean(id);
 
   useEffect(() => {
     if (isEditMode && id) {
@@ -39,7 +42,7 @@ const CreateTeacherView: React.FC = () => {
             email: selectedTeacher?.user.email || "",
           });
         } catch (error) {
-          console.error("Error al cargar el docente:", error);
+          console.error("Error al cargar el docente:", error); // TODO: REMOVE_DEBUG
           navigate("/dashboard/teachers/list");
         }
       };
@@ -64,19 +67,30 @@ const CreateTeacherView: React.FC = () => {
         const data = { id: idN, ...formData };
 
         await updateTeacher(data);
-        alert("Docente actualizado exitosamente.");
+        showToast({
+          title: "Docente actualizado exitosamente",
+          message: "El docente ha sido actualizado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
         navigate("/dashboard/teachers/list");
       } else {
         await registerTeacher(formData);
-        alert("Docente creado exitosamente.");
+        showToast({
+          title: "Docente creado exitosamente",
+          message: "El docente ha sido creado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
         resetFormData();
       }
     } catch (err) {
-      alert(
-        isEditMode
-          ? "Hubo un error al actualizar el Docente."
-          : "Hubo un error al crear el Docente."
-      );
+      showToast({
+        title:
+          "Error al" + (isEditMode ? " actualizar" : " crear") + " el docente",
+        type: "error",
+        position: "bottom-right",
+      });
     }
   };
 

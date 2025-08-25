@@ -1,28 +1,26 @@
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import type { StudentResponseDto } from "../../services/student/StudentService";
 import Button from "../../../shared/components/Button/ButtonComponent";
-import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
 import { DataTable } from "../../../shared/components/DataTable";
 import type {
   DataTableColumn,
   DataTableAction,
 } from "../../../shared/components/DataTable";
-import type { StudentResponseDto } from "../../services/student/StudentService";
-import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import { useStudent } from "../../hooks/useStudent";
+import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import styles from "./ListStudentView.module.css";
 
 const ListStudentView: React.FC = () => {
-  const navigate = useNavigate();
-
   const {
     loading,
+    paginatedStudents,
     getPaginatedStudent,
     deleteStudent,
-    paginatedStudents,
     setSelectedStudent,
     restoreStudent,
   } = useStudent();
@@ -33,14 +31,8 @@ const ListStudentView: React.FC = () => {
     handlePageChange,
     handlePageSizeChange,
   } = usePaginationParams();
-  const [alertConfig, setAlertConfig] = useState({
-    title: "",
-    message: "",
-    type: "warning" as "warning" | "danger",
-    isOpen: false,
-    showDoubleConfirmation: false,
-    onConfirm: () => {},
-  });
+  const { showConfirmation } = useConfirmation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadPaginatedStudents = async () => {
@@ -54,32 +46,27 @@ const ListStudentView: React.FC = () => {
   }, [paginationParams, getPaginatedStudent]);
 
   const handleEdit = (student: StudentResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Modificar Estudiante",
       message: `¿Está seguro que desea modificar el estudiante "${student.name} ${student.lastname}"?`,
       type: "warning",
-      isOpen: true,
-      showDoubleConfirmation: false,
       onConfirm: () => {
         setSelectedStudent(student);
         navigate(`/dashboard/students/edit/${student.id}`);
-        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
     });
   };
 
   const handleDelete = (student: StudentResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Eliminar Estudiante",
       message: `¿Está seguro que desea eliminar el estudiante "${student.name} ${student.lastname}"?`,
       type: "danger",
-      isOpen: true,
       showDoubleConfirmation: true,
       onConfirm: async () => {
         try {
           await deleteStudent(student.id);
           await getPaginatedStudent(paginationParams);
-          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
           console.error("Error al eliminar estudiante:", error); // TODO: REMOVE_DEBUG
         }
@@ -87,19 +74,15 @@ const ListStudentView: React.FC = () => {
     });
   };
 
-  //Implementar cuando este listo el restaurar
   const handleRestore = (student: StudentResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Restaurar Estudiante",
-      message: `¿Está seguro que desea restaurar el estudiante "${student.name}"?`,
+      message: `¿Está seguro que desea restaurar el estudiante "${student.name} ${student.lastname}"?`,
       type: "warning",
-      isOpen: true,
-      showDoubleConfirmation: true,
       onConfirm: async () => {
         try {
           await restoreStudent(student.id);
           await getPaginatedStudent(paginationParams);
-          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
           console.error("Error al restaurar estudiante:", error); // TODO: REMOVE_DEBUG
         }
@@ -307,17 +290,6 @@ const ListStudentView: React.FC = () => {
           }
         />
       </motion.div>
-
-      <ConfirmationModal
-        title={alertConfig.title}
-        message={alertConfig.message}
-        type={alertConfig.type}
-        isOpen={alertConfig.isOpen}
-        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
-        doubleConfirmationText="¿Está completamente seguro?"
-        onConfirm={alertConfig.onConfirm}
-        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
-      />
     </motion.div>
   );
 };

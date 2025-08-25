@@ -1,28 +1,27 @@
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus, FaUser } from "react-icons/fa";
+import type { SubjectResponseDto } from "../../services/subject/SubjectService";
 import Button from "../../../shared/components/Button/ButtonComponent";
-import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
 import { DataTable } from "../../../shared/components/DataTable";
 import type {
   DataTableColumn,
   DataTableAction,
 } from "../../../shared/components/DataTable";
-import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import { useSubject } from "../../hooks/useSubject";
-import type { SubjectResponseDto } from "../../services/subject/SubjectService";
+import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import styles from "./ListSubjectView.module.css";
 
 const ListSubjectView: React.FC = () => {
-  const navigate = useNavigate();
   const {
     loading,
+    paginatedSubjects,
     setSelectedSubject,
     getPaginatedSubject,
     deleteSubject,
-    paginatedSubjects,
   } = useSubject();
   const {
     paginationParams,
@@ -31,57 +30,44 @@ const ListSubjectView: React.FC = () => {
     handlePageChange,
     handlePageSizeChange,
   } = usePaginationParams();
-  const [alertConfig, setAlertConfig] = useState({
-    title: "",
-    message: "",
-    type: "warning" as "warning" | "danger",
-    isOpen: false,
-    showDoubleConfirmation: false,
-    onConfirm: () => {},
-  });
+  const { showConfirmation } = useConfirmation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadPaginatedSubjects = async () => {
       try {
         await getPaginatedSubject(paginationParams);
       } catch (error) {
-        console.error("Error al cargar materias paginadas:", error);
+        console.error("Error al cargar materias paginadas:", error); // TODO: REMOVE_DEBUG
       }
     };
     loadPaginatedSubjects();
   }, [paginationParams, getPaginatedSubject]);
 
   const handleEdit = (subject: SubjectResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Modificar Materia",
       message: `¿Está seguro que desea modificar la materia "${subject.name}"?`,
       type: "warning",
-      isOpen: true,
-      showDoubleConfirmation: false,
       onConfirm: () => {
         setSelectedSubject(subject);
         navigate(`/dashboard/subjects/edit/${subject.id}`);
-        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
     });
   };
 
   const handleDelete = (subject: SubjectResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Eliminar Materia",
       message: `¿Está seguro que desea eliminar la materia "${subject.name}"?`,
       type: "danger",
-      isOpen: true,
       showDoubleConfirmation: true,
       onConfirm: async () => {
         try {
-          //console.log(`Eliminando materia con ID: ${subject.id}`); // TODO: REMOVE_DEBUG
           await deleteSubject(subject.id);
-          // Recargar la página actual después de eliminar
           await getPaginatedSubject(paginationParams);
-          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
-          console.error("Error al eliminar materia:", error);
+          console.error("Error al eliminar materia:", error); // TODO: REMOVE_DEBUG
         }
       },
     });
@@ -243,17 +229,6 @@ const ListSubjectView: React.FC = () => {
           }
         />
       </motion.div>
-
-      <ConfirmationModal
-        title={alertConfig.title}
-        message={alertConfig.message}
-        type={alertConfig.type}
-        isOpen={alertConfig.isOpen}
-        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
-        doubleConfirmationText="¿Está completamente seguro? Esta acción no se puede deshacer."
-        onConfirm={alertConfig.onConfirm}
-        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
-      />
     </motion.div>
   );
 };

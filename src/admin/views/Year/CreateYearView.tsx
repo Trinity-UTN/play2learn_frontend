@@ -7,16 +7,19 @@ import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import { useYear } from "../../hooks/useYear";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./CreateYearView.module.css";
 
 const CreateYearView: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const isEditMode = Boolean(id);
-
-  const [formData, setFormData] = useState({ name: "" });
   const { registerYear, updateYear, getYearById, loading, selectedYear } =
     useYear();
+  const { id } = useParams<{ id: string }>();
+  const { showToast } = useToaster();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({ name: "" });
+
+  const isEditMode = Boolean(id);
 
   useEffect(() => {
     if (isEditMode && id) {
@@ -24,7 +27,7 @@ const CreateYearView: React.FC = () => {
         try {
           setFormData({ name: selectedYear?.name || "" });
         } catch (error) {
-          console.error("Error al cargar el año:", error);
+          console.error("Error al cargar el año:", error); // TODO: REMOVE_DEBUG
           navigate("/dashboard/years/list");
         }
       };
@@ -44,19 +47,32 @@ const CreateYearView: React.FC = () => {
           id: Number(id),
           name: formData.name,
         });
-        alert("Año actualizado exitosamente.");
+        showToast({
+          title: "Año actualizado exitosamente",
+          message: "El año ha sido actualizado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
         navigate("/dashboard/years/list");
       } else {
         await registerYear(formData);
-        alert("Año creado exitosamente.");
+        showToast({
+          title: "Año creado exitosamente",
+          message: "El año ha sido creado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
         setFormData({ name: "" });
       }
     } catch (err) {
-      alert(
-        isEditMode
-          ? "Hubo un error al actualizar el año."
-          : "Hubo un error al crear el año."
-      );
+      showToast({
+        title:
+          "Error al" +
+          (isEditMode ? " actualizar" : " crear") +
+          " el año académico",
+        type: "error",
+        position: "bottom-right",
+      });
     }
   };
 
