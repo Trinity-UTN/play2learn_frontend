@@ -49,7 +49,7 @@ const ActivityFooter: React.FC<ActivityFooterProps> = ({
       ? totalSteps
       : 1;
 
-  const isFirstStep = currentStepNum === 1;
+  // const isFirstStep = currentStepNum === 1;
   const isLastStep = currentStepNum === totalSteps;
 
   const handleNextClick = () => {
@@ -70,28 +70,28 @@ const ActivityFooter: React.FC<ActivityFooterProps> = ({
   const FooterContent = (
     <Card className={`${styles.footer} ${className}`}>
       <div className={styles.footerActions}>
-        <Button
-          variant="secondary"
-          onClick={onReset}
-          className={styles.resetButton}
-          disabled={loading}
-        >
-          <FaUndo />
-          Reiniciar
-        </Button>
+        {onBack && (
+          <Button
+            variant="primary"
+            onClick={onBack}
+            className={styles.backButton}
+            disabled={loading}
+          >
+            <FaArrowLeft />
+            Atrás
+          </Button>
+        )}
 
         <div className={styles.navigationButtons}>
-          {!isFirstStep && onBack && (
-            <Button
-              variant="secondary"
-              onClick={onBack}
-              disabled={loading}
-              className={styles.backButton}
-            >
-              <FaArrowLeft />
-              Atrás
-            </Button>
-          )}
+          <Button
+            variant="secondary"
+            onClick={onReset}
+            disabled={loading}
+            className={styles.resetButton}
+          >
+            <FaUndo />
+            Reiniciar
+          </Button>
 
           {(onNext || onSubmit) && (
             <Button
