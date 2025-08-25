@@ -167,7 +167,7 @@ const ViewCoursesView: React.FC = () => {
         <div>
           <h1 className={styles.title}>Gestión de Curso</h1>
           <p className={styles.subtitle}>
-            Administra los curso académicos del sistema
+            Administra los cursos académicos del sistema
           </p>
         </div>
         <Button

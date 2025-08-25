@@ -129,7 +129,7 @@ const Sidebar: React.FC = () => {
           <FaGraduationCap className={styles.logoIcon} />
           <div>
             <h2 className={styles.logoTitle}>Sistema Escolar</h2>
-            <p className={styles.logoSubtitle}>Panel de Admin</p>
+            <p className={styles.logoSubtitle}>Panel de Administrador</p>
           </div>
         </div>
       </motion.div>
