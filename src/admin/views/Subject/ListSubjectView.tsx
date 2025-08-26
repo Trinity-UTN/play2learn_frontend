@@ -124,7 +124,7 @@ const ListSubjectView: React.FC = () => {
     },
     {
       key: "teacher",
-      label: "Profesor",
+      label: "Docente",
       sortable: true,
       className: styles.nameColumn,
       render: (subject) => (
