@@ -1,8 +1,9 @@
+@import "../../../../shared/styles/colors.css";
 .tipsCard {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--color-background-semitrasparent);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  border: 1px solid var(--color-border-dark);
+  color: var(--color-text-light);
 }
 
 .cardHeader {
@@ -22,12 +23,12 @@
 }
 
 .titleIcon {
-  color: #8b5cf6;
+  color: var(--color-stat-4);
 }
 
 .tipCounter {
-  background: rgba(138, 92, 246, 0.534);
-  color: #f4f1fa;
+  background: var(--color-stat-4);
+  color: var(--color-text-light);
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
   font-size: 0.8rem;
@@ -39,7 +40,7 @@
 }
 
 .tipContent {
-  background: rgba(74, 74, 74, 0.346);
+  background: var(--color-background-semitrasparent-dark);
   border-radius: 12px;
   padding: 1.5rem;
   border-left: 4px solid var(--tip-color);
@@ -53,11 +54,11 @@
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0 0 0.5rem 0;
-  color: white;
+  color: var(--color-text-light);
 }
 
 .tipConcept {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-light);
   font-size: 0.9rem;
   margin: 0;
   font-style: italic;
@@ -83,7 +84,7 @@
 }
 
 .explanation p {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--color-text-light);
   margin: 0;
   line-height: 1.5;
 }
@@ -102,7 +103,7 @@
 }
 
 .example p {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-light);
   margin: 0;
   line-height: 1.4;
 }
@@ -123,14 +124,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
+  background: var(--color-background-semitrasparent);
+  color: var(--color-text-light);
   transition: all 0.3s ease;
 }
 
 .navButton:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: var(--color-background-semitrasparent);
+  color: rgb(24, 24, 24);
 }
 
 .tipDots {
