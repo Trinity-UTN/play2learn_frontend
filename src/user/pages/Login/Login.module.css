@@ -1,5 +1,6 @@
+@import "../../../shared/styles/colors.css";
 .container {
-  min-height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,7 +8,11 @@
   padding: 1rem;
   gap: 1rem;
   overflow: hidden;
-  background: linear-gradient(135deg, #82018d 0%, #f76300 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
 }
 
 .loginWrapper {
@@ -20,7 +25,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 500px;
+  min-height: 400px;
   gap: 1rem;
   padding: 10px 30px 30px 30px;
   background: linear-gradient(135deg, #fdcdadb8, #fcdaffdb);
@@ -48,7 +53,7 @@
   margin-bottom: 20px;
 }
 .header h1 {
-  color: #82018d;
+  color: var(--color-primary);
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 8px;

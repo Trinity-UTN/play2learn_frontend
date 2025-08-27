@@ -59,13 +59,16 @@
 .submitButton {
   padding: 1rem 2rem;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  background: var(--color-secondary);
+  border: var(--color-secondary);
+  box-shadow: 0 4px 12px var(--color-secondary);
   transition: all 0.3s ease;
 }
 
 .submitButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 6px 20px var(--color-primary);
+  background: var(--color-primary) !important;
 }
 
 .cancelButton {

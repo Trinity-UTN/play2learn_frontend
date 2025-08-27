@@ -6,9 +6,11 @@
   --color-third: #007bff;
 
   --color-text: #333333;
+  --color-text-light: #ffffff;
   --color-border: #e5e7eb;
   --colot-text-title: #2e2e2e;
   --color-text-subtitle: #6b7280;
+  --color-text-subtitle-ligth: #e7e8eac5;
 
   /* admin */
   --color-accent: #007bff;
@@ -22,4 +24,8 @@
   --color-stat-3: #10b981;
   --color-stat-4: #8b5cf6;
   --color-stat: white;
+
+  /* Variables RGB para poder usar alpha */
+  --color-primary-rgb: 130, 1, 141;
+  --color-secondary-rgb: 247, 99, 0;
 }

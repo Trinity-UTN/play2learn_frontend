@@ -1,7 +1,12 @@
+@import "../../../shared/styles/colors.css";
 .sidebar {
   width: 280px;
-  background: white;
-  border-right: 1px solid #e5e7eb;
+  background: linear-gradient(
+    145deg,
+    rgba(var(--color-secondary-rgb), 0.8),
+    rgba(var(--color-primary-rgb), 0.8)
+  );
+  border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -11,7 +16,7 @@
 
 .header {
   padding: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .logo {
@@ -23,8 +28,7 @@
 .logoIcon {
   width: 2rem;
   height: 2rem;
-  color: #007bff;
-  background-color: #007bff;
+  background-color: var(--color-primary);
   color: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -32,14 +36,14 @@
 
 .logoTitle {
   font-weight: 600;
-  color: #2e2e2e;
+  color: var(--color-text-light);
   margin: 0;
   font-size: 1rem;
 }
 
 .logoSubtitle {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle-ligth);
   margin: 0;
 }
 
@@ -56,7 +60,7 @@
 .sectionTitle {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--color-text-subtitle-ligth);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
@@ -76,28 +80,28 @@
   justify-content: flex-start;
   gap: 0.75rem;
   padding: 0.75rem;
-  border: none;
-  background: none;
-  color: #2e2e2e;
+  color: var(--color-text-light);
   text-align: left;
   border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.875rem;
+  margin-bottom: 10px;
 }
 
 .menuItem:hover {
   background-color: rgba(185, 231, 105, 0.1);
-  color: #2e2e2e;
+  color: var(--color-text);
 }
 
 .menuItem.active {
-  background-color: #007bff;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 5px var(--color-primary) !important;
   color: white;
 }
 
 .menuItem.active:hover {
-  background-color: #0159bd;
+  background-color: var(--color-primary);
   color: white;
 }
 
@@ -113,8 +117,9 @@
 }
 
 .logoutButton {
-  color: #ef4444;
-  justify-content: flex-start;
+  background-color: var(--color-secondary);
+  color: var(--color-text-light);
+  justify-content: center;
   gap: 0.5rem;
 }
 
