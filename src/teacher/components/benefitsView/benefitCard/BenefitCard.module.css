@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .benefitCard {
   padding: 1.5rem;
   height: 320px;
@@ -57,7 +58,7 @@
 
 .benefitIcon {
   font-size: 1.25rem;
-  color: rgb(255, 255, 255);
+  color: var(--color-stat);
 }
 
 .benefitInfo {
@@ -67,14 +68,14 @@
 .benefitName {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #2e2e2e;
+  color: var(--color-text-title);
   margin-bottom: 0.25rem;
   line-height: 1.2;
 }
 
 .benefitCategory {
   font-size: 0.875rem;
-  color: #007bff;
+  color: var(--color-text-subtitle);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -83,7 +84,7 @@
 .benefitDescription {
   flex: 1;
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   line-height: 1.5;
   margin-bottom: 1rem;
 }
@@ -106,14 +107,14 @@
 }
 
 .costIcon {
-  color: #f59e0b;
+  color: var(--color-stat-2);
   font-size: 1rem;
 }
 
 .costValue {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #2e2e2e;
+  color: var(--color-text);
 }
 
 .usageSection {
@@ -125,7 +126,7 @@
 
 .usageText {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   font-weight: 500;
 }
 
@@ -150,7 +151,7 @@
 
 .duration {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   background-color: #f3f4f6;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
@@ -164,7 +165,7 @@
 .restrictionsTitle {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-subtitle);
   display: block;
   margin-bottom: 0.5rem;
 }
@@ -216,12 +217,11 @@
 }
 
 .deleteButton {
-  color: #ef4444;
+  color: var(--color-delete-button);
 }
 
 .deleteButton:hover {
   background-color: #fef2f2;
-  color: #dc2626;
 }
 .actionIcon {
   font-size: 0.75rem;
