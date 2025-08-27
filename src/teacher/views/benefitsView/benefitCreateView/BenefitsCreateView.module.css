@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -28,18 +29,18 @@
   gap: 0.75rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .headerIcon {
   font-size: 1.25rem;
-  color: #007bff;
+  color: var(--color-accent);
 }
 
 .cardTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #2e2e2e;
+  color: var(--color-text-title);
 }
 
 .form {
@@ -52,7 +53,7 @@
   display: flex;
   gap: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--color-border);
 }
 
 .submitButton {

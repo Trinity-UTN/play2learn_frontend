@@ -3,7 +3,7 @@
   --card-background: #ffffff;
   --color-primary: #82018d;
   --color-secondary: #f76300;
-  --color-tercero: #007bff;
+  --color-third: #007bff;
 
   --color-text: #333333;
   --color-border: #e5e7eb;
@@ -21,4 +21,5 @@
   --color-stat-2: #f59e0b;
   --color-stat-3: #10b981;
   --color-stat-4: #8b5cf6;
+  --color-stat: white;
 }
