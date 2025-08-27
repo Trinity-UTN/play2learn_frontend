@@ -1,3 +1,4 @@
+@import "../../../shared/styles/colors.css";
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -15,12 +16,12 @@
 .title {
   font-size: 2rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--colot-text-title);
   margin-bottom: 0.5rem;
 }
 
 .subtitle {
-  color: #6b7280;
+  color: var(--colot-text-subtitle);
   font-size: 1rem;
   line-height: 1.5;
 }
@@ -29,162 +30,12 @@
   margin-right: 0.5rem;
 }
 
-.tableCard {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e7eb;
-  overflow: hidden;
-}
-
-.searchSection {
-  padding: 1.5rem;
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.searchWrapper {
-  position: relative;
-  max-width: 400px;
-  flex: 1;
-}
-
-.searchIcon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #9ca3af;
-  font-size: 0.875rem;
-}
-
-.searchInput {
-  padding-left: 2.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  transition: all 0.2s;
-}
-
-.searchInput:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.resultsInfo {
-  color: #6b7280;
-  font-size: 0.875rem;
-  white-space: nowrap;
-}
-
-.tableWrapper {
-  overflow-x: auto;
-  min-height: 200px;
-}
-
-.loadingContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 3rem;
-}
-
-.table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.table th {
-  text-align: left;
-  padding: 1rem 1.5rem;
-  font-weight: 600;
-  color: #374151;
-  background: linear-gradient(to bottom, #f9fafb, #f3f4f6);
-  border-bottom: 2px solid #e5e7eb;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.sortableHeader {
-  cursor: pointer;
-  user-select: none;
-  transition: background-color 0.2s;
-}
-
-.sortableHeader:hover {
-  background: linear-gradient(to bottom, #f3f4f6, #e5e7eb);
-}
-
-.headerContent {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.sortIcon {
-  color: #9ca3af;
-  font-size: 0.75rem;
-  transition: color 0.2s;
-}
-
-.sortableHeader:hover .sortIcon {
-  color: #6b7280;
-}
-
-.idColumn {
-  width: 100px;
-}
-
-.nameColumn {
-  width: auto;
-}
-
-.actionsColumn {
-  width: 120px;
-  text-align: center;
-}
-
-.table td {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid #f3f4f6;
-  color: #374151;
-  font-size: 0.875rem;
-  vertical-align: middle;
-}
-
-.tableRow {
-  transition: all 0.2s ease;
-  background: white;
-}
-
-.tableRow:hover {
-  background: #f8fafc;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.tableRow:hover td {
-  border-color: #e2e8f0;
-}
-
-.idCell {
-  text-align: center;
-}
-
 .idBadge {
   display: inline-block;
   font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
   font-weight: 600;
-  color: #6366f1;
-  background: #f1f5f9;
+  color: var(--color-badge);
+  background: var(--color-background);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
   min-width: 40px;
@@ -202,7 +53,7 @@
 }
 
 .teacherIcon {
-  color: #6366f1;
+  color: var(--color-badge);
   font-size: 1rem;
   flex-shrink: 0;
 }
@@ -213,19 +64,8 @@
   flex-shrink: 0;
 }
 
-.actionsCell {
-  text-align: center;
-}
-
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  align-items: center;
-}
-
 .editButton {
-  color: #059669;
+  color: var(--color-edit-button);
   border: 1px solid transparent;
   transition: all 0.2s;
 }
@@ -238,7 +78,7 @@
 }
 
 .deleteButton {
-  color: #dc2626;
+  color: var(--color-delete-button);
   border: 1px solid transparent;
   transition: all 0.2s;
 }
@@ -260,13 +100,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  color: #6b7280;
-}
-
-.emptyIcon {
-  font-size: 2rem;
-  color: #d1d5db;
-  margin-bottom: 0.5rem;
+  color: var(--colot-text-subtitle);
 }
 
 @media (max-width: 768px) {
@@ -278,31 +112,6 @@
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
-  }
-
-  .searchSection {
-    padding: 1rem;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-  }
-
-  .searchWrapper {
-    max-width: none;
-  }
-
-  .resultsInfo {
-    text-align: center;
-  }
-
-  .table th,
-  .table td {
-    padding: 0.75rem 0.5rem;
-    font-size: 0.75rem;
-  }
-
-  .nameWrapper {
-    gap: 0.5rem;
   }
 
   .actions {
@@ -319,19 +128,6 @@
 }
 
 @media (max-width: 480px) {
-  .table th,
-  .table td {
-    padding: 0.5rem 0.25rem;
-  }
-
-  .idColumn {
-    width: 80px;
-  }
-
-  .actionsColumn {
-    width: 80px;
-  }
-
   .idBadge {
     padding: 0.125rem 0.25rem;
     font-size: 0.75rem;
