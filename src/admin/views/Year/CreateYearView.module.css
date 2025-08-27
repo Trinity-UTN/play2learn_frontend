@@ -1,3 +1,4 @@
+@import "../../../shared/styles/colors.css";
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -10,12 +11,12 @@
 .title {
   font-size: 2rem;
   font-weight: bold;
-  color: #2e2e2e;
+  color: var(--color-text-title);
   margin-bottom: 0.5rem;
 }
 
 .subtitle {
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   font-size: 1rem;
 }
 
@@ -29,18 +30,18 @@
   gap: 0.75rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .headerIcon {
   font-size: 1.25rem;
-  color: #007bff;
+  color: var(--color-accent);
 }
 
 .cardTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #2e2e2e;
+  color: var(--color-text);
 }
 
 .form {
@@ -63,28 +64,8 @@
 
 .label {
   font-weight: 500;
-  color: #2e2e2e;
+  color: var(--color-text);
   font-size: 0.875rem;
-}
-
-.textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
-  background-color: white;
-  color: #2e2e2e;
-  font-family: inherit;
-  resize: vertical;
-  min-height: 80px;
-}
-
-.textarea:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
 .buttonGroup {
