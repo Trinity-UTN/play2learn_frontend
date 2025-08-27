@@ -1,0 +1,16 @@
+:root {
+  --color-background: #f5f7fa;
+  --color-primary: #3498db;
+  --color-secondary: #2ecc71;
+  --color-accent: #e74c3c;
+  --color-text: #333333;
+  --color-border: #e5e7eb;
+  --colot-text-title: #2e2e2e;
+  --color-text-subtitle: #6b7280;
+
+  --color-accent: #007bff;
+  --color-badge: #6366f1;
+
+  --color-edit-button: #059669;
+  --color-delete-button: #dc2626;
+}
