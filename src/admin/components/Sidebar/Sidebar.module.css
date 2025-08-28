@@ -24,7 +24,7 @@
 .logoIcon {
   width: 2rem;
   height: 2rem;
-  background-color: var(--color-accent);
+  background-color: var(--color-primary);
   color: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -84,20 +84,21 @@
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.875rem;
+  margin-bottom: 5px;
 }
 
 .menuItem:hover {
   background-color: rgba(185, 231, 105, 0.1);
-  color: #2e2e2e;
+  color: var(--color-text-light);
 }
 
 .menuItem.active {
-  background-color: var(--color-accent);
+  background-color: var(--color-primary);
   color: white;
+  /* border: none; */
 }
 
 .menuItem.active:hover {
-  background-color: #0159bd;
   color: white;
 }
 

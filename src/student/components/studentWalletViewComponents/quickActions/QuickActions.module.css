@@ -24,7 +24,7 @@
 }
 
 .cardSubtitle {
-  color: var(--color-text-ligth);
+  color: var(--color-text-light);
   font-size: 0.9rem;
   margin: 0.5rem 0 0 0;
 }
@@ -95,7 +95,7 @@
   width: 50px;
   height: 50px;
   background: var(--action-color);
-  color: var(--color-text-ligth);
+  color: white !important;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -107,17 +107,18 @@
 .actionInfo {
   flex: 1;
   text-align: left;
+  color: var(--color-text-light);
 }
 
 .actionTitle {
-  color: var(--color-text-ligth);
+  color: var(--color-text-light);
   font-weight: 600;
   margin: 0 0 0.25rem 0;
   font-size: 1rem;
 }
 
 .actionDescription {
-  color: var(--color-text-subtitle-ligth);
+  color: var(--color-text-subtitle-light);
   font-size: 0.85rem;
   margin: 0;
 }
@@ -130,7 +131,7 @@
 
 .actionBadge {
   background: var(--action-color);
-  color: var(--color-text-ligth);
+  color: var(--color-text-light);
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
   font-size: 0.75rem;
