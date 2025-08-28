@@ -165,12 +165,12 @@ const CompletarOracionPreview: React.FC<CompletarOracionPreviewProps> = ({
           onClick={handleReset}
           className={styles.resetButton}
         >
-          <FaUndo />
-          Reiniciar Simulación
+          <FaUndo /> Reiniciar Simulación
         </Button>
         <Button
           variant={showAnswers ? "danger" : "primary"}
           onClick={toggleAnswers}
+          className={styles.resetButton}
         >
           <FaPlay />
           {showAnswers ? "Ocultar" : "Mostrar"} Respuestas

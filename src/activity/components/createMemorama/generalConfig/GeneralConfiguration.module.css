@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   padding: 2rem;
 }
@@ -8,24 +9,24 @@
   gap: 1rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f3f4f6;
+  border-bottom: 2px solid var(--color-border);
 }
 
 .headerIcon {
   font-size: 2rem;
-  color: #667eea;
+  color: var(--color-stat-4);
 }
 
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-title);
   margin: 0;
 }
 
 .description {
   font-size: 1rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }
 
@@ -39,7 +40,7 @@
   background: #f9fafb;
   border-radius: 16px;
   padding: 2rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -54,15 +55,15 @@
 }
 
 .sectionIcon {
-  font-size: 0.875rem;
-  color: #fbbf24;
+  font-size: 0.975rem;
+  color: var(--color-stat-2);
   margin-right: 0.5rem;
 }
 
 .sectionTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-subtitle);
   margin: 0;
 }
 
@@ -72,7 +73,7 @@
 
 .sectionDescription {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }
 
@@ -87,18 +88,18 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text);
   font-size: 0.875rem;
 }
 
 .labelIcon {
-  color: #667eea;
+  color: var(--color-stat-4);
 }
 
 .labelHint {
   display: block;
   font-weight: 400;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   font-size: 0.75rem;
   margin-top: 0.25rem;
 }
@@ -135,16 +136,17 @@
   background: white;
   border-radius: 0.5rem;
   border: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
 }
 
 .summaryLabel {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
 }
 
 .summaryValue {
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text);
 }
 
 /* Responsive Design */

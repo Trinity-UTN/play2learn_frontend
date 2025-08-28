@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .progressSection {
   padding: 1.5rem;
 }
@@ -10,17 +11,17 @@
 
 .progressText {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   font-weight: 500;
 }
 
 .incompleteText {
-  color: #f59e0b;
+  color: var(--color-stat-2);
   font-weight: 600;
 }
 
 .emptyText {
-  color: #9ca3af;
+  color: var(--color-text-subtitle);
   font-weight: 600;
 }
 
@@ -35,7 +36,11 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
   transition: width 0.3s ease;
 }
 

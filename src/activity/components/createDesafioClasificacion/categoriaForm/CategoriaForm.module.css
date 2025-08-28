@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .form {
   display: flex;
   flex-direction: column;
@@ -8,7 +9,7 @@
   background: #f9fafb;
   border-radius: 16px;
   padding: 2rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -23,15 +24,15 @@
 }
 
 .sectionIcon {
-  font-size: 0.875rem;
-  color: #fbbf24;
+  font-size: 0.975rem;
+  color: var(--color-stat-2);
   margin-right: 0.5rem;
 }
 
 .sectionTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-title);
   margin: 0;
 }
 
@@ -41,7 +42,7 @@
 
 .sectionDescription {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }
 
@@ -54,7 +55,7 @@
 .input {
   flex: 1;
   padding: 0.75rem;
-  border: 2px solid #d1d5db;
+  border: 2px solid var(--color-border);
   border-radius: 0.5rem;
   font-size: 1rem;
   transition: border-color 0.2s ease;
@@ -62,12 +63,12 @@
 
 .input:focus {
   outline: none;
-  border-color: #a3aab3;
+  border-color: var(--color-border);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .inputError {
-  border-color: #ef4444 !important;
+  border-color: var(--color-text-error) !important;
 }
 
 .addButton {
@@ -79,7 +80,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #ef4444;
+  color: var(--color-text-error);
   font-size: 0.875rem;
   margin-top: 0.5rem;
 }

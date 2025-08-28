@@ -169,26 +169,12 @@
   padding: 0.875rem;
   border-radius: 0.5rem;
   transition: all 0.3s ease;
-  background: var(--color-secondary);
-  border: none;
   box-shadow: 0 4px 12px var(--color-secondary);
 }
 
 .selectButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px var(--color-primary);
-  background: var(--color-primary) !important;
-}
-
-.glowEffect {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
+  box-shadow: 0 4px 12px var(--color-primary);
 }
 
 /* Responsive Design */
@@ -257,7 +243,7 @@
 
 /* Estados especiales */
 .activityCard[data-selected="true"] {
-  border-color: #007bff;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 

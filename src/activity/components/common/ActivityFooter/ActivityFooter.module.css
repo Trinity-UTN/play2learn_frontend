@@ -20,12 +20,16 @@
   align-items: center;
   gap: 0.5rem;
   color: white;
+  border: none;
+  border-radius: 12px;
   border-color: var(--color-border);
+  box-shadow: 0 4px 10px var(--color-text-error);
 }
 
 .resetButton:hover {
-  background-color: var(--color-surface-hover);
-  border-color: var(--color-border-hover);
+  background-color: var(--color-delete-button);
+  box-shadow: 0 4px 10px transparent;
+  transform: translateY(-2px);
 }
 
 .navigationButtons {
@@ -39,21 +43,17 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 10px rgba(var(--color-primary-rgb), 0.7);
   transition: all 0.3s ease;
   margin-right: auto;
 }
 
 .backButton:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.071);
   transform: translateY(-2px);
 }
 
@@ -61,19 +61,16 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+
   border-radius: 12px;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 10px rgba(var(--color-primary-rgb), 0.7);
   transition: all 0.3s ease;
 }
 
 .nextButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
   box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
   transform: translateY(-2px);
 }
@@ -83,26 +80,21 @@
   cursor: not-allowed;
   transform: none;
   box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .submitButton {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 10px rgba(var(--color-primary-rgb), 0.7);
   transition: all 0.3s ease;
 }
 
 .submitButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
   box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
   transform: translateY(-2px);
 }
@@ -112,8 +104,7 @@
   cursor: not-allowed;
   transform: none;
   box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-} /* Responsive */
+}
 @media (max-width: 768px) {
   .footerActions {
     flex-direction: column;

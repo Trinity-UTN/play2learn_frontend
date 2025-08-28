@@ -12,7 +12,7 @@
   --colot-text-title: #2e2e2e;
   --color-text-subtitle: #6b7280;
   --color-text-subtitle-ligth: #e7e8eac5;
-
+  --color-text-error: #ef4444;
   /* admin */
   --color-accent: #007bff;
   --color-badge: #6366f1;
@@ -24,6 +24,7 @@
   --color-stat-2: #f59e0b;
   --color-stat-3: #10b981;
   --color-stat-4: #8b5cf6;
+  --color-stat-5: #92400e;
   --color-stat: white;
 
   /* Student */

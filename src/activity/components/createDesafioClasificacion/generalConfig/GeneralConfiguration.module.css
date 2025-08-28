@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   padding: 2rem;
 }
@@ -13,18 +14,18 @@
 
 .headerIcon {
   font-size: 2rem;
-  color: #667eea;
+  color: var(--color-stat-4);
 }
 
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-title);
   margin: 0;
 }
 
 .description {
   font-size: 1rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }

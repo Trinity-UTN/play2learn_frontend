@@ -1,7 +1,9 @@
+@import "../../../shared/styles/colors.css";
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   border-radius: 0.5rem;
   font-weight: 500;
   transition: all 0.2s ease;
@@ -13,30 +15,30 @@
 
 .button:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 2px var(--color-primary);
 }
 
 /* Variants */
 .primary {
-  background-color: #007bff;
+  background-color: var(--color-primary);
   color: white;
-  border-color: #007bff;
+  border-color: var(--color-primary);
 }
 
 .primary:hover:not(.disabled) {
-  background-color: #0056b3;
-  border-color: #0056b3;
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
 }
 
 .secondary {
-  background-color: #ff6f3c;
+  background-color: var(--color-secondary);
   color: white;
-  border-color: #ff6f3c;
+  border-color: var(--color-secondary);
 }
 
 .secondary:hover:not(.disabled) {
-  background-color: #e55a2b;
-  border-color: #e55a2b;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .ghost {

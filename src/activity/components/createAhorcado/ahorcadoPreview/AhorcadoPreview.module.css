@@ -1,3 +1,5 @@
+@import "../../../../shared/styles/colors.css";
+
 .container {
   padding: 2rem;
 }
@@ -14,14 +16,14 @@
 
 .headerIcon {
   font-size: 0.875rem;
-  color: #4f46e5;
+  color: var(--color-stat-4);
   margin-right: 0.5rem;
 }
 
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-title);
   margin: 0 0 0.5rem 0;
 }
 
@@ -31,7 +33,7 @@
 
 .description {
   font-size: 1rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0 0 1.5rem 0;
   line-height: 1.5;
 }
@@ -49,7 +51,7 @@
   background: #f9fafb;
   padding: 1rem;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
 }
 
 .statIcon {
@@ -59,20 +61,20 @@
 .statLabel {
   display: block;
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   font-weight: 500;
 }
 
 .statValue {
   display: block;
   font-size: 0.9rem;
-  color: #374151;
+  color: var(--color-text);
   font-weight: 600;
 }
 
 .activityContainer {
   background: white;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -83,7 +85,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: var(--color-primary);
   color: white;
 }
 
@@ -135,7 +137,7 @@
   background: #f9fafb;
   border-radius: 0.75rem;
   padding: 2rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   min-height: 300px;
   display: flex;
   align-items: center;
@@ -146,7 +148,7 @@
   font-family: "Courier New", monospace;
   font-size: 1rem;
   line-height: 1.2;
-  color: #374151;
+  color: var(--color-text);
   margin: 0;
   white-space: pre;
   text-align: center;
@@ -165,7 +167,7 @@
 .wordTitle {
   font-size: 1rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text);
   margin: 0 0 0.75rem 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -175,12 +177,12 @@
   font-family: "Courier New", monospace;
   font-size: 2rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text);
   letter-spacing: 0.5rem;
   background: #f8fafc;
   padding: 1rem;
   border-radius: 0.75rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   min-height: 60px;
   display: flex;
   align-items: center;
@@ -215,7 +217,7 @@
 
 .inputLabel {
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text);
   font-size: 0.875rem;
 }
 
@@ -228,7 +230,7 @@
 .letterInput {
   width: 80px;
   padding: 0.75rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   border-radius: 0.5rem;
   font-size: 1.25rem;
   font-weight: 700;
@@ -237,12 +239,12 @@
   text-transform: uppercase;
   transition: all 0.3s ease;
   background: white;
-  color: #1f2937;
+  color: var(--color-text);
 }
 
 .letterInput:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
@@ -264,7 +266,7 @@
 .guessedTitle {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text);
   margin: 0 0 0.75rem 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
