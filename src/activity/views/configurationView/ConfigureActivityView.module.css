@@ -442,7 +442,7 @@
 }
 
 .previewCard {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -453,8 +453,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary) 0%,
+    var(--color-primary) 100%
+  );
+  color: var(--color-text-light);
 }
 
 .previewTitle {
@@ -491,7 +495,7 @@
 
 .previewIcon {
   font-size: 1.25rem;
-  color: #667eea;
+  color: var(--color-stat-4);
   margin-top: 0.25rem;
   background: white;
   padding: 0.5rem;
@@ -502,7 +506,7 @@
 .previewItem h4 {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text);
   margin: 0 0 0.5rem 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -510,7 +514,7 @@
 
 .previewItem p {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0;
   line-height: 1.4;
 }

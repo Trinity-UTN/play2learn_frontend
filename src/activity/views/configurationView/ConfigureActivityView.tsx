@@ -259,7 +259,7 @@ const ConfigureActivityView: React.FC = () => {
             {isVerticalLayout ? <FaColumns /> : <FaList />}
           </Button>
           <Button
-            variant={isPreviewMode ? "primary" : "ghost"}
+            variant="ghost"
             onClick={() => setIsPreviewMode(!isPreviewMode)}
             className={styles.previewButton}
           >
