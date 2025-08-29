@@ -110,7 +110,7 @@ const ActivitiesView: React.FC = () => {
         <motion.div variants={statsVariants} className={styles.statCard}>
           <div
             className={styles.statIcon}
-            style={{ backgroundColor: "#007bff" }}
+            style={{ backgroundColor: "var(--color-stat-1)" }}
           >
             <FaGamepad />
           </div>
@@ -123,7 +123,7 @@ const ActivitiesView: React.FC = () => {
         <motion.div variants={statsVariants} className={styles.statCard}>
           <div
             className={styles.statIcon}
-            style={{ backgroundColor: "#f59e0b" }}
+            style={{ backgroundColor: "var(--color-stat-2)" }}
           >
             <FaStar />
           </div>
@@ -138,7 +138,7 @@ const ActivitiesView: React.FC = () => {
         <motion.div variants={statsVariants} className={styles.statCard}>
           <div
             className={styles.statIcon}
-            style={{ backgroundColor: "#10b981" }}
+            style={{ backgroundColor: "var(--color-stat-3)" }}
           >
             <FaFire />
           </div>
@@ -153,7 +153,7 @@ const ActivitiesView: React.FC = () => {
         <motion.div variants={statsVariants} className={styles.statCard}>
           <div
             className={styles.statIcon}
-            style={{ backgroundColor: "#8b5cf6" }}
+            style={{ backgroundColor: "var(--color-stat-4)" }}
           >
             <FaClock />
           </div>

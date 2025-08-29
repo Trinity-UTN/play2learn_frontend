@@ -20,6 +20,7 @@ import Button from "../../../shared/components/Button/ButtonComponent";
 import styles from "./ActivityCard.module.css";
 import type { IconType } from "react-icons";
 import { useNavigate } from "react-router-dom";
+import GlowEffect from "../../../shared/components/GlowEffect/GlowEffect";
 
 interface ActivityCardProps {
   activity: Activity;
@@ -170,7 +171,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
         {/* Footer con botón */}
         <div className={styles.cardFooter}>
           <Button
-            variant="primary"
+            variant="secondary"
             fullWidth
             onClick={() => handleNavigate(activity)}
             className={styles.selectButton}
@@ -180,13 +181,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
         </div>
 
         {/* Efecto de brillo en hover */}
-        <motion.div
-          className={styles.glowEffect}
-          style={{ backgroundColor: activity.color }}
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 0.1 }}
-          transition={{ duration: 0.3 }}
-        />
+        <GlowEffect backgroundColor={activity.color} />
       </Card>
     </motion.div>
   );

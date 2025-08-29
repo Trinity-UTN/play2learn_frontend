@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   padding: 2rem;
 }
@@ -28,14 +29,14 @@
 
 .sectionIcon {
   font-size: 0.875rem;
-  color: #fbbf24;
+  color: var(--color-stat-2);
   margin-right: 0.5rem;
 }
 
 .sectionTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-title);
   margin: 0;
 }
 
@@ -45,13 +46,13 @@
 
 .sectionDescription {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }
 
 .sectionDescriptionWarning {
   font-size: 0.9rem;
-  color: #ef4444;
+  color: var(--color-text-error);
   margin: 0.25rem 0 0 0;
 }
 
@@ -76,40 +77,40 @@
 
 .descriptionTextarea:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(130, 1, 141, 0.1);
 }
 .textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .textarea.error {
-  border-color: #ef4444;
+  border-color: var(--color-text-error);
 }
 
 .textarea:disabled {
   background-color: #f9fafb;
-  color: #9ca3af;
+  color: var(--color-text-subtitle);
   cursor: not-allowed;
 }
 
 .charCounter {
   align-self: flex-end;
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   font-weight: 500;
 }
 
 .overLimit {
-  color: #ef4444;
+  color: var(--color-text-error);
   font-weight: 600;
 }
 
 .errorText {
   font-size: 0.75rem;
-  color: #ef4444;
+  color: var(--color-text-error);
   font-weight: 500;
 }
 
@@ -141,7 +142,7 @@
 }
 
 .imageButton:hover:not(:disabled) {
-  border-color: #667eea;
+  border-color: var(--color-stat-4);
   background: rgba(102, 126, 234, 0.05);
 }
 
@@ -166,7 +167,7 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #ef4444;
+  background: var(--color-text-error);
   color: white;
   border: none;
   display: flex;
@@ -178,7 +179,7 @@
 }
 
 .removeImageButton:hover:not(:disabled) {
-  background: #dc2626;
+  background: var(--color-text-error);
   transform: scale(1.1);
 }
 

@@ -119,7 +119,7 @@ const AhorcadoPreview: React.FC = () => {
               {!gameStarted ? (
                 <div className={styles.startSection}>
                   <Button
-                    variant="primary"
+                    variant="secondary"
                     onClick={() => setGameStarted(true)}
                     className={styles.startButton}
                   >

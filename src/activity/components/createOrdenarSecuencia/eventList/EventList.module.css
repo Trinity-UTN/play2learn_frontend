@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   padding: 2rem;
 }
@@ -23,20 +24,20 @@
 
 .emptyIcon {
   font-size: 3rem;
-  color: #9ca3af;
+  color: var(--color-text-subtitle);
   opacity: 0.5;
 }
 
 .emptyTitle {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-title);
   margin: 0;
 }
 
 .emptyDescription {
   font-size: 1rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   line-height: 1.6;
   max-width: 400px;
   margin: 0;
@@ -44,26 +45,26 @@
 
 .cardHeader {
   padding: 1.5rem 1.5rem 0;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--color-border);
   margin-bottom: 1.5rem;
 }
 
 .cardIcon {
   font-size: 0.875rem;
-  color: #fbbf24;
+  color: var(--color-stat-2);
   margin-right: 0.5rem;
 }
 
 .cardTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-title);
   margin: 0 0 0.5rem 0;
 }
 
 .cardSubtitle {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0;
 }
 
@@ -87,7 +88,7 @@
 
 .listFooter {
   padding: 1rem 1.5rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--color-border);
   margin-top: 1.5rem;
 }
 
@@ -96,12 +97,12 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   justify-content: center;
 }
 
 .gripIcon {
-  color: #9ca3af;
+  color: var(--color-text-subtitle);
 }
 
 /* Responsive Design */

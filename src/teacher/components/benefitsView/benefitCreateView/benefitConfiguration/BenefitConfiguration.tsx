@@ -8,19 +8,12 @@ const BenefitConfiguration = () => {
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>Configuración</h3>
       <div className={styles.formGrid}>
-        {/* <div className={styles.inputGroup}>
-                    <label className={styles.label}>Duración/Validez</label>
-                    <Input
-                      placeholder="Ej: 1 uso, 7 días, 1 mes"
-                      value={formData.duration}
-                      onChange={(e) => handleChange("duration", e.target.value)}
-                    />
-        </div> */}
         <div className={styles.inputGroup}>
           <label className={styles.label}>Límite de Uso Total</label>
           <Input
             type="number"
             placeholder="50"
+            className={styles.input}
             value={
               formData.totalRedeemableAmount
                 ? formData.totalRedeemableAmount
@@ -37,6 +30,7 @@ const BenefitConfiguration = () => {
           <Input
             type="number"
             placeholder="4"
+            className={styles.input}
             value={
               formData.redeemableAmountPerStudent
                 ? formData.redeemableAmountPerStudent

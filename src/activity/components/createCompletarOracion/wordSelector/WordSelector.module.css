@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   padding: 2rem;
 }
@@ -8,24 +9,24 @@
   gap: 1rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f3f4f6;
+  border-bottom: 2px solid var(--color-border);
 }
 
 .headerIcon {
   font-size: 2rem;
-  color: #667eea;
+  color: var(--color-stat-4);
 }
 
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-title);
   margin: 0;
 }
 
 .description {
   font-size: 1rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }
 
@@ -35,7 +36,7 @@
 
 .headerDescription {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }
 
@@ -43,11 +44,12 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .sentenceCard {
-  background: f9fafb;
-  border: 2px solid #e5e7eb;
+  background: var(--color-background);
+  border: 2px solid var(--color-border);
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   padding: 1.5rem;
@@ -68,7 +70,7 @@
 .sentenceNumber {
   font-size: 1rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text);
 }
 
 .stats {
@@ -82,7 +84,7 @@
   border-radius: 0.375rem;
   font-weight: 500;
   background-color: #e0f2fe;
-  color: #0c4a6e;
+  color: var(--color-stat-1);
 }
 
 .missingCount {
@@ -94,12 +96,12 @@
 
 .missingCount.valid {
   background-color: #d1fae5;
-  color: #065f46;
+  color: var(--color-stat-3);
 }
 
 .missingCount.warning {
   background-color: #fef3c7;
-  color: #92400e;
+  color: var(--color-stat-5);
 }
 
 .wordsContainer {
@@ -134,17 +136,17 @@
 
 .wordButton.visibleWord {
   background-color: #f3f4f6;
-  color: #374151;
-  border: 1px solid #d1d5db;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
 }
 
 .wordButton.visibleWord:hover {
   background-color: #e5e7eb;
-  border-color: #9ca3af;
+  border-color: var(--color-border);
 }
 
 .wordButton.hiddenWord {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-primary);
   color: white;
   border: 1px solid transparent;
 }
@@ -164,7 +166,7 @@
 
 .warningMessage {
   background-color: #fef3c7;
-  color: #92400e;
+  color: var(--color-stat-5);
   padding: 0.75rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
@@ -187,7 +189,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #374151;
+  color: var(--color-text);
 }
 
 .legendColor {
@@ -198,11 +200,11 @@
 
 .legendColor.visible {
   background-color: #f3f4f6;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border);
 }
 
 .legendColor.hidden {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-primary);
 }
 
 /* Responsive Design */

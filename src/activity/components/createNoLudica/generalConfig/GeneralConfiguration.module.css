@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   padding: 2rem;
 }
@@ -8,24 +9,24 @@
   gap: 1rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f3f4f6;
+  border-bottom: 2px solid var(--color-border);
 }
 
 .headerIcon {
   font-size: 2rem;
-  color: #667eea;
+  color: var(--color-stat-4);
 }
 
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-title);
   margin: 0;
 }
 
 .description {
   font-size: 1rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }
 
@@ -39,7 +40,7 @@
   background: #f9fafb;
   border-radius: 16px;
   padding: 2rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -54,15 +55,15 @@
 }
 
 .sectionIcon {
-  font-size: 0.875rem;
-  color: #fbbf24;
+  font-size: 0.975rem;
+  color: var(--color-stat-2);
   margin-right: 0.5rem;
 }
 
 .sectionTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-title);
   margin: 0;
 }
 
@@ -72,7 +73,7 @@
 
 .sectionDescription {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }
 
@@ -84,53 +85,27 @@
 
 .label {
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text);
   font-size: 0.875rem;
 }
 
 .labelHint {
   display: block;
   font-weight: 400;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   font-size: 0.75rem;
   margin-top: 0.25rem;
-}
-
-.textarea {
-  width: 100%;
-  min-height: 120px;
-  padding: 0.75rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  font-family: inherit;
-  resize: vertical;
-  transition: all 0.3s ease;
-  line-height: 1.5;
-  background: white;
-  color: #1f2937;
-}
-
-.textarea:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.textarea.error {
-  border-color: #ef4444;
-  background: #fef2f2;
 }
 
 .charCount {
   text-align: right;
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin-top: 0.25rem;
 }
 
 .overLimit {
-  color: #ef4444;
+  color: var(--color-text-error);
   font-weight: 600;
 }
 
@@ -144,7 +119,7 @@
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   border-radius: 0.75rem;
   background: white;
   cursor: pointer;
@@ -171,7 +146,7 @@
 }
 
 .tipoEntregaOption:hover {
-  border-color: #667eea;
+  border-color: var(--color-primary);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
 }
@@ -181,7 +156,7 @@
 }
 
 .tipoEntregaOption.selected {
-  border-color: #667eea;
+  border-color: var(--color-stat-4);
   background: #f0f4ff;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
@@ -194,7 +169,7 @@
   right: 1rem;
   width: 1.5rem;
   height: 1.5rem;
-  background: #667eea;
+  background: var(--color-stat-4);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -219,7 +194,7 @@
 
 .optionIconReact {
   font-size: 1.25rem;
-  color: #667eea;
+  color: var(--color-stat-4);
   z-index: 1;
   position: relative;
 }
@@ -227,7 +202,7 @@
 .optionTitle {
   font-size: 1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text);
   margin: 0 0 0.5rem 0;
   z-index: 1;
   position: relative;
@@ -235,7 +210,7 @@
 
 .optionDescription {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   line-height: 1.4;
   margin: 0 0 1rem 0;
   z-index: 1;
@@ -257,7 +232,7 @@
 .placeholderLabel {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #667eea;
+  color: var(--color-stat-4);
   display: block;
   margin-bottom: 0.25rem;
 }
@@ -265,12 +240,12 @@
 .formatsList,
 .placeholderText {
   font-size: 0.75rem;
-  color: #374151;
+  color: var(--color-text);
   font-family: monospace;
 }
 
 .errorMessage {
-  color: #ef4444;
+  color: var(--color-text-error);
   font-size: 0.75rem;
   margin-top: 0.5rem;
   display: flex;
@@ -359,7 +334,7 @@
 
 .tipoEntregaOption:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--color-stat-4);
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 

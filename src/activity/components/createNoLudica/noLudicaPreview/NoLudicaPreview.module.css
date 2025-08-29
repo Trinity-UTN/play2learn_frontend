@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   padding: 2rem;
 }
@@ -21,7 +22,7 @@
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-title);
   margin: 0 0 0.5rem 0;
 }
 
@@ -31,7 +32,7 @@
 
 .description {
   font-size: 1rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0 0 1.5rem 0;
   line-height: 1.5;
 }
@@ -49,7 +50,7 @@
   padding: 1rem;
   background: white;
   border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   min-width: 150px;
 }
 
@@ -60,7 +61,7 @@
 .statLabel {
   display: block;
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -69,13 +70,13 @@
   display: block;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text);
   margin-top: 0.25rem;
 }
 
 .activityContainer {
   background: white;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -86,7 +87,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(
+    170deg,
+    rgba(var(--color-primary-rgb), 0.9) 0%,
+    rgba(var(--color-secondary-rgb), 0.9) 100%
+  );
   color: white;
 }
 

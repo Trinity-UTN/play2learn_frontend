@@ -31,7 +31,7 @@ import styles from "./ConfigureActivityView.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSubject } from "../../../admin/hooks/useSubject";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
-
+import formatPrice from "../../../shared/utils/formatPrice";
 const ConfigureActivityView: React.FC = () => {
   const [configuration, setConfiguration] = useState<ConfigurationActivity>({
     description: "",
@@ -259,7 +259,7 @@ const ConfigureActivityView: React.FC = () => {
             {isVerticalLayout ? <FaColumns /> : <FaList />}
           </Button>
           <Button
-            variant={isPreviewMode ? "primary" : "ghost"}
+            variant="ghost"
             onClick={() => setIsPreviewMode(!isPreviewMode)}
             className={styles.previewButton}
           >
@@ -552,7 +552,8 @@ const ConfigureActivityView: React.FC = () => {
                               Balance actual
                             </span>
                             <span className={styles.rewardBoxValue}>
-                              {getSelectedSubject()?.actualBalance} monedas
+                              {formatPrice(getSelectedSubject()?.actualBalance)}{" "}
+                              monedas
                             </span>
                           </div>
                           <div className={styles.rewardBox}>
@@ -560,7 +561,7 @@ const ConfigureActivityView: React.FC = () => {
                               Recompensa máxima (30%)
                             </span>
                             <span className={styles.rewardBoxValue}>
-                              {getMaximumInitialBalance()} monedas
+                              {formatPrice(getMaximumInitialBalance())} monedas
                             </span>
                           </div>
                         </div>

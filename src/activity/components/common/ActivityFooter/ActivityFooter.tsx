@@ -84,7 +84,7 @@ const ActivityFooter: React.FC<ActivityFooterProps> = ({
 
         <div className={styles.navigationButtons}>
           <Button
-            variant="secondary"
+            variant="danger"
             onClick={onReset}
             disabled={loading}
             className={styles.resetButton}

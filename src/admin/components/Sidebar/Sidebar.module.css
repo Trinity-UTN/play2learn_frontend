@@ -1,3 +1,4 @@
+@import "../../../shared/styles/colors.css";
 .sidebar {
   width: 280px;
   background: white;
@@ -23,8 +24,7 @@
 .logoIcon {
   width: 2rem;
   height: 2rem;
-  color: #007bff;
-  background-color: #007bff;
+  background-color: var(--color-primary);
   color: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -32,14 +32,14 @@
 
 .logoTitle {
   font-weight: 600;
-  color: #2e2e2e;
+  color: var(--color-text-title);
   margin: 0;
   font-size: 1rem;
 }
 
 .logoSubtitle {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0;
 }
 
@@ -56,7 +56,7 @@
 .sectionTitle {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
@@ -78,26 +78,27 @@
   padding: 0.75rem;
   border: none;
   background: none;
-  color: #2e2e2e;
+  color: var(--color-text);
   text-align: left;
   border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.875rem;
+  margin-bottom: 5px;
 }
 
 .menuItem:hover {
   background-color: rgba(185, 231, 105, 0.1);
-  color: #2e2e2e;
+  color: var(--color-text-light);
 }
 
 .menuItem.active {
-  background-color: #007bff;
+  background-color: var(--color-primary);
   color: white;
+  /* border: none; */
 }
 
 .menuItem.active:hover {
-  background-color: #0159bd;
   color: white;
 }
 

@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   padding: 2rem;
 }
@@ -13,15 +14,15 @@
 }
 
 .headerIcon {
-  font-size: 0.875rem;
-  color: #4f46e5;
+  font-size: 0.975rem;
+  color: var(--color-stat-4);
   margin-right: 0.5rem;
 }
 
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-title);
   margin: 0 0 0.5rem 0;
 }
 
@@ -31,7 +32,7 @@
 
 .description {
   font-size: 1rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0 0 1.5rem 0;
   line-height: 1.5;
 }
@@ -49,7 +50,7 @@
   padding: 1rem;
   background: white;
   border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   min-width: 150px;
 }
 
@@ -60,7 +61,7 @@
 .statLabel {
   display: block;
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -69,7 +70,7 @@
   display: block;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text);
   margin-top: 0.25rem;
 }
 
@@ -82,7 +83,7 @@
 
 .gameContainer {
   background: white;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -93,7 +94,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-primary);
   color: white;
 }
 
@@ -115,12 +116,12 @@
 
 .progressBar {
   height: 4px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(111, 110, 110, 0.136);
 }
 
 .progressFill {
   height: 100%;
-  background: #10b981;
+  background: var(--color-secondary);
   transition: width 0.3s ease;
 }
 
@@ -137,14 +138,14 @@
 
 .questionIcon {
   font-size: 1.5rem;
-  color: #667eea;
+  color: var(--color-stat-4);
   margin-top: 0.25rem;
 }
 
 .questionText {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text);
   line-height: 1.5;
   margin: 0;
 }
@@ -161,7 +162,7 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   border-radius: 0.75rem;
   background: white;
   text-align: left;
@@ -171,12 +172,12 @@
 }
 
 .optionButton:hover {
-  border-color: #667eea;
+  border-color: var(--color-stat-4);
   background: #f0f4ff;
 }
 
 .optionButton.selected {
-  border-color: #667eea;
+  border-color: var(--color-stat-4);
   background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
 }
 
@@ -186,7 +187,7 @@
 }
 
 .optionButton.incorrect {
-  border-color: #ef4444;
+  border-color: var(--color-text-error);
   background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
 }
 
@@ -208,8 +209,8 @@
 }
 
 .optionButton.selected .optionLetter {
-  background: #667eea;
-  color: white;
+  background: var(--color-secondary);
+  color: var(--color-text-light);
 }
 
 .optionButton.correct .optionLetter {
@@ -218,14 +219,14 @@
 }
 
 .optionButton.incorrect .optionLetter {
-  background: #ef4444;
+  background: var(--color-text-error);
   color: white;
 }
 
 .optionText {
   flex: 1;
   font-size: 0.875rem;
-  color: #374151;
+  color: var(--color-text);
   line-height: 1.4;
 }
 
@@ -249,7 +250,7 @@
 }
 
 .incorrectIcon {
-  background: #ef4444;
+  background: var(--color-text-error);
   color: white;
 }
 
@@ -301,7 +302,7 @@
 }
 
 .questionDot.active {
-  background: #667eea;
+  background: var(--color-stat-4);
 }
 
 .questionDot.answered {
@@ -318,14 +319,14 @@
 .instructions h5 {
   font-size: 1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text);
   margin: 0 0 0.75rem 0;
 }
 
 .instructions ul {
   margin: 0;
   padding-left: 1.25rem;
-  color: #374151;
+  color: var(--color-text);
 }
 
 .instructions li {

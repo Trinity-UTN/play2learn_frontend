@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   padding: 2rem;
 }
@@ -13,19 +14,19 @@
 
 .headerIcon {
   font-size: 2rem;
-  color: #667eea;
+  color: var(--color-stat-4);
 }
 
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-text-title);
   margin: 0;
 }
 
 .description {
   font-size: 1rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }
 
@@ -39,7 +40,7 @@
   background: #f9fafb;
   border-radius: 16px;
   padding: 2rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -54,15 +55,15 @@
 }
 
 .sectionIcon {
-  font-size: 0.875rem;
-  color: #fbbf24;
+  font-size: 0.975rem;
+  color: var(--color-stat-2);
   margin-right: 0.5rem;
 }
 
 .sectionTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-title);
   margin: 0;
 }
 
@@ -72,7 +73,7 @@
 
 .sectionDescription {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin: 0.25rem 0 0 0;
 }
 
@@ -84,21 +85,21 @@
 
 .label {
   font-weight: 500;
-  color: #374151;
+  color: var(--color-text);
   font-size: 0.9rem;
 }
 
 .labelHint {
   display: block;
   font-weight: 400;
-  color: #6b7280;
+  color: var(--color-text);
   font-size: 0.8rem;
   margin-top: 0.25rem;
 }
 
 .textarea {
   padding: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   font-size: 0.9rem;
   resize: vertical;
@@ -107,16 +108,16 @@
 
 .textarea:focus {
   outline: none;
-  border-color: #82018d;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(130, 1, 141, 0.1);
 }
 
 .textarea.error {
-  border-color: #ef4444;
+  border-color: var(--color-text-error);
 }
 
 .errorMessage {
-  color: #ef4444;
+  color: var(--color-text-error);
   font-size: 0.8rem;
   font-weight: 500;
   margin-top: 0.25rem;
@@ -125,12 +126,12 @@
 .charCount {
   text-align: right;
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   margin-top: 0.25rem;
 }
 
 .charCount .overLimit {
-  color: #ef4444;
+  color: var(--color-text-error);
   font-weight: 500;
 }
 
@@ -144,7 +145,7 @@
   background: white;
   border-radius: 16px;
   padding: 2rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   overflow-x: auto;
   min-height: 400px;
 }
@@ -174,21 +175,29 @@
   left: 50%;
   width: 2px;
   height: 40px;
-  background: linear-gradient(180deg, #6b21a8 0%, rgba(107, 33, 168, 0.3) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-primary) 0%,
+    rgba(var(--color-primary-rgb), 0.5) 100%
+  );
   transform: translateX(-50%);
   z-index: 1;
 }
 
 .decisionNode {
-  background: linear-gradient(135deg, #4c1d95 0%, #6b21a8 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-primary) 0%,
+    rgba(var(--color-primary-rgb), 0.5) 100%
+  );
   color: white;
   padding: 1rem 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(76, 29, 149, 0.5);
+  box-shadow: 0 8px 24px var(--color-primary);
   position: relative;
   width: 100%;
   text-align: center;
-  border: 2px solid #3c1361;
+  border: 2px solid var(--color-primary);
   z-index: 2;
 }
 
@@ -202,7 +211,7 @@
   height: 0;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
-  border-top: 12px solid #6b21a8;
+  border-top: 12px solid var(--color-primary);
 }
 
 .decisionInput {
@@ -226,7 +235,7 @@
   position: absolute;
   top: -8px;
   right: -8px;
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  background: var(--color-secondary);
   color: white;
   font-size: 0.7rem;
   font-weight: 700;

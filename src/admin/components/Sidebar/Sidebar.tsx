@@ -151,7 +151,7 @@ const Sidebar: React.FC = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Button
-                    variant="ghost"
+                    variant="primary"
                     fullWidth
                     onClick={() => navigate(`/dashboard/${item.path}`)}
                     className={`${styles.menuItem} ${

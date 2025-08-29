@@ -16,6 +16,7 @@ const BenefitBasicForm = () => {
             value={formData.name}
             onChange={(e) => handleChange("name", e.target.value)}
             required
+            className={styles.input}
           />
         </div>
         <div className={styles.inputGroup}>
@@ -29,6 +30,7 @@ const BenefitBasicForm = () => {
               onChange={(e) => handleChange("cost", Number(e.target.value))}
               min="1"
               required
+              className={styles.input}
             />
           </div>
         </div>
