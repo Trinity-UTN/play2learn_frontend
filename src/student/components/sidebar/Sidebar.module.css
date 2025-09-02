@@ -221,26 +221,21 @@
   }
 }
 
-/* Estilos de la barra de scroll */
-/* Contenedor */
 ::-webkit-scrollbar {
-  width: 8px; /* Ancho vertical */
-  height: 10px; /* Alto horizontal */
+  width: 8px;
+  height: 10px;
 }
 
-/* Track (fondo) */
 ::-webkit-scrollbar-track {
   background: transparent;
   border-radius: 10px;
 }
 
-/* Thumb (barra) */
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 10px;
 }
 
-/* Hover en la barra */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
