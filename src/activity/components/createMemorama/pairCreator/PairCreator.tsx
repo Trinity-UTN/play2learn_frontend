@@ -11,6 +11,7 @@ import {
   FaExclamationTriangle,
   FaImage,
   FaUpload,
+  FaPlus,
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
@@ -29,6 +30,7 @@ const PairCreator: React.FC = () => {
     handleNextPair,
     handlePreviousPair,
     handleGoToPair,
+    handleAddPair,
     handleDeletePair,
     getPairStatus,
     setPairErrors,
@@ -43,6 +45,14 @@ const PairCreator: React.FC = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+  const currentErrors = pairErrors[currentPairIndex] || {};
+  const hasErrors = Object.keys(currentErrors).length > 0;
+  const currentStatus = getPairStatus(formData);
+
+  // Actualizar formData cuando cambie la pareja
+  useEffect(() => {
+    setFormData(pairs[currentPairIndex]);
+  }, [pairs, currentPairIndex]);
 
   // Función para validar la pareja actual
   const validateCurrentPair = (
@@ -72,11 +82,6 @@ const PairCreator: React.FC = () => {
 
     return validationErrors;
   };
-
-  // Actualizar formData cuando cambie la pareja
-  useEffect(() => {
-    setFormData(pairs[currentPairIndex]);
-  }, [pairs, currentPairIndex]);
 
   const handleConceptChange = (value: string) => {
     setFormData((prev) => ({ ...prev, concept: value }));
@@ -157,10 +162,6 @@ const PairCreator: React.FC = () => {
     }
   };
 
-  const currentErrors = pairErrors[currentPairIndex] || {};
-  const hasErrors = Object.keys(currentErrors).length > 0;
-  const currentStatus = getPairStatus(formData);
-
   return (
     <motion.div variants={itemVariants} className={styles.container}>
       {/* Navegador de parejas */}
@@ -209,40 +210,6 @@ const PairCreator: React.FC = () => {
         </div>
       </Card>
 
-      {/* Indicador de estado */}
-      {hasErrors && (
-        <Card className={styles.statusIndicator}>
-          <div className={styles.statusHeader}>
-            <FaExclamationTriangle className={styles.statusIcon} />
-            <h4 className={styles.statusTitle}>
-              Errores encontrados en esta pareja
-            </h4>
-          </div>
-          <div className={styles.statusMessage}>
-            Corrige los siguientes errores para completar esta pareja:
-          </div>
-          <ul className={styles.errorList}>
-            {Object.entries(currentErrors).map(([field, error]) => (
-              <li key={field} className={styles.errorItem}>
-                {error}
-              </li>
-            ))}
-          </ul>
-        </Card>
-      )}
-
-      {currentStatus === "complete" && !hasErrors && (
-        <Card className={styles.successIndicator}>
-          <div className={styles.successHeader}>
-            <FaCheck className={styles.successIcon} />
-            <h4 className={styles.successTitle}>Pareja completa</h4>
-          </div>
-          <div className={styles.successMessage}>
-            Esta pareja está correctamente configurada y lista para usar.
-          </div>
-        </Card>
-      )}
-
       {/* Formulario de pareja */}
       <Card className={styles.questionForm}>
         <div className={styles.questionHeader}>
@@ -254,17 +221,30 @@ const PairCreator: React.FC = () => {
               </h3>
             </div>
           </div>
-          {pairs.length > 4 && (
-            <Button
-              variant="danger"
-              size="sm"
-              onClick={() => handleDeletePair(currentPairIndex)}
-              className={styles.deleteButton}
-            >
-              <FaTrash />
-              Eliminar
-            </Button>
-          )}
+          <div className={styles.buttonGroup}>
+            {pairs.length < 8 && (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => handleAddPair()}
+                className={styles.addButton}
+              >
+                <FaPlus />
+                Agregar Pareja
+              </Button>
+            )}
+            {pairs.length > 4 && (
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={() => handleDeletePair(currentPairIndex)}
+                className={styles.deleteButton}
+              >
+                <FaTrash />
+                Eliminar
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className={styles.formContent}>
@@ -354,22 +334,55 @@ const PairCreator: React.FC = () => {
             Guardar
           </Button>
 
-          <Button
-            variant="primary"
-            onClick={handleSaveAndNext}
-            className={styles.navButton}
-            disabled={
-              currentPairIndex === config.totalPairs - 1 &&
-              pairs.some((pair) => getPairStatus(pair) !== "complete")
-            }
-          >
-            {currentPairIndex === config.totalPairs - 1
-              ? "Finalizar"
-              : "Siguiente"}
-            <FaArrowRight />
-          </Button>
+          {currentPairIndex != config.totalPairs - 1 && (
+            <Button
+              variant="primary"
+              onClick={handleSaveAndNext}
+              className={styles.navButton}
+              disabled={
+                currentPairIndex === config.totalPairs - 1 &&
+                pairs.some((pair) => getPairStatus(pair) !== "complete")
+              }
+            >
+              Siguiente
+              <FaArrowRight />
+            </Button>
+          )}
         </div>
       </Card>
+      {/* Indicador de estado */}
+      {hasErrors && (
+        <Card className={styles.statusIndicator}>
+          <div className={styles.statusHeader}>
+            <FaExclamationTriangle className={styles.statusIcon} />
+            <h4 className={styles.statusTitle}>
+              Errores encontrados en esta pareja
+            </h4>
+          </div>
+          <div className={styles.statusMessage}>
+            Corrige los siguientes errores para completar esta pareja:
+          </div>
+          <ul className={styles.errorList}>
+            {Object.entries(currentErrors).map(([field, error]) => (
+              <li key={field} className={styles.errorItem}>
+                {error}
+              </li>
+            ))}
+          </ul>
+        </Card>
+      )}
+
+      {currentStatus === "complete" && !hasErrors && (
+        <Card className={styles.successIndicator}>
+          <div className={styles.successHeader}>
+            <FaCheck className={styles.successIcon} />
+            <h4 className={styles.successTitle}>Pareja completa</h4>
+          </div>
+          <div className={styles.successMessage}>
+            Esta pareja está correctamente configurada y lista para usar.
+          </div>
+        </Card>
+      )}
     </motion.div>
   );
 };

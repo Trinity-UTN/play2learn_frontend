@@ -5,12 +5,12 @@ import type {
 } from "../../../shared/types/PaginacionType";
 import { YearContext } from "./YearContext";
 import type { YearContextType } from "./YearContext.type";
-import { YearService } from "../../services/year/YearService";
+import { YearService } from "../../services/Year/YearService";
 import type {
   CreateYearPayload,
   UpdateYearPayload,
   YearResponseDto,
-} from "../../services/year/YearService";
+} from "../../services/Year/YearService";
 
 interface YearProviderProps {
   children: ReactNode;
@@ -96,6 +96,9 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
     try {
       await YearService.deleteYearApi(id);
     } catch (error) {
+      alert(
+        `El recurso Año con id ${id} no puede ser eliminado porque tiene asociaciones con cursos.`
+      );
       console.error("Error al eliminar el año:", error);
       throw error;
     } finally {

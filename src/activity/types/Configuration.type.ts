@@ -5,6 +5,8 @@ export interface ConfigurationActivity {
   dificulty: string;
   maxTime: number;
   subjectId: number;
+  attempts: number;
+  initialBalance: number;
 }
 
 export type ConfigurationErrors = {
@@ -14,4 +16,6 @@ export type ConfigurationErrors = {
   dificulty?: string;
   maxTime?: string;
   subjectId?: string;
+  attempts?: string;
+  initialBalance?: string;
 };

@@ -1,3 +1,4 @@
+@import "../../../shared/styles/colors.css";
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -710,4 +711,8 @@
 .eventItem[data-urgent="true"] {
   background: linear-gradient(135deg, #fecaca, #fca5a5);
   border-left: 4px solid #dc2626;
+}
+
+.comingSoon {
+  background: black;
 }

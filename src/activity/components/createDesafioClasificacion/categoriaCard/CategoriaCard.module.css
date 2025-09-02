@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   height: 100%;
 }
@@ -24,7 +25,7 @@
   align-items: center;
   padding: 1.5rem;
   border-top: 4px solid;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--color-background-semitrasparent);
 }
 
 .categoryInfo {
@@ -44,7 +45,7 @@
 }
 
 .inputError {
-  border-color: #e53e3e;
+  border-color: var(--color-text-error);
   box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
 }
 
@@ -68,7 +69,7 @@
 .categoryName {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1a202c;
+  color: var(--color-text);
   margin: 0;
   flex: 1;
   min-width: 0;
@@ -94,7 +95,7 @@
 
 .deleteButton:hover {
   background-color: #fed7d7;
-  color: #c53030;
+  color: var(--color-text-error);
 }
 
 .errorMessage {
@@ -104,13 +105,13 @@
   padding: 0.75rem 1.5rem;
   background: #fed7d7;
   border-top: 1px solid #feb2b2;
-  color: #c53030;
+  color: var(--color-text-error);
   font-size: 0.875rem;
 }
 
 .errorIcon {
   flex-shrink: 0;
-  color: #e53e3e;
+  color: var(--color-text-error);
 }
 
 .footer {
@@ -127,7 +128,7 @@
 
 .footerText {
   font-size: 0.75rem;
-  color: #718096;
+  color: var(--color-text-subtitle);
   font-weight: 500;
 }
 

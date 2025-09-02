@@ -15,6 +15,9 @@ import {
   FaColumns,
   FaList,
   FaGamepad,
+  FaRedoAlt,
+  FaAward,
+  FaCoins,
 } from "react-icons/fa";
 import type {
   ConfigurationActivity,
@@ -28,7 +31,7 @@ import styles from "./ConfigureActivityView.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSubject } from "../../../admin/hooks/useSubject";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
-
+import formatPrice from "../../../shared/utils/formatPrice";
 const ConfigureActivityView: React.FC = () => {
   const [configuration, setConfiguration] = useState<ConfigurationActivity>({
     description: "",
@@ -37,27 +40,34 @@ const ConfigureActivityView: React.FC = () => {
     dificulty: "",
     maxTime: 30,
     subjectId: 0,
+    attempts: 1,
+    initialBalance: 0,
   });
 
   const { code_game } = useParams();
   const [errors, setErrors] = useState<ConfigurationErrors>({});
   const [isPreviewMode, setIsPreviewMode] = useState(false);
-  const [isVerticalLayout, setIsVerticalLayout] = useState(false);
-  const { subjects, getSubject } = useSubject();
+  const [isVerticalLayout, setIsVerticalLayout] = useState(true);
+  const { subjects, getSubjectByTeacher } = useSubject();
   const { registerConfigurationActivity } = useConfigurationActivity();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getSubject();
+    getSubjectByTeacher();
+    window.scrollTo(0, 0);
   }, []);
 
   // Mapeo de nombres de actividades TODO: Traerlo bien de otro lado
   const getActivityName = (code: string) => {
     const activityNames: { [key: string]: string } = {
-      ahorcado: "Ahorcado",
-      "completar-oracion": "Completar Oración",
-      "verdadero-falso": "Verdadero o Falso",
-      "multiple-choice": "Opción Múltiple",
+      ahorcado_educativo: "Ahorcado",
+      arbol_decision: "Árbol de Decisión",
+      completar_oraciones: "Completar Oraciones",
+      desafio_clasificacion: "Desafío de Clasificación",
+      memorama: "Memorama",
+      no_ludica: "No Lúdica",
+      ordenar_secuencia: "Ordenar Secuencia",
+      preguntados: "Preguntados",
     };
     return activityNames[code] || "Actividad";
   };
@@ -140,6 +150,28 @@ const ConfigureActivityView: React.FC = () => {
       newErrors.subjectId = "Debe seleccionar una materia";
     }
 
+    if (configuration.attempts <= 0) {
+      newErrors.attempts = "El numero de intentos debe ser mayor a 0";
+    }
+
+    const selectedSubject = getSelectedSubject();
+    const ssActualBalance = selectedSubject?.actualBalance || 0;
+    const maxIB = getMaximumInitialBalance();
+
+    if (selectedSubject && configuration.initialBalance <= 0) {
+      newErrors.initialBalance = "El balance inicial debe ser mayor a 0";
+    }
+
+    if (configuration.initialBalance > ssActualBalance) {
+      newErrors.initialBalance =
+        "El balance inicial debe ser mayor al balance actual de la materia";
+    }
+
+    if (configuration.initialBalance > maxIB) {
+      newErrors.initialBalance =
+        "El balance inicial no puede ser mayor al 30% del balance actual de la materia";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -164,6 +196,15 @@ const ConfigureActivityView: React.FC = () => {
   const getDifficultyLabel = (value: string) => {
     const option = difficultyOptions.find((opt) => opt.value === value);
     return option ? option.label : value;
+  };
+
+  const getMaximumInitialBalance = () => {
+    const selectedSubject = getSelectedSubject();
+    if (selectedSubject) {
+      return selectedSubject.initialBalance * 0.3;
+    } else {
+      return 1;
+    }
   };
 
   const containerVariants = {
@@ -218,7 +259,7 @@ const ConfigureActivityView: React.FC = () => {
             {isVerticalLayout ? <FaColumns /> : <FaList />}
           </Button>
           <Button
-            variant={isPreviewMode ? "primary" : "ghost"}
+            variant="ghost"
             onClick={() => setIsPreviewMode(!isPreviewMode)}
             className={styles.previewButton}
           >
@@ -386,8 +427,8 @@ const ConfigureActivityView: React.FC = () => {
                           Tiempo límite para completar la actividad
                         </span>
                       </label>
-                      <div className={styles.timeInputWrapper}>
-                        <FaClock className={styles.timeIcon} />
+                      <div className={styles.dcInputWrapper}>
+                        <FaClock className={styles.dcIcon} />
                         <Input
                           type="number"
                           value={configuration.maxTime}
@@ -402,7 +443,33 @@ const ConfigureActivityView: React.FC = () => {
                           max="180"
                           className={styles.timeInput}
                         />
-                        <span className={styles.timeUnit}>min</span>
+                        <span className={styles.dcUnit}>min</span>
+                      </div>
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <label className={styles.label}>
+                        Número de Intentos *
+                        <span className={styles.labelHint}>
+                          Número de intentos para completar la actividad
+                        </span>
+                      </label>
+                      <div className={styles.dcInputWrapper}>
+                        <FaRedoAlt className={styles.dcIcon} />
+                        <Input
+                          type="number"
+                          value={configuration.attempts}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "attempts",
+                              Number.parseInt(e.target.value) || 0
+                            )
+                          }
+                          error={errors.attempts}
+                          min="1"
+                          max="10"
+                          className={styles.attemptsInput}
+                        />
+                        <span className={styles.dcUnit}>intentos</span>
                       </div>
                     </div>
                   </div>
@@ -421,7 +488,15 @@ const ConfigureActivityView: React.FC = () => {
                   </div>
                   <div className={styles.cardContent}>
                     <div className={styles.inputGroup}>
-                      <label className={styles.label}>Materia *</label>
+                      <label className={styles.label}>
+                        Materia *
+                        {configuration.subjectId > 0 && (
+                          <span className={styles.labelHint}>
+                            El balance de la materia seleccionada es{" "}
+                            {getSelectedSubject()?.actualBalance}
+                          </span>
+                        )}
+                      </label>
                       <select
                         value={configuration.subjectId}
                         onChange={(e) =>
@@ -437,8 +512,8 @@ const ConfigureActivityView: React.FC = () => {
                         <option value={0}>Seleccionar materia...</option>
                         {subjects.map((subject) => (
                           <option key={subject.id} value={subject.id}>
-                            {subject.name} - {subject.course.year.name}{" "}
-                            {subject.course.name}{" "}
+                            {subject.course.year.name} {subject.course.name} -{" "}
+                            {subject.name}
                           </option>
                         ))}
                       </select>
@@ -449,6 +524,76 @@ const ConfigureActivityView: React.FC = () => {
                         </span>
                       )}
                     </div>
+                  </div>
+                </Card>
+              </motion.div>
+
+              {/* Recompensa */}
+              <motion.div
+                variants={itemVariants}
+                className={styles.formSection}
+              >
+                <Card className={styles.formCard}>
+                  <div className={styles.cardHeader}>
+                    <FaAward className={styles.cardIcon} />
+                    <h3 className={styles.cardTitle}>Recompensa</h3>
+                  </div>
+                  <div className={styles.cardContent}>
+                    {configuration.subjectId === 0 ? (
+                      <p className={styles.noSubjectMessage}>
+                        Selecciona una materia para configurar la recompensa
+                        disponible.
+                      </p>
+                    ) : (
+                      <>
+                        <div className={styles.rewardsInfoContainer}>
+                          <div className={styles.rewardBox}>
+                            <span className={styles.rewardBoxTitle}>
+                              Balance actual
+                            </span>
+                            <span className={styles.rewardBoxValue}>
+                              {formatPrice(getSelectedSubject()?.actualBalance)}{" "}
+                              monedas
+                            </span>
+                          </div>
+                          <div className={styles.rewardBox}>
+                            <span className={styles.rewardBoxTitle}>
+                              Recompensa máxima (30%)
+                            </span>
+                            <span className={styles.rewardBoxValue}>
+                              {formatPrice(getMaximumInitialBalance())} monedas
+                            </span>
+                          </div>
+                        </div>
+                        <div className={styles.inputGroup}>
+                          <label className={styles.label}>
+                            Balance Inicial *
+                            <span className={styles.labelHint}>
+                              Cantidad de recompensa que entregará la actividad
+                            </span>
+                          </label>
+                          <div className={styles.dcInputWrapper}>
+                            <FaCoins className={styles.dcIcon} />
+                            <Input
+                              type="text"
+                              value={configuration.initialBalance}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  "initialBalance",
+                                  Number(e.target.value)
+                                )
+                              }
+                              placeholder="0"
+                              disabled={!configuration.subjectId}
+                              error={errors.initialBalance}
+                              max={getMaximumInitialBalance()}
+                              className={styles.rewardInput}
+                            />
+                            <span className={styles.dcUnit}>monedas</span>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </Card>
               </motion.div>
@@ -516,13 +661,7 @@ const ConfigureActivityView: React.FC = () => {
                     <FaChartLine className={styles.previewIcon} />
                     <div>
                       <h4>Dificultad</h4>
-                      <Badge
-                        variant="primary"
-                        // className={{
-                        //   backgroundColor: getDifficultyColor(),
-                        //   color: "white",
-                        // }}
-                      >
+                      <Badge variant="primary">
                         {getDifficultyLabel(configuration.dificulty) ||
                           "Sin definir"}
                       </Badge>
@@ -533,6 +672,13 @@ const ConfigureActivityView: React.FC = () => {
                     <div>
                       <h4>Tiempo Máximo</h4>
                       <p>{configuration.maxTime} minutos</p>
+                    </div>
+                  </div>
+                  <div className={styles.previewItem}>
+                    <FaRedoAlt className={styles.previewIcon} />
+                    <div>
+                      <h4>Cantidad de Intentos</h4>
+                      <p>{configuration.attempts} intento/s</p>
                     </div>
                   </div>
                   <div className={styles.previewItem}>

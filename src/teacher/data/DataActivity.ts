@@ -64,8 +64,7 @@ export const activities: Activity[] = [
     code_game: "memorama",
     name: "Memorama",
     type: "Juego de Memoria",
-    description:
-      "Relaciona conceptos con sus imágenes correspondientes. Ideal para reforzar asociaciones visuales y comprensión temática.",
+    description: "Relaciona conceptos con sus imágenes correspondientes.",
     difficulty: "Fácil",
     duration: "10-15 min",
     subject: "General",
@@ -78,7 +77,7 @@ export const activities: Activity[] = [
     name: "Desafio de Clasificación",
     code_game: "desafio_clasificacion",
     type: "Juego de Memoria",
-    description: "Relacione los conceptos con su categoria",
+    description: "Relacione los conceptos con su categoria correspondiente.",
     difficulty: "Difícil",
     duration: "25-35 min",
     subject: "General",
@@ -99,12 +98,7 @@ export const activities: Activity[] = [
     subject: "General",
     icon: "tree",
     color: "#ef4444",
-    features: [
-      "Análisis",
-      "Clasificación",
-      "Pensamiento lógico",
-      "Resolución de problemas",
-    ],
+    features: ["Análisis", "Clasificación", "Resolución de problemas"],
     isNew: true,
   },
   {

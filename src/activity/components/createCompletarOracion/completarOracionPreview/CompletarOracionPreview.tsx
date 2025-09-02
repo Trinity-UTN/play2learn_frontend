@@ -1,8 +1,8 @@
-import type React from "react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaPlay, FaRedo } from "react-icons/fa";
+import { FaEye, FaPlay, FaUndo } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import type { Sentence } from "../../../types/CompletarOracion.type";
 import styles from "./CompletarOracionPreview.module.css";
 
@@ -17,7 +17,6 @@ const CompletarOracionPreview: React.FC<CompletarOracionPreviewProps> = ({
   const [showAnswers, setShowAnswers] = useState(false);
   const [completeSentences, setCompleteSentences] = useState<string[]>([]);
 
-  // Generar oraciones completas cuando se muestran las respuestas
   useEffect(() => {
     if (showAnswers) {
       const complete = sentences.map((sentence) =>
@@ -44,7 +43,7 @@ const CompletarOracionPreview: React.FC<CompletarOracionPreviewProps> = ({
     }));
   };
 
-  const resetPreview = () => {
+  const handleReset = () => {
     setUserAnswers({});
     setShowAnswers(false);
   };
@@ -61,44 +60,43 @@ const CompletarOracionPreview: React.FC<CompletarOracionPreviewProps> = ({
 
   return (
     <motion.div variants={itemVariants} className={styles.container}>
-      <div className={styles.previewHeader}>
-        <h3 className={styles.sectionTitle}>Vista Previa de la Actividad</h3>
-        <p className={styles.description}>
-          Así es como verán la actividad tus estudiantes. Puedes probar
-          completando los espacios en blanco.
-        </p>
-
+      <div className={styles.header}>
+        <div className={styles.header}>
+          <div className={styles.titleRow}>
+            <h4 className={styles.title}>
+              <FaEye className={styles.headerIcon} />
+              Vista Previa de Actividad
+              <span className={styles.tooltip}>
+                <Tooltip content="Puedes probar completando los espacios en blanco." />
+              </span>
+            </h4>
+          </div>
+          <p className={styles.description}>
+            Esta es una simulación de cómo los estudiantes experimentarán la
+            actividad
+          </p>
+        </div>
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statNumber}>{sentences.length}</span>
-            <span className={styles.statLabel}>
-              Oración{sentences.length !== 1 ? "es" : ""}
-            </span>
+            <span className={styles.statIcon}>📝</span>
+            <div>
+              <span className={styles.statLabel}>
+                Oración{sentences.length !== 1 ? "es" : ""}
+              </span>
+              <span className={styles.statValue}>{sentences.length}</span>
+            </div>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statNumber}>{getTotalMissingWords()}</span>
-            <span className={styles.statLabel}>
-              Palabra{getTotalMissingWords() !== 1 ? "s" : ""} a completar
-            </span>
+            <span className={styles.statIcon}>🎯</span>
+            <div>
+              <span className={styles.statLabel}>
+                Palabra{getTotalMissingWords() !== 1 ? "s" : ""} a completar
+              </span>
+              <span className={styles.statValue}>{getTotalMissingWords()}</span>
+            </div>
           </div>
         </div>
       </div>
-
-      <div className={styles.previewControls}>
-        <Button variant="secondary" onClick={resetPreview} size="sm">
-          <FaRedo />
-          Reiniciar
-        </Button>
-        <Button
-          variant={showAnswers ? "danger" : "primary"}
-          onClick={toggleAnswers}
-          size="sm"
-        >
-          <FaPlay />
-          {showAnswers ? "Ocultar" : "Mostrar"} Respuestas
-        </Button>
-      </div>
-
       <div className={styles.activityContainer}>
         <div className={styles.activityHeader}>
           <h4>Completa las siguientes oraciones:</h4>
@@ -161,16 +159,22 @@ const CompletarOracionPreview: React.FC<CompletarOracionPreviewProps> = ({
           </motion.div>
         ))}
       </div>
-
-      <div className={styles.previewFooter}>
-        <div className={styles.instructions}>
-          <h5>Instrucciones para los estudiantes:</h5>
-          <ul>
-            <li>Lee cada oración cuidadosamente</li>
-            <li>Completa los espacios en blanco con las palabras correctas</li>
-            <li>Asegúrate de que las oraciones tengan sentido completo</li>
-          </ul>
-        </div>
+      <div className={styles.previewControls}>
+        <Button
+          variant="secondary"
+          onClick={handleReset}
+          className={styles.resetButton}
+        >
+          <FaUndo /> Reiniciar Simulación
+        </Button>
+        <Button
+          variant={showAnswers ? "danger" : "primary"}
+          onClick={toggleAnswers}
+          className={styles.resetButton}
+        >
+          <FaPlay />
+          {showAnswers ? "Ocultar" : "Mostrar"} Respuestas
+        </Button>
       </div>
     </motion.div>
   );

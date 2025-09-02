@@ -1,22 +1,21 @@
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import type { CourseResponseDto } from "../../services/course/CourseService";
 import Button from "../../../shared/components/Button/ButtonComponent";
-import ConfirmationModal from "../../../shared/components/ConfirmationModal/ConfirmationModal";
 import { DataTable } from "../../../shared/components/DataTable";
 import type {
   DataTableColumn,
   DataTableAction,
 } from "../../../shared/components/DataTable";
 import { useCourse } from "../../hooks/useCourse";
-import type { CourseResponseDto } from "../../services/course/CourseService";
-import styles from "./ListCourseView.module.css";
+import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
+import styles from "./ListCourseView.module.css";
 
 const ViewCoursesView: React.FC = () => {
-  const navigate = useNavigate();
   const {
     loading,
     getPaginatedCourse,
@@ -31,57 +30,44 @@ const ViewCoursesView: React.FC = () => {
     handlePageChange,
     handlePageSizeChange,
   } = usePaginationParams();
-  const [alertConfig, setAlertConfig] = useState({
-    title: "",
-    message: "",
-    type: "warning" as "warning" | "danger",
-    isOpen: false,
-    showDoubleConfirmation: false,
-    onConfirm: () => {},
-  });
+  const { showConfirmation } = useConfirmation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadPaginatedCourses = async () => {
       try {
         await getPaginatedCourse(paginationParams);
       } catch (error) {
-        console.error("Error al cargar cursos paginados:", error);
+        console.error("Error al cargar cursos paginados:", error); // TODO: REMOVE_DEBUG
       }
     };
     loadPaginatedCourses();
   }, [paginationParams, getPaginatedCourse]);
 
   const handleEdit = (course: CourseResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Modificar Curso",
       message: `¿Está seguro que desea modificar el curso "${course.name}"?`,
       type: "warning",
-      isOpen: true,
-      showDoubleConfirmation: false,
       onConfirm: () => {
         setSelectedCourse(course);
         navigate(`/dashboard/courses/edit/${course.id}`);
-        setAlertConfig((prev) => ({ ...prev, isOpen: false }));
       },
     });
   };
 
   const handleDelete = (course: CourseResponseDto) => {
-    setAlertConfig({
+    showConfirmation({
       title: "Eliminar Curso",
       message: `¿Está seguro que desea eliminar el curso "${course.name}"?`,
       type: "danger",
-      isOpen: true,
       showDoubleConfirmation: true,
       onConfirm: async () => {
         try {
           await deleteCourse(course.id);
-          // Recargar la página actual después de eliminar
           await getPaginatedCourse(paginationParams);
-          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
         } catch (error) {
-          console.error("Error al eliminar curso:", error);
-          setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+          console.error("Error al eliminar curso:", error); // TODO: REMOVE_DEBUG
         }
       },
     });
@@ -167,7 +153,7 @@ const ViewCoursesView: React.FC = () => {
         <div>
           <h1 className={styles.title}>Gestión de Curso</h1>
           <p className={styles.subtitle}>
-            Administra los curso académicos del sistema
+            Administra los cursos académicos del sistema
           </p>
         </div>
         <Button
@@ -216,17 +202,6 @@ const ViewCoursesView: React.FC = () => {
           }
         />
       </motion.div>
-
-      <ConfirmationModal
-        title={alertConfig.title}
-        message={alertConfig.message}
-        type={alertConfig.type}
-        isOpen={alertConfig.isOpen}
-        showDoubleConfirmation={alertConfig.showDoubleConfirmation}
-        doubleConfirmationText="¿Está completamente seguro? Esta acción no se puede deshacer."
-        onConfirm={alertConfig.onConfirm}
-        onClose={() => setAlertConfig((prev) => ({ ...prev, isOpen: false }))}
-      />
     </motion.div>
   );
 };

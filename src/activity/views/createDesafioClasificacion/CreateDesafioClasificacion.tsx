@@ -1,164 +1,70 @@
-import { motion } from "framer-motion";
-import { FaEye, FaEyeSlash, FaPaperPlane, FaPlus } from "react-icons/fa";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import Card from "../../../shared/components/Card/CardComponent";
-import Header from "../../components/createDesafioClasificacion/header/Header";
-import CategoryForm from "../../components/createDesafioClasificacion/categoriaForm/CategoriaForm";
-import CategoryList from "../../components/createDesafioClasificacion/categoriaList/CategoriaList";
-import ClassificationPreview from "../../components/createDesafioClasificacion/clasificacionPreview/ClasificacionPreview";
+import { useEffect } from "react";
+import { FaLayerGroup } from "react-icons/fa";
+import ActivityStepHeader from "../../components/common/ActivityStepHeader/ActivityStepHeader";
+import ActivityErrorContainer from "../../components/common/ActivityErrorContainer/ActivityErrorContainer";
+import ActivityFooter from "../../components/common/ActivityFooter/ActivityFooter";
+import GeneralConfiguration from "../../components/createDesafioClasificacion/generalConfig/GeneralConfiguration";
+import ClasificacionPreview from "../../components/createDesafioClasificacion/clasificacionPreview/ClasificacionPreview";
+import { useCreateDesafioClasificacion } from "../../hooks/useCreateDesafioClasificacion";
 import styles from "./CreateDesafioClasificacion.module.css";
-import { useCreateDesafioClasificacion } from "../../hooks/useDesafioClasificacion";
 
-const CreateDesafioClasificacionView = () => {
+const CreateDesafioClasificacion = () => {
   const {
-    //Estados
-    categories,
-    attempts,
-    showPreview,
-    isSubmitting,
-    canSubmit,
-    //Setters
-    setAttempts,
-    setShowPreview,
-    //Envio
+    loading,
+    currentStep,
+    errors,
     handleSubmit,
+    handleBack,
+    handleNext,
+    handleReset,
+    getStepTitle,
+    getCurrentStepNumber,
   } = useCreateDesafioClasificacion();
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentStep]);
+
   return (
-    <div className={styles.container}>
-      <Header />
+    <>
+      <ActivityStepHeader
+        icon={<FaLayerGroup />}
+        title="Crear Actividad: Desafío de Clasificación"
+        subtitle={`${getStepTitle()} - Paso ${getCurrentStepNumber()} de 2`}
+        currentStep={getCurrentStepNumber()}
+        totalSteps={2}
+        itemVariants={itemVariants}
+      />
 
       <div className={styles.content}>
-        <div className={styles.mainContent}>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <Card className={styles.formCard}>
-              <div className={styles.cardHeader}>
-                <h2 className={styles.cardTitle}>
-                  <FaPlus className={styles.cardIcon} />
-                  Agregar Categoría
-                </h2>
-                <p className={styles.cardDescription}>
-                  Crea categorías y agrega conceptos que pertenezcan a cada una
-                </p>
-              </div>
-
-              <CategoryForm />
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <CategoryList />
-          </motion.div>
-        </div>
-
-        <div className={styles.sidebar}>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className={styles.sidebarContent}
-          >
-            <Card className={styles.configCard}>
-              <h3 className={styles.configTitle}>Configuración</h3>
-
-              <div className={styles.configSection}>
-                <label className={styles.configLabel}>Número de intentos</label>
-                <select
-                  value={attempts}
-                  onChange={(e) => setAttempts(Number(e.target.value))}
-                  className={styles.configSelect}
-                >
-                  {[...Array(5)].map((_, i) => (
-                    <option key={i + 1} value={i + 1}>
-                      {i + 1} intento{i + 1 > 1 ? "s" : ""}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className={styles.configSection}>
-                <Button
-                  variant={showPreview ? "secondary" : "primary"}
-                  fullWidth
-                  onClick={() => setShowPreview(!showPreview)}
-                  disabled={categories.length === 0}
-                >
-                  {showPreview ? <FaEyeSlash /> : <FaEye />}
-                  {showPreview ? "Ocultar Vista Previa" : "Ver Vista Previa"}
-                </Button>
-              </div>
-
-              <div className={styles.configSection}>
-                <Button
-                  variant="primary"
-                  fullWidth
-                  onClick={handleSubmit}
-                  disabled={!canSubmit}
-                >
-                  <FaPaperPlane />
-                  {isSubmitting ? "Creando..." : "Crear Actividad"}
-                </Button>
-              </div>
-
-              <div className={styles.requirements}>
-                <h4 className={styles.requirementsTitle}>Requisitos:</h4>
-                <ul className={styles.requirementsList}>
-                  <li
-                    className={
-                      categories.length >= 2 ? styles.fulfilled : styles.pending
-                    }
-                  >
-                    Mínimo 2 categorías ({categories.length}/2)
-                  </li>
-                  <li
-                    className={
-                      categories.every((cat) => cat.concepts.length > 0)
-                        ? styles.fulfilled
-                        : styles.pending
-                    }
-                  >
-                    Cada categoría debe tener conceptos
-                  </li>
-                  <li
-                    className={
-                      categories.length <= 10
-                        ? styles.fulfilled
-                        : styles.pending
-                    }
-                  >
-                    Máximo 10 categorías ({categories.length}/10)
-                  </li>
-                </ul>
-              </div>
-            </Card>
-          </motion.div>
-        </div>
+        {currentStep === "config" && (
+          <GeneralConfiguration itemVariants={itemVariants} />
+        )}
+        {currentStep === "preview" && <ClasificacionPreview />}
       </div>
 
-      {showPreview && categories.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className={styles.previewSection}
-        >
-          <ClassificationPreview
-            categories={categories}
-            attempts={attempts}
-            onClose={() => setShowPreview(false)}
-          />
-        </motion.div>
-      )}
-    </div>
+      <ActivityErrorContainer errors={errors} itemVariants={itemVariants} />
+
+      <ActivityFooter
+        currentStep={getCurrentStepNumber()}
+        totalSteps={2}
+        loading={loading}
+        onReset={handleReset}
+        onBack={currentStep !== "config" ? handleBack : undefined}
+        onNext={currentStep === "config" ? handleNext : undefined}
+        onSubmit={currentStep === "preview" ? handleSubmit : undefined}
+        nextButtonText="Siguiente"
+        submitButtonText="Crear Actividad"
+        itemVariants={itemVariants}
+      />
+    </>
   );
 };
 
-export default CreateDesafioClasificacionView;
+export default CreateDesafioClasificacion;

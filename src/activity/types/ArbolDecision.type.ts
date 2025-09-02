@@ -5,6 +5,7 @@ export interface Consequence {
 
 export interface DecisionNode {
   name: string;
+  context: string;
   options: DecisionNode[];
   consecuence: Consequence | null;
 }
@@ -15,7 +16,6 @@ export interface ArbolDecisionConfig {
 }
 
 export interface ArbolDecisionInterface {
-  attempts: number; //TODO: ATTEMPTS REMOVAL
   introduction: string;
   decisionTree: DecisionNode[];
 }

@@ -93,6 +93,9 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
     try {
       await CourseService.deleteCourseApi(id);
     } catch (error) {
+      alert(
+        `El recurso Curso con id ${id} no puede ser eliminado porque tiene asociaciones con estudiantes/cursos.`
+      );
       console.error("Error al eliminar el curso:", error);
       throw error;
     } finally {

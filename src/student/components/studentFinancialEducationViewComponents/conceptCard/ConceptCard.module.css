@@ -1,0 +1,111 @@
+.conceptCard {
+  min-height: 250px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.conceptCard:hover {
+  border-color: var(--concept-color);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.conceptCard.selected {
+  border-color: var(--concept-color);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.conceptIcon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.headerContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.conceptTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--concept-color);
+}
+
+.difficultyBadge {
+  align-self: flex-start;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+.expandIcon {
+  color: var(--concept-color);
+  font-size: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.conceptCard.selected .expandIcon {
+  transform: rotate(180deg);
+}
+
+.conceptDescription {
+  padding: 0 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+.conceptDescription p {
+  margin: 0;
+}
+
+.expandedContent {
+  overflow: hidden;
+}
+
+.exampleSection {
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.exampleTitle {
+  color: var(--concept-color);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+}
+
+.exampleText {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .cardHeader {
+    padding: 1rem;
+  }
+
+  .conceptIcon {
+    font-size: 2rem;
+  }
+
+  .conceptTitle {
+    font-size: 1.1rem;
+  }
+}

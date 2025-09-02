@@ -4,8 +4,8 @@ import CreateCompletarOracion from "../views/createCompletarOracionView/CreateCo
 import CreateDesafioClasificacionView from "../views/createDesafioClasificacion/CreateDesafioClasificacion";
 import CreateMemorama from "../views/createMemoramaView/CreateMemorama";
 import CreateNoLudica from "../views/createNoLudicaView/CreateNoLudica";
+import CreateOrdenarSecuencia from "../views/createOrdenarSecuenciaView/CreateOrdenarSecuencia";
 import CreatePreguntados from "../views/createPreguntadosView/CreatePreguntados";
-import CreateSequenceView from "../views/createSequenceView/CreateSequenceView";
 
 export const activityComponentMap: Record<string, React.ComponentType> = {
   ahorcado_educativo: CreateAhorcado,
@@ -14,6 +14,6 @@ export const activityComponentMap: Record<string, React.ComponentType> = {
   desafio_clasificacion: CreateDesafioClasificacionView,
   memorama: CreateMemorama,
   no_ludica: CreateNoLudica,
-  ordenar_secuencia: CreateSequenceView,
+  ordenar_secuencia: CreateOrdenarSecuencia,
   preguntados: CreatePreguntados,
 };

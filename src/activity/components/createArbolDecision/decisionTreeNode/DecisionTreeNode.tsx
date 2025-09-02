@@ -11,6 +11,7 @@ interface DecisionTreeNodeProps {
   path: number[];
   depth: number;
   onUpdateName: (path: number[], name: string) => void;
+  onUpdateContext: (path: number[], context: string) => void;
   onAddOptions: (path: number[]) => void;
   onAddConsequence: (path: number[]) => void;
   onRemoveContent: (path: number[]) => void;
@@ -26,6 +27,7 @@ const DecisionTreeNode: React.FC<DecisionTreeNodeProps> = ({
   path,
   depth,
   onUpdateName,
+  onUpdateContext,
   onAddOptions,
   onAddConsequence,
   onRemoveContent,
@@ -49,6 +51,15 @@ const DecisionTreeNode: React.FC<DecisionTreeNodeProps> = ({
     <div
       className={depth === 0 ? styles.decisionBranch : styles.subOptionBranch}
     >
+      <input
+        type="text"
+        value={node.context}
+        onChange={(e) => onUpdateContext(path, e.target.value)}
+        placeholder={`Contexto para ${placeholder.toLowerCase()}`}
+        className={styles.contextInput}
+        maxLength={500}
+      />
+
       {/* Nodo actual */}
       <div className={nodeClass} data-depth={depth}>
         {/* Badge de nivel */}
@@ -118,6 +129,7 @@ const DecisionTreeNode: React.FC<DecisionTreeNodeProps> = ({
               path={[...path, optionIndex]}
               depth={depth + 1}
               onUpdateName={onUpdateName}
+              onUpdateContext={onUpdateContext}
               onAddOptions={onAddOptions}
               onAddConsequence={onAddConsequence}
               onRemoveContent={onRemoveContent}

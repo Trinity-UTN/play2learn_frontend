@@ -1,22 +1,39 @@
+@import "../../../../shared/styles/colors.css";
 .container {
   padding: 2rem;
 }
 
-.previewHeader {
-  margin-bottom: 2rem;
+.header {
+  margin-bottom: 1rem;
 }
 
-.sectionTitle {
-  font-size: 1.5rem;
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerIcon {
+  font-size: 0.875rem;
+  color: var(--color-stat-4);
+  margin-right: 0.5rem;
+}
+
+.title {
+  font-size: 1.75rem;
   font-weight: 700;
   color: #1f2937;
   margin: 0 0 0.5rem 0;
 }
 
+.tooltip {
+  margin-left: 0.5rem;
+}
+
 .description {
+  font-size: 1rem;
   color: #6b7280;
   margin: 0 0 1.5rem 0;
-  font-size: 0.9rem;
   line-height: 1.5;
 }
 
@@ -66,24 +83,6 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-}
-
-.simulatorTitle {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.simulatorIcon {
-  color: #667eea;
-  font-size: 1.2rem;
-}
-
-.simulatorTitle h4 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #374151;
-  margin: 0;
 }
 
 .resetButton {
@@ -374,6 +373,14 @@
   font-size: 0.9rem;
 }
 
+.contextText {
+  color: #374151;
+  line-height: 1.5;
+  font-size: 1rem;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
 .optionFooter {
   display: flex;
   justify-content: space-between;
@@ -464,6 +471,7 @@
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .container {
     padding: 1rem;

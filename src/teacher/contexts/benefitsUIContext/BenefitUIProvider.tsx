@@ -31,21 +31,22 @@ export const BenefitUIProvider: React.FC<BenefitUIProviderProps> = ({
   const [formData, setFormData] = useState<CreateBenefitInterface>({
     name: "",
     description: "",
-    cost: 0,
+    cost: "",
     totalRedeemableAmount: null,
     redeemableAmountPerStudent: null,
     subjectId: 0,
+    endAt: "",
     color: "BLUE",
     category: "EVALUACION",
     icon: "EXAM",
   });
 
   const [previewMode, setPreviewMode] = useState(false);
-  const { getSubject, subjects } = useSubject();
+  const { subjects, getSubjectByTeacher } = useSubject();
   const { registerBenefit } = useBenefitAPI();
 
   useEffect(() => {
-    getSubject();
+    getSubjectByTeacher();
   }, []);
 
   const categories: {
@@ -124,10 +125,11 @@ export const BenefitUIProvider: React.FC<BenefitUIProviderProps> = ({
     setFormData({
       name: "",
       description: "",
-      cost: 0,
+      cost: "",
       totalRedeemableAmount: null,
       redeemableAmountPerStudent: null,
       subjectId: 0,
+      endAt: "",
       color: "BLUE",
       category: "EVALUACION",
       icon: "EXAM",
@@ -162,7 +164,7 @@ export const BenefitUIProvider: React.FC<BenefitUIProviderProps> = ({
     getColor,
     getSelectedCategory,
     getSelectedIcon,
-    getSubject,
+    getSubjectByTeacher,
     handleChange,
     handleSubmit,
     iconOptions,

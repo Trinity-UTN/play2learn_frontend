@@ -1,3 +1,4 @@
+@import "../../../../../shared/styles/colors.css";
 .header {
   display: flex;
   justify-content: space-between;
@@ -11,14 +12,18 @@
   font-weight: bold;
   color: #2e2e2e;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #007bff, #8b5cf6);
+  background: linear-gradient(
+    145deg,
+    var(--color-primary) 40%,
+    var(--color-third)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .subtitle {
-  color: #6b7280;
+  color: var(--color-text-subtitle);
   font-size: 1.125rem;
   line-height: 1.6;
 }

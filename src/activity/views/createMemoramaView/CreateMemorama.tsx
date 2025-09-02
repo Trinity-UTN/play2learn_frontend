@@ -1,9 +1,10 @@
-import { motion } from "framer-motion";
-import { FaPuzzlePiece, FaArrowRight, FaUndo } from "react-icons/fa";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import Card from "../../../shared/components/Card/CardComponent";
+import { useEffect } from "react";
+import { FaPuzzlePiece } from "react-icons/fa";
+import ActivityStepHeader from "../../components/common/ActivityStepHeader/ActivityStepHeader";
+import ActivityFooter from "../../components/common/ActivityFooter/ActivityFooter";
 import GeneralConfiguration from "../../components/createMemorama/generalConfig/GeneralConfiguration";
 import PairCreator from "../../components/createMemorama/pairCreator/PairCreator";
+import PairProgress from "../../components/createMemorama/pairProgress/PairProgress";
 import MemoramaPreview from "../../components/createMemorama/memoramaPreview/MemoramaPreview";
 import { useCreateMemorama } from "../../hooks/useCreateMemorama";
 import styles from "./CreateMemorama.module.css";
@@ -12,16 +13,14 @@ const CreateMemorama = () => {
   const {
     loading,
     currentStep,
-    config,
-    errors,
     isFormValid,
+    handleNextPair,
     handleSubmit,
     handleBack,
+    handleNext,
     handleReset,
     getStepTitle,
-    getCompletedPairs,
-    getIncompletePairs,
-    getEmptyPairs,
+    getCurrentStepNumber,
   } = useCreateMemorama();
 
   const itemVariants = {
@@ -29,125 +28,25 @@ const CreateMemorama = () => {
     visible: { opacity: 1, y: 0 },
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentStep]);
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {/* Header */}
-        <motion.div variants={itemVariants} className={styles.header}>
-          <div className={styles.titleSection}>
-            <FaPuzzlePiece className={styles.titleIcon} />
-            <div>
-              <h1 className={styles.title}>Crear Actividad: Memorama</h1>
-              <p className={styles.subtitle}>
-                {getStepTitle()} - Paso{" "}
-                {currentStep === "config"
-                  ? "1"
-                  : currentStep === "pairs"
-                  ? "2"
-                  : "3"}{" "}
-                de 3
-              </p>
-            </div>
-          </div>
-
-          {/* Indicador de pasos */}
-          <div className={styles.stepIndicator}>
-            <div
-              className={`${styles.step} ${
-                currentStep === "config" ? styles.active : styles.completed
-              }`}
-            >
-              1
-            </div>
-            <div className={styles.stepLine}></div>
-            <div
-              className={`${styles.step} ${
-                currentStep === "pairs"
-                  ? styles.active
-                  : currentStep === "preview"
-                  ? styles.completed
-                  : ""
-              }`}
-            >
-              2
-            </div>
-            <div className={styles.stepLine}></div>
-            <div
-              className={`${styles.step} ${
-                currentStep === "preview" ? styles.active : ""
-              }`}
-            >
-              3
-            </div>
-          </div>
-        </motion.div>
+        <ActivityStepHeader
+          icon={<FaPuzzlePiece />}
+          title="Crear Actividad: Memorama"
+          subtitle={`${getStepTitle()} - Paso ${getCurrentStepNumber()} de 3`}
+          currentStep={getCurrentStepNumber()}
+          totalSteps={3}
+          itemVariants={itemVariants}
+        />
 
         {/* Barra de progreso para el paso de parejas */}
         {currentStep === "pairs" && (
-          <motion.div variants={itemVariants}>
-            <Card className={styles.progressSection}>
-              <div className={styles.progressInfo}>
-                <span className={styles.progressText}>
-                  Parejas completadas: {getCompletedPairs()} de{" "}
-                  {config.totalPairs}
-                  {getIncompletePairs() > 0 && (
-                    <span className={styles.incompleteText}>
-                      {" "}
-                      • {getIncompletePairs()} incompleta
-                      {getIncompletePairs() !== 1 ? "s" : ""}
-                    </span>
-                  )}
-                  {getEmptyPairs() > 0 && (
-                    <span className={styles.emptyText}>
-                      {" "}
-                      • {getEmptyPairs()} vacía
-                      {getEmptyPairs() !== 1 ? "s" : ""}
-                    </span>
-                  )}
-                </span>
-                <div className={styles.progressBar}>
-                  <div
-                    className={styles.progressFill}
-                    style={{
-                      width: `${
-                        (getCompletedPairs() / config.totalPairs) * 100
-                      }%`,
-                    }}
-                  />
-                  <div
-                    className={styles.progressIncomplete}
-                    style={{
-                      width: `${
-                        (getIncompletePairs() / config.totalPairs) * 100
-                      }%`,
-                      left: `${
-                        (getCompletedPairs() / config.totalPairs) * 100
-                      }%`,
-                    }}
-                  />
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-        )}
-
-        {/* Errores */}
-        {errors.length > 0 && (
-          <motion.div variants={itemVariants}>
-            <Card className={styles.errorContainer}>
-              <div className={styles.errorHeader}>
-                <h4>⚠️ Errores encontrados ({errors.length})</h4>
-                <p>
-                  Debes corregir los siguientes problemas antes de continuar:
-                </p>
-              </div>
-              {errors.map((error, index) => (
-                <div key={index} className={styles.errorMessage}>
-                  • {error}
-                </div>
-              ))}
-            </Card>
-          </motion.div>
+          <PairProgress itemVariants={itemVariants} />
         )}
 
         {/* Contenido principal */}
@@ -157,45 +56,21 @@ const CreateMemorama = () => {
           {currentStep === "preview" && <MemoramaPreview />}
         </div>
 
-        {/* Footer */}
-        <motion.div variants={itemVariants}>
-          <Card className={styles.footer}>
-            <div className={styles.footerActions}>
-              <Button
-                variant="secondary"
-                onClick={handleReset}
-                className={styles.resetButton}
-                disabled={loading}
-              >
-                <FaUndo />
-                Reiniciar
-              </Button>
-
-              <div className={styles.navigationButtons}>
-                {currentStep !== "config" && (
-                  <Button
-                    variant="secondary"
-                    onClick={handleBack}
-                    disabled={loading}
-                  >
-                    Atrás
-                  </Button>
-                )}
-                {currentStep === "preview" && (
-                  <Button
-                    variant="primary"
-                    onClick={handleSubmit}
-                    disabled={!isFormValid || loading}
-                    className={styles.nextButton}
-                  >
-                    <FaArrowRight />
-                    {loading ? "Creando..." : "Crear Actividad"}
-                  </Button>
-                )}
-              </div>
-            </div>
-          </Card>
-        </motion.div>
+        <ActivityFooter
+          currentStep={getCurrentStepNumber()}
+          totalSteps={3}
+          loading={loading}
+          isFormValid={isFormValid}
+          onReset={handleReset}
+          onBack={currentStep !== "config" ? handleBack : undefined}
+          onNext={currentStep !== "pairs" ? handleNext : handleNextPair}
+          onSubmit={currentStep === "preview" ? handleSubmit : undefined}
+          nextButtonText={
+            currentStep === "config" ? "Comenzar a Crear Parejas" : "Siguiente"
+          }
+          submitButtonText="Crear Actividad"
+          itemVariants={itemVariants}
+        />
       </div>
     </div>
   );

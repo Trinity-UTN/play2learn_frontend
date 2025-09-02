@@ -8,7 +8,12 @@ export interface Sentence {
   words: Word[];
 }
 
+export interface CompletarOracionConfig {
+  totalSentences: number;
+  minWordsPerSentence: number;
+  maxWordsPerSentence: number;
+}
+
 export interface CompletarOracionInterface {
-  attempts: number;
   sentences: Sentence[];
 }

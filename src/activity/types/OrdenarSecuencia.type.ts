@@ -4,8 +4,11 @@ export interface EventPayload {
   order: number;
 }
 
+export interface OrdenarSecuenciaConfig {
+  cantEvents: number;
+}
+
 export interface CreateSequencePayload {
-  attempts: number; // TODO: ATTEMPTS REMOVAL
   events: EventPayload[];
 }
 

@@ -1,0 +1,155 @@
+@import "../../../../shared/styles/colors.css";
+.container {
+  padding: 2rem;
+}
+
+.eventList {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 2px solid #e2e8f0;
+}
+
+.emptyState {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px dashed #cbd5e1;
+}
+
+.emptyContent {
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  color: var(--color-text-subtitle);
+  opacity: 0.5;
+}
+
+.emptyTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-title);
+  margin: 0;
+}
+
+.emptyDescription {
+  font-size: 1rem;
+  color: var(--color-text-subtitle);
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0;
+}
+
+.cardHeader {
+  padding: 1.5rem 1.5rem 0;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1.5rem;
+}
+
+.cardIcon {
+  font-size: 0.875rem;
+  color: var(--color-stat-2);
+  margin-right: 0.5rem;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-title);
+  margin: 0 0 0.5rem 0;
+}
+
+.cardSubtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-subtitle);
+  margin: 0;
+}
+
+.reorderGroup {
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+}
+
+.reorderItem {
+  cursor: grab;
+  transition: all 0.2s ease;
+}
+
+.reorderItem:active {
+  cursor: grabbing;
+}
+
+.listFooter {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 1.5rem;
+}
+
+.orderInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-subtitle);
+  justify-content: center;
+}
+
+.gripIcon {
+  color: var(--color-text-subtitle);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .emptyContent {
+    padding: 2rem 1rem;
+  }
+
+  .emptyIcon {
+    font-size: 2.5rem;
+  }
+
+  .emptyTitle {
+    font-size: 1.25rem;
+  }
+
+  .emptyDescription {
+    font-size: 0.875rem;
+  }
+
+  .reorderGroup {
+    padding: 0 1rem;
+  }
+
+  .cardHeader {
+    padding: 1rem 1rem 0;
+  }
+
+  .listFooter {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .emptyContent {
+    padding: 1.5rem 0.5rem;
+  }
+
+  .cardTitle {
+    font-size: 1.125rem;
+  }
+
+  .cardSubtitle {
+    font-size: 0.8rem;
+  }
+
+  .orderInfo {
+    font-size: 0.8rem;
+  }
+}

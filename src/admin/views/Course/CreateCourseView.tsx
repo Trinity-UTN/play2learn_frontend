@@ -1,5 +1,6 @@
 import type React from "react";
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaBook, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
@@ -7,25 +8,28 @@ import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import { useYear } from "../../hooks/useYear";
 import { useCourse } from "../../hooks/useCourse";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./CreateCourseView.module.css";
-import { useNavigate, useParams } from "react-router-dom";
 
 const CreateCourseView: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const isEditMode = Boolean(id);
-  const { getYear, years } = useYear();
+  const { years, getYear } = useYear();
   const {
-    registerCourse,
     loading,
+    selectedCourse,
+    registerCourse,
     updateCourse,
     getCourseById,
-    selectedCourse,
   } = useCourse();
+  const { id } = useParams<{ id: string }>();
+  const { showToast } = useToaster();
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     year_id: 0,
   });
+
+  const isEditMode = Boolean(id);
 
   const resetFormData = () => {
     setFormData({
@@ -33,6 +37,7 @@ const CreateCourseView: React.FC = () => {
       year_id: 0,
     });
   };
+
   useEffect(() => {
     if (isEditMode && id) {
       const loadCourseData = async () => {
@@ -42,7 +47,7 @@ const CreateCourseView: React.FC = () => {
             year_id: selectedCourse?.year.id || 0,
           });
         } catch (error) {
-          console.error("Error al cargar el curso:", error);
+          console.error("Error al cargar el curso:", error); // TODO: REMOVE_DEBUG
           navigate("/dashboard/courses/list");
         }
       };
@@ -58,19 +63,30 @@ const CreateCourseView: React.FC = () => {
         const data = { id: idN, ...formData };
 
         await updateCourse(data);
-        alert("Curso actualizado exitosamente.");
+        showToast({
+          title: "Curso actualizado exitosamente",
+          message: "El curso ha sido actualizado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
         navigate("/dashboard/courses/list");
       } else {
         await registerCourse(formData);
-        alert("Curso creado exitosamente.");
+        showToast({
+          title: "Curso creado exitosamente",
+          message: "El curso ha sido creado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
         resetFormData();
       }
     } catch (err) {
-      alert(
-        isEditMode
-          ? "Hubo un error al actualizar el Curso."
-          : "Hubo un error al crear el Curso."
-      );
+      showToast({
+        title:
+          "Error al" + (isEditMode ? " actualizar" : " crear") + " el curso",
+        type: "error",
+        position: "bottom-right",
+      });
     }
   };
 
@@ -93,8 +109,13 @@ const CreateCourseView: React.FC = () => {
       className={styles.container}
     >
       <div className={styles.header}>
-        <h1 className={styles.title}>Generar Curso</h1>
-        <p className={styles.subtitle}>Crea un nuevo curso en el sistema</p>
+        <h1 className={styles.title}>
+          {isEditMode ? "Actualizar Curso" : "Generar Curso"}
+        </h1>
+        <p className={styles.subtitle}>
+          {isEditMode ? "Actualiza" : "Crea "} {isEditMode ? "el" : "un nuevo"}{" "}
+          curso en el sistema
+        </p>
       </div>
 
       <Card className={styles.formCard}>

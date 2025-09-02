@@ -20,7 +20,6 @@ const BenefitsListView: React.FC = () => {
   } = usePaginationParams();
 
   const navigate = useNavigate();
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -64,10 +63,7 @@ const BenefitsListView: React.FC = () => {
       {/* Stats */}
       <motion.div variants={itemVariants} className={styles.statsSection}>
         <div className={styles.statCard}>
-          <div
-            className={styles.statIcon}
-            style={{ backgroundColor: "#007bff" }}
-          >
+          <div className={styles.statIcon}>
             <FaGift />
           </div>
           <div className={styles.statContent}>

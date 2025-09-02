@@ -29,6 +29,8 @@ export interface SubjectResponseDto {
   course: CourseResponseDto;
   teacher: TeacherResponseDto;
   optional: boolean;
+  actualBalance: number;
+  initialBalance: number;
 }
 
 export interface PaginatedSubjectResponse {
@@ -61,6 +63,15 @@ const updateSubjectApi = async (data: UpdateSubjectPayload): Promise<void> => {
 const getSubjectApi = async () => {
   try {
     const response = await api.get(urls.Subject);
+    return response;
+  } catch (error) {
+    console.error("Error al obtener las materias:", error); // TODO: REMOVE_DEBUG
+    throw error;
+  }
+};
+const getSubjectByTeacherApi = async () => {
+  try {
+    const response = await api.get(urls.SubjectTeacher);
     return response;
   } catch (error) {
     console.error("Error al obtener las materias:", error); // TODO: REMOVE_DEBUG
@@ -101,4 +112,5 @@ export const SubjectService = {
   getSubjectApi,
   getPaginatedSubjectApi,
   deleteSubjectApi,
+  getSubjectByTeacherApi,
 };

@@ -1,5 +1,4 @@
 import { useState, type ReactNode } from "react";
-
 import { ConfigurationActivityContext } from "./ConfigurationActivityContext";
 import type { ConfigurationActivityContextType } from "./ConfigurationActivityContext.type";
 import type { ConfigurationActivity } from "../../types/Configuration.type";

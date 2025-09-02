@@ -63,6 +63,19 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     }
   }, []);
 
+  const getSubjectByTeacher = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await SubjectService.getSubjectByTeacherApi();
+      setSubjects(response.data.data);
+    } catch (error) {
+      console.error("Error al obtener las materias:", error); // TODO: REMOVE_DEBUG
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const getPaginatedSubject = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
@@ -84,6 +97,9 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     try {
       await SubjectService.deleteSubjectApi(id);
     } catch (error) {
+      alert(
+        `El recurso Materia con id ${id} no puede ser eliminado porque tiene asociaciones con estudiantes.`
+      );
       console.error("Error al eliminar la materia:", error);
       throw error;
     } finally {
@@ -96,6 +112,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     registerSubject,
     updateSubject,
     getSubject,
+    getSubjectByTeacher,
     getPaginatedSubject,
     deleteSubject,
     subjects,

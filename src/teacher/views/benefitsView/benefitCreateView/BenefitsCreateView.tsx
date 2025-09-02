@@ -66,10 +66,11 @@ const BenefitCreateView: React.FC = (): ReactElement => {
               <div className={styles.submitSection}>
                 <Button
                   type="submit"
-                  variant="primary"
+                  variant="secondary"
                   className={styles.submitButton}
                 >
                   <FaSave className={styles.buttonIcon} />
+                  {""}
                   Crear Beneficio
                 </Button>
                 <Button
