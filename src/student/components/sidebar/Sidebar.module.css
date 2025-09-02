@@ -4,9 +4,10 @@
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
-  position: relative;
+  position: fixed;
   overflow: hidden;
   z-index: 2;
+  height: 100dvh;
 }
 
 .sidebar::before {
@@ -90,6 +91,8 @@
   padding: 1rem 0;
   position: relative;
   z-index: 1;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 .section {
@@ -216,4 +219,28 @@
   .sidebar.open {
     transform: translateX(0);
   }
+}
+
+/* Estilos de la barra de scroll */
+/* Contenedor */
+::-webkit-scrollbar {
+  width: 8px; /* Ancho vertical */
+  height: 10px; /* Alto horizontal */
+}
+
+/* Track (fondo) */
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+/* Thumb (barra) */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Hover en la barra */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

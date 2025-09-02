@@ -9,7 +9,9 @@ const StudentDashboard: React.FC = () => {
 
   return (
     <div className={styles.dashboard}>
-      <StudentSidebar currentView={currentView} />
+      <div className={styles.contSidebar}>
+        <StudentSidebar currentView={currentView} />
+      </div>
       <motion.main
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}

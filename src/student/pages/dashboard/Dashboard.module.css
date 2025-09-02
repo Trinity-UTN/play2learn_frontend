@@ -4,6 +4,13 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
+.contSidebar {
+  background-color: red;
+  height: auto;
+  position: relative;
+  width: 280px;
+}
+
 .content {
   flex: 1;
   padding: 2rem;
