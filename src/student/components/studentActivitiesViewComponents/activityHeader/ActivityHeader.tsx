@@ -30,23 +30,7 @@ const ActivityHeader: React.FC = () => {
         </div>
 
         <div className={styles.textContent}>
-          <h1 className={styles.title}>
-            Mis Actividades
-            <motion.span
-              className={styles.sparkle}
-              animate={{
-                opacity: [0, 1, 0],
-                scale: [0.8, 1.2, 0.8],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Number.POSITIVE_INFINITY,
-                delay: 0.5,
-              }}
-            >
-              ✨
-            </motion.span>
-          </h1>
+          <h1 className={styles.title}>Mis Actividades</h1>
           <p className={styles.subtitle}>
             ¡Completa tus actividades y gana puntos increíbles! 🎯
           </p>
