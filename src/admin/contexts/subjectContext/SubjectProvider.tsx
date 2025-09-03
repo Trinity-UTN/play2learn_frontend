@@ -1,8 +1,4 @@
 import { useCallback, useState, type ReactNode } from "react";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
 import { SubjectContext } from "./SubjectContext";
 import type { SubjectContextType } from "./SubjectContext.type";
 import { SubjectService } from "../../services/subject/SubjectService";
@@ -11,6 +7,11 @@ import type {
   SubjectResponseDto,
   UpdateSubjectPayload,
 } from "../../services/subject/SubjectService";
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../shared/types/PaginacionType";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
 interface SubjectProviderProps {
   children: ReactNode;
@@ -19,6 +20,8 @@ interface SubjectProviderProps {
 export const SubjectProvider: React.FC<SubjectProviderProps> = ({
   children,
 }) => {
+  const { handleApiError } = useHandleApiError();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [subjects, setSubjects] = useState<SubjectResponseDto[]>([]);
   const [paginatedSubjects, setPaginatedSubjects] =
@@ -100,15 +103,15 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
 
   const contextValue: SubjectContextType = {
     loading,
+    subjects,
+    paginatedSubjects,
+    selectedSubject,
     registerSubject,
     updateSubject,
     getSubject,
     getSubjectByTeacher,
     getPaginatedSubject,
     deleteSubject,
-    subjects,
-    paginatedSubjects,
-    selectedSubject,
     setSelectedSubject,
   };
 

@@ -11,6 +11,7 @@ import type {
   GetPaginated,
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
 interface StudentProviderProps {
   children: ReactNode;
@@ -19,6 +20,8 @@ interface StudentProviderProps {
 export const StudentProvider: React.FC<StudentProviderProps> = ({
   children,
 }) => {
+  const { handleApiError } = useHandleApiError();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [students, setStudents] = useState<StudentResponseDto[]>([]);
   const [paginatedStudents, setPaginatedStudents] =
@@ -60,7 +63,9 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
     }
   }, []);
 
-  const getStudentById = async (id: number): Promise<StudentResponseDto> => {
+  const getStudentById = async (
+    id: number
+  ): Promise<StudentResponseDto | undefined> => {
     setLoading(true);
     try {
       const StudentData = await StudentService.getStudentByIdApi(id);
@@ -97,6 +102,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
       setLoading(false);
     }
   };
+
   const restoreStudent = async (id: number): Promise<void> => {
     setLoading(true);
     try {
@@ -110,16 +116,16 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
 
   const contextValue: StudentContextType = {
     loading,
-    registerStudent,
-    updateStudent,
-    deleteStudent,
-    restoreStudent,
-    getStudent,
-    getStudentById,
-    getPaginatedStudent,
     students,
     paginatedStudents,
     selectedStudent,
+    registerStudent,
+    updateStudent,
+    getStudent,
+    getStudentById,
+    getPaginatedStudent,
+    deleteStudent,
+    restoreStudent,
     setSelectedStudent,
   };
 

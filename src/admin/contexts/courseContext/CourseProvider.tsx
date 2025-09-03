@@ -1,8 +1,4 @@
 import { useCallback, useState, type ReactNode } from "react";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
 import { CourseContext } from "./CourseContext";
 import type { CourseContextType } from "./CourseContext.type";
 import { CourseService } from "../../services/course/CourseService";
@@ -11,12 +7,19 @@ import type {
   CourseResponseDto,
   UpdateCoursePayload,
 } from "../../services/course/CourseService";
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../shared/types/PaginacionType";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
 interface CourseProviderProps {
   children: ReactNode;
 }
 
 export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
+  const { handleApiError } = useHandleApiError();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [courses, setCourses] = useState<CourseResponseDto[]>([]);
   const [paginatedCourse, setPaginatedCourse] =
@@ -34,6 +37,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
+
   const updateCourse = async (data: UpdateCoursePayload): Promise<void> => {
     setLoading(true);
     try {
@@ -44,6 +48,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
+
   const getCourse = useCallback(async () => {
     setLoading(true);
     try {
@@ -56,7 +61,9 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const getCourseById = async (id: number): Promise<CourseResponseDto> => {
+  const getCourseById = async (
+    id: number
+  ): Promise<CourseResponseDto | undefined> => {
     setLoading(true);
     try {
       const courseData = await CourseService.getCourseByIdApi(id);
@@ -95,16 +102,16 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
   };
   const contextValue: CourseContextType = {
     loading,
-    registerCourse,
-    updateCourse,
-    getCourse,
-    getPaginatedCourse,
-    deleteCourse,
     courses,
     paginatedCourse,
     selectedCourse,
-    setSelectedCourse,
+    registerCourse,
+    updateCourse,
+    getCourse,
     getCourseById,
+    getPaginatedCourse,
+    deleteCourse,
+    setSelectedCourse,
   };
 
   return (

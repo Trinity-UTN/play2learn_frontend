@@ -11,6 +11,7 @@ import type {
   GetPaginated,
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
 interface TeacherProviderProps {
   children: ReactNode;
@@ -19,6 +20,8 @@ interface TeacherProviderProps {
 export const TeacherProvider: React.FC<TeacherProviderProps> = ({
   children,
 }) => {
+  const { handleApiError } = useHandleApiError();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [teacher, setTeachers] = useState<TeacherResponseDto[]>([]);
   const [selectedTeacher, setSelectedTeacher] =
@@ -60,7 +63,9 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     }
   }, []);
 
-  const getTeacherById = async (id: number): Promise<TeacherResponseDto> => {
+  const getTeacherById = async (
+    id: number
+  ): Promise<TeacherResponseDto | undefined> => {
     setLoading(true);
     try {
       const TeacherData = await TeacherService.getTeacherByIdApi(id);

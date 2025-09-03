@@ -1,4 +1,3 @@
-import type React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -7,13 +6,15 @@ import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import { useYear } from "../../hooks/useYear";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./CreateYearView.module.css";
 
 const CreateYearView: React.FC = () => {
-  const { registerYear, updateYear, getYearById, loading, selectedYear } =
+  const { loading, selectedYear, registerYear, updateYear, getYearById } =
     useYear();
   const { id } = useParams<{ id: string }>();
+  const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
@@ -27,7 +28,7 @@ const CreateYearView: React.FC = () => {
         try {
           setFormData({ name: selectedYear?.name || "" });
         } catch (error) {
-          console.error("Error al cargar el año:", error); // TODO: REMOVE_DEBUG
+          handleApiError(error, "Error al cargar el año");
           navigate("/dashboard/years/list");
         }
       };
