@@ -31,8 +31,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
     try {
       await StudentService.registerStudentApi(data);
     } catch (error) {
-      console.error("Error al crear el estudiante:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al crear el estudiante");
     } finally {
       setLoading(false);
     }
@@ -43,8 +42,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
     try {
       await StudentService.updateStudentApi(data);
     } catch (error) {
-      console.error("Error al actualizar el estudiante:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al actualizar el estudiante");
     } finally {
       setLoading(false);
     }
@@ -56,8 +54,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
       const response = await StudentService.getStudentApi();
       setStudents(response.data.data);
     } catch (error) {
-      console.error("Error al obtener los estudiantes:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al obtener los estudiantes");
     } finally {
       setLoading(false);
     }
@@ -69,8 +66,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
       const StudentData = await StudentService.getStudentByIdApi(id);
       return StudentData;
     } catch (error) {
-      console.error("Error al obtener el estudiante (por id):", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al obtener el estudiante");
     } finally {
       setLoading(false);
     }
@@ -83,8 +79,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
         const response = await StudentService.getPaginatedStudentApi(params);
         setPaginatedStudents(response.data);
       } catch (error) {
-        console.error("Error al obtener los estudiantes paginados:", error); // TODO: REMOVE_DEBUG
-        throw error;
+        handleApiError(error, "Error al obtener los estudiantes paginados");
       } finally {
         setLoading(false);
       }
@@ -97,8 +92,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
     try {
       await StudentService.deleteStudentApi(id);
     } catch (error) {
-      console.error("Error al eliminar el estudiante:", error);
-      throw error;
+      handleApiError(error, "Error al eliminar el estudiante");
     } finally {
       setLoading(false);
     }
@@ -108,8 +102,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
     try {
       await StudentService.restoreStudentApi(id);
     } catch (error) {
-      console.error("Error al restaurar el estudiante:", error);
-      throw error;
+      handleApiError(error, "Error al restaurar el estudiante");
     } finally {
       setLoading(false);
     }

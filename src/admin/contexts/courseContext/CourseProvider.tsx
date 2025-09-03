@@ -29,8 +29,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
     try {
       await CourseService.registerCourseApi(data);
     } catch (error) {
-      console.error("Error al crear el curso:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al crear el curso");
     } finally {
       setLoading(false);
     }
@@ -40,8 +39,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
     try {
       await CourseService.updateCourseApi(data);
     } catch (error) {
-      console.error("Error al actualizar el curso:", error);
-      throw error;
+      handleApiError(error, "Error al actualizar el curso");
     } finally {
       setLoading(false);
     }
@@ -52,8 +50,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
       const response = await CourseService.getCourseApi();
       setCourses(response.data.data);
     } catch (error) {
-      console.error("Error al obtener los cursos:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al obtener los cursos");
     } finally {
       setLoading(false);
     }
@@ -65,8 +62,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
       const courseData = await CourseService.getCourseByIdApi(id);
       return courseData;
     } catch (error) {
-      console.error("Error al obtener el curso:", error);
-      throw error;
+      handleApiError(error, "Error al obtener el curso");
     } finally {
       setLoading(false);
     }
@@ -79,8 +75,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
         const response = await CourseService.getPaginatedCourseApi(params);
         setPaginatedCourse(response.data);
       } catch (error) {
-        console.error("Error al obtener los cursos paginados:", error); // TODO: REMOVE_DEBUG
-        throw error;
+        handleApiError(error, "Error al obtener los cursos paginados");
       } finally {
         setLoading(false);
       }
@@ -93,11 +88,7 @@ export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
     try {
       await CourseService.deleteCourseApi(id);
     } catch (error) {
-      alert(
-        `El recurso Curso con id ${id} no puede ser eliminado porque tiene asociaciones con estudiantes/cursos.`
-      );
-      console.error("Error al eliminar el curso:", error);
-      throw error;
+      handleApiError(error, "Error al eliminar el curso");
     } finally {
       setLoading(false);
     }

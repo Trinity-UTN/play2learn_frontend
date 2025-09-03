@@ -31,8 +31,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     try {
       await SubjectService.registerSubjectApi(data);
     } catch (error) {
-      console.error("Error al crear la materia:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al crear la materia");
     } finally {
       setLoading(false);
     }
@@ -43,8 +42,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     try {
       await SubjectService.updateSubjectApi(data);
     } catch (error) {
-      console.error("Error al actualizar la materia:", error);
-      throw error;
+      handleApiError(error, "Error al actualizar la materia");
     } finally {
       setLoading(false);
     }
@@ -56,8 +54,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
       const response = await SubjectService.getSubjectApi();
       setSubjects(response.data.data);
     } catch (error) {
-      console.error("Error al obtener las materias:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al obtener las materias");
     } finally {
       setLoading(false);
     }
@@ -69,8 +66,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
       const response = await SubjectService.getSubjectByTeacherApi();
       setSubjects(response.data.data);
     } catch (error) {
-      console.error("Error al obtener las materias:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al obtener las materias del profesor");
     } finally {
       setLoading(false);
     }
@@ -83,8 +79,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
         const response = await SubjectService.getPaginatedSubjectApi(params);
         setPaginatedSubjects(response.data);
       } catch (error) {
-        console.error("Error al obtener las materias paginadas:", error); // TODO: REMOVE_DEBUG
-        throw error;
+        handleApiError(error, "Error al obtener las materias paginadas");
       } finally {
         setLoading(false);
       }
@@ -97,11 +92,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     try {
       await SubjectService.deleteSubjectApi(id);
     } catch (error) {
-      alert(
-        `El recurso Materia con id ${id} no puede ser eliminado porque tiene asociaciones con estudiantes.`
-      );
-      console.error("Error al eliminar la materia:", error);
-      throw error;
+      handleApiError(error, "Error al eliminar la materia");
     } finally {
       setLoading(false);
     }

@@ -1,10 +1,10 @@
+import { urls } from "../urls";
 import type {
   GetPaginated,
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
 import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
-import { urls } from "../urls";
 
 export interface CreateYearPayload {
   name: string;
@@ -28,68 +28,35 @@ export interface PaginatedYearResponse {
 }
 
 const registerYearApi = async (data: CreateYearPayload): Promise<void> => {
-  try {
-    await api.post(urls.Years, data);
-  } catch (error) {
-    console.error("Error al crear el año:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.post(urls.Years, data);
 };
 
 const updateYearApi = async (data: UpdateYearPayload): Promise<void> => {
-  try {
-    await api.put(`${urls.Years}/${data.id}`, data);
-  } catch (error) {
-    console.error("Error al actualizar el año:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.put(`${urls.Years}/${data.id}`, data);
 };
 
 const getYearApi = async () => {
-  try {
-    const response = await api.get(urls.Years);
-    return response;
-  } catch (error) {
-    console.error("Error al obtener los años:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const response = await api.get(urls.Years);
+  return response;
 };
 
 const getYearByIdApi = async (id: number): Promise<YearResponseDto> => {
-  try {
-    const response = await api.get(`${urls.Years}/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener el año (por id):", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const response = await api.get(`${urls.Years}/${id}`);
+  return response.data;
 };
 
 const getPaginatedYearApi = async (
   params: GetPaginated
 ): Promise<PaginatedYearResponse> => {
-  try {
-    const cleanParams = buildCleanPaginatedParams(params);
-
-    const response = await api.get(urls.YearsPaginated, {
-      params: cleanParams,
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener años paginados:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const cleanParams = buildCleanPaginatedParams(params);
+  const response = await api.get(urls.YearsPaginated, {
+    params: cleanParams,
+  });
+  return response.data;
 };
 
 const deleteYearApi = async (id: number): Promise<void> => {
-  try {
-    //console.log(`Eliminando año con ID: ${id}`); // TODO: REMOVE_DEBUG
-    await api.delete(`${urls.Years}/${id}`);
-  } catch (error) {
-    console.error("Error al eliminar el año:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.delete(`${urls.Years}/${id}`);
 };
 
 export const YearService = {

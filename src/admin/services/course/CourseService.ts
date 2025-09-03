@@ -1,12 +1,11 @@
+import type { YearResponseDto } from "../Year/YearService";
+import { urls } from "../urls";
 import type {
   GetPaginated,
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
 import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
-import { urls } from "../urls";
-import type { YearResponseDto } from "../Year/YearService";
-import axios from "axios";
 
 export interface CreateCoursePayload {
   name: string;
@@ -32,70 +31,35 @@ export interface PaginatedCourseResponse {
 }
 
 const registerCourseApi = async (data: CreateCoursePayload): Promise<void> => {
-  try {
-    await api.post(urls.Course, data);
-  } catch (error) {
-    console.error("Error al crear el curso:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.post(urls.Course, data);
 };
 
 const updateCourseApi = async (data: UpdateCoursePayload): Promise<void> => {
-  try {
-    await api.put(`${urls.Course}/${data.id}`, data);
-  } catch (error) {
-    console.error("Error al actualizar el curso:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.put(`${urls.Course}/${data.id}`, data);
 };
+
 const getCourseApi = async () => {
-  try {
-    const response = await api.get(urls.Course);
-    return response;
-  } catch (error) {
-    console.error("Error al obtener los cursos:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const response = await api.get(urls.Course);
+  return response;
 };
 
 const getCourseByIdApi = async (id: number): Promise<CourseResponseDto> => {
-  try {
-    const response = await api.get(`${urls.Course}/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener el curso (por id):", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const response = await api.get(`${urls.Course}/${id}`);
+  return response.data;
 };
 
 const getPaginatedCourseApi = async (
   params: GetPaginated
 ): Promise<PaginatedCourseResponse> => {
-  try {
-    const cleanParams = buildCleanPaginatedParams(params);
-
-    const response = await api.get(urls.CoursePaginated, {
-      params: cleanParams,
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener cursos paginados:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const cleanParams = buildCleanPaginatedParams(params);
+  const response = await api.get(urls.CoursePaginated, {
+    params: cleanParams,
+  });
+  return response.data;
 };
 
 const deleteCourseApi = async (id: number): Promise<void> => {
-  try {
-    //console.log(`Eliminando curso con ID: ${id}`); // TODO: REMOVE_DEBUG
-    await api.delete(`${urls.Course}/${id}`);
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 409) {
-      alert("El curso está asignado a una materia.");
-    }
-    console.error("Error al eliminar el curso:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.delete(`${urls.Course}/${id}`);
 };
 
 export const CourseService = {
