@@ -12,6 +12,7 @@ import type {
 } from "../../../shared/components/DataTable";
 import { useTeacher } from "../../hooks/useTeacher";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import styles from "./ListTeacherView.module.css";
 
@@ -32,15 +33,12 @@ const ListTeacherView: React.FC = () => {
     handlePageSizeChange,
   } = usePaginationParams();
   const { showConfirmation } = useConfirmation();
+  const { showToast } = useToaster();
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadPaginatedTeacher = async () => {
-      try {
-        await getPaginatedTeacher(paginationParams);
-      } catch (error) {
-        console.error("Error al cargar docentes paginados:", error); // TODO: REMOVE_DEBUG
-      }
+      await getPaginatedTeacher(paginationParams);
     };
     loadPaginatedTeacher();
   }, [paginationParams, getPaginatedTeacher]);
@@ -64,12 +62,14 @@ const ListTeacherView: React.FC = () => {
       type: "danger",
       showDoubleConfirmation: true,
       onConfirm: async () => {
-        try {
-          await deleteTeacher(teacher.id);
-          await getPaginatedTeacher(paginationParams);
-        } catch (error) {
-          console.error("Error al eliminar docente:", error); // TODO: REMOVE_DEBUG
-        }
+        await deleteTeacher(teacher.id);
+        await getPaginatedTeacher(paginationParams);
+        showToast({
+          title: "Docente eliminado exitosamente",
+          message: "El docente ha sido eliminado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
       },
     });
   };
@@ -80,12 +80,14 @@ const ListTeacherView: React.FC = () => {
       message: `¿Está seguro que desea restaurar el docente "${teacher.name}"?`,
       type: "warning",
       onConfirm: async () => {
-        try {
-          await restoreTeacher(teacher.id);
-          await getPaginatedTeacher(paginationParams);
-        } catch (error) {
-          console.error("Error al restaurar docente:", error);
-        }
+        await restoreTeacher(teacher.id);
+        await getPaginatedTeacher(paginationParams);
+        showToast({
+          title: "Docente restaurado exitosamente",
+          message: "El docente ha sido restaurado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
       },
     });
   };
