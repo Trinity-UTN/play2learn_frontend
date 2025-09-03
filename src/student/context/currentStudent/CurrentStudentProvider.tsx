@@ -7,6 +7,7 @@ import type {
   AvatarComponents,
 } from "../../types/CurrentStudent.type";
 import { useAuth } from "../../../user/hooks/useAuth";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
 interface CurrentStudentProviderProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   children,
 }) => {
   const { role, studentData } = useAuth();
+  const { handleApiError } = useHandleApiError();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStudent, setCurrentStudent] = useState<CurrentStudent | null>(
@@ -32,8 +34,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
         await CurrentStudentService.getCurrentStudentApi(studentData.id);
       setCurrentStudent(studentDataFromApi);
     } catch (error) {
-      console.error("Error al obtener el estudiante actual:", error);
-      throw error;
+      handleApiError(error, "Error al obtener el estudiante actual");
     } finally {
       setLoading(false);
     }
@@ -49,8 +50,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       await CurrentStudentService.updateCurrentStudentProfileApi(aspectUpdates);
       await getCurrentStudent();
     } catch (error) {
-      console.error("Error al actualizar el perfil del estudiante:", error);
-      throw error;
+      handleApiError(error, "Error al actualizar el perfil del estudiante");
     } finally {
       setLoading(false);
     }
@@ -67,8 +67,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       await CurrentStudentService.unselectAspectApi(profileId, typeAspect);
       await getCurrentStudent();
     } catch (error) {
-      console.error("Error al deseleccionar aspecto:", error);
-      throw error;
+      handleApiError(error, "Error al deseleccionar aspecto");
     } finally {
       setLoading(false);
     }

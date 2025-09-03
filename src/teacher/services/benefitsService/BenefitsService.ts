@@ -19,50 +19,27 @@ export interface PaginatedBenefitsResponse {
 }
 
 const registerBenefitApi = async (data: CreateYearPayload): Promise<void> => {
-  try {
-    await api.post(urls.CreateBenefit, data);
-  } catch (error) {
-    console.error("Error al crear el beneficio:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.post(urls.CreateBenefit, data);
 };
 
 const getBenefitsApi = async () => {
-  try {
-    const response = await api.get(urls.Benefits);
-    return response;
-  } catch (error) {
-    console.error("Error al obtener los beneficios:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const response = await api.get(urls.Benefits);
+  return response;
 };
 
 const getPaginatedBenefitsApi = async (
   params: GetPaginated
 ): Promise<PaginatedBenefitsResponse> => {
-  try {
-    const cleanParams = buildCleanPaginatedParams(params);
-
-    const response = await api.get(urls.BenefitsPaginate, {
-      params: cleanParams,
-      paramsSerializer: (params) => qs.stringify(params, { indices: false }),
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener beneficios paginados:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const cleanParams = buildCleanPaginatedParams(params);
+  const response = await api.get(urls.BenefitsPaginate, {
+    params: cleanParams,
+    paramsSerializer: (params) => qs.stringify(params, { indices: false }),
+  });
+  return response.data;
 };
 
 // const deleteBenefitApi = async (id: number): Promise<void> => {
-//   try {
-//     //console.log(`Eliminando año con ID: ${id}`); // TODO: REMOVE_DEBUG
-//     await api.delete(`${urls.Benefits}/${id}`);
-//   } catch (error) {
-//     console.error("Error al eliminar el año:", error); // TODO: REMOVE_DEBUG
-//     throw error;
-//   }
+//   await api.delete(`${urls.Benefits}/${id}`);
 // };
 
 export const BenefitsService = {

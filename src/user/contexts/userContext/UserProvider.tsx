@@ -1,22 +1,24 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { UserContext } from "./UserContext";
-import type { StudentResponseDto } from "../../../admin/services/student/StudentService";
 import type { UserContextType } from "./UserContext.type";
 import {
   LoginService,
   type UserResponseDto,
 } from "../../services/login/LoginService";
 import type { LoginPayload } from "../../services/login/LoginService";
-import type { Role } from "../../../shared/utils/ProtectedRoute";
-import { roleLandingRoutes } from "../../services/roleLandingRoutes";
 import AuthService from "../../services/auth/AuthService";
-import { useToaster } from "../../../shared/hooks/useToaster";
+import { roleLandingRoutes } from "../../services/roleLandingRoutes";
+import type { StudentResponseDto } from "../../../admin/services/student/StudentService";
+import type { Role } from "../../../shared/utils/ProtectedRoute";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+
 interface UserProviderProps {
   children: ReactNode;
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const { showToast } = useToaster();
+  const { handleApiError } = useHandleApiError();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<UserResponseDto | null>(null);
   const [role, setRole] = useState<Role>(localStorage.getItem("role") as Role);
@@ -59,12 +61,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setIsAuthenticated(true);
       return roleLandingRoutes[userRole];
     } catch (error) {
-      showToast({
-        title: "Inicio de Sesión Incorrecto",
-        message: "Credenciales invalidas.",
-        type: "error",
-        position: "top-right",
-      });
+      handleApiError(error, "Error al iniciar sesión");
       return null;
     } finally {
       setLoading(false);

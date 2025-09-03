@@ -8,6 +8,7 @@ import type {
 } from "../../types/CurrentStudent.type";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 
 const nullAspects: NullAspect[] = [
@@ -41,6 +42,7 @@ export const ProfileAvatarProvider = ({
   const { currentStudent, updateStudentProfile, unselectAspect } =
     useCurrentStudent();
   const { showConfirmation } = useConfirmation();
+  const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -193,8 +195,8 @@ export const ProfileAvatarProvider = ({
       }
 
       setHasChanges(false);
-    } catch (err) {
-      console.error("Error al guardar cambios en el avatar:", err);
+    } catch (error) {
+      handleApiError(error, "Error al guardar cambios en el avatar");
     }
   };
 
