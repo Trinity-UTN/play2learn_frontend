@@ -10,12 +10,7 @@ export interface CreateAhorcadoPayload
 const registerAhorcadoApi = async (
   data: CreateAhorcadoPayload
 ): Promise<void> => {
-  try {
-    await api.post(urls.Ahorcado, data);
-  } catch (error) {
-    console.error("Error al crear la actividad (ahorcado):", error);
-    throw error;
-  }
+  await api.post(urls.Ahorcado, data);
 };
 
 export const AhorcadoService = {

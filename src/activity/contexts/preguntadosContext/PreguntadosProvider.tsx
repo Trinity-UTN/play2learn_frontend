@@ -12,6 +12,7 @@ import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 
 interface PreguntadosProviderProps {
@@ -23,6 +24,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
 }) => {
   const { configurationActivity } = useConfigurationActivity();
   const { showConfirmation } = useConfirmation();
+  const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
@@ -171,8 +173,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
       await PreguntadosService.registerPreguntadosApi(dataMandar);
       clearAllQuestionErrors();
     } catch (error) {
-      console.error("Error al crear la actividad (preguntados):", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al crear la actividad");
     } finally {
       setLoading(false);
     }
@@ -221,13 +222,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
-      showToast({
-        title: "Error al crear la actividad",
-        message: "Hubo un error al crear la actividad",
-        type: "error",
-        position: "bottom-right",
-      });
-      console.error("Error al crear la actividad (preguntados):", error); // TODO: REMOVE_DEBUG
+      handleApiError(error, "Error al crear la actividad");
     }
   };
 

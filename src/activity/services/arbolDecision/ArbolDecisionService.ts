@@ -10,12 +10,7 @@ export interface CreateArbolDeDecisionPayload
 const registerArbolDecisionApi = async (
   data: CreateArbolDeDecisionPayload
 ): Promise<void> => {
-  try {
-    await api.post(urls.ArbolDecision, data);
-  } catch (error) {
-    console.error("Error al crear la actividad (arbol de decisión):", error);
-    throw error;
-  }
+  await api.post(urls.ArbolDecision, data);
 };
 
 export const ArbolDecisionService = {

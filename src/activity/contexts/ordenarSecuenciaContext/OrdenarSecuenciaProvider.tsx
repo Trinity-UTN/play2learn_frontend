@@ -1,17 +1,18 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import type { OrdenarSecuenciaContextType } from "./OrdenarSecuenciaContext.type";
 import { OrdenarSecuenciaContext } from "./OrdenarSecuenciaContext";
+import type { OrdenarSecuenciaContextType } from "./OrdenarSecuenciaContext.type";
+import { OrdenarSecuenciaService } from "../../services/ordenarSecuencia/OrdenarSecuenciaService";
 import type {
   CreateSequencePayload,
   EventPayload,
   SequenceEvent,
   OrdenarSecuenciaConfig,
 } from "../../types/OrdenarSecuencia.type";
-import { useToaster } from "../../../shared/hooks/useToaster";
-import { OrdenarSecuenciaService } from "../../services/ordenarSecuencia/OrdenarSecuenciaService";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+import { useToaster } from "../../../shared/hooks/useToaster";
 
 interface OrdenarSecuenciaProviderProps {
   children: ReactNode;
@@ -20,9 +21,10 @@ interface OrdenarSecuenciaProviderProps {
 export const OrdenarSecuenciaProvider: React.FC<
   OrdenarSecuenciaProviderProps
 > = ({ children }) => {
-  const { showToast } = useToaster();
-  const { showConfirmation } = useConfirmation();
   const { configurationActivity } = useConfigurationActivity();
+  const { showConfirmation } = useConfirmation();
+  const { handleApiError } = useHandleApiError();
+  const { showToast } = useToaster();
   const navigate = useNavigate();
 
   // Estados generales
@@ -117,8 +119,7 @@ export const OrdenarSecuenciaProvider: React.FC<
     try {
       await OrdenarSecuenciaService.registerOrdenarSecuenciaApi(formData);
     } catch (error) {
-      console.error("Error al crear la actividad (ordenar secuencia):", error);
-      throw error;
+      handleApiError(error, "Error al crear la actividad");
     } finally {
       setLoading(false);
     }
@@ -235,13 +236,7 @@ export const OrdenarSecuenciaProvider: React.FC<
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
-      showToast({
-        title: "Error al crear la actividad",
-        message: "Hubo un error al crear la actividad",
-        type: "error",
-        position: "bottom-right",
-      });
-      console.error("Error al crear la secuencia:", error);
+      handleApiError(error, "Error al crear la actividad");
     }
   };
 
