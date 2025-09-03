@@ -1,103 +1,28 @@
 import { motion } from "framer-motion";
 import {
-  FaPlay,
-  FaCheck,
   FaClock,
-  FaExclamationTriangle,
+  // FaExclamationTriangle,
   FaStar,
   FaCalendarAlt,
   FaStopwatch,
   FaRedo,
-  FaTrophy,
 } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
-import type { ConfigurationActivity } from "../../../types/Activity.type";
+import type { ActivityNotApprovedResponseInterface } from "../../../types/Activity.type";
 import styles from "./ActivityCard.module.css";
+import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
 
 interface ActivityCardProps {
-  activity: ConfigurationActivity;
+  activity: ActivityNotApprovedResponseInterface;
 }
 
 const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
-  const getStatusConfig = (status: string) => {
-    switch (status) {
-      case "completed":
-        return {
-          icon: FaCheck,
-          color: "#10B981",
-          bgColor: "#D1FAE5",
-          label: "Completada",
-          buttonText: "Ver Resultados",
-          buttonIcon: FaTrophy,
-        };
-      case "pending":
-        return {
-          icon: FaClock,
-          color: "#F59E0B",
-          bgColor: "#FEF3C7",
-          label: "Pendiente",
-          buttonText: "Continuar",
-          buttonIcon: FaPlay,
-        };
-      case "overdue":
-        return {
-          icon: FaExclamationTriangle,
-          color: "#EF4444",
-          bgColor: "#FEE2E2",
-          label: "Vencida",
-          buttonText: "Reintentar",
-          buttonIcon: FaRedo,
-        };
-      case "available":
-        return {
-          icon: FaStar,
-          color: "#8B5CF6",
-          bgColor: "#EDE9FE",
-          label: "Disponible",
-          buttonText: "Comenzar",
-          buttonIcon: FaPlay,
-        };
-      default:
-        return {
-          icon: FaClock,
-          color: "#6B7280",
-          bgColor: "#F3F4F6",
-          label: "Desconocido",
-          buttonText: "Ver",
-          buttonIcon: FaPlay,
-        };
-    }
-  };
-
-  // const getDifficultyColor = (difficulty: string) => {
-  //   switch (difficulty) {
-  //     case "Fácil":
-  //       return "#10B981";
-  //     case "Medio":
-  //       return "#F59E0B";
-  //     case "Difícil":
-  //       return "#EF4444";
-  //     default:
-  //       return "#6B7280";
-  //   }
-  // };
-
-  const getDaysUntilDue = (endDate: string) => {
-    const due = new Date(endDate);
-    const now = new Date();
-    const diffTime = due.getTime() - now.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays < 0) return "Vencida";
-    if (diffDays === 0) return "Hoy";
-    if (diffDays === 1) return "Mañana";
-    return `${diffDays} días`;
-  };
-
+  const { getStatusConfig, getRandomIcon, getDaysUntilDue, getRandomColor } =
+    useActivityStudentUI();
   const statusConfig = getStatusConfig(activity.status);
-  // const difficultyColor = getDifficultyColor(activity.difficulty);
+  const finishAttempts = activity.attempts === activity.remainingAttempts;
 
   return (
     <motion.div
@@ -114,8 +39,8 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
           <div
             className={styles.activityIcon}
             style={{
-              backgroundColor: `${activity.color}20`,
-              color: activity.color,
+              backgroundColor: getRandomColor(),
+              color: "white",
             }}
           >
             <motion.span
@@ -129,17 +54,12 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
                 repeatType: "reverse",
               }}
             >
-              {activity.icon}
+              {getRandomIcon()}
             </motion.span>
           </div>
 
           <div className={styles.statusBadge}>
-            <Badge
-            // className={{
-            //   backgroundColor: statusConfig.bgColor,
-            //   color: statusConfig.color,
-            // }}
-            >
+            <Badge>
               <statusConfig.icon className={styles.statusIcon} />
               {statusConfig.label}
             </Badge>
@@ -166,47 +86,25 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
             <div className={styles.metaRow}>
               <div className={styles.metaItem}>
                 <FaRedo className={styles.metaIcon} />
-                <span>{activity.attempts} intentos</span>
+                <span>
+                  {activity.remainingAttempts} / {activity.attempts} intentos
+                </span>
               </div>
               <div className={styles.metaItem}>
                 <FaStar className={styles.metaIcon} />
-                <span>{activity.points} pts</span>
+                {activity.minReward ? (
+                  <span>
+                    {activity.minReward} - {activity.maxReward} pts
+                  </span>
+                ) : (
+                  <span>{activity.maxReward} pts</span>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Progress Bar for completed/pending activities */}
-          {activity.progress !== undefined && activity.progress > 0 && (
-            <div className={styles.progressSection}>
-              <div className={styles.progressLabel}>
-                <span>Progreso</span>
-                <span>{activity.progress}%</span>
-              </div>
-              <div className={styles.progressBar}>
-                <motion.div
-                  className={styles.progressFill}
-                  style={{ backgroundColor: activity.color }}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${activity.progress}%` }}
-                  transition={{ duration: 1, delay: 0.5 }}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Score for completed activities */}
-          {activity.status === "completed" && activity.score && (
+          {/* {activity.status === "FINISHED"  && (
             <div className={styles.scoreSection}>
-              <div className={styles.scoreCircle}>
-                <motion.div
-                  className={styles.scoreValue}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", delay: 0.3 }}
-                >
-                  {activity.score}%
-                </motion.div>
-              </div>
               <div className={styles.scoreInfo}>
                 <span className={styles.pointsEarned}>
                   +{activity.points} puntos
@@ -219,11 +117,9 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
                 </span>
               </div>
             </div>
-          )}
+          )} */}
 
-          {/* Due date for pending activities */}
-          {(activity.status === "pending" ||
-            activity.status === "available") && (
+          {activity.status === "PUBLISHED" && (
             <div className={styles.dueDateSection}>
               <FaClock className={styles.dueDateIcon} />
               <span className={styles.dueDateText}>
@@ -236,19 +132,15 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
         {/* Footer */}
         <div className={styles.cardFooter}>
           <div className={styles.difficultyBadge}>
-            <Badge
-            // style={{
-            //   backgroundColor: `${difficultyColor}20`,
-            //   color: difficultyColor,
-            // }}
-            >
-              {activity.difficulty}
+            <Badge className={`${styles[activity.dificulty]}`}>
+              {activity.dificulty}
             </Badge>
           </div>
 
           <Button
-            variant={activity.status === "completed" ? "ghost" : "primary"}
+            variant={activity.status === "FINISHED" ? "ghost" : "primary"}
             className={styles.actionButton}
+            disabled={activity.status === "CREATED" || finishAttempts}
           >
             <statusConfig.buttonIcon className={styles.buttonIcon} />
             {statusConfig.buttonText}
@@ -258,7 +150,6 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
         {/* Glow effect */}
         <motion.div
           className={styles.glowEffect}
-          style={{ backgroundColor: activity.color }}
           initial={{ opacity: 0 }}
           whileHover={{ opacity: 0.1 }}
           transition={{ duration: 0.3 }}

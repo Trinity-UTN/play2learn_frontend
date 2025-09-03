@@ -17,6 +17,7 @@ import { StudentRoutes } from "../../routes/routes";
 import { useAuth } from "../../../user/hooks/useAuth";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import styles from "./Sidebar.module.css";
+import { useActivityStudentUI } from "../../hooks/useActivityStudentUI";
 
 interface StudentSidebarProps {
   currentView: StudentDashboardView;
@@ -33,6 +34,7 @@ interface MenuItem {
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
   const { logout } = useAuth();
   const { currentStudent } = useCurrentStudent();
+  const { activityNotApproved } = useActivityStudentUI();
   const navigate = useNavigate();
   const menuItems: MenuItem[] = [
     {
@@ -54,7 +56,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
       icon: FaGamepad,
       path: StudentRoutes.Activities.list,
       color: "#8B5CF6",
-      badge: 3,
+      badge: activityNotApproved.length,
     },
     {
       title: "Mis Beneficios",

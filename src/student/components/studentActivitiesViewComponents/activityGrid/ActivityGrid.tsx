@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import type { ConfigurationActivity } from "../../../types/Activity.type";
+import type { ActivityNotApprovedResponseInterface } from "../../../types/Activity.type";
 import ActivityCard from "../activityCard/ActivityCard";
 import styles from "./ActivityGrid.module.css";
 
 interface ActivityGridProps {
-  activities: ConfigurationActivity[];
+  activities: ActivityNotApprovedResponseInterface[];
 }
 
 const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {

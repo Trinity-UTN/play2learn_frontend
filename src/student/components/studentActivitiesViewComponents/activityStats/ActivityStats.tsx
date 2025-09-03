@@ -1,72 +1,16 @@
-"use client";
-
-import type React from "react";
 import { motion } from "framer-motion";
-import {
-  FaClock,
-  FaCheck,
-  FaExclamationTriangle,
-  FaStar,
-  FaTrophy,
-} from "react-icons/fa";
+
 import Card from "../../../../shared/components/Card/CardComponent";
-import type { ConfigurationActivity } from "../../../types/Activity.type";
 import styles from "./ActivityStats.module.css";
+import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
 
-interface ActivityStatsProps {
-  activities: ConfigurationActivity[];
-}
+const ActivityStats = () => {
+  const { stats } = useActivityStudentUI();
 
-const ActivityStats: React.FC<ActivityStatsProps> = ({ activities }) => {
-  const pendingCount = activities.filter((a) => a.status === "pending").length;
-  const completedCount = activities.filter(
-    (a) => a.status === "completed"
-  ).length;
-  const overdueCount = activities.filter((a) => a.status === "overdue").length;
-  const availableCount = activities.filter(
-    (a) => a.status === "available"
-  ).length;
-  const totalPoints = activities
-    .filter((a) => a.status === "completed")
-    .reduce((sum, a) => sum + a.points, 0);
-
-  const stats = [
-    {
-      label: "Pendientes",
-      value: pendingCount,
-      icon: FaClock,
-      color: "#F59E0B",
-      bgColor: "#FEF3C7",
-    },
-    {
-      label: "Completadas",
-      value: completedCount,
-      icon: FaCheck,
-      color: "#10B981",
-      bgColor: "#D1FAE5",
-    },
-    {
-      label: "Vencidas",
-      value: overdueCount,
-      icon: FaExclamationTriangle,
-      color: "#EF4444",
-      bgColor: "#FEE2E2",
-    },
-    {
-      label: "Disponibles",
-      value: availableCount,
-      icon: FaStar,
-      color: "#8B5CF6",
-      bgColor: "#EDE9FE",
-    },
-    {
-      label: "Puntos Ganados",
-      value: totalPoints,
-      icon: FaTrophy,
-      color: "#F59E0B",
-      bgColor: "#FEF3C7",
-    },
-  ];
+  // A implementar, son las monedas ganadas en la actividades terminadas
+  // const totalPoints = activities
+  //   .filter((a) => a.status === "FINISHED")
+  //   .reduce((sum, a) => sum + a.points, 0);
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },

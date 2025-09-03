@@ -2,19 +2,17 @@ import { motion } from "framer-motion";
 import { FaFilter, FaBook, FaSignal } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
-import type { ConfigurationActivity } from "../../../types/Activity.type";
 import styles from "./ActivityFilters.module.css";
-
+import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
 interface ActivityFiltersProps {
-  activeFilter: "all" | "pending" | "completed" | "available";
+  activeFilter: "ALL" | "CREATED" | "PUBLISHED" | "FINISHED";
   selectedSubject: string;
   selectedDifficulty: string;
   onFilterChange: (
-    filter: "all" | "pending" | "completed" | "available"
+    filter: "ALL" | "CREATED" | "PUBLISHED" | "FINISHED"
   ) => void;
   onSubjectChange: (subject: string) => void;
   onDifficultyChange: (difficulty: string) => void;
-  activities: ConfigurationActivity[];
 }
 
 const ActivityFilters: React.FC<ActivityFiltersProps> = ({
@@ -24,17 +22,8 @@ const ActivityFilters: React.FC<ActivityFiltersProps> = ({
   onFilterChange,
   onSubjectChange,
   onDifficultyChange,
-  activities,
 }) => {
-  const statusFilters = [
-    { key: "all", label: "Todas", emoji: "🎯" },
-    { key: "pending", label: "Pendientes", emoji: "⏰" },
-    { key: "available", label: "Disponibles", emoji: "✨" },
-    { key: "completed", label: "Completadas", emoji: "✅" },
-  ];
-
-  const subjects = ["all", ...new Set(activities.map((a) => a.subjectName))];
-  const difficulties = ["all", ...new Set(activities.map((a) => a.difficulty))];
+  const { statusFilters, subjects, difficulties } = useActivityStudentUI();
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -87,9 +76,9 @@ const ActivityFilters: React.FC<ActivityFiltersProps> = ({
               onChange={(e) => onSubjectChange(e.target.value)}
               className={styles.select}
             >
-              <option value="all">Todas las materias</option>
+              <option value="ALL">Todas las materias</option>
               {subjects
-                .filter((s) => s !== "all")
+                .filter((s) => s !== "ALL")
                 .map((subject) => (
                   <option key={subject} value={subject}>
                     {subject}
@@ -108,9 +97,9 @@ const ActivityFilters: React.FC<ActivityFiltersProps> = ({
               onChange={(e) => onDifficultyChange(e.target.value)}
               className={styles.select}
             >
-              <option value="all">Todas las dificultades</option>
+              <option value="ALL">Todas las dificultades</option>
               {difficulties
-                .filter((d) => d !== "all")
+                .filter((d) => d !== "ALL")
                 .map((difficulty) => (
                   <option key={difficulty} value={difficulty}>
                     {difficulty}

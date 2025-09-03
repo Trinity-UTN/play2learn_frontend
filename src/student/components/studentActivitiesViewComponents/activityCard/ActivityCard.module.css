@@ -1,3 +1,4 @@
+@import "../../../../shared/styles/colors.css";
 .cardWrapper {
   height: 100%;
 }
@@ -15,13 +16,13 @@
 }
 
 .activityCard:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--color-background-semitrasparent);
+  border-color: var(--color-background-semitrasparent-dark);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .activityCard.overdue {
-  border-color: #ef4444;
+  border-color: var(--color-text-error);
   background: rgba(239, 68, 68, 0.1);
 }
 
@@ -63,7 +64,7 @@
 }
 
 .activityName {
-  color: white;
+  color: var(--color-text-light);
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0;
@@ -71,7 +72,7 @@
 }
 
 .activityDescription {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-text-subtitle-ligth);
   font-size: 0.9rem;
   line-height: 1.5;
   margin: 0;
@@ -93,95 +94,20 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-light);
   font-size: 0.85rem;
   flex: 1;
 }
 
 .metaIcon {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-light);
   font-size: 0.75rem;
   width: 14px;
   flex-shrink: 0;
 }
 
-.progressSection {
-  margin-top: 0.5rem;
-}
-
-.progressLabel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.progressBar {
-  height: 6px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.progressFill {
-  height: 100%;
-  border-radius: 3px;
-  transition: width 0.3s ease;
-}
-
-.scoreSection {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  margin-top: 0.5rem;
-}
-
-.scoreCircle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: conic-gradient(
-    #10b981 0deg,
-    #10b981 var(--score-angle, 0deg),
-    rgba(255, 255, 255, 0.2) var(--score-angle, 0deg)
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.scoreCircle::before {
-  content: "";
-  position: absolute;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-}
-
-.scoreValue {
-  color: white;
-  font-weight: 700;
-  font-size: 0.85rem;
-  position: relative;
-  z-index: 1;
-}
-
-.scoreInfo {
-  flex: 1;
-}
-
 .pointsEarned {
-  color: #10b981;
+  color: var(--color-stat-3);
   font-weight: 600;
   font-size: 0.9rem;
   display: block;
@@ -189,7 +115,7 @@
 }
 
 .completedDate {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-light);
   font-size: 0.8rem;
 }
 
@@ -205,12 +131,12 @@
 }
 
 .dueDateIcon {
-  color: #f59e0b;
+  color: var(--color-stat-2);
   font-size: 0.8rem;
 }
 
 .dueDateText {
-  color: #f59e0b;
+  color: var(--color-stat-2);
   font-size: 0.85rem;
   font-weight: 600;
 }
@@ -226,6 +152,20 @@
 
 .difficultyBadge {
   flex-shrink: 0;
+}
+.FACIL {
+  background-color: var(--color-stat-3);
+  color: var(--color-stat-3);
+}
+
+.MEDIO {
+  background-color: var(--color-stat-2);
+  color: var(--color-text-light);
+}
+
+.DIFICIL {
+  background-color: var(--color-stat-4); /* #8b5cf620 */
+  color: var(--color-stat-4);
 }
 
 .actionButton {
