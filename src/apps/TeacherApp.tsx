@@ -8,6 +8,7 @@ import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
 import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
 import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
+import { AhorcadoGameProvider } from "../shared/contexts/gamesContext/ahorcadoGameContext/AhorcadoGameProvider";
 import { OrdenarSecuenciaProvider } from "../activity/contexts/ordenarSecuenciaContext/OrdenarSecuenciaProvider";
 import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
@@ -44,33 +45,35 @@ const TeacherApp = () => {
                 <SubjectProvider>
                   <ConfigurationActivityProvider>
                     <AhorcadoProvider>
-                      <CompletarOracionProvider>
-                        <PreguntadosProvider>
-                          <OrdenarSecuenciaProvider>
-                            <DesafioClasificacionProvider>
-                              <MemoramaProvider>
-                                <NoLudicaProvider>
-                                  <ArbolDecisionProvider>
-                                    <BenefitAPIProvider>
-                                      <BenefitUIProvider>
-                                        <motion.div
-                                          key="dashboardTeacher"
-                                          initial={{ opacity: 0 }}
-                                          animate={{ opacity: 1 }}
-                                          exit={{ opacity: 0 }}
-                                          transition={{ duration: 0.3 }}
-                                        >
-                                          <TeacherDashboardPage />
-                                        </motion.div>
-                                      </BenefitUIProvider>
-                                    </BenefitAPIProvider>
-                                  </ArbolDecisionProvider>
-                                </NoLudicaProvider>
-                              </MemoramaProvider>
-                            </DesafioClasificacionProvider>
-                          </OrdenarSecuenciaProvider>
-                        </PreguntadosProvider>
-                      </CompletarOracionProvider>
+                      <AhorcadoGameProvider>
+                        <CompletarOracionProvider>
+                          <PreguntadosProvider>
+                            <OrdenarSecuenciaProvider>
+                              <DesafioClasificacionProvider>
+                                <MemoramaProvider>
+                                  <NoLudicaProvider>
+                                    <ArbolDecisionProvider>
+                                      <BenefitAPIProvider>
+                                        <BenefitUIProvider>
+                                          <motion.div
+                                            key="dashboardTeacher"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                          >
+                                            <TeacherDashboardPage />
+                                          </motion.div>
+                                        </BenefitUIProvider>
+                                      </BenefitAPIProvider>
+                                    </ArbolDecisionProvider>
+                                  </NoLudicaProvider>
+                                </MemoramaProvider>
+                              </DesafioClasificacionProvider>
+                            </OrdenarSecuenciaProvider>
+                          </PreguntadosProvider>
+                        </CompletarOracionProvider>
+                      </AhorcadoGameProvider>
                     </AhorcadoProvider>
                   </ConfigurationActivityProvider>
                 </SubjectProvider>
