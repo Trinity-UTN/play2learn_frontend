@@ -29,8 +29,6 @@ export interface AhorcadoContextType {
   getStepDescription: () => string;
 
   // Funciones específicas de ahorcado
-  renderHangman: (errors: number) => string;
-  renderWordDisplay: (letters?: string[]) => string;
   getDifficultyOptions: () => Array<{
     value: string;
     label: string;

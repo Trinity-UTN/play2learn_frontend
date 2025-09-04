@@ -216,32 +216,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
   };
 
   // Funciones específicas de ahorcado
-  const renderHangman = (errors: number) => {
-    const parts = [
-      "  +---+",
-      "  |   |",
-      errors >= 1 ? "  O   |" : "      |",
-      errors >= 3 ? " /|\\  |" : errors >= 2 ? " /|   |" : "      |",
-      errors >= 5 ? " / \\  |" : errors >= 4 ? " /    |" : "      |",
-      "      |",
-      "=========",
-    ];
-    return parts.join("\n");
-  };
-
-  const renderWordDisplay = (letters?: string[]) => {
-    if (!config.word) return "_ _ _ _ _";
-
-    const lettersToUse = letters || [];
-
-    return config.word
-      .split("")
-      .map((letter) =>
-        lettersToUse.includes(letter.toLowerCase()) ? letter : "_"
-      )
-      .join(" ");
-  };
-
   const getDifficultyOptions = () => [
     {
       value: "CINCO",
@@ -286,8 +260,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
 
     // Funciones específicas de ahorcado
     getDifficultyOptions,
-    renderHangman,
-    renderWordDisplay,
   };
 
   return (
