@@ -40,8 +40,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     errorsPermited: "TRES",
   });
   const [errors, setErrors] = useState<string[]>([]);
-  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
-  const [currentGuess, setCurrentGuess] = useState("");
 
   useEffect(() => {
     if (currentStep === "preview") {
@@ -61,8 +59,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
       errorsPermited: "TRES",
     });
     setErrors([]);
-    setGuessedLetters([]);
-    setCurrentGuess("");
   };
 
   const isFormValid = errors.length === 0 && config.word.trim().length > 0;
@@ -112,8 +108,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     setConfig(newConfig);
     setCurrentStep("preview");
     setErrors([]);
-    setGuessedLetters([]);
-    setCurrentGuess("");
   };
 
   const handleSubmit = async () => {
@@ -238,7 +232,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
   const renderWordDisplay = (letters?: string[]) => {
     if (!config.word) return "_ _ _ _ _";
 
-    const lettersToUse = letters || guessedLetters;
+    const lettersToUse = letters || [];
 
     return config.word
       .split("")
@@ -265,16 +259,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     },
   ];
 
-  const setGuessedLettersState = (
-    letters: string[] | ((prev: string[]) => string[])
-  ) => {
-    setGuessedLetters(letters);
-  };
-
-  const setCurrentGuessState = (guess: string) => {
-    setCurrentGuess(guess);
-  };
-
   const contextValue: AhorcadoContextType = {
     // Estados principales
     loading,
@@ -282,8 +266,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     config,
     errors,
     isFormValid,
-    guessedLetters,
-    currentGuess,
     wordSuggestions,
 
     // Funciones principales
@@ -306,8 +288,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     getDifficultyOptions,
     renderHangman,
     renderWordDisplay,
-    setGuessedLettersState,
-    setCurrentGuessState,
   };
 
   return (
