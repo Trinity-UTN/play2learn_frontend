@@ -143,7 +143,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
             disabled={activity.status === "CREATED" || finishAttempts}
           >
             <statusConfig.buttonIcon className={styles.buttonIcon} />
-            {statusConfig.buttonText}
+            {finishAttempts ? "Sin intentos" : statusConfig.buttonText}
           </Button>
         </div>
 

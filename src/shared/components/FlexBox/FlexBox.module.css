@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2rem;
+  min-height: 700px;
+  overflow: hidden;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.224);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.192);
+}
+.contButtons {
+  align-self: flex-end;
+  display: flex;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.225);
+  padding: 0.8rem 0.7rem;
+  border-radius: 10px;
+}
+.contButtons button {
+  display: grid;
+  place-content: center;
+  background-color: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.442);
+  border-radius: 5px;
+  padding: 0.3rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.contButtons button:hover {
+  background-color: rgba(255, 255, 255, 0.84);
+}
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 1.5rem;
+  min-height: 700px;
+}

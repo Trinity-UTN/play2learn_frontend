@@ -37,7 +37,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
       getActivityNotApproved();
     }
   }, []);
-
+  console.log(activityNotApproved);
   const filteredActivities = activityNotApproved.filter((activity) => {
     const statusMatch =
       activeFilter === "ALL" || activity.status === activeFilter;
