@@ -21,7 +21,7 @@ export interface CreateTeacherPayload {
 }
 
 export interface UpdateTeacherPayload {
-  id:number
+  id: number;
   name: string;
   lastname: string;
   dni: string;
@@ -39,7 +39,7 @@ export interface TeacherResponseDto {
   name: string;
   lastname: string;
   dni: string;
-  user: User;  
+  user: User;
   active: boolean;
 }
 
@@ -53,78 +53,39 @@ export interface PaginatedTeacherResponse {
 const registerTeacherApi = async (
   data: CreateTeacherPayload
 ): Promise<void> => {
-  try {
-    await api.post(urls.Teacher, data);
-  } catch (error) {
-    console.error("Error al crear el docente:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.post(urls.Teacher, data);
 };
 
 const updateTeacherApi = async (data: UpdateTeacherPayload): Promise<void> => {
-  try {
-    await api.put(`${urls.Teacher}/${data.id}`, data);
-  } catch (error) {
-    console.error("Error al actualizar el docente:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.put(`${urls.Teacher}/${data.id}`, data);
 };
 
 const getTeacherApi = async () => {
-  try {
-    const response = await api.get(urls.Teacher);
-    return response;
-  } catch (error) {
-    console.error("Error al obtener los docentes:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const response = await api.get(urls.Teacher);
+  return response;
 };
 
 const getTeacherByIdApi = async (id: number): Promise<TeacherResponseDto> => {
-  try {
-    const response = await api.get(`${urls.Teacher}/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener el docente (por id):", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const response = await api.get(`${urls.Teacher}/${id}`);
+  return response.data;
 };
 
 const getPaginatedTeacherApi = async (
   params: GetPaginated
 ): Promise<PaginatedTeacherResponse> => {
-  try {
-    const cleanParams = buildCleanPaginatedParams(params);
-
-    const response = await api.get(urls.TeacherPaginated, {
-      params: cleanParams,
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener docentes paginados:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const cleanParams = buildCleanPaginatedParams(params);
+  const response = await api.get(urls.TeacherPaginated, {
+    params: cleanParams,
+  });
+  return response.data;
 };
 
 const deleteTeacherApi = async (id: number): Promise<void> => {
-  try {
-    
-    await api.delete(`${urls.Teacher}/${id}`);
-  } catch (error) {
-    console.error("Error al eliminar el docente:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.delete(`${urls.Teacher}/${id}`);
 };
 
 const restoreTeacherApi = async (id: number): Promise<void> => {
-  try {
-    
-    await api.patch(`${urls.TeacherRestore}/${id}`);
-  } catch (error) {
-    console.error("Error al restaurar el docente:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.patch(`${urls.TeacherRestore}/${id}`);
 };
 
 export const TeacherService = {

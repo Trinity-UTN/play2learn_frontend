@@ -11,6 +11,8 @@ import type {
 } from "../../types/BenefitType";
 import { BenefitAPIContext } from "./BenefitAPIContext";
 import { useToaster } from "../../../shared/hooks/useToaster";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+
 interface BenefitProviderProps {
   children: ReactNode;
 }
@@ -18,6 +20,8 @@ interface BenefitProviderProps {
 export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   children,
 }) => {
+  const { handleApiError } = useHandleApiError();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [benefits, setBenefits] = useState<BenefitResponseInterface[]>([]);
   const { showToast } = useToaster();
@@ -37,26 +41,12 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
         position: "bottom-right",
       });
     } catch (error) {
-      showToast({
-        title: "Error",
-        message: "Error al crear el beneficion.",
-        type: "error",
-        position: "bottom-right",
-      });
-      throw error;
+      handleApiError(error, "Error al crear el beneficio");
     } finally {
       setLoading(false);
     }
   };
 
-  const errorBenefits = () => {
-    showToast({
-      title: "Error",
-      message: "Error al obtener los beneficion.",
-      type: "error",
-      position: "bottom-right",
-    });
-  };
   const getBenefits = useCallback(async () => {
     setLoading(true);
     try {
@@ -64,8 +54,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
 
       setBenefits(response.data.data);
     } catch (error) {
-      errorBenefits();
-      throw error;
+      handleApiError(error, "Error al obtener los beneficios");
     } finally {
       setLoading(false);
     }
@@ -79,8 +68,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
 
         setPaginatedBenefits(response.data);
       } catch (error) {
-        errorBenefits();
-        throw error;
+        handleApiError(error, "Error al obtener los beneficios");
       } finally {
         setLoading(false);
       }

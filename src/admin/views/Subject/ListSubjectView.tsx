@@ -12,6 +12,7 @@ import type {
 } from "../../../shared/components/DataTable";
 import { useSubject } from "../../hooks/useSubject";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import styles from "./ListSubjectView.module.css";
 
@@ -31,15 +32,12 @@ const ListSubjectView: React.FC = () => {
     handlePageSizeChange,
   } = usePaginationParams();
   const { showConfirmation } = useConfirmation();
+  const { showToast } = useToaster();
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadPaginatedSubjects = async () => {
-      try {
-        await getPaginatedSubject(paginationParams);
-      } catch (error) {
-        console.error("Error al cargar materias paginadas:", error); // TODO: REMOVE_DEBUG
-      }
+      await getPaginatedSubject(paginationParams);
     };
     loadPaginatedSubjects();
   }, [paginationParams, getPaginatedSubject]);
@@ -63,12 +61,14 @@ const ListSubjectView: React.FC = () => {
       type: "danger",
       showDoubleConfirmation: true,
       onConfirm: async () => {
-        try {
-          await deleteSubject(subject.id);
-          await getPaginatedSubject(paginationParams);
-        } catch (error) {
-          console.error("Error al eliminar materia:", error); // TODO: REMOVE_DEBUG
-        }
+        await deleteSubject(subject.id);
+        await getPaginatedSubject(paginationParams);
+        showToast({
+          title: "Materia eliminada exitosamente",
+          message: "La materia ha sido eliminada exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
       },
     });
   };

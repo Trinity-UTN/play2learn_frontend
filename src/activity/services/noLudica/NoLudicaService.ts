@@ -10,12 +10,7 @@ export interface CreateNoLudicaPayload
 const registerNoLudicaApi = async (
   data: CreateNoLudicaPayload
 ): Promise<void> => {
-  try {
-    await api.post(urls.NoLudica, data);
-  } catch (error) {
-    console.error("Error al crear la actividad (no lúdica):", error);
-    throw error;
-  }
+  await api.post(urls.NoLudica, data);
 };
 
 export const NoLudicaService = {

@@ -1,4 +1,3 @@
-import type React from "react";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -9,17 +8,19 @@ import Input from "../../../shared/components/Input/InputComponent";
 import { useYear } from "../../hooks/useYear";
 import { useCourse } from "../../hooks/useCourse";
 import { useStudent } from "../../hooks/useStudent";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./CreateStudentView.module.css";
 
 const CreateStudentView: React.FC = () => {
-  const { getYear, years } = useYear();
-  const { getCourse, courses } = useCourse();
+  const { years, getYear } = useYear();
+  const { courses, getCourse } = useCourse();
   const { loading, selectedStudent, registerStudent, updateStudent } =
     useStudent();
-  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -51,7 +52,7 @@ const CreateStudentView: React.FC = () => {
             course_id: selectedStudent?.course.id || 0,
           });
         } catch (error) {
-          console.error("Error al cargar el estudiante:", error); // TODO: REMOVE_DEBUG
+          handleApiError(error, "Error al cargar el estudiante");
           navigate("/dashboard/students/list");
         }
       };

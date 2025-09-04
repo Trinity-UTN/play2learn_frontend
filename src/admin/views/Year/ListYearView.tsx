@@ -13,6 +13,7 @@ import type {
 } from "../../../shared/components/DataTable";
 import { useYear } from "../../hooks/useYear";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./ListYearView.module.css";
 
 const ListYearView: React.FC = () => {
@@ -31,15 +32,12 @@ const ListYearView: React.FC = () => {
     handlePageSizeChange,
   } = usePaginationParams();
   const { showConfirmation } = useConfirmation();
+  const { showToast } = useToaster();
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadPaginatedYears = async () => {
-      try {
-        await getPaginatedYear(paginationParams);
-      } catch (error) {
-        console.error("Error al cargar años paginados:", error); // TODO: REMOVE_DEBUG
-      }
+      await getPaginatedYear(paginationParams);
     };
     loadPaginatedYears();
   }, [paginationParams, getPaginatedYear]);
@@ -58,17 +56,19 @@ const ListYearView: React.FC = () => {
 
   const handleDelete = (year: YearResponseDto) => {
     showConfirmation({
-      title: "Eliminar Docente",
+      title: "Eliminar Año",
       message: `¿Está seguro que desea eliminar el año "${year.name}"?`,
       type: "danger",
       showDoubleConfirmation: true,
       onConfirm: async () => {
-        try {
-          await deleteYear(year.id);
-          await getPaginatedYear(paginationParams);
-        } catch (error) {
-          console.error("Error al eliminar año:", error); // TODO: REMOVE_DEBUG
-        }
+        await deleteYear(year.id);
+        await getPaginatedYear(paginationParams);
+        showToast({
+          title: "Año eliminado exitosamente",
+          message: "El año ha sido eliminado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
       },
     });
   };

@@ -1,8 +1,4 @@
 import { useCallback, useState, type ReactNode } from "react";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
 import { SubjectContext } from "./SubjectContext";
 import type { SubjectContextType } from "./SubjectContext.type";
 import { SubjectService } from "../../services/subject/SubjectService";
@@ -11,6 +7,11 @@ import type {
   SubjectResponseDto,
   UpdateSubjectPayload,
 } from "../../services/subject/SubjectService";
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../shared/types/PaginacionType";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
 interface SubjectProviderProps {
   children: ReactNode;
@@ -19,6 +20,8 @@ interface SubjectProviderProps {
 export const SubjectProvider: React.FC<SubjectProviderProps> = ({
   children,
 }) => {
+  const { handleApiError } = useHandleApiError();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [subjects, setSubjects] = useState<SubjectResponseDto[]>([]);
   const [paginatedSubjects, setPaginatedSubjects] =
@@ -31,8 +34,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     try {
       await SubjectService.registerSubjectApi(data);
     } catch (error) {
-      console.error("Error al crear la materia:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al crear la materia");
     } finally {
       setLoading(false);
     }
@@ -43,8 +45,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     try {
       await SubjectService.updateSubjectApi(data);
     } catch (error) {
-      console.error("Error al actualizar la materia:", error);
-      throw error;
+      handleApiError(error, "Error al actualizar la materia");
     } finally {
       setLoading(false);
     }
@@ -56,8 +57,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
       const response = await SubjectService.getSubjectApi();
       setSubjects(response.data.data);
     } catch (error) {
-      console.error("Error al obtener las materias:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al obtener las materias");
     } finally {
       setLoading(false);
     }
@@ -69,8 +69,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
       const response = await SubjectService.getSubjectByTeacherApi();
       setSubjects(response.data.data);
     } catch (error) {
-      console.error("Error al obtener las materias:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al obtener las materias del profesor");
     } finally {
       setLoading(false);
     }
@@ -83,8 +82,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
         const response = await SubjectService.getPaginatedSubjectApi(params);
         setPaginatedSubjects(response.data);
       } catch (error) {
-        console.error("Error al obtener las materias paginadas:", error); // TODO: REMOVE_DEBUG
-        throw error;
+        handleApiError(error, "Error al obtener las materias paginadas");
       } finally {
         setLoading(false);
       }
@@ -97,11 +95,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     try {
       await SubjectService.deleteSubjectApi(id);
     } catch (error) {
-      alert(
-        `El recurso Materia con id ${id} no puede ser eliminado porque tiene asociaciones con estudiantes.`
-      );
-      console.error("Error al eliminar la materia:", error);
-      throw error;
+      handleApiError(error, "Error al eliminar la materia");
     } finally {
       setLoading(false);
     }
@@ -109,15 +103,15 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
 
   const contextValue: SubjectContextType = {
     loading,
+    subjects,
+    paginatedSubjects,
+    selectedSubject,
     registerSubject,
     updateSubject,
     getSubject,
     getSubjectByTeacher,
     getPaginatedSubject,
     deleteSubject,
-    subjects,
-    paginatedSubjects,
-    selectedSubject,
     setSelectedSubject,
   };
 

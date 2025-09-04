@@ -1,4 +1,3 @@
-import type React from "react";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -7,6 +6,7 @@ import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import { useTeacher } from "../../hooks/useTeacher";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./CreateTeacherView.module.css";
 
@@ -19,6 +19,7 @@ const CreateTeacherView: React.FC = () => {
     updateTeacher,
   } = useTeacher();
   const { id } = useParams<{ id: string }>();
+  const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
@@ -42,7 +43,7 @@ const CreateTeacherView: React.FC = () => {
             email: selectedTeacher?.user.email || "",
           });
         } catch (error) {
-          console.error("Error al cargar el docente:", error); // TODO: REMOVE_DEBUG
+          handleApiError(error, "Error al cargar el docente");
           navigate("/dashboard/teachers/list");
         }
       };

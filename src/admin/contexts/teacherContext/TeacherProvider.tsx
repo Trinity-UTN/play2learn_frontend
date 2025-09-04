@@ -11,6 +11,7 @@ import type {
   GetPaginated,
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
 interface TeacherProviderProps {
   children: ReactNode;
@@ -19,6 +20,8 @@ interface TeacherProviderProps {
 export const TeacherProvider: React.FC<TeacherProviderProps> = ({
   children,
 }) => {
+  const { handleApiError } = useHandleApiError();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [teacher, setTeachers] = useState<TeacherResponseDto[]>([]);
   const [selectedTeacher, setSelectedTeacher] =
@@ -31,8 +34,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     try {
       await TeacherService.registerTeacherApi(data);
     } catch (error) {
-      console.error("Error al crear el docente:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al crear el docente");
     } finally {
       setLoading(false);
     }
@@ -43,8 +45,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     try {
       await TeacherService.updateTeacherApi(data);
     } catch (error) {
-      console.error("Error al actualizar el docente:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al actualizar el docente");
     } finally {
       setLoading(false);
     }
@@ -56,21 +57,21 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
       const response = await TeacherService.getTeacherApi();
       setTeachers(response.data.data);
     } catch (error) {
-      console.error("Error al obtener los docentes:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al obtener los docentes");
     } finally {
       setLoading(false);
     }
   }, []);
 
-  const getTeacherById = async (id: number): Promise<TeacherResponseDto> => {
+  const getTeacherById = async (
+    id: number
+  ): Promise<TeacherResponseDto | undefined> => {
     setLoading(true);
     try {
       const TeacherData = await TeacherService.getTeacherByIdApi(id);
       return TeacherData;
     } catch (error) {
-      console.error("Error al obtener el docente:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al obtener el docente");
     } finally {
       setLoading(false);
     }
@@ -83,8 +84,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
         const response = await TeacherService.getPaginatedTeacherApi(params);
         setPaginatedTeacher(response.data);
       } catch (error) {
-        console.error("Error al obtener los docentes paginados:", error); // TODO: REMOVE_DEBUG
-        throw error;
+        handleApiError(error, "Error al obtener los docentes paginados");
       } finally {
         setLoading(false);
       }
@@ -97,11 +97,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     try {
       await TeacherService.deleteTeacherApi(id);
     } catch (error) {
-      alert(
-        `El recurso Docente con id ${id} no puede ser eliminado porque tiene asociaciones con materias.`
-      );
-      console.error("Error al eliminar el docente:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al eliminar el docente");
     } finally {
       setLoading(false);
     }
@@ -112,8 +108,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     try {
       await TeacherService.restoreTeacherApi(id);
     } catch (error) {
-      console.error("Error al restaurar el docente:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al restaurar el docente");
     } finally {
       setLoading(false);
     }

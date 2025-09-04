@@ -12,6 +12,7 @@ import type {
 } from "../../../shared/components/DataTable";
 import { useStudent } from "../../hooks/useStudent";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import styles from "./ListStudentView.module.css";
 
@@ -32,15 +33,12 @@ const ListStudentView: React.FC = () => {
     handlePageSizeChange,
   } = usePaginationParams();
   const { showConfirmation } = useConfirmation();
+  const { showToast } = useToaster();
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadPaginatedStudents = async () => {
-      try {
-        await getPaginatedStudent(paginationParams);
-      } catch (error) {
-        console.error("Error al cargar estudiantes paginados:", error); // TODO: REMOVE_DEBUG
-      }
+      await getPaginatedStudent(paginationParams);
     };
     loadPaginatedStudents();
   }, [paginationParams, getPaginatedStudent]);
@@ -64,12 +62,14 @@ const ListStudentView: React.FC = () => {
       type: "danger",
       showDoubleConfirmation: true,
       onConfirm: async () => {
-        try {
-          await deleteStudent(student.id);
-          await getPaginatedStudent(paginationParams);
-        } catch (error) {
-          console.error("Error al eliminar estudiante:", error); // TODO: REMOVE_DEBUG
-        }
+        await deleteStudent(student.id);
+        await getPaginatedStudent(paginationParams);
+        showToast({
+          title: "Estudiante eliminado exitosamente",
+          message: "El estudiante ha sido eliminado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
       },
     });
   };
@@ -80,12 +80,14 @@ const ListStudentView: React.FC = () => {
       message: `¿Está seguro que desea restaurar el estudiante "${student.name} ${student.lastname}"?`,
       type: "warning",
       onConfirm: async () => {
-        try {
-          await restoreStudent(student.id);
-          await getPaginatedStudent(paginationParams);
-        } catch (error) {
-          console.error("Error al restaurar estudiante:", error); // TODO: REMOVE_DEBUG
-        }
+        await restoreStudent(student.id);
+        await getPaginatedStudent(paginationParams);
+        showToast({
+          title: "Estudiante restaurado exitosamente",
+          message: "El estudiante ha sido restaurado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
       },
     });
   };

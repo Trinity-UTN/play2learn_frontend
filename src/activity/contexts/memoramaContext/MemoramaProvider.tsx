@@ -12,6 +12,7 @@ import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeFormData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 
 interface MemoramaProviderProps {
@@ -23,6 +24,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
 }) => {
   const { configurationActivity } = useConfigurationActivity();
   const { showConfirmation } = useConfirmation();
+  const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
@@ -145,8 +147,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
       await MemoramaService.registerMemoramaApi(dataMandar);
       clearAllPairErrors();
     } catch (error) {
-      console.error("Error al crear la actividad (memorama):", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al crear la actividad");
     } finally {
       setLoading(false);
     }
@@ -194,13 +195,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
-      showToast({
-        title: "Error al crear la actividad",
-        message: "Hubo un error al crear la actividad",
-        type: "error",
-        position: "bottom-right",
-      });
-      console.error("Error al crear la actividad (memorama):", error);
+      handleApiError(error, "Error al crear la actividad");
     }
   };
 

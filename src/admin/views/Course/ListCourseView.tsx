@@ -12,15 +12,16 @@ import type {
 } from "../../../shared/components/DataTable";
 import { useCourse } from "../../hooks/useCourse";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import styles from "./ListCourseView.module.css";
 
 const ViewCoursesView: React.FC = () => {
   const {
     loading,
+    paginatedCourse,
     getPaginatedCourse,
     deleteCourse,
-    paginatedCourse,
     setSelectedCourse,
   } = useCourse();
   const {
@@ -31,15 +32,12 @@ const ViewCoursesView: React.FC = () => {
     handlePageSizeChange,
   } = usePaginationParams();
   const { showConfirmation } = useConfirmation();
+  const { showToast } = useToaster();
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadPaginatedCourses = async () => {
-      try {
-        await getPaginatedCourse(paginationParams);
-      } catch (error) {
-        console.error("Error al cargar cursos paginados:", error); // TODO: REMOVE_DEBUG
-      }
+      await getPaginatedCourse(paginationParams);
     };
     loadPaginatedCourses();
   }, [paginationParams, getPaginatedCourse]);
@@ -63,12 +61,14 @@ const ViewCoursesView: React.FC = () => {
       type: "danger",
       showDoubleConfirmation: true,
       onConfirm: async () => {
-        try {
-          await deleteCourse(course.id);
-          await getPaginatedCourse(paginationParams);
-        } catch (error) {
-          console.error("Error al eliminar curso:", error); // TODO: REMOVE_DEBUG
-        }
+        await deleteCourse(course.id);
+        await getPaginatedCourse(paginationParams);
+        showToast({
+          title: "Curso eliminado exitosamente",
+          message: "El curso ha sido eliminado exitosamente",
+          type: "success",
+          position: "bottom-right",
+        });
       },
     });
   };

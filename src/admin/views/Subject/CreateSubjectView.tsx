@@ -1,4 +1,3 @@
-import type React from "react";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -15,9 +14,9 @@ import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./CreateSubjectView.module.css";
 
 const CreateSubjectView: React.FC = () => {
-  const { getYear, years } = useYear();
-  const { getCourse, courses } = useCourse();
-  const { getTeacher, teacher } = useTeacher();
+  const { years, getYear } = useYear();
+  const { courses, getCourse } = useCourse();
+  const { teacher, getTeacher } = useTeacher();
   const { loading, selectedSubject, registerSubject, updateSubject } =
     useSubject();
   const { id } = useParams<{ id: string }>();
