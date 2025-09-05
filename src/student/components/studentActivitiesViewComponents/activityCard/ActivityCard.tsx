@@ -1,28 +1,20 @@
 import { motion } from "framer-motion";
-import {
-  FaClock,
-  // FaExclamationTriangle,
-  FaStar,
-  FaCalendarAlt,
-  FaStopwatch,
-  FaRedo,
-} from "react-icons/fa";
+import { FaCalendarAlt, FaStopwatch, FaRedo, FaCoins } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
-import type { ActivityNotApprovedResponseInterface } from "../../../types/Activity.type";
+import type { ActivityUI } from "../../../types/Activity.type";
 import styles from "./ActivityCard.module.css";
 import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
 
 interface ActivityCardProps {
-  activity: ActivityNotApprovedResponseInterface;
+  activity: ActivityUI;
 }
 
 const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
-  const { getStatusConfig, getRandomIcon, getDaysUntilDue, getRandomColor } =
+  const { getStatusConfig, getRandomIcon, getRandomColor } =
     useActivityStudentUI();
   const statusConfig = getStatusConfig(activity.status);
-  const finishAttempts = activity.attempts === activity.remainingAttempts;
 
   return (
     <motion.div
@@ -79,26 +71,18 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
               </div>
               <div className={styles.metaItem}>
                 <FaStopwatch className={styles.metaIcon} />
-                <span>{activity.maxTime} min</span>
+                <span>{activity.timeLabel} </span>
               </div>
             </div>
 
             <div className={styles.metaRow}>
               <div className={styles.metaItem}>
                 <FaRedo className={styles.metaIcon} />
-                <span>
-                  {activity.remainingAttempts} / {activity.attempts} intentos
-                </span>
+                <span>{activity.attemptsLabel}</span>
               </div>
               <div className={styles.metaItem}>
-                <FaStar className={styles.metaIcon} />
-                {activity.minReward ? (
-                  <span>
-                    {activity.minReward} - {activity.maxReward} pts
-                  </span>
-                ) : (
-                  <span>{activity.maxReward} pts</span>
-                )}
+                <FaCoins className={styles.metaIcon} />
+                {activity.rewardLabel}
               </div>
             </div>
           </div>
@@ -119,14 +103,14 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
             </div>
           )} */}
 
-          {activity.status === "PUBLISHED" && (
+          {/* {activity.status === "PUBLISHED" && (
             <div className={styles.dueDateSection}>
               <FaClock className={styles.dueDateIcon} />
               <span className={styles.dueDateText}>
                 Vence {getDaysUntilDue(activity.endDate)}
               </span>
             </div>
-          )}
+          )} */}
         </div>
 
         {/* Footer */}
@@ -140,10 +124,10 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
           <Button
             variant={activity.status === "FINISHED" ? "ghost" : "primary"}
             className={styles.actionButton}
-            disabled={activity.status === "CREATED" || finishAttempts}
+            disabled={activity.status === "CREATED" || activity.noAttempts}
           >
             <statusConfig.buttonIcon className={styles.buttonIcon} />
-            {finishAttempts ? "Sin intentos" : statusConfig.buttonText}
+            {activity.noAttempts ? "Sin intentos" : statusConfig.buttonText}
           </Button>
         </div>
 

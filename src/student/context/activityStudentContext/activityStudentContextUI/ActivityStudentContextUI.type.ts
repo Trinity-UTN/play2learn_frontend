@@ -1,11 +1,11 @@
 import type { JSX } from "react";
-import type { ActivityNotApprovedResponseInterface } from "../../../types/Activity.type";
 
 export interface ActivityStudentContextUIType {
-  activityNotApproved: ActivityNotApprovedResponseInterface[];
-  activeFilter: "CREATED" | "PUBLISHED" | "FINISHED" | "ALL";
+  activeFilter: "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED" | "ALL";
   setActiveFilter: React.Dispatch<
-    React.SetStateAction<"CREATED" | "PUBLISHED" | "FINISHED" | "ALL">
+    React.SetStateAction<
+      "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED" | "ALL"
+    >
   >;
   selectedSubject: string;
   setSelectedSubject: React.Dispatch<React.SetStateAction<string>>;
@@ -13,7 +13,7 @@ export interface ActivityStudentContextUIType {
   setSelectedDifficulty: React.Dispatch<React.SetStateAction<string>>;
   filteredActivities: any[];
   pendingCount: number;
-  completedCount: number;
+  defeatedCount: number;
   availableCount: number;
   stats: any[];
   statusFilters: { key: string; label: string; emoji: string }[];

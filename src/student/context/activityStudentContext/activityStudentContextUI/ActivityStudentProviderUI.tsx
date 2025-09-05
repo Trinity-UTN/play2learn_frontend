@@ -16,7 +16,9 @@ import {
 } from "react-icons/fa";
 import { ActivityStudentContextUI } from "./ActivityStudentContextUI";
 import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
-
+import { mapActivityToUI } from "../../../adapters/activityAdapter";
+import { FiX, FiXCircle } from "react-icons/fi";
+import type { ActivityUI } from "../../../types/Activity.type";
 interface ProviderProps {
   children: ReactNode;
 }
@@ -25,20 +27,30 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   children,
 }) => {
   const [activeFilter, setActiveFilter] = useState<
-    "CREATED" | "PUBLISHED" | "FINISHED" | "ALL"
+    "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED" | "ALL"
   >("ALL");
   const [selectedSubject, setSelectedSubject] = useState<string>("ALL");
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("ALL");
-
-  const { getActivityNotApproved, activityNotApproved } = useActivityStudent();
+  const {
+    getActivityNotApproved,
+    activityNotApproved,
+    activityApproved,
+    getActivityApproved,
+  } = useActivityStudent();
 
   useEffect(() => {
     if (activityNotApproved.length <= 0) {
       getActivityNotApproved();
+      getActivityApproved();
     }
   }, []);
-  console.log(activityNotApproved);
-  const filteredActivities = activityNotApproved.filter((activity) => {
+
+  const activitiesUI: ActivityUI[] = [
+    ...activityNotApproved.map(mapActivityToUI),
+    ...activityApproved.map(mapActivityToUI),
+  ];
+
+  const filteredActivities = activitiesUI.filter((activity) => {
     const statusMatch =
       activeFilter === "ALL" || activity.status === activeFilter;
     const subjectMatch =
@@ -52,11 +64,14 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   const pendingCount = activityNotApproved.filter(
     (a) => a.status === "PUBLISHED"
   ).length;
-  const completedCount = activityNotApproved.filter(
-    (a) => a.status === "FINISHED"
+  const defeatedCount = activityNotApproved.filter(
+    (a) => a.status === "FINISHED" //VENCIDA
   ).length;
   const availableCount = activityNotApproved.filter(
     (a) => a.status === "PUBLISHED"
+  ).length;
+  const approvedCount = activityApproved.filter(
+    (a) => a.status === "APPROVED"
   ).length;
 
   const stats = [
@@ -68,16 +83,16 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
       bgColor: "#FEF3C7",
     },
     {
-      label: "Completadas",
-      value: completedCount,
-      icon: FaCheck,
-      color: "#10B981",
-      bgColor: "#D1FAE5",
+      label: "Vencida",
+      value: defeatedCount,
+      icon: FiX,
+      color: "#b92110ff",
+      bgColor: "#fadad1ff",
     },
     {
-      label: "Disponibles",
-      value: availableCount,
-      icon: FaStar,
+      label: "Aprobadas",
+      value: approvedCount,
+      icon: FaCheck,
       color: "#8B5CF6",
       bgColor: "#EDE9FE",
     },
@@ -86,7 +101,8 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   const statusFilters = [
     { key: "ALL", label: "Todas", emoji: "🎯" },
     { key: "PUBLISHED", label: "Disponibles", emoji: "✨" },
-    { key: "FINISHED", label: "Completadas", emoji: "✅" },
+    { key: "FINISHED", label: "Vencidas", emoji: "❌" },
+    { key: "APPROVED", label: "Aprobadas", emoji: "✅" },
   ];
 
   const subjects = [
@@ -130,12 +146,12 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     switch (status) {
       case "FINISHED":
         return {
-          icon: FaCheck,
-          color: "#10B981",
+          icon: FiXCircle,
+          color: "#b91810ff",
           bgColor: "#D1FAE5",
-          label: "Completada",
-          buttonText: "Ver Resultados",
-          buttonIcon: FaTrophy,
+          label: "Vencida",
+          buttonText: "Vencida",
+          buttonIcon: FiX,
         };
       case "CREATED":
         return {
@@ -180,7 +196,6 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   return (
     <ActivityStudentContextUI.Provider
       value={{
-        activityNotApproved,
         activeFilter,
         setActiveFilter,
         selectedSubject,
@@ -189,7 +204,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
         setSelectedDifficulty,
         filteredActivities,
         pendingCount,
-        completedCount,
+        defeatedCount,
         availableCount,
         stats,
         statusFilters,

@@ -1,7 +1,10 @@
 import { useState, type ReactNode, useCallback } from "react";
 import { ActivityStudentContext } from "./ActivityStudentContextAPI";
 import type { ActivityStudentContextType } from "./ActivityStudentContextAPI.type";
-import type { ActivityNotApprovedResponseInterface } from "../../../types/Activity.type";
+import type {
+  ActivityNotApprovedResponseInterface,
+  ActivityApprovedResponseInterface,
+} from "../../../types/Activity.type";
 import { ActivityStudentService } from "../../../services/activity/ActivityService";
 import { useToaster } from "../../../../shared/hooks/useToaster";
 // import type {
@@ -15,8 +18,11 @@ export const ActivityStudentProvider = ({
   children: ReactNode;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [activityNotApproved, setPaginatedActivitiesNotApproved] = useState<
+  const [activityNotApproved, setActivitiesNotApproved] = useState<
     ActivityNotApprovedResponseInterface[]
+  >([]);
+  const [activityApproved, setActivitiesApproved] = useState<
+    ActivityApprovedResponseInterface[]
   >([]);
   const { showToast } = useToaster();
 
@@ -44,14 +50,33 @@ export const ActivityStudentProvider = ({
   //   },
   //   []
   // );
+
   const getActivityNotApproved = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {
       const response = await ActivityStudentService.getActivityNotApprovedApi();
-      setPaginatedActivitiesNotApproved(response.data);
+      setActivitiesNotApproved(response.data);
     } catch (error) {
       showToast({
         title: "Error al obtener las actividades",
+        message:
+          "Se produjo un problema al obtener las actividades, intente luego.",
+        type: "error",
+        position: "bottom-right",
+      });
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+  const getActivityApproved = useCallback(async (): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await ActivityStudentService.getActivityApprovedApi();
+      setActivitiesApproved(response.data);
+    } catch (error) {
+      showToast({
+        title: "Error al obtener las actividades aprobadas",
         message:
           "Se produjo un problema al obtener las actividades, intente luego.",
         type: "error",
@@ -67,6 +92,8 @@ export const ActivityStudentProvider = ({
     activityNotApproved,
     getActivityNotApproved,
     loading,
+    activityApproved,
+    getActivityApproved,
   };
 
   return (

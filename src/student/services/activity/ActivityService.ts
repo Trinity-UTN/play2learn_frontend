@@ -12,6 +12,18 @@ const getActivityNotApprovedApi = async () => {
   }
 };
 
+const getActivityApprovedApi = async () => {
+  try {
+    const response = await api.get(urls.ActivityApproved);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener las actividades:", error);
+    throw error;
+  }
+};
+
 export const ActivityStudentService = {
   getActivityNotApprovedApi,
+  getActivityApprovedApi,
 };

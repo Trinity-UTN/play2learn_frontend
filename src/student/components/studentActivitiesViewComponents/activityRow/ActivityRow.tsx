@@ -1,31 +1,23 @@
 import { motion } from "framer-motion";
 import styles from "./ActivityRow.module.css";
-import type { ActivityNotApprovedResponseInterface } from "../../../types/Activity.type";
+import type { ActivityUI } from "../../../types/Activity.type";
 import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
-import { FaCalendarAlt, FaRedo, FaStopwatch } from "react-icons/fa";
+import { FaCalendarAlt, FaRedo, FaStopwatch, FaCoins } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
 
 interface ActivityRowProps {
-  activity: ActivityNotApprovedResponseInterface;
+  activity: ActivityUI;
   onStart?: (activityId: string) => void;
   onContinue?: (activityId: string) => void;
   onViewResults?: (activityId: string) => void;
 }
 
-const ActivityRow: React.FC<ActivityRowProps> = ({
-  activity,
-  onStart,
-  onContinue,
-  onViewResults,
-}) => {
+const ActivityRow: React.FC<ActivityRowProps> = ({ activity }) => {
   const { getRandomColor, getRandomIcon, getStatusConfig } =
     useActivityStudentUI();
 
   const getStatusInfo = () => {
-    const now = new Date();
-    const endDate = new Date(activity.endDate);
-
     if (activity.status) {
       return {
         status: "FINISHED",
@@ -35,9 +27,9 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
       };
     }
 
-    if (now > endDate) {
+    if (activity.status) {
       return {
-        status: "expired",
+        status: "FINISHED",
         label: "Vencida",
         color: "#ef4444",
         icon: "⏰",
@@ -75,55 +67,9 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("es-ES", {
-      day: "2-digit",
-      month: "2-digit",
-    });
-  };
-
-  const formatTime = (minutes: number) => {
-    if (minutes < 60) return `${minutes}min`;
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return mins > 0 ? `${hours}h ${mins}min` : `${hours}h`;
-  };
-
   const statusInfo = getStatusInfo();
   const difficultyInfo = getDifficultyInfo();
-  const finishAttempts = activity.attempts === activity.remainingAttempts;
   const statusConfig = getStatusConfig(activity.status);
-  const handleAction = () => {
-    switch (statusInfo.status) {
-      case "available":
-        onStart?.(activity.id);
-        break;
-      case "in-progress":
-        onContinue?.(activity.id);
-        break;
-      case "completed":
-        onViewResults?.(activity.id);
-        break;
-      case "expired":
-        onStart?.(activity.id); // Reintentar
-        break;
-    }
-  };
-
-  const getActionText = () => {
-    switch (statusInfo.status) {
-      case "available":
-        return "Comenzar";
-      case "in-progress":
-        return "Continuar";
-      case "completed":
-        return "Ver Resultados";
-      case "expired":
-        return "Reintentar";
-      default:
-        return "Próximamente";
-    }
-  };
 
   return (
     <motion.div
@@ -157,6 +103,14 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
                   {activity.dificulty}
                 </span>
               </div>
+              {activity.rewardLabel && (
+                <div className={styles.reward}>
+                  <FaCoins className={styles.rewardIcon} />
+                  <span className={styles.rewardText}>
+                    {activity.rewardLabel}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -165,25 +119,19 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
         <div className={styles.secondaryInfo}>
           <div className={styles.infoItem}>
             <FaCalendarAlt className={styles.metaIcon} />
-            <span className={styles.infoText}>
-              {formatDate(activity.startDate)} - {formatDate(activity.endDate)}
-            </span>
+            <span className={styles.infoText}>{activity.dateLabel}</span>
           </div>
 
           {/* Tiempo máximo */}
           <div className={styles.infoItem}>
             <FaStopwatch className={styles.metaIcon} />
-            <span className={styles.infoText}>
-              {formatTime(activity.maxTime)}
-            </span>
+            <span className={styles.infoText}>{activity.timeLabel}</span>
           </div>
 
           {/* Intentos */}
           <div className={styles.infoItem}>
             <FaRedo className={styles.metaIcon} />
-            <span className={styles.infoText}>
-              {activity.remainingAttempts} / {activity.attempts} intentos
-            </span>
+            <span className={styles.infoText}>{activity.attemptsLabel}</span>
           </div>
         </div>
       </div>
@@ -201,21 +149,19 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
         <Button
           variant={activity.status === "FINISHED" ? "ghost" : "primary"}
           className={styles.actionButton}
-          disabled={activity.status === "CREATED" || finishAttempts}
+          disabled={activity.status === "CREATED" || activity.noAttempts}
         >
           <statusConfig.buttonIcon className={styles.buttonIcon} />
-          {finishAttempts ? "Sin intentos" : statusConfig.buttonText}
+          {activity.noAttempts ? "Sin intentos" : statusConfig.buttonText}
         </Button>
 
         {/* Puntuación (si está completada) */}
         {/* CAMBIAR PARA EL MANEJO DE LA ACTIVIDAD TERMINADA */}
       </div>
-      {activity.status === "FINISHED" && activity.maxReward !== undefined && (
+      {activity.status === "APPROVED" && activity.reward !== undefined && (
         <div className={styles.scoreSection}>
           <div className={styles.scoreCircle}>
-            <span className={styles.scoreValue}>
-              {activity.maxReward ? 0 : activity.maxReward}
-            </span>
+            <span className={styles.scoreValue}>{activity.reward}</span>
             <span className={styles.scoreLabel}>pts</span>
           </div>
         </div>

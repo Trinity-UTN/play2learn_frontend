@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import type { ActivityNotApprovedResponseInterface } from "../../../types/Activity.type";
+import type { ActivityUI } from "../../../types/Activity.type";
 import ActivityCard from "../activityCard/ActivityCard";
 import ActivityRow from "../activityRow/ActivityRow";
 import FlexBox from "../../../../shared/components/FlexBox/FlexBox";
@@ -7,7 +7,7 @@ import { useLayout } from "../../../../shared/hooks/useLayout";
 import styles from "./ActivityGrid.module.css";
 
 interface ActivityGridProps {
-  activities: ActivityNotApprovedResponseInterface[];
+  activities: ActivityUI[];
 }
 
 const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {

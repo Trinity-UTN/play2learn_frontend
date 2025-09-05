@@ -35,7 +35,7 @@ interface MenuItem {
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
   const { logout } = useAuth();
   const { currentStudent } = useCurrentStudent();
-  const { activityNotApproved } = useActivityStudentUI();
+  const { availableCount } = useActivityStudentUI();
   const navigate = useNavigate();
   const menuItems: MenuItem[] = [
     {
@@ -57,7 +57,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
       icon: FaGamepad,
       path: StudentRoutes.Activities.list,
       color: "#8B5CF6",
-      badge: activityNotApproved.length,
+      badge: availableCount,
     },
     {
       title: "Mis Beneficios",

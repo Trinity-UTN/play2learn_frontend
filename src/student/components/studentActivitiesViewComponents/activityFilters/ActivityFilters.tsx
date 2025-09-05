@@ -4,12 +4,13 @@ import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import styles from "./ActivityFilters.module.css";
 import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
+
 interface ActivityFiltersProps {
-  activeFilter: "ALL" | "CREATED" | "PUBLISHED" | "FINISHED";
+  activeFilter: "ALL" | "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED";
   selectedSubject: string;
   selectedDifficulty: string;
   onFilterChange: (
-    filter: "ALL" | "CREATED" | "PUBLISHED" | "FINISHED"
+    filter: "ALL" | "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED"
   ) => void;
   onSubjectChange: (subject: string) => void;
   onDifficultyChange: (difficulty: string) => void;
