@@ -6,7 +6,7 @@ import type {
   ActivityApprovedResponseInterface,
 } from "../../../types/Activity.type";
 import { ActivityStudentService } from "../../../services/activity/ActivityService";
-import { useToaster } from "../../../../shared/hooks/useToaster";
+import { useHandleApiError } from "../../../../shared/hooks/useHandleApiError";
 // import type {
 //   GetPaginated,
 //   PaginatedData,
@@ -24,8 +24,7 @@ export const ActivityStudentProvider = ({
   const [activityApproved, setActivitiesApproved] = useState<
     ActivityApprovedResponseInterface[]
   >([]);
-  const { showToast } = useToaster();
-
+  const { handleApiError } = useHandleApiError();
   // useState<PaginatedData<ActivityNotApprovedResponseInterface> | null>(null);
 
   // const getPaginatedActivityNotApproved= useCallback(
@@ -57,14 +56,7 @@ export const ActivityStudentProvider = ({
       const response = await ActivityStudentService.getActivityNotApprovedApi();
       setActivitiesNotApproved(response.data);
     } catch (error) {
-      showToast({
-        title: "Error al obtener las actividades",
-        message:
-          "Se produjo un problema al obtener las actividades, intente luego.",
-        type: "error",
-        position: "bottom-right",
-      });
-      throw error;
+      handleApiError(error, "Error al obtener las actividades");
     } finally {
       setLoading(false);
     }
@@ -76,14 +68,7 @@ export const ActivityStudentProvider = ({
       const response = await ActivityStudentService.getActivityApprovedApi();
       setActivitiesApproved(response.data);
     } catch (error) {
-      showToast({
-        title: "Error al obtener las actividades aprobadas",
-        message:
-          "Se produjo un problema al obtener las actividades, intente luego.",
-        type: "error",
-        position: "bottom-right",
-      });
-      throw error;
+      handleApiError(error, "Error al obtener las actividades aprobadas");
     } finally {
       setLoading(false);
     }
