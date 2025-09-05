@@ -69,6 +69,7 @@ export const ActivityStudentProvider = ({
       setLoading(false);
     }
   }, []);
+
   const getActivityApproved = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {

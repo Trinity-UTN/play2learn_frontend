@@ -20,9 +20,9 @@ export function mapActivityToUI(
     id: activity.id,
     name: activity.name,
     description: activity.description,
-    dificulty: activity.dificulty,
+    difficulty: activity.difficulty,
     subjectName: activity.subjectName,
-    status: activity.status,
+    status: "status" in activity ? activity.status : activity.state,
     dateLabel: isNotApproved
       ? `${formatDate(activity.startDate)} - ${formatDate(activity.endDate)}`
       : undefined,

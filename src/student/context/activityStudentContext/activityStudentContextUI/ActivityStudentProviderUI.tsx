@@ -4,9 +4,6 @@ import {
   FaCheck,
   FaClock,
   FaStar,
-  // FaCalendarAlt,
-  // FaStopwatch,
-  // FaRedo,
   FaTrophy,
   FaGamepad,
   FaDice,
@@ -19,6 +16,7 @@ import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
 import { mapActivityToUI } from "../../../adapters/activityAdapter";
 import { FiX, FiXCircle } from "react-icons/fi";
 import type { ActivityUI } from "../../../types/Activity.type";
+
 interface ProviderProps {
   children: ReactNode;
 }
@@ -29,8 +27,10 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   const [activeFilter, setActiveFilter] = useState<
     "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED" | "ALL"
   >("ALL");
+
   const [selectedSubject, setSelectedSubject] = useState<string>("ALL");
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("ALL");
+
   const {
     getActivityNotApproved,
     activityNotApproved,
@@ -56,7 +56,8 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     const subjectMatch =
       selectedSubject === "ALL" || activity.subjectName === selectedSubject;
     const difficultyMatch =
-      selectedDifficulty === "ALL" || activity.dificulty === selectedDifficulty;
+      selectedDifficulty === "ALL" ||
+      activity.difficulty === selectedDifficulty;
 
     return statusMatch && subjectMatch && difficultyMatch;
   });
@@ -71,7 +72,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     (a) => a.status === "PUBLISHED"
   ).length;
   const approvedCount = activityApproved.filter(
-    (a) => a.status === "APPROVED"
+    (a) => a.state === "APPROVED"
   ).length;
 
   const stats = [
@@ -111,7 +112,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   ];
   const difficulties = [
     "ALL",
-    ...new Set(activityNotApproved.map((a) => a.dificulty)),
+    ...new Set(activityNotApproved.map((a) => a.difficulty)),
   ];
 
   const icons = [
@@ -169,6 +170,15 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
           bgColor: "#EDE9FE",
           label: "Disponible",
           buttonText: "Comenzar",
+          buttonIcon: FaPlay,
+        };
+      case "APPROVED":
+        return {
+          icon: FaStar,
+          color: "#8B5CF6",
+          bgColor: "#EDE9FE",
+          label: "Aprobada",
+          buttonText: "Ver Resultados",
           buttonIcon: FaPlay,
         };
       default:

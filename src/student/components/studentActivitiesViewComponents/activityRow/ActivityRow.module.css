@@ -1,17 +1,16 @@
+@import "../../../../shared/styles/colors.css";
 .activityRow {
   position: relative;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.161);
+  background: var(--color-background-semitrasparent);
   border-radius: 12px;
   padding: 16px;
-  margin-bottom: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border: 2px solid transparent;
   position: relative;
   transition: all 0.3s ease;
-  min-height: 80px;
-  height: auto;
+  height: 140px;
 }
 
 .activityRow:hover {
@@ -24,7 +23,6 @@
   flex: 1;
   display: flex;
   flex-direction: row;
-  margin-left: 12px;
 }
 
 /* Información básica */
@@ -46,7 +44,7 @@
   font-size: 24px;
   flex-shrink: 0;
   margin-top: 2px;
-  color: white;
+  color: var(--color-text-light);
 }
 
 .titleInfo {
@@ -68,7 +66,7 @@
 }
 .rewardText {
   font-size: 1rem;
-  color: white;
+  color: var(--color-text-light);
   font-weight: 500;
 }
 .rewardIcon {
@@ -78,7 +76,7 @@
 .activityTitle {
   font-size: 1rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--color-text-light);
   margin: 0 0 4px 0;
   line-height: 1.3;
   display: -webkit-box;
@@ -90,7 +88,7 @@
 .activitySubtitle {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #1f2937a5;
+  color: var(--color-text-subtitle);
   margin: 0 0 4px 0;
   line-height: 1.3;
   display: -webkit-box;
@@ -108,11 +106,26 @@
 
 .subject,
 .infoTextDifficultyInfo {
-  color: white;
+  color: var(--color-text-light);
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 0.8rem;
   font-weight: 500;
+}
+
+.FACIL {
+  background-color: var(--color-stat-3);
+  color: var(--color-stat-3);
+}
+
+.MEDIO {
+  background-color: var(--color-stat-2);
+  color: var(--color-text-light);
+}
+
+.DIFICIL {
+  background-color: var(--color-stat-4); /* #8b5cf620 */
+  color: var(--color-stat-4);
 }
 
 /* Información secundaria */
@@ -142,7 +155,7 @@
 
 .infoText {
   font-size: 0.8rem;
-  color: white;
+  color: var(--color-text-light);
   font-weight: 500;
 }
 
@@ -176,24 +189,25 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 40px;
+  min-width: 40px;
   height: 40px;
+  padding: 10px;
   background: linear-gradient(135deg, #ffd700, #ffed4e);
-  border-radius: 50%;
+  border-radius: 20px;
   box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
 }
 
 .scoreValue {
   font-size: 14px;
   font-weight: 700;
-  color: #92400e;
+  color: var(--color-stat-5);
   line-height: 1;
 }
 
 .scoreLabel {
   font-size: 10px;
   font-weight: 600;
-  color: #92400e;
+  color: var(--color-stat-5);
   line-height: 1;
 }
 
@@ -223,73 +237,6 @@
 .actionButton:disabled {
   cursor: not-allowed;
   opacity: 0.6;
-}
-
-/* Estados específicos */
-.activityRow.available {
-  border-color: rgba(139, 92, 246, 0.2);
-}
-
-.actionButton.available {
-  background: linear-gradient(135deg, #8b5cf6, #a78bfa);
-  color: white;
-}
-
-.actionButton.available:hover:not(:disabled) {
-  background: linear-gradient(135deg, #7c3aed, #8b5cf6);
-  transform: translateY(-1px);
-}
-
-.activityRow.inProgress {
-  border-color: rgba(245, 158, 11, 0.2);
-}
-
-.actionButton.inProgress {
-  background: linear-gradient(135deg, #f59e0b, #fbbf24);
-  color: white;
-}
-
-.actionButton.inProgress:hover:not(:disabled) {
-  background: linear-gradient(135deg, #d97706, #f59e0b);
-  transform: translateY(-1px);
-}
-
-.activityRow.completed {
-  border-color: rgba(16, 185, 129, 0.2);
-}
-
-.actionButton.completed {
-  background: linear-gradient(135deg, #10b981, #34d399);
-  color: white;
-}
-
-.actionButton.completed:hover:not(:disabled) {
-  background: linear-gradient(135deg, #059669, #10b981);
-  transform: translateY(-1px);
-}
-
-.activityRow.expired {
-  border-color: rgba(239, 68, 68, 0.2);
-}
-
-.actionButton.expired {
-  background: linear-gradient(135deg, #ef4444, #f87171);
-  color: white;
-}
-
-.actionButton.expired:hover:not(:disabled) {
-  background: linear-gradient(135deg, #dc2626, #ef4444);
-  transform: translateY(-1px);
-}
-
-.activityRow.pending {
-  opacity: 0.7;
-  border-color: rgba(107, 114, 128, 0.2);
-}
-
-.actionButton.pending {
-  background: #e5e7eb;
-  color: #6b7280;
 }
 
 /* Responsive */

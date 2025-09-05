@@ -2,11 +2,10 @@ interface BaseActivity {
   id: string;
   name: string;
   description: string;
-  dificulty: string;
+  difficulty: string;
   subjectName: string;
   attempts: number;
   remainingAttempts: number;
-  status: "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED";
 }
 export interface ActivityNotApprovedResponseInterface extends BaseActivity {
   startDate: string;
@@ -16,18 +15,20 @@ export interface ActivityNotApprovedResponseInterface extends BaseActivity {
   maxReward: number;
   pending: boolean;
   type: string;
+  status: "CREATED" | "PUBLISHED" | "FINISHED";
 }
 
 export interface ActivityApprovedResponseInterface extends BaseActivity {
   completedAt: string;
   reward: number;
+  state: "APPROVED";
 }
 
 export interface ActivityUI {
   id: string;
   name: string;
   description: string;
-  dificulty: string;
+  difficulty: string;
   subjectName: string;
   status: "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED";
   dateLabel?: string;

@@ -15,7 +15,14 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
   const { getStatusConfig, getRandomIcon, getRandomColor } =
     useActivityStudentUI();
   const statusConfig = getStatusConfig(activity.status);
+  const isDisabled =
+    (activity.status === "CREATED" || activity.noAttempts) &&
+    !(activity.status === "APPROVED");
 
+  const buttonText =
+    activity.noAttempts && !(activity.status === "APPROVED")
+      ? "Sin intentos"
+      : statusConfig.buttonText;
   return (
     <motion.div
       whileHover={{
@@ -116,18 +123,18 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
         {/* Footer */}
         <div className={styles.cardFooter}>
           <div className={styles.difficultyBadge}>
-            <Badge className={`${styles[activity.dificulty]}`}>
-              {activity.dificulty}
+            <Badge className={`${styles[activity.difficulty]}`}>
+              {activity.difficulty}
             </Badge>
           </div>
 
           <Button
             variant={activity.status === "FINISHED" ? "ghost" : "primary"}
             className={styles.actionButton}
-            disabled={activity.status === "CREATED" || activity.noAttempts}
+            disabled={isDisabled}
           >
             <statusConfig.buttonIcon className={styles.buttonIcon} />
-            {activity.noAttempts ? "Sin intentos" : statusConfig.buttonText}
+            {buttonText}
           </Button>
         </div>
 
