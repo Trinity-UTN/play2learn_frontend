@@ -10,12 +10,7 @@ export interface CreateCompletarOracionPayload
 const registerCompletarOracionApi = async (
   data: CreateCompletarOracionPayload
 ): Promise<void> => {
-  try {
-    await api.post(urls.CompletarOracion, data);
-  } catch (error) {
-    console.error("Error al crear la actividad (completar oración):", error);
-    throw error;
-  }
+  await api.post(urls.CompletarOracion, data);
 };
 
 export const CompletarOracionService = {

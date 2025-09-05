@@ -10,15 +10,7 @@ export interface CreateDesafioClasificacionPayload
 const registerDesafioClasificacionApi = async (
   data: CreateDesafioClasificacionPayload
 ): Promise<void> => {
-  try {
-    await api.post(urls.DesafioClasificacion, data);
-  } catch (error) {
-    console.error(
-      "Error al crear la actividad (desafio clasificacion):",
-      error
-    );
-    throw error;
-  }
+  await api.post(urls.DesafioClasificacion, data);
 };
 
 export const DesafioClasificacionService = {

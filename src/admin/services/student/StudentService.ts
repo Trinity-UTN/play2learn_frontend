@@ -1,11 +1,11 @@
-import api from "../../../shared/utils/api";
+import type { CourseResponseDto } from "../course/CourseService";
 import { urls } from "../urls";
 import type {
   GetPaginated,
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
+import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
-import type { CourseResponseDto } from "../course/CourseService";
 
 export interface CreateStudentPayload {
   name: string;
@@ -75,76 +75,39 @@ export interface PaginatedStudentResponse {
 const registerStudentApi = async (
   data: CreateStudentPayload
 ): Promise<void> => {
-  try {
-    await api.post(urls.Students, data);
-  } catch (error) {
-    console.error("Error al crear el estudiante:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.post(urls.Students, data);
 };
 
 const updateStudentApi = async (data: UpdateStudentPayload): Promise<void> => {
-  try {
-    await api.put(`${urls.Students}/${data.id}`, data);
-  } catch (error) {
-    console.error("Error al actualizar el estudiante:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.put(`${urls.Students}/${data.id}`, data);
 };
 
 const getStudentApi = async () => {
-  try {
-    const response = await api.get(urls.Students);
-    return response;
-  } catch (error) {
-    console.error("Error al obtener los estudiantes:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const response = await api.get(urls.Students);
+  return response;
 };
 
 const getStudentByIdApi = async (id: number): Promise<StudentResponseDto> => {
-  try {
-    const response = await api.get(`${urls.Students}/${id}`);
-    return response.data.data;
-  } catch (error) {
-    console.error("Error al obtener el estudiante (por id):", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const response = await api.get(`${urls.Students}/${id}`);
+  return response.data.data;
 };
 
 const getPaginatedStudentApi = async (
   params: GetPaginated
 ): Promise<PaginatedStudentResponse> => {
-  try {
-    const cleanParams = buildCleanPaginatedParams(params);
-
-    const response = await api.get(urls.StudentsPaginated, {
-      params: cleanParams,
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener estudiantes paginados:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  const cleanParams = buildCleanPaginatedParams(params);
+  const response = await api.get(urls.StudentsPaginated, {
+    params: cleanParams,
+  });
+  return response.data;
 };
 
 const deleteStudentApi = async (id: number): Promise<void> => {
-  try {
-    await api.delete(`${urls.Students}/${id}`);
-  } catch (error) {
-    console.error("Error al eliminar el estudiante:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.delete(`${urls.Students}/${id}`);
 };
 
 const restoreStudentApi = async (id: number): Promise<void> => {
-  try {
-    await api.patch(`${urls.StudentsRestore}/${id}`);
-  } catch (error) {
-    console.error("Error al restaurar el estudiante:", error); // TODO: REMOVE_DEBUG
-    throw error;
-  }
+  await api.patch(`${urls.StudentsRestore}/${id}`);
 };
 
 export const StudentService = {

@@ -8,10 +8,11 @@ import type {
   Sentence,
 } from "../../types/CompletarOracion.type";
 import type { ConfigurationActivity } from "../../types/Configuration.type";
+import { makeData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
-import { makeData } from "../../utils/MakeData";
 
 interface CompletarOracionProviderProps {
   children: ReactNode;
@@ -22,6 +23,7 @@ export const CompletarOracionProvider: React.FC<
 > = ({ children }) => {
   const { configurationActivity } = useConfigurationActivity();
   const { showConfirmation } = useConfirmation();
+  const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
@@ -114,8 +116,7 @@ export const CompletarOracionProvider: React.FC<
       await CompletarOracionService.registerCompletarOracionApi(dataMandar);
       resetAllStates();
     } catch (error) {
-      console.error("Error al crear la actividad (completar oración):", error);
-      throw error;
+      handleApiError(error, "Error al crear la actividad");
     } finally {
       setLoading(false);
     }
@@ -155,13 +156,7 @@ export const CompletarOracionProvider: React.FC<
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
-      showToast({
-        title: "Error al crear la actividad",
-        message: "Hubo un error al crear la actividad",
-        type: "error",
-        position: "bottom-right",
-      });
-      console.error("Error al crear la actividad (completar oración):", error);
+      handleApiError(error, "Error al crear la actividad");
     }
   };
 

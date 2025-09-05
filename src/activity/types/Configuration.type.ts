@@ -7,6 +7,7 @@ export interface ConfigurationActivity {
   subjectId: number;
   attempts: number;
   initialBalance: number;
+  typeReward: string;
 }
 
 export type ConfigurationErrors = {
@@ -18,4 +19,5 @@ export type ConfigurationErrors = {
   subjectId?: string;
   attempts?: string;
   initialBalance?: string;
+  typeReward?: string;
 };

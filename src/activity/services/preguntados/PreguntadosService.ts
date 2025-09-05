@@ -10,12 +10,7 @@ export interface CreatePreguntadosPayload
 const registerPreguntadosApi = async (
   data: CreatePreguntadosPayload
 ): Promise<void> => {
-  try {
-    await api.post(urls.Preguntados, data);
-  } catch (error) {
-    console.error("Error al crear la actividad (preguntados):", error);
-    throw error;
-  }
+  await api.post(urls.Preguntados, data);
 };
 
 export const PreguntadosService = {

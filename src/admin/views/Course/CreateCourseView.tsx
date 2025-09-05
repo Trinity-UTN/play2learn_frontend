@@ -1,4 +1,3 @@
-import type React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -8,6 +7,7 @@ import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import { useYear } from "../../hooks/useYear";
 import { useCourse } from "../../hooks/useCourse";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import styles from "./CreateCourseView.module.css";
 
@@ -21,6 +21,7 @@ const CreateCourseView: React.FC = () => {
     getCourseById,
   } = useCourse();
   const { id } = useParams<{ id: string }>();
+  const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
@@ -47,7 +48,7 @@ const CreateCourseView: React.FC = () => {
             year_id: selectedCourse?.year.id || 0,
           });
         } catch (error) {
-          console.error("Error al cargar el curso:", error); // TODO: REMOVE_DEBUG
+          handleApiError(error, "Error al cargar el curso");
           navigate("/dashboard/courses/list");
         }
       };

@@ -1,8 +1,4 @@
 import { useCallback, useState, type ReactNode } from "react";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
 import { YearContext } from "./YearContext";
 import type { YearContextType } from "./YearContext.type";
 import { YearService } from "../../services/Year/YearService";
@@ -11,12 +7,19 @@ import type {
   UpdateYearPayload,
   YearResponseDto,
 } from "../../services/Year/YearService";
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../shared/types/PaginacionType";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
 interface YearProviderProps {
   children: ReactNode;
 }
 
 export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
+  const { handleApiError } = useHandleApiError();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [years, setYears] = useState<YearResponseDto[]>([]);
   const [paginatedYears, setPaginatedYears] =
@@ -30,8 +33,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
     try {
       await YearService.registerYearApi(data);
     } catch (error) {
-      console.error("Error al crear el año:", error);
-      throw error;
+      handleApiError(error, "Error al crear el año");
     } finally {
       setLoading(false);
     }
@@ -42,8 +44,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
     try {
       await YearService.updateYearApi(data);
     } catch (error) {
-      console.error("Error al actualizar el año:", error);
-      throw error;
+      handleApiError(error, "Error al actualizar el año");
     } finally {
       setLoading(false);
     }
@@ -55,21 +56,21 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
       const response = await YearService.getYearApi();
       setYears(response.data.data);
     } catch (error) {
-      console.error("Error al obtener los años:", error); // TODO: REMOVE_DEBUG
-      throw error;
+      handleApiError(error, "Error al obtener los años");
     } finally {
       setLoading(false);
     }
   }, []);
 
-  const getYearById = async (id: number): Promise<YearResponseDto> => {
+  const getYearById = async (
+    id: number
+  ): Promise<YearResponseDto | undefined> => {
     setLoading(true);
     try {
       const yearData = await YearService.getYearByIdApi(id);
       return yearData;
     } catch (error) {
-      console.error("Error al obtener el año:", error);
-      throw error;
+      handleApiError(error, "Error al obtener el año por ID");
     } finally {
       setLoading(false);
     }
@@ -82,8 +83,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
         const response = await YearService.getPaginatedYearApi(params);
         setPaginatedYears(response.data);
       } catch (error) {
-        console.error("Error al obtener los años paginados:", error); // TODO: REMOVE_DEBUG
-        throw error;
+        handleApiError(error, "Error al obtener los años paginados");
       } finally {
         setLoading(false);
       }
@@ -96,11 +96,7 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
     try {
       await YearService.deleteYearApi(id);
     } catch (error) {
-      alert(
-        `El recurso Año con id ${id} no puede ser eliminado porque tiene asociaciones con cursos.`
-      );
-      console.error("Error al eliminar el año:", error);
-      throw error;
+      handleApiError(error, "Error al eliminar el año");
     } finally {
       setLoading(false);
     }
@@ -108,16 +104,16 @@ export const YearProvider: React.FC<YearProviderProps> = ({ children }) => {
 
   const contextValue: YearContextType = {
     loading,
-    setSelectedYear,
+    years,
+    paginatedYears,
+    selectedYear,
     registerYear,
     updateYear,
     getYear,
     getYearById,
     getPaginatedYear,
     deleteYear,
-    years,
-    paginatedYears,
-    selectedYear,
+    setSelectedYear,
   };
 
   return (

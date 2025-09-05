@@ -14,6 +14,7 @@ import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 
 interface ArbolDecisionProviderProps {
@@ -25,6 +26,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
 }) => {
   const { configurationActivity } = useConfigurationActivity();
   const { showConfirmation } = useConfirmation();
+  const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
   const navigate = useNavigate();
 
@@ -115,8 +117,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
       await ArbolDecisionService.registerArbolDecisionApi(dataMandar);
       resetAllStates();
     } catch (error) {
-      console.error("Error al crear la actividad (árbol de decisión):", error);
-      throw error;
+      handleApiError(error, "Error al crear la actividad");
     } finally {
       setLoading(false);
     }
@@ -159,13 +160,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
-      showToast({
-        title: "Error al crear la actividad",
-        message: "Hubo un error al crear la actividad",
-        type: "error",
-        position: "bottom-right",
-      });
-      console.error("Error al crear la actividad (arbol de decision):", error);
+      handleApiError(error, "Error al crear la actividad");
     }
   };
 
