@@ -61,7 +61,10 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
                 variants={itemVariants}
                 transition={{ delay: index * 0.1 }}
               >
-                <ActivityRow activity={activity} />
+                <ActivityRow
+                  activity={activity}
+                  onStart={handleStartActivity}
+                />
               </motion.div>
             ))}
       </FlexBox>
