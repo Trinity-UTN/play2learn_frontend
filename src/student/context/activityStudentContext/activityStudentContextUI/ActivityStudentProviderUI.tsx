@@ -24,19 +24,19 @@ interface ProviderProps {
 export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   children,
 }) => {
-  const [activeFilter, setActiveFilter] = useState<
-    "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED" | "ALL"
-  >("ALL");
-
-  const [selectedSubject, setSelectedSubject] = useState<string>("ALL");
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("ALL");
-
   const {
     getActivityNotApproved,
     activityNotApproved,
     activityApproved,
     getActivityApproved,
   } = useActivityStudent();
+  
+  const [activeFilter, setActiveFilter] = useState<
+    "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED" | "ALL"
+  >("ALL");
+
+  const [selectedSubject, setSelectedSubject] = useState<string>("ALL");
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("ALL");
 
   useEffect(() => {
     if (activityNotApproved.length <= 0) {
