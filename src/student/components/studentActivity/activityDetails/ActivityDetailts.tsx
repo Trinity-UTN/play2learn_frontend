@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { FaColumns, FaList } from "react-icons/fa";
 import type {
   CurrentActivityInterface,
   ActivityUI,
@@ -72,7 +73,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
             onClick={handleViewToggle}
             className={styles.viewToggle}
           >
-            {isHorizontal ? "🔄 Vista vertical" : "🔄 Vista horizontal"}
+            {isHorizontal ? <FaList /> : <FaColumns />}
           </Button>
         </div>
 
