@@ -17,6 +17,8 @@ export const ActivityStudentProvider = ({
 }: {
   children: ReactNode;
 }) => {
+  const { handleApiError } = useHandleApiError();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [activityNotApproved, setActivitiesNotApproved] = useState<
     ActivityNotApprovedResponseInterface[]
@@ -24,7 +26,6 @@ export const ActivityStudentProvider = ({
   const [activityApproved, setActivitiesApproved] = useState<
     ActivityApprovedResponseInterface[]
   >([]);
-  const { handleApiError } = useHandleApiError();
   // useState<PaginatedData<ActivityNotApprovedResponseInterface> | null>(null);
 
   // const getPaginatedActivityNotApproved= useCallback(
