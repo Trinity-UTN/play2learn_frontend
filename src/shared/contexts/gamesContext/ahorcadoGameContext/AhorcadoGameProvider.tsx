@@ -3,7 +3,7 @@ import { AhorcadoGameContext } from "./AhorcadoGameContext";
 import type { AhorcadoGameContextType } from "./AhorcadoGameContext.type";
 import type { AhorcadoConfig } from "../../../../activity/types/Ahorcado.type";
 import { useCreateAhorcado } from "../../../../activity/hooks/useCreateAhorcado";
-// import { useStudentActivity } from "../../hooks/useStudentActivity"
+import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
 
 interface AhorcadoGameProviderProps {
   children: ReactNode;
@@ -17,7 +17,7 @@ export const AhorcadoGameProvider: React.FC<AhorcadoGameProviderProps> = ({
   mode = "preview",
 }) => {
   const { config } = useCreateAhorcado();
-  //const studentActivityContext = useStudentActivity()
+  const { currentActivity } = useActivityStudent();
 
   // Estados del juego
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
@@ -31,12 +31,15 @@ export const AhorcadoGameProvider: React.FC<AhorcadoGameProviderProps> = ({
         word: config.word || "",
         errorsPermited: config.errorsPermited || "TRES",
       });
-      // } else if (mode === "student" && currentActivity) {
-      //   setGameConfig(studentActivityContext.currentActivity.config)
+    } else if (mode === "student" && currentActivity) {
+      setGameConfig({
+        word: currentActivity.word || "",
+        errorsPermited: currentActivity.errorsPermited || "TRES",
+      });
     } else if (propConfig) {
       setGameConfig(propConfig);
     }
-  }, [mode, propConfig, config]);
+  }, [mode, propConfig, config, currentActivity]);
 
   // Estados calculados
   const getMaxErrors = (): number => {

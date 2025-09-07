@@ -1,0 +1,71 @@
+@import "../../../shared/styles/colors.css";
+
+.playActivityView {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--background-primary);
+}
+
+.gameContent {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 0;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--background-primary);
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--background-primary);
+  padding: 2rem;
+  text-align: center;
+}
+
+.errorContainer h2 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.errorContainer p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.backButton {
+  background: var(--accent-primary);
+  color: var(--text-on-accent);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background: var(--accent-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gameContent {
+    padding: 1rem;
+  }
+}

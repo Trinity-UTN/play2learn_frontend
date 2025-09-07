@@ -44,18 +44,18 @@ const AhorcadoGame: React.FC<AhorcadoGameProps> = ({ mode = "student" }) => {
 
   return (
     <motion.div variants={itemVariants} className={containerClass}>
-      <div className={styles.activityHeader}>
-        <div className={styles.activityTitle}>
-          <FaGamepad className={styles.activityIcon} />
-          <h4>
-            {mode === "student" ? "Actividad: Ahorcado" : "Juego del Ahorcado"}
-          </h4>
+      {mode == "preview" && (
+        <div className={styles.activityHeader}>
+          <div className={styles.activityTitle}>
+            <FaGamepad className={styles.activityIcon} />
+            <h4>Juego del Ahorcado</h4>
+          </div>
+          <div className={styles.deliveryType}>
+            <FaHeart />
+            <span>{livesRemaining} vidas restantes</span>
+          </div>
         </div>
-        <div className={styles.deliveryType}>
-          <FaHeart />
-          <span>{livesRemaining} vidas restantes</span>
-        </div>
-      </div>
+      )}
 
       <div className={styles.gameCard}>
         <div className={styles.gameContent}>
