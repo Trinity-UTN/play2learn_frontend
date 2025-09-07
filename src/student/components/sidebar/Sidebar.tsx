@@ -17,6 +17,8 @@ import { StudentRoutes } from "../../routes/routes";
 import { useAuth } from "../../../user/hooks/useAuth";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import styles from "./Sidebar.module.css";
+import { useActivityStudentUI } from "../../hooks/useActivityStudentUI";
+import formatPrice from "../../../shared/utils/formatPrice";
 
 interface StudentSidebarProps {
   currentView: StudentDashboardView;
@@ -33,6 +35,7 @@ interface MenuItem {
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
   const { logout } = useAuth();
   const { currentStudent } = useCurrentStudent();
+  const { availableCount } = useActivityStudentUI();
   const navigate = useNavigate();
   const menuItems: MenuItem[] = [
     {
@@ -47,14 +50,14 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
       icon: FaWallet,
       path: StudentRoutes.Wallet,
       color: "#10B981",
-      badge: String(currentStudent?.wallet.balance) ?? "0",
+      badge: formatPrice(currentStudent?.wallet.balance) ?? "0",
     },
     {
       title: "Mis Actividades",
       icon: FaGamepad,
       path: StudentRoutes.Activities.list,
       color: "#8B5CF6",
-      badge: 3,
+      badge: availableCount,
     },
     {
       title: "Mis Beneficios",

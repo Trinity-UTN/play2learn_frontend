@@ -8,6 +8,8 @@ import StudentDashboard from "../student/pages/dashboard/Dashboard";
 //PROVIDERS
 import { CurrentStudentProvider } from "../student/context/currentStudent/CurrentStudentProvider";
 import { ProfileAvatarProvider } from "../student/context/profileAvatarContext/ProfileAvatarProvider";
+import { ActivityStudentProvider } from "../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
+import { ActivityStudentProviderUI } from "../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentBenefitsView from "../student/views/studentBenefitsView/StudentBenefitsView";
@@ -37,15 +39,19 @@ const StudentApp = () => {
               <ProtectedRoute allowedRoles={["ROLE_STUDENT"]}>
                 <CurrentStudentProvider>
                   <ProfileAvatarProvider>
-                    <motion.div
-                      key="dashboardStudent"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <StudentDashboard />
-                    </motion.div>
+                    <ActivityStudentProvider>
+                      <ActivityStudentProviderUI>
+                        <motion.div
+                          key="dashboardStudent"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <StudentDashboard />
+                        </motion.div>
+                      </ActivityStudentProviderUI>
+                    </ActivityStudentProvider>
                   </ProfileAvatarProvider>
                 </CurrentStudentProvider>
               </ProtectedRoute>

@@ -1,0 +1,139 @@
+@import "../../../../shared/styles/colors.css";
+.filtersContainer {
+  margin-bottom: 2rem;
+}
+
+.filtersCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.5rem;
+}
+
+.filtersHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.headerIcon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--color-stat-4), var(--color-stat-1));
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.filtersTitle {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.filterSection {
+  margin-bottom: 1.5rem;
+}
+
+.filterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.filterButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  color: var(--color-text-light);
+}
+
+.filterButton:hover {
+  background-color: transparent !important;
+  border: 2px solid var(--color-secondary);
+}
+.filterButton.active {
+  background: linear-gradient(135deg, var(--color-stat-4), var(--color-stat-1));
+  color: var(--color-text-light);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+.filterEmoji {
+  font-size: 1rem;
+}
+
+.selectFilters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.selectGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.selectLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.selectIcon {
+  font-size: 0.8rem;
+  color: var(--color-stat-2);
+}
+
+.select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: white;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.select option {
+  background: #1f2937;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .filtersCard {
+    padding: 1rem;
+  }
+
+  .filterButtons {
+    justify-content: center;
+  }
+
+  .filterButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .selectFilters {
+    grid-template-columns: 1fr;
+  }
+}
