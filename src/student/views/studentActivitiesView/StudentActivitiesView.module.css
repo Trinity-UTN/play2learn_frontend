@@ -1,3 +1,12 @@
+.activitiesView {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 .activities {
   max-width: 1200px;
   margin: 0 auto;
@@ -269,6 +278,11 @@
 }
 
 @media (max-width: 768px) {
+  .activitiesView {
+    padding: 0 0.5rem;
+    gap: 1.5rem;
+  }
+
   .title {
     font-size: 2rem;
   }

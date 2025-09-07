@@ -42,6 +42,7 @@ const ConfigureActivityView: React.FC = () => {
     subjectId: 0,
     attempts: 1,
     initialBalance: 0,
+    typeReward: "",
   });
 
   const { code_game } = useParams();
@@ -92,6 +93,11 @@ const ConfigureActivityView: React.FC = () => {
       color: "#EF4444",
       icon: "🔴",
     },
+  ];
+
+  const typeRewardOptions = [
+    { value: "EQUITATIVO", label: "Equitativo" },
+    { value: "POISSON", label: "Poisson" },
   ];
 
   const handleInputChange = (
@@ -172,6 +178,10 @@ const ConfigureActivityView: React.FC = () => {
         "El balance inicial no puede ser mayor al 30% del balance actual de la materia";
     }
 
+    if (!configuration.typeReward) {
+      newErrors.typeReward = "Debe seleccionar una estrategia de distribución";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -217,6 +227,17 @@ const ConfigureActivityView: React.FC = () => {
         staggerChildren: 0.1,
       },
     },
+  };
+
+  const getDistributionDescription = (value: string) => {
+    switch (value) {
+      case "EQUITATIVO":
+        return "Distribuye el total de monedas de forma equitativa entre todos los alumnos.";
+      case "POISSON":
+        return "Usa una distribución de Poisson para asignar las monedas según el orden de aprobación.";
+      default:
+        return "";
+    }
   };
 
   const itemVariants = {
@@ -592,6 +613,44 @@ const ConfigureActivityView: React.FC = () => {
                             <span className={styles.dcUnit}>monedas</span>
                           </div>
                         </div>
+                        <div className={styles.inputGroup}>
+                          <label className={styles.label}>
+                            Estrategia de Distribución *
+                            <span className={styles.labelHint}>
+                              Selecciona cómo se distribuirán las monedas entre
+                              los alumnos
+                            </span>
+                          </label>
+                          <select
+                            value={configuration.typeReward}
+                            onChange={(e) =>
+                              handleInputChange("typeReward", e.target.value)
+                            }
+                            className={`${styles.select} ${
+                              errors.typeReward ? styles.inputError : ""
+                            }`}
+                          >
+                            <option value="">Seleccionar estrategia...</option>
+                            {typeRewardOptions.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                          {configuration.typeReward && (
+                            <p className={styles.labelHint}>
+                              {getDistributionDescription(
+                                configuration.typeReward
+                              )}
+                            </p>
+                          )}
+                          {errors.typeReward && (
+                            <span className={styles.errorMessage}>
+                              <FaExclamationTriangle />
+                              {errors.typeReward}
+                            </span>
+                          )}
+                        </div>
                       </>
                     )}
                   </div>
@@ -686,6 +745,22 @@ const ConfigureActivityView: React.FC = () => {
                     <div>
                       <h4>Materia</h4>
                       <p>{getSelectedSubject()?.name || "Sin asignar"}</p>
+                    </div>
+                  </div>
+                  <div className={styles.previewItem}>
+                    <FaCoins className={styles.previewIcon} />
+                    <div>
+                      <h4>Balance Inicial</h4>
+                      <p>
+                        {configuration.initialBalance || "Sin asignar"} monedas
+                      </p>
+                    </div>
+                  </div>
+                  <div className={styles.previewItem}>
+                    <FaCoins className={styles.previewIcon} />
+                    <div>
+                      <h4>Estrategia de Distribución</h4>
+                      <p>{configuration.typeReward || "Sin asignar"}</p>
                     </div>
                   </div>
                 </div>
