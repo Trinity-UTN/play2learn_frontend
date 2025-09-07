@@ -112,6 +112,9 @@
   font-size: 0.8rem;
   font-weight: 500;
 }
+.subject {
+  background-color: var(--color-secondary);
+}
 
 .FACIL {
   background-color: var(--color-stat-3);

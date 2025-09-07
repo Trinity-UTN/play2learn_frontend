@@ -30,7 +30,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     activityApproved,
     getActivityApproved,
   } = useActivityStudent();
-  
+
   const [activeFilter, setActiveFilter] = useState<
     "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED" | "ALL"
   >("ALL");
@@ -148,8 +148,6 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
       case "FINISHED":
         return {
           icon: FiXCircle,
-          color: "#b91810ff",
-          bgColor: "#D1FAE5",
           label: "Vencida",
           buttonText: "Vencida",
           buttonIcon: FiX,
@@ -157,8 +155,6 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
       case "CREATED":
         return {
           icon: FaClock,
-          color: "#F59E0B",
-          bgColor: "#FEF3C7",
           label: "Pronto",
           buttonText: "Proximamente",
           buttonIcon: FaPlay,
@@ -166,8 +162,6 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
       case "PUBLISHED":
         return {
           icon: FaStar,
-          color: "#8B5CF6",
-          bgColor: "#EDE9FE",
           label: "Disponible",
           buttonText: "Comenzar",
           buttonIcon: FaPlay,
@@ -175,8 +169,6 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
       case "APPROVED":
         return {
           icon: FaStar,
-          color: "#8B5CF6",
-          bgColor: "#EDE9FE",
           label: "Aprobada",
           buttonText: "Ver Resultados",
           buttonIcon: FaPlay,

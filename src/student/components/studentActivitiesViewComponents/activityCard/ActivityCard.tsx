@@ -12,8 +12,7 @@ interface ActivityCardProps {
 }
 
 const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
-  const { getStatusConfig, getRandomIcon, getRandomColor } =
-    useActivityStudentUI();
+  const { getStatusConfig, getRandomIcon } = useActivityStudentUI();
   const statusConfig = getStatusConfig(activity.status);
   const isDisabled =
     (activity.status === "CREATED" || activity.noAttempts) &&
@@ -38,7 +37,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
           <div
             className={styles.activityIcon}
             style={{
-              backgroundColor: getRandomColor(),
+              // backgroundColor: getRandomColor(),
               color: "white",
             }}
           >

@@ -15,8 +15,7 @@ interface ActivityRowProps {
 }
 
 const ActivityRow: React.FC<ActivityRowProps> = ({ activity }) => {
-  const { getRandomColor, getRandomIcon, getStatusConfig } =
-    useActivityStudentUI();
+  const { getRandomIcon, getStatusConfig } = useActivityStudentUI();
 
   const statusConfig = getStatusConfig(activity.status);
   const isDisabled =
@@ -47,12 +46,7 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity }) => {
                 {activity.description}
               </h3>
               <div className={styles.metadata}>
-                <span
-                  className={styles.subject}
-                  style={{ backgroundColor: getRandomColor() }}
-                >
-                  {activity.subjectName}
-                </span>
+                <span className={styles.subject}>{activity.subjectName}</span>
                 <Badge
                   className={`${styles[activity.difficulty]} ${
                     styles.infoTextDifficultyInfo
