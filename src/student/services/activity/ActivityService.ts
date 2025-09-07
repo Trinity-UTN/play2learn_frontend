@@ -11,7 +11,13 @@ const getActivityApprovedApi = async () => {
   return response.data;
 };
 
+const getActivityByIdApi = async (id: number) => {
+  const response = await api.get(`${urls.ActivityById}/${id}`);
+  return response.data;
+};
+
 export const ActivityStudentService = {
   getActivityNotApprovedApi,
   getActivityApprovedApi,
+  getActivityByIdApi,
 };
