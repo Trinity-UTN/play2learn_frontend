@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import type { ActivityUI } from "../../../types/Activity.type";
 import ActivityCard from "../activityCard/ActivityCard";
 import ActivityRow from "../activityRow/ActivityRow";
 import FlexBox from "../../../../shared/components/FlexBox/FlexBox";
 import { useLayout } from "../../../../shared/hooks/useLayout";
+import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
 import styles from "./ActivityGrid.module.css";
 
 interface ActivityGridProps {
@@ -12,9 +14,17 @@ interface ActivityGridProps {
 
 const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
   const { isRow, toggleLayout } = useLayout();
+  const { getActivityById } = useActivityStudent();
+  const navigate = useNavigate();
+
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
+  };
+
+  const handleStartActivity = async (activityId: string) => {
+    await getActivityById(Number(activityId));
+    navigate(`/dashboard/student/actividades/${activityId}/view`);
   };
 
   if (activities.length === 0) {
@@ -39,7 +49,10 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
                 variants={itemVariants}
                 transition={{ delay: index * 0.1 }}
               >
-                <ActivityCard activity={activity} />
+                <ActivityCard
+                  activity={activity}
+                  onStart={handleStartActivity}
+                />
               </motion.div>
             ))
           : activities.map((activity, index) => (
