@@ -1,6 +1,6 @@
 import { FaSave } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
-import styles from "./ActionButtons.module.css";
+import styles from "./Actionbuttons.module.css";
 
 interface ActionButtonsPopupProps {
   loading: boolean;
