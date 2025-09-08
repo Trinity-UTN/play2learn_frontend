@@ -40,8 +40,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     errorsPermited: "TRES",
   });
   const [errors, setErrors] = useState<string[]>([]);
-  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
-  const [currentGuess, setCurrentGuess] = useState("");
 
   useEffect(() => {
     if (currentStep === "preview") {
@@ -61,8 +59,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
       errorsPermited: "TRES",
     });
     setErrors([]);
-    setGuessedLetters([]);
-    setCurrentGuess("");
   };
 
   const isFormValid = errors.length === 0 && config.word.trim().length > 0;
@@ -112,8 +108,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     setConfig(newConfig);
     setCurrentStep("preview");
     setErrors([]);
-    setGuessedLetters([]);
-    setCurrentGuess("");
   };
 
   const handleSubmit = async () => {
@@ -222,32 +216,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
   };
 
   // Funciones específicas de ahorcado
-  const renderHangman = (errors: number) => {
-    const parts = [
-      "  +---+",
-      "  |   |",
-      errors >= 1 ? "  O   |" : "      |",
-      errors >= 3 ? " /|\\  |" : errors >= 2 ? " /|   |" : "      |",
-      errors >= 5 ? " / \\  |" : errors >= 4 ? " /    |" : "      |",
-      "      |",
-      "=========",
-    ];
-    return parts.join("\n");
-  };
-
-  const renderWordDisplay = (letters?: string[]) => {
-    if (!config.word) return "_ _ _ _ _";
-
-    const lettersToUse = letters || guessedLetters;
-
-    return config.word
-      .split("")
-      .map((letter) =>
-        lettersToUse.includes(letter.toLowerCase()) ? letter : "_"
-      )
-      .join(" ");
-  };
-
   const getDifficultyOptions = () => [
     {
       value: "CINCO",
@@ -265,16 +233,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     },
   ];
 
-  const setGuessedLettersState = (
-    letters: string[] | ((prev: string[]) => string[])
-  ) => {
-    setGuessedLetters(letters);
-  };
-
-  const setCurrentGuessState = (guess: string) => {
-    setCurrentGuess(guess);
-  };
-
   const contextValue: AhorcadoContextType = {
     // Estados principales
     loading,
@@ -282,8 +240,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     config,
     errors,
     isFormValid,
-    guessedLetters,
-    currentGuess,
     wordSuggestions,
 
     // Funciones principales
@@ -304,10 +260,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
 
     // Funciones específicas de ahorcado
     getDifficultyOptions,
-    renderHangman,
-    renderWordDisplay,
-    setGuessedLettersState,
-    setCurrentGuessState,
   };
 
   return (

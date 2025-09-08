@@ -10,8 +10,6 @@ export interface AhorcadoContextType {
   config: AhorcadoConfig;
   errors: string[];
   isFormValid: boolean;
-  guessedLetters: string[];
-  currentGuess: string;
   wordSuggestions: string[];
 
   // Funciones principales
@@ -31,16 +29,10 @@ export interface AhorcadoContextType {
   getStepDescription: () => string;
 
   // Funciones específicas de ahorcado
-  renderHangman: (errors: number) => string;
-  renderWordDisplay: (letters?: string[]) => string;
   getDifficultyOptions: () => Array<{
     value: string;
     label: string;
     description: string;
     errors: string;
   }>;
-  setGuessedLettersState: (
-    letters: string[] | ((prev: string[]) => string[])
-  ) => void;
-  setCurrentGuessState: (guess: string) => void;
 }

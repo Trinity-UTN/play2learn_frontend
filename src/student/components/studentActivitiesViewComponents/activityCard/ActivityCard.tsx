@@ -4,24 +4,32 @@ import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
 import type { ActivityUI } from "../../../types/Activity.type";
-import styles from "./ActivityCard.module.css";
 import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
+import styles from "./ActivityCard.module.css";
 
 interface ActivityCardProps {
   activity: ActivityUI;
+  onStart?: (activityId: string) => void;
 }
 
-const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
+const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
   const { getStatusConfig, getRandomIcon } = useActivityStudentUI();
+
   const statusConfig = getStatusConfig(activity.status);
   const isDisabled =
     (activity.status === "CREATED" || activity.noAttempts) &&
     !(activity.status === "APPROVED");
-
   const buttonText =
     activity.noAttempts && !(activity.status === "APPROVED")
       ? "Sin intentos"
       : statusConfig.buttonText;
+
+  const handleActionButton = async () => {
+    if (activity.status === "PUBLISHED" && !activity.noAttempts && onStart) {
+      onStart(activity.id);
+    }
+  };
+
   return (
     <motion.div
       whileHover={{
@@ -131,6 +139,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => {
             variant={activity.status === "FINISHED" ? "ghost" : "primary"}
             className={styles.actionButton}
             disabled={isDisabled}
+            onClick={handleActionButton}
           >
             <statusConfig.buttonIcon className={styles.buttonIcon} />
             {buttonText}

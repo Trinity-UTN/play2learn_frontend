@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import styles from "./ActivityRow.module.css";
-import type { ActivityUI } from "../../../types/Activity.type";
-import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
 import { FaCalendarAlt, FaRedo, FaStopwatch, FaCoins } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
 import formatPrice from "../../../../shared/utils/formatPrice";
+import type { ActivityUI } from "../../../types/Activity.type";
+import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
+import styles from "./ActivityRow.module.css";
 
 interface ActivityRowProps {
   activity: ActivityUI;
@@ -14,7 +14,7 @@ interface ActivityRowProps {
   onViewResults?: (activityId: string) => void;
 }
 
-const ActivityRow: React.FC<ActivityRowProps> = ({ activity }) => {
+const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
   const { getRandomIcon, getStatusConfig } = useActivityStudentUI();
 
   const statusConfig = getStatusConfig(activity.status);
@@ -26,6 +26,12 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity }) => {
     activity.noAttempts && !(activity.status === "APPROVED")
       ? "Sin intentos"
       : statusConfig.buttonText;
+
+  const handleActionButton = async () => {
+    if (activity.status === "PUBLISHED" && !activity.noAttempts && onStart) {
+      onStart(activity.id);
+    }
+  };
 
   return (
     <motion.div
@@ -102,11 +108,13 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity }) => {
           variant={activity.status === "FINISHED" ? "ghost" : "primary"}
           className={styles.actionButton}
           disabled={isDisabled}
+          onClick={handleActionButton}
         >
           <statusConfig.buttonIcon className={styles.buttonIcon} />
           {buttonText}
         </Button>
       </div>
+
       {/* Puntuación (si está completada) */}
       {activity.status === "APPROVED" && activity.reward !== undefined && (
         <div className={styles.scoreSection}>

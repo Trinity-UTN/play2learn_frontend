@@ -35,7 +35,7 @@ export function mapActivityToUI(
     reward: isNotApproved ? undefined : `${activity.reward} pts`,
 
     attemptsLabel: `${activity.remainingAttempts} / ${activity.attempts} intentos`,
-    noAttempts: activity.remainingAttempts === activity.attempts,
+    noAttempts: activity.remainingAttempts === 0,
     dueDateLabel:
       isNotApproved && activity.status === "PUBLISHED"
         ? `Vence ${getDaysUntilDue(activity.endDate)}`

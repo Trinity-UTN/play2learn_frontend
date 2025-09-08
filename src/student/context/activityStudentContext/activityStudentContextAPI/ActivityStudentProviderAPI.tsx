@@ -4,6 +4,7 @@ import type { ActivityStudentContextType } from "./ActivityStudentContextAPI.typ
 import type {
   ActivityNotApprovedResponseInterface,
   ActivityApprovedResponseInterface,
+  CurrentActivityInterface,
 } from "../../../types/Activity.type";
 import { ActivityStudentService } from "../../../services/activity/ActivityService";
 import { useHandleApiError } from "../../../../shared/hooks/useHandleApiError";
@@ -26,6 +27,8 @@ export const ActivityStudentProvider = ({
   const [activityApproved, setActivitiesApproved] = useState<
     ActivityApprovedResponseInterface[]
   >([]);
+  const [currentActivity, setCurrentActivity] =
+    useState<CurrentActivityInterface | null>(null);
   // useState<PaginatedData<ActivityNotApprovedResponseInterface> | null>(null);
 
   // const getPaginatedActivityNotApproved= useCallback(
@@ -75,12 +78,27 @@ export const ActivityStudentProvider = ({
     }
   }, []);
 
+  const getActivityById = useCallback(async (id: number): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await ActivityStudentService.getActivityByIdApi(id);
+      setCurrentActivity(response.data);
+      console.log(response.data);
+    } catch (error) {
+      handleApiError(error, "Error al obtener la actividad");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const contextValue: ActivityStudentContextType = {
-    activityNotApproved,
-    getActivityNotApproved,
     loading,
+    activityNotApproved,
     activityApproved,
+    currentActivity,
+    getActivityNotApproved,
     getActivityApproved,
+    getActivityById,
   };
 
   return (

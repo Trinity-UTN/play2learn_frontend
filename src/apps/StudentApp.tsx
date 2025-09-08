@@ -10,8 +10,13 @@ import { CurrentStudentProvider } from "../student/context/currentStudent/Curren
 import { ProfileAvatarProvider } from "../student/context/profileAvatarContext/ProfileAvatarProvider";
 import { ActivityStudentProvider } from "../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
 import { ActivityStudentProviderUI } from "../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
+import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
+import { AhorcadoGameProvider } from "../shared/contexts/gamesContext/ahorcadoGameContext/AhorcadoGameProvider";
+import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
+import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
+import StudentPlayActivityView from "../student/views/studentPlayActivityView/StudentPlayActivityView";
 import StudentBenefitsView from "../student/views/studentBenefitsView/StudentBenefitsView";
 import StudentOverviewView from "../student/views/studentOverviewView/StudentOverviewView";
 import StudentProfileAvatarView from "../student/views/studentProfileAvatarView/StudentProfileAvatarView";
@@ -41,15 +46,21 @@ const StudentApp = () => {
                   <ProfileAvatarProvider>
                     <ActivityStudentProvider>
                       <ActivityStudentProviderUI>
-                        <motion.div
-                          key="dashboardStudent"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <StudentDashboard />
-                        </motion.div>
+                        <ConfigurationActivityProvider>
+                          <AhorcadoProvider>
+                            <AhorcadoGameProvider mode="student">
+                              <motion.div
+                                key="dashboardStudent"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                              >
+                                <StudentDashboard />
+                              </motion.div>
+                            </AhorcadoGameProvider>
+                          </AhorcadoProvider>
+                        </ConfigurationActivityProvider>
                       </ActivityStudentProviderUI>
                     </ActivityStudentProvider>
                   </ProfileAvatarProvider>
@@ -70,6 +81,14 @@ const StudentApp = () => {
             <Route
               path="actividades/list"
               element={<StudentActivitiesView />}
+            />
+            <Route
+              path="actividades/:id/view"
+              element={<StudentActivityView />}
+            />
+            <Route
+              path="actividades/:id/play"
+              element={<StudentPlayActivityView />}
             />
             {/* BENEFICIOS */}
             <Route path="beneficios/list" element={<StudentBenefitsView />} />
