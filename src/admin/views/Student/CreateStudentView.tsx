@@ -29,6 +29,8 @@ const CreateStudentView: React.FC = () => {
     email: "",
     year_id: 0,
     course_id: 0,
+    emailTutor: "",
+    birthdate: "",
   });
 
   const isEditMode = Boolean(id);
@@ -50,6 +52,8 @@ const CreateStudentView: React.FC = () => {
             email: selectedStudent?.user.email || "",
             year_id: selectedStudent?.course.year.id || 0,
             course_id: selectedStudent?.course.id || 0,
+            emailTutor: selectedStudent?.emailTutor || "",
+            birthdate: selectedStudent?.birthdate || "",
           });
         } catch (error) {
           handleApiError(error, "Error al cargar el estudiante");
@@ -72,6 +76,8 @@ const CreateStudentView: React.FC = () => {
       email: "",
       year_id: 0,
       course_id: 0,
+      emailTutor: "",
+      birthdate: "",
     });
   };
 
@@ -83,6 +89,8 @@ const CreateStudentView: React.FC = () => {
       dni: formData.dni.trim(),
       email: formData.email.trim(),
       course_id: formData.course_id,
+      emailTutor: formData.emailTutor.trim(),
+      birthdate: formData.birthdate.trim(),
     };
     try {
       if (isEditMode && id) {
@@ -160,6 +168,7 @@ const CreateStudentView: React.FC = () => {
                 value={formData.name}
                 onChange={(e) => handleChange("name", e.target.value)}
                 required
+                max={50}
               />
             </div>
             <div className={styles.inputGroup}>
@@ -169,6 +178,7 @@ const CreateStudentView: React.FC = () => {
                 value={formData.lastname}
                 onChange={(e) => handleChange("lastname", e.target.value)}
                 required
+                max={50}
               />
             </div>
           </div>
@@ -181,16 +191,40 @@ const CreateStudentView: React.FC = () => {
                 value={formData.dni}
                 onChange={(e) => handleChange("dni", e.target.value)}
                 required
+                max={8}
               />
             </div>
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Correo Electrónico *</label>
+              <label className={styles.label}>Fecha de nacimiento</label>
+              <Input
+                type="date"
+                placeholder="Fecha de nacimiento del estudiante"
+                value={formData.birthdate}
+                onChange={(e) => handleChange("birthdate", e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className={styles.formGrid}>
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>
+                Correo Electrónico (estudiante) *
+              </label>
               <Input
                 type="email"
                 placeholder="Dirección de email del estudiante"
                 value={formData.email}
                 onChange={(e) => handleChange("email", e.target.value)}
                 required
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>Correo Electrónico (tutor)</label>
+              <Input
+                type="email"
+                placeholder="Dirección de email del tutor del estudiante"
+                value={formData.emailTutor}
+                onChange={(e) => handleChange("emailTutor", e.target.value)}
               />
             </div>
           </div>
