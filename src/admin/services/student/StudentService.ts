@@ -13,6 +13,8 @@ export interface CreateStudentPayload {
   dni: string;
   email: string;
   course_id: number;
+  emailTutor: string;
+  birthdate: string;
 }
 
 export interface UpdateStudentPayload {
@@ -22,6 +24,8 @@ export interface UpdateStudentPayload {
   dni: string;
   email: string;
   course_id: number;
+  emailTutor: string;
+  birthdate: string;
 }
 
 // Despues ver si esta interface es comun en otros response y sacarla de aca
@@ -58,6 +62,8 @@ export interface StudentResponseDto {
   name: string;
   lastname: string;
   dni: string;
+  birthdate: string;
+  emailTutor: string;
   user: User;
   course: CourseResponseDto;
   active: boolean;
@@ -119,5 +125,3 @@ export const StudentService = {
   getStudentByIdApi,
   restoreStudentApi,
 };
-
-//Cambio de nombre de carpeta
