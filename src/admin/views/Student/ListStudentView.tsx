@@ -129,7 +129,7 @@ const ListStudentView: React.FC = () => {
       sortable: true,
       className: styles.nameColumn,
       render: (student) => (
-        <div className={styles.nameWrapper}>
+        <div className={styles.wrapper}>
           <span>{student.name}</span>
         </div>
       ),
@@ -140,7 +140,7 @@ const ListStudentView: React.FC = () => {
       sortable: true,
       className: styles.nameColumn,
       render: (student) => (
-        <div className={styles.nameWrapper}>
+        <div className={styles.wrapper}>
           <span>{student.lastname}</span>
         </div>
       ),
@@ -151,19 +151,41 @@ const ListStudentView: React.FC = () => {
       sortable: true,
       className: styles.nameColumn,
       render: (student) => (
-        <div className={styles.nameWrapper}>
+        <div className={styles.centeredWrapper}>
           <span>{student.dni}</span>
         </div>
       ),
     },
     {
-      key: "user",
-      label: "Email",
+      key: "birthdate",
+      label: "Fecha de nacimiento",
       sortable: true,
       className: styles.nameColumn,
       render: (student) => (
-        <div className={styles.nameWrapper}>
+        <div className={styles.centeredWrapper}>
+          <span>{student.birthdate || "Sin asignar"}</span>
+        </div>
+      ),
+    },
+    {
+      key: "user",
+      label: "Email de Estudiante",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (student) => (
+        <div className={styles.wrapper}>
           <span>{student.user.email}</span>
+        </div>
+      ),
+    },
+    {
+      key: "emailTutor",
+      label: "Email de Tutor",
+      sortable: true,
+      className: styles.nameColumn,
+      render: (student) => (
+        <div className={styles.wrapper}>
+          <span>{student.emailTutor || "Sin asignar"}</span>
         </div>
       ),
     },
@@ -173,7 +195,7 @@ const ListStudentView: React.FC = () => {
       sortable: true,
       className: styles.nameColumn,
       render: (student) => (
-        <div className={styles.nameWrapper}>
+        <div className={styles.wrapper}>
           <span>
             {student.course.year.name} "{student.course.name}"
           </span>
@@ -186,7 +208,7 @@ const ListStudentView: React.FC = () => {
       sortable: true,
       className: styles.nameColumn,
       render: (student) => (
-        <div className={styles.nameWrapper}>
+        <div className={styles.wrapper}>
           {student.active ? (
             <BtnStatusTrue />
           ) : (
