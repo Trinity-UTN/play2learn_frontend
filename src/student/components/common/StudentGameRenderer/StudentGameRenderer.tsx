@@ -1,7 +1,6 @@
 import type { CurrentActivityInterface } from "../../../types/Activity.type";
 import AhorcadoGame from "../../../../shared/components/Games/Ahorcado/AhorcadoGame";
 import styles from "./StudentGameRenderer.module.css";
-
 interface GameRendererProps {
   currentActivity: CurrentActivityInterface | null;
 }

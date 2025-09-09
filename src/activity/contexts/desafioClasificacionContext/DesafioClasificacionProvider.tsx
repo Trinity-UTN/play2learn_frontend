@@ -63,16 +63,10 @@ export const DesafioClasificacionProvider: React.FC<
     data: CreateClassification
   ): Promise<void> => {
     setLoading(true);
-
-    // console.log("=== DESAFIO CLASIFICACION DEBUG ===");
-    // console.log("Datos del juego recibidos:", data);
-    // console.log("Configuración de actividad:", configurationActivity);
     const dataMandar = makeData(
       data,
       configurationActivity as ConfigurationActivity
     );
-    // console.log("Payload final a enviar:", dataMandar);
-    // console.log("=== FIN DEBUG ===");
 
     try {
       await DesafioClasificacionService.registerDesafioClasificacionApi(
@@ -80,6 +74,7 @@ export const DesafioClasificacionProvider: React.FC<
       );
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      console.log(error);
     } finally {
       setLoading(false);
     }
