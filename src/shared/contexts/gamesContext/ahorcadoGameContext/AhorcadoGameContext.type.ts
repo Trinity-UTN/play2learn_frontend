@@ -1,6 +1,7 @@
 import type { AhorcadoConfig } from "../../../../activity/types/Ahorcado.type";
+import type { GameHook } from "../../../types/Games.type";
 
-export interface AhorcadoGameContextType {
+export interface AhorcadoGameContextType extends GameHook {
   // Estados del juego
   gameConfig: AhorcadoConfig | null;
   guessedLetters: string[];

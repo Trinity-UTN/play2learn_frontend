@@ -7,6 +7,8 @@ import type {
   CurrentActivityInterface,
 } from "../../../types/Activity.type";
 import { ActivityStudentService } from "../../../services/activity/ActivityService";
+import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
+import { createGameConfig } from "../../../../shared/registry/games/gameConfigFactory";
 import { useHandleApiError } from "../../../../shared/hooks/useHandleApiError";
 // import type {
 //   GetPaginated,
@@ -82,8 +84,20 @@ export const ActivityStudentProvider = ({
     setLoading(true);
     try {
       const response = await ActivityStudentService.getActivityByIdApi(id);
-      setCurrentActivity(response.data);
-      console.log(response.data);
+      const data = response.data;
+
+      const gameType = getGameTypeFromActivityName(data.name);
+      if (!gameType) {
+        throw new Error(`Tipo de juego desconocido para: "${data.name}"`);
+      }
+
+      const transformedActivity: CurrentActivityInterface = {
+        ...data,
+        gameConfig: createGameConfig(gameType, data),
+      };
+
+      setCurrentActivity(transformedActivity);
+      //console.log(response.data);
     } catch (error) {
       handleApiError(error, "Error al obtener la actividad");
     } finally {
