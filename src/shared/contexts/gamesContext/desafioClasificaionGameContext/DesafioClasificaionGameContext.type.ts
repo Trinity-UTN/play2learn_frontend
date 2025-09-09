@@ -15,6 +15,9 @@ export interface DesafioClasificacionGameContextType {
   totalCategories: number;
   totalConcepts: number;
 
+  isGameWon: boolean;
+  isGameLost: boolean;
+
   // Métodos
   startGame: () => void;
   resetGame: () => void;

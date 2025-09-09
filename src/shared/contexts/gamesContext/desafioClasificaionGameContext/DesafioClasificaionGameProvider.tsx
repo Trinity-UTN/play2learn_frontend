@@ -1,19 +1,32 @@
 import { DesafioGameContext } from "./DesafioClasificaionContext";
 import { useCreateDesafioClasificacion } from "../../../../activity/hooks/useCreateDesafioClasificacion";
 import type { DesafioClasificacionGameContextType } from "./DesafioClasificaionGameContext.type";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
+import type {
+  ClassificationCategory,
+  DesafioClasificacionConfig,
+} from "../../../../activity/types/DesafioClasificacion.type";
 
-export const DesafioClasificacionGameProvider: React.FC<{
-  children: React.ReactNode;
-}> = ({ children }) => {
+interface DesafioClasificacionGameProviderProps {
+  children: ReactNode;
+  config?: DesafioClasificacionConfig;
+  mode?: "preview" | "student";
+}
+export const DesafioClasificacionGameProvider: React.FC<
+  DesafioClasificacionGameProviderProps
+> = ({ children, config: propConfig, mode = "preview" }) => {
   const { config, getAllConcepts } = useCreateDesafioClasificacion();
   const { currentActivity } = useActivityStudent();
+  const [gameConfig, setGameConfig] =
+    useState<DesafioClasificacionConfig | null>(null);
 
   useEffect(() => {
-    console.log("current", currentActivity);
-    console.log("config", config);
-  }, [currentActivity]);
+    setGameConfig({
+      categories: currentActivity?.gameConfig.categories,
+    });
+    if (gameConfig) setAvailableConcepts(gameConfig.categories);
+  }, [currentActivity, propConfig]);
 
   // Todos los useState que definiste
   const [gameStarted, setGameStarted] = useState(false);
@@ -21,11 +34,16 @@ export const DesafioClasificacionGameProvider: React.FC<{
   const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
     "playing"
   );
+
   const [draggedConcept, setDraggedConcept] = useState<string | null>(null);
   const [conceptsInCategories, setConceptsInCategories] = useState<{
     [key: string]: string[];
   }>({});
-  const [availableConcepts, setAvailableConcepts] = useState<string[]>([]);
+
+  const [availableConcepts, setAvailableConcepts] = useState<
+    ClassificationCategory[]
+  >([]);
+
   const [verificationResults, setVerificationResults] = useState<{
     correct: { concept: string; category: string }[];
     incorrect: { concept: string; placedIn: string; shouldBe: string }[];
@@ -164,6 +182,10 @@ export const DesafioClasificacionGameProvider: React.FC<{
     setDraggedConcept(null);
   };
 
+  const isGameWon = false;
+
+  const isGameLost = true;
+
   const value: DesafioClasificacionGameContextType = {
     gameStarted,
     score,
@@ -174,6 +196,8 @@ export const DesafioClasificacionGameProvider: React.FC<{
     verificationResults,
     totalCategories,
     totalConcepts,
+    isGameLost,
+    isGameWon,
     startGame,
     resetGame,
     verifyAnswers,

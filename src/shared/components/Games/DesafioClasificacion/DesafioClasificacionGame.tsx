@@ -1,6 +1,6 @@
 import styles from "./DesafioClasificacionGame.module.css";
 import { FaCheck, FaTrophy, FaExclamationTriangle } from "react-icons/fa";
-import { useDesafioGame } from "../../../hooks/games/useClasificacionGame";
+import { useClasificaionGame } from "../../../hooks/games/useClasificacionGame";
 import { useCreateDesafioClasificacion } from "../../../../activity/hooks/useCreateDesafioClasificacion";
 import Button from "../../Button/ButtonComponent";
 
@@ -17,7 +17,7 @@ const DesafioClasificacionGame = () => {
     gameStatus,
     verificationResults,
     score,
-  } = useDesafioGame();
+  } = useClasificaionGame();
   return (
     <>
       <div className={styles.decisionsSection}>

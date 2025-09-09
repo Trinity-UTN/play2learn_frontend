@@ -5,12 +5,12 @@ import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
 import styles from "./ClasificacionPreview.module.css";
 import DesafioClasificacionGame from "../../../../shared/components/Games/DesafioClasificacion/DesafioClasificacionGame";
-import { useDesafioGame } from "../../../../shared/hooks/games/useClasificacionGame";
+import { useClasificaionGame } from "../../../../shared/hooks/games/useClasificacionGame";
 
 const ClasificacionPreview: React.FC = () => {
   const { config } = useCreateDesafioClasificacion();
   const { totalCategories, totalConcepts, resetGame, gameStarted, startGame } =
-    useDesafioGame();
+    useClasificaionGame();
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },

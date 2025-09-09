@@ -1,5 +1,7 @@
 import type { CurrentActivityInterface } from "../../../types/Activity.type";
 import AhorcadoGame from "../../../../shared/components/Games/Ahorcado/AhorcadoGame";
+import { GameType } from "../../../../shared/types/Games.type";
+import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
 import styles from "./StudentGameRenderer.module.css";
 import DesafioClasificacionGame from "../../../../shared/components/Games/DesafioClasificacion/DesafioClasificacionGame";
 interface GameRendererProps {
@@ -18,29 +20,38 @@ const StudentGameRenderer: React.FC<GameRendererProps> = ({
       );
     }
 
-    // Determinar qué juego renderizar basado en currentActivity.name. TODO: Agregar todos los juegos
-    switch (currentActivity.name?.toLowerCase()) {
-      case "ahorcado":
-      case "ahorcado educativo":
-      case "hangman":
-        return renderAhorcadoGame();
-      case "desafio de clasificacion":
-        return renderDesafioGame();
+    // EXPO: Registry Pattern: Determinar el tipo de juego usando el helper
+    const gameType = getGameTypeFromActivityName(currentActivity.name);
+
+    if (!gameType) {
+      return (
+        <div className={styles.unsupportedGameContainer}>
+          <h3>Juego no disponible</h3>
+          <p>El juego "{currentActivity.name}" aún no está disponible.</p>
+        </div>
+      );
+    }
+
+    // EXPO: Registry Pattern: Factory pattern para renderizar componentes
+    return renderGameComponent(gameType);
+  };
+
+  const renderGameComponent = (gameType: GameType) => {
+    // EXPO: Factory pattern para componentes de juego
+    switch (gameType) {
+      case GameType.AHORCADO:
+        return <AhorcadoGame mode="student" />;
+      case GameType.CLASIFICACION:
+        return <DesafioClasificacionGame />;
+
       default:
         return (
           <div className={styles.unsupportedGameContainer}>
-            <h3>Juego no soportado</h3>
-            <p>El juego "{currentActivity.name}" aún no está disponible.</p>
+            <h3>Juego en desarrollo</h3>
+            <p>El juego "{gameType}" está siendo implementado.</p>
           </div>
         );
     }
-  };
-
-  const renderAhorcadoGame = () => {
-    return <AhorcadoGame mode="student" />;
-  };
-  const renderDesafioGame = () => {
-    return <DesafioClasificacionGame />;
   };
 
   return <div className={styles.gameRenderer}>{renderGame()}</div>;
