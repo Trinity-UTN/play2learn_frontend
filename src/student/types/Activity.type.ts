@@ -1,3 +1,4 @@
+import type { AhorcadoConfig } from "../../activity/types/Ahorcado.type";
 import type { SubjectResponseDto } from "../../admin/services/subject/SubjectService";
 
 interface BaseActivity {
@@ -9,6 +10,7 @@ interface BaseActivity {
   attempts: number;
   remainingAttempts: number;
 }
+
 export interface ActivityNotApprovedResponseInterface extends BaseActivity {
   startDate: string;
   endDate: string;
@@ -18,24 +20,6 @@ export interface ActivityNotApprovedResponseInterface extends BaseActivity {
   pending: boolean;
   type: string;
   status: "CREATED" | "PUBLISHED" | "FINISHED";
-}
-
-// Hecho solo para el ahorcado por ahora
-export interface CurrentActivityInterface {
-  id: number;
-  name: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  dificulty: string;
-  subject: SubjectResponseDto;
-  maxTime: number;
-  attempts: number;
-  actualBalance: number;
-  initialBalance: number;
-  typeReward: string;
-  word: string;
-  errorsPermited: string;
 }
 
 export interface ActivityApprovedResponseInterface extends BaseActivity {
@@ -59,4 +43,32 @@ export interface ActivityUI {
   noAttempts: boolean;
   dueDateLabel?: string;
   extraInfo?: string;
+}
+
+export type GameConfig = AhorcadoConfig;
+// | PreguntadosConfig
+// | MemoramaConfig
+// | OrdenarSecuenciaConfig
+// | ArbolDeDecisionConfig
+// | CompletarOracionConfig
+// | ClasificacionConfig
+// | NoLudicaConfig
+/* No necesariamante todas las actividades usan el config.
+ * Hay que ver el response DTO del backend, si coincide el config con el response DTO de 10, sino usamos otra
+ */
+
+export interface CurrentActivityInterface {
+  id: number;
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  dificulty: string;
+  subject: SubjectResponseDto;
+  maxTime: number;
+  attempts: number;
+  actualBalance: number;
+  initialBalance: number;
+  typeReward: string;
+  gameConfig: GameConfig;
 }

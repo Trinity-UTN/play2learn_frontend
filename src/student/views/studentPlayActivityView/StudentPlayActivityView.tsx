@@ -7,8 +7,8 @@ import StudentActivityFooter from "../../components/common/StudentActivityFooter
 import GameRenderer from "../../components/common/StudentGameRenderer/StudentGameRenderer";
 import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
+import { useGameManager } from "../../../shared/hooks/games/useGameManager";
 import styles from "./StudentPlayActivityView.module.css";
-import { useAhorcadoGame } from "../../../shared/hooks/games/useAhorcadoGame";
 
 interface StudentPlayActivityViewProps {
   activity?: ActivityUI;
@@ -18,9 +18,11 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   activity,
 }) => {
   const { loading, currentActivity } = useActivityStudent();
-  const { resetGame } = useAhorcadoGame();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  // EXPO: Registry Pattern: Obtener el hook del juego apropiado automáticamente
+  const gameManager = useGameManager(currentActivity?.name || activity?.name);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -39,7 +41,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   };
 
   const handleFinishActivity = () => {
-    resetGame();
+    gameManager?.resetGame();
     navigate("/dashboard/student/actividades/list");
   };
 

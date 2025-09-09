@@ -33,8 +33,8 @@ export const AhorcadoGameProvider: React.FC<AhorcadoGameProviderProps> = ({
       });
     } else if (mode === "student" && currentActivity) {
       setGameConfig({
-        word: currentActivity.word || "",
-        errorsPermited: currentActivity.errorsPermited || "TRES",
+        word: currentActivity.gameConfig.word || "",
+        errorsPermited: currentActivity.gameConfig.errorsPermited || "TRES",
       });
     } else if (propConfig) {
       setGameConfig(propConfig);
@@ -63,13 +63,6 @@ export const AhorcadoGameProvider: React.FC<AhorcadoGameProviderProps> = ({
   const livesRemaining = maxErrors - wrongGuesses;
 
   // Funciones del juego
-  const handleGuessLetter = () => {
-    if (currentGuess && !guessedLetters.includes(currentGuess.toLowerCase())) {
-      setGuessedLetters((prev) => [...prev, currentGuess.toLowerCase()]);
-      setCurrentGuess("");
-    }
-  };
-
   const resetGame = () => {
     setGuessedLetters([]);
     setCurrentGuess("");
@@ -78,6 +71,13 @@ export const AhorcadoGameProvider: React.FC<AhorcadoGameProviderProps> = ({
 
   const startGame = () => {
     setGameStarted(true);
+  };
+
+  const handleGuessLetter = () => {
+    if (currentGuess && !guessedLetters.includes(currentGuess.toLowerCase())) {
+      setGuessedLetters((prev) => [...prev, currentGuess.toLowerCase()]);
+      setCurrentGuess("");
+    }
   };
 
   const renderHangman = (errors: number) => {
