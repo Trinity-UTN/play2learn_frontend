@@ -19,7 +19,7 @@ import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaP
 import { BenefitAPIProvider } from "../teacher/contexts/benefitsAPIContext/BenefitAPIProvider";
 import { BenefitUIProvider } from "../teacher/contexts/benefitsUIContext/BenefitUIProvider";
 import { ArbolDecisionProvider } from "../activity/contexts/arbolDecisionContext/ArbolDecisionProvider";
-import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificaionContext/DesafioClasificaionGameProvider";
+import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificaionGameContext/DesafioClasificaionGameProvider";
 //VIEWS
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsListView from "../teacher/views/benefitsView/benefitsViewList/BenefitsListView";

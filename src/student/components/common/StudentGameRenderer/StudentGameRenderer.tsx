@@ -1,6 +1,7 @@
 import type { CurrentActivityInterface } from "../../../types/Activity.type";
 import AhorcadoGame from "../../../../shared/components/Games/Ahorcado/AhorcadoGame";
 import styles from "./StudentGameRenderer.module.css";
+import DesafioClasificacionGame from "../../../../shared/components/Games/DesafioClasificacion/DesafioClasificacionGame";
 interface GameRendererProps {
   currentActivity: CurrentActivityInterface | null;
 }
@@ -23,6 +24,8 @@ const StudentGameRenderer: React.FC<GameRendererProps> = ({
       case "ahorcado educativo":
       case "hangman":
         return renderAhorcadoGame();
+      case "desafio de clasificacion":
+        return renderDesafioGame();
       default:
         return (
           <div className={styles.unsupportedGameContainer}>
@@ -35,6 +38,9 @@ const StudentGameRenderer: React.FC<GameRendererProps> = ({
 
   const renderAhorcadoGame = () => {
     return <AhorcadoGame mode="student" />;
+  };
+  const renderDesafioGame = () => {
+    return <DesafioClasificacionGame />;
   };
 
   return <div className={styles.gameRenderer}>{renderGame()}</div>;

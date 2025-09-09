@@ -1,12 +1,20 @@
 import { DesafioGameContext } from "./DesafioClasificaionContext";
 import { useCreateDesafioClasificacion } from "../../../../activity/hooks/useCreateDesafioClasificacion";
 import type { DesafioClasificacionGameContextType } from "./DesafioClasificaionGameContext.type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
 
 export const DesafioClasificacionGameProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const { config, getAllConcepts } = useCreateDesafioClasificacion();
+  const { currentActivity } = useActivityStudent();
+
+  useEffect(() => {
+    console.log("current", currentActivity);
+    console.log("config", config);
+  }, [currentActivity]);
+
   // Todos los useState que definiste
   const [gameStarted, setGameStarted] = useState(false);
   const [score, setScore] = useState(0);

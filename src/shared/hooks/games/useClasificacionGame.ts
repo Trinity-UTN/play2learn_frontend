@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { DesafioGameContext } from "../../contexts/gamesContext/desafioClasificaionContext/DesafioClasificaionContext";
-import type { DesafioClasificacionGameContextType } from "../../contexts/gamesContext/desafioClasificaionContext/DesafioClasificaionGameContext.type";
+import { DesafioGameContext } from "../../contexts/gamesContext/desafioClasificaionGameContext/DesafioClasificaionContext";
+import type { DesafioClasificacionGameContextType } from "../../contexts/gamesContext/desafioClasificaionGameContext/DesafioClasificaionGameContext.type";
 
 export const useDesafioGame = (): DesafioClasificacionGameContextType => {
   const context = useContext(DesafioGameContext);

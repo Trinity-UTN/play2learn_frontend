@@ -13,7 +13,7 @@ import { ActivityStudentProviderUI } from "../student/context/activityStudentCon
 import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
 import { AhorcadoGameProvider } from "../shared/contexts/gamesContext/ahorcadoGameContext/AhorcadoGameProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
-import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificaionContext/DesafioClasificaionGameProvider";
+import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificaionGameContext/DesafioClasificaionGameProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
