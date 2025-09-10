@@ -6,10 +6,15 @@ import type {
   ActivityApprovedResponseInterface,
   CurrentActivityInterface,
 } from "../../../types/Activity.type";
+import type {
+  ActivityCompletedInterface,
+  ActivityCompletedResponseInterface,
+} from "../../../types/ActivityCompleted.type";
 import { ActivityStudentService } from "../../../services/activity/ActivityService";
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
 import { createGameConfig } from "../../../../shared/registry/games/gameConfigFactory";
 import { useHandleApiError } from "../../../../shared/hooks/useHandleApiError";
+import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 // import type {
 //   GetPaginated,
 //   PaginatedData,
@@ -20,6 +25,7 @@ export const ActivityStudentProvider = ({
 }: {
   children: ReactNode;
 }) => {
+  const { getCurrentStudent } = useCurrentStudent();
   const { handleApiError } = useHandleApiError();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -31,6 +37,8 @@ export const ActivityStudentProvider = ({
   >([]);
   const [currentActivity, setCurrentActivity] =
     useState<CurrentActivityInterface | null>(null);
+  const [activityCompleted, setActivityCompleted] =
+    useState<ActivityCompletedResponseInterface | null>(null);
   // useState<PaginatedData<ActivityNotApprovedResponseInterface> | null>(null);
 
   // const getPaginatedActivityNotApproved= useCallback(
@@ -105,14 +113,43 @@ export const ActivityStudentProvider = ({
     }
   }, []);
 
+  const registerActivityCompleted = useCallback(
+    async (payload: ActivityCompletedInterface): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await ActivityStudentService.registerActivityCompletedApi(payload);
+        console.log(response.data);
+        setActivityCompleted(response.data);
+        console.log(activityCompleted);
+      } catch (error) {
+        handleApiError(error, "Error al corregir la actividad");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  const refreshStudentDataAfterCompletion = async () => {
+    await Promise.all([
+      getActivityNotApproved(),
+      getActivityApproved(),
+      getCurrentStudent(),
+    ]);
+  };
+
   const contextValue: ActivityStudentContextType = {
     loading,
     activityNotApproved,
     activityApproved,
     currentActivity,
+    activityCompleted,
     getActivityNotApproved,
     getActivityApproved,
     getActivityById,
+    registerActivityCompleted,
+    refreshStudentDataAfterCompletion,
   };
 
   return (

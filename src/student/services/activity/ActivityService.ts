@@ -1,3 +1,7 @@
+import type {
+  ActivityCompletedInterface,
+  ActivityCompletedResponseInterface,
+} from "../../types/ActivityCompleted.type";
 import api from "../../../shared/utils/api";
 import { urls } from "../urls";
 
@@ -16,8 +20,16 @@ const getActivityByIdApi = async (id: number) => {
   return response.data;
 };
 
+const registerActivityCompletedApi = async (
+  payload: ActivityCompletedInterface
+): Promise<{ data: ActivityCompletedResponseInterface }> => {
+  const response = await api.post(urls.ActivityCompleted, payload);
+  return response.data;
+};
+
 export const ActivityStudentService = {
   getActivityNotApprovedApi,
   getActivityApprovedApi,
   getActivityByIdApi,
+  registerActivityCompletedApi,
 };
