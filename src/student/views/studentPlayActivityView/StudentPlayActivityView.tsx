@@ -17,12 +17,18 @@ interface StudentPlayActivityViewProps {
 const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   activity,
 }) => {
-  const { loading, currentActivity } = useActivityStudent();
+  const {
+    loading,
+    currentActivity,
+    registerActivityCompleted,
+    refreshStudentDataAfterCompletion,
+  } = useActivityStudent();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   // EXPO: Registry Pattern: Obtener el hook del juego apropiado automáticamente
   const gameManager = useGameManager(currentActivity?.name || activity?.name);
+  const isGameFinished = gameManager?.isGameWon || gameManager?.isGameLost;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -40,9 +46,17 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
     }
   };
 
-  const handleFinishActivity = () => {
+  const handleFinishActivity = async () => {
+    if (!currentActivity) return;
+
+    await registerActivityCompleted({
+      activityId: currentActivity.id,
+      state: gameManager?.isGameWon ? "APPROVED" : "DISAPPROVED",
+    });
+    await refreshStudentDataAfterCompletion();
+
     gameManager?.resetGame();
-    navigate("/dashboard/student/actividades/list");
+    navigate(`/dashboard/student/actividades/${id}/review`);
   };
 
   if (loading) {
@@ -87,6 +101,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
 
       <StudentActivityFooter
         loading={loading}
+        isFormValid={isGameFinished}
         onBack={handleGoBack}
         onNext={handleFinishActivity}
         nextButtonText="Finalizar"
