@@ -14,12 +14,12 @@ import { OrdenarSecuenciaProvider } from "../activity/contexts/ordenarSecuenciaC
 import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
+import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificacionGameContext/DesafioClasificacionGameProvider";
 import { MemoramaProvider } from "../activity/contexts/memoramaContext/MemoramaProvider";
 import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
 import { BenefitAPIProvider } from "../teacher/contexts/benefitsAPIContext/BenefitAPIProvider";
 import { BenefitUIProvider } from "../teacher/contexts/benefitsUIContext/BenefitUIProvider";
 import { ArbolDecisionProvider } from "../activity/contexts/arbolDecisionContext/ArbolDecisionProvider";
-import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificaionGameContext/DesafioClasificaionGameProvider";
 //VIEWS
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsListView from "../teacher/views/benefitsView/benefitsViewList/BenefitsListView";

@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { DesafioClasificacionGameContextType } from "./DesafioClasificaionGameContext.type";
+import type { DesafioClasificacionGameContextType } from "./DesafioClasificacionGameContext.type";
 
 export const DesafioGameContext = createContext<
   DesafioClasificacionGameContextType | undefined

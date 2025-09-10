@@ -1,3 +1,5 @@
+import type { DesafioClasificacionConfig } from "../../../../activity/types/DesafioClasificacion.type";
+
 export interface DesafioClasificacionGameContextType {
   // Estados del juego
   gameStarted: boolean;
@@ -12,8 +14,9 @@ export interface DesafioClasificacionGameContextType {
     totalCorrect: number;
     totalConcepts: number;
   } | null;
-  totalCategories: number;
+  totalCategories: number | undefined;
   totalConcepts: number;
+  gameConfig: DesafioClasificacionConfig | null;
 
   isGameWon: boolean;
   isGameLost: boolean;

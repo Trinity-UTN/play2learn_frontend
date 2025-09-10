@@ -1,12 +1,11 @@
-import styles from "./DesafioClasificacionGame.module.css";
 import { FaCheck, FaTrophy, FaExclamationTriangle } from "react-icons/fa";
-import { useClasificaionGame } from "../../../hooks/games/useClasificacionGame";
-import { useCreateDesafioClasificacion } from "../../../../activity/hooks/useCreateDesafioClasificacion";
 import Button from "../../Button/ButtonComponent";
+import { useDesafioClasificacionGame } from "../../../hooks/games/useDesafioClasificacionGame";
+import styles from "./DesafioClasificacionGame.module.css";
 
 const DesafioClasificacionGame = () => {
-  const { config } = useCreateDesafioClasificacion();
   const {
+    gameConfig,
     availableConcepts,
     handleDragOver,
     handleDropToPool,
@@ -17,7 +16,8 @@ const DesafioClasificacionGame = () => {
     gameStatus,
     verificationResults,
     score,
-  } = useClasificaionGame();
+  } = useDesafioClasificacionGame();
+
   return (
     <>
       <div className={styles.decisionsSection}>
@@ -56,7 +56,7 @@ const DesafioClasificacionGame = () => {
       </div>
 
       <div className={styles.decisionsGrid}>
-        {config.categories.map((category) => (
+        {gameConfig?.categories.map((category) => (
           <div
             key={category.id}
             className={styles.decisionOption}
