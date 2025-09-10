@@ -100,17 +100,19 @@ const DesafioClasificacionGame = ({ mode }: DesafioClasificacionGameProps) => {
         ))}
       </div>
 
-      <div className={styles.completedActions}>
-        <Button
-          variant="primary"
-          onClick={verifyAnswers}
-          className={styles.tryAgainButton}
-          disabled={availableConcepts.length !== 0}
-        >
-          <FaCheck />
-          {mode === "preview" ? "Verificar Respuestas" : "Corregir"}
-        </Button>
-      </div>
+      {mode === "preview" && (
+        <div className={styles.completedActions}>
+          <Button
+            variant="primary"
+            onClick={verifyAnswers}
+            className={styles.tryAgainButton}
+            disabled={availableConcepts.length !== 0}
+          >
+            <FaCheck />
+            Verificar Respuestas
+          </Button>
+        </div>
+      )}
 
       {gameStatus !== "playing" &&
         verificationResults &&

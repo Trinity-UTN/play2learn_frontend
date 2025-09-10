@@ -21,6 +21,8 @@ export const DesafioClasificacionGameProvider: React.FC<
 
   // Estados del juego
   const [gameStarted, setGameStarted] = useState(false);
+  const [isGameWon, setIsGameWon] = useState(false);
+  const [isGameLost, setIsGameLost] = useState(true);
   const [score, setScore] = useState(0);
   const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
     "playing"
@@ -59,6 +61,16 @@ export const DesafioClasificacionGameProvider: React.FC<
       setGameConfig(propConfig);
     }
   }, [mode, propConfig, config, currentActivity]);
+
+  useEffect(() => {
+    if (score >= 60) {
+      setIsGameWon(true);
+      setIsGameLost(false);
+    } else {
+      setIsGameWon(false);
+      setIsGameLost(true);
+    }
+  }, [score]);
 
   const totalCategories =
     mode === "preview"
@@ -218,10 +230,6 @@ export const DesafioClasificacionGameProvider: React.FC<
 
     setDraggedConcept(null);
   };
-
-  const isGameWon = false;
-
-  const isGameLost = true;
 
   const value: DesafioClasificacionGameContextType = {
     gameConfig,
