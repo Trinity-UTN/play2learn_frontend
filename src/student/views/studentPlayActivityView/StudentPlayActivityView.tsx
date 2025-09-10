@@ -7,7 +7,7 @@ import GameRenderer from "../../components/common/StudentGameRenderer/StudentGam
 import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useGameManager } from "../../../shared/hooks/games/useGameManager";
-import { useFinishActivity } from "../../hooks/activities/useFinishActivity";
+import { useActivityActions } from "../../hooks/activities/useActivityActions";
 import { useActivityNavigation } from "../../hooks/activities/useActivityNavigation";
 import styles from "./StudentPlayActivityView.module.css";
 
@@ -20,7 +20,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
 }) => {
   const { loading, currentActivity } = useActivityStudent();
   const { goBackToActivityView } = useActivityNavigation();
-  const { finishActivity } = useFinishActivity();
+  const { finishActivity } = useActivityActions();
 
   // EXPO: Registry Pattern: Obtener el hook del juego apropiado automáticamente
   const gameManager = useGameManager(currentActivity?.name || activity?.name);
@@ -39,9 +39,9 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   const handleFinishActivity = async () => {
     if (!currentActivity) return;
 
-    await finishActivity(!!gameManager?.isGameWon);
-
-    gameManager?.resetGame();
+    await finishActivity(!!gameManager?.isGameWon, () =>
+      gameManager?.resetGame()
+    );
   };
 
   if (loading) {

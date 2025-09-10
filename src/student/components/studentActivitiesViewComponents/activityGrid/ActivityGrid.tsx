@@ -1,11 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import type { ActivityUI } from "../../../types/Activity.type";
 import ActivityCard from "../activityCard/ActivityCard";
 import ActivityRow from "../activityRow/ActivityRow";
 import FlexBox from "../../../../shared/components/FlexBox/FlexBox";
 import { useLayout } from "../../../../shared/hooks/useLayout";
-import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
+import { useActivityActions } from "../../../hooks/activities/useActivityActions";
 import styles from "./ActivityGrid.module.css";
 
 interface ActivityGridProps {
@@ -14,8 +13,7 @@ interface ActivityGridProps {
 
 const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
   const { isRow, toggleLayout } = useLayout();
-  const { getActivityById } = useActivityStudent();
-  const navigate = useNavigate();
+  const { startActivity } = useActivityActions();
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -23,8 +21,7 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
   };
 
   const handleStartActivity = async (activityId: string) => {
-    await getActivityById(Number(activityId));
-    navigate(`/dashboard/student/actividades/${activityId}/view`);
+    startActivity(Number(activityId));
   };
 
   if (activities.length === 0) {

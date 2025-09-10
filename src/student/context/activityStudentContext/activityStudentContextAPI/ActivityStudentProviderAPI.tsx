@@ -119,9 +119,7 @@ export const ActivityStudentProvider = ({
       try {
         const response =
           await ActivityStudentService.registerActivityCompletedApi(payload);
-        console.log(response.data);
         setActivityCompleted(response.data);
-        console.log(activityCompleted);
       } catch (error) {
         handleApiError(error, "Error al corregir la actividad");
       } finally {
