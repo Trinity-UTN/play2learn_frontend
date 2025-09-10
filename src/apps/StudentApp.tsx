@@ -16,6 +16,7 @@ import { ConfigurationActivityProvider } from "../activity/contexts/configuratio
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
+import StudentCompletedActivityView from "../student/views/studentCompletedActivityView/StudentCompletedActivityView";
 import StudentPlayActivityView from "../student/views/studentPlayActivityView/StudentPlayActivityView";
 import StudentBenefitsView from "../student/views/studentBenefitsView/StudentBenefitsView";
 import StudentOverviewView from "../student/views/studentOverviewView/StudentOverviewView";
@@ -89,6 +90,10 @@ const StudentApp = () => {
             <Route
               path="actividades/:id/play"
               element={<StudentPlayActivityView />}
+            />
+            <Route
+              path="actividades/:id/review"
+              element={<StudentCompletedActivityView />}
             />
             {/* BENEFICIOS */}
             <Route path="beneficios/list" element={<StudentBenefitsView />} />
