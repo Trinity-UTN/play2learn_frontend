@@ -108,7 +108,7 @@ const ClasificacionPreview: React.FC = () => {
             </div>
           </div>
         ) : (
-          <DesafioClasificacionGame />
+          <DesafioClasificacionGame mode="preview" />
         )}
       </div>
     </motion.div>

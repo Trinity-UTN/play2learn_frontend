@@ -29,4 +29,5 @@ export interface DesafioClasificacionGameContextType {
   handleDragOver: (e: React.DragEvent) => void;
   handleDrop: (e: React.DragEvent, categoryId: string) => void;
   handleDropToPool: (e: React.DragEvent) => void;
+  getAllConcepts: () => string[];
 }

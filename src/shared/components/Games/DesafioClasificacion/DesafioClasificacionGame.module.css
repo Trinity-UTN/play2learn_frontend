@@ -1,4 +1,9 @@
 @import "../../../../shared/styles/colors.css";
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
 .decisionsSection {
   background: white;
   border-radius: 12px;
@@ -241,7 +246,7 @@
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 .resultSection {
-  margin-bottom: 2rem;
+  margin-top: 1rem;
 }
 
 .resultCard {
@@ -384,6 +389,8 @@
 }
 .resultFooter {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
@@ -396,6 +403,7 @@
   border-radius: 50px;
   font-weight: 600;
   font-size: 0.9rem;
+  max-width: 180px;
 }
 
 .successBadge {

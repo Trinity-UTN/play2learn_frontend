@@ -15,7 +15,8 @@ interface DesafioClasificacionGameProviderProps {
 export const DesafioClasificacionGameProvider: React.FC<
   DesafioClasificacionGameProviderProps
 > = ({ children, config: propConfig, mode = "preview" }) => {
-  const { config, getAllConcepts } = useCreateDesafioClasificacion();
+  const { config, getAllConcepts, getCategoryNames } =
+    useCreateDesafioClasificacion();
   const { currentActivity } = useActivityStudent();
 
   // Estados del juego
@@ -59,14 +60,28 @@ export const DesafioClasificacionGameProvider: React.FC<
     }
   }, [mode, propConfig, config, currentActivity]);
 
-  const totalCategories = gameConfig?.categories.length;
+  const totalCategories =
+    mode === "preview"
+      ? getCategoryNames().length
+      : gameConfig?.categories.length;
   const totalConcepts = getAllConcepts().length;
 
+  const getConceptsSource = () => {
+    if (mode === "preview") {
+      return getAllConcepts();
+    }
+    if (mode === "student" && gameConfig) {
+      return gameConfig.categories.flatMap((cat) =>
+        cat.concepts.map((concept) => concept.name)
+      );
+    }
+    return [];
+  };
   const startGame = () => {
     setGameStarted(true);
     setScore(0);
     setGameStatus("playing");
-    const allConcepts = getAllConcepts();
+    const allConcepts = getConceptsSource();
     setAvailableConcepts([...allConcepts]);
     setConceptsInCategories({});
     setVerificationResults(null);
@@ -100,7 +115,7 @@ export const DesafioClasificacionGameProvider: React.FC<
     // Check each placed concept
     Object.keys(conceptsInCategories).forEach((categoryId) => {
       const category = gameConfig?.categories.find(
-        (cat) => cat.id === categoryId
+        (cat) => String(cat.id) === String(categoryId)
       );
       if (!category) return;
 
@@ -155,14 +170,26 @@ export const DesafioClasificacionGameProvider: React.FC<
     e.preventDefault();
     if (!draggedConcept) return;
 
-    // Remove concept from available concepts
-    setAvailableConcepts((prev) => prev.filter((c) => c !== draggedConcept));
+    setConceptsInCategories((prev) => {
+      const updated = { ...prev };
 
-    // Add concept to category
-    setConceptsInCategories((prev) => ({
-      ...prev,
-      [categoryId]: [...(prev[categoryId] || []), draggedConcept],
-    }));
+      const fromCategoryId = Object.keys(updated).find((id) =>
+        updated[id].includes(draggedConcept)
+      );
+      if (fromCategoryId) {
+        updated[fromCategoryId] = updated[fromCategoryId].filter(
+          (c) => c !== draggedConcept
+        );
+      } else {
+        setAvailableConcepts((prev) =>
+          prev.filter((c) => c !== draggedConcept)
+        );
+      }
+
+      updated[categoryId] = [...(updated[categoryId] || []), draggedConcept];
+
+      return updated;
+    });
 
     setDraggedConcept(null);
   };
@@ -216,6 +243,7 @@ export const DesafioClasificacionGameProvider: React.FC<
     handleDragOver,
     handleDrop,
     handleDropToPool,
+    getAllConcepts,
   };
 
   return (

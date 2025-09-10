@@ -52,7 +52,7 @@ const StudentApp = () => {
                           <AhorcadoProvider>
                             <AhorcadoGameProvider mode="student">
                               <DesafioClasificacionProvider>
-                                <DesafioClasificacionGameProvider>
+                                <DesafioClasificacionGameProvider mode="student">
                                   <motion.div
                                     key="dashboardStudent"
                                     initial={{ opacity: 0 }}

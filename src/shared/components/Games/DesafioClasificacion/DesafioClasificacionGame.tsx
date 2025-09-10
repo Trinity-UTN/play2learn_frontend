@@ -2,8 +2,12 @@ import { FaCheck, FaTrophy, FaExclamationTriangle } from "react-icons/fa";
 import Button from "../../Button/ButtonComponent";
 import { useDesafioClasificacionGame } from "../../../hooks/games/useDesafioClasificacionGame";
 import styles from "./DesafioClasificacionGame.module.css";
+import { useEffect } from "react";
 
-const DesafioClasificacionGame = () => {
+interface DesafioClasificacionGameProps {
+  mode?: "preview" | "student";
+}
+const DesafioClasificacionGame = ({ mode }: DesafioClasificacionGameProps) => {
   const {
     gameConfig,
     availableConcepts,
@@ -16,10 +20,13 @@ const DesafioClasificacionGame = () => {
     gameStatus,
     verificationResults,
     score,
+    startGame,
   } = useDesafioClasificacionGame();
-
+  useEffect(() => {
+    startGame();
+  }, []);
   return (
-    <>
+    <div className={styles.container}>
       <div className={styles.decisionsSection}>
         <div className={styles.decisionsSectionHeader}>
           <h6 className={styles.decisionsSectionTitle}>
@@ -56,7 +63,7 @@ const DesafioClasificacionGame = () => {
       </div>
 
       <div className={styles.decisionsGrid}>
-        {gameConfig?.categories.map((category) => (
+        {gameConfig?.categories.map((category, idx) => (
           <div
             key={category.id}
             className={styles.decisionOption}
@@ -64,10 +71,7 @@ const DesafioClasificacionGame = () => {
             onDrop={(e) => handleDrop(e, category.id)}
           >
             <div className={styles.optionHeader}>
-              <div className={styles.optionNumber}>
-                {conceptsInCategories[category.id]?.length || 0}
-              </div>
-              <div className={styles.optionIcon}>📂</div>
+              <div className={styles.optionNumber}>{idx + 1 || 0}</div>
             </div>
             <div className={styles.optionContent}>
               <h6 className={styles.categoryName}>{category.name}</h6>
@@ -92,94 +96,90 @@ const DesafioClasificacionGame = () => {
                 )}
               </div>
             </div>
-            <div className={styles.optionFooter}>
-              <div className={styles.optionStatus}>
-                <span className={styles.statusIcon}>✓</span>
-                <span>Listo para clasificar</span>
-              </div>
-            </div>
           </div>
         ))}
       </div>
 
-      {availableConcepts.length === 0 && (
-        <div className={styles.completedActions}>
-          <Button
-            variant="primary"
-            onClick={verifyAnswers}
-            className={styles.tryAgainButton}
-          >
-            <FaCheck />
-            Verificar Respuestas
-          </Button>
-        </div>
-      )}
+      <div className={styles.completedActions}>
+        <Button
+          variant="primary"
+          onClick={verifyAnswers}
+          className={styles.tryAgainButton}
+          disabled={availableConcepts.length !== 0}
+        >
+          <FaCheck />
+          {mode === "preview" ? "Verificar Respuestas" : "Corregir"}
+        </Button>
+      </div>
 
-      {gameStatus !== "playing" && verificationResults && (
-        <div className={styles.resultSection}>
-          <div
-            className={`${styles.resultCard} ${
-              gameStatus === "won" ? styles.approved : styles.rejected
-            }`}
-          >
-            <div className={styles.resultHeader}>
-              {gameStatus === "won" ? (
-                <FaTrophy className={styles.resultIcon} />
-              ) : (
-                <FaExclamationTriangle className={styles.resultIcon} />
-              )}
-              <h5 className={styles.resultTitle}>
-                {gameStatus === "won"
-                  ? "¡Excelente trabajo!"
-                  : "¡Sigue intentando!"}
-              </h5>
-            </div>
-            <div className={styles.resultContent}>
-              <p className={styles.resultText}>
-                {gameStatus === "won"
-                  ? "Has clasificado correctamente los conceptos"
-                  : "Puedes mejorar tu clasificación"}
-              </p>
-              <div className={styles.verificationDetails}>
-                <div className={styles.verificationSummary}>
-                  <span className={styles.correctCount}>
-                    ✅ Correctos: {verificationResults.totalCorrect}
-                  </span>
-                  <span className={styles.incorrectCount}>
-                    ❌ Incorrectos: {verificationResults.incorrect.length}
-                  </span>
-                </div>
-
-                {verificationResults.incorrect.length > 0 && (
-                  <div className={styles.incorrectDetails}>
-                    <h6>Conceptos mal clasificados:</h6>
-                    <ul>
-                      {verificationResults.incorrect.map((item, index) => (
-                        <li key={index}>
-                          <strong>{item.concept}</strong> → Colocado en "
-                          {item.placedIn}", debería estar en "{item.shouldBe}"
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+      {gameStatus !== "playing" &&
+        verificationResults &&
+        mode === "preview" && (
+          <div className={styles.resultSection}>
+            <div
+              className={`${styles.resultCard} ${
+                gameStatus === "won" ? styles.approved : styles.rejected
+              }`}
+            >
+              <div className={styles.resultHeader}>
+                {gameStatus === "won" ? (
+                  <FaTrophy className={styles.resultIcon} />
+                ) : (
+                  <FaExclamationTriangle className={styles.resultIcon} />
                 )}
+                <h5 className={styles.resultTitle}>
+                  {gameStatus === "won"
+                    ? "¡Excelente trabajo!"
+                    : "¡Sigue intentando!"}
+                </h5>
               </div>
-            </div>
-            <div className={styles.resultFooter}>
-              <div
-                className={
-                  gameStatus === "won"
-                    ? styles.successBadge
-                    : styles.failureBadge
-                }
-              >
-                <span>Puntuación: {score}%</span>
+              <div className={styles.resultContent}>
+                <p className={styles.resultText}>
+                  {gameStatus === "won"
+                    ? "Has clasificado correctamente los conceptos"
+                    : "Puedes mejorar tu clasificación"}
+                </p>
+                <div className={styles.verificationDetails}>
+                  <div className={styles.verificationSummary}>
+                    <span className={styles.correctCount}>
+                      ✅ Correctos: {verificationResults.totalCorrect}
+                    </span>
+                    <span className={styles.incorrectCount}>
+                      ❌ Incorrectos: {verificationResults.incorrect.length}
+                    </span>
+                  </div>
+
+                  {verificationResults.incorrect.length > 0 && (
+                    <div className={styles.incorrectDetails}>
+                      <h6>Conceptos mal clasificados:</h6>
+                      <ul>
+                        {verificationResults.incorrect.map((item, index) => (
+                          <li key={index}>
+                            <strong>{item.concept}</strong> → Colocado en "
+                            {item.placedIn}", debería estar en "{item.shouldBe}"
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className={styles.resultFooter}>
+                <div
+                  className={
+                    gameStatus === "won"
+                      ? styles.successBadge
+                      : styles.failureBadge
+                  }
+                >
+                  <span>Puntuación: {score}%</span>
+                </div>
+                <span>Esta informacion no sera visualizada por el alumno</span>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </>
+        )}
+    </div>
   );
 };
 
