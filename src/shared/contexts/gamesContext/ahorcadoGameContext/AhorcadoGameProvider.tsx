@@ -2,6 +2,8 @@ import { useState, useEffect, type ReactNode } from "react";
 import { AhorcadoGameContext } from "./AhorcadoGameContext";
 import type { AhorcadoGameContextType } from "./AhorcadoGameContext.type";
 import type { AhorcadoConfig } from "../../../../activity/types/Ahorcado.type";
+import { GameType } from "../../../types/Games.type";
+import { getGameTypeFromActivityName } from "../../../registry/games/gameMapping";
 import { useCreateAhorcado } from "../../../../activity/hooks/useCreateAhorcado";
 import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
 
@@ -32,10 +34,16 @@ export const AhorcadoGameProvider: React.FC<AhorcadoGameProviderProps> = ({
         errorsPermited: config.errorsPermited || "TRES",
       });
     } else if (mode === "student" && currentActivity) {
-      setGameConfig({
-        word: currentActivity.gameConfig.word || "",
-        errorsPermited: currentActivity.gameConfig.errorsPermited || "TRES",
-      });
+      const gameType = getGameTypeFromActivityName(currentActivity.name);
+
+      if (gameType === GameType.AHORCADO) {
+        const ahorcadoConfig = currentActivity.gameConfig as AhorcadoConfig;
+
+        setGameConfig({
+          word: ahorcadoConfig.word || "",
+          errorsPermited: ahorcadoConfig.errorsPermited || "TRES",
+        });
+      }
     } else if (propConfig) {
       setGameConfig(propConfig);
     }
