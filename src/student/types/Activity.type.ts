@@ -1,4 +1,5 @@
 import type { AhorcadoConfig } from "../../activity/types/Ahorcado.type";
+import type { DesafioClasificacionConfig } from "../../activity/types/DesafioClasificacion.type";
 import type { SubjectResponseDto } from "../../admin/services/subject/SubjectService";
 
 interface BaseActivity {
@@ -45,13 +46,13 @@ export interface ActivityUI {
   extraInfo?: string;
 }
 
-export type GameConfig = AhorcadoConfig;
+export type GameConfig = AhorcadoConfig | DesafioClasificacionConfig;
 // | PreguntadosConfig
 // | MemoramaConfig
 // | OrdenarSecuenciaConfig
 // | ArbolDeDecisionConfig
 // | CompletarOracionConfig
-// | ClasificacionConfig
+
 // | NoLudicaConfig
 /* No necesariamante todas las actividades usan el config.
  * Hay que ver el response DTO del backend, si coincide el config con el response DTO de 10, sino usamos otra

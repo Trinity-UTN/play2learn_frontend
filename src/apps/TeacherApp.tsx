@@ -14,6 +14,7 @@ import { OrdenarSecuenciaProvider } from "../activity/contexts/ordenarSecuenciaC
 import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
+import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificacionGameContext/DesafioClasificacionGameProvider";
 import { MemoramaProvider } from "../activity/contexts/memoramaContext/MemoramaProvider";
 import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
 import { BenefitAPIProvider } from "../teacher/contexts/benefitsAPIContext/BenefitAPIProvider";
@@ -52,25 +53,27 @@ const TeacherApp = () => {
                             <PreguntadosProvider>
                               <OrdenarSecuenciaProvider>
                                 <DesafioClasificacionProvider>
-                                  <MemoramaProvider>
-                                    <NoLudicaProvider>
-                                      <ArbolDecisionProvider>
-                                        <BenefitAPIProvider>
-                                          <BenefitUIProvider>
-                                            <motion.div
-                                              key="dashboardTeacher"
-                                              initial={{ opacity: 0 }}
-                                              animate={{ opacity: 1 }}
-                                              exit={{ opacity: 0 }}
-                                              transition={{ duration: 0.3 }}
-                                            >
-                                              <TeacherDashboardPage />
-                                            </motion.div>
-                                          </BenefitUIProvider>
-                                        </BenefitAPIProvider>
-                                      </ArbolDecisionProvider>
-                                    </NoLudicaProvider>
-                                  </MemoramaProvider>
+                                  <DesafioClasificacionGameProvider>
+                                    <MemoramaProvider>
+                                      <NoLudicaProvider>
+                                        <ArbolDecisionProvider>
+                                          <BenefitAPIProvider>
+                                            <BenefitUIProvider>
+                                              <motion.div
+                                                key="dashboardTeacher"
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                                transition={{ duration: 0.3 }}
+                                              >
+                                                <TeacherDashboardPage />
+                                              </motion.div>
+                                            </BenefitUIProvider>
+                                          </BenefitAPIProvider>
+                                        </ArbolDecisionProvider>
+                                      </NoLudicaProvider>
+                                    </MemoramaProvider>
+                                  </DesafioClasificacionGameProvider>
                                 </DesafioClasificacionProvider>
                               </OrdenarSecuenciaProvider>
                             </PreguntadosProvider>

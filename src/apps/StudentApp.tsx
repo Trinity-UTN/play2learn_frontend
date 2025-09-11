@@ -13,6 +13,7 @@ import { ActivityStudentProviderUI } from "../student/context/activityStudentCon
 import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
 import { AhorcadoGameProvider } from "../shared/contexts/gamesContext/ahorcadoGameContext/AhorcadoGameProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
+import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificacionGameContext/DesafioClasificacionGameProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
@@ -25,6 +26,7 @@ import StudentRankingView from "../student/views/studentRankingView/StudentRanki
 import StudentStoreView from "../student/views/studentStoreView/StudentStoreView";
 import StudentWalletView from "../student/views/studentWalletView/StudentWalletView";
 import StudentFinancialEducationView from "../student/views/studentFinancialEducationView/StudentFinancialEducationView";
+import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
 
 const StudentApp = () => {
   return (
@@ -49,15 +51,19 @@ const StudentApp = () => {
                         <ConfigurationActivityProvider>
                           <AhorcadoProvider>
                             <AhorcadoGameProvider mode="student">
-                              <motion.div
-                                key="dashboardStudent"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                              >
-                                <StudentDashboard />
-                              </motion.div>
+                              <DesafioClasificacionProvider>
+                                <DesafioClasificacionGameProvider mode="student">
+                                  <motion.div
+                                    key="dashboardStudent"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                  >
+                                    <StudentDashboard />
+                                  </motion.div>
+                                </DesafioClasificacionGameProvider>
+                              </DesafioClasificacionProvider>
                             </AhorcadoGameProvider>
                           </AhorcadoProvider>
                         </ConfigurationActivityProvider>

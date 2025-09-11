@@ -139,7 +139,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
             </div>
           )}
 
-          {currentActivity?.gameConfig.errorsPermited !== undefined && (
+          {/* {currentActivity?.gameConfig.errorsPermited !== undefined && (
             <div className={styles.detailItem}>
               <div className={styles.detailContent}>
                 <span className={styles.detailIcon}>❌</span>
@@ -151,7 +151,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
                 </div>
               </div>
             </div>
-          )}
+          )} */}
           {/* TODO: Escalar, por ahora solo ahorcado */}
         </div>
       </Card>

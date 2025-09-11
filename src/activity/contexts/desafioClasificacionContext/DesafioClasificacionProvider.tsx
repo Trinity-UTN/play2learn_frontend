@@ -63,7 +63,6 @@ export const DesafioClasificacionProvider: React.FC<
     data: CreateClassification
   ): Promise<void> => {
     setLoading(true);
-
     // console.log("=== DESAFIO CLASIFICACION DEBUG ===");
     // console.log("Datos del juego recibidos:", data);
     // console.log("Configuración de actividad:", configurationActivity);

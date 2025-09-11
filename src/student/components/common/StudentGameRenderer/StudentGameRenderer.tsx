@@ -3,7 +3,7 @@ import AhorcadoGame from "../../../../shared/components/Games/Ahorcado/AhorcadoG
 import { GameType } from "../../../../shared/types/Games.type";
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
 import styles from "./StudentGameRenderer.module.css";
-
+import DesafioClasificacionGame from "../../../../shared/components/Games/DesafioClasificacion/DesafioClasificacionGame";
 interface GameRendererProps {
   currentActivity: CurrentActivityInterface | null;
 }
@@ -41,6 +41,8 @@ const StudentGameRenderer: React.FC<GameRendererProps> = ({
     switch (gameType) {
       case GameType.AHORCADO:
         return <AhorcadoGame mode="student" />;
+      case GameType.CLASIFICACION:
+        return <DesafioClasificacionGame />;
 
       default:
         return (

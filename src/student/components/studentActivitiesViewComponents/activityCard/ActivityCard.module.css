@@ -158,7 +158,7 @@
 }
 .FACIL {
   background-color: var(--color-stat-3);
-  color: var(--color-stat-3);
+  color: var(--color-text-light);
 }
 
 .MEDIO {
@@ -168,7 +168,7 @@
 
 .DIFICIL {
   background-color: var(--color-stat-4); /* #8b5cf620 */
-  color: var(--color-stat-4);
+  color: var(--color-text-light);
 }
 
 .actionButton {

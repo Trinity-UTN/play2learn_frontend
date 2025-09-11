@@ -21,7 +21,7 @@ export interface ClassificationCategory {
   id: string;
   name: string;
   concepts: ClassificationConcept[];
-  color: string;
+  color?: string;
 }
 
 export interface CreateClassification {
