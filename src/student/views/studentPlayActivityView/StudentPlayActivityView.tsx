@@ -1,4 +1,3 @@
-import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaGamepad } from "react-icons/fa";
 import type { ActivityUI } from "../../types/Activity.type";
@@ -8,6 +7,8 @@ import GameRenderer from "../../components/common/StudentGameRenderer/StudentGam
 import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useGameManager } from "../../../shared/hooks/games/useGameManager";
+import { useActivityActions } from "../../hooks/activities/useActivityActions";
+import { useActivityNavigation } from "../../hooks/activities/useActivityNavigation";
 import styles from "./StudentPlayActivityView.module.css";
 
 interface StudentPlayActivityViewProps {
@@ -18,11 +19,12 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   activity,
 }) => {
   const { loading, currentActivity } = useActivityStudent();
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const { goBackToActivityView } = useActivityNavigation();
+  const { finishActivity } = useActivityActions();
 
   // EXPO: Registry Pattern: Obtener el hook del juego apropiado automáticamente
   const gameManager = useGameManager(currentActivity?.name || activity?.name);
+  //const isGameFinished = gameManager?.isGameWon || gameManager?.isGameLost;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,15 +36,12 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
     },
   };
 
-  const handleGoBack = () => {
-    if (id) {
-      navigate(`/dashboard/student/actividades/${id}/view`);
-    }
-  };
+  const handleFinishActivity = async () => {
+    if (!currentActivity) return;
 
-  const handleFinishActivity = () => {
-    gameManager?.resetGame();
-    navigate("/dashboard/student/actividades/list");
+    await finishActivity(!!gameManager?.isGameWon, () =>
+      gameManager?.resetGame()
+    );
   };
 
   if (loading) {
@@ -59,7 +58,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
         <h2>Actividad no encontrada</h2>
         <p>No se pudo cargar la información de la actividad.</p>
         <button
-          onClick={() => navigate("/dashboard/student/actividades/list")}
+          onClick={() => goBackToActivityView()}
           className={styles.backButton}
         >
           Volver a actividades
@@ -87,9 +86,11 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
 
       <StudentActivityFooter
         loading={loading}
-        onBack={handleGoBack}
+        //isFormValid={isGameFinished}
+        onBack={goBackToActivityView}
         onNext={handleFinishActivity}
-        nextButtonText="Finalizar"
+        nextButtonText="Finalizar Intento"
+        backButtonText="DEBUG: Atras"
         showBackToList={false}
       />
     </motion.div>

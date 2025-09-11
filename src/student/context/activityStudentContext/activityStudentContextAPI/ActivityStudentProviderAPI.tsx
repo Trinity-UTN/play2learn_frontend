@@ -6,6 +6,10 @@ import type {
   ActivityApprovedResponseInterface,
   CurrentActivityInterface,
 } from "../../../types/Activity.type";
+import type {
+  ActivityCompletedInterface,
+  ActivityCompletedResponseInterface,
+} from "../../../types/ActivityCompleted.type";
 import { ActivityStudentService } from "../../../services/activity/ActivityService";
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
 import { createGameConfig } from "../../../../shared/registry/games/gameConfigFactory";
@@ -31,6 +35,8 @@ export const ActivityStudentProvider = ({
   >([]);
   const [currentActivity, setCurrentActivity] =
     useState<CurrentActivityInterface | null>(null);
+  const [activityCompleted, setActivityCompleted] =
+    useState<ActivityCompletedResponseInterface | null>(null);
   // useState<PaginatedData<ActivityNotApprovedResponseInterface> | null>(null);
 
   // const getPaginatedActivityNotApproved= useCallback(
@@ -105,14 +111,37 @@ export const ActivityStudentProvider = ({
     }
   }, []);
 
+  const registerActivityCompleted = useCallback(
+    async (payload: ActivityCompletedInterface): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await ActivityStudentService.registerActivityCompletedApi(payload);
+        setActivityCompleted(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al corregir la actividad");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  const refreshActivityDataAfterCompletion = async () => {
+    await Promise.all([getActivityNotApproved(), getActivityApproved()]);
+  };
+
   const contextValue: ActivityStudentContextType = {
     loading,
     activityNotApproved,
     activityApproved,
     currentActivity,
+    activityCompleted,
     getActivityNotApproved,
     getActivityApproved,
     getActivityById,
+    registerActivityCompleted,
+    refreshActivityDataAfterCompletion,
   };
 
   return (
