@@ -25,5 +25,5 @@ export interface ActivityStudentContextType {
   registerActivityCompleted: (
     payload: ActivityCompletedInterface
   ) => Promise<void>;
-  refreshStudentDataAfterCompletion: () => Promise<void>;
+  refreshActivityDataAfterCompletion: () => Promise<void>;
 }
