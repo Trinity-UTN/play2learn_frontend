@@ -6,11 +6,11 @@ import styles from "./ActivityFilters.module.css";
 import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
 
 interface ActivityFiltersProps {
-  activeFilter: "ALL" | "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED";
+  activeFilter: "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED";
   selectedSubject: string;
   selectedDifficulty: string;
   onFilterChange: (
-    filter: "ALL" | "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED"
+    filter: "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED"
   ) => void;
   onSubjectChange: (subject: string) => void;
   onDifficultyChange: (difficulty: string) => void;

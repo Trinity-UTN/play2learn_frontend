@@ -7,12 +7,17 @@ import FlexBox from "../../../../shared/components/FlexBox/FlexBox";
 import { useLayout } from "../../../../shared/hooks/useLayout";
 import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
 import styles from "./ActivityGrid.module.css";
+import type { PaginationInfo } from "../../../context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 
 interface ActivityGridProps {
   activities: ActivityUI[];
+  paginationInfo?: PaginationInfo;
 }
 
-const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
+const ActivityGrid: React.FC<ActivityGridProps> = ({
+  activities,
+  paginationInfo,
+}) => {
   const { isRow, toggleLayout } = useLayout();
   const { getActivityById } = useActivityStudent();
   const navigate = useNavigate();
@@ -41,7 +46,11 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
 
   return (
     <motion.div variants={itemVariants} className={styles.gridContainer}>
-      <FlexBox isRow={isRow} onToggle={toggleLayout}>
+      <FlexBox
+        isRow={isRow}
+        onToggle={toggleLayout}
+        paginationInfo={paginationInfo!}
+      >
         {isRow
           ? activities.map((activity, index) => (
               <motion.div

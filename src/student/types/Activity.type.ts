@@ -1,6 +1,7 @@
 import type { AhorcadoConfig } from "../../activity/types/Ahorcado.type";
 import type { DesafioClasificacionConfig } from "../../activity/types/DesafioClasificacion.type";
 import type { SubjectResponseDto } from "../../admin/services/subject/SubjectService";
+import type { PaginatedData } from "../../shared/types/PaginacionType";
 
 interface BaseActivity {
   id: string;
@@ -27,6 +28,19 @@ export interface ActivityApprovedResponseInterface extends BaseActivity {
   completedAt: string;
   reward: number;
   state: "APPROVED";
+}
+export interface PaginatedActivityNotApprovedResponseInterface {
+  data: PaginatedData<ActivityNotApprovedResponseInterface>;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
+export interface PaginatedActivityApprovedResponseInterface {
+  data: PaginatedData<ActivityApprovedResponseInterface>;
+  message: string;
+  errors: any;
+  timestamp: string;
 }
 
 export interface ActivityUI {

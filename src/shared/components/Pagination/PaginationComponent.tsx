@@ -19,6 +19,7 @@ export interface PaginationProps {
   showPageSizeSelector?: boolean;
   showInfo?: boolean;
   maxVisiblePages?: number;
+  background?: string;
 }
 
 const PaginationComponent: React.FC<PaginationProps> = ({
@@ -32,6 +33,7 @@ const PaginationComponent: React.FC<PaginationProps> = ({
   showPageSizeSelector = true,
   showInfo = true,
   maxVisiblePages = 5,
+  background,
 }) => {
   const getVisiblePages = () => {
     const pages: (number | string)[] = [];
@@ -88,7 +90,10 @@ const PaginationComponent: React.FC<PaginationProps> = ({
   const endItem = Math.min(currentPage * pageSize, totalItems);
 
   return (
-    <div className={styles.paginationContainer}>
+    <div
+      className={styles.paginationContainer}
+      style={{ backgroundColor: background ? background : "#f9fafb" }}
+    >
       {showInfo && (
         <div className={styles.paginationInfo}>
           <span>

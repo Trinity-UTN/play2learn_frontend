@@ -16,7 +16,16 @@ import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
 import { mapActivityToUI } from "../../../adapters/activityAdapter";
 import { FiX, FiXCircle } from "react-icons/fi";
 import type { ActivityUI } from "../../../types/Activity.type";
+import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
 
+export interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+  totalItems: number;
+  onPageChange: (page: number) => void;
+  onPageSizeChange: (size: number) => void;
+}
 interface ProviderProps {
   children: ReactNode;
 }
@@ -29,51 +38,78 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     activityNotApproved,
     activityApproved,
     getActivityApproved,
+    paginatedActivitiesApproved,
+    paginatedActivitiesNotApproved,
+    getPaginatedActivitiesApproved,
+    getPaginatedActivitiesNotApproved,
   } = useActivityStudent();
+  const { paginationParams, handlePageChange, handlePageSizeChange } =
+    usePaginationParams();
+
+  // Estados locales
 
   const [activeFilter, setActiveFilter] = useState<
-    "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED" | "ALL"
-  >("ALL");
+    "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED"
+  >("PUBLISHED");
+  const [selectedSubject, setSelectedSubject] = useState<string>("PUBLISHED");
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState<string>("PUBLISHED");
 
-  const [selectedSubject, setSelectedSubject] = useState<string>("ALL");
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("ALL");
-
+  // Fetch inicial para estadisticas
+  //Este get se realiza para poder obter las estadisticas, hasta que del back manden direcamente las estadisticas
   useEffect(() => {
     if (activityNotApproved.length <= 0) {
-      getActivityNotApproved();
       getActivityApproved();
+      getActivityNotApproved();
     }
   }, []);
+  // Fetch segun el filtro
+  const loadActivities = async () => {
+    if (activeFilter === "APPROVED") {
+      await getPaginatedActivitiesApproved(paginationParams);
+    } else if (activeFilter === "FINISHED") {
+      await getPaginatedActivitiesNotApproved({
+        ...paginationParams,
+        filters: ["status"],
+        filtersValues: ["FINISHED"],
+      });
+    } else if (activeFilter === "PUBLISHED") {
+      await getPaginatedActivitiesNotApproved(paginationParams);
+    }
+  };
 
-  const activitiesUI: ActivityUI[] = [
-    ...activityNotApproved.map(mapActivityToUI),
-    ...activityApproved.map(mapActivityToUI),
-  ];
+  useEffect(() => {
+    loadActivities();
+  }, [activeFilter, paginationParams]);
 
-  const filteredActivities = activitiesUI.filter((activity) => {
-    const statusMatch =
-      activeFilter === "ALL" || activity.status === activeFilter;
-    const subjectMatch =
-      selectedSubject === "ALL" || activity.subjectName === selectedSubject;
-    const difficultyMatch =
-      selectedDifficulty === "ALL" ||
-      activity.difficulty === selectedDifficulty;
+  // Actividades UI
+  const getActivitiesUI = (): ActivityUI[] => {
+    if (activeFilter === "APPROVED") {
+      return (paginatedActivitiesApproved?.results ?? []).map(mapActivityToUI);
+    }
+    return (paginatedActivitiesNotApproved?.results ?? []).map(mapActivityToUI);
+  };
+  const filteredActivities = getActivitiesUI();
 
-    return statusMatch && subjectMatch && difficultyMatch;
-  });
+  //Stats y contadores
+  const getCounts = () => {
+    const pending = activityNotApproved.filter(
+      (a) => a.status === "PUBLISHED"
+    ).length;
+    const finished = activityNotApproved.filter(
+      (a) => a.status === "FINISHED"
+    ).length;
+    const approved = activityApproved.filter(
+      (a) => a.state === "APPROVED"
+    ).length;
+    return { pending, finished, approved };
+  };
 
-  const pendingCount = activityNotApproved.filter(
-    (a) => a.status === "PUBLISHED"
-  ).length;
-  const defeatedCount = activityNotApproved.filter(
-    (a) => a.status === "FINISHED" //VENCIDA
-  ).length;
-  const availableCount = activityNotApproved.filter(
-    (a) => a.status === "PUBLISHED"
-  ).length;
-  const approvedCount = activityApproved.filter(
-    (a) => a.state === "APPROVED"
-  ).length;
+  const {
+    pending: pendingCount,
+    finished: defeatedCount,
+    approved: approvedCount,
+  } = getCounts();
 
   const stats = [
     {
@@ -99,13 +135,14 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     },
   ];
 
+  //Filtros
   const statusFilters = [
-    { key: "ALL", label: "Todas", emoji: "🎯" },
     { key: "PUBLISHED", label: "Disponibles", emoji: "✨" },
     { key: "FINISHED", label: "Vencidas", emoji: "❌" },
     { key: "APPROVED", label: "Aprobadas", emoji: "✅" },
   ];
 
+  //Acomodar con los filtros del get
   const subjects = [
     "ALL",
     ...new Set(activityNotApproved.map((a) => a.subjectName)),
@@ -115,6 +152,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     ...new Set(activityNotApproved.map((a) => a.difficulty)),
   ];
 
+  //Iconos
   const icons = [
     FaPlay,
     FaGamepad,
@@ -126,23 +164,24 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     FaFlagCheckered,
   ];
   const getRandomIcon = () => {
-    const randomIndex = Math.floor(Math.random() * icons.length);
-    const Icon = icons[randomIndex];
+    const Icon = icons[Math.floor(Math.random() * icons.length)];
     return <Icon />;
   };
 
+  //Dias
   const getDaysUntilDue = (endDate: string) => {
     const due = new Date(endDate);
     const now = new Date();
-    const diffTime = due.getTime() - now.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
+    const diffDays = Math.ceil(
+      (due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+    );
     if (diffDays < 0) return "Vencida";
     if (diffDays === 0) return "Hoy";
     if (diffDays === 1) return "Mañana";
     return `${diffDays} días`;
   };
 
+  //Status
   const getStatusConfig = (status: string) => {
     switch (status) {
       case "FINISHED":
@@ -156,7 +195,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
         return {
           icon: FaClock,
           label: "Pronto",
-          buttonText: "Proximamente",
+          buttonText: "Próximamente",
           buttonIcon: FaPlay,
         };
       case "PUBLISHED":
@@ -185,6 +224,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     }
   };
 
+  //Colors
   const colors = [
     "var(--color-stat-1)",
     "var(--color-stat-2)",
@@ -194,6 +234,24 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   ];
   const getRandomColor = () =>
     colors[Math.floor(Math.random() * colors.length)];
+
+  //Paginacion
+  const getSource = () =>
+    activeFilter === "APPROVED"
+      ? paginatedActivitiesApproved
+      : paginatedActivitiesNotApproved;
+  const source = getSource();
+
+  const paginationInfo: PaginationInfo | null = source
+    ? {
+        currentPage: source.currentPage,
+        totalPages: source.totalPages,
+        pageSize: source.pageSize,
+        totalItems: source.results.length,
+        onPageChange: handlePageChange,
+        onPageSizeChange: handlePageSizeChange,
+      }
+    : null;
 
   return (
     <ActivityStudentContextUI.Provider
@@ -207,7 +265,6 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
         filteredActivities,
         pendingCount,
         defeatedCount,
-        availableCount,
         stats,
         statusFilters,
         subjects,
@@ -216,6 +273,8 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
         getDaysUntilDue,
         getRandomColor,
         getStatusConfig,
+        //paginacion
+        paginationInfo,
       }}
     >
       {children}

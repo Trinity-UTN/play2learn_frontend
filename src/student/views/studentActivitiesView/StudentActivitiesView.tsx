@@ -15,6 +15,7 @@ const StudentActivitiesView: React.FC = () => {
     selectedDifficulty,
     setSelectedDifficulty,
     filteredActivities,
+    paginationInfo,
   } = useActivityStudentUI();
 
   const containerVariants = {
@@ -35,9 +36,7 @@ const StudentActivitiesView: React.FC = () => {
       className={styles.activitiesView}
     >
       <ActivityHeader />
-
       <ActivityStats />
-
       <ActivityFilters
         activeFilter={activeFilter}
         selectedSubject={selectedSubject}
@@ -46,8 +45,10 @@ const StudentActivitiesView: React.FC = () => {
         onSubjectChange={setSelectedSubject}
         onDifficultyChange={setSelectedDifficulty}
       />
-
-      <ActivityGrid activities={filteredActivities} />
+      <ActivityGrid
+        activities={filteredActivities}
+        paginationInfo={paginationInfo!}
+      />
     </motion.div>
   );
 };

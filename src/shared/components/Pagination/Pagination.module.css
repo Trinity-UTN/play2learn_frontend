@@ -3,9 +3,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  border-top: 1px solid #e5e7eb;
-  background-color: #f9fafb;
   gap: 1rem;
+  border-radius: 10px;
 }
 
 .paginationInfo {
