@@ -1,19 +1,21 @@
 import { useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useActivityStudent } from "../../../student/hooks/useActivityStudentAPI";
+import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 
 export const useActivityActions = () => {
   const {
     currentActivity,
     getActivityById,
     registerActivityCompleted,
-    refreshStudentDataAfterCompletion,
+    refreshActivityDataAfterCompletion,
   } = useActivityStudent();
+  const { showConfirmation } = useConfirmation();
 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const startActivity = useCallback(
+  const viewActivity = useCallback(
     async (activityId: number | string) => {
       await getActivityById(Number(activityId));
       navigate(`/dashboard/student/actividades/${activityId}/view`);
@@ -21,28 +23,49 @@ export const useActivityActions = () => {
     [getActivityById, navigate]
   );
 
+  const startActivity = useCallback(
+    (activityId: number | string) => {
+      showConfirmation({
+        title: "¿Esta seguro que desea comenzar la actividad?",
+        message: "Esta accion no se puede revertir",
+        onConfirm: () => {
+          if (activityId) {
+            navigate(`/dashboard/student/actividades/${activityId}/play`);
+          }
+        },
+      });
+    },
+    [navigate]
+  );
+
   const finishActivity = useCallback(
     async (isApproved: boolean, onAfterFinish?: () => void) => {
       if (!currentActivity) return;
 
-      await registerActivityCompleted({
-        activityId: currentActivity.id,
-        state: isApproved ? "APPROVED" : "DISAPPROVED",
+      showConfirmation({
+        title: "¿Esta seguro que desea finalizar su intento?",
+        message: "Esta accion no se puede revertir",
+        onConfirm: async () => {
+          await registerActivityCompleted({
+            activityId: currentActivity.id,
+            state: isApproved ? "APPROVED" : "DISAPPROVED",
+          });
+
+          await refreshActivityDataAfterCompletion();
+
+          if (onAfterFinish) onAfterFinish();
+
+          navigate(`/dashboard/student/actividades/${id}/review`);
+        },
       });
-
-      await refreshStudentDataAfterCompletion();
-
-      if (onAfterFinish) onAfterFinish();
-
-      navigate(`/dashboard/student/actividades/${id}/review`);
     },
     [
-      currentActivity,
       id,
+      currentActivity,
       registerActivityCompleted,
-      refreshStudentDataAfterCompletion,
+      refreshActivityDataAfterCompletion,
     ]
   );
 
-  return { startActivity, finishActivity };
+  return { viewActivity, startActivity, finishActivity };
 };

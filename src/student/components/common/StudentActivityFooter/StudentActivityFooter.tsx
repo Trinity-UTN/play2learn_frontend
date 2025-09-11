@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
@@ -15,8 +15,11 @@ interface StudentActivityFooterProps {
   onNext?: () => void;
 
   // Textos personalizables
-  nextButtonText?: string;
   showBackToList?: boolean;
+  backButtonText?: string;
+  showBackButtonIcon?: boolean;
+  nextButtonText?: string;
+  showNextButtonIcon?: boolean;
 
   // Otros
   itemVariants?: any;
@@ -28,8 +31,11 @@ const StudentActivityFooter: React.FC<StudentActivityFooterProps> = ({
   isFormValid = true,
   onBack,
   onNext,
-  nextButtonText = "Continuar",
   showBackToList = true,
+  backButtonText = "Atras",
+  showBackButtonIcon = true,
+  nextButtonText = "Continuar",
+  showNextButtonIcon = true,
   itemVariants,
   className = "",
 }) => {
@@ -42,28 +48,42 @@ const StudentActivityFooter: React.FC<StudentActivityFooterProps> = ({
   const FooterContent = (
     <Card className={`${styles.footer} ${className}`}>
       <div className={styles.footerActions}>
-        {showBackToList && (
-          <Button
-            variant="secondary"
-            onClick={handleBackToList}
-            className={styles.backToListButton}
-            disabled={loading}
-          >
-            <FaArrowLeft />
-            Volver a Actividades
-          </Button>
-        )}
+        <div className={styles.leftSection}>
+          {showBackToList && (
+            <Button
+              variant="secondary"
+              onClick={handleBackToList}
+              className={styles.backToListButton}
+              disabled={loading}
+            >
+              <FaArrowLeft />
+              Volver a Actividades
+            </Button>
+          )}
 
-        <div className={styles.navigationButtons}>
-          {onBack && (
+          {onBack && !showBackToList && (
             <Button
               variant="primary"
               onClick={onBack}
               className={styles.backButton}
               disabled={loading}
             >
-              <FaArrowLeft />
-              Atrás
+              {showBackButtonIcon && <FaArrowLeft />}
+              {backButtonText}
+            </Button>
+          )}
+        </div>
+
+        <div className={styles.rightSection}>
+          {onBack && showBackToList && (
+            <Button
+              variant="primary"
+              onClick={onBack}
+              className={styles.backButton}
+              disabled={loading}
+            >
+              {showBackButtonIcon && <FaArrowLeft />}
+              {backButtonText}
             </Button>
           )}
 
@@ -75,6 +95,7 @@ const StudentActivityFooter: React.FC<StudentActivityFooterProps> = ({
               className={styles.nextButton}
             >
               {loading ? "Cargando..." : nextButtonText}
+              {showNextButtonIcon && <FaArrowRight />}
             </Button>
           )}
         </div>

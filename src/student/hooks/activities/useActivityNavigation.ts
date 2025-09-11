@@ -4,6 +4,10 @@ export const useActivityNavigation = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
+  const goBackToList = () => {
+    navigate("/dashboard/student/actividades/list");
+  };
+
   const goBackToActivityView = () => {
     if (id) {
       navigate(`/dashboard/student/actividades/${id}/view`);
@@ -17,6 +21,7 @@ export const useActivityNavigation = () => {
   };
 
   return {
+    goBackToList,
     goBackToActivityView,
     goToReview,
   };

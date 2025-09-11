@@ -24,7 +24,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
 
   // EXPO: Registry Pattern: Obtener el hook del juego apropiado automáticamente
   const gameManager = useGameManager(currentActivity?.name || activity?.name);
-  const isGameFinished = gameManager?.isGameWon || gameManager?.isGameLost;
+  //const isGameFinished = gameManager?.isGameWon || gameManager?.isGameLost;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -86,10 +86,11 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
 
       <StudentActivityFooter
         loading={loading}
-        isFormValid={isGameFinished}
+        //isFormValid={isGameFinished}
         onBack={goBackToActivityView}
         onNext={handleFinishActivity}
-        nextButtonText="Finalizar"
+        nextButtonText="Finalizar Intento"
+        backButtonText="DEBUG: Atras"
         showBackToList={false}
       />
     </motion.div>

@@ -13,15 +13,15 @@ interface ActivityGridProps {
 
 const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
   const { isRow, toggleLayout } = useLayout();
-  const { startActivity } = useActivityActions();
+  const { viewActivity } = useActivityActions();
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
 
-  const handleStartActivity = async (activityId: string) => {
-    startActivity(Number(activityId));
+  const handleViewActivity = async (activityId: string) => {
+    viewActivity(Number(activityId));
   };
 
   if (activities.length === 0) {
@@ -48,7 +48,7 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
               >
                 <ActivityCard
                   activity={activity}
-                  onStart={handleStartActivity}
+                  onStart={handleViewActivity}
                 />
               </motion.div>
             ))
@@ -58,10 +58,7 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
                 variants={itemVariants}
                 transition={{ delay: index * 0.1 }}
               >
-                <ActivityRow
-                  activity={activity}
-                  onStart={handleStartActivity}
-                />
+                <ActivityRow activity={activity} onStart={handleViewActivity} />
               </motion.div>
             ))}
       </FlexBox>
