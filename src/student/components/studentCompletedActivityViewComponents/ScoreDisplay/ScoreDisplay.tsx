@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
 import styles from "./ScoreDisplay.module.css";
+import { useCountUp } from "../../../../shared/hooks/useCountUp";
 
 interface ScoreDisplayProps {
   scoreProp: number | undefined | null;
@@ -15,26 +16,13 @@ export default function ScoreDisplay({
   passed,
   animationPhase,
 }: ScoreDisplayProps) {
-  const [displayScore, setDisplayScore] = useState(0);
   const score = scoreProp ? scoreProp : 1;
   const maxScore = maxScoreProp ? maxScoreProp : 1;
   const percentage = Math.round((score / (maxScore ? maxScore : 1)) * 100);
-
-  useEffect(() => {
-    if (animationPhase >= 1) {
-      const timer = setInterval(() => {
-        setDisplayScore((prev) => {
-          if (prev >= score) {
-            clearInterval(timer);
-            return score;
-          }
-          return prev + Math.ceil(score / 20);
-        });
-      }, 50);
-
-      return () => clearInterval(timer);
-    }
-  }, [animationPhase, score]);
+  const displayScore = useCountUp(score, animationPhase, {
+    steps: 20,
+    interval: 50,
+  });
 
   const circleVariants: Variants = {
     hidden: { pathLength: 0, opacity: 0 },
@@ -86,7 +74,7 @@ export default function ScoreDisplay({
               passed ? styles.success : styles.failure
             }`}
           >
-            {Math.round((displayScore / (maxScore ? maxScore : 1)) * 100)}% hola
+            {Math.round((displayScore / (maxScore ? maxScore : 1)) * 100)}%
           </div>
         </div>
       </div>
