@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
 import styles from "./ScoreDisplay.module.css";
 import { useCountUp } from "../../../../shared/hooks/useCountUp";

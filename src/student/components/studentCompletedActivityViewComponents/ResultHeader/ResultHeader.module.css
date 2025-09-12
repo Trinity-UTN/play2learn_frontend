@@ -74,7 +74,9 @@
 .activityInfo {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
   padding: 1rem;
   background: rgba(248, 250, 252, 0.8);
   border-radius: 12px;
@@ -82,19 +84,23 @@
 }
 
 .activityTitle {
-  font-size: 1.125rem;
+  display: grid;
+  place-content: center;
+  font-size: 1.8rem;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--color-primary);
+  padding: 0.25rem 0.85rem;
+  background: rgba(var(--color-primary-rgb), 0.1);
+  border-radius: 30px;
 }
 
 .subject {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #3b82f6;
   font-weight: 500;
   padding: 0.25rem 0.75rem;
   background: rgba(59, 130, 246, 0.1);
   border-radius: 20px;
-  align-self: flex-start;
 }
 
 @media (max-width: 768px) {

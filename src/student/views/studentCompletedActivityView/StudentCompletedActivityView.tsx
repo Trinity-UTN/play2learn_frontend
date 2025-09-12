@@ -11,6 +11,7 @@ import CoinsReward from "../../components/studentCompletedActivityViewComponents
 import AchievementsList from "../../components/studentCompletedActivityViewComponents/AchievementsList/AchievementsList";
 import ActionButtons from "../../components/studentCompletedActivityViewComponents/ActionButtons/ActionButtons";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
+import DetailsGeneral from "../../../shared/components/DetailsGame/DetailsGeneral/DetailsGeneral";
 
 interface StudentCompletedActivityViewProps {
   activity?: ActivityUI;
@@ -122,12 +123,7 @@ const StudentCompletedActivityView: React.FC<
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <ScoreDisplay
-            scoreProp={activityCompleted?.reward}
-            maxScoreProp={Number(activity?.reward)}
-            passed={passed}
-            animationPhase={animationPhase}
-          />
+          <DetailsGeneral activityName={currentActivity?.name} />
         </motion.div>
 
         {passed && (
