@@ -123,6 +123,7 @@ export const ActivityStudentProvider = ({
       } finally {
         setLoading(false);
       }
+      console.log(activityCompleted); //DEBUG
     },
     []
   );
