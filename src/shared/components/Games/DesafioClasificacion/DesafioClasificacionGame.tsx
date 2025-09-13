@@ -25,6 +25,9 @@ const DesafioClasificacionGame = ({ mode }: DesafioClasificacionGameProps) => {
   useEffect(() => {
     startGame();
   }, []);
+  useEffect(() => {
+    verifyAnswers();
+  }, [conceptsInCategories]);
   return (
     <div className={styles.container}>
       <div className={styles.decisionsSection}>

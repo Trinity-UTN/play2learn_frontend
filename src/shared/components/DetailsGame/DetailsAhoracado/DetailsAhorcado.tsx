@@ -4,21 +4,18 @@ import styles from "./DetailsAhorcado.module.css";
 import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
 import { HiOutlineFire } from "react-icons/hi";
 import { PiSmileySad } from "react-icons/pi";
-import { GoTrophy } from "react-icons/go";
 import {
   FaBullseye,
   FaCheck,
   FaHeart,
   FaRegChartBar,
-  FaRegHandRock,
   FaRegLightbulb,
   FaSync,
   FaTimes,
 } from "react-icons/fa";
 import { RiTextSnippet } from "react-icons/ri";
 import { GiBookshelf, GiBrain } from "react-icons/gi";
-import { LuThumbsUp } from "react-icons/lu";
-import { IoHandLeftOutline } from "react-icons/io5";
+import { getPerformanceLevel } from "../../../utils/performance";
 export default function ActivityDetails() {
   const {
     gameConfig,
@@ -37,26 +34,8 @@ export default function ActivityDetails() {
   //   return `${mins}:${secs.toString().padStart(2, "0")}`;
   // };
 
-  const getPerformanceLevel = () => {
-    const errorRate = wrongGuesses / maxErrors;
-    if (errorRate <= 0.3)
-      return { level: "Excelente", color: "success", icon: <GoTrophy /> };
-    if (errorRate <= 0.6)
-      return { level: "Bueno", color: "good", icon: <LuThumbsUp /> };
-    if (errorRate <= 0.8)
-      return {
-        level: "Regular",
-        color: "regular",
-        icon: <IoHandLeftOutline />,
-      };
-    return {
-      level: "Necesita mejorar",
-      color: "poor",
-      icon: <FaRegHandRock />,
-    };
-  };
-
-  const performance = getPerformanceLevel();
+  const errorRate = wrongGuesses / maxErrors;
+  const performance = getPerformanceLevel((1 - errorRate) * 100);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0, scale: 0.9 },
