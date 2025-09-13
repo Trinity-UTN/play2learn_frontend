@@ -5,9 +5,7 @@ import styles from "./StudentCompletedActivityView.module.css";
 import { useEffect, useState } from "react";
 import ConfettiEffect from "../../components/studentCompletedActivityViewComponents/ConfettiEffect/ConfettiEffect";
 import ResultHeader from "../../components/studentCompletedActivityViewComponents/ResultHeader/ResultHeader";
-import ScoreDisplay from "../../components/studentCompletedActivityViewComponents/ScoreDisplay/ScoreDisplay";
 import CoinsReward from "../../components/studentCompletedActivityViewComponents/CoinsReward/CoinsReward";
-import AchievementsList from "../../components/studentCompletedActivityViewComponents/AchievementsList/AchievementsList";
 import ActionButtons from "../../components/studentCompletedActivityViewComponents/ActionButtons/ActionButtons";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import DetailsGeneral from "../../../shared/components/DetailsGame/DetailsGeneral/DetailsGeneral";
@@ -121,43 +119,6 @@ const StudentCompletedActivityView = () => {
         <motion.div variants={itemVariants}>
           <DetailsGeneral activityName={currentActivity?.name} />
         </motion.div>
-
-        {/* {result.achievements && result.achievements.length > 0 && (
-          <motion.div variants={itemVariants}>
-            <AchievementsList
-              achievements={result.achievements}
-              animationPhase={animationPhase}
-            />
-          </motion.div>
-        )} */}
-
-        {/* <motion.div variants={itemVariants} className={styles.statsSection}>
-          <div className={styles.statItem}>
-            <span className={styles.statLabel}>⏱️ Tiempo</span>
-            <span className={styles.statValue}>
-              {Math.floor(result.timeSpent / 60)}:
-              {(result.timeSpent % 60).toString().padStart(2, "0")}
-            </span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statLabel}>🎯 Dificultad</span>
-            <span
-              className={`${styles.statValue} ${styles[result.difficulty]}`}
-            >
-              {result.difficulty === "easy"
-                ? "Fácil"
-                : result.difficulty === "medium"
-                ? "Medio"
-                : "Difícil"}
-            </span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statLabel}>🔄 Intento</span>
-            <span className={styles.statValue}>
-              {result.attempts}/{result.maxAttempts}
-            </span>
-          </div>
-        </motion.div> */}
       </motion.div>
       <motion.div variants={itemVariants}>
         <ActionButtons passed={passed} activity={currentActivity} />

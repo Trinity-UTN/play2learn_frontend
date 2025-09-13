@@ -1,3 +1,4 @@
+@import "../../../styles/colors.css";
 .detailsContainer {
   width: 100%;
   max-width: 800px;
@@ -65,6 +66,8 @@
 .resultIcon {
   font-size: 3rem;
   animation: bounce 2s infinite;
+  color: var(--color-secondary);
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.955));
 }
 
 @keyframes bounce {
@@ -198,6 +201,7 @@
   justify-content: center;
   background: #f3f4f6;
   border-radius: 50%;
+  color: var(--color-primary);
 }
 
 .statContent {

@@ -111,15 +111,16 @@ export default function CoinsReward({
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 0.5 }}
       >
-        {[...Array(5)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
             className={styles.floatingCoin}
+            style={{ left: `${20 + Math.random() * 60}%` }}
             initial={{ y: 0, opacity: 1 }}
             animate={{
               y: [-20, -40, -60],
               opacity: [1, 0.8, 0],
-              x: [0, Math.random() * 40 - 20],
+              x: [0, Math.random() * 60 - 30],
             }}
             transition={{
               duration: 2,

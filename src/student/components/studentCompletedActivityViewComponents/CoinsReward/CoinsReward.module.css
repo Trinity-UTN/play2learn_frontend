@@ -83,11 +83,11 @@
 }
 
 .floatingCoin {
-  color: white;
+  color: var(--color-stat-3);
   position: absolute;
   font-size: 1.5rem;
   left: 50%;
-  top: 50%;
+  top: 30%;
   transform: translate(-50%, -50%);
 }
 

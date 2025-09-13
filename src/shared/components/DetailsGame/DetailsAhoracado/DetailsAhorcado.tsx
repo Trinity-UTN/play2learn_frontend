@@ -2,7 +2,23 @@ import { motion, type Variants } from "framer-motion";
 import { useAhorcadoGame } from "../../../hooks/games/useAhorcadoGame";
 import styles from "./DetailsAhorcado.module.css";
 import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
-
+import { HiOutlineFire } from "react-icons/hi";
+import { PiSmileySad } from "react-icons/pi";
+import { GoTrophy } from "react-icons/go";
+import {
+  FaBullseye,
+  FaCheck,
+  FaHeart,
+  FaRegChartBar,
+  FaRegHandRock,
+  FaRegLightbulb,
+  FaSync,
+  FaTimes,
+} from "react-icons/fa";
+import { RiTextSnippet } from "react-icons/ri";
+import { GiBookshelf, GiBrain } from "react-icons/gi";
+import { LuThumbsUp } from "react-icons/lu";
+import { IoHandLeftOutline } from "react-icons/io5";
 export default function ActivityDetails() {
   const {
     gameConfig,
@@ -15,20 +31,29 @@ export default function ActivityDetails() {
     livesRemaining,
   } = useAhorcadoGame();
   const { currentActivity } = useActivityStudent();
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
+  // const formatTime = (seconds: number) => {
+  //   const mins = Math.floor(seconds / 60);
+  //   const secs = seconds % 60;
+  //   return `${mins}:${secs.toString().padStart(2, "0")}`;
+  // };
 
   const getPerformanceLevel = () => {
     const errorRate = wrongGuesses / maxErrors;
     if (errorRate <= 0.3)
-      return { level: "Excelente", color: "success", icon: "🏆" };
-    if (errorRate <= 0.6) return { level: "Bueno", color: "good", icon: "👍" };
+      return { level: "Excelente", color: "success", icon: <GoTrophy /> };
+    if (errorRate <= 0.6)
+      return { level: "Bueno", color: "good", icon: <LuThumbsUp /> };
     if (errorRate <= 0.8)
-      return { level: "Regular", color: "regular", icon: "👌" };
-    return { level: "Necesita mejorar", color: "poor", icon: "💪" };
+      return {
+        level: "Regular",
+        color: "regular",
+        icon: <IoHandLeftOutline />,
+      };
+    return {
+      level: "Necesita mejorar",
+      color: "poor",
+      icon: <FaRegHandRock />,
+    };
   };
 
   const performance = getPerformanceLevel();
@@ -68,18 +93,17 @@ export default function ActivityDetails() {
         }`}
         variants={itemVariants}
       >
-        <div className={styles.resultIcon}>{isGameWon ? "🎉" : "😔"}</div>
+        <div className={styles.resultIcon}>
+          {isGameWon ? <HiOutlineFire /> : <PiSmileySad />}
+        </div>
         <div className={styles.resultText}>
           <h3>{isGameWon ? "¡Palabra Completada!" : "Juego Terminado"}</h3>
-          <p className={styles.wordReveal}>
-            La palabra era: <strong>{gameConfig?.word || "---"}</strong>
-          </p>
         </div>
       </motion.div>
 
       {/* Visualización de la Palabra */}
       <motion.div className={styles.wordSection} variants={itemVariants}>
-        <h4>📝 Estado Final de la Palabra</h4>
+        <h4>Estado Final de la Palabra</h4>
         <div className={styles.wordDisplay}>
           {renderWordDisplay(guessedLetters)}
         </div>
@@ -87,7 +111,7 @@ export default function ActivityDetails() {
 
       {/* Ahorcado Visual */}
       <motion.div className={styles.hangmanSection} variants={itemVariants}>
-        <h4>🎭 Estado del Ahorcado</h4>
+        <h4>Estado del Ahorcado</h4>
         <div className={styles.hangmanDisplay}>
           <pre>{renderHangman(wrongGuesses)}</pre>
         </div>
@@ -96,7 +120,9 @@ export default function ActivityDetails() {
       {/* Estadísticas del Juego */}
       <motion.div className={styles.statsGrid} variants={itemVariants}>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>✅</div>
+          <div className={styles.statIcon}>
+            <FaCheck />
+          </div>
           <div className={styles.statContent}>
             <span className={styles.statLabel}>Letras Correctas</span>
             <span className={styles.statValue}>
@@ -110,7 +136,9 @@ export default function ActivityDetails() {
         </div>
 
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>❌</div>
+          <div className={styles.statIcon}>
+            <FaTimes />
+          </div>
           <div className={styles.statContent}>
             <span className={styles.statLabel}>Errores Cometidos</span>
             <span className={styles.statValue}>
@@ -120,7 +148,9 @@ export default function ActivityDetails() {
         </div>
 
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>❤️</div>
+          <div className={styles.statIcon}>
+            <FaHeart />
+          </div>
           <div className={styles.statContent}>
             <span className={styles.statLabel}>Vidas Restantes</span>
             <span className={styles.statValue}>{livesRemaining}</span>
@@ -136,7 +166,9 @@ export default function ActivityDetails() {
         </div> */}
 
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>🔄</div>
+          <div className={styles.statIcon}>
+            <FaSync />
+          </div>
           <div className={styles.statContent}>
             <span className={styles.statLabel}>Intento</span>
             <span className={styles.statValue}>
@@ -160,7 +192,9 @@ export default function ActivityDetails() {
 
       {/* Letras Utilizadas */}
       <motion.div className={styles.lettersSection} variants={itemVariants}>
-        <h4>🔤 Letras Utilizadas</h4>
+        <h4>
+          <RiTextSnippet /> Letras Utilizadas
+        </h4>
         <div className={styles.lettersGrid}>
           {guessedLetters.map((letter, index) => {
             const isCorrect = gameConfig?.word
@@ -192,7 +226,9 @@ export default function ActivityDetails() {
 
       {/* Análisis de Estrategia */}
       <motion.div className={styles.analysisSection} variants={itemVariants}>
-        <h4>📊 Análisis de tu Estrategia</h4>
+        <h4>
+          <FaRegChartBar /> Análisis de tu Estrategia
+        </h4>
         <div className={styles.analysisGrid}>
           <div className={styles.analysisItem}>
             <span className={styles.analysisLabel}>Eficiencia:</span>
@@ -230,18 +266,26 @@ export default function ActivityDetails() {
       {/* Consejos para Mejorar */}
       {!isGameWon && (
         <motion.div className={styles.tipsSection} variants={itemVariants}>
-          <h4>💡 Consejos para Mejorar</h4>
+          <h4>
+            <FaRegLightbulb /> Consejos para Mejorar
+          </h4>
           <div className={styles.tipsList}>
             <div className={styles.tip}>
-              <span className={styles.tipIcon}>🎯</span>
+              <span className={styles.tipIcon}>
+                <FaBullseye />
+              </span>
               <span>Comienza con las vocales más comunes (A, E, I, O, U)</span>
             </div>
             <div className={styles.tip}>
-              <span className={styles.tipIcon}>📚</span>
+              <span className={styles.tipIcon}>
+                <GiBookshelf />
+              </span>
               <span>Piensa en consonantes frecuentes como R, S, T, N, L</span>
             </div>
             <div className={styles.tip}>
-              <span className={styles.tipIcon}>🧠</span>
+              <span className={styles.tipIcon}>
+                <GiBrain />
+              </span>
               <span>Considera el contexto y la longitud de la palabra</span>
             </div>
           </div>

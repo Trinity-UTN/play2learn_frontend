@@ -1,6 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import styles from "./ResultHeader.module.css";
 import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
+import { HiOutlineSparkles } from "react-icons/hi";
 interface ResultHeaderProps {
   passed: boolean;
   activityTitle: string | undefined;
@@ -44,7 +45,7 @@ export default function ResultHeader({
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
           >
-            ✨
+            <HiOutlineSparkles />
           </motion.div>
         )}
       </motion.div>
