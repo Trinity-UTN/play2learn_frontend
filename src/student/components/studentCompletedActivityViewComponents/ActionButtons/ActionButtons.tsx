@@ -1,15 +1,19 @@
 import { motion, type Variants } from "framer-motion";
 import styles from "./ActionButtons.module.css";
 import { useNavigate } from "react-router-dom";
+import { useGameManager } from "../../../../shared/hooks/games/useGameManager";
+import type { CurrentActivityInterface } from "../../../types/Activity.type";
 interface ActionButtonsProps {
   passed: boolean;
-  onContinue: () => void;
-  onRetry?: () => void;
-  onViewDetails?: () => void;
-  hasRetryAttempts: boolean;
+  activity: CurrentActivityInterface;
 }
 
-export default function ActionButtons({ passed }: ActionButtonsProps) {
+export default function ActionButtons({
+  passed,
+  activity,
+}: ActionButtonsProps) {
+  const gameManager = useGameManager(activity?.name);
+
   const navigate = useNavigate();
   const containerVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -36,12 +40,17 @@ export default function ActionButtons({ passed }: ActionButtonsProps) {
     },
   };
 
+  const handleFinishActivity = async () => {
+    if (!activity) return;
+    gameManager?.resetGame();
+  };
   const onContinue = () => {
     if (passed) {
       navigate("/dashboard/student/wallet");
     } else {
       navigate("/dashboard/student/actividades/list");
     }
+    handleFinishActivity();
   };
   return (
     <motion.div

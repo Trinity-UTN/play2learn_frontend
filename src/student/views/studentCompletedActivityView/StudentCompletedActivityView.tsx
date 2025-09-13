@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
-import type { ActivityUI } from "../../types/Activity.type";
 import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import styles from "./StudentCompletedActivityView.module.css";
 import { useEffect, useState } from "react";
@@ -13,17 +12,7 @@ import ActionButtons from "../../components/studentCompletedActivityViewComponen
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import DetailsGeneral from "../../../shared/components/DetailsGame/DetailsGeneral/DetailsGeneral";
 
-interface StudentCompletedActivityViewProps {
-  activity?: ActivityUI;
-  result: ActivityUI;
-  onContinue: () => void;
-  onRetry?: () => void;
-  onViewDetails?: () => void;
-}
-
-const StudentCompletedActivityView: React.FC<
-  StudentCompletedActivityViewProps
-> = ({ activity, onContinue, onRetry, onViewDetails }) => {
+const StudentCompletedActivityView = () => {
   const { loading, currentActivity, activityCompleted } = useActivityStudent();
   const navigate = useNavigate();
   const [showConfetti, setShowConfetti] = useState(false);
@@ -86,7 +75,7 @@ const StudentCompletedActivityView: React.FC<
     );
   }
 
-  if (!currentActivity && !activity) {
+  if (!currentActivity) {
     return (
       <div className={styles.errorContainer}>
         <h2>Actividad no encontrada</h2>
@@ -100,7 +89,6 @@ const StudentCompletedActivityView: React.FC<
       </div>
     );
   }
-  console.log(activityCompleted);
 
   return (
     <div className={styles.container}>
@@ -122,10 +110,6 @@ const StudentCompletedActivityView: React.FC<
           />
         </motion.div>
 
-        <motion.div variants={itemVariants}>
-          <DetailsGeneral activityName={currentActivity?.name} />
-        </motion.div>
-
         {passed && (
           <motion.div variants={itemVariants}>
             <CoinsReward
@@ -134,6 +118,9 @@ const StudentCompletedActivityView: React.FC<
             />
           </motion.div>
         )}
+        <motion.div variants={itemVariants}>
+          <DetailsGeneral activityName={currentActivity?.name} />
+        </motion.div>
 
         {/* {result.achievements && result.achievements.length > 0 && (
           <motion.div variants={itemVariants}>
@@ -171,18 +158,9 @@ const StudentCompletedActivityView: React.FC<
             </span>
           </div>
         </motion.div> */}
-
-        <motion.div variants={itemVariants}>
-          <ActionButtons
-            passed={passed}
-            onContinue={onContinue}
-            onRetry={onRetry}
-            onViewDetails={onViewDetails}
-            hasRetryAttempts={
-              activityCompleted?.remainingAttempts ? true : false
-            }
-          />
-        </motion.div>
+      </motion.div>
+      <motion.div variants={itemVariants}>
+        <ActionButtons passed={passed} activity={currentActivity} />
       </motion.div>
     </div>
   );

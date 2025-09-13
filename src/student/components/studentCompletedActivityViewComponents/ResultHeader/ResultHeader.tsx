@@ -1,6 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import styles from "./ResultHeader.module.css";
-
+import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 interface ResultHeaderProps {
   passed: boolean;
   activityTitle: string | undefined;
@@ -12,6 +12,7 @@ export default function ResultHeader({
   activityTitle,
   subjectName,
 }: ResultHeaderProps) {
+  const { currentStudent } = useCurrentStudent();
   const iconVariants: Variants = {
     hidden: { scale: 0, rotate: -180 },
     visible: {
@@ -26,17 +27,6 @@ export default function ResultHeader({
     },
   };
 
-  const pulseVariants: Variants = {
-    pulse: {
-      scale: [1, 1.1, 1],
-      transition: {
-        duration: 2,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "easeInOut",
-      },
-    },
-  };
-
   return (
     <div
       className={`${styles.header} ${passed ? styles.success : styles.failure}`}
@@ -47,13 +37,6 @@ export default function ResultHeader({
         initial="hidden"
         animate="visible"
       >
-        <motion.div
-          className={styles.icon}
-          animate={passed ? "pulse" : ""}
-          variants={pulseVariants}
-        >
-          {passed ? "🎉" : "😔"}
-        </motion.div>
         {passed && (
           <motion.div
             className={styles.sparkles}
@@ -73,7 +56,9 @@ export default function ResultHeader({
         transition={{ delay: 0.3, duration: 0.5 }}
       >
         <h1 className={styles.title}>
-          {passed ? "¡Felicitaciones!" : "¡Sigue intentando!"}
+          {passed
+            ? `¡Felicitaciones ${currentStudent?.name}!`
+            : "¡Sigue intentando!"}
         </h1>
         <h2 className={styles.subtitle}>
           {passed ? "Has completado la actividad" : "No has aprobado esta vez"}

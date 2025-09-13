@@ -44,7 +44,6 @@ const StudentActivityFooter: React.FC<StudentActivityFooterProps> = ({
   const handleBackToList = () => {
     navigate("/dashboard/student/actividades/list");
   };
-
   const FooterContent = (
     <Card className={`${styles.footer} ${className}`}>
       <div className={styles.footerActions}>

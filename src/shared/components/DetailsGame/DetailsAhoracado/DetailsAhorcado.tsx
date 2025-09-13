@@ -54,7 +54,6 @@ export default function ActivityDetails() {
       transition: { duration: 0.4, ease: "easeOut" },
     },
   };
-
   return (
     <motion.div
       className={styles.detailsContainer}
