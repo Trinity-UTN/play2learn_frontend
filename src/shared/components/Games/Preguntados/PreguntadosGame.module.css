@@ -81,6 +81,20 @@
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
+.gameCardCountdown {
+  background: #8a80ce;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-height: 500px;
+}
+
+.gameCardCountdown:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
 .startScreen {
   display: flex;
   align-items: center;
@@ -101,7 +115,7 @@
 
 .startIcon {
   font-size: 4rem;
-  color: #667eea;
+  color: #7c56a9;
   margin-bottom: 1rem;
   animation: bounce 2s infinite;
 }
@@ -137,19 +151,17 @@
 }
 
 .startButton {
-  padding: 1rem 2rem;
+  background: #7c56a9;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
   font-size: 1.1rem;
   font-weight: 600;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   border-radius: 12px;
   color: white;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .startButton:hover {
@@ -162,7 +174,7 @@
   align-items: center;
   justify-content: center;
   min-height: 500px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8a80ce;
 }
 
 .countdownContent {
@@ -210,13 +222,13 @@
   position: absolute;
   top: 1rem;
   left: 1.5rem;
-  background: rgba(102, 126, 234, 0.1);
+  background: #8a80ce;
   border: 1px solid rgba(102, 126, 234, 0.3);
   border-radius: 20px;
   padding: 0.5rem 1rem;
   font-weight: 600;
   font-size: 0.9rem;
-  color: #667eea;
+  color: white;
 }
 
 .circularTimer {
@@ -241,7 +253,7 @@
 
 .timerCircleProgress {
   fill: none;
-  stroke: #667eea;
+  stroke: #8a80ce;
   stroke-width: 6;
   stroke-linecap: round;
   transition: stroke-dashoffset 1s linear;
@@ -362,7 +374,7 @@
 }
 
 .optionButton:hover {
-  border-color: #667eea;
+  border-color: #8a80ce;
   background: rgba(255, 255, 255, 0.95);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
@@ -383,7 +395,7 @@
   border: 2px solid rgba(102, 126, 234, 0.3);
   border-radius: 50%;
   font-weight: 700;
-  color: #667eea;
+  color: #8a80ce;
   flex-shrink: 0;
   transition: all 0.3s ease;
   font-size: 1.1rem;
@@ -397,15 +409,15 @@
 }
 
 .selected {
-  border-color: #667eea;
+  border-color: #8a80ce;
   background: rgba(102, 126, 234, 0.1);
   transform: translateY(-2px);
 }
 
 .selected .optionLetter {
-  background: #667eea;
+  background: #8a80ce;
   color: white;
-  border-color: #667eea;
+  border-color: #8a80ce;
 }
 
 .correct {
@@ -789,7 +801,8 @@
     font-size: 0.9rem;
   }
 
-  .gameCard {
+  .gameCard,
+  .gameCardCountdown {
     min-height: 400px;
   }
 

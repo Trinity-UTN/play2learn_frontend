@@ -93,6 +93,7 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
                 onClick={startGame}
                 className={styles.startButton}
                 size="lg"
+                variant="secondary"
               >
                 <FaPlay />
                 Comenzar Juego
@@ -119,11 +120,11 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
           </div>
         )}
 
-        <div className={styles.gameCard}>
+        <div className={styles.gameCardCountdown}>
           <div className={styles.countdownScreen}>
             <div className={styles.countdownContent}>
               <div className={styles.countdownNumber}>{countdownValue}</div>
-              <p className={styles.countdownText}>Prepárate...</p>
+              <p className={styles.countdownText}>Prepárate</p>
             </div>
           </div>
         </div>
