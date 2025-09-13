@@ -1,39 +1,30 @@
 import type {
   PreguntadosConfig,
   Question,
+  QuestionResult,
+  TimerProgress,
+  FinalScore,
 } from "../../../../activity/types/Preguntados.type";
 import type { GameHook } from "../../../types/Games.type";
 
-export interface QuestionResult {
-  questionIndex: number;
-  selectedAnswer: number | null;
-  correctAnswer: number;
-  isCorrect: boolean;
-  timeSpent: number;
-  timeRemaining: number;
-}
-
 export interface PreguntadosGameContextType extends GameHook {
-  // Configuración del juego
+  // Estados del juego
   gameConfig: PreguntadosConfig | null;
   questions: Question[];
-
-  // Estados del juego actual
-  currentQuestion: Question | null;
   currentQuestionIndex: number;
   selectedAnswer: number | null;
   timeRemaining: number;
   isCountingDown: boolean;
   countdownValue: number;
   gamePhase: "waiting" | "countdown" | "question" | "answered" | "finished";
-
-  // Resultados y estadísticas
   results: QuestionResult[];
-  correctAnswers: number;
-  totalQuestions: number;
-  isLastQuestion: boolean;
+  showExplosion: boolean;
 
-  // Estados de control
+  // Estados del juego actual
+  currentQuestion: Question | null;
+  totalQuestions: number;
+  correctAnswers: number;
+  isLastQuestion: boolean;
   canSelectAnswer: boolean;
   showCorrectAnswer: boolean;
 
@@ -42,4 +33,12 @@ export interface PreguntadosGameContextType extends GameHook {
   nextQuestion: () => void;
   resetGame: () => void;
   startGame: () => void;
+
+  // Funciones auxiliares
+  getMaxTimePerQuestion: () => number;
+  getTimerClass: () => string;
+  getTimerProgress: () => TimerProgress;
+  getFinalScore: () => FinalScore;
+  getCorrectAnswerIndex: () => number;
+  isPreviewRoute: () => boolean;
 }

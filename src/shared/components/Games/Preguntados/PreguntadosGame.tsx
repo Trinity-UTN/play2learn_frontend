@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaGamepad,
@@ -14,6 +13,7 @@ import {
 } from "react-icons/fa";
 import Button from "../../Button/ButtonComponent";
 import { usePreguntadosGame } from "../../../hooks/games/usePreguntadosGame";
+import { usePreguntadosGameActions } from "../../../hooks/games/preguntados/usePreguntadosGameActions";
 import styles from "./PreguntadosGame.module.css";
 
 interface PreguntadosGameProps {
@@ -38,59 +38,28 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
     isLastQuestion,
     canSelectAnswer,
     showCorrectAnswer,
+    showExplosion,
     startGame,
     selectAnswer,
     nextQuestion,
     resetGame,
+    getTimerClass,
+    getTimerProgress,
+    getFinalScore,
+    getCorrectAnswerIndex,
+    isPreviewRoute,
   } = usePreguntadosGame();
 
-  const [showExplosion, setShowExplosion] = useState(false);
-
-  const getMaxTimePerQuestion = () => {
-    if (!gameConfig) return 30;
-    if ("questions" in gameConfig) {
-      return gameConfig.maxTimePerQuestionInSeconds;
-    } else {
-      return gameConfig.maxTimePerQuestionInSeconds;
-    }
-  };
-
-  const maxTime = getMaxTimePerQuestion();
-  const progress = ((maxTime - timeRemaining) / maxTime) * 100;
-  const circumference = 2 * Math.PI * 35; // radio de 35
-  const strokeDashoffset = circumference - (progress / 100) * circumference;
-
-  useEffect(() => {
-    if (timeRemaining === 0 && gamePhase === "question") {
-      setShowExplosion(true);
-      const timer = setTimeout(() => {
-        setShowExplosion(false);
-      }, 600);
-      return () => clearTimeout(timer);
-    }
-  }, [timeRemaining, gamePhase]);
-
-  const getTimerClass = () => {
-    if (timeRemaining <= 3) return "danger";
-    if (timeRemaining <= 5) return "warning";
-    return "";
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
+  const { itemVariants, getOptionLetter, getResultMessage, getNextButtonText } =
+    usePreguntadosGameActions();
 
   const containerClass =
     mode === "student"
       ? `${styles.activityContainer} ${styles.studentMode}`
       : styles.activityContainer;
 
-  const isPreviewRoute =
-    typeof window !== "undefined" &&
-    window.location.pathname.includes(
-      "/dashboard/teacher/actividad/configuration/preguntados"
-    );
+  const { circumference, strokeDashoffset } = getTimerProgress();
+  const correctAnswerIndex = getCorrectAnswerIndex();
 
   if (gamePhase === "waiting") {
     return (
@@ -163,9 +132,6 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
   }
 
   if (gamePhase === "question" || gamePhase === "answered") {
-    const correctAnswerIndex =
-      currentQuestion?.options.findIndex((opt) => opt.isCorrect) ?? -1;
-
     return (
       <motion.div variants={itemVariants} className={containerClass}>
         {mode === "preview" && (
@@ -249,14 +215,15 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
                 }
 
                 return (
-                  <button
+                  <Button
                     key={index}
                     onClick={() => selectAnswer(index)}
                     disabled={!canSelectAnswer}
+                    variant="ghost"
                     className={optionClass}
                   >
                     <span className={styles.optionLetter}>
-                      {String.fromCharCode(65 + index)}
+                      {getOptionLetter(index)}
                     </span>
                     <span className={styles.optionText}>{option.option}</span>
                     {showCorrectAnswer && index === correctAnswerIndex && (
@@ -267,7 +234,7 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
                       index !== correctAnswerIndex && (
                         <FaTimes className={styles.incorrectIcon} />
                       )}
-                  </button>
+                  </Button>
                 );
               })}
             </div>
@@ -280,7 +247,7 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
                     <span>
                       Respuesta correcta:{" "}
                       <strong>
-                        {String.fromCharCode(65 + correctAnswerIndex)}){" "}
+                        {getOptionLetter(correctAnswerIndex)}){" "}
                         {currentQuestion?.options[correctAnswerIndex]?.option}
                       </strong>
                     </span>
@@ -292,11 +259,11 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
                     {isLastQuestion ? (
                       <>
                         <FaTrophy />
-                        Ver Resultados
+                        {getNextButtonText(isLastQuestion)}
                       </>
                     ) : (
                       <>
-                        Siguiente Pregunta
+                        {getNextButtonText(isLastQuestion)}
                         <FaArrowRight />
                       </>
                     )}
@@ -311,8 +278,7 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
   }
 
   if (gamePhase === "finished") {
-    const percentage = Math.round((correctAnswers / totalQuestions) * 100);
-    const isPassed = percentage >= 60;
+    const { percentage, isPassed } = getFinalScore();
 
     return (
       <motion.div variants={itemVariants} className={containerClass}>
@@ -338,7 +304,7 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
                 />
               )}
               <h3 className={styles.resultTitle}>
-                {isPassed ? "¡Felicitaciones!" : "Juego Terminado"}
+                {getResultMessage(isPassed)}
               </h3>
             </div>
 
@@ -377,7 +343,7 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
               </div>
             )}
 
-            {isPreviewRoute && (
+            {isPreviewRoute() && (
               <div className={styles.actionButtons}>
                 <Button
                   variant="secondary"

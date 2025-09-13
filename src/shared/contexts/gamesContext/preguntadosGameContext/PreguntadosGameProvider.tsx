@@ -6,14 +6,12 @@ import {
   type ReactNode,
 } from "react";
 import { PreguntadosGameContext } from "./PreguntadosGameContext";
-import type {
-  PreguntadosGameContextType,
-  QuestionResult,
-} from "./PreguntadosGameContext.type";
+import type { PreguntadosGameContextType } from "./PreguntadosGameContext.type";
 import type {
   PreguntadosConfig,
   Question,
   PreguntadosInterface,
+  QuestionResult,
 } from "../../../../activity/types/Preguntados.type";
 import { GameType } from "../../../types/Games.type";
 import { getGameTypeFromActivityName } from "../../../registry/games/gameMapping";
@@ -29,7 +27,7 @@ interface PreguntadosGameProviderProps {
 export const PreguntadosGameProvider: React.FC<
   PreguntadosGameProviderProps
 > = ({ children, config: propConfig, mode = "preview" }) => {
-  const { config } = useCreatePreguntados();
+  const { config, questions: configQuestions } = useCreatePreguntados();
   const { currentActivity } = useActivityStudent();
 
   // Referencias para timers
@@ -49,28 +47,15 @@ export const PreguntadosGameProvider: React.FC<
   >("waiting");
   const [results, setResults] = useState<QuestionResult[]>([]);
   const [questionStartTime, setQuestionStartTime] = useState<number>(0);
+  const [showExplosion, setShowExplosion] = useState(false);
 
-  // Configurar el juego basado en el modo y datos disponibles
   useEffect(() => {
     if (mode === "preview" && config) {
       setGameConfig({
         totalQuestions: config.totalQuestions || 5,
         maxTimePerQuestionInSeconds: config.maxTimePerQuestionInSeconds || 30,
       });
-      // En modo preview, usar preguntas de ejemplo
-      const exampleQuestions: Question[] = Array.from(
-        { length: config.totalQuestions || 5 },
-        (_, i) => ({
-          question: `Pregunta de ejemplo ${i + 1}`,
-          options: [
-            { option: "Opción A", isCorrect: i % 4 === 0 },
-            { option: "Opción B", isCorrect: i % 4 === 1 },
-            { option: "Opción C", isCorrect: i % 4 === 2 },
-            { option: "Opción D", isCorrect: i % 4 === 3 },
-          ],
-        })
-      );
-      setQuestions(exampleQuestions);
+      setQuestions(configQuestions);
     } else if (mode === "student" && currentActivity) {
       const gameType = getGameTypeFromActivityName(currentActivity.name);
 
@@ -87,20 +72,7 @@ export const PreguntadosGameProvider: React.FC<
       }
     } else if (propConfig) {
       setGameConfig(propConfig);
-      // Si se proporciona config pero no preguntas, usar preguntas de ejemplo
-      const exampleQuestions: Question[] = Array.from(
-        { length: propConfig.totalQuestions },
-        (_, i) => ({
-          question: `Pregunta de ejemplo ${i + 1}`,
-          options: [
-            { option: "Opción A", isCorrect: i % 4 === 0 },
-            { option: "Opción B", isCorrect: i % 4 === 1 },
-            { option: "Opción C", isCorrect: i % 4 === 2 },
-            { option: "Opción D", isCorrect: i % 4 === 3 },
-          ],
-        })
-      );
-      setQuestions(exampleQuestions);
+      setQuestions(questions);
     }
   }, [mode, propConfig, config, currentActivity]);
 
@@ -118,7 +90,68 @@ export const PreguntadosGameProvider: React.FC<
   const isGameLost = gamePhase === "finished" && !isGameWon;
   const gameStarted = gamePhase !== "waiting";
 
-  // Limpiar timers
+  // Funciones auxiliares
+  const getMaxTimePerQuestion = useCallback(() => {
+    if (!gameConfig) return 30;
+    if ("questions" in gameConfig) {
+      return gameConfig.maxTimePerQuestionInSeconds;
+    } else {
+      return gameConfig.maxTimePerQuestionInSeconds;
+    }
+  }, [gameConfig]);
+
+  const getTimerClass = useCallback(() => {
+    if (timeRemaining <= 3) return "danger";
+    if (timeRemaining <= 5) return "warning";
+    return "";
+  }, [timeRemaining]);
+
+  const getTimerProgress = useCallback(() => {
+    const maxTime = getMaxTimePerQuestion();
+    const progress = ((maxTime - timeRemaining) / maxTime) * 100;
+    const circumference = 2 * Math.PI * 35; // radio de 35
+    const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+    return {
+      progress,
+      circumference,
+      strokeDashoffset,
+    };
+  }, [getMaxTimePerQuestion, timeRemaining]);
+
+  const getFinalScore = useCallback(() => {
+    const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+    const isPassed = percentage >= 60;
+
+    return {
+      percentage,
+      isPassed,
+    };
+  }, [correctAnswers, totalQuestions]);
+
+  const getCorrectAnswerIndex = useCallback(() => {
+    return currentQuestion?.options.findIndex((opt) => opt.isCorrect) ?? -1;
+  }, [currentQuestion]);
+
+  const isPreviewRoute = useCallback(() => {
+    return (
+      typeof window !== "undefined" &&
+      window.location.pathname.includes(
+        "/dashboard/teacher/actividad/configuration/preguntados"
+      )
+    );
+  }, []);
+
+  useEffect(() => {
+    if (timeRemaining === 0 && gamePhase === "question") {
+      setShowExplosion(true);
+      const timer = setTimeout(() => {
+        setShowExplosion(false);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [timeRemaining, gamePhase]);
+
   const clearTimers = useCallback(() => {
     if (questionTimerRef.current) {
       clearInterval(questionTimerRef.current);
@@ -130,7 +163,6 @@ export const PreguntadosGameProvider: React.FC<
     }
   }, []);
 
-  // Iniciar countdown antes de mostrar pregunta
   const startCountdown = useCallback(() => {
     setGamePhase("countdown");
     setIsCountingDown(true);
@@ -164,7 +196,6 @@ export const PreguntadosGameProvider: React.FC<
     }, 1000);
   }, [gameConfig?.maxTimePerQuestionInSeconds]);
 
-  // Manejar cuando se acaba el tiempo
   const handleTimeUp = useCallback(() => {
     if (gamePhase !== "question") return;
 
@@ -204,6 +235,8 @@ export const PreguntadosGameProvider: React.FC<
     (answerIndex: number) => {
       if (!canSelectAnswer) return;
 
+      const currentTimeRemaining = timeRemaining;
+
       clearTimers();
       setSelectedAnswer(answerIndex);
 
@@ -217,11 +250,12 @@ export const PreguntadosGameProvider: React.FC<
         correctAnswer: correctAnswerIndex,
         isCorrect: answerIndex === correctAnswerIndex,
         timeSpent: timeSpent,
-        timeRemaining: timeRemaining,
+        timeRemaining: currentTimeRemaining,
       };
 
       setResults((prev) => [...prev, result]);
       setGamePhase("answered");
+      setTimeRemaining(currentTimeRemaining);
     },
     [
       canSelectAnswer,
@@ -254,6 +288,7 @@ export const PreguntadosGameProvider: React.FC<
     setCountdownValue(3);
     setResults([]);
     setQuestionStartTime(0);
+    setShowExplosion(false);
   }, [clearTimers]);
 
   // Limpiar timers al desmontar
@@ -264,30 +299,25 @@ export const PreguntadosGameProvider: React.FC<
   }, [clearTimers]);
 
   const contextValue: PreguntadosGameContextType = {
-    // Configuración del juego
+    // Estados del juego
     gameConfig,
     questions,
-
-    // Estados del juego actual
-    currentQuestion,
     currentQuestionIndex,
     selectedAnswer,
     timeRemaining,
     isCountingDown,
     countdownValue,
     gamePhase,
-
-    // Resultados y estadísticas
     results,
-    correctAnswers,
-    totalQuestions,
-    isLastQuestion,
+    showExplosion,
 
-    // Estados de control
+    // Estados calculados
+    currentQuestion,
+    totalQuestions,
+    correctAnswers,
+    isLastQuestion,
     canSelectAnswer,
     showCorrectAnswer,
-
-    // Estados del GameHook
     isGameWon,
     isGameLost,
     gameStarted,
@@ -297,6 +327,14 @@ export const PreguntadosGameProvider: React.FC<
     nextQuestion,
     resetGame,
     startGame,
+
+    // Funciones auxiliares
+    getMaxTimePerQuestion,
+    getTimerClass,
+    getTimerProgress,
+    getFinalScore,
+    getCorrectAnswerIndex,
+    isPreviewRoute,
   };
 
   return (
