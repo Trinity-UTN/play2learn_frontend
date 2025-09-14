@@ -143,11 +143,63 @@
   margin-bottom: 1rem;
 }
 
-.startDescription {
+.gameDetails {
+  margin: 1.5rem 0 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(124, 86, 169, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.detailLabel {
+  font-size: 0.95rem;
+  color: #4a5568;
+  font-weight: 600;
+}
+
+.detailValue {
   font-size: 1.1rem;
-  color: #718096;
-  margin-bottom: 2rem;
-  line-height: 1.6;
+  color: #7c56a9;
+  font-weight: 700;
+}
+
+.importantNote {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.1) 0%,
+    rgba(251, 191, 36, 0.1) 100%
+  );
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0 2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.noteIcon {
+  color: #f59e0b;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.noteText {
+  font-size: 0.9rem;
+  color: #92400e;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
 }
 
 .startButton {
@@ -337,15 +389,15 @@
   text-align: center;
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: rgba(102, 126, 234, 0.05);
+  background: #f8fafc;
   border-radius: 16px;
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  border: 1px solid #e2e8f0;
 }
 
 .questionText h3 {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #2d3748;
+  color: #1e293b;
   line-height: 1.4;
   margin: 0;
 }
@@ -362,22 +414,22 @@
   align-items: center;
   gap: 1rem;
   padding: 1.2rem 1.5rem;
-  background: rgba(255, 255, 255, 0.8);
-  border: 2px solid rgba(102, 126, 234, 0.2);
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: left;
   font-size: 1rem;
   position: relative;
-  backdrop-filter: blur(5px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .optionButton:hover {
   border-color: #8a80ce;
-  background: rgba(255, 255, 255, 0.95);
+  background: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 15px rgba(138, 128, 206, 0.15);
 }
 
 .optionButton:disabled {
@@ -391,8 +443,8 @@
   justify-content: center;
   width: 3rem;
   height: 3rem;
-  background: rgba(102, 126, 234, 0.1);
-  border: 2px solid rgba(102, 126, 234, 0.3);
+  background: #f1f5f9;
+  border: 2px solid #cbd5e1;
   border-radius: 50%;
   font-weight: 700;
   color: #8a80ce;
@@ -404,14 +456,15 @@
 .optionText {
   flex: 1;
   font-weight: 500;
-  color: #2d3748;
+  color: #334155;
   line-height: 1.4;
 }
 
 .selected {
   border-color: #8a80ce;
-  background: rgba(102, 126, 234, 0.1);
+  background: rgba(138, 128, 206, 0.08);
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(138, 128, 206, 0.2);
 }
 
 .selected .optionLetter {
@@ -422,7 +475,7 @@
 
 .correct {
   border-color: #38a169;
-  background: rgba(56, 161, 105, 0.1);
+  background: rgba(16, 185, 129, 0.08);
   animation: correctAnswer 0.6s ease-out;
 }
 
@@ -446,7 +499,7 @@
 
 .incorrect {
   border-color: #e53e3e;
-  background: rgba(229, 62, 62, 0.1);
+  background: rgba(239, 68, 68, 0.08);
   animation: incorrectAnswer 0.6s ease-out;
 }
 

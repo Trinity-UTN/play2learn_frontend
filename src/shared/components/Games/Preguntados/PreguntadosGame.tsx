@@ -84,11 +84,31 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
             <div className={styles.startContent}>
               <FaQuestionCircle className={styles.startIcon} />
               <h3 className={styles.startTitle}>¡Listo para comenzar!</h3>
-              <p className={styles.startDescription}>
-                Responde {totalQuestions} preguntas. Tienes{" "}
-                {gameConfig?.maxTimePerQuestionInSeconds} segundos para cada
-                una.
-              </p>
+              <div className={styles.gameDetails}>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailLabel}>
+                    Preguntas a responder
+                  </span>
+                  <span className={styles.detailValue}>{totalQuestions}</span>
+                </div>
+
+                <div className={styles.detailItem}>
+                  <span className={styles.detailLabel}>
+                    Tiempo máximo por pregunta
+                  </span>
+                  <span className={styles.detailValue}>
+                    {gameConfig?.maxTimePerQuestionInSeconds} segundos
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.importantNote}>
+                <FaExclamationTriangle className={styles.noteIcon} />
+                <p className={styles.noteText}>
+                  Al seleccionar una opción, estarás confirmando tu respuesta
+                  final.
+                </p>
+              </div>
               <Button
                 onClick={startGame}
                 className={styles.startButton}
