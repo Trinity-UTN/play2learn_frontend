@@ -23,11 +23,11 @@ export const usePreguntadosGameActions = () => {
     return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
   const getResultMessage = (isPassed: boolean) => {
-    return isPassed ? "¡Felicitaciones!" : "Juego Terminado";
+    return isPassed ? "¡Felicitaciones!" : "Actividad Finalizada";
   };
 
   const getNextButtonText = (isLastQuestion: boolean) => {
-    return isLastQuestion ? "Ver Resultados" : "Siguiente Pregunta";
+    return isLastQuestion ? "Finalizar" : "Siguiente Pregunta";
   };
 
   return {

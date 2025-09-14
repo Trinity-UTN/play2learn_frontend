@@ -295,29 +295,54 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
         <div className={styles.gameCard}>
           <div className={styles.resultsScreen}>
             <div className={styles.resultsHeader}>
-              {isPassed ? (
-                <FaTrophy
-                  className={`${styles.resultIcon} ${styles.success}`}
-                />
+              {mode === "preview" ? (
+                isPassed ? (
+                  <FaTrophy
+                    className={`${styles.resultIcon} ${styles.success}`}
+                  />
+                ) : (
+                  <FaExclamationTriangle
+                    className={`${styles.resultIcon} ${styles.warning}`}
+                  />
+                )
               ) : (
-                <FaExclamationTriangle
-                  className={`${styles.resultIcon} ${styles.warning}`}
+                <FaCheck
+                  className={`${styles.resultIcon} ${styles.completed}`}
                 />
               )}
               <h3 className={styles.resultTitle}>
-                {getResultMessage(isPassed)}
+                {mode === "preview"
+                  ? getResultMessage(isPassed)
+                  : getResultMessage(false)}
               </h3>
+              <div className={styles.resultSubtitle}>
+                Haz click en "Finalizar intento" para ver los resultados de la
+                actividad
+              </div>
             </div>
 
-            <div className={styles.scoreCard}>
-              <div className={styles.finalScore}>
-                <span className={styles.scoreNumber}>{correctAnswers}</span>
-                <span className={styles.scoreTotal}>/ {totalQuestions}</span>
+            {mode === "preview" ? (
+              <div className={styles.scoreCard}>
+                <div className={styles.finalScore}>
+                  <span className={styles.scoreNumber}>{correctAnswers}</span>
+                  <span className={styles.scoreTotal}> / {totalQuestions}</span>
+                </div>
+                <div className={styles.scorePercentage}>
+                  {percentage}% correctas
+                </div>
               </div>
-              <div className={styles.scorePercentage}>
-                {percentage}% correctas
+            ) : (
+              <div className={styles.scoreCard}>
+                <div className={styles.finalScore}>
+                  <span className={styles.scoreNumber}>{results.length}</span>
+                  <span className={styles.scoreSlash}> / </span>
+                  <span className={styles.scoreTotal}>{totalQuestions}</span>
+                </div>
+                <div className={styles.finalScoreLabel}>
+                  preguntas respondidas
+                </div>
               </div>
-            </div>
+            )}
 
             {mode === "preview" && (
               <div className={styles.detailedResults}>
