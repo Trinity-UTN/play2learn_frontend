@@ -240,7 +240,7 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
               })}
             </div>
 
-            {gamePhase === "answered" && (
+            {(gamePhase === "answered" || timeRemaining === 0) && (
               <div className={styles.answerFeedback}>
                 {showCorrectAnswer && (
                   <div className={styles.correctAnswerInfo}>
