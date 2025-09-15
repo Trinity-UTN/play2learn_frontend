@@ -67,7 +67,7 @@ export interface CurrentActivityInterface {
   description: string;
   startDate: string;
   endDate: string;
-  dificulty: string;
+  difficulty: string;
   subject: SubjectResponseDto;
   maxTime: number;
   attempts: number;
