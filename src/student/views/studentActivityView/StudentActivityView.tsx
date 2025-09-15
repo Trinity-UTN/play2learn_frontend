@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaGamepad } from "react-icons/fa";
@@ -10,6 +11,7 @@ import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpi
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useActivityActions } from "../../hooks/activities/useActivityActions";
 import { useActivityNavigation } from "../../hooks/activities/useActivityNavigation";
+import { useCurrentActivityPersistence } from "../../hooks/activities/useCurrentActivityPersistence";
 import styles from "./StudentActivityView.module.css";
 
 interface StudentActivityViewProps {
@@ -22,8 +24,20 @@ const StudentActivityView: React.FC<StudentActivityViewProps> = ({
   const { loading, currentActivity } = useActivityStudent();
   const { startActivity } = useActivityActions();
   const { goBackToList } = useActivityNavigation();
+  const { restoreCurrentActivity, hasPersistedActivity } =
+    useCurrentActivityPersistence();
 
   const { id } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    const initializeActivity = async () => {
+      if (!currentActivity && hasPersistedActivity) {
+        await restoreCurrentActivity();
+      }
+    };
+
+    initializeActivity();
+  }, [currentActivity, hasPersistedActivity, restoreCurrentActivity]);
 
   const containerVariants = {
     hidden: { opacity: 0 },

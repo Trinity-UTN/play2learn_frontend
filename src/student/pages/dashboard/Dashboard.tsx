@@ -1,16 +1,17 @@
-import type React from "react";
 import { motion } from "framer-motion";
 import StudentSidebar from "../../components/sidebar/Sidebar";
 import styles from "./Dashboard.module.css";
 import { Outlet } from "react-router-dom";
+import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 
 const StudentDashboard: React.FC = () => {
+  const { loading } = useCurrentStudent();
   const currentView = "overview";
 
   return (
     <div className={styles.dashboard}>
       <div className={styles.contSidebar}>
-        <StudentSidebar currentView={currentView} />
+        <StudentSidebar currentView={currentView} isLoading={loading} />
       </div>
       <motion.main
         initial={{ opacity: 0, x: 20 }}
@@ -18,7 +19,6 @@ const StudentDashboard: React.FC = () => {
         transition={{ duration: 0.3 }}
         className={styles.content}
       >
-        {/* <StudentDashboardContent currentView={currentView} /> */}
         <Outlet />
       </motion.main>
     </div>

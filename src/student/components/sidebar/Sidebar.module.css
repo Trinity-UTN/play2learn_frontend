@@ -105,6 +105,10 @@
   margin: 0;
 }
 
+.menu li {
+  margin-bottom: 0.5rem;
+}
+
 .menuItem {
   width: 100%;
   background: none;
@@ -171,7 +175,7 @@
 }
 
 .badge {
-  background: var(--item-color);
+  background: var(--item-color, #3b82f6);
   color: white;
   padding: 0.25rem 0.5rem;
   border-radius: 20px;
@@ -205,6 +209,109 @@
   font-size: 1rem;
 }
 
+/* Skeleton Loading Styles */
+.sidebar.loading {
+  pointer-events: none;
+}
+
+.avatarSkeleton {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.nameSkeleton {
+  height: 20px;
+  width: 120px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.statsSkeleton {
+  display: flex;
+  gap: 1rem;
+}
+
+.statSkeleton {
+  height: 16px;
+  width: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.buttonSkeleton {
+  height: 40px;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.menuItemSkeleton {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.menuItemSkeletonContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.menuItemSkeletonLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.iconSkeleton {
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.textSkeleton {
+  width: 100px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.badgeSkeleton {
+  width: 30px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+.logoutSkeleton {
+  height: 45px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
@@ -219,23 +326,4 @@
   .sidebar.open {
     transform: translateX(0);
   }
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }

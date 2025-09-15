@@ -19,7 +19,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   const { role, studentData } = useAuth();
   const { handleApiError } = useHandleApiError();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [currentStudent, setCurrentStudent] = useState<CurrentStudent | null>(
     null
   );
@@ -74,10 +74,15 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   };
 
   useEffect(() => {
-    if (role === "ROLE_STUDENT" && studentData) {
-      setCurrentStudent(studentData);
+    if (role === "ROLE_STUDENT" && studentData?.id) {
+      if (studentData) {
+        setCurrentStudent(studentData);
+      }
+      getCurrentStudent();
+    } else if (role !== "ROLE_STUDENT") {
+      setLoading(false);
     }
-  }, [role, studentData]);
+  }, [role, studentData, getCurrentStudent]);
 
   // Funcioens de utilidad
   const getAvatarComponents = (): AvatarComponents => {
