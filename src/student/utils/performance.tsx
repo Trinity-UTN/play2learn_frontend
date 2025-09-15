@@ -5,23 +5,23 @@ import { FaRegHandRock } from "react-icons/fa";
 import type { ReactNode } from "react";
 
 interface PerformanceLevel {
-  level: string;
+  level: number;
   color: string;
   icon: ReactNode;
 }
 
 export function getPerformanceLevel(accuracy: number): PerformanceLevel {
   if (accuracy >= 90)
-    return { level: "Excelente", color: "success", icon: <GoTrophy /> };
+    return { level: accuracy, color: "success", icon: <GoTrophy /> };
   if (accuracy >= 75)
-    return { level: "Muy Bueno", color: "good", icon: <LuThumbsUp /> };
+    return { level: accuracy, color: "good", icon: <LuThumbsUp /> };
   if (accuracy >= 60)
-    return { level: "Bueno", color: "regular", icon: <IoHandLeftOutline /> };
+    return { level: accuracy, color: "regular", icon: <IoHandLeftOutline /> };
   if (accuracy >= 40)
-    return { level: "Regular", color: "poor", icon: <FaRegHandRock /> };
+    return { level: accuracy, color: "poor", icon: <FaRegHandRock /> };
 
   return {
-    level: "Necesita mejorar",
+    level: accuracy,
     color: "very-poor",
     icon: <FaRegHandRock />,
   };

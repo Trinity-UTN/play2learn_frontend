@@ -2,7 +2,7 @@ import { FaCheck, FaTrophy, FaExclamationTriangle } from "react-icons/fa";
 import Button from "../../Button/ButtonComponent";
 import { useDesafioClasificacionGame } from "../../../hooks/games/useDesafioClasificacionGame";
 import styles from "./DesafioClasificacionGame.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface DesafioClasificacionGameProps {
   mode?: "preview" | "student";
@@ -21,10 +21,15 @@ const DesafioClasificacionGame = ({ mode }: DesafioClasificacionGameProps) => {
     verificationResults,
     score,
     startGame,
+    gameStarted,
   } = useDesafioClasificacionGame();
+
   useEffect(() => {
-    startGame();
+    if (!gameStarted) {
+      startGame();
+    }
   }, []);
+
   useEffect(() => {
     verifyAnswers();
   }, [conceptsInCategories]);

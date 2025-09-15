@@ -1,7 +1,7 @@
 import { motion, type Variants } from "framer-motion";
-import { useAhorcadoGame } from "../../../hooks/games/useAhorcadoGame";
+import { useAhorcadoGame } from "../../../../shared/hooks/games/useAhorcadoGame";
 import styles from "./DetailsAhorcado.module.css";
-import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
+import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
 import { HiOutlineFire } from "react-icons/hi";
 import { PiSmileySad } from "react-icons/pi";
 import {

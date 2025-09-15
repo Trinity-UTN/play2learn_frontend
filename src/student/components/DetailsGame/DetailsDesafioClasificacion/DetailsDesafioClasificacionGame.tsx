@@ -1,7 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import styles from "./DetailsDesafioClasificacionGame.module.css";
-import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
-import { useDesafioClasificacionGame } from "../../../hooks/games/useDesafioClasificacionGame";
+import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
+import { useDesafioClasificacionGame } from "../../../../shared/hooks/games/useDesafioClasificacionGame";
 import { getPerformanceLevel } from "../../../utils/performance";
 import { HiOutlineFire } from "react-icons/hi";
 import { PiSmileySad } from "react-icons/pi";
@@ -10,11 +10,12 @@ import {
   FaRegChartBar,
   FaRegFolder,
   FaRegLightbulb,
+  FaSearch,
+  FaSync,
   FaTimes,
 } from "react-icons/fa";
 import { GiBookshelf, GiBrain } from "react-icons/gi";
 import { IoTimeOutline } from "react-icons/io5";
-import { a } from "framer-motion/client";
 
 const DetailsDesafioClasificacionGame = () => {
   const { currentActivity } = useActivityStudent();
@@ -25,11 +26,11 @@ const DetailsDesafioClasificacionGame = () => {
     totalCategories,
     conceptsInCategories,
   } = useDesafioClasificacionGame();
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
+  // const formatTime = (seconds: number) => {
+  //   const mins = Math.floor(seconds / 60);
+  //   const secs = seconds % 60;
+  //   return `${mins}:${secs.toString().padStart(2, "0")}`;
+  // };
 
   const getAccuracyPercentage = () => {
     if (!verificationResults) return 0;
@@ -152,7 +153,9 @@ const DetailsDesafioClasificacionGame = () => {
         </div> */}
 
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>🔄</div>
+          <div className={styles.statIcon}>
+            <FaSync />
+          </div>
           <div className={styles.statContent}>
             <span className={styles.statLabel}>Intento</span>
             <span className={styles.statValue}>
@@ -168,7 +171,7 @@ const DetailsDesafioClasificacionGame = () => {
             <span
               className={`${styles.statValue} ${styles[performance.color]}`}
             >
-              {performance.level}
+              {performance.level}%
             </span>
           </div>
         </div>
@@ -259,7 +262,6 @@ const DetailsDesafioClasificacionGame = () => {
                 transition={{ delay: index * 0.1 }}
               >
                 <div className={styles.categoryHeader}>
-                  <h5>{categoryId}</h5>
                   <span className={styles.conceptCount}>
                     {concepts.length} conceptos
                   </span>
@@ -318,7 +320,9 @@ const DetailsDesafioClasificacionGame = () => {
               </span>
             </div>
             <div className={styles.tip}>
-              <span className={styles.tipIcon}>🔍</span>
+              <span className={styles.tipIcon}>
+                <FaSearch />
+              </span>
               <span>
                 Busca palabras clave que te ayuden a identificar la categoría
                 correcta

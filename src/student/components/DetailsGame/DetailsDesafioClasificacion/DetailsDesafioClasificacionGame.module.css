@@ -1,3 +1,4 @@
+@import "../../../styles/colors.css";
 .detailsContainer {
   width: 100%;
   max-width: 900px;
@@ -190,6 +191,7 @@
 
 .summaryIcon {
   font-size: 1.5rem;
+  color: var(--color-stat-4);
 }
 
 .summaryContent {
@@ -201,7 +203,7 @@
 .summaryNumber {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--color-stat-4);
 }
 
 .summaryLabel {
@@ -243,6 +245,7 @@
   justify-content: center;
   background: #f3f4f6;
   border-radius: 50%;
+  color: var(--color-stat-4);
 }
 
 .statContent {
@@ -537,6 +540,7 @@
   border-radius: 6px;
   overflow: hidden;
   position: relative;
+  height: 15px;
 }
 
 .progressFill {

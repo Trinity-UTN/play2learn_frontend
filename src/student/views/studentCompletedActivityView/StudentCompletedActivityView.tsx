@@ -8,7 +8,7 @@ import ResultHeader from "../../components/studentCompletedActivityViewComponent
 import CoinsReward from "../../components/studentCompletedActivityViewComponents/CoinsReward/CoinsReward";
 import ActionButtons from "../../components/studentCompletedActivityViewComponents/ActionButtons/ActionButtons";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
-import DetailsGeneral from "../../../shared/components/DetailsGame/DetailsGeneral/DetailsGeneral";
+import DetailsGeneral from "../../components/DetailsGame/DetailsGeneral/DetailsGeneral";
 
 const StudentCompletedActivityView = () => {
   const { loading, currentActivity, activityCompleted } = useActivityStudent();
