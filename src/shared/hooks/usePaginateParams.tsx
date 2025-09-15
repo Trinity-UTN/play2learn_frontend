@@ -58,6 +58,7 @@ function usePaginationParams(initialParams?: Partial<GetPaginated>) {
       ...prev,
       filters: filter,
       filtersValues: value,
+      page: 1,
     }));
   };
 

@@ -1,21 +1,27 @@
 import type { JSX } from "react";
 import type { PaginationInfo } from "./ActivityStudentProviderUI";
-
+export interface FilterOption {
+  id: string;
+  name: string;
+}
 export interface ActivityStudentContextUIType {
   activeFilter: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED";
   setActiveFilter: React.Dispatch<
     React.SetStateAction<"CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED">
   >;
-  selectedSubject: string;
-  setSelectedSubject: React.Dispatch<React.SetStateAction<string>>;
+
+  selectedSubject: FilterOption | null;
+  setSelectedSubject: React.Dispatch<React.SetStateAction<FilterOption | null>>;
+
   selectedDifficulty: string;
   setSelectedDifficulty: React.Dispatch<React.SetStateAction<string>>;
+
   filteredActivities: any[];
   pendingCount: number;
   defeatedCount: number;
   stats: any[];
   statusFilters: { key: string; label: string; emoji: string }[];
-  subjects: string[];
+  subjects: FilterOption[];
   difficulties: string[];
   getRandomIcon: () => JSX.Element;
   getDaysUntilDue: (endDate: string) => string;

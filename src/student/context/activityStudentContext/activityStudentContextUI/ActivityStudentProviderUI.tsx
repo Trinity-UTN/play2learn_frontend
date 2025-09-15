@@ -17,6 +17,7 @@ import { mapActivityToUI } from "../../../adapters/activityAdapter";
 import { FiX, FiXCircle } from "react-icons/fi";
 import type { ActivityUI } from "../../../types/Activity.type";
 import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
+import type { FilterOption } from "./ActivityStudentContextUI.type";
 
 export interface PaginationInfo {
   currentPage: number;
@@ -43,15 +44,22 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
   } = useActivityStudent();
-  const { paginationParams, handlePageChange, handlePageSizeChange } =
-    usePaginationParams();
+  const {
+    paginationParams,
+    handlePageChange,
+    handlePageSizeChange,
+    setPaginationParams,
+  } = usePaginationParams();
 
   // Estados locales
 
   const [activeFilter, setActiveFilter] = useState<
     "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED"
   >("PUBLISHED");
-  const [selectedSubject, setSelectedSubject] = useState<string>("PUBLISHED");
+  const [selectedSubject, setSelectedSubject] = useState<FilterOption | null>(
+    null
+  );
+  const difficulties = ["ALL", "FACIL", "MEDIO", "DIFICIL"];
   const [selectedDifficulty, setSelectedDifficulty] =
     useState<string>("PUBLISHED");
 
@@ -63,24 +71,52 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
       getActivityNotApproved();
     }
   }, []);
-  // Fetch segun el filtro
+
   const loadActivities = async () => {
+    let filters: string[] = [];
+    let filtersValues: string[] = [];
+
+    // status filter
+    if (activeFilter === "EXPIRED" || activeFilter === "PUBLISHED") {
+      filters.push("status");
+      filtersValues.push(activeFilter);
+    }
+    // subject filter
+    if (selectedSubject && selectedSubject.name !== "ALL") {
+      filters.push("subjectId");
+      filtersValues.push(selectedSubject.id);
+    }
+    // difficulty filter
+    if (selectedDifficulty && selectedDifficulty !== "ALL") {
+      filters.push("difficulty");
+      filtersValues.push(selectedDifficulty);
+    }
+    // decide qué endpoint llamar
     if (activeFilter === "APPROVED") {
-      await getPaginatedActivitiesApproved(paginationParams);
-    } else if (activeFilter === "EXPIRED") {
+      await getPaginatedActivitiesApproved({
+        ...paginationParams,
+        filters,
+        filtersValues,
+      });
+    } else {
       await getPaginatedActivitiesNotApproved({
         ...paginationParams,
-        filters: ["status"],
-        filtersValues: ["EXPIRED"],
+        filters,
+        filtersValues,
       });
-    } else if (activeFilter === "PUBLISHED") {
-      await getPaginatedActivitiesNotApproved(paginationParams);
     }
   };
 
   useEffect(() => {
     loadActivities();
-  }, [activeFilter, paginationParams]);
+  }, [activeFilter, paginationParams, selectedSubject, selectedDifficulty]);
+
+  useEffect(() => {
+    setPaginationParams((prev) => ({
+      ...prev,
+      page: 1,
+    }));
+  }, [activeFilter, selectedSubject, selectedDifficulty]);
 
   // Actividades UI
   const getActivitiesUI = (): ActivityUI[] => {
@@ -143,13 +179,14 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   ];
 
   //Acomodar con los filtros del get
-  const subjects = [
-    "ALL",
-    ...new Set(activityNotApproved.map((a) => a.subjectName)),
-  ];
-  const difficulties = [
-    "ALL",
-    ...new Set(activityNotApproved.map((a) => a.difficulty)),
+  const subjects: FilterOption[] = [
+    { id: "ALL", name: "Todas las materias" },
+    ...activityNotApproved
+      .map((a) => ({ id: a.subjectId.toString(), name: a.subjectName }))
+      .filter(
+        (value, index, self) =>
+          index === self.findIndex((s) => s.id === value.id)
+      ),
   ];
 
   //Iconos

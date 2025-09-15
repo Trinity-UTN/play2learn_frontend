@@ -9,6 +9,7 @@ interface BaseActivity {
   description: string;
   difficulty: string;
   subjectName: string;
+  subjectId: number;
   attempts: number;
   remainingAttempts: number;
 }
