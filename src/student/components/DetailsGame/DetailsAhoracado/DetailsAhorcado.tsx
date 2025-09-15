@@ -163,7 +163,7 @@ export default function ActivityDetails() {
             <span
               className={`${styles.statValue} ${styles[performance.color]}`}
             >
-              {performance.level}
+              {performance.level} %
             </span>
           </div>
         </div>
