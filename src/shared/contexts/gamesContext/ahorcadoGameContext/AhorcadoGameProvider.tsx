@@ -64,7 +64,6 @@ export const AhorcadoGameProvider: React.FC<AhorcadoGameProviderProps> = ({
         .split("")
         .every((letter) => guessedLetters.includes(letter))
     : false;
-
   const isGameLost = wrongGuesses >= getMaxErrors();
 
   const maxErrors = getMaxErrors();
