@@ -37,7 +37,7 @@ const ConfigureActivityView: React.FC = () => {
     description: "",
     startDate: new Date().toISOString().slice(0, 16), // Fecha actual por defecto
     endDate: "",
-    dificulty: "",
+    difficulty: "",
     maxTime: 30,
     subjectId: 0,
     attempts: 1,
@@ -142,8 +142,8 @@ const ConfigureActivityView: React.FC = () => {
         "La fecha de fin debe ser posterior a la fecha de inicio";
     }
 
-    if (!configuration.dificulty) {
-      newErrors.dificulty = "La dificultad es requerida";
+    if (!configuration.difficulty) {
+      newErrors.difficulty = "La dificultad es requerida";
     }
 
     if (configuration.maxTime <= 0) {
@@ -411,16 +411,16 @@ const ConfigureActivityView: React.FC = () => {
                             key={option.value}
                             type="button"
                             onClick={() => {
-                              handleInputChange("dificulty", option.value);
+                              handleInputChange("difficulty", option.value);
                             }}
                             className={`${styles.difficultyOption} ${
-                              configuration.dificulty === option.value
+                              configuration.difficulty === option.value
                                 ? styles.selected
                                 : ""
                             }`}
                             style={{
                               borderColor:
-                                configuration.dificulty === option.value
+                                configuration.difficulty === option.value
                                   ? option.color
                                   : undefined,
                             }}
@@ -434,10 +434,10 @@ const ConfigureActivityView: React.FC = () => {
                           </button>
                         ))}
                       </div>
-                      {errors.dificulty && (
+                      {errors.difficulty && (
                         <span className={styles.errorMessage}>
                           <FaExclamationTriangle />
-                          {errors.dificulty}
+                          {errors.difficulty}
                         </span>
                       )}
                     </div>
@@ -721,7 +721,7 @@ const ConfigureActivityView: React.FC = () => {
                     <div>
                       <h4>Dificultad</h4>
                       <Badge variant="primary">
-                        {getDifficultyLabel(configuration.dificulty) ||
+                        {getDifficultyLabel(configuration.difficulty) ||
                           "Sin definir"}
                       </Badge>
                     </div>

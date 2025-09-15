@@ -1,6 +1,7 @@
 export const GameType = {
   AHORCADO: "ahorcado",
   CLASIFICACION: "desafio de clasificacion",
+  PREGUNTADOS: "preguntados",
 } as const;
 
 export type GameType = (typeof GameType)[keyof typeof GameType];

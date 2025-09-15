@@ -6,6 +6,10 @@ import type {
   ActivityApprovedResponseInterface,
   CurrentActivityInterface,
 } from "../../../types/Activity.type";
+import type {
+  ActivityCompletedInterface,
+  ActivityCompletedResponseInterface,
+} from "../../../types/ActivityCompleted.type";
 import { ActivityStudentService } from "../../../services/activity/ActivityService";
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
 import { createGameConfig } from "../../../../shared/registry/games/gameConfigFactory";
@@ -35,6 +39,9 @@ export const ActivityStudentProvider = ({
   >([]);
   const [currentActivity, setCurrentActivity] =
     useState<CurrentActivityInterface | null>(null);
+
+  const [activityCompleted, setActivityCompleted] =
+    useState<ActivityCompletedResponseInterface | null>(null);
 
   const [paginatedActivitiesNotApproved, setPaginatedActivitiesNotApproved] =
     useState<PaginatedData<ActivityNotApprovedResponseInterface> | null>(null);
@@ -103,7 +110,7 @@ export const ActivityStudentProvider = ({
     try {
       const response = await ActivityStudentService.getActivityByIdApi(id);
       const data = response.data;
-
+      // console.log(data);
       const gameType = getGameTypeFromActivityName(data.name);
       if (!gameType) {
         throw new Error(`Tipo de juego desconocido para: "${data.name}"`);
@@ -115,13 +122,34 @@ export const ActivityStudentProvider = ({
       };
 
       setCurrentActivity(transformedActivity);
-      //console.log(response.data);
+      console.log(response.data);
     } catch (error) {
       handleApiError(error, "Error al obtener la actividad");
     } finally {
       setLoading(false);
     }
   }, []);
+
+  const registerActivityCompleted = useCallback(
+    async (payload: ActivityCompletedInterface): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await ActivityStudentService.registerActivityCompletedApi(payload);
+        setActivityCompleted(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al corregir la actividad");
+      } finally {
+        setLoading(false);
+      }
+      // console.log(activityCompleted); //DEBUG
+    },
+    []
+  );
+
+  const refreshActivityDataAfterCompletion = async () => {
+    await Promise.all([getActivityNotApproved(), getActivityApproved()]);
+  };
 
   const contextValue: ActivityStudentContextType = {
     loading,
@@ -130,11 +158,14 @@ export const ActivityStudentProvider = ({
     paginatedActivitiesApproved,
     paginatedActivitiesNotApproved,
     currentActivity,
+    activityCompleted,
     getActivityNotApproved,
     getActivityApproved,
     getActivityById,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
+    registerActivityCompleted,
+    refreshActivityDataAfterCompletion,
   };
 
   return (

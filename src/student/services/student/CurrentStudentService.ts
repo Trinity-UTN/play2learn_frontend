@@ -24,8 +24,14 @@ const unselectAspectApi = async (
   });
 };
 
+const walletByStudentApi = async () => {
+  const response = await api.get(urls.Wallet);
+  return response.data;
+};
+
 export const CurrentStudentService = {
   getCurrentStudentApi,
   updateCurrentStudentProfileApi,
   unselectAspectApi,
+  walletByStudentApi,
 };

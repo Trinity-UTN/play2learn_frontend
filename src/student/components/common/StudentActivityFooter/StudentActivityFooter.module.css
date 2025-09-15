@@ -20,12 +20,19 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 }
 
-.navigationButtons {
+.leftSection {
+  display: flex;
+  align-items: center;
+}
+
+.rightSection {
   display: flex;
   gap: 1rem;
   align-items: center;
+  margin-left: auto;
 }
 
 .backButton,
@@ -74,9 +81,14 @@
     gap: 1rem;
   }
 
-  .navigationButtons {
+  .leftSection,
+  .rightSection {
     width: 100%;
     justify-content: center;
+  }
+
+  .rightSection {
+    margin-left: 0;
   }
 
   .backToListButton,

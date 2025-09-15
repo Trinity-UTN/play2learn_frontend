@@ -7,8 +7,13 @@ import type {
   ActivityApprovedResponseInterface,
   CurrentActivityInterface,
 } from "../../../types/Activity.type";
+import type {
+  ActivityCompletedInterface,
+  ActivityCompletedResponseInterface,
+} from "../../../types/ActivityCompleted.type";
 
 export interface ActivityStudentContextType {
+  // Estados principales
   loading: boolean;
   activityNotApproved: ActivityNotApprovedResponseInterface[];
   activityApproved: ActivityApprovedResponseInterface[];
@@ -20,4 +25,11 @@ export interface ActivityStudentContextType {
   getPaginatedActivitiesApproved: (params: GetPaginated) => Promise<void>;
   paginatedActivitiesNotApproved: PaginatedData<ActivityNotApprovedResponseInterface> | null;
   paginatedActivitiesApproved: PaginatedData<ActivityApprovedResponseInterface> | null;
+
+  activityCompleted: ActivityCompletedResponseInterface | null;
+  registerActivityCompleted: (
+    payload: ActivityCompletedInterface
+  ) => Promise<void>;
+  refreshActivityDataAfterCompletion: () => Promise<void>;
+
 }

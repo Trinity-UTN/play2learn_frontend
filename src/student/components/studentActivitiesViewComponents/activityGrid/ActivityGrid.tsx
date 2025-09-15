@@ -1,11 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import type { ActivityUI } from "../../../types/Activity.type";
 import ActivityCard from "../activityCard/ActivityCard";
 import ActivityRow from "../activityRow/ActivityRow";
 import FlexBox from "../../../../shared/components/FlexBox/FlexBox";
 import { useLayout } from "../../../../shared/hooks/useLayout";
-import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
+import { useActivityActions } from "../../../hooks/activities/useActivityActions";
 import styles from "./ActivityGrid.module.css";
 import type { PaginationInfo } from "../../../context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 
@@ -19,17 +18,15 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
   paginationInfo,
 }) => {
   const { isRow, toggleLayout } = useLayout();
-  const { getActivityById } = useActivityStudent();
-  const navigate = useNavigate();
+  const { viewActivity } = useActivityActions();
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
 
-  const handleStartActivity = async (activityId: string) => {
-    await getActivityById(Number(activityId));
-    navigate(`/dashboard/student/actividades/${activityId}/view`);
+  const handleViewActivity = async (activityId: string) => {
+    viewActivity(Number(activityId));
   };
 
   if (activities.length === 0) {
@@ -60,7 +57,7 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
               >
                 <ActivityCard
                   activity={activity}
-                  onStart={handleStartActivity}
+                  onStart={handleViewActivity}
                 />
               </motion.div>
             ))
@@ -70,10 +67,7 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
                 variants={itemVariants}
                 transition={{ delay: index * 0.1 }}
               >
-                <ActivityRow
-                  activity={activity}
-                  onStart={handleStartActivity}
-                />
+                <ActivityRow activity={activity} onStart={handleViewActivity} />
               </motion.div>
             ))}
       </FlexBox>
