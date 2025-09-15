@@ -8,6 +8,7 @@ import type {
 } from "../../types/CurrentStudent.type";
 import { useAuth } from "../../../user/hooks/useAuth";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+import type { Wallet } from "../../../admin/services/student/StudentService";
 
 interface CurrentStudentProviderProps {
   children: ReactNode;
@@ -18,7 +19,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
 }) => {
   const { role, studentData } = useAuth();
   const { handleApiError } = useHandleApiError();
-
+  const [wallet, setWallet] = useState<Wallet>();
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStudent, setCurrentStudent] = useState<CurrentStudent | null>(
     null
@@ -76,9 +77,19 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   useEffect(() => {
     if (role === "ROLE_STUDENT" && studentData) {
       setCurrentStudent(studentData);
+      setWallet(studentData.wallet);
     }
   }, [role, studentData]);
 
+  const getWalletByStudent = async () => {
+    setLoading(true);
+    try {
+      const response = await CurrentStudentService.walletByStudentApi();
+      setWallet(response.data);
+    } catch (error) {
+      handleApiError(error, "Error al cargar la billetera");
+    }
+  };
   // Funcioens de utilidad
   const getAvatarComponents = (): AvatarComponents => {
     const profile = currentStudent?.profile;
@@ -97,11 +108,12 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     // Estados principales
     loading,
     currentStudent,
-
+    wallet,
     // Funciones Principales
     getCurrentStudent,
     updateStudentProfile,
     unselectAspect,
+    getWalletByStudent,
 
     // Funciones de utilidad
     setCurrentStudent,

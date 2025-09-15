@@ -7,6 +7,8 @@ import {
 import Card from "../../../../shared/components/Card/CardComponent";
 import type { FinancialSummary } from "../../../types/generalType";
 import styles from "./WalletSummary.module.css";
+import { useCountUp } from "../../../../shared/hooks/useCountUp";
+import formatPrice from "../../../../shared/utils/formatPrice";
 
 interface WalletSummaryProps {
   data: FinancialSummary;
@@ -22,7 +24,10 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
   //     minute: "2-digit",
   //   });
   // };
-
+  const totalBalance = useCountUp(data.totalBalance, 1, {
+    steps: 20,
+    interval: 50,
+  });
   const liquidityPercentage = data.totalBalance
     ? (data.availableCoins / data.totalBalance) * 100
     : 0;
@@ -53,7 +58,7 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
             </div>
             <div className={styles.balanceInfo}>
               <h3 className={styles.balanceAmount}>
-                {data.totalBalance.toLocaleString()} Monedas
+                {formatPrice(totalBalance)} Monedas
               </h3>
               <p className={styles.balanceLabel}>Balance Total</p>
             </div>

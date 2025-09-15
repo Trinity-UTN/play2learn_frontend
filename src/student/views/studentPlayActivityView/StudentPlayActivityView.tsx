@@ -39,9 +39,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   const handleFinishActivity = async () => {
     if (!currentActivity) return;
 
-    await finishActivity(!!gameManager?.isGameWon, () =>
-      gameManager?.resetGame()
-    );
+    await finishActivity(!!gameManager?.isGameWon);
   };
 
   if (loading) {

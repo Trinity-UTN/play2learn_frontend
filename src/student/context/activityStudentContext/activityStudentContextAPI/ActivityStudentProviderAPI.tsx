@@ -91,7 +91,7 @@ export const ActivityStudentProvider = ({
     try {
       const response = await ActivityStudentService.getActivityByIdApi(id);
       const data = response.data;
-
+      // console.log(data);
       const gameType = getGameTypeFromActivityName(data.name);
       if (!gameType) {
         throw new Error(`Tipo de juego desconocido para: "${data.name}"`);
@@ -123,6 +123,7 @@ export const ActivityStudentProvider = ({
       } finally {
         setLoading(false);
       }
+      // console.log(activityCompleted); //DEBUG
     },
     []
   );
