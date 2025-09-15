@@ -1,5 +1,6 @@
 import type { AhorcadoConfig } from "../../activity/types/Ahorcado.type";
 import type { DesafioClasificacionConfig } from "../../activity/types/DesafioClasificacion.type";
+import type { PreguntadosInterface as PreguntadosGameConfig } from "../../activity/types/Preguntados.type";
 import type { SubjectResponseDto } from "../../admin/services/subject/SubjectService";
 
 interface BaseActivity {
@@ -46,8 +47,10 @@ export interface ActivityUI {
   extraInfo?: string;
 }
 
-export type GameConfig = AhorcadoConfig | DesafioClasificacionConfig;
-// | PreguntadosConfig
+export type GameConfig =
+  | AhorcadoConfig
+  | DesafioClasificacionConfig
+  | PreguntadosGameConfig;
 // | MemoramaConfig
 // | OrdenarSecuenciaConfig
 // | ArbolDeDecisionConfig
@@ -64,7 +67,7 @@ export interface CurrentActivityInterface {
   description: string;
   startDate: string;
   endDate: string;
-  dificulty: string;
+  difficulty: string;
   subject: SubjectResponseDto;
   maxTime: number;
   attempts: number;

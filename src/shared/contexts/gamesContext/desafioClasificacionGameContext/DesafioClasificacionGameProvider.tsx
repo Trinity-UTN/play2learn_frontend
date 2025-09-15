@@ -71,6 +71,11 @@ export const DesafioClasificacionGameProvider: React.FC<
       setIsGameLost(true);
     }
   }, [score]);
+
+  useEffect(() => {
+    verifyAnswers();
+  }, [conceptsInCategories]);
+
   const totalCategories =
     mode === "preview"
       ? getCategoryNames().length

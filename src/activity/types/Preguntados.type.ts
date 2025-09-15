@@ -17,3 +17,24 @@ export interface PreguntadosInterface {
   maxTimePerQuestionInSeconds: number;
   questions: Question[];
 }
+
+// Preguntados Game
+export interface QuestionResult {
+  questionIndex: number;
+  selectedAnswer: number | null;
+  correctAnswer: number;
+  isCorrect: boolean;
+  timeSpent: number;
+  timeRemaining: number;
+}
+
+export interface TimerProgress {
+  progress: number;
+  circumference: number;
+  strokeDashoffset: number;
+}
+
+export interface FinalScore {
+  percentage: number;
+  isPassed: boolean;
+}
