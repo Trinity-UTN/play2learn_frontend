@@ -2,8 +2,10 @@ import type { CurrentActivityInterface } from "../../../types/Activity.type";
 import AhorcadoGame from "../../../../shared/components/Games/Ahorcado/AhorcadoGame";
 import { GameType } from "../../../../shared/types/Games.type";
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
-import styles from "./StudentGameRenderer.module.css";
 import DesafioClasificacionGame from "../../../../shared/components/Games/DesafioClasificacion/DesafioClasificacionGame";
+import PreguntadosGame from "../../../../shared/components/Games/Preguntados/PreguntadosGame";
+import styles from "./StudentGameRenderer.module.css";
+
 interface GameRendererProps {
   currentActivity: CurrentActivityInterface | null;
 }
@@ -43,6 +45,8 @@ const StudentGameRenderer: React.FC<GameRendererProps> = ({
         return <AhorcadoGame mode="student" />;
       case GameType.CLASIFICACION:
         return <DesafioClasificacionGame />;
+      case GameType.PREGUNTADOS:
+        return <PreguntadosGame mode="student" />;
 
       default:
         return (
