@@ -34,7 +34,6 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       const studentDataFromApi =
         await CurrentStudentService.getCurrentStudentApi(studentData.id);
       setCurrentStudent(studentDataFromApi);
-      setWallet(currentStudent?.wallet);
     } catch (error) {
       handleApiError(error, "Error al obtener el estudiante actual");
     } finally {
@@ -78,6 +77,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   useEffect(() => {
     if (role === "ROLE_STUDENT" && studentData) {
       setCurrentStudent(studentData);
+      setWallet(studentData.wallet);
     }
   }, [role, studentData]);
 

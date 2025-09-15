@@ -34,7 +34,7 @@ interface MenuItem {
 
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
   const { logout } = useAuth();
-  const { currentStudent } = useCurrentStudent();
+  const { wallet, currentStudent } = useCurrentStudent();
   const { availableCount } = useActivityStudentUI();
   const navigate = useNavigate();
   const menuItems: MenuItem[] = [
@@ -50,7 +50,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
       icon: FaWallet,
       path: StudentRoutes.Wallet,
       color: "#10B981",
-      badge: formatPrice(currentStudent?.wallet.balance) ?? "0",
+      badge: formatPrice(wallet?.balance) ?? "0",
     },
     {
       title: "Mis Actividades",
