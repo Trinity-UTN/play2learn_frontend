@@ -21,12 +21,18 @@ import { useActivityStudent } from "../../../../student/hooks/useActivityStudent
 interface PreguntadosGameProviderProps {
   children: ReactNode;
   config?: PreguntadosConfig;
+  questions?: Question[];
   mode?: "preview" | "student";
 }
 
 export const PreguntadosGameProvider: React.FC<
   PreguntadosGameProviderProps
-> = ({ children, config: propConfig, mode = "preview" }) => {
+> = ({
+  children,
+  config: propConfig,
+  questions: propQuestions,
+  mode = "preview",
+}) => {
   const { config, questions: configQuestions } = useCreatePreguntados();
   const { currentActivity } = useActivityStudent();
 
@@ -50,7 +56,7 @@ export const PreguntadosGameProvider: React.FC<
   const [showExplosion, setShowExplosion] = useState(false);
 
   useEffect(() => {
-    if (mode === "preview" && config) {
+    if (mode === "preview" && config && configQuestions.length > 0) {
       setGameConfig({
         totalQuestions: config.totalQuestions || 5,
         maxTimePerQuestionInSeconds: config.maxTimePerQuestionInSeconds || 30,
@@ -72,9 +78,27 @@ export const PreguntadosGameProvider: React.FC<
       }
     } else if (propConfig) {
       setGameConfig(propConfig);
-      setQuestions(questions);
+
+      setQuestions(propQuestions || []);
     }
-  }, [mode, propConfig, config, currentActivity]);
+  }, [mode, config, configQuestions, currentActivity, propConfig]);
+
+  useEffect(() => {
+    if (mode !== "preview") return;
+
+    if (
+      config &&
+      configQuestions &&
+      configQuestions.length > 0 &&
+      !gameConfig
+    ) {
+      setGameConfig({
+        totalQuestions: config.totalQuestions || 5,
+        maxTimePerQuestionInSeconds: config.maxTimePerQuestionInSeconds || 30,
+      });
+      setQuestions(configQuestions);
+    }
+  }, [mode, config?.totalQuestions, configQuestions?.length]);
 
   // Estados calculados
   const currentQuestion = questions[currentQuestionIndex] || null;

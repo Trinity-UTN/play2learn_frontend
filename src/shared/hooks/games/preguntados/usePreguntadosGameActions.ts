@@ -22,8 +22,15 @@ export const usePreguntadosGameActions = () => {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
+
   const getResultMessage = (isPassed: boolean) => {
     return isPassed ? "¡Felicitaciones!" : "Actividad Finalizada";
+  };
+
+  const getResultSubtitle = (isPreview: boolean) => {
+    return isPreview
+      ? `Haz click en "Jugar de nuevo" si deseas intentarlo de nuevo`
+      : `Haz click en "Finalizar intento" para ver los resultados de la actividad`;
   };
 
   const getNextButtonText = (isLastQuestion: boolean) => {
@@ -35,6 +42,7 @@ export const usePreguntadosGameActions = () => {
     getOptionLetter,
     formatTime,
     getResultMessage,
+    getResultSubtitle,
     getNextButtonText,
   };
 };

@@ -50,8 +50,13 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
     isPreviewRoute,
   } = usePreguntadosGame();
 
-  const { itemVariants, getOptionLetter, getResultMessage, getNextButtonText } =
-    usePreguntadosGameActions();
+  const {
+    itemVariants,
+    getOptionLetter,
+    getResultMessage,
+    getResultSubtitle,
+    getNextButtonText,
+  } = usePreguntadosGameActions();
 
   const containerClass =
     mode === "student"
@@ -64,21 +69,6 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
   if (gamePhase === "waiting") {
     return (
       <motion.div variants={itemVariants} className={containerClass}>
-        {mode === "preview" && (
-          <div className={styles.activityHeader}>
-            <div className={styles.activityTitle}>
-              <FaGamepad className={styles.activityIcon} />
-              <h4>Preguntados</h4>
-            </div>
-            <div className={styles.gameInfo}>
-              <span>{totalQuestions} preguntas</span>
-              <span>
-                {gameConfig?.maxTimePerQuestionInSeconds}s por pregunta
-              </span>
-            </div>
-          </div>
-        )}
-
         <div className={styles.gameCard}>
           <div className={styles.startScreen}>
             <div className={styles.startContent}>
@@ -336,8 +326,7 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
                   : getResultMessage(false)}
               </h3>
               <div className={styles.resultSubtitle}>
-                Haz click en "Finalizar intento" para ver los resultados de la
-                actividad
+                {getResultSubtitle(mode === "preview")}
               </div>
             </div>
 
@@ -345,7 +334,8 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
               <div className={styles.scoreCard}>
                 <div className={styles.finalScore}>
                   <span className={styles.scoreNumber}>{correctAnswers}</span>
-                  <span className={styles.scoreTotal}> / {totalQuestions}</span>
+                  <span className={styles.scoreSlash}> / </span>
+                  <span className={styles.scoreTotal}>{totalQuestions}</span>
                 </div>
                 <div className={styles.scorePercentage}>
                   {percentage}% correctas
@@ -392,7 +382,7 @@ const PreguntadosGame: React.FC<PreguntadosGameProps> = ({
             {isPreviewRoute() && (
               <div className={styles.actionButtons}>
                 <Button
-                  variant="secondary"
+                  variant="ghost"
                   onClick={resetGame}
                   className={styles.restartButton}
                 >
