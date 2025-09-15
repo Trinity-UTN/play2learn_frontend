@@ -136,7 +136,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
           </div>
 
           <Button
-            variant={activity.status === "FINISHED" ? "ghost" : "primary"}
+            variant={activity.status === "EXPIRED" ? "ghost" : "primary"}
             className={styles.actionButton}
             disabled={isDisabled}
             onClick={handleActionButton}

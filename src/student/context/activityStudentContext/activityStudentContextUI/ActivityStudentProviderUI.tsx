@@ -49,7 +49,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   // Estados locales
 
   const [activeFilter, setActiveFilter] = useState<
-    "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED"
+    "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED"
   >("PUBLISHED");
   const [selectedSubject, setSelectedSubject] = useState<string>("PUBLISHED");
   const [selectedDifficulty, setSelectedDifficulty] =
@@ -67,11 +67,11 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   const loadActivities = async () => {
     if (activeFilter === "APPROVED") {
       await getPaginatedActivitiesApproved(paginationParams);
-    } else if (activeFilter === "FINISHED") {
+    } else if (activeFilter === "EXPIRED") {
       await getPaginatedActivitiesNotApproved({
         ...paginationParams,
         filters: ["status"],
-        filtersValues: ["FINISHED"],
+        filtersValues: ["EXPIRED"],
       });
     } else if (activeFilter === "PUBLISHED") {
       await getPaginatedActivitiesNotApproved(paginationParams);
@@ -96,18 +96,18 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     const pending = activityNotApproved.filter(
       (a) => a.status === "PUBLISHED"
     ).length;
-    const finished = activityNotApproved.filter(
-      (a) => a.status === "FINISHED"
+    const expired = activityNotApproved.filter(
+      (a) => a.status === "EXPIRED"
     ).length;
     const approved = activityApproved.filter(
       (a) => a.state === "APPROVED"
     ).length;
-    return { pending, finished, approved };
+    return { pending, expired, approved };
   };
 
   const {
     pending: pendingCount,
-    finished: defeatedCount,
+    expired: defeatedCount,
     approved: approvedCount,
   } = getCounts();
 
@@ -138,7 +138,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   //Filtros
   const statusFilters = [
     { key: "PUBLISHED", label: "Disponibles", emoji: "✨" },
-    { key: "FINISHED", label: "Vencidas", emoji: "❌" },
+    { key: "EXPIRED", label: "Vencidas", emoji: "❌" },
     { key: "APPROVED", label: "Aprobadas", emoji: "✅" },
   ];
 
@@ -184,7 +184,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   //Status
   const getStatusConfig = (status: string) => {
     switch (status) {
-      case "FINISHED":
+      case "EXPIRED":
         return {
           icon: FiXCircle,
           label: "Vencida",

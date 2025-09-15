@@ -21,7 +21,7 @@ export interface ActivityNotApprovedResponseInterface extends BaseActivity {
   maxReward: number;
   pending: boolean;
   type: string;
-  status: "CREATED" | "PUBLISHED" | "FINISHED";
+  status: "CREATED" | "PUBLISHED" | "EXPIRED";
 }
 
 export interface ActivityApprovedResponseInterface extends BaseActivity {
@@ -49,7 +49,7 @@ export interface ActivityUI {
   description: string;
   difficulty: string;
   subjectName: string;
-  status: "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED";
+  status: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED";
   dateLabel?: string;
   timeLabel?: string;
   rewardLabel?: string;

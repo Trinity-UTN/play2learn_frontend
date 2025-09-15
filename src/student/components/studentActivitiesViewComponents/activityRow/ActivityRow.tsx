@@ -105,7 +105,7 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
         </div>
 
         <Button
-          variant={activity.status === "FINISHED" ? "ghost" : "primary"}
+          variant={activity.status === "EXPIRED" ? "ghost" : "primary"}
           className={styles.actionButton}
           disabled={isDisabled}
           onClick={handleActionButton}

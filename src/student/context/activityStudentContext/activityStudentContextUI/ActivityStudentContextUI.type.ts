@@ -2,9 +2,9 @@ import type { JSX } from "react";
 import type { PaginationInfo } from "./ActivityStudentProviderUI";
 
 export interface ActivityStudentContextUIType {
-  activeFilter: "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED";
+  activeFilter: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED";
   setActiveFilter: React.Dispatch<
-    React.SetStateAction<"CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED">
+    React.SetStateAction<"CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED">
   >;
   selectedSubject: string;
   setSelectedSubject: React.Dispatch<React.SetStateAction<string>>;
