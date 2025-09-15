@@ -1,3 +1,4 @@
+import type { Wallet } from "../../../admin/services/student/StudentService";
 import type {
   CurrentStudent,
   AvatarComponents,
@@ -7,7 +8,7 @@ export interface CurrentStudentContextType {
   // Estados principales
   loading: boolean;
   currentStudent: CurrentStudent | null;
-
+  wallet: Wallet | undefined;
   // Funciones Principales
   getCurrentStudent: () => Promise<void>;
   updateStudentProfile: (
@@ -17,6 +18,8 @@ export interface CurrentStudentContextType {
     profileId: number,
     typeAspect: "REMERA" | "SOMBRERO"
   ) => Promise<void>;
+
+  getWalletByStudent: () => void;
 
   // Funciones de utilidad
   setCurrentStudent: React.Dispatch<

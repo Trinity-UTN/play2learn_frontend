@@ -6,11 +6,13 @@ import type { CurrentActivityInterface } from "../../../types/Activity.type";
 interface ActionButtonsProps {
   passed: boolean;
   activity: CurrentActivityInterface;
+  getWallet: () => void;
 }
 
 export default function ActionButtons({
   passed,
   activity,
+  getWallet,
 }: ActionButtonsProps) {
   const gameManager = useGameManager(activity?.name);
 
@@ -47,6 +49,7 @@ export default function ActionButtons({
   const onContinue = () => {
     if (passed) {
       navigate("/dashboard/student/wallet");
+      getWallet();
     } else {
       navigate("/dashboard/student/actividades/list");
     }

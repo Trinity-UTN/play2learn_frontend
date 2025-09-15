@@ -1,4 +1,4 @@
-@import "../../../styles/colors.css";
+@import "../../../../shared/styles/colors.css";
 .detailsContainer {
   width: 100%;
   max-width: 900px;

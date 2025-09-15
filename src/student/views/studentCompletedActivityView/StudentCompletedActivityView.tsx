@@ -8,10 +8,12 @@ import ResultHeader from "../../components/studentCompletedActivityViewComponent
 import CoinsReward from "../../components/studentCompletedActivityViewComponents/CoinsReward/CoinsReward";
 import ActionButtons from "../../components/studentCompletedActivityViewComponents/ActionButtons/ActionButtons";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
+import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import DetailsGeneral from "../../components/DetailsGame/DetailsGeneral/DetailsGeneral";
 
 const StudentCompletedActivityView = () => {
   const { loading, currentActivity, activityCompleted } = useActivityStudent();
+  const { getWalletByStudent } = useCurrentStudent();
   const navigate = useNavigate();
   const [showConfetti, setShowConfetti] = useState(false);
   const [animationPhase, setAnimationPhase] = useState(0);
@@ -121,7 +123,11 @@ const StudentCompletedActivityView = () => {
         </motion.div>
       </motion.div>
       <motion.div variants={itemVariants}>
-        <ActionButtons passed={passed} activity={currentActivity} />
+        <ActionButtons
+          passed={passed}
+          activity={currentActivity}
+          getWallet={getWalletByStudent}
+        />
       </motion.div>
     </div>
   );
