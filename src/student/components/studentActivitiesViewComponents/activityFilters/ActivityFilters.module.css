@@ -54,22 +54,22 @@
   border-radius: 50px;
   font-weight: 600;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   color: var(--color-text-light);
 }
 
 .filterButton:hover {
   background-color: transparent !important;
-  border: 2px solid var(--color-secondary);
+  border: 1px solid var(--color-secondary);
 }
 .filterButton.active {
   background: linear-gradient(135deg, var(--color-stat-4), var(--color-stat-1));
-  color: var(--color-text-light);
+  color: var(--color-stat-2);
   box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
 }
 
 .filterEmoji {
-  font-size: 1rem;
+  font-size: 1.3rem;
 }
 
 .selectFilters {

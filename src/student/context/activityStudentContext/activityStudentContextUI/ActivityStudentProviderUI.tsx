@@ -173,9 +173,9 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
 
   //Filtros
   const statusFilters = [
-    { key: "PUBLISHED", label: "Disponibles", emoji: "✨" },
-    { key: "EXPIRED", label: "Vencidas", emoji: "❌" },
-    { key: "APPROVED", label: "Aprobadas", emoji: "✅" },
+    { key: "PUBLISHED", label: "Disponibles", emoji: <FaStar /> },
+    { key: "EXPIRED", label: "Vencidas", emoji: <FiXCircle /> },
+    { key: "APPROVED", label: "Aprobadas", emoji: <FaCheck /> },
   ];
 
   //Acomodar con los filtros del get

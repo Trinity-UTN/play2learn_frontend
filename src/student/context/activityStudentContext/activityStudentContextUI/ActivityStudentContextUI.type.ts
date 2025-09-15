@@ -1,5 +1,6 @@
 import type { JSX } from "react";
 import type { PaginationInfo } from "./ActivityStudentProviderUI";
+import type React from "react";
 export interface FilterOption {
   id: string;
   name: string;
@@ -20,7 +21,7 @@ export interface ActivityStudentContextUIType {
   pendingCount: number;
   defeatedCount: number;
   stats: any[];
-  statusFilters: { key: string; label: string; emoji: string }[];
+  statusFilters: { key: string; label: string; emoji: React.ReactNode }[];
   subjects: FilterOption[];
   difficulties: string[];
   getRandomIcon: () => JSX.Element;
