@@ -57,7 +57,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
       icon: FaGamepad,
       path: StudentRoutes.Activities.list,
       color: "#8B5CF6",
-      badge: availableCount,
+      badge: pendingCount,
     },
     {
       title: "Mis Beneficios",
