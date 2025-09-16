@@ -39,7 +39,6 @@ class AuthService {
     localStorage.removeItem(this.ACCESS_KEY);
     localStorage.removeItem(this.REFRESH_KEY);
     localStorage.removeItem(this.ROLE);
-    localStorage.removeItem("studentData");
   }
 
   public logout(): void {

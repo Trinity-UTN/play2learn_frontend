@@ -6,4 +6,5 @@ export const urls = {
   ActivityById: "/activity",
   ActivityNotApproved: "/activity/student/not-approved",
   ActivityCompleted: "/activity/completed",
+  StudentByToken: "/student",
 };

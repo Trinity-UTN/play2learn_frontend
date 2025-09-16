@@ -10,6 +10,7 @@ export interface CurrentStudentContextType {
 
   // Funciones Principales
   getCurrentStudent: () => Promise<void>;
+  getCurrentStudentByToken: () => Promise<void>;
   updateStudentProfile: (
     aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
   ) => Promise<void>;

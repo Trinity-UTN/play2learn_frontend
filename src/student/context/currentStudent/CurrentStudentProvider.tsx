@@ -2,6 +2,7 @@ import { useCallback, useState, useEffect, type ReactNode } from "react";
 import { CurrentStudentContext } from "./CurrentStudentContext";
 import type { CurrentStudentContextType } from "./CurrentStudentContext.type";
 import { CurrentStudentService } from "../../services/student/CurrentStudentService";
+import AuthService from "../../../user/services/auth/AuthService";
 import type {
   CurrentStudent,
   AvatarComponents,
@@ -18,6 +19,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
 }) => {
   const { role, studentData } = useAuth();
   const { handleApiError } = useHandleApiError();
+  const authService = AuthService.getInstance();
 
   const [loading, setLoading] = useState<boolean>(true);
   const [currentStudent, setCurrentStudent] = useState<CurrentStudent | null>(
@@ -39,6 +41,19 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       setLoading(false);
     }
   }, [studentData?.id]);
+
+  const getCurrentStudentByToken = useCallback(async (): Promise<void> => {
+    setLoading(true);
+    try {
+      const studentDataFromToken =
+        await CurrentStudentService.getCurrentStudentByTokenApi();
+      setCurrentStudent(studentDataFromToken);
+    } catch (error) {
+      handleApiError(error, "Error al obtener el estudiante actual");
+    } finally {
+      setLoading(false);
+    }
+  }, [authService.getAccessToken()]);
 
   const updateStudentProfile = async (
     aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
@@ -74,15 +89,20 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   };
 
   useEffect(() => {
-    if (role === "ROLE_STUDENT" && studentData?.id) {
+    if (role === "ROLE_STUDENT") {
       if (studentData) {
         setCurrentStudent(studentData);
+        setLoading(false);
+      } else if (authService.getAccessToken()) {
+        getCurrentStudentByToken();
+        setLoading(false);
+      } else {
+        getCurrentStudent();
       }
-      getCurrentStudent();
-    } else if (role !== "ROLE_STUDENT") {
-      setLoading(false);
+    } else {
+      setLoading(true);
     }
-  }, [role, studentData, getCurrentStudent]);
+  }, [role, studentData, getCurrentStudent, getCurrentStudentByToken]);
 
   // Funcioens de utilidad
   const getAvatarComponents = (): AvatarComponents => {
@@ -105,6 +125,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
 
     // Funciones Principales
     getCurrentStudent,
+    getCurrentStudentByToken,
     updateStudentProfile,
     unselectAspect,
 

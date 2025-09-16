@@ -41,14 +41,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
           setRole(storedRole);
           setIsAuthenticated(true);
-          if (storedRole === "ROLE_STUDENT") {
-            const storedStudentId = localStorage.getItem("studentData");
-            if (storedStudentId) {
-              setStudentData({
-                id: Number(storedStudentId),
-              } as StudentResponseDto);
-            }
-          }
         } else {
           setIsAuthenticated(false);
         }
@@ -89,7 +81,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       if (userRole === "ROLE_STUDENT") {
         const student = response.data.roleData as StudentResponseDto;
         setStudentData(student);
-        localStorage.setItem("studentData", student.id.toString());
       } else if (userRole === "ROLE_TEACHER") {
         // TODO: Agregar setCurrentTeacher en prox sprint
       }
