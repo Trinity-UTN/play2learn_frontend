@@ -1,8 +1,7 @@
-import type React from "react";
 import { motion } from "framer-motion";
-import styles from "./ActivityView.module.css";
 import { useParams } from "react-router-dom";
 import { activityComponentMap } from "../../utils/activityComponentMap";
+import styles from "./ActivityView.module.css";
 
 const ActivityView: React.FC = () => {
   const { code_game } = useParams();
