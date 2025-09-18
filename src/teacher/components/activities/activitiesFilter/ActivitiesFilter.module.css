@@ -1,0 +1,143 @@
+@import "../../../../shared/styles/colors.css";
+
+.filtersCard {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.filtersCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.filtersContent {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 7;
+  min-width: 250px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-subtitle);
+  font-size: 1rem;
+}
+
+.searchInput {
+  padding-left: 3rem;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  flex: 3;
+  justify-content: flex-end;
+  min-width: 180px;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.filterIcon {
+  color: var(--color-text-subtitle);
+  font-size: 0.875rem;
+}
+
+.filterSelect {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  background-color: var(--card-background);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  min-width: 120px;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .filtersContent {
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+
+  .searchWrapper,
+  .filters {
+    flex: none;
+    width: 100%;
+  }
+
+  .filterGroup {
+    justify-content: space-between;
+  }
+
+  .filterSelect {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .filtersCard {
+    padding: 1.25rem;
+  }
+
+  .searchInput {
+    font-size: 0.95rem;
+  }
+
+  .filterSelect {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .filtersCard {
+    padding: 1rem;
+  }
+
+  .searchIcon {
+    font-size: 0.875rem;
+  }
+
+  .searchInput {
+    font-size: 0.875rem;
+  }
+
+  .filterSelect {
+    font-size: 0.8rem;
+  }
+}
