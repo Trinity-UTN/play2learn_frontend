@@ -38,7 +38,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
   isLoading = false,
 }) => {
   const { logout } = useAuth();
-  const { currentStudent } = useCurrentStudent();
+  const { wallet, currentStudent } = useCurrentStudent();
   const { availableCount } = useActivityStudentUI();
   const navigate = useNavigate();
 
@@ -57,14 +57,14 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       color: "#10B981",
       badge: isLoading
         ? "..."
-        : formatPrice(currentStudent?.wallet.balance) ?? "0",
+        : formatPrice(wallet?.balance) ?? "0",
     },
     {
       title: "Mis Actividades",
       icon: FaGamepad,
       path: StudentRoutes.Activities.list,
       color: "#8B5CF6",
-      badge: isLoading ? "..." : availableCount,
+      badge: isLoading ? "..." : pendingCount,
     },
     {
       title: "Mis Beneficios",

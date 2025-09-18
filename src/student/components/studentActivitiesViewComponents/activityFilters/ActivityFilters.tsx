@@ -4,15 +4,15 @@ import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import styles from "./ActivityFilters.module.css";
 import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
-
+import type { FilterOption } from "../../../context/activityStudentContext/activityStudentContextUI/ActivityStudentContextUI.type";
 interface ActivityFiltersProps {
-  activeFilter: "ALL" | "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED";
-  selectedSubject: string;
+  activeFilter: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED";
+  selectedSubject: FilterOption | null;
   selectedDifficulty: string;
   onFilterChange: (
-    filter: "ALL" | "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED"
+    filter: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED"
   ) => void;
-  onSubjectChange: (subject: string) => void;
+  onSubjectChange: (subject: FilterOption | null) => void;
   onDifficultyChange: (difficulty: string) => void;
 }
 
@@ -73,16 +73,18 @@ const ActivityFilters: React.FC<ActivityFiltersProps> = ({
               Materia
             </div>
             <select
-              value={selectedSubject}
-              onChange={(e) => onSubjectChange(e.target.value)}
+              value={selectedSubject?.id}
+              onChange={(e) => {
+                const subject = subjects.find((s) => s.id === e.target.value);
+                if (subject) onSubjectChange(subject);
+              }}
               className={styles.select}
             >
-              <option value="ALL">Todas las materias</option>
               {subjects
-                .filter((s) => s !== "ALL")
+                .filter((s) => s.name !== "ALL")
                 .map((subject) => (
-                  <option key={subject} value={subject}>
-                    {subject}
+                  <option key={subject.id} value={subject.id}>
+                    {subject.name}
                   </option>
                 ))}
             </select>

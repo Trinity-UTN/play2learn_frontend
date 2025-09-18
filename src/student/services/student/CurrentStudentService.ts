@@ -27,9 +27,15 @@ const unselectAspectApi = async (
   await api.patch(urls.ProfileUnselectAspect, { profileId, typeAspect });
 };
 
+const walletByStudentApi = async () => {
+  const response = await api.get(urls.Wallet);
+  return response.data;
+};
+
 export const CurrentStudentService = {
   getCurrentStudentApi,
   getCurrentStudentByTokenApi,
   updateCurrentStudentProfileApi,
   unselectAspectApi,
+  walletByStudentApi,
 };

@@ -12,8 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 
 const StudentWalletView = () => {
-  const { currentStudent } = useCurrentStudent();
-  const wallet = currentStudent?.wallet;
+  const { wallet } = useCurrentStudent();
 
   const financialData: FinancialSummary = {
     availableCoins: Number(wallet?.balance) - Number(wallet?.invertedBalance),

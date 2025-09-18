@@ -9,6 +9,7 @@ import type {
 } from "../../types/CurrentStudent.type";
 import { useAuth } from "../../../user/hooks/useAuth";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+import type { Wallet } from "../../../admin/services/student/StudentService";
 
 interface CurrentStudentProviderProps {
   children: ReactNode;
@@ -25,6 +26,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   const [currentStudent, setCurrentStudent] = useState<CurrentStudent | null>(
     null
   );
+  const [wallet, setWallet] = useState<Wallet>();
 
   // Funciones Principales
   const getCurrentStudent = useCallback(async (): Promise<void> => {
@@ -35,6 +37,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       const studentDataFromApi =
         await CurrentStudentService.getCurrentStudentApi(studentData.id);
       setCurrentStudent(studentDataFromApi);
+      setWallet(currentStudent?.wallet)
     } catch (error) {
       handleApiError(error, "Error al obtener el estudiante actual");
     } finally {
@@ -48,6 +51,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       const studentDataFromToken =
         await CurrentStudentService.getCurrentStudentByTokenApi();
       setCurrentStudent(studentDataFromToken);
+      setWallet(currentStudent?.wallet)
     } catch (error) {
       handleApiError(error, "Error al obtener el estudiante actual");
     } finally {
@@ -92,6 +96,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     if (role === "ROLE_STUDENT") {
       if (studentData) {
         setCurrentStudent(studentData);
+        setWallet(studentData.wallet);
         setLoading(false);
       } else if (authService.getAccessToken()) {
         getCurrentStudentByToken();
@@ -104,6 +109,15 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     }
   }, [role, studentData, getCurrentStudent, getCurrentStudentByToken]);
 
+  const getWalletByStudent = async () => {
+    setLoading(true);
+    try {
+      const response = await CurrentStudentService.walletByStudentApi();
+      setWallet(response.data);
+    } catch (error) {
+      handleApiError(error, "Error al cargar la billetera");
+    }
+  };
   // Funcioens de utilidad
   const getAvatarComponents = (): AvatarComponents => {
     const profile = currentStudent?.profile;
@@ -122,12 +136,13 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     // Estados principales
     loading,
     currentStudent,
-
+    wallet,
     // Funciones Principales
     getCurrentStudent,
     getCurrentStudentByToken,
     updateStudentProfile,
     unselectAspect,
+    getWalletByStudent,
 
     // Funciones de utilidad
     setCurrentStudent,

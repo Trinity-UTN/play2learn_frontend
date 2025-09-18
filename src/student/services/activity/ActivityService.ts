@@ -1,9 +1,17 @@
+
+import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import type {
   ActivityCompletedInterface,
   ActivityCompletedResponseInterface,
 } from "../../types/ActivityCompleted.type";
 import api from "../../../shared/utils/api";
 import { urls } from "../urls";
+import type {
+  PaginatedActivityApprovedResponseInterface,
+  PaginatedActivityNotApprovedResponseInterface,
+} from "../../types/Activity.type";
+import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
+import qs from "qs";
 
 const getActivityNotApprovedApi = async () => {
   const response = await api.get(urls.ActivityNotApproved);
@@ -20,10 +28,50 @@ const getActivityByIdApi = async (id: number) => {
   return response.data;
 };
 
+const getPaginatedActivityApprovedApi = async (
+  params: GetPaginated
+): Promise<PaginatedActivityApprovedResponseInterface> => {
+  const preParams: GetPaginated = {
+    ...params,
+    filtersValues: params.filtersValues
+      ?.map((value) => (value === "ALL" ? undefined : value))
+      .filter((v): v is string => v !== undefined),
+    filters: params.filters?.filter(
+      (_, index) => params.filtersValues?.[index] !== "ALL"
+    ),
+  };
+  const cleanParams = {
+    ...buildCleanPaginatedParams(preParams),
+    filters: preParams.filters?.join(","),
+    filtersValues: preParams.filtersValues?.join(","),
+  };
+  const response = await api.get(urls.PaginatedActivityApproved, {
+    params: cleanParams,
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  });
+  return response.data;
+};
+
+const getPaginatedActivityNotApprovedApi = async (
+  params: GetPaginated
+): Promise<PaginatedActivityNotApprovedResponseInterface> => {
+  const cleanParams = {
+    ...buildCleanPaginatedParams(params),
+    filters: params.filters?.join(","),
+    filtersValues: params.filtersValues?.join(","),
+  };
+  const response = await api.get(urls.PaginatedActivityNotApproved, {
+    params: cleanParams,
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  });
+
 const registerActivityCompletedApi = async (
   payload: ActivityCompletedInterface
 ): Promise<{ data: ActivityCompletedResponseInterface }> => {
   const response = await api.post(urls.ActivityCompleted, payload);
+
   return response.data;
 };
 
@@ -31,5 +79,9 @@ export const ActivityStudentService = {
   getActivityNotApprovedApi,
   getActivityApprovedApi,
   getActivityByIdApi,
+  getPaginatedActivityApprovedApi,
+  getPaginatedActivityNotApprovedApi,
+
   registerActivityCompletedApi,
+
 };

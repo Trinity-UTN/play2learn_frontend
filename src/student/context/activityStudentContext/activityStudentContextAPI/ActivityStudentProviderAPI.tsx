@@ -14,6 +14,10 @@ import { ActivityStudentService } from "../../../services/activity/ActivityServi
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
 import { createGameConfig } from "../../../../shared/registry/games/gameConfigFactory";
 import { useHandleApiError } from "../../../../shared/hooks/useHandleApiError";
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../../shared/types/PaginacionType";
 // import type {
 //   GetPaginated,
 //   PaginatedData,
@@ -35,32 +39,47 @@ export const ActivityStudentProvider = ({
   >([]);
   const [currentActivity, setCurrentActivity] =
     useState<CurrentActivityInterface | null>(null);
+
   const [activityCompleted, setActivityCompleted] =
     useState<ActivityCompletedResponseInterface | null>(null);
-  // useState<PaginatedData<ActivityNotApprovedResponseInterface> | null>(null);
 
-  // const getPaginatedActivityNotApproved= useCallback(
-  //   async (params: GetPaginated): Promise<void> => {
-  //     setLoading(true);
+  const [paginatedActivitiesNotApproved, setPaginatedActivitiesNotApproved] =
+    useState<PaginatedData<ActivityNotApprovedResponseInterface> | null>(null);
+  const [paginatedActivitiesApproved, setPaginatedActivitiesApproved] =
+    useState<PaginatedData<ActivityApprovedResponseInterface> | null>(null);
 
-  //     try {
-  //       const response = await ActivityStudentService.getActivityNotApprovedApi() ;
-
-  //       setPaginatedActivitiesNotApproved(response.data);
-  //     } catch (error) {
-  //       showToast({
-  //           title: "Error al obtener las actividades",
-  //           message: "Se produjo un problema al obtener las actividades, intente luego.",
-  //           type: "error",
-  //           position: "bottom-right",
-  //         });
-  //       throw error;
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   },
-  //   []
-  // );
+  const getPaginatedActivitiesNotApproved = useCallback(
+    async (params: GetPaginated): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await ActivityStudentService.getPaginatedActivityNotApprovedApi(
+            params
+          );
+        setPaginatedActivitiesNotApproved(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener las actividades paginadas");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+  const getPaginatedActivitiesApproved = useCallback(
+    async (params: GetPaginated): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await ActivityStudentService.getPaginatedActivityApprovedApi(params);
+        setPaginatedActivitiesApproved(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener las actividades paginadas");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   const getActivityNotApproved = useCallback(async (): Promise<void> => {
     setLoading(true);
@@ -91,7 +110,7 @@ export const ActivityStudentProvider = ({
     try {
       const response = await ActivityStudentService.getActivityByIdApi(id);
       const data = response.data;
-
+      // console.log(data);
       const gameType = getGameTypeFromActivityName(data.name);
       if (!gameType) {
         throw new Error(`Tipo de juego desconocido para: "${data.name}"`);
@@ -123,6 +142,7 @@ export const ActivityStudentProvider = ({
       } finally {
         setLoading(false);
       }
+      // console.log(activityCompleted); //DEBUG
     },
     []
   );
@@ -135,11 +155,15 @@ export const ActivityStudentProvider = ({
     loading,
     activityNotApproved,
     activityApproved,
+    paginatedActivitiesApproved,
+    paginatedActivitiesNotApproved,
     currentActivity,
     activityCompleted,
     getActivityNotApproved,
     getActivityApproved,
     getActivityById,
+    getPaginatedActivitiesApproved,
+    getPaginatedActivitiesNotApproved,
     registerActivityCompleted,
     refreshActivityDataAfterCompletion,
   };

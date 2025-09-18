@@ -2,6 +2,7 @@ import type { AhorcadoConfig } from "../../activity/types/Ahorcado.type";
 import type { DesafioClasificacionConfig } from "../../activity/types/DesafioClasificacion.type";
 import type { PreguntadosInterface as PreguntadosGameConfig } from "../../activity/types/Preguntados.type";
 import type { SubjectResponseDto } from "../../admin/services/subject/SubjectService";
+import type { PaginatedData } from "../../shared/types/PaginacionType";
 
 interface BaseActivity {
   id: string;
@@ -9,6 +10,7 @@ interface BaseActivity {
   description: string;
   difficulty: string;
   subjectName: string;
+  subjectId: number;
   attempts: number;
   remainingAttempts: number;
 }
@@ -21,13 +23,26 @@ export interface ActivityNotApprovedResponseInterface extends BaseActivity {
   maxReward: number;
   pending: boolean;
   type: string;
-  status: "CREATED" | "PUBLISHED" | "FINISHED";
+  status: "CREATED" | "PUBLISHED" | "EXPIRED";
 }
 
 export interface ActivityApprovedResponseInterface extends BaseActivity {
   completedAt: string;
   reward: number;
   state: "APPROVED";
+}
+export interface PaginatedActivityNotApprovedResponseInterface {
+  data: PaginatedData<ActivityNotApprovedResponseInterface>;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
+export interface PaginatedActivityApprovedResponseInterface {
+  data: PaginatedData<ActivityApprovedResponseInterface>;
+  message: string;
+  errors: any;
+  timestamp: string;
 }
 
 export interface ActivityUI {
@@ -36,7 +51,7 @@ export interface ActivityUI {
   description: string;
   difficulty: string;
   subjectName: string;
-  status: "CREATED" | "PUBLISHED" | "FINISHED" | "APPROVED";
+  status: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED";
   dateLabel?: string;
   timeLabel?: string;
   rewardLabel?: string;

@@ -21,10 +21,15 @@ const DesafioClasificacionGame = ({ mode }: DesafioClasificacionGameProps) => {
     verificationResults,
     score,
     startGame,
+    gameStarted,
   } = useDesafioClasificacionGame();
+
   useEffect(() => {
-    startGame();
+    if (!gameStarted) {
+      startGame();
+    }
   }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.decisionsSection}>
