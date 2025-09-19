@@ -1,4 +1,3 @@
-
 import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import type {
   ActivityCompletedInterface,
@@ -66,6 +65,8 @@ const getPaginatedActivityNotApprovedApi = async (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   });
+  return response.data;
+};
 
 const registerActivityCompletedApi = async (
   payload: ActivityCompletedInterface
@@ -83,5 +84,4 @@ export const ActivityStudentService = {
   getPaginatedActivityNotApprovedApi,
 
   registerActivityCompletedApi,
-
 };
