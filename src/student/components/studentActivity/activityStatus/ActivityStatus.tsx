@@ -45,10 +45,10 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
             text: "Completada",
             description: "Has completado esta actividad exitosamente",
           };
-        case "FINISHED":
+        case "EXPIRED":
           return {
             variant: "warning" as const,
-            text: "Finalizada",
+            text: "Expirada",
             description: "El período de esta actividad ha terminado",
           };
         case "CREATED":

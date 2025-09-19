@@ -101,7 +101,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
             </div>
           </div>
 
-          {/* {activity.status === "FINISHED"  && (
+          {/* {activity.status === "EXPIRED"  && (
             <div className={styles.scoreSection}>
               <div className={styles.scoreInfo}>
                 <span className={styles.pointsEarned}>
