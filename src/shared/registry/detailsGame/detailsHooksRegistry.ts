@@ -5,4 +5,5 @@ import DetailsDesafioClasificacionGame from "../../../student/components/Details
 export const GAME_TYPE_TO_COMPONENT: Record<GameType, React.FC<any>> = {
   [GameType.AHORCADO]: DetailsAhorcado,
   [GameType.CLASIFICACION]: DetailsDesafioClasificacionGame,
+  [GameType.PREGUNTADOS]: DetailsDesafioClasificacionGame,
 };
