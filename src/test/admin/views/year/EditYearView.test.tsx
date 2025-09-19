@@ -3,7 +3,7 @@ import { vi, type Mock } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import CreateYearView from "../../../../admin/views/Year/CreateYearView";
 import { YearProvider } from "../../../../admin/contexts/yearContext/YearProvider";
-
+import { ToasterProvider } from "../../../../shared/contexts/toasterContext/ToasterProvider";
 vi.mock("react-router-dom", async (importOriginal) => {
   const actual: any = await importOriginal();
 
@@ -32,9 +32,11 @@ describe("CreateYearView (EDIT)", () => {
 
     render(
       <MemoryRouter>
-        <YearProvider>
-          <CreateYearView />
-        </YearProvider>
+        <ToasterProvider>
+          <YearProvider>
+            <CreateYearView />
+          </YearProvider>
+        </ToasterProvider>
       </MemoryRouter>
     );
 

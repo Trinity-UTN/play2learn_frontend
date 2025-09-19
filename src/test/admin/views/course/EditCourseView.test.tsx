@@ -3,7 +3,7 @@ import { vi, type Mock } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import CreateCourseView from "../../../../admin/views/Course/CreateCourseView";
 import { CourseProvider } from "../../../../admin/contexts/courseContext/CourseProvider";
-
+import { ToasterProvider } from "../../../../shared/contexts/toasterContext/ToasterProvider";
 vi.mock("react-router-dom", async (importOriginal) => {
   const actual: any = await importOriginal();
   return {
@@ -40,9 +40,11 @@ vi.spyOn(window, "alert").mockImplementation(() => {});
 const renderCreateCourseView = () =>
   render(
     <MemoryRouter>
-      <CourseProvider>
-        <CreateCourseView />
-      </CourseProvider>
+      <ToasterProvider>
+        <CourseProvider>
+          <CreateCourseView />
+        </CourseProvider>
+      </ToasterProvider>
     </MemoryRouter>
   );
 
