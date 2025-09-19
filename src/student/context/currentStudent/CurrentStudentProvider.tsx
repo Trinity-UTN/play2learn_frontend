@@ -37,7 +37,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       const studentDataFromApi =
         await CurrentStudentService.getCurrentStudentApi(studentData.id);
       setCurrentStudent(studentDataFromApi);
-      setWallet(currentStudent?.wallet)
+      setWallet(studentDataFromApi?.wallet);
     } catch (error) {
       handleApiError(error, "Error al obtener el estudiante actual");
     } finally {
@@ -51,7 +51,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       const studentDataFromToken =
         await CurrentStudentService.getCurrentStudentByTokenApi();
       setCurrentStudent(studentDataFromToken);
-      setWallet(currentStudent?.wallet)
+      setWallet(studentDataFromToken?.wallet);
     } catch (error) {
       handleApiError(error, "Error al obtener el estudiante actual");
     } finally {
