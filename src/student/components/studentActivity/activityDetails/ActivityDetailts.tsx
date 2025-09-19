@@ -7,6 +7,7 @@ import type {
 } from "../../../types/Activity.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
+import { useGameConfigRenderer } from "../../../../shared/hooks/games/useGameConfigRenderer";
 import styles from "./ActivityDetails.module.css";
 
 interface ActivityDetailsProps {
@@ -20,6 +21,12 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
 }) => {
   const [isHorizontal, setIsHorizontal] = useState(false);
   const displayData = currentActivity || activity;
+
+  // Hook personalizado para renderizar la configuración del juego
+  const gameConfigDetails = useGameConfigRenderer(
+    currentActivity?.name,
+    currentActivity?.gameConfig
+  );
 
   if (!displayData) {
     return (
@@ -58,6 +65,24 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
     setIsHorizontal(!isHorizontal);
   };
 
+  // EXPO: Stategy: Renderizar configuración del juego
+  const renderGameConfigDetails = () => {
+    return gameConfigDetails.map((detail, index) => {
+      const IconComponent = detail.icon;
+      return (
+        <div key={`game-config-${index}`} className={styles.detailItem}>
+          <div className={styles.detailContent}>
+            <IconComponent className={styles.detailIcon} />
+            <div>
+              <span className={styles.label}>{detail.label}</span>
+              <span className={styles.value}>{detail.value}</span>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -82,13 +107,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
             <h4 className={styles.descriptionTitle}>
               Descripción de la actividad:
             </h4>
-            <p className={styles.description}>
-              {currentActivity.description}
-              {/* <small className={styles.descriptionNote}>
-                (Esta descripción cambiará dependiendo del tipo de actividad:{" "}
-                {currentActivity.name})
-              </small> */}
-            </p>
+            <p className={styles.description}>{currentActivity.description}</p>
           </div>
         )}
 
@@ -139,20 +158,8 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
             </div>
           )}
 
-          {/* {currentActivity?.gameConfig.errorsPermited !== undefined && (
-            <div className={styles.detailItem}>
-              <div className={styles.detailContent}>
-                <span className={styles.detailIcon}>❌</span>
-                <div>
-                  <span className={styles.label}>Errores permitidos</span>
-                  <span className={styles.value}>
-                    {currentActivity.gameConfig.errorsPermited}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )} */}
-          {/* TODO: Escalar, por ahora solo ahorcado */}
+          {/* EXPO: Renderizar configuración del juego */}
+          {renderGameConfigDetails()}
         </div>
       </Card>
     </motion.div>
