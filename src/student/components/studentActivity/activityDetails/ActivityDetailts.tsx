@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaColumns, FaList } from "react-icons/fa";
+import {
+  FaColumns,
+  FaList,
+  FaCalendarAlt,
+  FaCalendarTimes,
+  FaClock,
+} from "react-icons/fa";
 import type {
   CurrentActivityInterface,
   ActivityUI,
@@ -119,7 +125,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
           {currentActivity?.startDate && (
             <div className={styles.detailItem}>
               <div className={styles.detailContent}>
-                <span className={styles.detailIcon}>📅</span>
+                <FaCalendarAlt className={styles.detailIcon} />
                 <div>
                   <span className={styles.label}>Fecha de inicio</span>
                   <span className={styles.value}>
@@ -133,7 +139,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
           {currentActivity?.endDate && (
             <div className={styles.detailItem}>
               <div className={styles.detailContent}>
-                <span className={styles.detailIcon}>⏰</span>
+                <FaCalendarTimes className={styles.detailIcon} />
                 <div>
                   <span className={styles.label}>Fecha de fin</span>
                   <span className={styles.value}>
@@ -147,7 +153,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
           {currentActivity?.maxTime && (
             <div className={styles.detailItem}>
               <div className={styles.detailContent}>
-                <span className={styles.detailIcon}>⏱️</span>
+                <FaClock className={styles.detailIcon} />
                 <div>
                   <span className={styles.label}>Tiempo máximo</span>
                   <span className={styles.value}>
