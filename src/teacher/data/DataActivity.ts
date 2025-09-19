@@ -1,4 +1,4 @@
-import type { Activity } from "../types/ActivityType";
+import type { Activity } from "../types/TeacherActivity.type";
 
 export const activities: Activity[] = [
   {
@@ -8,12 +8,7 @@ export const activities: Activity[] = [
     type: "Juego de Palabras",
     description:
       "Adivina la palabra oculta letra por letra. Perfecto para mejorar vocabulario y ortografía.",
-    difficulty: "Fácil",
-    duration: "10-15 min",
-    subject: "Lengua",
-    icon: "hangman",
     color: "#b9e769",
-    features: ["Vocabulario", "Ortografía", "Concentración"],
     isPopular: true,
   },
   {
@@ -23,12 +18,7 @@ export const activities: Activity[] = [
     type: "Ejercicio Gramatical",
     description:
       "Completa las oraciones con las palabras correctas para formar textos coherentes.",
-    difficulty: "Medio",
-    duration: "15-20 min",
-    subject: "Lengua",
-    icon: "complete",
     color: "#ff6f3c",
-    features: ["Gramática", "Comprensión", "Sintaxis", "Vocabulario"],
   },
   {
     id: 3,
@@ -37,12 +27,7 @@ export const activities: Activity[] = [
     type: "Trivia Educativa",
     description:
       "Responde preguntas de múltiple opción sobre diferentes materias y temas.",
-    difficulty: "Medio",
-    duration: "20-30 min",
-    subject: "General",
-    icon: "questions",
     color: "#007bff",
-    features: ["Conocimiento", "Rapidez", "Memoria"],
     isPopular: true,
   },
   {
@@ -52,12 +37,7 @@ export const activities: Activity[] = [
     type: "Lógica y Orden",
     description:
       "Organiza elementos en el orden correcto según criterios específicos.",
-    difficulty: "Medio",
-    duration: "10-15 min",
-    subject: "Matemáticas",
-    icon: "sequence",
     color: "#9333ea",
-    features: ["Lógica", "Secuencias", "Orden", "Análisis"],
   },
   {
     id: 5,
@@ -65,12 +45,7 @@ export const activities: Activity[] = [
     name: "Memorama",
     type: "Juego de Memoria",
     description: "Relaciona conceptos con sus imágenes correspondientes.",
-    difficulty: "Fácil",
-    duration: "10-15 min",
-    subject: "General",
-    icon: "memory",
     color: "#f9c74f",
-    features: ["Memoria visual", "Asociación", "Comprensión"],
   },
   {
     id: 6,
@@ -78,12 +53,7 @@ export const activities: Activity[] = [
     code_game: "desafio_clasificacion",
     type: "Juego de Memoria",
     description: "Relacione los conceptos con su categoria correspondiente.",
-    difficulty: "Difícil",
-    duration: "25-35 min",
-    subject: "General",
-    icon: "memory",
     color: "#dc2626",
-    features: ["Orden", "Lógica", "Resolución"],
     isNew: true,
   },
   {
@@ -93,12 +63,7 @@ export const activities: Activity[] = [
     type: "Lógica y Clasificación",
     description:
       "Analiza diferentes opciones y clasifica la información para llegar a una conclusión",
-    difficulty: "Difícil",
-    duration: "20-30 min",
-    subject: "General",
-    icon: "tree",
     color: "#ef4444",
-    features: ["Análisis", "Clasificación", "Resolución de problemas"],
     isNew: true,
   },
   {
@@ -108,11 +73,6 @@ export const activities: Activity[] = [
     type: "Trabajo Práctico",
     description:
       "Actividad orientada a producciones escritas, reflexiones o presentaciones.",
-    difficulty: "Variable",
-    duration: "Variable",
-    subject: "General",
-    icon: "assignment",
     color: "#f59e0b",
-    features: ["Producción", "Expresión", "Análisis", "Reflexión"],
   },
 ];

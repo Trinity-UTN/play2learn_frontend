@@ -18,23 +18,49 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const { handleApiError } = useHandleApiError();
+  const authService = AuthService.getInstance();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<UserResponseDto | null>(null);
   const [role, setRole] = useState<Role>(localStorage.getItem("role") as Role);
   const [studentData, setStudentData] = useState<
     StudentResponseDto | undefined
   >();
-  // const [teacherData, setTeacherData] = useState<TeacherResponseDto | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
-    localStorage.getItem("token") ? true : false
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  const authService = AuthService.getInstance();
+  // Verificar autenticación al montar el componente
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        // Verificar si hay un token válido
+        const accessToken = authService.getAccessToken();
+        const storedRole = localStorage.getItem("role") as Role;
+
+        if (accessToken && storedRole) {
+          await authService.getValidAccessToken();
+
+          setRole(storedRole);
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        setIsAuthenticated(false);
+        authService.logout();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+  }, [authService]);
 
   useEffect(() => {
-    authService.setOnSessionExpiredCallback(() => setIsAuthenticated(false));
-  }, []);
+    authService.setOnSessionExpiredCallback(() => {
+      setIsAuthenticated(false);
+      setUser(null);
+    });
+  }, [authService]);
 
   const login = async (data: LoginPayload): Promise<string | null> => {
     setLoading(true);
@@ -53,7 +79,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setRole(response.data.role);
 
       if (userRole === "ROLE_STUDENT") {
-        setStudentData(response.data.roleData as StudentResponseDto);
+        const student = response.data.roleData as StudentResponseDto;
+        setStudentData(student);
       } else if (userRole === "ROLE_TEACHER") {
         // TODO: Agregar setCurrentTeacher en prox sprint
       }
@@ -61,7 +88,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setIsAuthenticated(true);
       return roleLandingRoutes[userRole];
     } catch (error) {
-      handleApiError(error, "Error al iniciar sesión");
+      handleApiError(error, "Error al iniciar sesión");
       return null;
     } finally {
       setLoading(false);
@@ -71,6 +98,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const logout = (): void => {
     authService.logout();
     setUser(null);
+    setStudentData(undefined);
     setIsAuthenticated(false);
   };
 

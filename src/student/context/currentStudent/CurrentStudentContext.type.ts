@@ -11,6 +11,7 @@ export interface CurrentStudentContextType {
   wallet: Wallet | undefined;
   // Funciones Principales
   getCurrentStudent: () => Promise<void>;
+  getCurrentStudentByToken: () => Promise<void>;
   updateStudentProfile: (
     aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
   ) => Promise<void>;

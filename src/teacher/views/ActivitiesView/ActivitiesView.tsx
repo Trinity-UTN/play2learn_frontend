@@ -1,65 +1,21 @@
-import type React from "react";
-import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
-import {
-  FaGamepad,
-  FaSearch,
-  FaFilter,
-  FaSortAmountDown,
-  FaFire,
-  FaStar,
-  FaClock,
-} from "react-icons/fa";
-
-import Card from "../../../shared/components/Card/CardComponent";
-import Input from "../../../shared/components/Input/InputComponent";
-import ActivityCard from "../../components/activityCard/ActivityCard";
-import styles from "./ActivitiesView.module.css";
+import { FaGamepad, FaFire, FaStar } from "react-icons/fa";
+import ActivitiesHeader from "../../components/activities/activitiesHeader/ActivitiesHeader";
+import ActivitiesStats from "../../components/activities/activitiesStats/ActivitiesStats";
+import ActivitiesFilter from "../../components/activities/activitiesFilter/ActivitiesFilter";
+import ActivitiesGrid from "../../components/activities/activitiesGrid/ActivitiesGrid";
 import { activities } from "../../data/DataActivity";
+import { useActivityFilters } from "../../hooks/activities/useActivityFilters";
+import { useFilteredActivities } from "../../hooks/activities/useFilteredActivities";
+import styles from "./ActivitiesView.module.css";
 
 const ActivitiesView: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("all");
-  const [selectedSubject, setSelectedSubject] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<string>("name");
-
-  const difficulties = ["all", "Fácil", "Medio", "Difícil"];
-  const subjects = ["all", "Lengua", "Matemáticas", "Ciencias", "General"];
-
-  const filteredActivities = activities
-    .filter((activity) => {
-      const matchesSearch =
-        activity.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        activity.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        activity.type.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesDifficulty =
-        selectedDifficulty === "all" ||
-        activity.difficulty === selectedDifficulty;
-      const matchesSubject =
-        selectedSubject === "all" || activity.subject === selectedSubject;
-
-      return matchesSearch && matchesDifficulty && matchesSubject;
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case "name":
-          return a.name.localeCompare(b.name);
-        case "difficulty":
-          const difficultyOrder = {
-            Variable: 1,
-            Fácil: 2,
-            Medio: 3,
-            Difícil: 4,
-          };
-          return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
-        case "duration":
-          return Number.parseInt(a.duration) - Number.parseInt(b.duration);
-        case "popular":
-          return (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0);
-        default:
-          return 0;
-      }
-    });
+  const { searchTerm, setSearchTerm, sortBy, setSortBy } = useActivityFilters();
+  const filteredActivities = useFilteredActivities(
+    activities,
+    searchTerm,
+    sortBy
+  );
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -92,179 +48,47 @@ const ActivitiesView: React.FC = () => {
       animate="visible"
       className={styles.container}
     >
-      {/* Header */}
-      <motion.div variants={itemVariants} className={styles.header}>
-        <div className={styles.headerContent}>
-          <div className={styles.titleSection}>
-            <h1 className={styles.title}>Actividades Educativas</h1>
-            <p className={styles.subtitle}>
-              Selecciona el tipo de actividad que deseas crear para tus
-              estudiantes
-            </p>
-          </div>
-        </div>
-      </motion.div>
+      <ActivitiesHeader itemVariants={itemVariants} />
 
-      {/* Stats Cards */}
       <motion.div variants={itemVariants} className={styles.statsSection}>
-        <motion.div variants={statsVariants} className={styles.statCard}>
-          <div
-            className={styles.statIcon}
-            style={{ backgroundColor: "var(--color-stat-1)" }}
-          >
-            <FaGamepad />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statNumber}>{activities.length}</span>
-            <span className={styles.statLabel}>Actividades</span>
-          </div>
-        </motion.div>
-
-        <motion.div variants={statsVariants} className={styles.statCard}>
-          <div
-            className={styles.statIcon}
-            style={{ backgroundColor: "var(--color-stat-2)" }}
-          >
-            <FaStar />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statNumber}>
-              {activities.filter((a) => a.isPopular).length}
-            </span>
-            <span className={styles.statLabel}>Populares</span>
-          </div>
-        </motion.div>
-
-        <motion.div variants={statsVariants} className={styles.statCard}>
-          <div
-            className={styles.statIcon}
-            style={{ backgroundColor: "var(--color-stat-3)" }}
-          >
-            <FaFire />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statNumber}>
-              {activities.filter((a) => a.isNew).length}
-            </span>
-            <span className={styles.statLabel}>Nuevas</span>
-          </div>
-        </motion.div>
-
-        <motion.div variants={statsVariants} className={styles.statCard}>
-          <div
-            className={styles.statIcon}
-            style={{ backgroundColor: "var(--color-stat-4)" }}
-          >
-            <FaClock />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statNumber}>15</span>
-            <span className={styles.statLabel}>Min Promedio</span>
-          </div>
-        </motion.div>
+        <ActivitiesStats
+          statsVariants={statsVariants}
+          color="var(--color-stat-1)"
+          icon={<FaGamepad />}
+          value={activities.length}
+          label="Actividades"
+        />
+        <ActivitiesStats
+          statsVariants={statsVariants}
+          color="var(--color-stat-2)"
+          icon={<FaStar />}
+          value={activities.filter((a) => a.isPopular).length}
+          label="Populares"
+        />
+        <ActivitiesStats
+          statsVariants={statsVariants}
+          color="var(--color-stat-3)"
+          icon={<FaFire />}
+          value={activities.filter((a) => a.isNew).length}
+          label="Nuevas"
+        />
       </motion.div>
 
-      {/* Filters */}
-      <motion.div variants={itemVariants}>
-        <Card className={styles.filtersCard}>
-          <div className={styles.filtersContent}>
-            {/* Search */}
-            <div className={styles.searchWrapper}>
-              <FaSearch className={styles.searchIcon} />
-              <Input
-                placeholder="Buscar actividades..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={styles.searchInput}
-              />
-            </div>
+      <ActivitiesFilter
+        itemVariants={itemVariants}
+        searchTerm={searchTerm}
+        searchPlaceholder="Buscar actividades..."
+        sortBy={sortBy}
+        onSearchChange={(value: string) => setSearchTerm(value)}
+        onSortChange={(value: string) => setSortBy(value)}
+      />
 
-            {/* Filters */}
-            <div className={styles.filters}>
-              <div className={styles.filterGroup}>
-                <FaFilter className={styles.filterIcon} />
-                <select
-                  value={selectedDifficulty}
-                  onChange={(e) => setSelectedDifficulty(e.target.value)}
-                  className={styles.filterSelect}
-                >
-                  {difficulties.map((difficulty) => (
-                    <option key={difficulty} value={difficulty}>
-                      {difficulty === "all"
-                        ? "Todas las dificultades"
-                        : difficulty}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className={styles.filterGroup}>
-                <select
-                  value={selectedSubject}
-                  onChange={(e) => setSelectedSubject(e.target.value)}
-                  className={styles.filterSelect}
-                >
-                  {subjects.map((subject) => (
-                    <option key={subject} value={subject}>
-                      {subject === "all" ? "Todas las materias" : subject}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className={styles.filterGroup}>
-                <FaSortAmountDown className={styles.filterIcon} />
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className={styles.filterSelect}
-                >
-                  <option value="name">Ordenar por nombre</option>
-                  <option value="difficulty">Ordenar por dificultad</option>
-                  <option value="duration">Ordenar por duración</option>
-                  <option value="popular">Ordenar por popularidad</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </Card>
-      </motion.div>
-
-      {/* Activities Grid */}
-      <motion.div variants={itemVariants} className={styles.activitiesSection}>
-        <div className={styles.resultsHeader}>
-          <h2 className={styles.resultsTitle}>
-            {filteredActivities.length} actividad
-            {filteredActivities.length !== 1 ? "es" : ""} disponible
-            {filteredActivities.length !== 1 ? "s" : ""}
-          </h2>
-        </div>
-
-        <div className={styles.activitiesGrid}>
-          {filteredActivities.map((activity, index) => (
-            <motion.div
-              key={activity.id}
-              variants={itemVariants}
-              transition={{ delay: index * 0.1 }}
-            >
-              <ActivityCard activity={activity} />
-            </motion.div>
-          ))}
-        </div>
-
-        {filteredActivities.length === 0 && (
-          <motion.div variants={itemVariants} className={styles.noResults}>
-            <FaGamepad className={styles.noResultsIcon} />
-            <h3 className={styles.noResultsTitle}>
-              No se encontraron actividades
-            </h3>
-            <p className={styles.noResultsText}>
-              Intenta ajustar los filtros o términos de búsqueda para encontrar
-              actividades.
-            </p>
-          </motion.div>
-        )}
-      </motion.div>
+      <ActivitiesGrid
+        itemVariants={itemVariants}
+        filteredActivities={filteredActivities}
+        noResultTitle="No se encontraron actividades"
+        noResultText="Intenta ajustar los filtros o términos de búsqueda para encontrar actividades."
+      />
     </motion.div>
   );
 };

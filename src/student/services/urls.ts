@@ -6,9 +6,8 @@ export const urls = {
   PaginatedActivityApproved: "/activity/student/paginated/approved",
   ActivityById: "/activity",
   ActivityNotApproved: "/activity/student/not-approved",
-
   PaginatedActivityNotApproved: "/activity/student/paginated/not-approved",
-
   ActivityCompleted: "/activity/completed",
+  StudentByToken: "/student",
   Wallet: "/wallet",
 };

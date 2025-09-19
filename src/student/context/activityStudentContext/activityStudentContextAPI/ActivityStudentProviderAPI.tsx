@@ -122,7 +122,7 @@ export const ActivityStudentProvider = ({
       };
 
       setCurrentActivity(transformedActivity);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       handleApiError(error, "Error al obtener la actividad");
     } finally {

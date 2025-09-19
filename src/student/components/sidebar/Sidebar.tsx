@@ -16,12 +16,13 @@ import Avatar from "../common/Avatar/AvatarComponent";
 import { StudentRoutes } from "../../routes/routes";
 import { useAuth } from "../../../user/hooks/useAuth";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
-import styles from "./Sidebar.module.css";
 import { useActivityStudentUI } from "../../hooks/useActivityStudentUI";
 import formatPrice from "../../../shared/utils/formatPrice";
+import styles from "./Sidebar.module.css";
 
 interface StudentSidebarProps {
   currentView: StudentDashboardView;
+  isLoading?: boolean;
 }
 
 interface MenuItem {
@@ -32,11 +33,15 @@ interface MenuItem {
   badge: string | number;
 }
 
-const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
+const StudentSidebar: React.FC<StudentSidebarProps> = ({
+  currentView,
+  isLoading = false,
+}) => {
   const { logout } = useAuth();
   const { wallet, currentStudent } = useCurrentStudent();
-  const { availableCount } = useActivityStudentUI();
+  const { pendingCount } = useActivityStudentUI();
   const navigate = useNavigate();
+
   const menuItems: MenuItem[] = [
     {
       title: "Panel Principal",
@@ -50,21 +55,21 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
       icon: FaWallet,
       path: StudentRoutes.Wallet,
       color: "#10B981",
-      badge: formatPrice(wallet?.balance) ?? "0",
+      badge: isLoading ? "..." : formatPrice(wallet?.balance) ?? "0",
     },
     {
       title: "Mis Actividades",
       icon: FaGamepad,
       path: StudentRoutes.Activities.list,
       color: "#8B5CF6",
-      badge: pendingCount,
+      badge: isLoading ? "..." : pendingCount,
     },
     {
       title: "Mis Beneficios",
       icon: FaGift,
       path: StudentRoutes.Benefit.list,
       color: "#F59E0B",
-      badge: 5,
+      badge: isLoading ? "..." : 5,
     },
     {
       title: "Tienda",
@@ -107,42 +112,62 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
   const handleProfileClick = () => {
     navigate(`/dashboard/${StudentRoutes.Profile}`);
   };
-  // console.log(currentStudent?.wallet.balance);
+
   return (
     <motion.aside
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className={styles.sidebar}
+      className={`${styles.sidebar} ${isLoading ? styles.loading : ""}`}
     >
       <motion.div variants={itemVariants} className={styles.header}>
         <div className={styles.profile}>
-          <Avatar
-            size="medium"
-            showLevel={true}
-            onClick={handleProfileClick}
-            className={styles.sidebarAvatar}
-          />
+          {isLoading ? (
+            <div className={styles.avatarSkeleton}></div>
+          ) : (
+            <Avatar
+              size="medium"
+              showLevel={true}
+              onClick={handleProfileClick}
+              className={styles.sidebarAvatar}
+            />
+          )}
           <div className={styles.profileInfo}>
-            <h2 className={styles.studentName}>
-              {currentStudent?.name || "Estudiante"}{" "}
-              {currentStudent?.lastname || ""}
-            </h2>
-            <div className={styles.stats}>
-              <div className={styles.stat}>
-                <FaFire className={styles.statIcon} />
-                <span>10 días</span>
-              </div>
-              <div className={styles.stat}>
-                <FaTrophy className={styles.statIcon} />
-                <span>#8</span>
-              </div>
-            </div>
+            {isLoading ? (
+              <>
+                <div className={styles.nameSkeleton}></div>
+                <div className={styles.statsSkeleton}>
+                  <div className={styles.statSkeleton}></div>
+                  <div className={styles.statSkeleton}></div>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className={styles.studentName}>
+                  {currentStudent?.name || "Estudiante"}{" "}
+                  {currentStudent?.lastname || ""}
+                </h2>
+                <div className={styles.stats}>
+                  <div className={styles.stat}>
+                    <FaFire className={styles.statIcon} />
+                    <span>10 días</span>
+                  </div>
+                  <div className={styles.stat}>
+                    <FaTrophy className={styles.statIcon} />
+                    <span>#8</span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
-        <button className={styles.buttonPerfil} onClick={handleProfileClick}>
-          Ver Perfil
-        </button>
+        {isLoading ? (
+          <div className={styles.buttonSkeleton}></div>
+        ) : (
+          <button className={styles.buttonPerfil} onClick={handleProfileClick}>
+            Ver Perfil
+          </button>
+        )}
       </motion.div>
 
       <div className={styles.content}>
@@ -152,25 +177,39 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
               <motion.li
                 key={item.path}
                 variants={itemVariants}
-                whileHover={{ x: 5 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ x: isLoading ? 0 : 5 }}
+                whileTap={{ scale: isLoading ? 1 : 0.95 }}
               >
-                <button
-                  className={`${styles.menuItem} ${
-                    currentView === item.path ? styles.active : ""
-                  }`}
-                  onClick={() => onViewChange(item.path)}
-                  style={{ "--item-color": item.color } as React.CSSProperties}
-                >
-                  <div className={styles.menuItemContent}>
-                    <div className={styles.menuItemLeft}>
-                      <span>{item.title}</span>
+                {isLoading ? (
+                  <div className={styles.menuItemSkeleton}>
+                    <div className={styles.menuItemSkeletonContent}>
+                      <div className={styles.menuItemSkeletonLeft}>
+                        <div className={styles.iconSkeleton}></div>
+                        <div className={styles.textSkeleton}></div>
+                      </div>
+                      <div className={styles.badgeSkeleton}></div>
                     </div>
-                    {item.badge && (
-                      <div className={styles.badge}>{item.badge}</div>
-                    )}
                   </div>
-                </button>
+                ) : (
+                  <button
+                    className={`${styles.menuItem} ${
+                      currentView === item.path ? styles.active : ""
+                    }`}
+                    onClick={() => onViewChange(item.path)}
+                    style={
+                      { "--item-color": item.color } as React.CSSProperties
+                    }
+                  >
+                    <div className={styles.menuItemContent}>
+                      <div className={styles.menuItemLeft}>
+                        <span>{item.title}</span>
+                      </div>
+                      {item.badge && (
+                        <div className={styles.badge}>{item.badge}</div>
+                      )}
+                    </div>
+                  </button>
+                )}
               </motion.li>
             ))}
           </ul>
@@ -178,15 +217,19 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ currentView }) => {
       </div>
 
       <motion.div variants={itemVariants} className={styles.footer}>
-        <Button
-          variant="ghost"
-          fullWidth
-          onClick={logout}
-          className={styles.logoutButton}
-        >
-          <FaSignOutAlt className={styles.logoutIcon} />
-          Cerrar Sesión
-        </Button>
+        {isLoading ? (
+          <div className={styles.logoutSkeleton}></div>
+        ) : (
+          <Button
+            variant="ghost"
+            fullWidth
+            onClick={logout}
+            className={styles.logoutButton}
+          >
+            <FaSignOutAlt className={styles.logoutIcon} />
+            Cerrar Sesión
+          </Button>
+        )}
       </motion.div>
     </motion.aside>
   );

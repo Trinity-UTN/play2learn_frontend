@@ -13,6 +13,7 @@ export interface BenefitResponseInterface {
   icon: Icon;
   category: Category;
 }
+
 export interface CreateBenefitInterface {
   name: string;
   description: string;

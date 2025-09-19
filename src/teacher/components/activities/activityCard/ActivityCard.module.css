@@ -1,0 +1,76 @@
+@import "../../../../shared/styles/colors.css";
+
+.container {
+  position: relative;
+}
+
+.activityCard {
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  min-height: 400px;
+}
+
+.activityCard:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.activityCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.activityCard:hover::before {
+  left: 100%;
+}
+
+.activityCard[data-selected="true"] {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.activityCard[data-disabled="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.activityCard[data-disabled="true"] .selectButton {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.activityIcon {
+  font-size: 2rem;
+  color: var(--color-stat);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .activityCard {
+    margin-bottom: 1rem;
+  }
+
+  .activityIcon {
+    font-size: 1.75rem;
+  }
+}

@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useActivityStudent } from "../../../student/hooks/useActivityStudentAPI";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useCurrentActivityPersistence } from "./useCurrentActivityPersistence";
 
 export const useActivityActions = () => {
   const {
@@ -10,6 +11,8 @@ export const useActivityActions = () => {
     registerActivityCompleted,
     refreshActivityDataAfterCompletion,
   } = useActivityStudent();
+
+  const { clearPersistedActivity } = useCurrentActivityPersistence();
   const { showConfirmation } = useConfirmation();
 
   const { id } = useParams<{ id: string }>();
@@ -53,6 +56,8 @@ export const useActivityActions = () => {
 
           await refreshActivityDataAfterCompletion();
 
+          clearPersistedActivity();
+
           if (onAfterFinish) onAfterFinish();
 
           navigate(`/dashboard/student/actividades/${id}/review`);
@@ -64,6 +69,7 @@ export const useActivityActions = () => {
       currentActivity,
       registerActivityCompleted,
       refreshActivityDataAfterCompletion,
+      clearPersistedActivity,
     ]
   );
 

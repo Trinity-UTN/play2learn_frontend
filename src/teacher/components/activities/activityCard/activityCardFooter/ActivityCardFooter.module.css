@@ -1,0 +1,25 @@
+.cardFooter {
+  padding: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.selectButton {
+  font-weight: 600;
+  padding: 0.875rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px var(--color-secondary);
+}
+
+.selectButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cardFooter {
+    padding: 1rem;
+  }
+}

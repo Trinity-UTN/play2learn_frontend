@@ -1,0 +1,39 @@
+@import "../../../../shared/styles/colors.css";
+
+.select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--color-border);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  background: var(--card-background);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.select.inputError {
+  border-color: var(--color-text-error);
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-error);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.labelHint {
+  display: block;
+  font-weight: 400;
+  color: var(--color-text);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
