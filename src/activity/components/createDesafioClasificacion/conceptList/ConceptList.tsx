@@ -8,10 +8,10 @@ import {
   FaTimes,
   FaExclamationTriangle,
 } from "react-icons/fa";
+import type { ClassificationCategory } from "../../../types/DesafioClasificacion.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
 import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
-import type { ClassificationCategory } from "../../../types/DesafioClasificacion.type";
 import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
 import styles from "./ConceptList.module.css";
 
@@ -31,13 +31,26 @@ const ConceptList = ({ category }: Props) => {
   const [newConceptName, setNewConceptName] = useState("");
   const [editingConceptId, setEditingConceptId] = useState<string | null>(null);
   const [editConceptName, setEditConceptName] = useState("");
+  const [editOriginalName, setEditOriginalName] = useState("");
   const [showAddConcept, setShowAddConcept] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const validateConceptName = (name: string): string => {
+  const validateConceptName = (
+    name: string,
+    isEdit: boolean = false,
+    originalName: string = ""
+  ): string => {
     if (!name.trim()) return "El nombre es requerido";
     if (name.length < 2) return "Mínimo 2 caracteres";
     if (name.length > 100) return "Máximo 100 caracteres";
+
+    if (
+      isEdit &&
+      name.toLowerCase().trim() === originalName.toLowerCase().trim()
+    ) {
+      return "";
+    }
+
     if (getAllConcepts().includes(name.toLowerCase().trim())) {
       return "Ya existe un concepto con este nombre";
     }
@@ -65,18 +78,26 @@ const ConceptList = ({ category }: Props) => {
     setErrors({ ...errors, newConcept: "" });
   };
 
+  const handleAddConceptKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && newConceptName.trim()) {
+      e.preventDefault();
+      addConcept();
+    }
+  };
+
   const editConcept = (conceptId: string) => {
     const concept = category.concepts.find((c) => c.id === conceptId);
     if (concept) {
       setEditingConceptId(conceptId);
       setEditConceptName(concept.name);
+      setEditOriginalName(concept.name);
     }
   };
 
   const handleSaveConceptEdit = () => {
     if (!editingConceptId) return;
 
-    const error = validateConceptName(editConceptName);
+    const error = validateConceptName(editConceptName, true, editOriginalName);
     if (error) {
       setErrors({ ...errors, [editingConceptId]: error });
       return;
@@ -85,12 +106,21 @@ const ConceptList = ({ category }: Props) => {
     handleEditConcept(category.id, editingConceptId, editConceptName.trim());
     setEditingConceptId(null);
     setEditConceptName("");
+    setEditOriginalName("");
     setErrors({ ...errors, [editingConceptId]: "" });
+  };
+
+  const handleEditConceptKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && editConceptName.trim()) {
+      e.preventDefault();
+      handleSaveConceptEdit();
+    }
   };
 
   const handleCancelConceptEdit = () => {
     setEditingConceptId(null);
     setEditConceptName("");
+    setEditOriginalName("");
     setErrors({ ...errors, [editingConceptId || ""]: "" });
   };
 
@@ -106,6 +136,8 @@ const ConceptList = ({ category }: Props) => {
     });
   };
 
+  const isAddingOrEditing = showAddConcept || editingConceptId !== null;
+
   return (
     <div className={styles.content}>
       <div className={styles.conceptsSection}>
@@ -115,7 +147,7 @@ const ConceptList = ({ category }: Props) => {
             variant="primary"
             size="sm"
             onClick={() => setShowAddConcept(!showAddConcept)}
-            disabled={category.concepts.length >= 10}
+            disabled={category.concepts.length >= 10 || isAddingOrEditing}
             className={styles.addConceptButton}
           >
             <FaPlus />
@@ -135,10 +167,12 @@ const ConceptList = ({ category }: Props) => {
                 placeholder="Nombre del concepto"
                 value={newConceptName}
                 onChange={(e) => setNewConceptName(e.target.value)}
+                onKeyDown={handleAddConceptKeyDown}
                 className={`${styles.conceptInput} ${
                   errors.newConcept ? styles.inputError : ""
                 }`}
                 maxLength={100}
+                autoFocus
               />
               <div className={styles.addConceptActions}>
                 <Button
@@ -194,6 +228,7 @@ const ConceptList = ({ category }: Props) => {
                       type="text"
                       value={editConceptName}
                       onChange={(e) => setEditConceptName(e.target.value)}
+                      onKeyDown={handleEditConceptKeyDown}
                       className={`${styles.editInput} ${
                         errors[concept.id] ? styles.inputError : ""
                       }`}

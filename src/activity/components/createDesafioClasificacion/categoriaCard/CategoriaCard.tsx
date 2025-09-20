@@ -36,6 +36,7 @@ const CategoryCard = ({ category }: Props) => {
   existingCategoryNames = existingCategoryNames.filter(
     (name) => name !== category.name.toLowerCase()
   );
+
   const validateCategoryName = (name: string): string => {
     if (!name.trim()) return "El nombre es requerido";
     if (name.length < 2) return "Mínimo 2 caracteres";
@@ -44,6 +45,13 @@ const CategoryCard = ({ category }: Props) => {
       return "Ya existe una categoría con este nombre";
     }
     return "";
+  };
+
+  const handleEditCategoryKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && editCategoryName.trim()) {
+      e.preventDefault();
+      handleSaveCategoryEdit();
+    }
   };
 
   const handleSaveCategoryEdit = () => {
@@ -94,6 +102,7 @@ const CategoryCard = ({ category }: Props) => {
                   type="text"
                   value={editCategoryName}
                   onChange={(e) => setEditCategoryName(e.target.value)}
+                  onKeyDown={handleEditCategoryKeyDown}
                   className={`${styles.editInput} ${
                     errors.category ? styles.inputError : ""
                   }`}
