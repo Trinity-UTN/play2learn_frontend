@@ -1,12 +1,13 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaColumns, FaList } from "react-icons/fa";
+import { FaFile, FaColumns, FaList } from "react-icons/fa";
 import type {
   CurrentActivityInterface,
   ActivityUI,
 } from "../../../types/Activity.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
+import { useViewToggle } from "../../../hooks/useViewToggle";
+import { useActivityDetails } from "../../../hooks/activities/activityDetails/useActivityDetails";
 import styles from "./ActivityDetails.module.css";
 
 interface ActivityDetailsProps {
@@ -18,8 +19,14 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
   currentActivity,
   activity,
 }) => {
-  const [isHorizontal, setIsHorizontal] = useState(false);
-  const displayData = currentActivity || activity;
+  const { isHorizontal, toggleView, viewMode } = useViewToggle(true);
+  const {
+    displayData,
+    mainActivityItems,
+    gameConfigDetails,
+    hasDescription,
+    description,
+  } = useActivityDetails({ currentActivity, activity });
 
   if (!displayData) {
     return (
@@ -29,33 +36,19 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
     );
   }
 
-  const formatDate = (dateString: string) => {
-    try {
-      return new Date(dateString).toLocaleDateString("es-ES", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    } catch {
-      return dateString;
-    }
-  };
-
-  const formatTime = (minutes: number) => {
-    if (minutes < 60) {
-      return `${minutes} minutos`;
-    }
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return remainingMinutes > 0
-      ? `${hours}h ${remainingMinutes}m`
-      : `${hours} hora${hours > 1 ? "s" : ""}`;
-  };
-
-  const handleViewToggle = () => {
-    setIsHorizontal(!isHorizontal);
+  const renderDetailItem = (item: any, key: string) => {
+    const IconComponent = item.icon;
+    return (
+      <div key={key} className={styles.detailItem}>
+        <div className={styles.detailContent}>
+          <IconComponent className={styles.detailIcon} />
+          <div>
+            <span className={styles.label}>{item.label}</span>
+            <span className={styles.value}>{item.value}</span>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -70,89 +63,34 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={handleViewToggle}
+            onClick={toggleView}
             className={styles.viewToggle}
           >
             {isHorizontal ? <FaList /> : <FaColumns />}
           </Button>
         </div>
 
-        {currentActivity?.description && (
+        {hasDescription && description && (
           <div className={styles.descriptionSection}>
-            <h4 className={styles.descriptionTitle}>
-              Descripción de la actividad:
-            </h4>
-            <p className={styles.description}>
-              {currentActivity.description}
-              {/* <small className={styles.descriptionNote}>
-                (Esta descripción cambiará dependiendo del tipo de actividad:{" "}
-                {currentActivity.name})
-              </small> */}
-            </p>
+            <div className={styles.detailItem}>
+              <div className={styles.detailContent}>
+                <FaFile className={styles.descriptionIcon} />
+                <div>
+                  <span className={styles.label}>
+                    Descripción de la actividad
+                  </span>
+                  <span className={styles.value}>{description}</span>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
-        <div
-          className={`${styles.detailsGrid} ${
-            isHorizontal ? styles.horizontal : styles.vertical
-          }`}
-        >
-          {currentActivity?.startDate && (
-            <div className={styles.detailItem}>
-              <div className={styles.detailContent}>
-                <span className={styles.detailIcon}>📅</span>
-                <div>
-                  <span className={styles.label}>Fecha de inicio</span>
-                  <span className={styles.value}>
-                    {formatDate(currentActivity.startDate)}
-                  </span>
-                </div>
-              </div>
-            </div>
+        <div className={`${styles.detailsGrid} ${styles[viewMode]}`}>
+          {mainActivityItems.map((item) => renderDetailItem(item, item.id))}
+          {gameConfigDetails.map((detail, index) =>
+            renderDetailItem(detail, `game-config-${index}`)
           )}
-
-          {currentActivity?.endDate && (
-            <div className={styles.detailItem}>
-              <div className={styles.detailContent}>
-                <span className={styles.detailIcon}>⏰</span>
-                <div>
-                  <span className={styles.label}>Fecha de fin</span>
-                  <span className={styles.value}>
-                    {formatDate(currentActivity.endDate)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {currentActivity?.maxTime && (
-            <div className={styles.detailItem}>
-              <div className={styles.detailContent}>
-                <span className={styles.detailIcon}>⏱️</span>
-                <div>
-                  <span className={styles.label}>Tiempo máximo</span>
-                  <span className={styles.value}>
-                    {formatTime(currentActivity.maxTime)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* {currentActivity?.gameConfig.errorsPermited !== undefined && (
-            <div className={styles.detailItem}>
-              <div className={styles.detailContent}>
-                <span className={styles.detailIcon}>❌</span>
-                <div>
-                  <span className={styles.label}>Errores permitidos</span>
-                  <span className={styles.value}>
-                    {currentActivity.gameConfig.errorsPermited}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )} */}
-          {/* TODO: Escalar, por ahora solo ahorcado */}
         </div>
       </Card>
     </motion.div>
