@@ -1,6 +1,11 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaColumns, FaList } from "react-icons/fa";
+import {
+  FcStatistics,
+  FcApproval,
+  FcComments,
+  FcCalendar,
+} from "react-icons/fc";
 import type {
   CurrentActivityInterface,
   ActivityUI,
@@ -8,6 +13,7 @@ import type {
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
+import { useViewToggle } from "../../../hooks/useViewToggle";
 import styles from "./ActivityStatus.module.css";
 
 interface ActivityStatusProps {
@@ -19,7 +25,7 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
   currentActivity,
   activity,
 }) => {
-  const [isHorizontal, setIsHorizontal] = useState(false);
+  const { isHorizontal, toggleView, viewMode } = useViewToggle(false);
   const displayData = currentActivity || activity;
 
   if (!displayData) {
@@ -66,7 +72,7 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
       }
     }
 
-    // Para currentActivity, asumimos que está disponible
+    // TODO: Agregar activityStatus a currentActivity
     return {
       variant: "success" as const,
       text: "Disponible",
@@ -75,10 +81,6 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
   };
 
   const statusInfo = getStatusInfo();
-
-  const handleViewToggle = () => {
-    setIsHorizontal(!isHorizontal);
-  };
 
   return (
     <motion.div
@@ -92,21 +94,17 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={handleViewToggle}
+            onClick={toggleView}
             className={styles.viewToggle}
           >
             {isHorizontal ? <FaList /> : <FaColumns />}
           </Button>
         </div>
 
-        <div
-          className={`${styles.detailsGrid} ${
-            isHorizontal ? styles.horizontal : styles.vertical
-          }`}
-        >
+        <div className={`${styles.detailsGrid} ${styles[viewMode]}`}>
           <div className={styles.detailItem}>
             <div className={styles.detailContent}>
-              <span className={styles.detailIcon}>📈</span>
+              <FcStatistics className={styles.detailIcon} />
               <div>
                 <span className={styles.label}>Estado</span>
                 <div className={styles.statusBadge}>
@@ -118,7 +116,7 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
 
           <div className={styles.detailItem}>
             <div className={styles.detailContent}>
-              <span className={styles.detailIcon}>🎯</span>
+              <FcApproval className={styles.detailIcon} />
               <div>
                 <span className={styles.label}>Intentos</span>
                 <span className={`${styles.value} ${styles.attemptsValue}`}>
@@ -135,7 +133,7 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
           {activity?.dueDateLabel && (
             <div className={styles.detailItem}>
               <div className={styles.detailContent}>
-                <span className={styles.detailIcon}>📅</span>
+                <FcCalendar className={styles.detailIcon} />
                 <div>
                   <span className={styles.label}>Fecha límite</span>
                   <span className={styles.value}>{activity.dueDateLabel}</span>
@@ -158,7 +156,7 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
 
           <div className={styles.detailItem}>
             <div className={styles.detailContent}>
-              <span className={styles.detailIcon}>💬</span>
+              <FcComments className={styles.detailIcon} />
               <div>
                 <span className={styles.label}>Comentarios del docente</span>
                 <span className={`${styles.value} ${styles.teacherComments}`}>

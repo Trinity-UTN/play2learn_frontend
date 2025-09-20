@@ -1,4 +1,5 @@
-import { FaExclamationTriangle, FaFont } from "react-icons/fa";
+import { FaFont } from "react-icons/fa";
+import { FcHighPriority } from "react-icons/fc";
 import type { AhorcadoConfig } from "../../../activity/types/Ahorcado.type";
 import type {
   GameConfigRenderer,
@@ -11,7 +12,7 @@ export class AhorcadoConfigRenderer implements GameConfigRenderer {
 
     if (config.errorsPermited !== undefined) {
       details.push({
-        icon: FaExclamationTriangle,
+        icon: FcHighPriority,
         label: "Errores permitidos",
         value: config.errorsPermited,
       });

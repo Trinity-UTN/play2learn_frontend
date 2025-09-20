@@ -57,45 +57,19 @@
 .viewToggle:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.3);
+  color: black;
   transform: translateY(-1px);
 }
 
 .descriptionSection {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
 }
 
-.descriptionTitle {
-  font-size: 1rem;
-  font-weight: 600;
+.descriptionIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
   color: white;
-  margin: 0 0 0.75rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.descriptionTitle::before {
-  content: "📝";
-  font-size: 1.1rem;
-}
-
-.description {
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.6;
-  margin: 0;
-  font-size: 0.95rem;
-}
-
-.descriptionNote {
-  display: block;
-  margin-top: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-style: italic;
-  font-size: 0.85rem;
 }
 
 .detailsGrid {
@@ -133,8 +107,9 @@
 }
 
 .detailIcon {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   flex-shrink: 0;
+  color: white;
 }
 
 .detailContent > div {

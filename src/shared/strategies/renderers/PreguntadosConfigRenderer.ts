@@ -1,4 +1,4 @@
-import { FaHourglass, FaQuestion } from "react-icons/fa";
+import { FaHourglassHalf, FaQuestion } from "react-icons/fa";
 import type { PreguntadosInterface as PreguntadosGameConfig } from "../../../activity/types/Preguntados.type";
 import type {
   GameConfigRenderer,
@@ -11,7 +11,7 @@ export class PreguntadosConfigRenderer implements GameConfigRenderer {
 
     if (config.maxTimePerQuestionInSeconds) {
       details.push({
-        icon: FaHourglass,
+        icon: FaHourglassHalf,
         label: "Tiempo por pregunta",
         value: `${config.maxTimePerQuestionInSeconds}s`,
       });

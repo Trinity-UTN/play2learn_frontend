@@ -1,4 +1,4 @@
-import { FaFolderOpen } from "react-icons/fa";
+import { FcOpenedFolder } from "react-icons/fc";
 import type { DesafioClasificacionConfig } from "../../../activity/types/DesafioClasificacion.type";
 import type {
   GameConfigRenderer,
@@ -11,7 +11,7 @@ export class DesafioClasificacionConfigRenderer implements GameConfigRenderer {
 
     if (config.categories && config.categories.length > 0) {
       details.push({
-        icon: FaFolderOpen,
+        icon: FcOpenedFolder,
         label: "Categorías",
         value: config.categories.length,
       });

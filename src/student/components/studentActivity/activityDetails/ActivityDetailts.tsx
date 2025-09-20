@@ -1,19 +1,13 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  FaColumns,
-  FaList,
-  FaCalendarAlt,
-  FaCalendarTimes,
-  FaClock,
-} from "react-icons/fa";
+import { FaFile, FaColumns, FaList } from "react-icons/fa";
 import type {
   CurrentActivityInterface,
   ActivityUI,
 } from "../../../types/Activity.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
-import { useGameConfigRenderer } from "../../../../shared/hooks/games/useGameConfigRenderer";
+import { useViewToggle } from "../../../hooks/useViewToggle";
+import { useActivityDetails } from "../../../hooks/activities/activityDetails/useActivityDetails";
 import styles from "./ActivityDetails.module.css";
 
 interface ActivityDetailsProps {
@@ -25,14 +19,14 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
   currentActivity,
   activity,
 }) => {
-  const [isHorizontal, setIsHorizontal] = useState(false);
-  const displayData = currentActivity || activity;
-
-  // Hook personalizado para renderizar la configuración del juego
-  const gameConfigDetails = useGameConfigRenderer(
-    currentActivity?.name,
-    currentActivity?.gameConfig
-  );
+  const { isHorizontal, toggleView, viewMode } = useViewToggle(true);
+  const {
+    displayData,
+    mainActivityItems,
+    gameConfigDetails,
+    hasDescription,
+    description,
+  } = useActivityDetails({ currentActivity, activity });
 
   if (!displayData) {
     return (
@@ -42,51 +36,19 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
     );
   }
 
-  const formatDate = (dateString: string) => {
-    try {
-      return new Date(dateString).toLocaleDateString("es-ES", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    } catch {
-      return dateString;
-    }
-  };
-
-  const formatTime = (minutes: number) => {
-    if (minutes < 60) {
-      return `${minutes} minutos`;
-    }
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return remainingMinutes > 0
-      ? `${hours}h ${remainingMinutes}m`
-      : `${hours} hora${hours > 1 ? "s" : ""}`;
-  };
-
-  const handleViewToggle = () => {
-    setIsHorizontal(!isHorizontal);
-  };
-
-  // EXPO: Stategy: Renderizar configuración del juego
-  const renderGameConfigDetails = () => {
-    return gameConfigDetails.map((detail, index) => {
-      const IconComponent = detail.icon;
-      return (
-        <div key={`game-config-${index}`} className={styles.detailItem}>
-          <div className={styles.detailContent}>
-            <IconComponent className={styles.detailIcon} />
-            <div>
-              <span className={styles.label}>{detail.label}</span>
-              <span className={styles.value}>{detail.value}</span>
-            </div>
+  const renderDetailItem = (item: any, key: string) => {
+    const IconComponent = item.icon;
+    return (
+      <div key={key} className={styles.detailItem}>
+        <div className={styles.detailContent}>
+          <IconComponent className={styles.detailIcon} />
+          <div>
+            <span className={styles.label}>{item.label}</span>
+            <span className={styles.value}>{item.value}</span>
           </div>
         </div>
-      );
-    });
+      </div>
+    );
   };
 
   return (
@@ -101,71 +63,34 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={handleViewToggle}
+            onClick={toggleView}
             className={styles.viewToggle}
           >
             {isHorizontal ? <FaList /> : <FaColumns />}
           </Button>
         </div>
 
-        {currentActivity?.description && (
+        {hasDescription && description && (
           <div className={styles.descriptionSection}>
-            <h4 className={styles.descriptionTitle}>
-              Descripción de la actividad:
-            </h4>
-            <p className={styles.description}>{currentActivity.description}</p>
+            <div className={styles.detailItem}>
+              <div className={styles.detailContent}>
+                <FaFile className={styles.descriptionIcon} />
+                <div>
+                  <span className={styles.label}>
+                    Descripción de la actividad
+                  </span>
+                  <span className={styles.value}>{description}</span>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
-        <div
-          className={`${styles.detailsGrid} ${
-            isHorizontal ? styles.horizontal : styles.vertical
-          }`}
-        >
-          {currentActivity?.startDate && (
-            <div className={styles.detailItem}>
-              <div className={styles.detailContent}>
-                <FaCalendarAlt className={styles.detailIcon} />
-                <div>
-                  <span className={styles.label}>Fecha de inicio</span>
-                  <span className={styles.value}>
-                    {formatDate(currentActivity.startDate)}
-                  </span>
-                </div>
-              </div>
-            </div>
+        <div className={`${styles.detailsGrid} ${styles[viewMode]}`}>
+          {mainActivityItems.map((item) => renderDetailItem(item, item.id))}
+          {gameConfigDetails.map((detail, index) =>
+            renderDetailItem(detail, `game-config-${index}`)
           )}
-
-          {currentActivity?.endDate && (
-            <div className={styles.detailItem}>
-              <div className={styles.detailContent}>
-                <FaCalendarTimes className={styles.detailIcon} />
-                <div>
-                  <span className={styles.label}>Fecha de fin</span>
-                  <span className={styles.value}>
-                    {formatDate(currentActivity.endDate)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {currentActivity?.maxTime && (
-            <div className={styles.detailItem}>
-              <div className={styles.detailContent}>
-                <FaClock className={styles.detailIcon} />
-                <div>
-                  <span className={styles.label}>Tiempo máximo</span>
-                  <span className={styles.value}>
-                    {formatTime(currentActivity.maxTime)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* EXPO: Renderizar configuración del juego */}
-          {renderGameConfigDetails()}
         </div>
       </Card>
     </motion.div>
