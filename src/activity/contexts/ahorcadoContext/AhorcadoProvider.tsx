@@ -13,6 +13,7 @@ import type {
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
+import { useConfigurationForm } from "../../hooks/configuration/useConfigurationForm";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
@@ -25,6 +26,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
   children,
 }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { resetForm } = useConfigurationForm("ahorcado_educativo");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -51,7 +53,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
   }, [currentStep, config]);
 
   // Funciones auxiliares del propio context
-  const resetAllStates = () => {
+  const resetStatesOnly = () => {
     setLoading(false);
     setCurrentStep("config");
     setConfig({
@@ -59,6 +61,11 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
       errorsPermited: "TRES",
     });
     setErrors([]);
+  };
+
+  const resetAllStates = () => {
+    resetStatesOnly();
+    resetForm();
   };
 
   const isFormValid = errors.length === 0 && config.word.trim().length > 0;
@@ -88,7 +95,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
       await AhorcadoService.registerAhorcadoApi(
         dataMandar as CreateAhorcadoPayload
       );
-      resetAllStates();
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
     } finally {
@@ -163,7 +169,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
           type: "success",
           position: "bottom-right",
         });
-        resetAllStates();
+        resetStatesOnly();
       },
     });
   };

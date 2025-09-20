@@ -11,6 +11,7 @@ import type {
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
+import { useConfigurationForm } from "../../hooks/configuration/useConfigurationForm";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
@@ -23,6 +24,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
   children,
 }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { resetForm } = useConfigurationForm("no_ludica");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -49,13 +51,18 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
   }, [currentStep, config]);
 
   // Funciones auxiliares del propio context
-  const resetAllStates = () => {
+  const resetStatesOnly = () => {
     setCurrentStep("config");
     setConfig({
       excercise: "",
       tipoEntrega: "ENTREGA",
     });
     setErrors([]);
+  };
+
+  const resetAllStates = () => {
+    resetStatesOnly();
+    resetForm();
   };
 
   const isFormValid = errors.length === 0 && config.excercise.trim().length > 0;
@@ -75,7 +82,6 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
 
     try {
       await NoLudicaService.registerNoLudicaApi(dataMandar);
-      resetAllStates();
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
     } finally {
@@ -150,7 +156,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
           type: "success",
           position: "bottom-right",
         });
-        resetAllStates();
+        resetStatesOnly();
       },
     });
   };

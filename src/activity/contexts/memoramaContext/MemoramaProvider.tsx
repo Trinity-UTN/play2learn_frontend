@@ -11,6 +11,7 @@ import type {
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeFormData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
+import { useConfigurationForm } from "../../hooks/configuration/useConfigurationForm";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
@@ -23,6 +24,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
   children,
 }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { resetForm } = useConfigurationForm("memorama");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -53,13 +55,18 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
   }, [currentStep, pairs]);
 
   // Funciones auxiliares del propio context
-  const resetAllStates = () => {
+  const resetStatesOnly = () => {
     setConfig({ totalPairs: 4 });
     setPairs([]);
     setCurrentStep("config");
     setCurrentPairIndex(0);
     setErrors([]);
     setPairErrorsState({});
+  };
+
+  const resetAllStates = () => {
+    resetStatesOnly();
+    resetForm();
   };
 
   const getPairStatus = (
@@ -237,7 +244,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
           type: "success",
           position: "bottom-right",
         });
-        resetAllStates();
+        resetStatesOnly();
       },
     });
   };

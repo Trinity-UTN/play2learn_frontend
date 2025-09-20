@@ -10,6 +10,7 @@ import type {
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
+import { useConfigurationForm } from "../../hooks/configuration/useConfigurationForm";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
@@ -22,6 +23,7 @@ export const CompletarOracionProvider: React.FC<
   CompletarOracionProviderProps
 > = ({ children }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { resetForm } = useConfigurationForm("completar_oraciones");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -45,11 +47,16 @@ export const CompletarOracionProvider: React.FC<
   }, [currentStep, sentences]);
 
   // Funciones auxiliares del propio context
-  const resetAllStates = () => {
+  const resetStatesOnly = () => {
     setLoading(false);
     setCurrentStep("config");
     setSentences([]);
     setErrors([]);
+  };
+
+  const resetAllStates = () => {
+    resetStatesOnly();
+    resetForm();
   };
 
   const validateAllSentences = (): string[] => {
@@ -114,7 +121,6 @@ export const CompletarOracionProvider: React.FC<
 
     try {
       await CompletarOracionService.registerCompletarOracionApi(dataMandar);
-      resetAllStates();
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
     } finally {
@@ -194,7 +200,7 @@ export const CompletarOracionProvider: React.FC<
           type: "success",
           position: "bottom-right",
         });
-        resetAllStates();
+        resetStatesOnly();
       },
     });
   };

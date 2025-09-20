@@ -11,6 +11,7 @@ import type {
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
+import { useConfigurationForm } from "../../hooks/configuration/useConfigurationForm";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
@@ -23,6 +24,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
   children,
 }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { resetForm } = useConfigurationForm("preguntados");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -55,13 +57,18 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
   }, [currentStep, questions]);
 
   // Función para reiniciar todos los estados
-  const resetAllStates = () => {
+  const resetStatesOnly = () => {
     setConfig({ totalQuestions: 5, maxTimePerQuestionInSeconds: 30 });
     setQuestions([]);
     setCurrentStep("config");
     setCurrentQuestionIndex(0);
     setErrors([]);
     setQuestionErrorsState({});
+  };
+
+  const resetAllStates = () => {
+    resetStatesOnly();
+    resetForm();
   };
 
   // Función para determinar el estado de una pregunta
@@ -264,7 +271,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
           type: "info",
           position: "bottom-right",
         });
-        resetAllStates();
+        resetStatesOnly();
       },
     });
   };
