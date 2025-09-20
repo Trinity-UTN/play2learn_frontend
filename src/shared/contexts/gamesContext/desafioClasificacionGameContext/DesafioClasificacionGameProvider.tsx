@@ -38,6 +38,7 @@ export const DesafioClasificacionGameProvider: React.FC<
     totalCorrect: number;
     totalConcepts: number;
   } | null>(null);
+  const [hasVerified, setHasVerified] = useState(false);
   const [gameConfig, setGameConfig] =
     useState<DesafioClasificacionConfig | null>(null);
 
@@ -73,7 +74,9 @@ export const DesafioClasificacionGameProvider: React.FC<
   }, [score]);
 
   useEffect(() => {
-    verifyAnswers();
+    if (mode === "student") {
+      verifyAnswers();
+    }
   }, [conceptsInCategories]);
 
   const totalCategories =
@@ -110,9 +113,11 @@ export const DesafioClasificacionGameProvider: React.FC<
     setAvailableConcepts([]);
     setConceptsInCategories({});
     setVerificationResults(null);
+    setHasVerified(false);
   };
 
   const verifyAnswers = () => {
+    setHasVerified(true);
     const correct: { concept: string; category: string }[] = [];
     const incorrect: {
       concept: string;
@@ -246,6 +251,7 @@ export const DesafioClasificacionGameProvider: React.FC<
     verificationResults,
     totalCategories,
     totalConcepts,
+    hasVerified,
     isGameLost,
     isGameWon,
     startGame,
