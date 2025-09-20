@@ -6,6 +6,7 @@ import ProtectedRoute from "../shared/utils/ProtectedRoute";
 //PAGES
 import StudentDashboard from "../student/pages/dashboard/Dashboard";
 //PROVIDERS
+import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
 import { CurrentStudentProvider } from "../student/context/currentStudent/CurrentStudentProvider";
 import { ProfileAvatarProvider } from "../student/context/profileAvatarContext/ProfileAvatarProvider";
 import { ActivityStudentProvider } from "../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
@@ -47,37 +48,39 @@ const StudentApp = () => {
             path="/dashboard/student/*"
             element={
               <ProtectedRoute allowedRoles={["ROLE_STUDENT"]}>
-                <CurrentStudentProvider>
-                  <ProfileAvatarProvider>
-                    <ActivityStudentProvider>
-                      <ActivityStudentProviderUI>
-                        <ConfigurationActivityProvider>
-                          <AhorcadoProvider>
-                            <AhorcadoGameProvider mode="student">
-                              <DesafioClasificacionProvider>
-                                <DesafioClasificacionGameProvider mode="student">
-                                  <PreguntadosProvider>
-                                    <PreguntadosGameProvider mode="student">
-                                      <motion.div
-                                        key="dashboardStudent"
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.3 }}
-                                      >
-                                        <StudentDashboard />
-                                      </motion.div>
-                                    </PreguntadosGameProvider>
-                                  </PreguntadosProvider>
-                                </DesafioClasificacionGameProvider>
-                              </DesafioClasificacionProvider>
-                            </AhorcadoGameProvider>
-                          </AhorcadoProvider>
-                        </ConfigurationActivityProvider>
-                      </ActivityStudentProviderUI>
-                    </ActivityStudentProvider>
-                  </ProfileAvatarProvider>
-                </CurrentStudentProvider>
+                <SubjectProvider>
+                  <CurrentStudentProvider>
+                    <ProfileAvatarProvider>
+                      <ActivityStudentProvider>
+                        <ActivityStudentProviderUI>
+                          <ConfigurationActivityProvider>
+                            <AhorcadoProvider>
+                              <AhorcadoGameProvider mode="student">
+                                <DesafioClasificacionProvider>
+                                  <DesafioClasificacionGameProvider mode="student">
+                                    <PreguntadosProvider>
+                                      <PreguntadosGameProvider mode="student">
+                                        <motion.div
+                                          key="dashboardStudent"
+                                          initial={{ opacity: 0 }}
+                                          animate={{ opacity: 1 }}
+                                          exit={{ opacity: 0 }}
+                                          transition={{ duration: 0.3 }}
+                                        >
+                                          <StudentDashboard />
+                                        </motion.div>
+                                      </PreguntadosGameProvider>
+                                    </PreguntadosProvider>
+                                  </DesafioClasificacionGameProvider>
+                                </DesafioClasificacionProvider>
+                              </AhorcadoGameProvider>
+                            </AhorcadoProvider>
+                          </ConfigurationActivityProvider>
+                        </ActivityStudentProviderUI>
+                      </ActivityStudentProvider>
+                    </ProfileAvatarProvider>
+                  </CurrentStudentProvider>
+                </SubjectProvider>
               </ProtectedRoute>
             }
           >
