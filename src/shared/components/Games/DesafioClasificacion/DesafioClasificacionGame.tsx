@@ -47,7 +47,7 @@ const DesafioClasificacionGame = ({ mode }: DesafioClasificacionGameProps) => {
           onDragOver={handleDragOver}
           onDrop={handleDropToPool}
         >
-          <div className={styles.conceptsList}>
+          <div className={styles.conceptsList} data-testid="pool">
             {availableConcepts.map((concept, index) => (
               <div
                 key={index}
@@ -74,6 +74,7 @@ const DesafioClasificacionGame = ({ mode }: DesafioClasificacionGameProps) => {
             className={styles.decisionOption}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, category.id)}
+            data-testid={`categoria-${category.name}`}
           >
             <div className={styles.optionHeader}>
               <div className={styles.optionNumber}>{idx + 1 || 0}</div>
