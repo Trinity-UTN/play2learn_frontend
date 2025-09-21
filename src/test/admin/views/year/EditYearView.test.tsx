@@ -51,9 +51,10 @@ describe("CreateYearView (EDIT)", () => {
         id: expect.any(Number),
         name: "Septimo",
       });
-      expect(window.alert).toHaveBeenCalledWith(
-        "Año actualizado exitosamente."
-      );
+
+      expect(
+        screen.getByText("El año ha sido actualizado exitosamente")
+      ).toBeInTheDocument();
     });
   });
 
@@ -63,9 +64,11 @@ describe("CreateYearView (EDIT)", () => {
     updateYearMock.mockRejectedValueOnce(new Error("Nombre duplicado"));
     render(
       <MemoryRouter>
-        <YearProvider>
-          <CreateYearView />
-        </YearProvider>
+        <ToasterProvider>
+          <YearProvider>
+            <CreateYearView />
+          </YearProvider>
+        </ToasterProvider>
       </MemoryRouter>
     );
 
@@ -81,9 +84,9 @@ describe("CreateYearView (EDIT)", () => {
         name: "Segundo",
       });
       // expect(updateYearMock).not.toHaveBeenCalled();
-      expect(window.alert).toHaveBeenCalledWith(
-        "Hubo un error al actualizar el año."
-      );
+      expect(
+        screen.getByText("Error al actualizar el año académico")
+      ).toBeInTheDocument();
     });
   });
 });

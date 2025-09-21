@@ -76,11 +76,10 @@ describe("CreateCourseView (EDIT)", () => {
         id: 1,
         year_id: 1,
       });
-      expect(window.alert).toHaveBeenCalledWith(
-        "Curso actualizado exitosamente."
-      );
     });
-    console.log(updateCourseMock.mock.calls);
+    expect(
+      screen.getByText("El curso ha sido actualizado exitosamente")
+    ).toBeInTheDocument();
   });
 
   it("Escenario 7: Intentar modificar el año de un curso", async () => {

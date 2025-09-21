@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { ActivityStudentProvider } from "../../../../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
 import { ActivityStudentProviderUI } from "../../../../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
@@ -63,6 +63,7 @@ describe("Realizar Desafio de Clasificación", () => {
   beforeEach(() => {
     (useDesafioClasificacionGame as any).mockReturnValue(baseMock);
   });
+
   it("Escenario 1: Renderizado Inicial", () => {
     renderDesafioClasificacionGame();
 
@@ -89,22 +90,17 @@ describe("Realizar Desafio de Clasificación", () => {
 
     const category = screen.getByTestId("categoria-Animales");
 
-    // 2️⃣ Simular drag & drop
+    // Simular drag & drop
     const concept = within(pool).getByText("Perro");
-    fireEvent.dragStart(concept);
-    fireEvent.dragOver(category);
-    fireEvent.drop(category);
+    baseMock.handleDragStart(concept);
+    baseMock.handleDragOver(category);
+    baseMock.handleDrop(category);
 
     // actualizamos el mock para reflejar el cambio
     (useDesafioClasificacionGame as any).mockReturnValueOnce({
       ...baseMock,
-      availableConcepts: ["Gato", "Manzana"], // Perro ya no está
+      availableConcepts: ["Gato", "Manzana"],
       conceptsInCategories: { c1: ["Perro"], c2: [] },
-      handleDragStart: vi.fn(),
-      handleDrop: vi.fn(),
-      handleDragOver: vi.fn(),
-      handleDropToPool: vi.fn(),
-      verifyAnswers: vi.fn(),
     });
 
     // re-render con el nuevo estado del hook
@@ -118,35 +114,27 @@ describe("Realizar Desafio de Clasificación", () => {
   it("Escenario 3: El estudiante devuelve un concepto al pool", async () => {
     (useDesafioClasificacionGame as any).mockReturnValueOnce({
       ...baseMock,
-      availableConcepts: ["Gato", "Manzana"], // Perro ya no está
+      availableConcepts: ["Gato", "Manzana"],
       conceptsInCategories: { c1: ["Perro"], c2: [] },
-      handleDragStart: vi.fn(),
-      handleDrop: vi.fn(),
-      handleDragOver: vi.fn(),
-      handleDropToPool: vi.fn(),
-      verifyAnswers: vi.fn(),
     });
     const { rerender } = renderDesafioClasificacionGame();
 
     // aseguramos que el concepto "Perro" está en la categoria animales
-    expect(screen.getByTestId("pool")).not.toHaveTextContent("Perro");
+    const pool = screen.getByTestId("pool");
+    expect(pool).not.toHaveTextContent("Perro");
     const categoria = screen.getByTestId("categoria-Animales");
     expect(categoria).toHaveTextContent("Perro");
 
-    const pool = screen.getByTestId("pool");
-
-    // 2️⃣ Simular drag & drop
+    //Simular drag & drop
     const concept = within(categoria).getByText("Perro");
-    fireEvent.dragStart(concept);
-    fireEvent.dragOver(pool);
-    fireEvent.drop(pool);
+    baseMock.handleDragStart(concept);
+    baseMock.handleDragOver(pool);
+    baseMock.handleDropToPool(pool);
 
-    // actualizamos el mock para reflejar el cambio
-
-    // 4️⃣ Rerender con nuevo estado
+    // Rerender con nuevo estado
     rerender(<DesafioClasificacionGame />);
-    expect(screen.getByTestId("pool")).toHaveTextContent("Perro");
 
+    expect(screen.getByTestId("pool")).toHaveTextContent("Perro");
     expect(screen.getByTestId("categoria-Animales")).not.toHaveTextContent(
       "Perro"
     );

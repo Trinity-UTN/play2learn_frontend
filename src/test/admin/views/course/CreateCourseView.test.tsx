@@ -80,7 +80,7 @@ describe("CreateCourseView", () => {
         name: "D",
         year_id: 1,
       });
-      expect(window.alert).toHaveBeenCalledWith("Curso creado exitosamente.");
+      expect(screen.getByText("Curso creado exitosamente")).toBeInTheDocument();
     });
   });
 
@@ -108,9 +108,8 @@ describe("CreateCourseView", () => {
 
     await waitFor(() => {
       expect(registerCourseMock).toHaveBeenCalled();
-      expect(window.alert).toHaveBeenCalledWith(
-        "Hubo un error al crear el Curso." //MENSAJE QUE SE MUESTRA AHORA
-      );
+
+      expect(screen.getByText("Error al crear el curso")).toBeInTheDocument();
     });
   });
 

@@ -62,7 +62,7 @@ describe("CreateYearView", () => {
     // Assert
     await waitFor(() => {
       expect(registerYearMock).toHaveBeenCalledWith({ name: "septimo" });
-      expect(window.alert).toHaveBeenCalledWith("Año creado exitosamente.");
+      expect(screen.getByText("Año creado exitosamente")).toBeInTheDocument();
       expect(input).toHaveValue(""); // se limpia el form
     });
   });
