@@ -42,6 +42,10 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
     await finishActivity(!!gameManager?.isGameWon);
   };
 
+  const handleTimeUp = () => {
+    finishActivity(false);
+  };
+
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
@@ -76,6 +80,9 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
         icon={<FaGamepad />}
         title={currentActivity?.name || "Juego"}
         subtitle={currentActivity?.description || ""}
+        maxTime={currentActivity?.maxTime}
+        showTimer={!!currentActivity?.maxTime}
+        onTimeUp={handleTimeUp}
       />
 
       <div className={styles.gameContent}>
