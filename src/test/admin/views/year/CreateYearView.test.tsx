@@ -3,7 +3,7 @@ import { vi, type Mock } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import CreateYearView from "../../../../admin/views/Year/CreateYearView";
 import { YearProvider } from "../../../../admin/contexts/yearContext/YearProvider";
-
+import { ToasterProvider } from "../../../../shared/contexts/toasterContext/ToasterProvider";
 vi.mock("react-router-dom", async (importOriginal) => {
   const actual: any = await importOriginal();
   return {
@@ -31,9 +31,11 @@ vi.spyOn(window, "alert").mockImplementation(() => {});
 const renderCreateYearView = () =>
   render(
     <MemoryRouter>
-      <YearProvider>
-        <CreateYearView />
-      </YearProvider>
+      <ToasterProvider>
+        <YearProvider>
+          <CreateYearView />
+        </YearProvider>
+      </ToasterProvider>
     </MemoryRouter>
   );
 
@@ -60,7 +62,7 @@ describe("CreateYearView", () => {
     // Assert
     await waitFor(() => {
       expect(registerYearMock).toHaveBeenCalledWith({ name: "septimo" });
-      expect(window.alert).toHaveBeenCalledWith("Año creado exitosamente.");
+      expect(screen.getByText("Año creado exitosamente")).toBeInTheDocument();
       expect(input).toHaveValue(""); // se limpia el form
     });
   });
@@ -88,7 +90,9 @@ describe("CreateYearView", () => {
 
     render(
       <MemoryRouter>
-        <CreateYearView />
+        <ToasterProvider>
+          <CreateYearView />
+        </ToasterProvider>
       </MemoryRouter>
     );
 

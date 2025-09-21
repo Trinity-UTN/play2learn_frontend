@@ -3,7 +3,7 @@ import { vi, type Mock } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import CreateCourseView from "../../../../admin/views/Course/CreateCourseView";
 import { CourseProvider } from "../../../../admin/contexts/courseContext/CourseProvider";
-
+import { ToasterProvider } from "../../../../shared/contexts/toasterContext/ToasterProvider";
 // ----- Mocks del hook de cursos -----
 const registerCourseMock = vi.fn();
 
@@ -43,9 +43,11 @@ vi.mock("react-router-dom", async (importOriginal) => {
 const renderCreateCourseView = () =>
   render(
     <MemoryRouter>
-      <CourseProvider>
-        <CreateCourseView />
-      </CourseProvider>
+      <ToasterProvider>
+        <CourseProvider>
+          <CreateCourseView />
+        </CourseProvider>
+      </ToasterProvider>
     </MemoryRouter>
   );
 
@@ -78,7 +80,7 @@ describe("CreateCourseView", () => {
         name: "D",
         year_id: 1,
       });
-      expect(window.alert).toHaveBeenCalledWith("Curso creado exitosamente.");
+      expect(screen.getByText("Curso creado exitosamente")).toBeInTheDocument();
     });
   });
 
@@ -106,9 +108,8 @@ describe("CreateCourseView", () => {
 
     await waitFor(() => {
       expect(registerCourseMock).toHaveBeenCalled();
-      expect(window.alert).toHaveBeenCalledWith(
-        "Hubo un error al crear el Curso." //MENSAJE QUE SE MUESTRA AHORA
-      );
+
+      expect(screen.getByText("Error al crear el curso")).toBeInTheDocument();
     });
   });
 
