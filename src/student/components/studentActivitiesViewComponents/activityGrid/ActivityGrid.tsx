@@ -1,21 +1,25 @@
 import { motion } from "framer-motion";
+import { FaClipboardList } from "react-icons/fa";
 import type { ActivityUI } from "../../../types/Activity.type";
 import ActivityCard from "../activityCard/ActivityCard";
 import ActivityRow from "../activityRow/ActivityRow";
+import LoadingSpinner from "../../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import FlexBox from "../../../../shared/components/FlexBox/FlexBox";
+import type { PaginationInfo } from "../../../context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 import { useLayout } from "../../../../shared/hooks/useLayout";
 import { useActivityActions } from "../../../hooks/activities/useActivityActions";
 import styles from "./ActivityGrid.module.css";
-import type { PaginationInfo } from "../../../context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 
 interface ActivityGridProps {
   activities: ActivityUI[];
   paginationInfo?: PaginationInfo;
+  loading: boolean;
 }
 
 const ActivityGrid: React.FC<ActivityGridProps> = ({
   activities,
   paginationInfo,
+  loading,
 }) => {
   const { isRow, toggleLayout } = useLayout();
   const { viewActivity } = useActivityActions();
@@ -32,10 +36,16 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
   if (activities.length === 0) {
     return (
       <motion.div variants={itemVariants} className={styles.emptyState}>
-        <div className={styles.emptyIcon}>🎯</div>
-        <h3 className={styles.emptyTitle}>No hay actividades</h3>
+        <div className={styles.emptyIcon}>
+          {loading ? <LoadingSpinner /> : <FaClipboardList />}
+        </div>
+        <h3 className={styles.emptyTitle}>
+          {loading ? "Cargando actividades..." : "No hay actividades"}
+        </h3>
         <p className={styles.emptyMessage}>
-          No se encontraron actividades con los filtros seleccionados
+          {loading
+            ? "Por favor espera un momento"
+            : "No se encontraron actividades con los filtros seleccionados"}
         </p>
       </motion.div>
     );

@@ -1,3 +1,5 @@
+@import "../../../../shared/styles/colors.css";
+
 .gridContainer {
   margin-bottom: 2rem;
 }
@@ -19,6 +21,7 @@
 .emptyIcon {
   font-size: 4rem;
   margin-bottom: 1rem;
+  color: var(--color-stat-2);
 }
 
 .emptyTitle {
