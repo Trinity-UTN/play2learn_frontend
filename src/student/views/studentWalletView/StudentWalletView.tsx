@@ -1,18 +1,28 @@
 import { motion } from "framer-motion";
 import { FaWallet, FaGraduationCap } from "react-icons/fa";
-import WalletSummary from "../../components/studentWalletViewComponents/walletSummary/WalletSummary";
 // import FinancialOverview from "../../components/studentWalletViewComponents/financialOverview/FinancialOverview";
+import type { FinancialSummary } from "../../types/generalType";
+import WalletSummary from "../../components/studentWalletViewComponents/walletSummary/WalletSummary";
 import QuickActions from "../../components/studentWalletViewComponents/quickActions/QuickActions";
 import RecentTransactions from "../../components/studentWalletViewComponents/recentTransactions/RecentTransactions";
 import EducationalTips from "../../components/studentWalletViewComponents/educationalTips/EducationTips";
 import Button from "../../../shared/components/Button/ButtonComponent";
-import type { FinancialSummary } from "../../types/generalType";
-import styles from "./StudentWalletView.module.css";
+import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import { useNavigate } from "react-router-dom";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
+import styles from "./StudentWalletView.module.css";
 
 const StudentWalletView = () => {
-  const { wallet } = useCurrentStudent();
+  const navigate = useNavigate();
+  const { loading, wallet } = useCurrentStudent();
+
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   const financialData: FinancialSummary = {
     availableCoins: Number(wallet?.balance) - Number(wallet?.invertedBalance),
@@ -24,7 +34,6 @@ const StudentWalletView = () => {
     currentSavings: 1200,
   };
 
-  const navigate = useNavigate();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -39,6 +48,7 @@ const StudentWalletView = () => {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
+
   return (
     <motion.div
       variants={containerVariants}
