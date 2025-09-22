@@ -17,7 +17,7 @@ const StudentWalletView = () => {
   const navigate = useNavigate();
   const { loading, wallet } = useCurrentStudent();
 
-  if (loading) {
+  if (loading && !wallet) {
     return (
       <div className={styles.loadingContainer}>
         <LoadingSpinner />
