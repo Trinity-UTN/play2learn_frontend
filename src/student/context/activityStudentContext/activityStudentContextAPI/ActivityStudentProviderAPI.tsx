@@ -14,15 +14,12 @@ import { ActivityStudentService } from "../../../services/activity/ActivityServi
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
 import { createGameConfig } from "../../../../shared/registry/games/gameConfigFactory";
 import { useHandleApiError } from "../../../../shared/hooks/useHandleApiError";
+import usePaginateParams from "../../../../shared/hooks/usePaginateParams";
 import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 import type {
   GetPaginated,
   PaginatedData,
 } from "../../../../shared/types/PaginacionType";
-// import type {
-//   GetPaginated,
-//   PaginatedData,
-// } from "../../../shared/types/PaginacionType";
 
 export const ActivityStudentProvider = ({
   children,
@@ -30,6 +27,7 @@ export const ActivityStudentProvider = ({
   children: ReactNode;
 }) => {
   const { handleApiError } = useHandleApiError();
+  const { paginationParams } = usePaginateParams();
   const { getCurrentStudentByToken } = useCurrentStudent();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -151,8 +149,10 @@ export const ActivityStudentProvider = ({
 
   const refreshActivityDataAfterCompletion = async () => {
     await Promise.all([
-      getActivityNotApproved(),
-      getActivityApproved(),
+      getPaginatedActivitiesApproved(paginationParams),
+      getPaginatedActivitiesNotApproved(paginationParams),
+      // getActivityNotApproved(),
+      // getActivityApproved(),
       getCurrentStudentByToken(),
     ]);
   };

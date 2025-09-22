@@ -14,11 +14,13 @@ import type { IconType } from "react-icons";
 
 export const activityIconMap: Record<string, IconType> = {
   ahorcado_educativo: FaSpellCheck,
+  Ahorcado: FaSpellCheck,
   completar_oraciones: FaCheckCircle,
   preguntados: FaQuestionCircle,
   ordenar_secuencia: FaSortAmountUp,
   memorama: FaBrain,
   desafio_clasificacion: FaPuzzlePiece,
+  "Desafio de clasificacion": FaPuzzlePiece,
   arbol_decision: FaTree,
   no_ludica: FaPenFancy,
   random: FaRandom,

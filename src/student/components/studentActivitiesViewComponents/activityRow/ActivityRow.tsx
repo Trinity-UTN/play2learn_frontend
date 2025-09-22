@@ -4,6 +4,7 @@ import Button from "../../../../shared/components/Button/ButtonComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
 import formatPrice from "../../../../shared/utils/formatPrice";
 import type { ActivityUI } from "../../../types/Activity.type";
+import { getActivityIcon } from "../../../../shared/utils/activityIcons";
 import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
 import styles from "./ActivityRow.module.css";
 
@@ -15,7 +16,7 @@ interface ActivityRowProps {
 }
 
 const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
-  const { getRandomIcon, getStatusConfig } = useActivityStudentUI();
+  const { getStatusConfig } = useActivityStudentUI();
 
   const statusConfig = getStatusConfig(activity.status);
   const isDisabled =
@@ -33,6 +34,8 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
     }
   };
 
+  const ActivityIcon = getActivityIcon(activity.name);
+
   return (
     <motion.div
       className={styles.activityRow}
@@ -44,7 +47,9 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
       <div className={styles.mainContent}>
         <div className={styles.basicInfo}>
           <div className={styles.titleSection}>
-            <span className={styles.activityIcon}> {getRandomIcon()}</span>
+            <span className={styles.activityIcon}>
+              <ActivityIcon />
+            </span>
 
             <div className={styles.titleInfo}>
               <h3 className={styles.activityTitle}>{activity.name}</h3>
