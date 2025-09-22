@@ -5,6 +5,7 @@ import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import type { WalletTransaction } from "../../../types/generalType";
 import styles from "./RecentTransactions.module.css";
+import { FcAlarmClock, FcFlashOn, FcOk } from "react-icons/fc";
 
 const RecentTransactions: React.FC = () => {
   const recentTransactions: WalletTransaction[] = [
@@ -12,10 +13,10 @@ const RecentTransactions: React.FC = () => {
       id: "1",
       type: "earned",
       amount: 85,
-      description: "Clasificación completada",
+      description: "Desafio de Clasificación completado",
       date: "2024-03-15T14:30:00Z",
       category: "Actividad",
-      icon: "🎯",
+      icon: <FcOk />,
     },
     {
       id: "2",
@@ -24,25 +25,25 @@ const RecentTransactions: React.FC = () => {
       description: "Extensión de tiempo",
       date: "2024-03-15T10:15:00Z",
       category: "Beneficio",
-      icon: "⏰",
+      icon: <FcAlarmClock />,
     },
     {
       id: "3",
       type: "earned",
       amount: 120,
-      description: "Ecuaciones completadas",
+      description: "Actividad Ahorcado",
       date: "2024-03-14T16:45:00Z",
       category: "Actividad",
-      icon: "🎯",
+      icon: <FcOk />,
     },
     {
       id: "4",
       type: "earned",
       amount: 25,
-      description: "Bonus racha 7 días",
+      description: "Clase particular",
       date: "2024-03-14T09:00:00Z",
-      category: "Bonus",
-      icon: "🔥",
+      category: "Beneficio",
+      icon: <FcFlashOn />,
     },
   ];
 
