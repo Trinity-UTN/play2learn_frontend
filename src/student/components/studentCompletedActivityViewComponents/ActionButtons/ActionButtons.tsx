@@ -46,15 +46,17 @@ export default function ActionButtons({
     if (!activity) return;
     gameManager?.resetGame();
   };
+
   const onContinue = () => {
     if (passed) {
-      navigate("/dashboard/student/wallet");
       getWallet();
+      navigate("/dashboard/student/wallet");
     } else {
       navigate("/dashboard/student/actividades/list");
     }
     handleFinishActivity();
   };
+
   return (
     <motion.div
       className={styles.buttonsContainer}
