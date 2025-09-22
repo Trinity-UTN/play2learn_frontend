@@ -5,6 +5,13 @@
   padding: 1rem;
 }
 
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
