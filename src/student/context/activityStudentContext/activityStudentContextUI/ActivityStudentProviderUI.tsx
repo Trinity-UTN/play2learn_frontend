@@ -149,7 +149,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
 
   const stats = [
     {
-      label: "Pendientes",
+      label: "Disponibles",
       value: pendingCount,
       icon: FaClock,
       color: "#F59E0B",

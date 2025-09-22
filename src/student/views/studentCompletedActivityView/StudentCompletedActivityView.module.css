@@ -20,16 +20,6 @@
   overflow-y: auto;
 }
 
-.resultCard::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #4ecdc4, #44a08d);
-}
-
 .resultCard.success::before {
   background: linear-gradient(90deg, #56ab2f, #a8e6cf);
 }

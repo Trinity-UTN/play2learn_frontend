@@ -7,6 +7,7 @@ import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
 //PROVIDERS
 import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
 import { ActivityStudentProvider } from "../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
+import { CurrentStudentProvider } from "../student/context/currentStudent/CurrentStudentProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
 import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
 import { AhorcadoGameProvider } from "../shared/contexts/gamesContext/ahorcadoGameContext/AhorcadoGameProvider";
@@ -46,45 +47,49 @@ const TeacherApp = () => {
             element={
               <ProtectedRoute allowedRoles={["ROLE_TEACHER"]}>
                 <SubjectProvider>
-                  <ActivityStudentProvider>
-                    <ConfigurationActivityProvider>
-                      <AhorcadoProvider>
-                        <AhorcadoGameProvider>
-                          <CompletarOracionProvider>
-                            <PreguntadosProvider>
-                              <PreguntadosGameProvider>
-                                <OrdenarSecuenciaProvider>
-                                  <DesafioClasificacionProvider>
-                                    <DesafioClasificacionGameProvider>
-                                      <MemoramaProvider>
-                                        <NoLudicaProvider>
-                                          <ArbolDecisionProvider>
-                                            <BenefitAPIProvider>
-                                              <BenefitUIProvider>
-                                                <motion.div
-                                                  key="dashboardTeacher"
-                                                  initial={{ opacity: 0 }}
-                                                  animate={{ opacity: 1 }}
-                                                  exit={{ opacity: 0 }}
-                                                  transition={{ duration: 0.3 }}
-                                                >
-                                                  <TeacherDashboardPage />
-                                                </motion.div>
-                                              </BenefitUIProvider>
-                                            </BenefitAPIProvider>
-                                          </ArbolDecisionProvider>
-                                        </NoLudicaProvider>
-                                      </MemoramaProvider>
-                                    </DesafioClasificacionGameProvider>
-                                  </DesafioClasificacionProvider>
-                                </OrdenarSecuenciaProvider>
-                              </PreguntadosGameProvider>
-                            </PreguntadosProvider>
-                          </CompletarOracionProvider>
-                        </AhorcadoGameProvider>
-                      </AhorcadoProvider>
-                    </ConfigurationActivityProvider>
-                  </ActivityStudentProvider>
+                  <CurrentStudentProvider>
+                    <ActivityStudentProvider>
+                      <ConfigurationActivityProvider>
+                        <AhorcadoProvider>
+                          <AhorcadoGameProvider>
+                            <CompletarOracionProvider>
+                              <PreguntadosProvider>
+                                <PreguntadosGameProvider>
+                                  <OrdenarSecuenciaProvider>
+                                    <DesafioClasificacionProvider>
+                                      <DesafioClasificacionGameProvider>
+                                        <MemoramaProvider>
+                                          <NoLudicaProvider>
+                                            <ArbolDecisionProvider>
+                                              <BenefitAPIProvider>
+                                                <BenefitUIProvider>
+                                                  <motion.div
+                                                    key="dashboardTeacher"
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                    transition={{
+                                                      duration: 0.3,
+                                                    }}
+                                                  >
+                                                    <TeacherDashboardPage />
+                                                  </motion.div>
+                                                </BenefitUIProvider>
+                                              </BenefitAPIProvider>
+                                            </ArbolDecisionProvider>
+                                          </NoLudicaProvider>
+                                        </MemoramaProvider>
+                                      </DesafioClasificacionGameProvider>
+                                    </DesafioClasificacionProvider>
+                                  </OrdenarSecuenciaProvider>
+                                </PreguntadosGameProvider>
+                              </PreguntadosProvider>
+                            </CompletarOracionProvider>
+                          </AhorcadoGameProvider>
+                        </AhorcadoProvider>
+                      </ConfigurationActivityProvider>
+                    </ActivityStudentProvider>
+                  </CurrentStudentProvider>
                 </SubjectProvider>
               </ProtectedRoute>
             }

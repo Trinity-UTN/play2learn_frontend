@@ -10,13 +10,14 @@ import Button from "../../../shared/components/Button/ButtonComponent";
 import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import { useNavigate } from "react-router-dom";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
+
 import styles from "./StudentWalletView.module.css";
 
 const StudentWalletView = () => {
   const navigate = useNavigate();
   const { loading, wallet } = useCurrentStudent();
 
-  if (loading) {
+  if (loading && !wallet) {
     return (
       <div className={styles.loadingContainer}>
         <LoadingSpinner />

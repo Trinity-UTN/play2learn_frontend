@@ -1,7 +1,6 @@
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import styles from "./ResultHeader.module.css";
 import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
-import { HiOutlineSparkles } from "react-icons/hi";
 interface ResultHeaderProps {
   passed: boolean;
   activityTitle: string | undefined;
@@ -14,42 +13,11 @@ export default function ResultHeader({
   subjectName,
 }: ResultHeaderProps) {
   const { currentStudent } = useCurrentStudent();
-  const iconVariants: Variants = {
-    hidden: { scale: 0, rotate: -180 },
-    visible: {
-      scale: 1,
-      rotate: 0,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 10,
-        delay: 0.2,
-      },
-    },
-  };
 
   return (
     <div
       className={`${styles.header} ${passed ? styles.success : styles.failure}`}
     >
-      <motion.div
-        className={styles.iconContainer}
-        variants={iconVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {passed && (
-          <motion.div
-            className={styles.sparkles}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-          >
-            <HiOutlineSparkles />
-          </motion.div>
-        )}
-      </motion.div>
-
       <motion.div
         className={styles.textContainer}
         initial={{ opacity: 0, y: 20 }}

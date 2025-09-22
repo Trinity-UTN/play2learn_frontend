@@ -32,18 +32,10 @@ const ActivityHeader: React.FC = () => {
         <div className={styles.textContent}>
           <h1 className={styles.title}>Mis Actividades</h1>
           <p className={styles.subtitle}>
-            ¡Completa tus actividades y gana puntos increíbles! 🎯
+            ¡Completa tus actividades y gana monedas!
           </p>
         </div>
       </div>
-
-      <motion.div
-        className={styles.motivationalBadge}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <span className={styles.badgeText}>¡Sigue así, campeón! 🏆</span>
-      </motion.div>
     </motion.div>
   );
 };

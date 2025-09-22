@@ -4,12 +4,6 @@
   position: relative;
 }
 
-.iconContainer {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 1.5rem;
-}
-
 .sparkles {
   position: absolute;
   top: -10px;

@@ -48,9 +48,6 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
 
             <div className={styles.titleInfo}>
               <h3 className={styles.activityTitle}>{activity.name}</h3>
-              <h3 className={styles.activitySubtitle}>
-                {activity.description}
-              </h3>
               <div className={styles.metadata}>
                 <span className={styles.subject}>{activity.subjectName}</span>
                 <Badge

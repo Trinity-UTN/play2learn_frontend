@@ -12,8 +12,9 @@ export interface WalletTransaction {
   description: string;
   date: string;
   category: string;
-  icon: string;
+  icon: React.ReactElement;
 }
+
 export interface StoreItem {
   id: string;
   name: string;
@@ -125,7 +126,7 @@ export interface WalletTransaction {
   description: string;
   date: string;
   category: string;
-  icon: string;
+  icon: React.ReactElement;
 }
 export interface FinancialSummary {
   availableCoins: number;
