@@ -100,14 +100,22 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
         setLoading(false);
       } else if (authService.getAccessToken()) {
         getCurrentStudentByToken();
+        setWallet(currentStudent?.wallet);
         setLoading(false);
       } else {
         getCurrentStudent();
+        setWallet(currentStudent?.wallet);
       }
     } else {
       setLoading(true);
     }
   }, [role, studentData, getCurrentStudent, getCurrentStudentByToken]);
+
+  useEffect(() => {
+    if (currentStudent) {
+      setWallet(currentStudent.wallet);
+    }
+  }, [currentStudent]);
 
   const getWalletByStudent = async () => {
     setLoading(true);
@@ -118,6 +126,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       handleApiError(error, "Error al cargar la billetera");
     }
   };
+
   // Funcioens de utilidad
   const getAvatarComponents = (): AvatarComponents => {
     const profile = currentStudent?.profile;

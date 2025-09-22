@@ -22,6 +22,7 @@ const DesafioClasificacionGame = ({ mode }: DesafioClasificacionGameProps) => {
     score,
     startGame,
     gameStarted,
+    hasVerified,
   } = useDesafioClasificacionGame();
 
   useEffect(() => {
@@ -112,7 +113,6 @@ const DesafioClasificacionGame = ({ mode }: DesafioClasificacionGameProps) => {
             variant="primary"
             onClick={verifyAnswers}
             className={styles.tryAgainButton}
-            disabled={availableConcepts.length !== 0}
           >
             <FaCheck />
             Verificar Respuestas
@@ -172,18 +172,22 @@ const DesafioClasificacionGame = ({ mode }: DesafioClasificacionGameProps) => {
                   )}
                 </div>
               </div>
-              <div className={styles.resultFooter}>
-                <div
-                  className={
-                    gameStatus === "won"
-                      ? styles.successBadge
-                      : styles.failureBadge
-                  }
-                >
-                  <span>Puntuación: {score}%</span>
+              {hasVerified && (
+                <div className={styles.resultFooter}>
+                  <div
+                    className={
+                      gameStatus === "won"
+                        ? styles.successBadge
+                        : styles.failureBadge
+                    }
+                  >
+                    <span>Puntuación: {score}%</span>
+                  </div>
+                  <span>
+                    Esta informacion no sera visualizada por el estudiante
+                  </span>
                 </div>
-                <span>Esta informacion no sera visualizada por el alumno</span>
-              </div>
+              )}
             </div>
           </div>
         )}

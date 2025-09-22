@@ -74,24 +74,26 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
         </div>
 
         {/* Información secundaria */}
-        <div className={styles.secondaryInfo}>
-          <div className={styles.infoItem}>
-            <FaCalendarAlt className={styles.metaIcon} />
-            <span className={styles.infoText}>{activity.dateLabel}</span>
-          </div>
+        {activity.status != "APPROVED" && (
+          <div className={styles.secondaryInfo}>
+            <div className={styles.infoItem}>
+              <FaCalendarAlt className={styles.metaIcon} />
+              <span className={styles.infoText}>{activity.dateLabel}</span>
+            </div>
 
-          {/* Tiempo máximo */}
-          <div className={styles.infoItem}>
-            <FaStopwatch className={styles.metaIcon} />
-            <span className={styles.infoText}>{activity.timeLabel}</span>
-          </div>
+            {/* Tiempo máximo */}
+            <div className={styles.infoItem}>
+              <FaStopwatch className={styles.metaIcon} />
+              <span className={styles.infoText}>{activity.timeLabel}</span>
+            </div>
 
-          {/* Intentos */}
-          <div className={styles.infoItem}>
-            <FaRedo className={styles.metaIcon} />
-            <span className={styles.infoText}>{activity.attemptsLabel}</span>
+            {/* Intentos */}
+            <div className={styles.infoItem}>
+              <FaRedo className={styles.metaIcon} />
+              <span className={styles.infoText}>{activity.attemptsLabel}</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Botón de acción */}

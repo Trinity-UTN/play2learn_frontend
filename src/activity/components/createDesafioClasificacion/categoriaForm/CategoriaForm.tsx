@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaPlus, FaLightbulb } from "react-icons/fa";
+import { FaPlus, FaLightbulb, FaExclamationTriangle } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
@@ -54,7 +54,7 @@ const CategoryForm: React.FC = () => {
               <FaLightbulb className={styles.sectionIcon} />
               Nombre de la categoría
               <span className={styles.sectionTooltip}>
-                <Tooltip content="" />
+                <Tooltip content="Máximo 10 categorías" />
               </span>
             </h4>
           </div>
@@ -68,7 +68,10 @@ const CategoryForm: React.FC = () => {
             type="text"
             placeholder="Nombre de la categoría (ej: Animales, Colores, etc.)"
             value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
+            onChange={(e) => {
+              setCategoryName(e.target.value);
+              if (error) setError("");
+            }}
             disabled={categories.length >= maxCategories}
             className={error ? styles.inputError : styles.input}
             maxLength={50}
@@ -84,6 +87,12 @@ const CategoryForm: React.FC = () => {
             <FaPlus />
           </Button>
         </div>
+        {maxCategories === categories.length && (
+          <span className={styles.errorMessage}>
+            <FaExclamationTriangle />
+            Se ha alcanzado el límite de categorías permitidas (10)
+          </span>
+        )}
       </div>
     </form>
   );

@@ -1,4 +1,5 @@
 @import "../../../../shared/styles/colors.css";
+
 .content {
   flex: 1;
   display: flex;
@@ -33,7 +34,7 @@
   font-size: 0.875rem;
 }
 
-.conceptrNumber {
+.conceptNumber {
   line-height: 1;
 }
 
@@ -64,10 +65,26 @@
   flex: 1;
 }
 
+.editInput {
+  flex: 1;
+}
+
+.inputError {
+  border-color: var(--color-text-error) !important;
+}
+
 .addConceptActions {
   display: flex;
   gap: 0.25rem;
   flex-shrink: 0;
+  flex-direction: row;
+}
+
+.editActions {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  flex-direction: row;
 }
 
 .conceptsList {
@@ -161,6 +178,22 @@
   opacity: 0.8;
 }
 
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: #fed7d7;
+  color: var(--color-text-error);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.errorIcon {
+  font-size: 0.75rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .conceptsHeader {
@@ -179,6 +212,10 @@
   }
 
   .addConceptActions {
+    justify-content: center;
+  }
+
+  .editActions {
     justify-content: center;
   }
 

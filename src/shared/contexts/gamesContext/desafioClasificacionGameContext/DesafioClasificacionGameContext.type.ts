@@ -16,8 +16,8 @@ export interface DesafioClasificacionGameContextType {
   } | null;
   totalCategories: number | undefined;
   totalConcepts: number;
+  hasVerified: boolean;
   gameConfig: DesafioClasificacionConfig | null;
-
   isGameWon: boolean;
   isGameLost: boolean;
 

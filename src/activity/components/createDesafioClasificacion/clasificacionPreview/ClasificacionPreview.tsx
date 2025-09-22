@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { FaEye, FaPlay, FaRedo } from "react-icons/fa";
+import { FaEye, FaPlay, FaRedo, FaTags } from "react-icons/fa";
+import { FcFolder } from "react-icons/fc";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
@@ -38,14 +39,14 @@ const ClasificacionPreview: React.FC = () => {
 
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>📂</span>
+            <FcFolder className={styles.statIcon} />
             <div>
               <span className={styles.statLabel}>Categorías</span>
               <span className={styles.statValue}>{totalCategories}</span>
             </div>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>🏷️</span>
+            <FaTags className={styles.statIcon} style={{ color: "#dc2626" }} />
             <div>
               <span className={styles.statLabel}>Conceptos totales</span>
               <span className={styles.statValue}>{totalConcepts}</span>

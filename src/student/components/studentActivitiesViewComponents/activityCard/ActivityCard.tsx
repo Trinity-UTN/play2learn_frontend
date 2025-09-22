@@ -83,22 +83,26 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
                 <FaCalendarAlt className={styles.metaIcon} />
                 <span>{activity.subjectName}</span>
               </div>
-              <div className={styles.metaItem}>
-                <FaStopwatch className={styles.metaIcon} />
-                <span>{activity.timeLabel} </span>
-              </div>
+              {activity.status != "APPROVED" && (
+                <div className={styles.metaItem}>
+                  <FaStopwatch className={styles.metaIcon} />
+                  <span>{activity.timeLabel} </span>
+                </div>
+              )}
             </div>
 
-            <div className={styles.metaRow}>
-              <div className={styles.metaItem}>
-                <FaRedo className={styles.metaIcon} />
-                <span>{activity.attemptsLabel}</span>
+            {activity.status != "APPROVED" && (
+              <div className={styles.metaRow}>
+                <div className={styles.metaItem}>
+                  <FaRedo className={styles.metaIcon} />
+                  <span>{activity.attemptsLabel}</span>
+                </div>
+                <div className={styles.metaItem}>
+                  <FaCoins className={styles.metaIcon} />
+                  {activity.rewardLabel}
+                </div>
               </div>
-              <div className={styles.metaItem}>
-                <FaCoins className={styles.metaIcon} />
-                {activity.rewardLabel}
-              </div>
-            </div>
+            )}
           </div>
 
           {/* {activity.status === "EXPIRED"  && (

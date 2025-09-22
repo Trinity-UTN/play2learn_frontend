@@ -10,6 +10,7 @@ import type {
   OrdenarSecuenciaConfig,
 } from "../../types/OrdenarSecuencia.type";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
+import { useConfigurationForm } from "../../hooks/configuration/useConfigurationForm";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
@@ -22,6 +23,7 @@ export const OrdenarSecuenciaProvider: React.FC<
   OrdenarSecuenciaProviderProps
 > = ({ children }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { resetForm } = useConfigurationForm("ordenar_secuencia");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -49,12 +51,17 @@ export const OrdenarSecuenciaProvider: React.FC<
   }, [currentStep, events]);
 
   // Función para reiniciar todos los estados
-  const resetAllStates = () => {
+  const resetStatesOnly = () => {
     setCurrentStep("config");
     setConfig({ cantEvents: 5 });
     setEvents([]);
     setErrors([]);
     setEventImages([]);
+  };
+
+  const resetAllStates = () => {
+    resetStatesOnly();
+    resetForm();
   };
 
   const validateAllEvents = (): string[] => {
@@ -185,7 +192,7 @@ export const OrdenarSecuenciaProvider: React.FC<
           type: "success",
           position: "bottom-right",
         });
-        resetAllStates();
+        resetStatesOnly();
       },
     });
   };

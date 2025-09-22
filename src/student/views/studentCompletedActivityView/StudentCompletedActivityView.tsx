@@ -13,7 +13,7 @@ import DetailsGeneral from "../../components/DetailsGame/DetailsGeneral/DetailsG
 
 const StudentCompletedActivityView = () => {
   const { loading, currentActivity, activityCompleted } = useActivityStudent();
-  const { getWalletByStudent } = useCurrentStudent();
+  const { getCurrentStudentByToken } = useCurrentStudent();
   const navigate = useNavigate();
   const [showConfetti, setShowConfetti] = useState(false);
   const [animationPhase, setAnimationPhase] = useState(0);
@@ -90,6 +90,11 @@ const StudentCompletedActivityView = () => {
     );
   }
 
+  const handleGiveReward = async () => {
+    if (!currentActivity) return;
+    await getCurrentStudentByToken();
+  };
+
   return (
     <div className={styles.container}>
       <AnimatePresence>{showConfetti && <ConfettiEffect />}</AnimatePresence>
@@ -126,7 +131,7 @@ const StudentCompletedActivityView = () => {
         <ActionButtons
           passed={passed}
           activity={currentActivity}
-          getWallet={getWalletByStudent}
+          getWallet={handleGiveReward}
         />
       </motion.div>
     </div>

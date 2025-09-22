@@ -14,6 +14,7 @@ import { ActivityStudentService } from "../../../services/activity/ActivityServi
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
 import { createGameConfig } from "../../../../shared/registry/games/gameConfigFactory";
 import { useHandleApiError } from "../../../../shared/hooks/useHandleApiError";
+import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 import type {
   GetPaginated,
   PaginatedData,
@@ -29,6 +30,7 @@ export const ActivityStudentProvider = ({
   children: ReactNode;
 }) => {
   const { handleApiError } = useHandleApiError();
+  const { getCurrentStudentByToken } = useCurrentStudent();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [activityNotApproved, setActivitiesNotApproved] = useState<
@@ -148,7 +150,11 @@ export const ActivityStudentProvider = ({
   );
 
   const refreshActivityDataAfterCompletion = async () => {
-    await Promise.all([getActivityNotApproved(), getActivityApproved()]);
+    await Promise.all([
+      getActivityNotApproved(),
+      getActivityApproved(),
+      getCurrentStudentByToken(),
+    ]);
   };
 
   const contextValue: ActivityStudentContextType = {

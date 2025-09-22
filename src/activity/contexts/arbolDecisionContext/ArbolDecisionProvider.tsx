@@ -13,6 +13,7 @@ import type {
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
+import { useConfigurationForm } from "../../hooks/configuration/useConfigurationForm";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
@@ -25,6 +26,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   children,
 }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { resetForm } = useConfigurationForm("arbol_decision");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -54,7 +56,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   }, [currentStep, config]);
 
   // Funciones auxiliares del propio context
-  const resetAllStates = () => {
+  const resetStatesOnly = () => {
     setLoading(false);
     setCurrentStep("config");
     setConfig({
@@ -65,6 +67,11 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
       ],
     });
     setErrors([]);
+  };
+
+  const resetAllStates = () => {
+    resetStatesOnly();
+    resetForm();
   };
 
   const getNodeByPath = (
@@ -115,7 +122,6 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
 
     try {
       await ArbolDecisionService.registerArbolDecisionApi(dataMandar);
-      resetAllStates();
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
     } finally {
@@ -190,7 +196,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
           type: "success",
           position: "bottom-right",
         });
-        resetAllStates();
+        resetStatesOnly();
       },
     });
   };

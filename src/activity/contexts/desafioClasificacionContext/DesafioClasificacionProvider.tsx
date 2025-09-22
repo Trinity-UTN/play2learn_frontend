@@ -11,6 +11,7 @@ import type {
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeData } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
+import { useConfigurationForm } from "../../hooks/configuration/useConfigurationForm";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
@@ -23,6 +24,7 @@ export const DesafioClasificacionProvider: React.FC<
   DesafioClasificacionProviderProps
 > = ({ children }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { resetForm } = useConfigurationForm("desafio_clasificacion");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -48,12 +50,21 @@ export const DesafioClasificacionProvider: React.FC<
   }, [currentStep, config]);
 
   // Funciones auxiliares del propio context
+  const resetStatesOnly = () => {
+    setCurrentStep("config");
+    setConfig({
+      categories: [],
+    });
+    setErrors([]);
+  };
+
   const resetAllStates = () => {
     setCurrentStep("config");
     setConfig({
       categories: [],
     });
     setErrors([]);
+    resetForm();
   };
 
   const isFormValid = errors.length === 0 && config.categories.length >= 2;
@@ -166,7 +177,7 @@ export const DesafioClasificacionProvider: React.FC<
           type: "success",
           position: "bottom-right",
         });
-        resetAllStates();
+        resetStatesOnly();
       },
     });
   };

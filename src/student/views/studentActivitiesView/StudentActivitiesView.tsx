@@ -3,10 +3,12 @@ import ActivityHeader from "../../components/studentActivitiesViewComponents/act
 import ActivityStats from "../../components/studentActivitiesViewComponents/activityStats/ActivityStats";
 import ActivityFilters from "../../components/studentActivitiesViewComponents/activityFilters/ActivityFilters";
 import ActivityGrid from "../../components/studentActivitiesViewComponents/activityGrid/ActivityGrid";
-import styles from "./StudentActivitiesView.module.css";
+import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useActivityStudentUI } from "../../hooks/useActivityStudentUI";
+import styles from "./StudentActivitiesView.module.css";
 
 const StudentActivitiesView: React.FC = () => {
+  const { loading } = useActivityStudent();
   const {
     activeFilter,
     setActiveFilter,
@@ -48,6 +50,7 @@ const StudentActivitiesView: React.FC = () => {
       <ActivityGrid
         activities={filteredActivities}
         paginationInfo={paginationInfo!}
+        loading={loading}
       />
     </motion.div>
   );

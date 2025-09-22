@@ -33,7 +33,7 @@ const Sidebar: React.FC = () => {
       title: "Gestion de Actividades",
       items: [
         {
-          title: "Ver Actividades",
+          title: "Crear Actividades",
           icon: FaGamepad,
           path: TeacherRoutes.Actividades.List,
         },
