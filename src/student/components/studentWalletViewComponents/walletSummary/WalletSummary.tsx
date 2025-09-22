@@ -24,10 +24,12 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
   //     minute: "2-digit",
   //   });
   // };
+
   const totalBalance = useCountUp(data.totalBalance, 1, {
     steps: 20,
     interval: 50,
   });
+
   const liquidityPercentage = data.totalBalance
     ? (data.availableCoins / data.totalBalance) * 100
     : 0;

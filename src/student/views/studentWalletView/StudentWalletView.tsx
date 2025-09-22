@@ -10,9 +10,9 @@ import type { FinancialSummary } from "../../types/generalType";
 import styles from "./StudentWalletView.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
-
+import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 const StudentWalletView = () => {
-  const { wallet } = useCurrentStudent();
+  const { wallet, loading } = useCurrentStudent();
 
   const financialData: FinancialSummary = {
     availableCoins: Number(wallet?.balance) - Number(wallet?.invertedBalance),
@@ -39,6 +39,10 @@ const StudentWalletView = () => {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
+
+  {
+    if (loading) return <LoadingSpinnerComponent />;
+  }
   return (
     <motion.div
       variants={containerVariants}

@@ -1,6 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import styles from "./DetailsDesafioClasificacionGame.module.css";
-import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
+// import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
 import { useDesafioClasificacionGame } from "../../../../shared/hooks/games/useDesafioClasificacionGame";
 import { getPerformanceLevel } from "../../../utils/performance";
 import { HiOutlineFire } from "react-icons/hi";
@@ -11,21 +11,16 @@ import {
   FaRegFolder,
   FaRegLightbulb,
   FaSearch,
-  FaSync,
+  // FaSync,
   FaTimes,
 } from "react-icons/fa";
 import { GiBookshelf, GiBrain } from "react-icons/gi";
 import { IoTimeOutline } from "react-icons/io5";
 
 const DetailsDesafioClasificacionGame = () => {
-  const { currentActivity } = useActivityStudent();
-  const {
-    verificationResults,
-    isGameWon,
-    score,
-    totalCategories,
-    conceptsInCategories,
-  } = useDesafioClasificacionGame();
+  // const { currentActivity } = useActivityStudent();
+  const { verificationResults, isGameWon, score, conceptsInCategories } =
+    useDesafioClasificacionGame();
   // const formatTime = (seconds: number) => {
   //   const mins = Math.floor(seconds / 60);
   //   const secs = seconds % 60;
@@ -64,11 +59,7 @@ const DetailsDesafioClasificacionGame = () => {
           {isGameWon ? <HiOutlineFire /> : <PiSmileySad />}
         </div>
         <div className={styles.resultText}>
-          <h3>
-            {isGameWon
-              ? `¡Clasificación Perfecta!`
-              : "Clasificación Completada"}
-          </h3>
+          <h3>{isGameWon ? `¡Juego Completado!` : "Juego Terminado"}</h3>
           <p className={styles.accuracyText}>
             Precisión: <strong>{getAccuracyPercentage()}%</strong>
           </p>
@@ -120,18 +111,6 @@ const DetailsDesafioClasificacionGame = () => {
               <span className={styles.summaryLabel}>Total</span>
             </div>
           </div>
-
-          <div className={`${styles.summaryCard} ${styles.categories}`}>
-            <div className={styles.summaryIcon}>
-              <FaRegFolder />
-            </div>
-            <div className={styles.summaryContent}>
-              <span className={styles.summaryNumber}>
-                {totalCategories || 0}
-              </span>
-              <span className={styles.summaryLabel}>Categorías</span>
-            </div>
-          </div>
         </div>
       </motion.div>
       {/* Estadísticas del Juego */}
@@ -152,7 +131,7 @@ const DetailsDesafioClasificacionGame = () => {
           </div>
         </div> */}
 
-        <div className={styles.statCard}>
+        {/* <div className={styles.statCard}>
           <div className={styles.statIcon}>
             <FaSync />
           </div>
@@ -162,7 +141,7 @@ const DetailsDesafioClasificacionGame = () => {
               {currentActivity?.attempts}
             </span>
           </div>
-        </div>
+        </div> */}
 
         <div className={`${styles.statCard} ${styles.performanceCard}`}>
           <div className={styles.statIcon}>{performance.icon}</div>
@@ -282,28 +261,7 @@ const DetailsDesafioClasificacionGame = () => {
           )}
         </div>
       </motion.div>
-      {/* Análisis de Rendimiento */}
-      <motion.div className={styles.analysisSection} variants={itemVariants}>
-        <h4>
-          <FaRegChartBar /> Análisis de tu Rendimiento
-        </h4>
-        <div className={styles.analysisGrid}>
-          <div className={styles.analysisItem}>
-            <span className={styles.analysisLabel}>Precisión:</span>
-            <div className={styles.progressBar}>
-              <motion.div
-                className={styles.progressFill}
-                initial={{ width: 0 }}
-                animate={{ width: `${getAccuracyPercentage()}%` }}
-                transition={{ delay: 1, duration: 1.5, ease: "easeOut" }}
-              />
-              <span className={styles.progressText}>
-                {getAccuracyPercentage()}%
-              </span>
-            </div>
-          </div>
-        </div>
-      </motion.div>
+
       {/* Consejos para Mejorar */}
       {!isGameWon && (
         <motion.div className={styles.tipsSection} variants={itemVariants}>
