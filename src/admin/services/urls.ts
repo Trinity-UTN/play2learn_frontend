@@ -12,4 +12,5 @@ export const urls = {
   Subject: "/admin/subjects",
   SubjectTeacher: "/admin/subjects/teacher",
   SubjectPaginated: "admin/subjects/paginated",
+  statistics: "/statistics/home/admin",
 };
