@@ -22,7 +22,7 @@
   font-weight: bold;
   color: #2e2e2e;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #007bff, #10b981);
+  background: linear-gradient(135deg, var(--color-primary), white);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -53,7 +53,7 @@
 
 .headerStatIcon {
   font-size: 1.5rem;
-  color: #007bff;
+  color: var(--color-stat-4);
 }
 
 .headerStatNumber {
@@ -91,7 +91,6 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
 }
 
 .statIcon {
@@ -241,7 +240,7 @@
 
 .courseStatIcon {
   font-size: 1rem;
-  color: #007bff;
+  color: var(--color-stat-4);
 }
 
 .courseProgress {
@@ -298,7 +297,7 @@
 
 .cardIcon {
   font-size: 1rem;
-  color: #007bff;
+  color: var(--color-stat-4);
 }
 
 .activitiesList {
