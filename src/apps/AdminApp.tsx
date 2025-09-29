@@ -8,7 +8,7 @@ import { StudentProvider } from "../admin/contexts/studentContext/StudentProvide
 import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
 import { TeacherProvider } from "../admin/contexts/teacherContext/TeacherProvider";
 import { YearProvider } from "../admin/contexts/yearContext/YearProvider";
-
+import { StatisticsProvider } from "../admin/contexts/statisticsContext/StatisticsProvider";
 // PAGES
 import AdminDashboard from "../admin/pages/Dashboard/AdminDashboardPage";
 
@@ -39,15 +39,17 @@ const AdminApp = () => {
                   <TeacherProvider>
                     <YearProvider>
                       <CourseProvider>
-                        <motion.div
-                          key="dashboard"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <AdminDashboard />
-                        </motion.div>
+                        <StatisticsProvider>
+                          <motion.div
+                            key="dashboard"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <AdminDashboard />
+                          </motion.div>
+                        </StatisticsProvider>
                       </CourseProvider>
                     </YearProvider>
                   </TeacherProvider>

@@ -1,0 +1,256 @@
+@import "../../../../shared/styles/colors.css";
+.container {
+  background: transparent;
+  border-radius: 20px;
+  padding: 24px;
+  color: var(--color-text);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 2;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  font-size: 32px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-title);
+}
+
+/* Content */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Cards */
+.card {
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  max-height: 130px;
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.totalCard {
+  border: 2px solid var(--color-primary);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 16px;
+}
+
+.cardIcon {
+  font-size: 24px;
+  opacity: 0.9;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.cardValue {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.amount {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+.circulationAmount {
+  color: var(--color-stat-3);
+}
+.reserveAmount {
+  color: var(--color-stat-2);
+}
+
+.currency {
+  font-size: 16px;
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+.cardSubtext {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-bottom: 12px;
+}
+
+.percentage {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.8;
+  margin-bottom: 12px;
+}
+
+/* Distribution Grid */
+.distributionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+/* Visual Distribution */
+.visualDistribution {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.distributionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+.distributionBar {
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.circulationSegment {
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+  height: 100%;
+  transition: width 1.2s ease-out;
+}
+
+.reserveSegment {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  height: 100%;
+  transition: width 1.2s ease-out;
+}
+
+.distributionLegend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.circulationColor {
+  background: var(--color-stat-3);
+}
+
+.reserveColor {
+  background: var(--color-stat-2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .distributionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statusGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .amount {
+    font-size: 24px;
+  }
+
+  .distributionLegend {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .amount {
+    font-size: 20px;
+  }
+
+  .totalAmount {
+    font-size: 16px;
+  }
+}
