@@ -12,7 +12,7 @@ export class DesafioClasificacionConfigRenderer implements GameConfigRenderer {
     if (config.categories && config.categories.length > 0) {
       details.push({
         icon: FcOpenedFolder,
-        label: "Categorías",
+        label: "Cantidadd de categorías",
         value: config.categories.length,
       });
     }

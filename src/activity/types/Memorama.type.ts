@@ -11,3 +11,7 @@ export interface MemoramaInterface {
   concepts: string[];
   images: File[];
 }
+
+export interface MemoramaGameConfig {
+  couples: MemoramaPair[];
+}
