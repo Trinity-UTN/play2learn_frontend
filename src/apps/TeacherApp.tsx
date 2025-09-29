@@ -22,6 +22,7 @@ import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaP
 import { BenefitAPIProvider } from "../teacher/contexts/benefitsAPIContext/BenefitAPIProvider";
 import { BenefitUIProvider } from "../teacher/contexts/benefitsUIContext/BenefitUIProvider";
 import { ArbolDecisionProvider } from "../activity/contexts/arbolDecisionContext/ArbolDecisionProvider";
+import { StatisticsProvider } from "../teacher/contexts/statisticsContext/StatisticsProvider";
 //VIEWS
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsListView from "../teacher/views/benefitsView/benefitsViewList/BenefitsListView";
@@ -63,17 +64,19 @@ const TeacherApp = () => {
                                             <ArbolDecisionProvider>
                                               <BenefitAPIProvider>
                                                 <BenefitUIProvider>
-                                                  <motion.div
-                                                    key="dashboardTeacher"
-                                                    initial={{ opacity: 0 }}
-                                                    animate={{ opacity: 1 }}
-                                                    exit={{ opacity: 0 }}
-                                                    transition={{
-                                                      duration: 0.3,
-                                                    }}
-                                                  >
-                                                    <TeacherDashboardPage />
-                                                  </motion.div>
+                                                  <StatisticsProvider>
+                                                    <motion.div
+                                                      key="dashboardTeacher"
+                                                      initial={{ opacity: 0 }}
+                                                      animate={{ opacity: 1 }}
+                                                      exit={{ opacity: 0 }}
+                                                      transition={{
+                                                        duration: 0.3,
+                                                      }}
+                                                    >
+                                                      <TeacherDashboardPage />
+                                                    </motion.div>
+                                                  </StatisticsProvider>
                                                 </BenefitUIProvider>
                                               </BenefitAPIProvider>
                                             </ArbolDecisionProvider>
