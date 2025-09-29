@@ -1,6 +1,10 @@
 export const GameType = {
   AHORCADO: "ahorcado",
   CLASIFICACION: "desafio de clasificacion",
+  COMPLETAR_ORACION: "completar oracion",
+  MEMORAMA: "memorama",
+  NO_LUDICA: "no ludica",
+  ORDENAR_SECUENCIA: "ordenar secuencia",
   PREGUNTADOS: "preguntados",
 } as const;
 

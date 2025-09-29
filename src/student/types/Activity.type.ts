@@ -1,8 +1,12 @@
-import type { AhorcadoConfig } from "../../activity/types/Ahorcado.type";
-import type { DesafioClasificacionConfig } from "../../activity/types/DesafioClasificacion.type";
-import type { PreguntadosInterface as PreguntadosGameConfig } from "../../activity/types/Preguntados.type";
 import type { SubjectResponseDto } from "../../admin/services/subject/SubjectService";
 import type { PaginatedData } from "../../shared/types/PaginacionType";
+import type { AhorcadoConfig } from "../../activity/types/Ahorcado.type";
+import type { DesafioClasificacionConfig } from "../../activity/types/DesafioClasificacion.type";
+import type { CompletarOracionInterface as CompletarOracionConfig } from "../../activity/types/CompletarOracion.type";
+import type { MemoramaGameConfig } from "../../activity/types/Memorama.type";
+import type { NoLudicaInterface as NoLudicaConfig } from "../../activity/types/NoLudica.type";
+import type { CreateSequencePayload as OrdenarSecuenciaConfig } from "../../activity/types/OrdenarSecuencia.type";
+import type { PreguntadosInterface as PreguntadosConfig } from "../../activity/types/Preguntados.type";
 
 interface BaseActivity {
   id: string;
@@ -64,17 +68,12 @@ export interface ActivityUI {
 
 export type GameConfig =
   | AhorcadoConfig
+  | CompletarOracionConfig
   | DesafioClasificacionConfig
-  | PreguntadosGameConfig;
-// | MemoramaConfig
-// | OrdenarSecuenciaConfig
-// | ArbolDeDecisionConfig
-// | CompletarOracionConfig
-
-// | NoLudicaConfig
-/* No necesariamante todas las actividades usan el config.
- * Hay que ver el response DTO del backend, si coincide el config con el response DTO de 10, sino usamos otra
- */
+  | MemoramaGameConfig
+  | NoLudicaConfig
+  | OrdenarSecuenciaConfig
+  | PreguntadosConfig;
 
 export interface CurrentActivityInterface {
   id: number;
