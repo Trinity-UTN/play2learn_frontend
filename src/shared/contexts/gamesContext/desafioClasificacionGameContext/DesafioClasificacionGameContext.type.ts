@@ -1,8 +1,9 @@
 import type { DesafioClasificacionConfig } from "../../../../activity/types/DesafioClasificacion.type";
+import type { GameHook } from "../../../types/Games.type";
 
-export interface DesafioClasificacionGameContextType {
+export interface DesafioClasificacionGameContextType extends GameHook {
   // Estados del juego
-  gameStarted: boolean;
+  gameConfig: DesafioClasificacionConfig | null;
   score: number;
   gameStatus: "playing" | "won" | "lost";
   draggedConcept: string | null;
@@ -14,20 +15,17 @@ export interface DesafioClasificacionGameContextType {
     totalCorrect: number;
     totalConcepts: number;
   } | null;
+  hasVerified: boolean;
+
+  // Estados calculados
   totalCategories: number | undefined;
   totalConcepts: number;
-  hasVerified: boolean;
-  gameConfig: DesafioClasificacionConfig | null;
-  isGameWon: boolean;
-  isGameLost: boolean;
 
-  // Métodos
-  startGame: () => void;
-  resetGame: () => void;
+  // Funciones del juego
   verifyAnswers: () => void;
+  getAllConcepts: () => string[];
   handleDragStart: (e: React.DragEvent, concept: string) => void;
   handleDragOver: (e: React.DragEvent) => void;
   handleDrop: (e: React.DragEvent, categoryId: string) => void;
   handleDropToPool: (e: React.DragEvent) => void;
-  getAllConcepts: () => string[];
 }

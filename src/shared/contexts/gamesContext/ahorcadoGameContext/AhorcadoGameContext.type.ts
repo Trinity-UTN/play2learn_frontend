@@ -6,19 +6,14 @@ export interface AhorcadoGameContextType extends GameHook {
   gameConfig: AhorcadoConfig | null;
   guessedLetters: string[];
   currentGuess: string;
-  gameStarted: boolean;
 
   // Estados calculados
   maxErrors: number;
   wrongGuesses: number;
   livesRemaining: number;
-  isGameWon: boolean;
-  isGameLost: boolean;
 
   // Funciones del juego
   handleGuessLetter: () => void;
-  resetGame: () => void;
-  startGame: () => void;
   renderHangman: (errors: number) => string;
   renderWordDisplay: (letters: string[]) => string;
   setCurrentGuess: (guess: string) => void;
