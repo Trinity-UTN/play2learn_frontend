@@ -1,0 +1,402 @@
+@import "../../../../shared/styles/colors.css";
+.container {
+  padding: 2rem;
+  min-width: 600px;
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerIcon {
+  font-size: 0.875rem;
+  color: #4f46e5;
+  margin-right: 0.5rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+  margin: 0 0 0.5rem 0;
+}
+
+.tooltip {
+  margin-left: 0.5rem;
+}
+
+.description {
+  font-size: 1rem;
+  color: var(--color-text-subtitle);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  min-width: 150px;
+}
+
+.statIcon {
+  font-size: 1.5rem;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-subtitle);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statValue {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 0.25rem;
+}
+
+.activityContainer {
+  background: white;
+  border: 2px solid var(--color-border);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.activityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(
+    170deg,
+    rgba(var(--color-primary-rgb), 0.9) 0%,
+    rgba(var(--color-secondary-rgb), 0.9) 100%
+  );
+  color: white;
+}
+
+.activityTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.activityIcon {
+  font-size: 1.25rem;
+}
+
+.activityTitle h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.deliveryType {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.assignmentCard {
+  padding: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: white;
+}
+
+.assignmentHeader {
+  margin-bottom: 1rem;
+}
+
+.assignmentTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.assignmentContent {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.assignmentText {
+  font-size: 1rem;
+  color: #1f2937;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.responseSection {
+  padding: 2rem;
+  background: white;
+}
+
+.responseSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.responseSectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.responseTypeInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.responseInput {
+  margin-bottom: 1.5rem;
+}
+
+.inputLabel {
+  display: block;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.textArea {
+  width: 100%;
+  min-height: 150px;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+  line-height: 1.5;
+  background: white;
+  color: #1f2937;
+}
+
+.textArea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.charCount {
+  text-align: right;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.fileUpload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileUploadLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.5rem;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  justify-content: center;
+  color: #374151;
+}
+
+.fileUploadLabel:hover {
+  border-color: #667eea;
+  background: #f0f4ff;
+  color: #667eea;
+}
+
+.uploadIcon {
+  font-size: 1.25rem;
+  color: #667eea;
+}
+
+.acceptedFormats {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+.urlInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  background: white;
+  color: #1f2937;
+}
+
+.urlInput:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.urlHint {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.submitSection {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.submitButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 200px;
+  justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stat {
+    min-width: auto;
+  }
+
+  .activityHeader {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .responseSectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .assignmentCard,
+  .responseSection {
+    padding: 1.5rem;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .previewHeader,
+  .previewFooter {
+    padding: 1rem;
+  }
+
+  .assignmentCard,
+  .responseSection {
+    padding: 1rem;
+  }
+
+  .textArea {
+    min-height: 120px;
+  }
+
+  .fileUploadLabel {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.assignmentCard,
+.responseSection {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Estados de focus mejorados */
+.submitButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+.fileUploadLabel:focus-within {
+  border-color: #667eea;
+  background: #f0f4ff;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .assignmentCard,
+  .responseSection {
+    animation: none;
+  }
+
+  .tipoEntregaOption:hover,
+  .fileUploadLabel:hover {
+    transform: none;
+  }
+}

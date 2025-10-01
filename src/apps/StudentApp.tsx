@@ -31,6 +31,8 @@ import StudentStoreView from "../student/views/studentStoreView/StudentStoreView
 import StudentWalletView from "../student/views/studentWalletView/StudentWalletView";
 import StudentFinancialEducationView from "../student/views/studentFinancialEducationView/StudentFinancialEducationView";
 import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
+import { NoLudicaGameProvider } from "../shared/contexts/gamesContext/noLudicaGameContext/NoLudicaGameProvider";
+import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
 
 const StudentApp = () => {
   return (
@@ -60,15 +62,19 @@ const StudentApp = () => {
                                   <DesafioClasificacionGameProvider mode="student">
                                     <PreguntadosProvider>
                                       <PreguntadosGameProvider mode="student">
-                                        <motion.div
-                                          key="dashboardStudent"
-                                          initial={{ opacity: 0 }}
-                                          animate={{ opacity: 1 }}
-                                          exit={{ opacity: 0 }}
-                                          transition={{ duration: 0.3 }}
-                                        >
-                                          <StudentDashboard />
-                                        </motion.div>
+                                        <NoLudicaProvider>
+                                          <NoLudicaGameProvider mode="student">
+                                            <motion.div
+                                              key="dashboardStudent"
+                                              initial={{ opacity: 0 }}
+                                              animate={{ opacity: 1 }}
+                                              exit={{ opacity: 0 }}
+                                              transition={{ duration: 0.3 }}
+                                            >
+                                              <StudentDashboard />
+                                            </motion.div>
+                                          </NoLudicaGameProvider>
+                                        </NoLudicaProvider>
                                       </PreguntadosGameProvider>
                                     </PreguntadosProvider>
                                   </DesafioClasificacionGameProvider>

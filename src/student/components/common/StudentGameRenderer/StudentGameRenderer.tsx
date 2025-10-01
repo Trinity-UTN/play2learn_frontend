@@ -4,6 +4,7 @@ import { GameType } from "../../../../shared/types/Games.type";
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
 import DesafioClasificacionGame from "../../../../shared/components/Games/DesafioClasificacion/DesafioClasificacionGame";
 import PreguntadosGame from "../../../../shared/components/Games/Preguntados/PreguntadosGame";
+import NoLudicaGame from "../../../../shared/components/Games/NoLudica/NoLudicaGame";
 import styles from "./StudentGameRenderer.module.css";
 
 interface GameRendererProps {
@@ -47,6 +48,8 @@ const StudentGameRenderer: React.FC<GameRendererProps> = ({
         return <DesafioClasificacionGame />;
       case GameType.PREGUNTADOS:
         return <PreguntadosGame mode="student" />;
+      case GameType.NO_LUDICA:
+        return <NoLudicaGame mode="student" />;
 
       default:
         return (
