@@ -10,7 +10,6 @@
   gap: 24px;
 }
 
-/* Resultado Principal */
 .mainResult {
   display: flex;
   align-items: center;
@@ -133,7 +132,6 @@
   line-height: 1;
 }
 
-/* Sección de Resumen */
 .summarySection {
   background: white;
   border-radius: 12px;
@@ -213,7 +211,6 @@
   font-weight: 500;
 }
 
-/* Grid de Estadísticas */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -283,7 +280,6 @@
   color: #dc2626;
 }
 
-/* Secciones de Respuestas */
 .correctSection,
 .incorrectSection {
   background: white;
@@ -430,7 +426,6 @@
   display: inline-block;
 }
 
-/* Sección de Oraciones */
 .sentencesSection {
   background: white;
   border-radius: 12px;
@@ -485,7 +480,6 @@
   line-height: 1.6;
 }
 
-/* Sección de Consejos */
 .tipsSection {
   background: linear-gradient(135deg, #fef3c7, #fde68a);
   border-radius: 12px;
@@ -529,7 +523,7 @@
   flex-shrink: 0;
 }
 
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
   .detailsContainer {
     padding: 16px;

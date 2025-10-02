@@ -11,99 +11,22 @@ import { IoTimeOutline } from "react-icons/io5";
 import { GiBookshelf, GiBrain } from "react-icons/gi";
 import { HiOutlineFire } from "react-icons/hi";
 import { PiSmileySad } from "react-icons/pi";
-import { getPerformanceLevel } from "../../../utils/performance";
-import { useCompletarOracionGame } from "../../../../shared/hooks/games/useCompletarOracionGame";
+import { useCompletarOracionDetails } from "../../../hooks/details/useCompletarOracionDetails";
 import styles from "./DetailsCompletarOracionGame.module.css";
 
 const DetailsCompletarOracionGame = () => {
   const {
-    gameConfig,
-    userAnswers,
+    accuracy,
+    score,
+    performance,
     isGameWon,
     correctAnswers,
     totalMissingWords,
-    completedWords,
-  } = useCompletarOracionGame();
-
-  const getAccuracyPercentage = () => {
-    if (totalMissingWords === 0) return 0;
-    const percentage = (correctAnswers / totalMissingWords) * 100;
-    return isNaN(percentage) ? 0 : Math.round(percentage);
-  };
-
-  const getScore = () => {
-    const accuracy = getAccuracyPercentage();
-    return isNaN(accuracy) ? 0 : accuracy;
-  };
-
-  const getCorrectAnswersList = () => {
-    if (!gameConfig?.sentences) return [];
-    const correct: Array<{
-      sentence: string;
-      word: string;
-      position: number;
-    }> = [];
-
-    gameConfig.sentences.forEach((sentence, sentenceIndex) => {
-      sentence.words.forEach((word, wordIndex) => {
-        if (word.isMissing) {
-          const key = `${sentenceIndex}-${wordIndex}`;
-          const userAnswer = userAnswers[key];
-          if (
-            userAnswer &&
-            userAnswer.toLowerCase().trim() === word.word.toLowerCase().trim()
-          ) {
-            correct.push({
-              sentence: sentence.words.map((w) => w.word).join(" "),
-              word: word.word,
-              position: sentenceIndex + 1,
-            });
-          }
-        }
-      });
-    });
-
-    return correct;
-  };
-
-  const getIncorrectAnswersList = () => {
-    if (!gameConfig?.sentences) return [];
-    const incorrect: Array<{
-      sentence: string;
-      userAnswer: string;
-      correctAnswer: string;
-      position: number;
-    }> = [];
-
-    gameConfig.sentences.forEach((sentence, sentenceIndex) => {
-      sentence.words.forEach((word, wordIndex) => {
-        if (word.isMissing) {
-          const key = `${sentenceIndex}-${wordIndex}`;
-          const userAnswer = userAnswers[key];
-          if (
-            userAnswer &&
-            userAnswer.toLowerCase().trim() !== word.word.toLowerCase().trim()
-          ) {
-            incorrect.push({
-              sentence: sentence.words.map((w) => w.word).join(" "),
-              userAnswer: userAnswer,
-              correctAnswer: word.word,
-              position: sentenceIndex + 1,
-            });
-          }
-        }
-      });
-    });
-
-    return incorrect;
-  };
-
-  const accuracy = getAccuracyPercentage();
-  const performance = getPerformanceLevel(accuracy);
-  const score = getScore();
-  const correctList = getCorrectAnswersList();
-  const incorrectList = getIncorrectAnswersList();
-  const unanswered = totalMissingWords - completedWords;
+    unanswered,
+    correctList,
+    incorrectList,
+    gameConfig,
+  } = useCompletarOracionDetails();
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, x: -20 },
