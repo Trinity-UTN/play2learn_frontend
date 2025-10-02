@@ -9,9 +9,7 @@ export interface Sentence {
 }
 
 export interface CompletarOracionConfig {
-  totalSentences: number;
-  minWordsPerSentence: number;
-  maxWordsPerSentence: number;
+  sentences: Sentence[];
 }
 
 export interface CompletarOracionInterface {

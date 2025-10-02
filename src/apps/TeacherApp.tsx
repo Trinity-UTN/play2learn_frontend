@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import styles from "../App.module.css";
 import ProtectedRoute from "../shared/utils/ProtectedRoute";
 //PAGES
 import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
@@ -13,10 +12,11 @@ import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoP
 import { AhorcadoGameProvider } from "../shared/contexts/gamesContext/ahorcadoGameContext/AhorcadoGameProvider";
 import { OrdenarSecuenciaProvider } from "../activity/contexts/ordenarSecuenciaContext/OrdenarSecuenciaProvider";
 import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
-import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
-import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
+import { CompletarOracionGameProvider } from "../shared/contexts/gamesContext/completarOracionGameContext/CompletarOracionGameProvider";
 import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
 import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificacionGameContext/DesafioClasificacionGameProvider";
+import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
+import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
 import { MemoramaProvider } from "../activity/contexts/memoramaContext/MemoramaProvider";
 import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
 import { BenefitAPIProvider } from "../teacher/contexts/benefitsAPIContext/BenefitAPIProvider";
@@ -30,6 +30,7 @@ import BenefitCreateView from "../teacher/views/benefitsView/benefitCreateView/B
 import OverviewView from "../teacher/views/overviewView/Overview";
 import ConfigureActivityView from "../activity/views/configurationView/ConfigureActivityView";
 import ActivityView from "../activity/views/activityView/ActivityView";
+import styles from "../App.module.css";
 
 const TeacherApp = () => {
   return (
@@ -54,39 +55,41 @@ const TeacherApp = () => {
                         <AhorcadoProvider>
                           <AhorcadoGameProvider>
                             <CompletarOracionProvider>
-                              <PreguntadosProvider>
-                                <PreguntadosGameProvider>
-                                  <OrdenarSecuenciaProvider>
-                                    <DesafioClasificacionProvider>
-                                      <DesafioClasificacionGameProvider>
-                                        <MemoramaProvider>
-                                          <NoLudicaProvider>
-                                            <ArbolDecisionProvider>
-                                              <BenefitAPIProvider>
-                                                <BenefitUIProvider>
-                                                  <StatisticsProvider>
-                                                    <motion.div
-                                                      key="dashboardTeacher"
-                                                      initial={{ opacity: 0 }}
-                                                      animate={{ opacity: 1 }}
-                                                      exit={{ opacity: 0 }}
-                                                      transition={{
-                                                        duration: 0.3,
-                                                      }}
-                                                    >
-                                                      <TeacherDashboardPage />
-                                                    </motion.div>
-                                                  </StatisticsProvider>
-                                                </BenefitUIProvider>
-                                              </BenefitAPIProvider>
-                                            </ArbolDecisionProvider>
-                                          </NoLudicaProvider>
-                                        </MemoramaProvider>
-                                      </DesafioClasificacionGameProvider>
-                                    </DesafioClasificacionProvider>
-                                  </OrdenarSecuenciaProvider>
-                                </PreguntadosGameProvider>
-                              </PreguntadosProvider>
+                              <CompletarOracionGameProvider>
+                                <PreguntadosProvider>
+                                  <PreguntadosGameProvider>
+                                    <OrdenarSecuenciaProvider>
+                                      <DesafioClasificacionProvider>
+                                        <DesafioClasificacionGameProvider>
+                                          <MemoramaProvider>
+                                            <NoLudicaProvider>
+                                              <ArbolDecisionProvider>
+                                                <BenefitAPIProvider>
+                                                  <BenefitUIProvider>
+                                                    <StatisticsProvider>
+                                                      <motion.div
+                                                        key="dashboardTeacher"
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        exit={{ opacity: 0 }}
+                                                        transition={{
+                                                          duration: 0.3,
+                                                        }}
+                                                      >
+                                                        <TeacherDashboardPage />
+                                                      </motion.div>
+                                                    </StatisticsProvider>
+                                                  </BenefitUIProvider>
+                                                </BenefitAPIProvider>
+                                              </ArbolDecisionProvider>
+                                            </NoLudicaProvider>
+                                          </MemoramaProvider>
+                                        </DesafioClasificacionGameProvider>
+                                      </DesafioClasificacionProvider>
+                                    </OrdenarSecuenciaProvider>
+                                  </PreguntadosGameProvider>
+                                </PreguntadosProvider>
+                              </CompletarOracionGameProvider>
                             </CompletarOracionProvider>
                           </AhorcadoGameProvider>
                         </AhorcadoProvider>
