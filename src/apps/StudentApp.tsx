@@ -14,6 +14,9 @@ import { ActivityStudentProviderUI } from "../student/context/activityStudentCon
 import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
 import { AhorcadoGameProvider } from "../shared/contexts/gamesContext/ahorcadoGameContext/AhorcadoGameProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
+import { CompletarOracionProvider } from "../activity/contexts/completarOracionContext/CompletarOracionProvider";
+import { CompletarOracionGameProvider } from "../shared/contexts/gamesContext/completarOracionGameContext/CompletarOracionGameProvider";
+import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
 import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificacionGameContext/DesafioClasificacionGameProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
@@ -30,7 +33,6 @@ import StudentRankingView from "../student/views/studentRankingView/StudentRanki
 import StudentStoreView from "../student/views/studentStoreView/StudentStoreView";
 import StudentWalletView from "../student/views/studentWalletView/StudentWalletView";
 import StudentFinancialEducationView from "../student/views/studentFinancialEducationView/StudentFinancialEducationView";
-import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
 
 const StudentApp = () => {
   return (
@@ -56,23 +58,27 @@ const StudentApp = () => {
                           <ConfigurationActivityProvider>
                             <AhorcadoProvider>
                               <AhorcadoGameProvider mode="student">
-                                <DesafioClasificacionProvider>
-                                  <DesafioClasificacionGameProvider mode="student">
-                                    <PreguntadosProvider>
-                                      <PreguntadosGameProvider mode="student">
-                                        <motion.div
-                                          key="dashboardStudent"
-                                          initial={{ opacity: 0 }}
-                                          animate={{ opacity: 1 }}
-                                          exit={{ opacity: 0 }}
-                                          transition={{ duration: 0.3 }}
-                                        >
-                                          <StudentDashboard />
-                                        </motion.div>
-                                      </PreguntadosGameProvider>
-                                    </PreguntadosProvider>
-                                  </DesafioClasificacionGameProvider>
-                                </DesafioClasificacionProvider>
+                                <CompletarOracionProvider>
+                                  <CompletarOracionGameProvider mode="student">
+                                    <DesafioClasificacionProvider>
+                                      <DesafioClasificacionGameProvider mode="student">
+                                        <PreguntadosProvider>
+                                          <PreguntadosGameProvider mode="student">
+                                            <motion.div
+                                              key="dashboardStudent"
+                                              initial={{ opacity: 0 }}
+                                              animate={{ opacity: 1 }}
+                                              exit={{ opacity: 0 }}
+                                              transition={{ duration: 0.3 }}
+                                            >
+                                              <StudentDashboard />
+                                            </motion.div>
+                                          </PreguntadosGameProvider>
+                                        </PreguntadosProvider>
+                                      </DesafioClasificacionGameProvider>
+                                    </DesafioClasificacionProvider>
+                                  </CompletarOracionGameProvider>
+                                </CompletarOracionProvider>
                               </AhorcadoGameProvider>
                             </AhorcadoProvider>
                           </ConfigurationActivityProvider>
