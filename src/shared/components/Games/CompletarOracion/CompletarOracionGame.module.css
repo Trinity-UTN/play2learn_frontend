@@ -321,12 +321,33 @@
   text-align: center;
 }
 
+.statIcon {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.statItem:nth-child(1) .statIcon {
+  color: #3b82f6;
+}
+
+.statItem:nth-child(2) .statIcon {
+  color: #10b981;
+}
+
+.statItem:nth-child(3) .statIcon {
+  color: #ef4444;
+}
+
 .statLabel {
   font-size: 0.75rem;
   color: #6b7280;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .statValue {

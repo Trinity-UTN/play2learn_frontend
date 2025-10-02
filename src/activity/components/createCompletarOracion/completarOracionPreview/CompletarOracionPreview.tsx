@@ -43,7 +43,7 @@ const CompletarOracionPreview: React.FC<CompletarOracionPreviewProps> = ({
         </div>
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <FaEdit className={styles.statIcon} />
+            <FaEdit className={styles.statIcon} style={{ color: "#3b82f6" }} />
             <div>
               <span className={styles.statLabel}>
                 Oración{sentences.length !== 1 ? "es" : ""}
@@ -52,7 +52,10 @@ const CompletarOracionPreview: React.FC<CompletarOracionPreviewProps> = ({
             </div>
           </div>
           <div className={styles.stat}>
-            <FaBullseye className={styles.statIcon} />
+            <FaBullseye
+              className={styles.statIcon}
+              style={{ color: "#ef4444" }}
+            />
             <div>
               <span className={styles.statLabel}>
                 Palabra{getTotalMissingWords() !== 1 ? "s" : ""} a completar

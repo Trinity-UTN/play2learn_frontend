@@ -1,5 +1,13 @@
 import { motion } from "framer-motion";
-import { FaBookOpen, FaCheckCircle, FaUndo, FaEye } from "react-icons/fa";
+import {
+  FaBookOpen,
+  FaCheckCircle,
+  FaUndo,
+  FaEye,
+  FaClipboardList,
+  FaCheck,
+  FaWindowClose,
+} from "react-icons/fa";
 import Button from "../../Button/ButtonComponent";
 import { useCompletarOracionGame } from "../../../hooks/games/useCompletarOracionGame";
 import styles from "./CompletarOracionGame.module.css";
@@ -178,17 +186,25 @@ const CompletarOracionGame: React.FC<CompletarOracionGameProps> = ({
                 <div className={styles.resultsContent}>
                   <div className={styles.statsSummary}>
                     <div className={styles.statItem}>
-                      <span className={styles.statLabel}>Completadas:</span>
+                      <span className={styles.statLabel}>
+                        <FaClipboardList className={styles.statIcon} />{" "}
+                        Completadas:
+                      </span>
                       <span className={styles.statValue}>
                         {completedWords} / {totalMissingWords}
                       </span>
                     </div>
                     <div className={styles.statItem}>
-                      <span className={styles.statLabel}>✅ Correctas:</span>
+                      <span className={styles.statLabel}>
+                        <FaCheck className={styles.statIcon} /> Correctas:
+                      </span>
                       <span className={styles.statValue}>{correctAnswers}</span>
                     </div>
                     <div className={styles.statItem}>
-                      <span className={styles.statLabel}>❌ Incorrectas:</span>
+                      <span className={styles.statLabel}>
+                        <FaWindowClose className={styles.statIcon} />{" "}
+                        Incorrectas:
+                      </span>
                       <span className={styles.statValue}>
                         {completedWords - correctAnswers}
                       </span>
