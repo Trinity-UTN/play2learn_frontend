@@ -7,20 +7,13 @@ export interface CompletarOracionGameContextType extends GameHook {
   userAnswers: { [key: string]: string };
   showAnswers: boolean;
   completeSentences: string[];
-  gameStarted: boolean;
 
   // Estados calculados
   totalMissingWords: number;
   completedWords: number;
   correctAnswers: number;
-  isGameWon: boolean;
-  isGameLost: boolean;
 
-  // Funciones del juego (GameHook)
-  resetGame: () => void;
-  startGame: () => void;
-
-  // Funciones específicas
+  // Funciones del juego
   handleInputChange: (
     sentenceIndex: number,
     wordIndex: number,

@@ -128,7 +128,7 @@ const CompletarOracionGame: React.FC<CompletarOracionGameProps> = ({
                 </h6>
               </div>
               <div className={styles.completeSentencesList}>
-                {gameConfig.sentences.map((sentence, sentenceIndex) => (
+                {gameConfig.sentences.map((_sentence, sentenceIndex) => (
                   <div
                     key={sentenceIndex}
                     className={styles.completeSentenceItem}

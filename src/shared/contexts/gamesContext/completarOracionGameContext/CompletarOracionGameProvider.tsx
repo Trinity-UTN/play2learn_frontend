@@ -94,8 +94,6 @@ export const CompletarOracionGameProvider: React.FC<
   const totalMissingWords = getTotalMissingWords();
   const completedWords = getCompletedWords();
   const correctAnswers = getCorrectAnswersCount();
-
-  // Implementación de GameHook
   const isGameWon =
     totalMissingWords > 0 && correctAnswers === totalMissingWords;
   const isGameLost = false; // Este juego no tiene condición de pérdida
@@ -162,16 +160,12 @@ export const CompletarOracionGameProvider: React.FC<
     totalMissingWords,
     completedWords,
     correctAnswers,
-
-    // Implementación de GameHook
     isGameWon,
     isGameLost,
 
-    // Funciones del juego (GameHook)
+    // Funciones del juego
     resetGame,
     startGame,
-
-    // Funciones específicas
     handleInputChange,
     toggleAnswers,
     checkAnswer,

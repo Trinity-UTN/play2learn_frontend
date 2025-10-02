@@ -384,6 +384,7 @@
   box-shadow: 0 2px 4px rgba(59, 130, 246, 0.15);
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .gameCard {
     padding: 1.5rem;
