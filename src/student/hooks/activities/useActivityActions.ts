@@ -8,6 +8,7 @@ export const useActivityActions = () => {
   const {
     currentActivity,
     getActivityById,
+    registerActivityStarted,
     registerActivityCompleted,
     refreshActivityDataAfterCompletion,
   } = useActivityStudent();
@@ -33,6 +34,7 @@ export const useActivityActions = () => {
         message: "Esta accion no se puede revertir",
         onConfirm: () => {
           if (activityId) {
+            registerActivityStarted(Number(activityId));
             navigate(`/dashboard/student/actividades/${activityId}/play`);
           }
         },

@@ -130,6 +130,23 @@ export const ActivityStudentProvider = ({
     }
   }, []);
 
+  const registerActivityStarted = useCallback(
+    async (id: number): Promise<void> => {
+      setLoading(true);
+      try {
+        // const response =
+        //   await ActivityStudentService.registerActivityStartedApi(id);
+        // console.log(response);
+        await ActivityStudentService.registerActivityStartedApi(id);
+      } catch (error) {
+        handleApiError(error, "Error al iniciar la actividad");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   const registerActivityCompleted = useCallback(
     async (payload: ActivityCompletedInterface): Promise<void> => {
       setLoading(true);
@@ -170,6 +187,7 @@ export const ActivityStudentProvider = ({
     getActivityById,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
+    registerActivityStarted,
     registerActivityCompleted,
     refreshActivityDataAfterCompletion,
   };

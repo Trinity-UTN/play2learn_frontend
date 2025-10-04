@@ -68,6 +68,15 @@ const getPaginatedActivityNotApprovedApi = async (
   return response.data;
 };
 
+const registerActivityStartedApi = async (
+  id: number
+): Promise<{ data: ActivityCompletedResponseInterface }> => {
+  const response = await api.post(urls.ActivityStarted, null, {
+    params: { activityId: id },
+  });
+  return response.data;
+};
+
 const registerActivityCompletedApi = async (
   payload: ActivityCompletedInterface
 ): Promise<{ data: ActivityCompletedResponseInterface }> => {
@@ -82,6 +91,6 @@ export const ActivityStudentService = {
   getActivityByIdApi,
   getPaginatedActivityApprovedApi,
   getPaginatedActivityNotApprovedApi,
-
+  registerActivityStartedApi,
   registerActivityCompletedApi,
 };
