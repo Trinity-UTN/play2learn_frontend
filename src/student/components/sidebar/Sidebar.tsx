@@ -69,7 +69,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       icon: FaGift,
       path: StudentRoutes.Benefit.list,
       color: "#F59E0B",
-      badge: isLoading ? "..." : 5,
+      badge: isLoading ? "..." : 0,
     },
     {
       title: "Tienda",
@@ -204,7 +204,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
                       <div className={styles.menuItemLeft}>
                         <span>{item.title}</span>
                       </div>
-                      {item.badge && (
+                      {item.badge != null && item.badge !== "" && (
                         <div className={styles.badge}>{item.badge}</div>
                       )}
                     </div>
