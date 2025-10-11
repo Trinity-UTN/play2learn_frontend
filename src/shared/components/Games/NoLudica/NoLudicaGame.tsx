@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { FaEye, FaFileAlt, FaLink, FaEdit, FaUpload } from "react-icons/fa";
 import { useCreateNoLudica } from "../../../../activity/hooks/useCreateNoLudica";
 import { useNoLudicaGame } from "../../../hooks/games/useNoLudicaGame";
+import MDEditor from "@uiw/react-md-editor";
 import styles from "./NoLudicaGame.module.css";
 
 interface NoLudicaGameProps {
@@ -152,17 +153,17 @@ const NoLudicaGame = ({ mode }: NoLudicaGameProps) => {
           </div>
           <div className={styles.responseInput}>
             <label className={styles.inputLabel}>Tu respuesta:</label>
-            <textarea
-              value={studentResponse}
-              onChange={(e) => setStudentResponse(e.target.value)}
+            <MDEditor
               className={styles.textArea}
-              placeholder={
-                selectedOption?.placeholder || "Escribe tu respuesta aquí..."
-              }
-              rows={6}
+              value={studentResponse} // tu estado actual
+              onChange={(val) => {
+                if (!val) return setStudentResponse("");
+                if (val.length <= 200) setStudentResponse(val);
+              }} // actualizar el estado
+              height={350}
             />
             <div className={styles.charCount}>
-              {studentResponse.length} caracteres
+              {studentResponse.length}/200 caracteres
             </div>
           </div>
           {renderResponseInput()}

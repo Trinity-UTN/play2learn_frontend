@@ -11,6 +11,7 @@
     "test": "vitest --ui"
   },
   "dependencies": {
+    "@uiw/react-md-editor": "^4.0.8",
     "axios": "^1.10.0",
     "framer-motion": "^12.18.1",
     "jsdom": "^26.1.0",
