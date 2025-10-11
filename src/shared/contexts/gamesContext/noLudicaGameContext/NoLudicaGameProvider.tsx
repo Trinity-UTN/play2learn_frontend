@@ -6,6 +6,7 @@ import { useActivityStudent } from "../../../../student/hooks/useActivityStudent
 import { useCreateNoLudica } from "../../../../activity/hooks/useCreateNoLudica";
 import { getGameTypeFromActivityName } from "../../../registry/games/gameMapping";
 import { GameType } from "../../../types/Games.type";
+import { compressPDF } from "../../../utils/compressPDF";
 interface NoLudicaGameProviderProps {
   children: ReactNode;
   config?: NoLudicaConfig;
@@ -17,13 +18,15 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
   mode = "preview",
 }) => {
   const { config } = useCreateNoLudica();
-  const { currentActivity } = useActivityStudent();
+  const { currentActivity, registerActivityNoLudicaCompleted } =
+    useActivityStudent();
   const [gameStarted, setGameStarted] = useState(false);
-  const [isGameWon, setIsGameWon] = useState(false);
-  const [isGameLost, setIsGameLost] = useState(true);
-  const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
-    "playing"
-  );
+  const [studentResponse, setStudentResponse] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  // const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
+  //   "playing"
+  // );
+
   const [gameConfig, setGameConfig] = useState<NoLudicaConfig | null>(null);
 
   useEffect(() => {
@@ -55,15 +58,41 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
   const resetGame = () => {
     setGameStarted(false);
   };
+  const buildFormData = async (): Promise<FormData> => {
+    const formData = new FormData();
+    if (currentActivity)
+      formData.append("activityId", String(currentActivity?.id));
+
+    formData.append("plainText", studentResponse);
+
+    if (selectedFile) {
+      const pdfCompress = await compressPDF(selectedFile);
+      formData.append("file", pdfCompress);
+    } else {
+      formData.append("file", new Blob([])); // vacío pero presente
+    }
+    return formData;
+  };
+
+  const handleFinishNoLudica = async () => {
+    const formData = await buildFormData();
+
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+    registerActivityNoLudicaCompleted(formData);
+  };
   const value: NoLudicaGameContextType = {
-    isGameLost,
-    isGameWon,
     resetGame,
     startGame,
     gameConfig,
     gameStarted,
+    handleFinishNoLudica,
+    selectedFile,
+    setSelectedFile,
+    setStudentResponse,
+    studentResponse,
   };
-
   return (
     <NoLudicaGameContext.Provider value={value}>
       {children}

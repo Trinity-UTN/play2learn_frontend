@@ -56,14 +56,14 @@ const StudentApp = () => {
                       <ActivityStudentProvider>
                         <ActivityStudentProviderUI>
                           <ConfigurationActivityProvider>
-                            <AhorcadoProvider>
-                              <AhorcadoGameProvider mode="student">
-                                <DesafioClasificacionProvider>
-                                  <DesafioClasificacionGameProvider mode="student">
-                                    <PreguntadosProvider>
-                                      <PreguntadosGameProvider mode="student">
-                                        <NoLudicaProvider>
-                                          <NoLudicaGameProvider mode="student">
+                            <NoLudicaProvider>
+                              <NoLudicaGameProvider mode="student">
+                                <AhorcadoProvider>
+                                  <AhorcadoGameProvider mode="student">
+                                    <DesafioClasificacionProvider>
+                                      <DesafioClasificacionGameProvider mode="student">
+                                        <PreguntadosProvider>
+                                          <PreguntadosGameProvider mode="student">
                                             <motion.div
                                               key="dashboardStudent"
                                               initial={{ opacity: 0 }}
@@ -73,14 +73,14 @@ const StudentApp = () => {
                                             >
                                               <StudentDashboard />
                                             </motion.div>
-                                          </NoLudicaGameProvider>
-                                        </NoLudicaProvider>
-                                      </PreguntadosGameProvider>
-                                    </PreguntadosProvider>
-                                  </DesafioClasificacionGameProvider>
-                                </DesafioClasificacionProvider>
-                              </AhorcadoGameProvider>
-                            </AhorcadoProvider>
+                                          </PreguntadosGameProvider>
+                                        </PreguntadosProvider>
+                                      </DesafioClasificacionGameProvider>
+                                    </DesafioClasificacionProvider>
+                                  </AhorcadoGameProvider>
+                                </AhorcadoProvider>
+                              </NoLudicaGameProvider>
+                            </NoLudicaProvider>
                           </ConfigurationActivityProvider>
                         </ActivityStudentProviderUI>
                       </ActivityStudentProvider>

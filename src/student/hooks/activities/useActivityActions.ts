@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useActivityStudent } from "../../../student/hooks/useActivityStudentAPI";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useCurrentActivityPersistence } from "./useCurrentActivityPersistence";
-
 export const useActivityActions = () => {
   const {
     currentActivity,
@@ -49,10 +48,12 @@ export const useActivityActions = () => {
         title: "¿Esta seguro que desea finalizar su intento?",
         message: "Esta accion no se puede revertir",
         onConfirm: async () => {
-          await registerActivityCompleted({
-            activityId: currentActivity.id,
-            state: isApproved ? "APPROVED" : "DISAPPROVED",
-          });
+          if (currentActivity.name !== "No Ludica") {
+            await registerActivityCompleted({
+              activityId: currentActivity.id,
+              state: isApproved ? "APPROVED" : "DISAPPROVED",
+            });
+          }
 
           await refreshActivityDataAfterCompletion();
 
@@ -72,6 +73,36 @@ export const useActivityActions = () => {
       clearPersistedActivity,
     ]
   );
+  // const finishActivityNoLudica = useCallback(
+  //   async ( onAfterFinish?: () => void) => {
+  //     if (!currentActivity) return;
+
+  //     showConfirmation({
+  //       title: "¿Esta seguro que desea finalizar su intento?",
+  //       message: "Esta accion no se puede revertir",
+  //       onConfirm: async () => {
+  //         if (currentActivity.name === "No Ludica") {
+  //           console.log("yeah bro")
+  //         }
+
+  //         // await refreshActivityDataAfterCompletion();
+
+  //         // clearPersistedActivity();
+
+  //         // if (onAfterFinish) onAfterFinish();
+
+  //         // navigate(`/dashboard/student/actividades/${id}/review`);
+  //       },
+  //     });
+  //   },
+  //   [
+  //     id,
+  //     currentActivity,
+  //     registerActivityCompleted,
+  //     refreshActivityDataAfterCompletion,
+  //     clearPersistedActivity,
+  //   ]
+  // );
 
   return { viewActivity, startActivity, finishActivity };
 };

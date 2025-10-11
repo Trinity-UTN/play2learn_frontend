@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import {
-  FaEye,
-  FaFileAlt,
-  FaLink,
-  FaEdit,
-  FaUpload,
-  FaCheck,
-} from "react-icons/fa";
-import Button from "../../Button/ButtonComponent";
+import { FaEye, FaFileAlt, FaLink, FaEdit, FaUpload } from "react-icons/fa";
 import { useCreateNoLudica } from "../../../../activity/hooks/useCreateNoLudica";
 import { useNoLudicaGame } from "../../../hooks/games/useNoLudicaGame";
 import styles from "./NoLudicaGame.module.css";
@@ -18,12 +10,17 @@ interface NoLudicaGameProps {
 }
 const NoLudicaGame = ({ mode }: NoLudicaGameProps) => {
   const { config, getTipoEntregaOptions } = useCreateNoLudica();
-  const { gameConfig, startGame, gameStarted } = useNoLudicaGame();
-  const [studentResponse, setStudentResponse] = useState("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [linkUrl, setLinkUrl] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const {
+    gameConfig,
+    startGame,
+    gameStarted,
+    studentResponse,
+    setStudentResponse,
+    selectedFile,
+    setSelectedFile,
+  } = useNoLudicaGame();
 
+  const [linkUrl, setLinkUrl] = useState("");
   const tipoEntregaOptions = getTipoEntregaOptions();
   const selectedOption = tipoEntregaOptions.find(
     (opt) => opt.value === config.tipoEntrega
@@ -45,15 +42,6 @@ const NoLudicaGame = ({ mode }: NoLudicaGameProps) => {
     }
   };
 
-  const handleSubmitResponse = () => {
-    setIsSubmitted(true);
-    // Simular envío de respuesta
-    setTimeout(() => {
-      setIsSubmitted(false);
-      alert("Respuesta enviada correctamente (simulación)");
-    }, 2000);
-  };
-
   const getResponseIcon = () => {
     switch (config.tipoEntrega) {
       case "ENTREGA":
@@ -67,39 +55,10 @@ const NoLudicaGame = ({ mode }: NoLudicaGameProps) => {
     }
   };
 
-  const isResponseValid = () => {
-    switch (config.tipoEntrega) {
-      case "TEXTO":
-        return studentResponse.trim().length > 0;
-      case "ENTREGA":
-        return selectedFile !== null;
-      case "ENLACE":
-        return linkUrl.trim().length > 0 && linkUrl.includes("http");
-      default:
-        return false;
-    }
-  };
-
   const renderResponseInput = () => {
     switch (config.tipoEntrega) {
       case "TEXTO":
-        return (
-          <div className={styles.responseInput}>
-            <label className={styles.inputLabel}>Tu respuesta:</label>
-            <textarea
-              value={studentResponse}
-              onChange={(e) => setStudentResponse(e.target.value)}
-              className={styles.textArea}
-              placeholder={
-                selectedOption?.placeholder || "Escribe tu respuesta aquí..."
-              }
-              rows={6}
-            />
-            <div className={styles.charCount}>
-              {studentResponse.length} caracteres
-            </div>
-          </div>
-        );
+        return <div></div>;
 
       case "ENTREGA":
         return (
@@ -191,29 +150,22 @@ const NoLudicaGame = ({ mode }: NoLudicaGameProps) => {
               </span>
             </div>
           </div>
-
-          {renderResponseInput()}
-
-          <div className={styles.submitSection}>
-            <Button
-              variant="primary"
-              onClick={handleSubmitResponse}
-              disabled={!isResponseValid() || isSubmitted}
-              className={styles.submitButton}
-            >
-              {isSubmitted ? (
-                <>
-                  <FaCheck />
-                  Enviando...
-                </>
-              ) : (
-                <>
-                  <FaUpload />
-                  Entregar Actividad
-                </>
-              )}
-            </Button>
+          <div className={styles.responseInput}>
+            <label className={styles.inputLabel}>Tu respuesta:</label>
+            <textarea
+              value={studentResponse}
+              onChange={(e) => setStudentResponse(e.target.value)}
+              className={styles.textArea}
+              placeholder={
+                selectedOption?.placeholder || "Escribe tu respuesta aquí..."
+              }
+              rows={6}
+            />
+            <div className={styles.charCount}>
+              {studentResponse.length} caracteres
+            </div>
           </div>
+          {renderResponseInput()}
         </div>
       </div>
     </motion.div>

@@ -11,6 +11,7 @@ import type {
 } from "../../types/Activity.type";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import qs from "qs";
+import apiFormData from "../../../shared/utils/apiFormData";
 
 const getActivityNotApprovedApi = async () => {
   const response = await api.get(urls.ActivityNotApproved);
@@ -76,6 +77,11 @@ const registerActivityCompletedApi = async (
   return response.data;
 };
 
+const registerActivityNoLudicaCompleteApi = async (data: FormData) => {
+  const response = await apiFormData.post(urls.ActivityNoLudicaComplete, data);
+  return response.data;
+};
+
 export const ActivityStudentService = {
   getActivityNotApprovedApi,
   getActivityApprovedApi,
@@ -84,4 +90,5 @@ export const ActivityStudentService = {
   getPaginatedActivityNotApprovedApi,
 
   registerActivityCompletedApi,
+  registerActivityNoLudicaCompleteApi,
 };
