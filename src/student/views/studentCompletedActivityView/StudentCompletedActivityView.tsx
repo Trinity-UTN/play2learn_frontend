@@ -108,11 +108,13 @@ const StudentCompletedActivityView = () => {
         animate="visible"
       >
         <motion.div variants={itemVariants}>
-          <ResultHeader
-            passed={passed}
-            activityTitle={currentActivity?.name}
-            subjectName={currentActivity?.subject.name}
-          />
+          {currentActivity.name !== "No Ludica" && (
+            <ResultHeader
+              passed={passed}
+              activityTitle={currentActivity?.name}
+              subjectName={currentActivity?.subject.name}
+            />
+          )}
         </motion.div>
 
         {passed && (

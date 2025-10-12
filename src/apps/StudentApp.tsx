@@ -17,6 +17,9 @@ import { ConfigurationActivityProvider } from "../activity/contexts/configuratio
 import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificacionGameContext/DesafioClasificacionGameProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
+import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
+import { NoLudicaGameProvider } from "../shared/contexts/gamesContext/noLudicaGameContext/NoLudicaGameProvider";
+import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
@@ -30,9 +33,6 @@ import StudentRankingView from "../student/views/studentRankingView/StudentRanki
 import StudentStoreView from "../student/views/studentStoreView/StudentStoreView";
 import StudentWalletView from "../student/views/studentWalletView/StudentWalletView";
 import StudentFinancialEducationView from "../student/views/studentFinancialEducationView/StudentFinancialEducationView";
-import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
-import { NoLudicaGameProvider } from "../shared/contexts/gamesContext/noLudicaGameContext/NoLudicaGameProvider";
-import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
 
 const StudentApp = () => {
   return (

@@ -5,6 +5,7 @@ const ACTIVITY_NAME_TO_GAME_TYPE: Record<string, GameType> = {
   "ahorcado educativo": GameType.AHORCADO,
   hangman: GameType.AHORCADO,
   "desafio de clasificacion": GameType.CLASIFICACION,
+  "no ludica": GameType.NO_LUDICA,
 };
 
 export const getGameTypeFromActivityName = (
