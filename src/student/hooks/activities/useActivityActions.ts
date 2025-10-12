@@ -73,36 +73,6 @@ export const useActivityActions = () => {
       clearPersistedActivity,
     ]
   );
-  // const finishActivityNoLudica = useCallback(
-  //   async ( onAfterFinish?: () => void) => {
-  //     if (!currentActivity) return;
-
-  //     showConfirmation({
-  //       title: "¿Esta seguro que desea finalizar su intento?",
-  //       message: "Esta accion no se puede revertir",
-  //       onConfirm: async () => {
-  //         if (currentActivity.name === "No Ludica") {
-  //           console.log("yeah bro")
-  //         }
-
-  //         // await refreshActivityDataAfterCompletion();
-
-  //         // clearPersistedActivity();
-
-  //         // if (onAfterFinish) onAfterFinish();
-
-  //         // navigate(`/dashboard/student/actividades/${id}/review`);
-  //       },
-  //     });
-  //   },
-  //   [
-  //     id,
-  //     currentActivity,
-  //     registerActivityCompleted,
-  //     refreshActivityDataAfterCompletion,
-  //     clearPersistedActivity,
-  //   ]
-  // );
 
   return { viewActivity, startActivity, finishActivity };
 };

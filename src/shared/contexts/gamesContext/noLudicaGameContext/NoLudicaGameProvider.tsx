@@ -76,10 +76,6 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
 
   const handleFinishNoLudica = async () => {
     const formData = await buildFormData();
-
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
     registerActivityNoLudicaCompleted(formData);
   };
   const value: NoLudicaGameContextType = {
