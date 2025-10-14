@@ -2,6 +2,7 @@ import type { CurrentActivityInterface } from "../../../types/Activity.type";
 import AhorcadoGame from "../../../../shared/components/Games/Ahorcado/AhorcadoGame";
 import { GameType } from "../../../../shared/types/Games.type";
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
+import CompletarOracionGame from "../../../../shared/components/Games/CompletarOracion/CompletarOracionGame";
 import DesafioClasificacionGame from "../../../../shared/components/Games/DesafioClasificacion/DesafioClasificacionGame";
 import PreguntadosGame from "../../../../shared/components/Games/Preguntados/PreguntadosGame";
 import NoLudicaGame from "../../../../shared/components/Games/NoLudica/NoLudicaGame";
@@ -46,6 +47,8 @@ const StudentGameRenderer: React.FC<GameRendererProps> = ({
         return <AhorcadoGame mode="student" />;
       case GameType.CLASIFICACION:
         return <DesafioClasificacionGame />;
+      case GameType.COMPLETAR_ORACION:
+        return <CompletarOracionGame mode="student" />;
       case GameType.PREGUNTADOS:
         return <PreguntadosGame mode="student" />;
       case GameType.NO_LUDICA:
