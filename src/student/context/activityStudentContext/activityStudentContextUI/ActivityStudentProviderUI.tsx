@@ -150,7 +150,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
 
     // Contador de desaprobadas - actividades sin intentos restantes
     const disapproved = activityNotApproved.filter(
-      (a) => a.attempts === 0
+      (a) => a.remainingAttempts === 0
     ).length;
 
     return { pending, expired, approved, disapproved };

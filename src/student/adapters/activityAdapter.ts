@@ -16,6 +16,7 @@ export function mapActivityToUI(
       month: "2-digit",
     });
   };
+
   return {
     id: activity.id,
     name: activity.name,
@@ -35,6 +36,7 @@ export function mapActivityToUI(
     reward: isNotApproved ? undefined : `${activity.reward} pts`,
 
     attemptsLabel: `${activity.remainingAttempts} / ${activity.attempts} intentos`,
+    remainingAttempts: activity.remainingAttempts,
     noAttempts: activity.remainingAttempts === 0,
     dueDateLabel:
       isNotApproved && activity.status === "PUBLISHED"
