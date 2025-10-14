@@ -38,3 +38,7 @@ select {
   font-family: inherit;
 }
 
+:global(.w-md-editor-toolbar button svg) {
+  width: 20px; /* ancho del icono */
+  height: 20px; /* alto del icono */
+}

@@ -146,6 +146,24 @@ export const ActivityStudentProvider = ({
     },
     []
   );
+  const registerActivityNoLudicaCompleted = useCallback(
+    async (payload: FormData): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await ActivityStudentService.registerActivityNoLudicaCompleteApi(
+            payload
+          );
+        setActivityCompleted(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al corregir la actividad");
+      } finally {
+        setLoading(false);
+      }
+      // console.log(activityCompleted); //DEBUG
+    },
+    []
+  );
 
   const refreshActivityDataAfterCompletion = async () => {
     await Promise.all([
@@ -171,6 +189,7 @@ export const ActivityStudentProvider = ({
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
     registerActivityCompleted,
+    registerActivityNoLudicaCompleted,
     refreshActivityDataAfterCompletion,
   };
 

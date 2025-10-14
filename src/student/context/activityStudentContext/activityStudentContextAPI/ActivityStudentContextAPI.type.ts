@@ -30,6 +30,6 @@ export interface ActivityStudentContextType {
   registerActivityCompleted: (
     payload: ActivityCompletedInterface
   ) => Promise<void>;
+  registerActivityNoLudicaCompleted: (payload: FormData) => Promise<void>;
   refreshActivityDataAfterCompletion: () => Promise<void>;
-
 }

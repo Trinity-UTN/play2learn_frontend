@@ -10,6 +10,7 @@ import { useGameManager } from "../../../shared/hooks/games/useGameManager";
 import { useActivityActions } from "../../hooks/activities/useActivityActions";
 import { useActivityNavigation } from "../../hooks/activities/useActivityNavigation";
 import styles from "./StudentPlayActivityView.module.css";
+import { useNoLudicaGame } from "../../../shared/hooks/games/useNoLudicaGame";
 
 interface StudentPlayActivityViewProps {
   activity?: ActivityUI;
@@ -21,11 +22,11 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   const { loading, currentActivity } = useActivityStudent();
   const { goBackToActivityView } = useActivityNavigation();
   const { finishActivity } = useActivityActions();
-
+  const { handleFinishNoLudica } = useNoLudicaGame();
   // EXPO: Registry Pattern: Obtener el hook del juego apropiado automáticamente
   const gameManager = useGameManager(currentActivity?.name || activity?.name);
   //const isGameFinished = gameManager?.isGameWon || gameManager?.isGameLost;
-
+  const isNoLudica = currentActivity?.name === "No Ludica" ? true : false;
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -39,7 +40,11 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   const handleFinishActivity = async () => {
     if (!currentActivity) return;
 
-    await finishActivity(!!gameManager?.isGameWon);
+    if (isNoLudica) {
+      await finishActivity(!!gameManager?.isGameWon, handleFinishNoLudica);
+    } else {
+      await finishActivity(!!gameManager?.isGameWon);
+    }
   };
 
   const handleTimeUp = () => {

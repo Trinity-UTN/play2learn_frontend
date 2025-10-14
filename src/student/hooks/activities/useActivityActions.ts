@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useActivityStudent } from "../../../student/hooks/useActivityStudentAPI";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useCurrentActivityPersistence } from "./useCurrentActivityPersistence";
-
 export const useActivityActions = () => {
   const {
     currentActivity,
@@ -49,10 +48,12 @@ export const useActivityActions = () => {
         title: "¿Esta seguro que desea finalizar su intento?",
         message: "Esta accion no se puede revertir",
         onConfirm: async () => {
-          await registerActivityCompleted({
-            activityId: currentActivity.id,
-            state: isApproved ? "APPROVED" : "DISAPPROVED",
-          });
+          if (currentActivity.name !== "No Ludica") {
+            await registerActivityCompleted({
+              activityId: currentActivity.id,
+              state: isApproved ? "APPROVED" : "DISAPPROVED",
+            });
+          }
 
           await refreshActivityDataAfterCompletion();
 
