@@ -35,7 +35,9 @@ export const ConfirmationProvider: React.FC<ConfirmationProviderProps> = ({
   const closeConfirmation = () => {
     setIsOpen(false);
     setShowSecondConfirmation(false);
-    config.onCancel?.(); // opcional si agregás ese campo
+    if (isOpen) {
+      config.onCancel?.();
+    }
   };
 
   const contextValue: ConfirmationContextType = {
