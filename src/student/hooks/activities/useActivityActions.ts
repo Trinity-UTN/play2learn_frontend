@@ -1,8 +1,9 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useActivityStudent } from "../../../student/hooks/useActivityStudentAPI";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useCurrentActivityPersistence } from "./useCurrentActivityPersistence";
+import usePaginateParams from "../../../shared/hooks/usePaginateParams";
 
 export const useActivityActions = () => {
   const {
@@ -11,13 +12,18 @@ export const useActivityActions = () => {
     registerActivityStarted,
     registerActivityCompleted,
     refreshActivityDataAfterCompletion,
+    getPaginatedActivitiesApproved,
+    getPaginatedActivitiesNotApproved,
   } = useActivityStudent();
 
   const { clearPersistedActivity } = useCurrentActivityPersistence();
   const { showConfirmation } = useConfirmation();
+  const { paginationParams } = usePaginateParams();
 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  const isFinishingActivity = useRef(false);
 
   const viewActivity = useCallback(
     async (activityId: number | string) => {
@@ -40,7 +46,7 @@ export const useActivityActions = () => {
         },
       });
     },
-    [navigate]
+    [navigate, registerActivityStarted, showConfirmation]
   );
 
   const finishActivity = useCallback(
@@ -51,6 +57,8 @@ export const useActivityActions = () => {
         title: "¿Esta seguro que desea finalizar su intento?",
         message: "Esta accion no se puede revertir",
         onConfirm: async () => {
+          isFinishingActivity.current = true;
+
           await registerActivityCompleted({
             activityId: currentActivity.id,
             state: isApproved ? "APPROVED" : "DISAPPROVED",
@@ -63,6 +71,10 @@ export const useActivityActions = () => {
           if (onAfterFinish) onAfterFinish();
 
           navigate(`/dashboard/student/actividades/${id}/review`);
+
+          setTimeout(() => {
+            isFinishingActivity.current = false;
+          }, 100);
         },
       });
     },
@@ -72,8 +84,35 @@ export const useActivityActions = () => {
       registerActivityCompleted,
       refreshActivityDataAfterCompletion,
       clearPersistedActivity,
+      navigate,
+      showConfirmation,
     ]
   );
 
-  return { viewActivity, startActivity, finishActivity };
+  const refreshActivitiesOnNavigationAway = useCallback(async () => {
+    try {
+      await Promise.all([
+        getPaginatedActivitiesApproved(paginationParams),
+        getPaginatedActivitiesNotApproved(paginationParams),
+      ]);
+    } catch (error) {
+      console.error("Error al refrescar actividades:", error);
+    }
+  }, [
+    getPaginatedActivitiesApproved,
+    getPaginatedActivitiesNotApproved,
+    paginationParams,
+  ]);
+
+  const canNavigate = useCallback(() => {
+    return isFinishingActivity.current;
+  }, []);
+
+  return {
+    viewActivity,
+    startActivity,
+    finishActivity,
+    canNavigate,
+    refreshActivitiesOnNavigationAway,
+  };
 };
