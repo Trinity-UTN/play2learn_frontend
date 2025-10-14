@@ -6,9 +6,16 @@ export interface FilterOption {
   name: string;
 }
 export interface ActivityStudentContextUIType {
-  activeFilter: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED";
+  activeFilter:
+    | "CREATED"
+    | "PUBLISHED"
+    | "EXPIRED"
+    | "APPROVED"
+    | "DISAPPROVED";
   setActiveFilter: React.Dispatch<
-    React.SetStateAction<"CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED">
+    React.SetStateAction<
+      "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED" | "DISAPPROVED"
+    >
   >;
 
   selectedSubject: FilterOption | null;
@@ -20,6 +27,7 @@ export interface ActivityStudentContextUIType {
   filteredActivities: any[];
   pendingCount: number;
   defeatedCount: number;
+  disapprovedCount: number;
   stats: any[];
   statusFilters: { key: string; label: string; emoji: React.ReactNode }[];
   subjects: FilterOption[];
