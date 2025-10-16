@@ -11,4 +11,5 @@ export const urls = {
   ActivityCompleted: "/activity/completed",
   StudentByToken: "/student",
   Wallet: "/wallet",
+  ActivityNoLudicaComplete: "/activity/completed/no-ludica",
 };

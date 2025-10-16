@@ -71,10 +71,12 @@ export const useActivityActions = () => {
         onConfirm: async () => {
           isFinishingActivity.current = true;
 
-          await registerActivityCompleted({
-            activityId: currentActivity.id,
-            state: isApproved ? "APPROVED" : "DISAPPROVED",
-          });
+          if (currentActivity.name !== "No Ludica") {
+            await registerActivityCompleted({
+              activityId: currentActivity.id,
+              state: isApproved ? "APPROVED" : "DISAPPROVED",
+            });
+          }
 
           await refreshActivityDataAfterCompletion();
 

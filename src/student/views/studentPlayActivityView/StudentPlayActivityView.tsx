@@ -12,6 +12,7 @@ import { useActivityNavigation } from "../../hooks/activities/useActivityNavigat
 import { useActivityNavigationMessages } from "../../hooks/activities/useActivityNavigationMessages";
 import { usePreventNavigation } from "../../../shared/hooks/usePreventNavigation";
 import styles from "./StudentPlayActivityView.module.css";
+import { useNoLudicaGame } from "../../../shared/hooks/games/useNoLudicaGame";
 
 interface StudentPlayActivityViewProps {
   activity?: ActivityUI;
@@ -28,10 +29,12 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
     canNavigate,
     refreshActivitiesOnNavigationAway,
   } = useActivityActions();
+  const { handleFinishNoLudica } = useNoLudicaGame();
   const navigationMessages = useActivityNavigationMessages(currentActivity);
 
   // EXPO: Registry Pattern: Obtener el hook del juego apropiado automáticamente
   const gameManager = useGameManager(currentActivity?.name || activity?.name);
+  const isNoLudica = currentActivity?.name === "No Ludica" ? true : false;
 
   // Prevenir navegación mientras el estudiante está jugando
   usePreventNavigation({
@@ -61,7 +64,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
       forceFinishActivity(false);
     },
   });
-
+    
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -75,7 +78,11 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   const handleFinishActivity = async () => {
     if (!currentActivity) return;
 
-    await finishActivity(!!gameManager?.isGameWon);
+    if (isNoLudica) {
+      await finishActivity(!!gameManager?.isGameWon, handleFinishNoLudica);
+    } else {
+      await finishActivity(!!gameManager?.isGameWon);
+    }
   };
 
   const handleTimeUp = () => {

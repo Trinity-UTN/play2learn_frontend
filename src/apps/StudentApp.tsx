@@ -18,6 +18,8 @@ import { CompletarOracionProvider } from "../activity/contexts/completarOracionC
 import { CompletarOracionGameProvider } from "../shared/contexts/gamesContext/completarOracionGameContext/CompletarOracionGameProvider";
 import { DesafioClasificacionProvider } from "../activity/contexts/desafioClasificacionContext/DesafioClasificacionProvider";
 import { DesafioClasificacionGameProvider } from "../shared/contexts/gamesContext/desafioClasificacionGameContext/DesafioClasificacionGameProvider";
+import { NoLudicaGameProvider } from "../shared/contexts/gamesContext/noLudicaGameContext/NoLudicaGameProvider";
+import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
 //VIEWS
@@ -56,21 +58,23 @@ const StudentApp = () => {
                       <ActivityStudentProvider>
                         <ActivityStudentProviderUI>
                           <ConfigurationActivityProvider>
-                            <AhorcadoProvider>
-                              <AhorcadoGameProvider mode="student">
-                                <CompletarOracionProvider>
-                                  <CompletarOracionGameProvider mode="student">
-                                    <DesafioClasificacionProvider>
-                                      <DesafioClasificacionGameProvider mode="student">
-                                        <PreguntadosProvider>
-                                          <PreguntadosGameProvider mode="student">
-                                            <motion.div
-                                              key="dashboardStudent"
-                                              initial={{ opacity: 0 }}
-                                              animate={{ opacity: 1 }}
-                                              exit={{ opacity: 0 }}
-                                              transition={{ duration: 0.3 }}
-                                            >
+                            <NoLudicaProvider>
+                              <NoLudicaGameProvider mode="student">
+                                <AhorcadoProvider>
+                                  <AhorcadoGameProvider mode="student">
+                                    <CompletarOracionProvider>
+                                      <CompletarOracionGameProvider mode="student">
+                                        <DesafioClasificacionProvider>
+                                          <DesafioClasificacionGameProvider mode="student">
+                                            <PreguntadosProvider>
+                                              <PreguntadosGameProvider mode="student">
+                                                <motion.div
+                                                  key="dashboardStudent"
+                                                  initial={{ opacity: 0 }}
+                                                  animate={{ opacity: 1 }}
+                                                  exit={{ opacity: 0 }}
+                                                  transition={{ duration: 0.3 }}
+                                                >
                                               <StudentDashboard />
                                             </motion.div>
                                           </PreguntadosGameProvider>
@@ -81,15 +85,17 @@ const StudentApp = () => {
                                 </CompletarOracionProvider>
                               </AhorcadoGameProvider>
                             </AhorcadoProvider>
-                          </ConfigurationActivityProvider>
-                        </ActivityStudentProviderUI>
-                      </ActivityStudentProvider>
-                    </ProfileAvatarProvider>
-                  </CurrentStudentProvider>
-                </SubjectProvider>
-              </ProtectedRoute>
-            }
-          >
+                          </NoLudicaGameProvider>
+                        </NoLudicaProvider>
+                       </ConfigurationActivityProvider>
+                      </ActivityStudentProviderUI>
+                    </ActivityStudentProvider>
+                  </ProfileAvatarProvider>
+                </CurrentStudentProvider>
+              </SubjectProvider>
+            </ProtectedRoute>
+          }
+        >
             <Route path="profile" element={<StudentProfileView />} />
             <Route
               path="profile/avatar"

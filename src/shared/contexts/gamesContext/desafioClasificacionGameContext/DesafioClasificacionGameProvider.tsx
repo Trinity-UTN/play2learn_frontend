@@ -79,12 +79,14 @@ export const DesafioClasificacionGameProvider: React.FC<
     }
   }, [conceptsInCategories]);
 
+  // Estados calculados
   const totalCategories =
     mode === "preview"
       ? getCategoryNames().length
       : gameConfig?.categories.length;
   const totalConcepts = getAllConcepts().length;
 
+  // Funciones auxiliares
   const getConceptsSource = () => {
     if (mode === "preview") {
       return getAllConcepts();
@@ -96,6 +98,8 @@ export const DesafioClasificacionGameProvider: React.FC<
     }
     return [];
   };
+
+  // Funciones del juego
   const startGame = () => {
     setGameStarted(true);
     setScore(0);
@@ -125,7 +129,6 @@ export const DesafioClasificacionGameProvider: React.FC<
       shouldBe: string;
     }[] = [];
 
-    // Create a map of concept to its correct category
     const conceptToCategoryMap: { [concept: string]: string } = {};
     gameConfig?.categories.forEach((category) => {
       category.concepts.forEach((concept) => {
@@ -133,7 +136,6 @@ export const DesafioClasificacionGameProvider: React.FC<
       });
     });
 
-    // Check each placed concept
     Object.keys(conceptsInCategories).forEach((categoryId) => {
       const category = gameConfig?.categories.find(
         (cat) => String(cat.id) === String(categoryId)
@@ -219,13 +221,11 @@ export const DesafioClasificacionGameProvider: React.FC<
     e.preventDefault();
     if (!draggedConcept) return;
 
-    // Find which category the concept was in
     const categoryWithConcept = Object.keys(conceptsInCategories).find(
       (categoryId) => conceptsInCategories[categoryId].includes(draggedConcept)
     );
 
     if (categoryWithConcept) {
-      // Remove from category
       setConceptsInCategories((prev) => ({
         ...prev,
         [categoryWithConcept]: prev[categoryWithConcept].filter(
@@ -233,7 +233,6 @@ export const DesafioClasificacionGameProvider: React.FC<
         ),
       }));
 
-      // Add back to available concepts
       setAvailableConcepts((prev) => [...prev, draggedConcept]);
     }
 
@@ -241,19 +240,24 @@ export const DesafioClasificacionGameProvider: React.FC<
   };
 
   const value: DesafioClasificacionGameContextType = {
+    // Estados del juego
     gameConfig,
-    gameStarted,
     score,
     gameStatus,
     draggedConcept,
     conceptsInCategories,
     availableConcepts,
     verificationResults,
+    hasVerified,
+    gameStarted,
+
+    // Estados calculados
     totalCategories,
     totalConcepts,
-    hasVerified,
     isGameLost,
     isGameWon,
+
+    // Funciones del juego
     startGame,
     resetGame,
     verifyAnswers,
