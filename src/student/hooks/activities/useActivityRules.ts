@@ -9,8 +9,6 @@ export const useActivityRules = () => {
     "🚫 No puedes cambiar de pestaña del navegador durante la actividad",
     "🚫 No puedes recargar la página durante la actividad",
     "⚠️ Si realizas alguna de estas acciones, perderás tu intento automáticamente",
-    "✅ Asegúrate de estar en un lugar tranquilo y sin distracciones",
-    "📱 Cierra otras aplicaciones y notificaciones que puedan interrumpirte",
   ];
 
   const shortRules = [
