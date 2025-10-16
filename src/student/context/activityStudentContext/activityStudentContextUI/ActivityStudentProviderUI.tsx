@@ -12,13 +12,13 @@ import {
   FaFlagCheckered,
   FaBan,
 } from "react-icons/fa";
-import { ActivityStudentContextUI } from "./ActivityStudentContextUI";
-import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
-import { mapActivityToUI } from "../../../adapters/activityAdapter";
 import { FiX, FiXCircle } from "react-icons/fi";
-import type { ActivityUI } from "../../../types/Activity.type";
-import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
+import { ActivityStudentContextUI } from "./ActivityStudentContextUI";
 import type { FilterOption } from "./ActivityStudentContextUI.type";
+import type { ActivityUI } from "../../../types/Activity.type";
+import { mapActivityToUI } from "../../../adapters/activityAdapter";
+import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
+import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
 
 export interface PaginationInfo {
   currentPage: number;
@@ -28,6 +28,7 @@ export interface PaginationInfo {
   onPageChange: (page: number) => void;
   onPageSizeChange: (size: number) => void;
 }
+
 interface ProviderProps {
   children: ReactNode;
 }
@@ -45,6 +46,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
   } = useActivityStudent();
+
   const {
     paginationParams,
     handlePageChange,
@@ -56,15 +58,15 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   const [activeFilter, setActiveFilter] = useState<
     "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED" | "DISAPPROVED"
   >("PUBLISHED");
+
   const [selectedSubject, setSelectedSubject] = useState<FilterOption | null>(
     null
   );
+
   const difficulties = ["ALL", "FACIL", "MEDIO", "DIFICIL"];
-  const [selectedDifficulty, setSelectedDifficulty] =
-    useState<string>("PUBLISHED");
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("ALL");
 
   // Fetch inicial para estadisticas
-  // Este get se realiza para poder obtener las estadisticas, hasta que del back manden direcamente las estadisticas
   useEffect(() => {
     if (activityNotApproved.length <= 0) {
       getActivityApproved();
@@ -76,17 +78,33 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     const filters: string[] = [];
     const filtersValues: string[] = [];
 
-    // status filter
-    if (activeFilter === "EXPIRED" || activeFilter === "PUBLISHED") {
-      filters.push("status");
-      filtersValues.push(activeFilter);
+    // Actividades aprobadas
+    if (activeFilter === "APPROVED") {
+      await getPaginatedActivitiesApproved({
+        ...paginationParams,
+        filters:
+          selectedSubject && selectedSubject.name !== "ALL"
+            ? ["subjectId"]
+            : [],
+        filtersValues:
+          selectedSubject && selectedSubject.name !== "ALL"
+            ? [selectedSubject.id]
+            : [],
+      });
+      return;
     }
 
-    // disapproved filter
+    // Actividades no aprobadas
     if (activeFilter === "DISAPPROVED") {
+      // Desaprobadas: remainingAttempts === 0
       filters.push("disapproved");
       filtersValues.push("true");
-    } else if (activeFilter === "EXPIRED" || activeFilter === "PUBLISHED") {
+    } else {
+      // PUBLISHED, EXPIRED, CREATED
+      filters.push("status");
+      filtersValues.push(activeFilter);
+
+      // No agregar DISAPPROVED
       filters.push("disapproved");
       filtersValues.push("false");
     }
@@ -103,20 +121,11 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
       filtersValues.push(selectedDifficulty);
     }
 
-    // decide qué endpoint llamar
-    if (activeFilter === "APPROVED") {
-      await getPaginatedActivitiesApproved({
-        ...paginationParams,
-        filters,
-        filtersValues,
-      });
-    } else {
-      await getPaginatedActivitiesNotApproved({
-        ...paginationParams,
-        filters,
-        filtersValues,
-      });
-    }
+    await getPaginatedActivitiesNotApproved({
+      ...paginationParams,
+      filters,
+      filtersValues,
+    });
   };
 
   useEffect(() => {
@@ -137,19 +146,27 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     }
     return (paginatedActivitiesNotApproved?.results ?? []).map(mapActivityToUI);
   };
+
   const filteredActivities = getActivitiesUI();
 
   // Stats y contadores
   const getCounts = () => {
+    // Disponibles: PUBLISHED con intentos restantes y NO desaprobadas
     const pending = activityNotApproved.filter(
       (a) => a.status === "PUBLISHED" && a.remainingAttempts > 0
     ).length;
+
+    // Vencidas: EXPIRED con intentos restantes y NO desaprobadas
     const expired = activityNotApproved.filter(
       (a) => a.status === "EXPIRED" && a.remainingAttempts > 0
     ).length;
+
+    // Aprobadas
     const approved = activityApproved.filter(
       (a) => a.state === "APPROVED"
     ).length;
+
+    // Desaprobadas: sin intentos restantes (independiente del status)
     const disapproved = activityNotApproved.filter(
       (a) => a.remainingAttempts === 0
     ).length;
@@ -187,7 +204,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
       bgColor: "#FEE2E2",
     },
     {
-      label: "Vencida",
+      label: "Vencidas",
       value: defeatedCount,
       icon: FiX,
       color: "#b92110ff",
@@ -195,23 +212,25 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     },
   ];
 
-  // Filtros
+  // Filtros de status
   const statusFilters = [
     { key: "PUBLISHED", label: "Disponibles", emoji: <FaStar /> },
     { key: "APPROVED", label: "Aprobadas", emoji: <FaCheck /> },
-    { key: "DESAPROBADAS", label: "Desaprobadas", emoji: <FaBan /> },
+    { key: "DISAPPROVED", label: "Desaprobadas", emoji: <FaBan /> },
     { key: "EXPIRED", label: "Vencidas", emoji: <FiXCircle /> },
   ];
 
   // Materias
   const subjects: FilterOption[] = [
     { id: "ALL", name: "Todas las materias" },
-    ...activityNotApproved
-      .map((a) => ({ id: a.subjectId.toString(), name: a.subjectName }))
-      .filter(
-        (value, index, self) =>
-          index === self.findIndex((s) => s.id === value.id)
-      ),
+    ...Array.from(
+      new Map(
+        [...activityNotApproved, ...activityApproved].map((a) => [
+          a.subjectId.toString(),
+          { id: a.subjectId.toString(), name: a.subjectName },
+        ])
+      ).values()
+    ),
   ];
 
   // Iconos
@@ -278,8 +297,6 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
       default:
         return {
           icon: FaClock,
-          color: "#6B7280",
-          bgColor: "#F3F4F6",
           label: "Desconocido",
           buttonText: "Ver",
           buttonIcon: FaPlay,
