@@ -27,7 +27,6 @@ export interface ActivityStudentContextUIType {
   filteredActivities: any[];
   pendingCount: number;
   defeatedCount: number;
-  disapprovedCount: number;
   stats: any[];
   statusFilters: { key: string; label: string; emoji: React.ReactNode }[];
   subjects: FilterOption[];

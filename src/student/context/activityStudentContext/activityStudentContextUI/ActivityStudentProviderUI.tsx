@@ -1,4 +1,4 @@
-import React, { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import {
   FaPlay,
   FaCheck,
@@ -10,7 +10,7 @@ import {
   FaRocket,
   FaMedal,
   FaFlagCheckered,
-  FaTimes,
+  FaBan,
 } from "react-icons/fa";
 import { ActivityStudentContextUI } from "./ActivityStudentContextUI";
 import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
@@ -64,7 +64,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     useState<string>("PUBLISHED");
 
   // Fetch inicial para estadisticas
-  //Este get se realiza para poder obter las estadisticas, hasta que del back manden direcamente las estadisticas
+  // Este get se realiza para poder obtener las estadisticas, hasta que del back manden direcamente las estadisticas
   useEffect(() => {
     if (activityNotApproved.length <= 0) {
       getActivityApproved();
@@ -73,8 +73,8 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   }, []);
 
   const loadActivities = async () => {
-    let filters: string[] = [];
-    let filtersValues: string[] = [];
+    const filters: string[] = [];
+    const filtersValues: string[] = [];
 
     // status filter
     if (activeFilter === "EXPIRED" || activeFilter === "PUBLISHED") {
@@ -86,6 +86,9 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     if (activeFilter === "DISAPPROVED") {
       filters.push("disapproved");
       filtersValues.push("true");
+    } else if (activeFilter === "EXPIRED" || activeFilter === "PUBLISHED") {
+      filters.push("disapproved");
+      filtersValues.push("false");
     }
 
     // subject filter
@@ -139,16 +142,14 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   // Stats y contadores
   const getCounts = () => {
     const pending = activityNotApproved.filter(
-      (a) => a.status === "PUBLISHED"
+      (a) => a.status === "PUBLISHED" && a.remainingAttempts > 0
     ).length;
     const expired = activityNotApproved.filter(
-      (a) => a.status === "EXPIRED"
+      (a) => a.status === "EXPIRED" && a.remainingAttempts > 0
     ).length;
     const approved = activityApproved.filter(
       (a) => a.state === "APPROVED"
     ).length;
-
-    // Contador de desaprobadas - actividades sin intentos restantes
     const disapproved = activityNotApproved.filter(
       (a) => a.remainingAttempts === 0
     ).length;
@@ -181,8 +182,8 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     {
       label: "Desaprobadas",
       value: disapprovedCount,
-      icon: FaTimes,
-      color: "#EF4444",
+      icon: FaBan,
+      color: "#DC2626",
       bgColor: "#FEE2E2",
     },
     {
@@ -198,7 +199,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   const statusFilters = [
     { key: "PUBLISHED", label: "Disponibles", emoji: <FaStar /> },
     { key: "APPROVED", label: "Aprobadas", emoji: <FaCheck /> },
-    { key: "DISAPPROVED", label: "Desaprobadas", emoji: <FaTimes /> },
+    { key: "DESAPROBADAS", label: "Desaprobadas", emoji: <FaBan /> },
     { key: "EXPIRED", label: "Vencidas", emoji: <FiXCircle /> },
   ];
 
@@ -224,6 +225,7 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
     FaMedal,
     FaFlagCheckered,
   ];
+
   const getRandomIcon = () => {
     const Icon = icons[Math.floor(Math.random() * icons.length)];
     return <Icon />;
@@ -245,13 +247,6 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
   // Status
   const getStatusConfig = (status: string) => {
     switch (status) {
-      case "EXPIRED":
-        return {
-          icon: FiXCircle,
-          label: "Vencida",
-          buttonText: "Vencida",
-          buttonIcon: FiX,
-        };
       case "CREATED":
         return {
           icon: FaClock,
@@ -273,12 +268,12 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
           buttonText: "Ver Resultados",
           buttonIcon: FaPlay,
         };
-      case "DISAPPROVED":
+      case "EXPIRED":
         return {
-          icon: FaTimes,
-          label: "Desaprobada",
-          buttonText: "Ver Detalles",
-          buttonIcon: FaTimes,
+          icon: FiXCircle,
+          label: "Vencida",
+          buttonText: "Vencida",
+          buttonIcon: FiX,
         };
       default:
         return {
@@ -333,7 +328,6 @@ export const ActivityStudentProviderUI: React.FC<ProviderProps> = ({
         filteredActivities,
         pendingCount,
         defeatedCount,
-        disapprovedCount,
         stats,
         statusFilters,
         subjects,
