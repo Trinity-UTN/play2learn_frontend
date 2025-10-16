@@ -58,6 +58,8 @@ export const ConfirmationProvider: React.FC<ConfirmationProviderProps> = ({
         showDoubleConfirmation={config.showDoubleConfirmation}
         showSecondConfirmation={showSecondConfirmation}
         doubleConfirmationText={config.doubleConfirmationText}
+        rules={config.rules}
+        hideCancel={config.hideCancel}
         onConfirm={handleConfirm}
         onClose={closeConfirmation}
       />

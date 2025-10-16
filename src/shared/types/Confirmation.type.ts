@@ -6,6 +6,8 @@ export interface ConfirmationConfig {
   type?: AlertType;
   confirmText?: string;
   cancelText?: string;
+  rules?: string[];
+  hideCancel?: boolean;
   showDoubleConfirmation?: boolean;
   doubleConfirmationText?: string;
   onConfirm?: () => void;
