@@ -8,6 +8,8 @@ interface NavigationMessages {
   toastTitle: string;
   toastMessage: string;
   toastType: "info" | "success" | "warning" | "danger";
+  tabSwitchDisapproveTitle?: string;
+  tabSwitchDisapproveMessage?: string;
 }
 
 /**
@@ -64,6 +66,9 @@ export const useActivityNavigationMessages = (
         attemptsLeft === 1 ? "intento" : "intentos"
       } disponible${attemptsLeft === 1 ? "" : "s"}.`,
       toastType: "warning",
+      tabSwitchDisapproveTitle: "Cambio de pestaña detectado",
+      tabSwitchDisapproveMessage:
+        "Se ha detectado que cambiaste de pestaña durante la actividad. Según las reglas establecidas al inicio, esto resulta en la desaprobación automática de tu intento actual.",
     };
   }, [currentActivity]);
 };

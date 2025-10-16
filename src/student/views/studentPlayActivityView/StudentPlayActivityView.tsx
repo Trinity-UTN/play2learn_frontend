@@ -22,8 +22,12 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
 }) => {
   const { loading, currentActivity } = useActivityStudent();
   const { goBackToActivityView } = useActivityNavigation();
-  const { finishActivity, canNavigate, refreshActivitiesOnNavigationAway } =
-    useActivityActions();
+  const {
+    finishActivity,
+    forceFinishActivity,
+    canNavigate,
+    refreshActivitiesOnNavigationAway,
+  } = useActivityActions();
   const navigationMessages = useActivityNavigationMessages(currentActivity);
 
   // EXPO: Registry Pattern: Obtener el hook del juego apropiado automáticamente
@@ -48,6 +52,14 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
       refreshActivitiesOnNavigationAway();
       // Aca podriamos guardar el progreso del juego en un futuro
     },
+    preventTabSwitch: true,
+    disapproveOnTabSwitch: true,
+    tabSwitchDisapproveTitle: navigationMessages.tabSwitchDisapproveTitle,
+    tabSwitchDisapproveMessage: navigationMessages.tabSwitchDisapproveMessage,
+    onTabSwitchDisapprove: () => {
+      // Desaprobar automáticamente sin importar el progreso del juego
+      forceFinishActivity(false);
+    },
   });
 
   const containerVariants = {
@@ -67,7 +79,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   };
 
   const handleTimeUp = () => {
-    finishActivity(false);
+    forceFinishActivity(false);
   };
 
   if (loading) {

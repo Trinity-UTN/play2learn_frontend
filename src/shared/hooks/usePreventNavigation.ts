@@ -19,6 +19,16 @@ interface UsePreventNavigationOptions {
   toastType?: "info" | "success" | "warning" | "danger";
   toastPosition?: ToastPosition;
   toastDuration?: number;
+  preventTabSwitch?: boolean;
+  onTabLeave?: () => void;
+  onTabReturn?: () => void;
+  showWarningOnReturn?: boolean;
+  tabSwitchWarningTitle?: string;
+  tabSwitchWarningMessage?: string;
+  disapproveOnTabSwitch?: boolean;
+  onTabSwitchDisapprove?: () => void;
+  tabSwitchDisapproveTitle?: string;
+  tabSwitchDisapproveMessage?: string;
 }
 
 /**
@@ -37,6 +47,16 @@ interface UsePreventNavigationOptions {
  * @param toastType - Tipo del toast (info, success, warning, danger)
  * @param toastPosition - Posición del toast
  * @param toastDuration - Duración del toast en ms
+ * @param preventTabSwitch - Activar detección de cambio de pestaña
+ * @param onTabLeave - Callback cuando el usuario sale de la pestaña
+ * @param onTabReturn - Callback cuando el usuario vuelve a la pestaña
+ * @param showWarningOnReturn - Mostrar advertencia al volver a la pestaña
+ * @param tabSwitchWarningTitle - Título de la advertencia de cambio de pestaña
+ * @param tabSwitchWarningMessage - Mensaje de la advertencia de cambio de pestaña
+ * @param disapproveOnTabSwitch - Desaprobar automáticamente al cambiar de pestaña
+ * @param onTabSwitchDisapprove - Callback para desaprobar cuando se cambia de pestaña
+ * @param tabSwitchDisapproveTitle - Título del modal de desaprobación
+ * @param tabSwitchDisapproveMessage - Mensaje del modal de desaprobación
  */
 export const usePreventNavigation = ({
   when,
@@ -52,6 +72,16 @@ export const usePreventNavigation = ({
   toastMessage = "No puedes salir durante la actividad",
   toastPosition = "bottom-right",
   toastDuration = 3000,
+  preventTabSwitch = false,
+  onTabLeave,
+  onTabReturn,
+  showWarningOnReturn = false,
+  tabSwitchWarningTitle = "Advertencia",
+  tabSwitchWarningMessage = "Detectamos que cambiaste de pestaña durante la actividad",
+  disapproveOnTabSwitch = false,
+  onTabSwitchDisapprove,
+  tabSwitchDisapproveTitle = "Cambio de pestaña detectado",
+  tabSwitchDisapproveMessage = "Se ha detectado que cambiaste de pestaña durante la actividad. Según las reglas establecidas, esto resulta en la desaprobación automática de tu intento.",
 }: UsePreventNavigationOptions) => {
   const navigationContext = useContext(UNSAFE_NavigationContext);
   const { showConfirmation } = useConfirmation();
@@ -60,6 +90,7 @@ export const usePreventNavigation = ({
   // Referencias para desbloquear la navegación
   const unblockRef = useRef<(() => void) | null>(null);
   const pendingNavigationRef = useRef<(() => void) | null>(null);
+  const tabSwitchDetectedRef = useRef(false);
 
   // Función para manejar la confirmación de navegación
   const handleNavigationConfirmation = (proceedCallback: () => void) => {
@@ -243,8 +274,66 @@ export const usePreventNavigation = ({
     onNavigationAttempt,
   ]);
 
+  // Detectar cambio de pestaña
+  useEffect(() => {
+    if (!when || !preventTabSwitch) return;
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        tabSwitchDetectedRef.current = true;
+        onTabLeave?.();
+      } else if (document.visibilityState === "visible") {
+        onTabReturn?.();
+
+        if (tabSwitchDetectedRef.current && disapproveOnTabSwitch) {
+          showConfirmation({
+            title: tabSwitchDisapproveTitle,
+            message: tabSwitchDisapproveMessage,
+            type: "danger",
+            confirmText: "Desaprobar intento",
+            hideCancel: true,
+            onConfirm: () => {
+              onTabSwitchDisapprove?.();
+            },
+          });
+        } else if (tabSwitchDetectedRef.current && showWarningOnReturn) {
+          showToast({
+            title: tabSwitchWarningTitle,
+            message: tabSwitchWarningMessage,
+            type: "warning",
+            position: toastPosition,
+            duration: toastDuration,
+          });
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [
+    when,
+    preventTabSwitch,
+    onTabLeave,
+    onTabReturn,
+    showWarningOnReturn,
+    tabSwitchWarningTitle,
+    tabSwitchWarningMessage,
+    toastPosition,
+    toastDuration,
+    showToast,
+    disapproveOnTabSwitch,
+    onTabSwitchDisapprove,
+    tabSwitchDisapproveTitle,
+    tabSwitchDisapproveMessage,
+    showConfirmation,
+  ]);
+
   return {
     isBlocked: when,
+    tabSwitchDetected: tabSwitchDetectedRef.current,
   };
 };
 
