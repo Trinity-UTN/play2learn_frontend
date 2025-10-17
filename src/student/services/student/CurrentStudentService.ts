@@ -31,6 +31,10 @@ const walletByStudentApi = async () => {
   const response = await api.get(urls.Wallet);
   return response.data;
 };
+const statisticsStudentApi = async () => {
+  const response = await api.get(urls.Statistics);
+  return response.data;
+};
 
 export const CurrentStudentService = {
   getCurrentStudentApi,
@@ -38,4 +42,5 @@ export const CurrentStudentService = {
   updateCurrentStudentProfileApi,
   unselectAspectApi,
   walletByStudentApi,
+  statisticsStudentApi,
 };

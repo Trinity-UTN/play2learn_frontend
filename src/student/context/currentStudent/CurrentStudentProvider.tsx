@@ -6,6 +6,7 @@ import AuthService from "../../../user/services/auth/AuthService";
 import type {
   CurrentStudent,
   AvatarComponents,
+  StatisticsStudentResponse,
 } from "../../types/CurrentStudent.type";
 import { useAuth } from "../../../user/hooks/useAuth";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
@@ -27,6 +28,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     null
   );
   const [wallet, setWallet] = useState<Wallet>();
+  const [statistics, setStatistics] = useState<StatisticsStudentResponse>();
 
   // Funciones Principales
   const getCurrentStudent = useCallback(async (): Promise<void> => {
@@ -126,6 +128,17 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       handleApiError(error, "Error al cargar la billetera");
     }
   };
+  const getStatisticsStudent = async () => {
+    setLoading(true);
+    try {
+      const response = await CurrentStudentService.statisticsStudentApi();
+      setStatistics(response.data);
+    } catch (error) {
+      handleApiError(error, "Error al cargar las estadisticas");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Funcioens de utilidad
   const getAvatarComponents = (): AvatarComponents => {
@@ -146,12 +159,14 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     loading,
     currentStudent,
     wallet,
+    statistics,
     // Funciones Principales
     getCurrentStudent,
     getCurrentStudentByToken,
     updateStudentProfile,
     unselectAspect,
     getWalletByStudent,
+    getStatisticsStudent,
 
     // Funciones de utilidad
     setCurrentStudent,

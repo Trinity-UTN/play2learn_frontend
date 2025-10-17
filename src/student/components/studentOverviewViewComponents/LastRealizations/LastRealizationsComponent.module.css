@@ -1,0 +1,126 @@
+.mainContent {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.leftColumn,
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.activitiesCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cardIcon {
+  color: #3b82f6;
+}
+
+.activitiesList,
+.upcomingList {
+  padding: 1.5rem;
+}
+
+.activityItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.activityItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.activityItem:last-child {
+  margin-bottom: 0;
+}
+
+.activityLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.activityDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.activityInfo {
+  flex: 1;
+}
+
+.activityName {
+  color: white;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+}
+
+.activitySubject {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.activityRight {
+  text-align: right;
+}
+
+.activityScore {
+  margin-bottom: 0.25rem;
+}
+
+.resultValue {
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.pointsEarned {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #f5bb56;
+  font-size: 0.85rem;
+  margin-left: 0.5rem;
+}
+
+.activityDate {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+}
+@media (max-width: 1024px) {
+  .mainContent {
+    grid-template-columns: 1fr;
+  }
+}
