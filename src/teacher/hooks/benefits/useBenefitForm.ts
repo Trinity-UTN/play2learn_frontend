@@ -49,6 +49,13 @@ export const useBenefitForm = () => {
   const validateForm = useCallback((): boolean => {
     const validationErrors = validateBenefitForm(formData);
     setErrors(validationErrors);
+    if (hasValidationErrors(validationErrors)) {
+      const allTouched = Object.keys(validationErrors).reduce(
+        (acc, key) => ({ ...acc, [key]: true }),
+        {}
+      );
+      setTouched(allTouched);
+    }
     return !hasValidationErrors(validationErrors);
   }, [formData]);
 

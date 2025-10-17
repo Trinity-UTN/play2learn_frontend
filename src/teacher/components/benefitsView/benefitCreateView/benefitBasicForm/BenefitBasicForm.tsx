@@ -4,7 +4,10 @@ import type {
   CreateBenefitInterface,
   BenefitValidationErrors,
 } from "../../../../types/Benefits.type";
-import { BENEFIT_VALIDATION } from "../../../../constants/benefits.constants";
+import {
+  BENEFIT_FORM_PLACEHOLDERS,
+  BENEFIT_VALIDATION,
+} from "../../../../constants/benefits.constants";
 import styles from "./BenefitBasicForm.module.css";
 
 type BenefitBasicFormProps = {
@@ -30,16 +33,17 @@ const BenefitBasicForm = ({
       <h3 className={styles.sectionTitle}>Información Básica</h3>
       <div className={styles.formGrid}>
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Nombre del Beneficio *</label>
+          <label className={styles.label}>Nombre del Beneficio</label>
           <Input
-            placeholder="Descuento en Parcial"
+            type="text"
+            placeholder={BENEFIT_FORM_PLACEHOLDERS.NAME_PLACEHOLDER}
             value={formData.name}
             onChange={(e) => onChange("name", e.target.value)}
             onBlur={() => onBlur("name")}
+            maxLength={BENEFIT_VALIDATION.NAME_MAX_LENGTH}
             className={`${styles.input} ${
               touched.name && errors.name ? styles.inputError : ""
             }`}
-            maxLength={BENEFIT_VALIDATION.NAME_MAX_LENGTH}
           />
           {touched.name && errors.name && (
             <span className={styles.errorMessage}>
@@ -52,12 +56,12 @@ const BenefitBasicForm = ({
           </span>
         </div>
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Costo en Puntos *</label>
+          <label className={styles.label}>Costo en Monedas</label>
           <div className={styles.costInput}>
             <FaCoins className={styles.costIcon} />
             <Input
               type="number"
-              placeholder="Ingrese una cantidad de monedas"
+              placeholder={BENEFIT_FORM_PLACEHOLDERS.COST_PLACEHOLDER}
               value={formData.cost}
               onChange={(e) => onChange("cost", Number(e.target.value))}
               onBlur={() => onBlur("cost")}
@@ -77,12 +81,12 @@ const BenefitBasicForm = ({
       </div>
 
       <div className={styles.inputGroup}>
-        <label className={styles.label}>Descripción *</label>
+        <label className={styles.label}>Descripción</label>
         <textarea
           className={`${styles.textarea} ${
             touched.description && errors.description ? styles.inputError : ""
           }`}
-          placeholder="Describe detalladamente qué obtiene el estudiante con este beneficio..."
+          placeholder={BENEFIT_FORM_PLACEHOLDERS.DESCRIPTION_PLACEHOLDER}
           value={formData.description}
           onChange={(e) => onChange("description", e.target.value)}
           onBlur={() => onBlur("description")}

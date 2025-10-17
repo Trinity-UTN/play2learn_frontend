@@ -20,6 +20,7 @@ export interface CreateBenefitInterface {
   cost: number | string;
   purchaseLimit: number | null;
   purchaseLimitPerStudent: number | null;
+  purchaseLeft?: number;
   subjectId: number;
   endAt: string;
   color: Color;

@@ -1,10 +1,15 @@
 import { FaExclamationTriangle } from "react-icons/fa";
 import Input from "../../../../../shared/components/Input/InputComponent";
+import Tooltip from "../../../../../shared/components/Tooltip/TooltipComponent";
 import type { SubjectResponseDto } from "../../../../../admin/services/subject/SubjectService";
 import type {
   CreateBenefitInterface,
   BenefitValidationErrors,
 } from "../../../../types/Benefits.type";
+import {
+  BENEFIT_FORM_PLACEHOLDERS,
+  BENEFIT_VALIDATION_TEXT,
+} from "../../../../constants/benefits.constants";
 import styles from "./BenefitConfiguration.module.css";
 
 type BenefitConfigurationProps = {
@@ -32,19 +37,23 @@ const BenefitConfiguration = ({
       <h3 className={styles.sectionTitle}>Configuración</h3>
       <div className={styles.formGrid}>
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Límite de Uso Total</label>
+          <label className={styles.label}>
+            Límite de Uso Total
+            <Tooltip
+              content={BENEFIT_VALIDATION_TEXT.PURCHASE_LIMIT_VALIDATION}
+            />
+          </label>
           <Input
             type="number"
-            placeholder="Ilimitado"
+            placeholder={BENEFIT_FORM_PLACEHOLDERS.PURCHASE_LIMIT_PLACEHOLDER}
+            value={formData.purchaseLimit ?? ""}
+            onChange={(e) => onChange("purchaseLimit", Number(e.target.value))}
+            onBlur={() => onBlur("purchaseLimit")}
             className={`${styles.input} ${
               touched.purchaseLimit && errors.purchaseLimit
                 ? styles.inputError
                 : ""
             }`}
-            value={formData.purchaseLimit ?? ""}
-            onChange={(e) => onChange("purchaseLimit", Number(e.target.value))}
-            onBlur={() => onBlur("purchaseLimit")}
-            min="1"
           />
           {touched.purchaseLimit && errors.purchaseLimit && (
             <span className={styles.errorMessage}>
@@ -54,21 +63,29 @@ const BenefitConfiguration = ({
           )}
         </div>
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Límite de Uso Por Estudiante</label>
+          <label className={styles.label}>
+            Límite de Uso Por Estudiante
+            <Tooltip
+              content={
+                BENEFIT_VALIDATION_TEXT.PURCHASE_LIMIT_PER_STUDENT_VALIDATION
+              }
+            />
+          </label>
           <Input
             type="number"
-            placeholder="Ilimitado"
-            className={`${styles.input} ${
-              touched.purchaseLimitPerStudent && errors.purchaseLimitPerStudent
-                ? styles.inputError
-                : ""
-            }`}
+            placeholder={
+              BENEFIT_FORM_PLACEHOLDERS.PURCHASE_LIMIT_PER_STUDENT_PLACEHOLDER
+            }
             value={formData.purchaseLimitPerStudent ?? ""}
             onChange={(e) =>
               onChange("purchaseLimitPerStudent", Number(e.target.value))
             }
             onBlur={() => onBlur("purchaseLimitPerStudent")}
-            min="1"
+            className={`${styles.input} ${
+              touched.purchaseLimitPerStudent && errors.purchaseLimitPerStudent
+                ? styles.inputError
+                : ""
+            }`}
           />
           {touched.purchaseLimitPerStudent &&
             errors.purchaseLimitPerStudent && (
@@ -79,7 +96,7 @@ const BenefitConfiguration = ({
             )}
         </div>
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Fecha de Fin *</label>
+          <label className={styles.label}>Fecha de Fin</label>
           <Input
             type="datetime-local"
             value={formData.endAt}
@@ -88,7 +105,6 @@ const BenefitConfiguration = ({
             className={`${styles.dateInput} ${
               touched.endAt && errors.endAt ? styles.inputError : ""
             }`}
-            required
           />
           {touched.endAt && errors.endAt && (
             <span className={styles.errorMessage}>
@@ -100,7 +116,7 @@ const BenefitConfiguration = ({
       </div>
 
       <div className={styles.inputGroup}>
-        <label className={styles.label}>Materia *</label>
+        <label className={styles.label}>Materia</label>
         <select
           value={formData.subjectId}
           onChange={(e) =>

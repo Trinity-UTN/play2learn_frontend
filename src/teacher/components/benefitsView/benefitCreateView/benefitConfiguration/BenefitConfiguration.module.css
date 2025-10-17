@@ -25,17 +25,23 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
 input:focus,
 .dateInput:focus {
   outline: none;
   border-color: var(--color-primary) !important;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
+
 .label {
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--colot-text);
   font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
+
 .select {
   width: 100%;
   padding: 0.75rem;

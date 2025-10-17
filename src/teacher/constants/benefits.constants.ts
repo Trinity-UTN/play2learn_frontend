@@ -72,9 +72,23 @@ export const BENEFIT_COLOR_OPTIONS: ReadonlyArray<{
   { value: "GRAY", color: "#6b7280" },
 ] as const;
 
-// Constantes de validación (no se si deberían ir aca o en benefits.validation.ts)
+export const BENEFIT_FORM_PLACEHOLDERS = {
+  NAME_PLACEHOLDER: "Ingrese el nombre del beneficio",
+  DESCRIPTION_PLACEHOLDER:
+    "Describe detalladamente qué obtiene el estudiante con este beneficio",
+  COST_PLACEHOLDER: "Ingrese una cantidad de monedas",
+  PURCHASE_LIMIT_PLACEHOLDER: "Ingrese un límite de compra",
+  PURCHASE_LIMIT_PER_STUDENT_PLACEHOLDER: "Ingrese un límite por estudiante",
+} as const;
+
 export const BENEFIT_VALIDATION = {
   NAME_MAX_LENGTH: 100,
   DESCRIPTION_MAX_LENGTH: 1000,
   MIN_COST: 1,
+} as const;
+
+export const BENEFIT_VALIDATION_TEXT = {
+  PURCHASE_LIMIT_VALIDATION: "Si no se define, el límite es ilimitado.",
+  PURCHASE_LIMIT_PER_STUDENT_VALIDATION:
+    "Si no se define, el límite por estudiante es ilimitado.",
 } as const;

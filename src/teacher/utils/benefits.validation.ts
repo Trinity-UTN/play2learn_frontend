@@ -51,7 +51,7 @@ export const validateCost = (cost: number | string): string | undefined => {
 };
 
 /**
- * Validates the benefit end date
+ * Valida la fecha de finalización del beneficio
  */
 export const validateEndAt = (endAt: string): string | undefined => {
   if (!endAt || endAt.trim() === "") {
