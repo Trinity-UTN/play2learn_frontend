@@ -9,6 +9,8 @@ import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useGameManager } from "../../../shared/hooks/games/useGameManager";
 import { useActivityActions } from "../../hooks/activities/useActivityActions";
 import { useActivityNavigation } from "../../hooks/activities/useActivityNavigation";
+import { useActivityNavigationMessages } from "../../hooks/activities/useActivityNavigationMessages";
+import { usePreventNavigation } from "../../../shared/hooks/usePreventNavigation";
 import styles from "./StudentPlayActivityView.module.css";
 import { useNoLudicaGame } from "../../../shared/hooks/games/useNoLudicaGame";
 
@@ -21,12 +23,48 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
 }) => {
   const { loading, currentActivity } = useActivityStudent();
   const { goBackToActivityView } = useActivityNavigation();
-  const { finishActivity } = useActivityActions();
+  const {
+    finishActivity,
+    forceFinishActivity,
+    canNavigate,
+    refreshActivitiesOnNavigationAway,
+  } = useActivityActions();
   const { handleFinishNoLudica } = useNoLudicaGame();
+  const navigationMessages = useActivityNavigationMessages(currentActivity);
+
   // EXPO: Registry Pattern: Obtener el hook del juego apropiado automáticamente
   const gameManager = useGameManager(currentActivity?.name || activity?.name);
-  //const isGameFinished = gameManager?.isGameWon || gameManager?.isGameLost;
   const isNoLudica = currentActivity?.name === "No Ludica" ? true : false;
+
+  // Prevenir navegación mientras el estudiante está jugando
+  usePreventNavigation({
+    when: !!currentActivity && !loading,
+    title: navigationMessages.confirmTitle,
+    message: navigationMessages.confirmMessage,
+    type: navigationMessages.confirmType,
+    confirmText: "Sí, salir",
+    cancelText: "No, continuar",
+    allowNavigation: canNavigate,
+    showToastOnBlock: true,
+    toastTitle: navigationMessages.toastTitle,
+    toastMessage: navigationMessages.toastMessage,
+    toastType: navigationMessages.toastType,
+    toastPosition: "bottom-right",
+    toastDuration: 6000,
+    onNavigationAttempt: () => {
+      refreshActivitiesOnNavigationAway();
+      // Aca podriamos guardar el progreso del juego en un futuro
+    },
+    preventTabSwitch: true,
+    disapproveOnTabSwitch: true,
+    tabSwitchDisapproveTitle: navigationMessages.tabSwitchDisapproveTitle,
+    tabSwitchDisapproveMessage: navigationMessages.tabSwitchDisapproveMessage,
+    onTabSwitchDisapprove: () => {
+      // Desaprobar automáticamente sin importar el progreso del juego
+      forceFinishActivity(false);
+    },
+  });
+    
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -48,7 +86,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   };
 
   const handleTimeUp = () => {
-    finishActivity(false);
+    forceFinishActivity(false);
   };
 
   if (loading) {
