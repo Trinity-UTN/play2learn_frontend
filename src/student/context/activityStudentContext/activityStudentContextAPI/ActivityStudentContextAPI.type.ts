@@ -27,9 +27,10 @@ export interface ActivityStudentContextType {
   paginatedActivitiesApproved: PaginatedData<ActivityApprovedResponseInterface> | null;
 
   activityCompleted: ActivityCompletedResponseInterface | null;
+  registerActivityStarted: (id: number) => Promise<void>;
   registerActivityCompleted: (
     payload: ActivityCompletedInterface
   ) => Promise<void>;
+  registerActivityNoLudicaCompleted: (payload: FormData) => Promise<void>;
   refreshActivityDataAfterCompletion: () => Promise<void>;
-
 }

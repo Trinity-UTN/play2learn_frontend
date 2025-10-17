@@ -7,8 +7,10 @@ export const urls = {
   ActivityById: "/activity",
   ActivityNotApproved: "/activity/student/not-approved",
   PaginatedActivityNotApproved: "/activity/student/paginated/not-approved",
+  ActivityStarted: "/activity/start",
   ActivityCompleted: "/activity/completed",
   StudentByToken: "/student",
   Wallet: "/wallet",
   Statistics: "/statistics/home/student",
+  ActivityNoLudicaComplete: "/activity/completed/no-ludica",
 };

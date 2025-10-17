@@ -11,6 +11,7 @@ import type {
 } from "../../types/Activity.type";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import qs from "qs";
+import apiFormData from "../../../shared/utils/apiFormData";
 
 const getActivityNotApprovedApi = async () => {
   const response = await api.get(urls.ActivityNotApproved);
@@ -68,11 +69,25 @@ const getPaginatedActivityNotApprovedApi = async (
   return response.data;
 };
 
+const registerActivityStartedApi = async (
+  id: number
+): Promise<{ data: ActivityCompletedResponseInterface }> => {
+  const response = await api.post(urls.ActivityStarted, null, {
+    params: { activityId: id },
+  });
+  return response.data;
+};
+
 const registerActivityCompletedApi = async (
   payload: ActivityCompletedInterface
 ): Promise<{ data: ActivityCompletedResponseInterface }> => {
   const response = await api.post(urls.ActivityCompleted, payload);
 
+  return response.data;
+};
+
+const registerActivityNoLudicaCompleteApi = async (data: FormData) => {
+  const response = await apiFormData.post(urls.ActivityNoLudicaComplete, data);
   return response.data;
 };
 
@@ -82,6 +97,7 @@ export const ActivityStudentService = {
   getActivityByIdApi,
   getPaginatedActivityApprovedApi,
   getPaginatedActivityNotApprovedApi,
-
+  registerActivityStartedApi,
   registerActivityCompletedApi,
+  registerActivityNoLudicaCompleteApi,
 };
