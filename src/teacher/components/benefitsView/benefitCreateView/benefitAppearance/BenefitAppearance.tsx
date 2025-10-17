@@ -5,11 +5,13 @@ import {
   BENEFIT_COLOR_OPTIONS,
 } from "../../../../constants/benefits.constants";
 import styles from "./BenefitAppearance.module.css";
-import { useBenefitUI } from "../../../../hooks/useBenefitUI";
 
-const BenefitAppearance = () => {
-  const { categories, formData, handleChange, iconOptions, colorOptions } =
-    useBenefitUI();
+type BenefitAppearanceProps = {
+  formData: CreateBenefitInterface;
+  onChange: (field: keyof CreateBenefitInterface, value: string) => void;
+};
+
+const BenefitAppearance = ({ formData, onChange }: BenefitAppearanceProps) => {
   return (
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>Categoría y Apariencia</h3>
@@ -17,14 +19,14 @@ const BenefitAppearance = () => {
         <div className={styles.inputGroup}>
           <label className={styles.label}>Categoría *</label>
           <div className={styles.categoryGrid}>
-            {categories.map((category) => (
+            {BENEFIT_CATEGORIES.map((category) => (
               <button
                 key={category.value}
                 type="button"
                 className={`${styles.categoryOption} ${
                   formData.category === category.value ? styles.selected : ""
                 }`}
-                onClick={() => handleChange("category", category.value)}
+                onClick={() => onChange("category", category.value)}
               >
                 <category.icon
                   className={styles.categoryIcon}
@@ -39,14 +41,14 @@ const BenefitAppearance = () => {
         <div className={styles.inputGroup}>
           <label className={styles.label}>Icono</label>
           <div className={styles.iconGrid}>
-            {iconOptions.map((option) => (
+            {BENEFIT_ICON_OPTIONS.map((option) => (
               <button
                 key={option.value}
                 type="button"
                 className={`${styles.iconOption} ${
                   formData.icon === option.value ? styles.selected : ""
                 }`}
-                onClick={() => handleChange("icon", option.value)}
+                onClick={() => onChange("icon", option.value)}
                 title={option.label}
               >
                 <option.icon />
@@ -59,7 +61,7 @@ const BenefitAppearance = () => {
       <div className={styles.inputGroup}>
         <label className={styles.label}>Color</label>
         <div className={styles.colorGrid}>
-          {colorOptions.map((color) => (
+          {BENEFIT_COLOR_OPTIONS.map((color) => (
             <button
               key={color.value}
               type="button"
@@ -67,7 +69,7 @@ const BenefitAppearance = () => {
                 formData.color === color.value ? styles.selected : ""
               }`}
               style={{ backgroundColor: color.color }}
-              onClick={() => handleChange("color", color.value)}
+              onClick={() => onChange("color", color.value)}
             />
           ))}
         </div>

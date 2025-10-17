@@ -11,29 +11,28 @@ import {
 } from "../../../utils/benefits.utils";
 import styles from "./BenefitCard.module.css";
 
-type Props = {
+type BenefitCardProps = {
   benefit: BenefitResponseInterface;
 };
 
-const BenefitCard = ({ benefit }: Props) => {
-  const { getColor, getSelectedIcon } = useBenefitUI();
-  const fechaFormateada = new Date(benefit.endAt).toLocaleString("es-AR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+const BenefitCard = ({ benefit }: BenefitCardProps) => {
+  const usagePercentage =
+    benefit.purchaseLimit && benefit.purchaseLimitPerStudent
+      ? calculateUsagePercentage(
+          benefit.purchaseLimitPerStudent,
+          benefit.purchaseLimit
+        )
+      : 0;
+
   return (
     <Card className={styles.benefitCard}>
       {/* Icon and Title */}
       <div className={styles.benefitHeader}>
         <div
           className={styles.iconWrapper}
-          style={{ backgroundColor: getColor(benefit.color) }}
+          style={{ backgroundColor: getColorByValue(benefit.color) }}
         >
-          {React.createElement(getSelectedIcon(benefit.icon), {
+          {React.createElement(getIconByValue(benefit.icon), {
             className: styles.benefitIcon,
           })}
         </div>
@@ -46,7 +45,7 @@ const BenefitCard = ({ benefit }: Props) => {
       {/* Description */}
       <p className={styles.benefitDescription}>{benefit.description}</p>
       <p className={styles.benefitDescription}>
-        Fecha de finalizacion: {fechaFormateada}
+        Fecha de finalización: {formatBenefitDate(benefit.endAt)}
       </p>
 
       {/* Cost and Usage */}
@@ -57,11 +56,7 @@ const BenefitCard = ({ benefit }: Props) => {
         </div>
         <div className={styles.usageSection}>
           <span className={styles.usageText}>
-            {benefit.purchaseLimitPerStudent
-              ? benefit.purchaseLimitPerStudent
-              : 0}{" "}
-            uso
-            {/* {benefit. !== 1 ? "s" : ""} */}
+            {benefit.purchaseLimitPerStudent ?? 0} uso
             {benefit.purchaseLimit && ` / ${benefit.purchaseLimit}`}
           </span>
           {benefit.purchaseLimit && benefit.purchaseLimitPerStudent && (
@@ -69,42 +64,13 @@ const BenefitCard = ({ benefit }: Props) => {
               <div
                 className={styles.usageProgress}
                 style={{
-                  width: `${
-                    (benefit.purchaseLimitPerStudent / benefit.purchaseLimit) *
-                    100
-                  }%`,
+                  width: `${usagePercentage}%`,
                 }}
               />
             </div>
           )}
         </div>
       </div>
-
-      {/* Duration and Restrictions */}
-      {/* {benefit.duration && (
-        <div className={styles.benefitDetails}>
-          <span className={styles.duration}>Duración: {benefit.duration}</span>
-        </div>
-      )} */}
-
-      {/* PROXIMO SPRINT */}
-      {/* {benefit.restrictions && benefit.restrictions.length > 0 && (
-        <div className={styles.restrictions}>
-          <span className={styles.restrictionsTitle}>Restricciones:</span>
-          <ul className={styles.restrictionsList}>
-            {benefit.restrictions.slice(0, 2).map((restriction, idx) => (
-              <li key={idx} className={styles.restrictionItem}>
-                {restriction}
-              </li>
-            ))}
-            {benefit.restrictions.length > 2 && (
-              <li className={styles.moreRestrictions}>
-                +{benefit.restrictions.length - 2} más
-              </li>
-            )}
-          </ul>
-        </div>
-      )} */}
 
       {/* Actions */}
       <div className={styles.cardActions}>

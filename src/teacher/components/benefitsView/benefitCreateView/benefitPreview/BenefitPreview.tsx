@@ -10,14 +10,16 @@ import {
 } from "../../../../utils/benefits.utils";
 import styles from "./BenefitPreview.module.css";
 
+type BenefitPreviewProps = {
+  formData: CreateBenefitInterface;
+};
 
-const BenefitPreview = () => {
-  const { getColor, getSelectedIcon, getSelectedCategory, formData } =
-    useBenefitUI();
+const BenefitPreview = ({ formData }: BenefitPreviewProps) => {
   const previewVariants = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: { opacity: 1, scale: 1 },
   };
+
   return (
     <motion.div
       variants={previewVariants}
@@ -37,9 +39,9 @@ const BenefitPreview = () => {
           <div className={styles.previewContent}>
             <div
               className={styles.previewIconWrapper}
-              style={{ backgroundColor: getColor(formData.color) }}
+              style={{ backgroundColor: getColorByValue(formData.color) }}
             >
-              {React.createElement(getSelectedIcon(formData.icon), {
+              {React.createElement(getIconByValue(formData.icon), {
                 className: styles.previewIcon,
               })}
             </div>
@@ -48,7 +50,8 @@ const BenefitPreview = () => {
                 {formData.name || "Nombre del Beneficio"}
               </h4>
               <p className={styles.previewCategory}>
-                {getSelectedCategory()?.label || "Selecciona una categoría"}
+                {getCategoryByValue(formData.category)?.label ||
+                  "Selecciona una categoría"}
               </p>
             </div>
           </div>
@@ -63,28 +66,7 @@ const BenefitPreview = () => {
               <FaCoins className={styles.previewCostIcon} />
               <span>{formData.cost || "0"} puntos</span>
             </div>
-            {/* {formData.duration && (
-                    <div className={styles.previewDuration}>
-                      Duración: {formData.duration}
-                    </div>
-                  )} */}
           </div>
-
-          {/* {formData.restrictions.some((r) => r.trim()) && (
-                  <div className={styles.previewRestrictions}>
-                    <span className={styles.previewRestrictionsTitle}>
-                      Restricciones:
-                    </span>
-                    <ul className={styles.previewRestrictionsList}>
-                      {formData.restrictions
-                        .filter((r) => r.trim())
-                        .slice(0, 2)
-                        .map((restriction, idx) => (
-                          <li key={idx}>{restriction}</li>
-                        ))}
-                    </ul>
-                  </div>
-                )} */}
         </div>
       </Card>
     </motion.div>

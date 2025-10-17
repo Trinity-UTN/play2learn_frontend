@@ -6,12 +6,16 @@ import Input from "../../../../shared/components/Input/InputComponent";
 import { BENEFIT_CATEGORIES } from "../../../constants/benefits.constants";
 import styles from "./BenefitSearch.module.css";
 
-type Props = {
+type BenefitSearchProps = {
   handleSearch: (value: string) => void;
   handleFilter: (filter: string[], value: string[]) => void;
 };
-const BenefitSearch = ({ handleFilter, handleSearch }: Props) => {
-  const categoriesForFilter = ["ALL", ...categories] as const;
+
+const BenefitSearch = ({ handleFilter, handleSearch }: BenefitSearchProps) => {
+  const categoriesForFilter = [
+    "ALL",
+    ...BENEFIT_CATEGORIES.map((c) => c.value),
+  ] as const;
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
 
@@ -31,6 +35,12 @@ const BenefitSearch = ({ handleFilter, handleSearch }: Props) => {
       handleFilter(["category"], [selectedCategory]);
     }
   }, [selectedCategory]);
+
+  const getCategoryLabel = (value: string): string => {
+    if (value === "ALL") return "Todas las categorías";
+    const category = BENEFIT_CATEGORIES.find((c) => c.value === value);
+    return category?.label || value;
+  };
 
   return (
     <motion.div variants={itemVariants}>
@@ -56,7 +66,7 @@ const BenefitSearch = ({ handleFilter, handleSearch }: Props) => {
               >
                 {categoriesForFilter.map((category) => (
                   <option key={category} value={category}>
-                    {category === "ALL" ? "Todas las categorías" : category}
+                    {getCategoryLabel(category)}
                   </option>
                 ))}
               </select>

@@ -52,3 +52,25 @@ input:focus,
   border-color: var(--color-primary) !important;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
+
+.inputError {
+  border-color: #dc2626 !important;
+}
+
+.inputError:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: #dc2626;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.errorMessage svg {
+  font-size: 0.875rem;
+}
