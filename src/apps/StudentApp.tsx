@@ -22,6 +22,7 @@ import { NoLudicaGameProvider } from "../shared/contexts/gamesContext/noLudicaGa
 import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaProvider";
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
+import { WalletStudentProvider } from "../student/context/walletStudentContext/WalletStudentProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
@@ -68,34 +69,38 @@ const StudentApp = () => {
                                           <DesafioClasificacionGameProvider mode="student">
                                             <PreguntadosProvider>
                                               <PreguntadosGameProvider mode="student">
-                                                <motion.div
-                                                  key="dashboardStudent"
-                                                  initial={{ opacity: 0 }}
-                                                  animate={{ opacity: 1 }}
-                                                  exit={{ opacity: 0 }}
-                                                  transition={{ duration: 0.3 }}
-                                                >
-                                              <StudentDashboard />
-                                            </motion.div>
-                                          </PreguntadosGameProvider>
-                                        </PreguntadosProvider>
-                                      </DesafioClasificacionGameProvider>
-                                    </DesafioClasificacionProvider>
-                                  </CompletarOracionGameProvider>
-                                </CompletarOracionProvider>
-                              </AhorcadoGameProvider>
-                            </AhorcadoProvider>
-                          </NoLudicaGameProvider>
-                        </NoLudicaProvider>
-                       </ConfigurationActivityProvider>
-                      </ActivityStudentProviderUI>
-                    </ActivityStudentProvider>
-                  </ProfileAvatarProvider>
-                </CurrentStudentProvider>
-              </SubjectProvider>
-            </ProtectedRoute>
-          }
-        >
+                                                <WalletStudentProvider>
+                                                  <motion.div
+                                                    key="dashboardStudent"
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    exit={{ opacity: 0 }}
+                                                    transition={{
+                                                      duration: 0.3,
+                                                    }}
+                                                  >
+                                                    <StudentDashboard />
+                                                  </motion.div>
+                                                </WalletStudentProvider>
+                                              </PreguntadosGameProvider>
+                                            </PreguntadosProvider>
+                                          </DesafioClasificacionGameProvider>
+                                        </DesafioClasificacionProvider>
+                                      </CompletarOracionGameProvider>
+                                    </CompletarOracionProvider>
+                                  </AhorcadoGameProvider>
+                                </AhorcadoProvider>
+                              </NoLudicaGameProvider>
+                            </NoLudicaProvider>
+                          </ConfigurationActivityProvider>
+                        </ActivityStudentProviderUI>
+                      </ActivityStudentProvider>
+                    </ProfileAvatarProvider>
+                  </CurrentStudentProvider>
+                </SubjectProvider>
+              </ProtectedRoute>
+            }
+          >
             <Route path="profile" element={<StudentProfileView />} />
             <Route
               path="profile/avatar"
