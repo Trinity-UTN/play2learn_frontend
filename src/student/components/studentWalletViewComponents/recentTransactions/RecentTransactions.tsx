@@ -1,51 +1,18 @@
-import type React from "react";
 import { motion } from "framer-motion";
 import { FaHistory, FaArrowUp, FaArrowDown, FaEye } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
-import type { WalletTransaction } from "../../../types/generalType";
 import styles from "./RecentTransactions.module.css";
-import { FcAlarmClock, FcFlashOn, FcOk } from "react-icons/fc";
+import { useWalletStudent } from "../../../hooks/useWalletStudentAPI";
+import { useEffect } from "react";
+import type { TransactionType } from "../../../types/Wallet.type";
+import { IoMdTrendingDown, IoMdTrendingUp } from "react-icons/io";
 
 const RecentTransactions: React.FC = () => {
-  const recentTransactions: WalletTransaction[] = [
-    {
-      id: "1",
-      type: "earned",
-      amount: 85,
-      description: "Desafio de Clasificación completado",
-      date: "2024-03-15T14:30:00Z",
-      category: "Actividad",
-      icon: <FcOk />,
-    },
-    {
-      id: "2",
-      type: "spent",
-      amount: 50,
-      description: "Extensión de tiempo",
-      date: "2024-03-15T10:15:00Z",
-      category: "Beneficio",
-      icon: <FcAlarmClock />,
-    },
-    {
-      id: "3",
-      type: "earned",
-      amount: 120,
-      description: "Actividad Ahorcado",
-      date: "2024-03-14T16:45:00Z",
-      category: "Actividad",
-      icon: <FcOk />,
-    },
-    {
-      id: "4",
-      type: "earned",
-      amount: 25,
-      description: "Clase particular",
-      date: "2024-03-14T09:00:00Z",
-      category: "Beneficio",
-      icon: <FcFlashOn />,
-    },
-  ];
+  const { getLastTransactions, lastTransactions } = useWalletStudent();
+  useEffect(() => {
+    getLastTransactions();
+  }, []);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -57,6 +24,18 @@ const RecentTransactions: React.FC = () => {
     if (diffDays === 2) return "Ayer";
     if (diffDays <= 7) return `Hace ${diffDays - 1} días`;
     return date.toLocaleDateString("es-ES");
+  };
+
+  const getTypeTransactions = (type: TransactionType) => {
+    switch (type) {
+      case "EGRESO":
+        return {
+          icono: <IoMdTrendingDown />,
+          color: "var(--color-text-error)",
+        };
+      case "INGRESO":
+        return { icono: <IoMdTrendingUp />, color: "var(--color-stat-3)" };
+    }
   };
 
   return (
@@ -73,9 +52,9 @@ const RecentTransactions: React.FC = () => {
       </div>
 
       <div className={styles.transactionsList}>
-        {recentTransactions.map((transaction, index) => (
+        {lastTransactions.map((transaction, index) => (
           <motion.div
-            key={transaction.id}
+            key={index}
             className={styles.transactionItem}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -83,17 +62,24 @@ const RecentTransactions: React.FC = () => {
             whileHover={{ x: 5 }}
           >
             <div className={styles.transactionLeft}>
-              <div className={styles.transactionIcon}>{transaction.icon}</div>
+              <div
+                className={styles.transactionIcon}
+                style={{
+                  background: getTypeTransactions(transaction.type).color,
+                }}
+              >
+                {getTypeTransactions(transaction.type).icono}
+              </div>
               <div className={styles.transactionInfo}>
                 <h4 className={styles.transactionDescription}>
                   {transaction.description}
                 </h4>
                 <div className={styles.transactionMeta}>
                   <span className={styles.transactionCategory}>
-                    {transaction.category}
+                    {transaction.type}
                   </span>
                   <span className={styles.transactionDate}>
-                    {formatDate(transaction.date)}
+                    {formatDate(transaction.createdAt)}
                   </span>
                 </div>
               </div>
@@ -103,7 +89,7 @@ const RecentTransactions: React.FC = () => {
                 <div
                   className={`${styles.amountIcon} ${styles[transaction.type]}`}
                 >
-                  {transaction.type === "earned" ? (
+                  {transaction.type === "INGRESO" ? (
                     <FaArrowUp />
                   ) : (
                     <FaArrowDown />
@@ -114,7 +100,7 @@ const RecentTransactions: React.FC = () => {
                     styles[transaction.type]
                   }`}
                 >
-                  {transaction.type === "earned" ? "+" : "-"}
+                  {transaction.type === "INGRESO" ? "+" : "-"}
                   {transaction.amount}
                 </span>
               </div>
