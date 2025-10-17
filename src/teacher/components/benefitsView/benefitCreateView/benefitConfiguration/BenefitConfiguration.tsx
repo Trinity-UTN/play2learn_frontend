@@ -15,12 +15,10 @@ const BenefitConfiguration = () => {
             placeholder="50"
             className={styles.input}
             value={
-              formData.totalRedeemableAmount
-                ? formData.totalRedeemableAmount
-                : "Ilimitado"
+              formData.purchaseLimit ? formData.purchaseLimit : "Ilimitado"
             }
             onChange={(e) =>
-              handleChange("totalRedeemableAmount", Number(e.target.value))
+              handleChange("purchaseLimit", Number(e.target.value))
             }
             min="1"
           />
@@ -32,12 +30,12 @@ const BenefitConfiguration = () => {
             placeholder="4"
             className={styles.input}
             value={
-              formData.redeemableAmountPerStudent
-                ? formData.redeemableAmountPerStudent
+              formData.purchaseLimitPerStudent
+                ? formData.purchaseLimitPerStudent
                 : "Ilimitado"
             }
             onChange={(e) =>
-              handleChange("redeemableAmountPerStudent", Number(e.target.value))
+              handleChange("purchaseLimitPerStudent", Number(e.target.value))
             }
             min="1"
           />

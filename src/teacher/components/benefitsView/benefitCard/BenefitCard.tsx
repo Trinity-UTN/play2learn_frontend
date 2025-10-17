@@ -53,29 +53,26 @@ const BenefitCard = ({ benefit }: Props) => {
         </div>
         <div className={styles.usageSection}>
           <span className={styles.usageText}>
-            {benefit.redeemableAmountPerStudent
-              ? benefit.redeemableAmountPerStudent
+            {benefit.purchaseLimitPerStudent
+              ? benefit.purchaseLimitPerStudent
               : 0}{" "}
             uso
             {/* {benefit. !== 1 ? "s" : ""} */}
-            {benefit.totalRedeemableAmount &&
-              ` / ${benefit.totalRedeemableAmount}`}
+            {benefit.purchaseLimit && ` / ${benefit.purchaseLimit}`}
           </span>
-          {benefit.totalRedeemableAmount &&
-            benefit.redeemableAmountPerStudent && (
-              <div className={styles.usageBar}>
-                <div
-                  className={styles.usageProgress}
-                  style={{
-                    width: `${
-                      (benefit.redeemableAmountPerStudent /
-                        benefit.totalRedeemableAmount) *
-                      100
-                    }%`,
-                  }}
-                />
-              </div>
-            )}
+          {benefit.purchaseLimit && benefit.purchaseLimitPerStudent && (
+            <div className={styles.usageBar}>
+              <div
+                className={styles.usageProgress}
+                style={{
+                  width: `${
+                    (benefit.purchaseLimitPerStudent / benefit.purchaseLimit) *
+                    100
+                  }%`,
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
 

@@ -5,8 +5,8 @@ export interface BenefitResponseInterface {
   name: string;
   description: string;
   cost: number;
-  totalRedeemableAmount: number | null;
-  redeemableAmountPerStudent: number | null;
+  purchaseLimit: number | null;
+  purchaseLimitPerStudent: number | null;
   subjectDto: SubjectResponseDto;
   color: Color;
   endAt: string;
@@ -18,8 +18,8 @@ export interface CreateBenefitInterface {
   name: string;
   description: string;
   cost: number | string;
-  totalRedeemableAmount: number | null;
-  redeemableAmountPerStudent: number | null;
+  purchaseLimit: number | null;
+  purchaseLimitPerStudent: number | null;
   subjectId: number;
   endAt: string;
   color: Color;
