@@ -2,6 +2,7 @@ import type { Wallet } from "../../../admin/services/student/StudentService";
 import type {
   CurrentStudent,
   AvatarComponents,
+  StatisticsStudentResponse,
 } from "../../types/CurrentStudent.type";
 
 export interface CurrentStudentContextType {
@@ -9,6 +10,7 @@ export interface CurrentStudentContextType {
   loading: boolean;
   currentStudent: CurrentStudent | null;
   wallet: Wallet | undefined;
+  statistics: StatisticsStudentResponse | undefined;
   // Funciones Principales
   getCurrentStudent: () => Promise<void>;
   getCurrentStudentByToken: () => Promise<void>;
@@ -21,7 +23,7 @@ export interface CurrentStudentContextType {
   ) => Promise<void>;
 
   getWalletByStudent: () => void;
-
+  getStatisticsStudent: () => void;
   // Funciones de utilidad
   setCurrentStudent: React.Dispatch<
     React.SetStateAction<CurrentStudent | null>

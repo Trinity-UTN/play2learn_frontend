@@ -28,3 +28,18 @@ export interface AvatarComponents {
   shirt: string;
   hat: string;
 }
+
+export interface LastRealizations {
+  name: string;
+  subject: string;
+  result: string;
+  reward: number;
+  doneAgo: string;
+}
+export interface StatisticsStudentResponse {
+  totalPoints: number;
+  positionRanking: number;
+  totalActivities: number;
+  totalCompletedActivities: number;
+  lastRealizations: LastRealizations[];
+}
