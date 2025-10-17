@@ -6,9 +6,16 @@ export interface FilterOption {
   name: string;
 }
 export interface ActivityStudentContextUIType {
-  activeFilter: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED";
+  activeFilter:
+    | "CREATED"
+    | "PUBLISHED"
+    | "EXPIRED"
+    | "APPROVED"
+    | "DISAPPROVED";
   setActiveFilter: React.Dispatch<
-    React.SetStateAction<"CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED">
+    React.SetStateAction<
+      "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED" | "DISAPPROVED"
+    >
   >;
 
   selectedSubject: FilterOption | null;

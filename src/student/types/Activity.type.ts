@@ -60,6 +60,7 @@ export interface ActivityUI {
   timeLabel?: string;
   rewardLabel?: string;
   reward?: string;
+  remainingAttempts: number;
   attemptsLabel: string;
   noAttempts: boolean;
   dueDateLabel?: string;

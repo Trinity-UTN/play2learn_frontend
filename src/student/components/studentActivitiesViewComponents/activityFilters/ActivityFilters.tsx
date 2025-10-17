@@ -1,16 +1,22 @@
 import { motion } from "framer-motion";
 import { FaFilter, FaBook, FaSignal } from "react-icons/fa";
+import type { FilterOption } from "../../../context/activityStudentContext/activityStudentContextUI/ActivityStudentContextUI.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
-import styles from "./ActivityFilters.module.css";
 import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
-import type { FilterOption } from "../../../context/activityStudentContext/activityStudentContextUI/ActivityStudentContextUI.type";
+import styles from "./ActivityFilters.module.css";
+
 interface ActivityFiltersProps {
-  activeFilter: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED";
+  activeFilter:
+    | "CREATED"
+    | "PUBLISHED"
+    | "EXPIRED"
+    | "APPROVED"
+    | "DISAPPROVED";
   selectedSubject: FilterOption | null;
   selectedDifficulty: string;
   onFilterChange: (
-    filter: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED"
+    filter: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED" | "DISAPPROVED"
   ) => void;
   onSubjectChange: (subject: FilterOption | null) => void;
   onDifficultyChange: (difficulty: string) => void;
