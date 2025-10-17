@@ -1,9 +1,15 @@
-import { motion } from "framer-motion";
-import Card from "../../../../../shared/components/Card/CardComponent";
-import styles from "./BenefitPreview.module.css";
 import React from "react";
+import { motion } from "framer-motion";
 import { FaCoins } from "react-icons/fa";
-import { useBenefitUI } from "../../../../hooks/useBenefitUI";
+import Card from "../../../../../shared/components/Card/CardComponent";
+import type { CreateBenefitInterface } from "../../../../types/Benefits.type";
+import {
+  getIconByValue,
+  getCategoryByValue,
+  getColorByValue,
+} from "../../../../utils/benefits.utils";
+import styles from "./BenefitPreview.module.css";
+
 
 const BenefitPreview = () => {
   const { getColor, getSelectedIcon, getSelectedCategory, formData } =

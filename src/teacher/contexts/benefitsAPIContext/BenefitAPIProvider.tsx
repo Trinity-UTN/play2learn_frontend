@@ -1,15 +1,15 @@
 import { useCallback, useState, type ReactNode } from "react";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
 import { BenefitsService } from "../../services/benefitsService/BenefitsService";
+import { BenefitAPIContext } from "./BenefitAPIContext";
 import type { BenefitAPIContextType } from "./BenefitAPIContext.type";
 import type {
   BenefitResponseInterface,
   CreateBenefitInterface,
-} from "../../types/BenefitType";
-import { BenefitAPIContext } from "./BenefitAPIContext";
+} from "../../types/Benefits.type";
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../shared/types/PaginacionType";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 

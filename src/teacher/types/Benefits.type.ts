@@ -27,6 +27,19 @@ export interface CreateBenefitInterface {
   category: Category;
 }
 
+export interface BenefitValidationErrors {
+  name?: string;
+  description?: string;
+  cost?: string;
+  endAt?: string;
+  subjectId?: string;
+  icon?: string;
+  category?: string;
+  color?: string;
+  purchaseLimit?: string;
+  purchaseLimitPerStudent?: string;
+}
+
 export const colors = [
   "BLUE",
   "ORANGE",

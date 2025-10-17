@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
-import styles from "./BenefitHeader.module.css";
-import Button from "../../../../../shared/components/Button/ButtonComponent";
 import { FaInfoCircle } from "react-icons/fa";
-import { useBenefitUI } from "../../../../hooks/useBenefitUI";
+import Button from "../../../../../shared/components/Button/ButtonComponent";
+import styles from "./BenefitHeader.module.css";
 
 const BenefitHeader = () => {
   const { setPreviewMode, previewMode } = useBenefitUI();

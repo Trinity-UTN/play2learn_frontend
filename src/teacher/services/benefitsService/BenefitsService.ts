@@ -1,12 +1,13 @@
+import qs from "qs";
+import type { BenefitResponseInterface } from "../../types/Benefits.type";
 import type {
   GetPaginated,
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
-import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
+import api from "../../../shared/utils/api";
 import { urls } from "../urls";
-import type { BenefitResponseInterface } from "../../types/BenefitType";
-import qs from "qs";
+
 export interface CreateYearPayload {
   name: string;
 }

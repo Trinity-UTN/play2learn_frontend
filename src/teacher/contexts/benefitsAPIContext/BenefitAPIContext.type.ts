@@ -1,7 +1,7 @@
 import type {
   BenefitResponseInterface,
   CreateBenefitInterface,
-} from "../../types/BenefitType";
+} from "../../types/Benefits.type";
 import type {
   GetPaginated,
   PaginatedData,

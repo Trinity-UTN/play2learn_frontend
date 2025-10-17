@@ -1,11 +1,15 @@
-// import Badge from "../../../../shared/components/Badge/BadgeComponent";
+import React from "react";
+import { FaTrash, FaCoins } from "react-icons/fa";
+import type { BenefitResponseInterface } from "../../../types/Benefits.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
-import type { BenefitResponseInterface } from "../../../types/BenefitType";
+import {
+  getIconByValue,
+  getColorByValue,
+  formatBenefitDate,
+  calculateUsagePercentage,
+} from "../../../utils/benefits.utils";
 import styles from "./BenefitCard.module.css";
-import { useBenefitUI } from "../../../hooks/useBenefitUI";
-import { FaTrash, FaCoins } from "react-icons/fa";
-import React from "react";
 
 type Props = {
   benefit: BenefitResponseInterface;

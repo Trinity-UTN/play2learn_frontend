@@ -1,3 +1,9 @@
+import type { CreateBenefitInterface } from "../../../../types/Benefits.type";
+import {
+  BENEFIT_CATEGORIES,
+  BENEFIT_ICON_OPTIONS,
+  BENEFIT_COLOR_OPTIONS,
+} from "../../../../constants/benefits.constants";
 import styles from "./BenefitAppearance.module.css";
 import { useBenefitUI } from "../../../../hooks/useBenefitUI";
 

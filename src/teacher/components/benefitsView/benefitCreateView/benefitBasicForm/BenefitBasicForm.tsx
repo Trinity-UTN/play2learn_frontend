@@ -1,7 +1,12 @@
+import { FaCoins, FaExclamationTriangle } from "react-icons/fa";
 import Input from "../../../../../shared/components/Input/InputComponent";
+import type {
+  CreateBenefitInterface,
+  BenefitValidationErrors,
+} from "../../../../types/Benefits.type";
+import { BENEFIT_VALIDATION } from "../../../../constants/benefits.constants";
 import styles from "./BenefitBasicForm.module.css";
-import { FaCoins } from "react-icons/fa";
-import { useBenefitUI } from "../../../../hooks/useBenefitUI";
+
 
 const BenefitBasicForm = () => {
   const { formData, handleChange } = useBenefitUI();

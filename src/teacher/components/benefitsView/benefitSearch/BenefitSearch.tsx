@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import styles from "./BenefitSearch.module.css";
-import { categories } from "../../../types/BenefitType";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
+import { BENEFIT_CATEGORIES } from "../../../constants/benefits.constants";
+import styles from "./BenefitSearch.module.css";
 
 type Props = {
   handleSearch: (value: string) => void;

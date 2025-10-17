@@ -1,4 +1,10 @@
+import { FaExclamationTriangle } from "react-icons/fa";
 import Input from "../../../../../shared/components/Input/InputComponent";
+import type { SubjectResponseDto } from "../../../../../admin/services/subject/SubjectService";
+import type {
+  CreateBenefitInterface,
+  BenefitValidationErrors,
+} from "../../../../types/Benefits.type";
 import styles from "./BenefitConfiguration.module.css";
 import { useBenefitUI } from "../../../../hooks/useBenefitUI";
 

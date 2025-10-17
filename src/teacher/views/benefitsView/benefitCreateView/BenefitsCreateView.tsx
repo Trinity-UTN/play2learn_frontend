@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaGift, FaSave } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
