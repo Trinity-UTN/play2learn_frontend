@@ -115,19 +115,16 @@
 .costIcon {
   color: #f59e0b;
   font-size: 1rem;
-  cursor: help;
 }
 
 .limitIcon {
   color: #3b82f6;
   font-size: 1rem;
-  cursor: help;
 }
 
 .limitPerStudentIcon {
   color: #10b981;
   font-size: 1rem;
-  cursor: help;
 }
 
 .statValue {

@@ -9,7 +9,6 @@ import {
 import type { BenefitResponseInterface } from "../../../types/Benefits.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import {
   getIconByValue,
   getColorByValue,
@@ -62,9 +61,7 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
         {/* Costo */}
         <td className={styles.tableCell}>
           <div className={styles.statItem}>
-            <Tooltip content="Costo">
-              <FaCoins className={styles.costIcon} />
-            </Tooltip>
+            <FaCoins className={styles.costIcon} />
             <span className={styles.statValue}>{benefit.cost}</span>
           </div>
         </td>
@@ -73,9 +70,7 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
         <td className={styles.tableCell}>
           {benefit.purchaseLimit ? (
             <div className={styles.statItem}>
-              <Tooltip content="Cantidad de veces que puede canjearse" long>
-                <FaUsers className={styles.limitIcon} />
-              </Tooltip>
+              <FaUsers className={styles.limitIcon} />
               <span className={styles.statValue}>{benefit.purchaseLimit}</span>
             </div>
           ) : (
@@ -87,12 +82,7 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
         <td className={styles.tableCell}>
           {benefit.purchaseLimitPerStudent ? (
             <div className={styles.statItem}>
-              <Tooltip
-                content="Cantidad de veces que puede canjearlo un estudiante"
-                long
-              >
-                <FaUser className={styles.limitPerStudentIcon} />
-              </Tooltip>
+              <FaUser className={styles.limitPerStudentIcon} />
               <span className={styles.statValue}>
                 {benefit.purchaseLimitPerStudent}
               </span>
