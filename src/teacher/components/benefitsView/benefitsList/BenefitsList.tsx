@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FaGift } from "react-icons/fa";
 import type { GetPaginated } from "../../../../shared/types/PaginacionType";
 import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
-import BenefitCard from "../benefitCard/BenefitCard";
+import BenefitCard from "../benefitCardComponent/benefitCard/BenefitCard";
 import BenefitTable from "../benefitTable/BenefitTable";
 import { useBenefitAPI } from "../../../hooks/useBenefitAPI";
 import styles from "./BenefitsList.module.css";

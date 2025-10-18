@@ -1,18 +1,4 @@
-@import "../../../../shared/styles/colors.css";
-
-.benefitCard {
-  padding: 1.5rem;
-  height: 420px;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.benefitCard:hover {
-  border-color: rgba(0, 123, 255, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
+@import "../../../../../shared/styles/colors.css";
 
 .benefitHeader {
   display: flex;
@@ -33,7 +19,7 @@
 
 .benefitIcon {
   font-size: 1.25rem;
-  color: var(--color-stat);
+  color: white;
 }
 
 .benefitInfo {
@@ -62,6 +48,7 @@
   color: var(--color-text-subtitle);
   line-height: 1.5;
   margin-bottom: 1rem;
+  min-height: 3em;
 }
 
 .endDateSection {
@@ -111,6 +98,7 @@
 .costIcon {
   color: #f59e0b;
   font-size: 1rem;
+  cursor: help;
 }
 
 .costValue {
@@ -128,6 +116,7 @@
 .limitIcon {
   color: #3b82f6;
   font-size: 1rem;
+  cursor: help;
 }
 
 .limitValue {
@@ -145,66 +134,11 @@
 .limitPerStudentIcon {
   color: #10b981;
   font-size: 1rem;
+  cursor: help;
 }
 
 .limitPerStudentValue {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text);
-}
-
-.cardActions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
-  gap: 0.5rem;
-}
-
-.actionButton {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  padding: 0.5rem 0.75rem;
-}
-
-.viewRedemptionsButton {
-  flex: 1;
-}
-
-.deleteButton {
-  color: var(--color-delete-button);
-}
-
-.deleteButton:hover {
-  background-color: #fef2f2;
-}
-
-.actionIcon {
-  font-size: 0.75rem;
-}
-
-.costIcon,
-.limitIcon,
-.limitPerStudentIcon {
-  cursor: help;
-}
-
-@media (max-width: 768px) {
-  .benefitStats {
-    gap: 0.75rem;
-  }
-
-  .cardActions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .benefitCard {
-    height: auto;
-    min-height: 420px;
-  }
 }

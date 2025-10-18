@@ -1,0 +1,54 @@
+@import "../../../../../shared/styles/colors.css";
+
+.benefitCard {
+  padding: 1.5rem;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.benefitCard:hover {
+  border-color: rgba(0, 123, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.cardActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  gap: 0.5rem;
+}
+
+.viewRedemptionsButton {
+  flex: 1;
+}
+
+.deleteButton {
+  color: var(--color-delete-button);
+}
+
+.deleteButton:hover {
+  background-color: #fef2f2;
+}
+
+.actionIcon {
+  font-size: 0.75rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cardActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .benefitCard {
+    height: auto;
+    min-height: 420px;
+  }
+}
