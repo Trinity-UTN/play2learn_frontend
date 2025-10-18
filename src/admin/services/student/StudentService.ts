@@ -41,6 +41,7 @@ export interface BodyPart {
   price: number;
   type: string;
   available: boolean;
+  bought?: boolean;
 }
 
 export interface Profile {
