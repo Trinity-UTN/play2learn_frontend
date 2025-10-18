@@ -3,7 +3,10 @@ import { motion } from "framer-motion";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
-import { BENEFIT_CATEGORIES } from "../../../constants/benefits.constants";
+import {
+  BENEFIT_CATEGORIES,
+  BENEFIT_PLACEHOLDERS,
+} from "../../../constants/benefits.constants";
 import styles from "./BenefitSearch.module.css";
 
 type BenefitSearchProps = {
@@ -37,7 +40,7 @@ const BenefitSearch = ({ handleFilter, handleSearch }: BenefitSearchProps) => {
   }, [selectedCategory]);
 
   const getCategoryLabel = (value: string): string => {
-    if (value === "ALL") return "Todas las categorías";
+    if (value === "ALL") return BENEFIT_PLACEHOLDERS.DEFAULT_CATEGORY;
     const category = BENEFIT_CATEGORIES.find((c) => c.value === value);
     return category?.label || value;
   };
@@ -49,7 +52,7 @@ const BenefitSearch = ({ handleFilter, handleSearch }: BenefitSearchProps) => {
           <div className={styles.searchWrapper}>
             <FaSearch className={styles.searchIcon} />
             <Input
-              placeholder="Buscar beneficios..."
+              placeholder={BENEFIT_PLACEHOLDERS.SEARCH_BENEFITS}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={styles.searchInput}

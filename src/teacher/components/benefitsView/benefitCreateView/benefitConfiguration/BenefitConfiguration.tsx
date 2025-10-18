@@ -8,7 +8,7 @@ import type {
 } from "../../../../types/Benefits.type";
 import {
   BENEFIT_FORM_PLACEHOLDERS,
-  BENEFIT_VALIDATION_TEXT,
+  BENEFIT_TOOLTIP,
 } from "../../../../constants/benefits.constants";
 import styles from "./BenefitConfiguration.module.css";
 
@@ -39,13 +39,11 @@ const BenefitConfiguration = ({
         <div className={styles.inputGroup}>
           <label className={styles.label}>
             Límite de Uso Total
-            <Tooltip
-              content={BENEFIT_VALIDATION_TEXT.PURCHASE_LIMIT_VALIDATION}
-            />
+            <Tooltip content={BENEFIT_TOOLTIP.PURCHASE_LIMIT} />
           </label>
           <Input
             type="number"
-            placeholder={BENEFIT_FORM_PLACEHOLDERS.PURCHASE_LIMIT_PLACEHOLDER}
+            placeholder={BENEFIT_FORM_PLACEHOLDERS.PURCHASE_LIMIT}
             value={formData.purchaseLimit ?? ""}
             onChange={(e) => onChange("purchaseLimit", Number(e.target.value))}
             onBlur={() => onBlur("purchaseLimit")}
@@ -65,17 +63,11 @@ const BenefitConfiguration = ({
         <div className={styles.inputGroup}>
           <label className={styles.label}>
             Límite de Uso Por Estudiante
-            <Tooltip
-              content={
-                BENEFIT_VALIDATION_TEXT.PURCHASE_LIMIT_PER_STUDENT_VALIDATION
-              }
-            />
+            <Tooltip content={BENEFIT_TOOLTIP.PURCHASE_LIMIT_PER_STUDENT} />
           </label>
           <Input
             type="number"
-            placeholder={
-              BENEFIT_FORM_PLACEHOLDERS.PURCHASE_LIMIT_PER_STUDENT_PLACEHOLDER
-            }
+            placeholder={BENEFIT_FORM_PLACEHOLDERS.PURCHASE_LIMIT_PER_STUDENT}
             value={formData.purchaseLimitPerStudent ?? ""}
             onChange={(e) =>
               onChange("purchaseLimitPerStudent", Number(e.target.value))

@@ -1,11 +1,11 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
-import styles from "./BenefitsList.module.css";
 import { FaGift } from "react-icons/fa";
-import BenefitCard from "../benefitCard/BenefitCard";
 import type { GetPaginated } from "../../../../shared/types/PaginacionType";
 import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
-import { useEffect } from "react";
+import BenefitCard from "../benefitCard/BenefitCard";
 import { useBenefitAPI } from "../../../hooks/useBenefitAPI";
+import styles from "./BenefitsList.module.css";
 
 type BenefitsListProps = {
   paginationParams: GetPaginated;

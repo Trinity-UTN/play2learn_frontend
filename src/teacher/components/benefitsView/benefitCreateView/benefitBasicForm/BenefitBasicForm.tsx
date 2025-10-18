@@ -36,7 +36,7 @@ const BenefitBasicForm = ({
           <label className={styles.label}>Nombre del Beneficio</label>
           <Input
             type="text"
-            placeholder={BENEFIT_FORM_PLACEHOLDERS.NAME_PLACEHOLDER}
+            placeholder={BENEFIT_FORM_PLACEHOLDERS.NAME}
             value={formData.name}
             onChange={(e) => onChange("name", e.target.value)}
             onBlur={() => onBlur("name")}
@@ -61,7 +61,7 @@ const BenefitBasicForm = ({
             <FaCoins className={styles.costIcon} />
             <Input
               type="number"
-              placeholder={BENEFIT_FORM_PLACEHOLDERS.COST_PLACEHOLDER}
+              placeholder={BENEFIT_FORM_PLACEHOLDERS.COST}
               value={formData.cost}
               onChange={(e) => onChange("cost", Number(e.target.value))}
               onBlur={() => onBlur("cost")}
@@ -86,7 +86,7 @@ const BenefitBasicForm = ({
           className={`${styles.textarea} ${
             touched.description && errors.description ? styles.inputError : ""
           }`}
-          placeholder={BENEFIT_FORM_PLACEHOLDERS.DESCRIPTION_PLACEHOLDER}
+          placeholder={BENEFIT_FORM_PLACEHOLDERS.DESCRIPTION}
           value={formData.description}
           onChange={(e) => onChange("description", e.target.value)}
           onBlur={() => onBlur("description")}
