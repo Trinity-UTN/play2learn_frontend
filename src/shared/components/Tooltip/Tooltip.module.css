@@ -33,6 +33,12 @@
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+.tooltipLong {
+  white-space: normal;
+  max-width: 400px;
+  text-align: center;
+}
+
 .tooltipContainer:hover .tooltip {
   opacity: 1;
   visibility: visible;
@@ -102,10 +108,10 @@
   border-left-color: #1f2937;
 }
 
-/* Responsive adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
   .tooltip {
-    max-width: calc(100vw - 0.5rem); /* Máximo ancho posible en móviles */
+    max-width: calc(100vw - 0.5rem);
     font-size: 0.85rem;
     padding: 0.875rem 1rem;
   }

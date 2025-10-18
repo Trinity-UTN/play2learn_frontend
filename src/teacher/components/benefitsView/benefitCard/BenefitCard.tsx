@@ -1,13 +1,19 @@
 import React from "react";
-import { FaTrash, FaCoins } from "react-icons/fa";
+import {
+  FaTrash,
+  FaCoins,
+  FaUsers,
+  FaUser,
+  FaCalendarAlt,
+} from "react-icons/fa";
 import type { BenefitResponseInterface } from "../../../types/Benefits.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import {
   getIconByValue,
   getColorByValue,
   formatBenefitDate,
-  calculateUsagePercentage,
 } from "../../../utils/benefits.utils";
 import styles from "./BenefitCard.module.css";
 
@@ -16,17 +22,9 @@ type BenefitCardProps = {
 };
 
 const BenefitCard = ({ benefit }: BenefitCardProps) => {
-  const usagePercentage =
-    benefit.purchaseLimit && benefit.purchaseLimitPerStudent
-      ? calculateUsagePercentage(
-          benefit.purchaseLimitPerStudent,
-          benefit.purchaseLimit
-        )
-      : 0;
-
   return (
     <Card className={styles.benefitCard}>
-      {/* Icon and Title */}
+      {/* Titulo */}
       <div className={styles.benefitHeader}>
         <div
           className={styles.iconWrapper}
@@ -42,38 +40,70 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
         </div>
       </div>
 
-      {/* Description */}
+      {/* Descripción */}
       <p className={styles.benefitDescription}>{benefit.description}</p>
-      <p className={styles.benefitDescription}>
-        Fecha de finalización: {formatBenefitDate(benefit.endAt)}
-      </p>
 
-      {/* Cost and Usage */}
-      <div className={styles.benefitStats}>
-        <div className={styles.costSection}>
-          <FaCoins className={styles.costIcon} />
-          <span className={styles.costValue}>{benefit.cost} puntos</span>
-        </div>
-        <div className={styles.usageSection}>
-          <span className={styles.usageText}>
-            {benefit.purchaseLimitPerStudent ?? 0} uso
-            {benefit.purchaseLimit && ` / ${benefit.purchaseLimit}`}
-          </span>
-          {benefit.purchaseLimit && benefit.purchaseLimitPerStudent && (
-            <div className={styles.usageBar}>
-              <div
-                className={styles.usageProgress}
-                style={{
-                  width: `${usagePercentage}%`,
-                }}
-              />
-            </div>
-          )}
-        </div>
+      {/* Fecha de finalización */}
+      <div className={styles.endDateSection}>
+        <FaCalendarAlt className={styles.endDateIcon} />
+        <span className={styles.endDateText}>
+          Finaliza: <strong>{formatBenefitDate(benefit.endAt)}</strong>
+        </span>
       </div>
 
-      {/* Actions */}
+      {/* Otros atributos */}
+      <div className={styles.benefitStats}>
+        {/* Costo */}
+        <div className={styles.costSection}>
+          <Tooltip content="Costo">
+            <FaCoins className={styles.costIcon} />
+          </Tooltip>
+          <span className={styles.costValue}>{benefit.cost} puntos</span>
+        </div>
+
+        {/* Límite total de canjes */}
+        {benefit.purchaseLimit && (
+          <div className={styles.limitSection}>
+            <Tooltip content="Cantidad de veces que puede canjearse" long>
+              <FaUsers className={styles.limitIcon} />
+            </Tooltip>
+            <span className={styles.limitValue}>
+              Puede canjearse hasta {benefit.purchaseLimit}{" "}
+              {benefit.purchaseLimit > 1 ? "veces" : "vez"}
+            </span>
+          </div>
+        )}
+
+        {/* Límite por estudiante */}
+        {benefit.purchaseLimitPerStudent && (
+          <div className={styles.limitPerStudentSection}>
+            <Tooltip
+              content="Cantidad de veces que puede canjearlo un estudiante"
+              long
+            >
+              <FaUser className={styles.limitPerStudentIcon} />
+            </Tooltip>
+            <span className={styles.limitPerStudentValue}>
+              Máx. {benefit.purchaseLimitPerStudent} por estudiante
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Acciones */}
       <div className={styles.cardActions}>
+        {/* 
+          TODO: Implementar navegación a página de canjes
+        */}
+        <Button
+          variant="primary"
+          size="sm"
+          className={styles.viewRedemptionsButton}
+          // onClick={() => navigate(`/admin/benefits/${benefit.id}/redemptions`)}
+        >
+          Ver Canjes
+        </Button>
+
         <Button variant="ghost" size="sm" className={styles.deleteButton}>
           <FaTrash className={styles.actionIcon} />
           Eliminar

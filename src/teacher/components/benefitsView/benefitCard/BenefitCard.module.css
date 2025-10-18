@@ -1,7 +1,8 @@
 @import "../../../../shared/styles/colors.css";
+
 .benefitCard {
   padding: 1.5rem;
-  height: 320px;
+  height: 420px;
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
@@ -13,32 +14,6 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-.cardHeader {
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-}
-
-.badges {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.premiumBadge,
-.limitedBadge {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.badgeIcon {
-  font-size: 0.625rem;
-}
 .benefitHeader {
   display: flex;
   align-items: center;
@@ -89,15 +64,42 @@
   margin-bottom: 1rem;
 }
 
+.endDateSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border-left: 3px solid #f59e0b;
+}
+
+.endDateIcon {
+  color: #d97706;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.endDateText {
+  font-size: 0.875rem;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.endDateText strong {
+  font-weight: 700;
+  color: #78350f;
+}
+
 .benefitStats {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
+  flex-direction: column;
+  gap: 0.5rem;
   padding: 0.75rem;
   background-color: #f9fafb;
   border-radius: 0.5rem;
-  margin-bottom: 0.4rem;
+  margin-bottom: 1rem;
 }
 
 .costSection {
@@ -107,7 +109,7 @@
 }
 
 .costIcon {
-  color: var(--color-stat-2);
+  color: #f59e0b;
   font-size: 1rem;
 }
 
@@ -117,95 +119,48 @@
   color: var(--color-text);
 }
 
-.usageSection {
+.limitSection {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.25rem;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.usageText {
-  font-size: 0.75rem;
-  color: var(--color-text-subtitle);
-  font-weight: 500;
+.limitIcon {
+  color: #3b82f6;
+  font-size: 1rem;
 }
 
-.usageBar {
-  width: 60px;
-  height: 4px;
-  background-color: #e5e7eb;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.usageProgress {
-  height: 100%;
-  background: linear-gradient(90deg, #10b981, #059669);
-  border-radius: 2px;
-  transition: width 0.3s ease;
-}
-
-.benefitDetails {
-  margin-bottom: 1rem;
-}
-
-.duration {
-  font-size: 0.75rem;
-  color: var(--color-text-subtitle);
-  background-color: #f3f4f6;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-weight: 500;
-}
-
-.restrictions {
-  margin-bottom: 1rem;
-}
-
-.restrictionsTitle {
-  font-size: 0.75rem;
+.limitValue {
+  font-size: 0.875rem;
   font-weight: 600;
-  color: var(--color-text-subtitle);
-  display: block;
-  margin-bottom: 0.5rem;
+  color: var(--color-text);
 }
 
-.restrictionsList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.limitPerStudentSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.restrictionItem {
-  font-size: 0.75rem;
-  color: #6b7280;
-  padding: 0.125rem 0;
-  position: relative;
-  padding-left: 1rem;
+.limitPerStudentIcon {
+  color: #10b981;
+  font-size: 1rem;
 }
 
-.restrictionItem::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: #d1d5db;
-}
-
-.moreRestrictions {
-  font-size: 0.75rem;
-  color: #9ca3af;
-  font-style: italic;
-  padding: 0.125rem 0;
-  padding-left: 1rem;
+.limitPerStudentValue {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 .cardActions {
   display: flex;
-  justify-content: center;
-  align-items: end;
+  justify-content: space-between;
+  align-items: center;
   margin-top: auto;
   padding-top: 1rem;
-  border-top: 1px solid #d9d9da;
+  border-top: 1px solid #e5e7eb;
+  gap: 0.5rem;
 }
 
 .actionButton {
@@ -216,6 +171,10 @@
   padding: 0.5rem 0.75rem;
 }
 
+.viewRedemptionsButton {
+  flex: 1;
+}
+
 .deleteButton {
   color: var(--color-delete-button);
 }
@@ -223,21 +182,29 @@
 .deleteButton:hover {
   background-color: #fef2f2;
 }
+
 .actionIcon {
   font-size: 0.75rem;
 }
 
+.costIcon,
+.limitIcon,
+.limitPerStudentIcon {
+  cursor: help;
+}
+
 @media (max-width: 768px) {
   .benefitStats {
-    flex-direction: column;
-    align-items: stretch;
     gap: 0.75rem;
   }
+
   .cardActions {
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    flex-direction: column;
+    align-items: stretch;
   }
-  .usageSection {
-    align-items: flex-start;
+
+  .benefitCard {
+    height: auto;
+    min-height: 420px;
   }
 }
