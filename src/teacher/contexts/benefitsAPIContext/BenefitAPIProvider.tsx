@@ -5,7 +5,7 @@ import type { BenefitAPIContextType } from "./BenefitAPIContext.type";
 import type {
   BenefitResponseInterface,
   CreateBenefitInterface,
-} from "../../types/Benefits.type";
+} from "../../../shared/types/Benefits.type";
 import type {
   GetPaginated,
   PaginatedData,

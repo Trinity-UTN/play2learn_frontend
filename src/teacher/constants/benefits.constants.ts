@@ -9,7 +9,7 @@ import {
   FaChartLine,
   FaGift,
 } from "react-icons/fa";
-import type { Category, Color, Icon } from "../types/Benefits.type";
+import type { Category, Color, Icon } from "../../shared/types/Benefits.type";
 
 export const BENEFIT_CATEGORIES: ReadonlyArray<{
   value: Category;

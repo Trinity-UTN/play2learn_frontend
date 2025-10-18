@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import type {
   CreateBenefitInterface,
   BenefitValidationErrors,
-} from "../../types/Benefits.type";
+} from "../../../shared/types/Benefits.type";
 import {
   validateBenefitForm,
   hasValidationErrors,

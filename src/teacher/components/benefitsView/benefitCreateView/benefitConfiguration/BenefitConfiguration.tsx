@@ -5,7 +5,7 @@ import type { SubjectResponseDto } from "../../../../../admin/services/subject/S
 import type {
   CreateBenefitInterface,
   BenefitValidationErrors,
-} from "../../../../types/Benefits.type";
+} from "../../../../../shared/types/Benefits.type";
 import {
   BENEFIT_FORM_PLACEHOLDERS,
   BENEFIT_TOOLTIP,

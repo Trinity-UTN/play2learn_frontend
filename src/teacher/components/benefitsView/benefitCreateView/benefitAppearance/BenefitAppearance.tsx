@@ -1,4 +1,4 @@
-import type { CreateBenefitInterface } from "../../../../types/Benefits.type";
+import type { CreateBenefitInterface } from "../../../../../shared/types/Benefits.type";
 import {
   BENEFIT_CATEGORIES,
   BENEFIT_ICON_OPTIONS,

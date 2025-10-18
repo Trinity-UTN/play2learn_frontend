@@ -3,7 +3,7 @@ import Input from "../../../../../shared/components/Input/InputComponent";
 import type {
   CreateBenefitInterface,
   BenefitValidationErrors,
-} from "../../../../types/Benefits.type";
+} from "../../../../../shared/types/Benefits.type";
 import {
   BENEFIT_FORM_PLACEHOLDERS,
   BENEFIT_VALIDATION,

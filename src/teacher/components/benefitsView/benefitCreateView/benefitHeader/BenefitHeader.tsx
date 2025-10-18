@@ -19,7 +19,7 @@ const BenefitHeader = ({ previewMode, setPreviewMode }: BenefitHeaderProps) => {
       <div>
         <h1 className={styles.title}>Crear Nuevo Beneficio</h1>
         <p className={styles.subtitle}>
-          Diseña una recompensa atractiva para motivar a los estudiantes
+          Diseña una recompensa para motivar a los estudiantes
         </p>
       </div>
       <div className={styles.headerActions}>

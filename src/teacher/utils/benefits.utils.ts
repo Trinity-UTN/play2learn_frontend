@@ -1,6 +1,6 @@
 import type { IconType } from "react-icons";
 import { FaGift } from "react-icons/fa";
-import type { Category, Color, Icon } from "../types/Benefits.type";
+import type { Category, Color, Icon } from "../../shared/types/Benefits.type";
 import {
   BENEFIT_CATEGORIES,
   BENEFIT_COLOR_OPTIONS,

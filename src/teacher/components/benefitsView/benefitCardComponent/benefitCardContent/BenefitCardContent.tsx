@@ -3,7 +3,7 @@ import Tooltip from "../../../../../shared/components/Tooltip/TooltipComponent";
 import type {
   BenefitResponseInterface,
   CreateBenefitInterface,
-} from "../../../../types/Benefits.type";
+} from "../../../../../shared/types/Benefits.type";
 import {
   getIconByValue,
   getColorByValue,

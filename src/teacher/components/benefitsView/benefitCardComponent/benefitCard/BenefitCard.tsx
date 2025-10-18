@@ -1,8 +1,8 @@
 import { FaTrash } from "react-icons/fa";
 import Button from "../../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../../shared/components/Card/CardComponent";
-import type { BenefitResponseInterface } from "../../../../types/Benefits.type";
 import BenefitCardContent from "../benefitCardContent/BenefitCardContent";
+import type { BenefitResponseInterface } from "../../../../../shared/types/Benefits.type";
 import styles from "./BenefitCard.module.css";
 
 type BenefitCardProps = {

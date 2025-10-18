@@ -6,9 +6,9 @@ import {
   FaCalendarAlt,
   FaTrash,
 } from "react-icons/fa";
-import type { BenefitResponseInterface } from "../../../types/Benefits.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
+import type { BenefitResponseInterface } from "../../../../shared/types/Benefits.type";
 import {
   getIconByValue,
   getColorByValue,

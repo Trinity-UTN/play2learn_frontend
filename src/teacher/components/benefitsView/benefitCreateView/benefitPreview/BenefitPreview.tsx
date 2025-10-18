@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Card from "../../../../../shared/components/Card/CardComponent";
 import BenefitCardContent from "../../benefitCardComponent/benefitCardContent/BenefitCardContent";
-import type { CreateBenefitInterface } from "../../../../types/Benefits.type";
+import type { CreateBenefitInterface } from "../../../../../shared/types/Benefits.type";
 import styles from "./BenefitPreview.module.css";
 
 type BenefitPreviewProps = {

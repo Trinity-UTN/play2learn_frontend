@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { BenefitResponseInterface } from "../../types/Benefits.type";
+import type { BenefitResponseInterface } from "../../../shared/types/Benefits.type";
 import type {
   GetPaginated,
   PaginatedData,
