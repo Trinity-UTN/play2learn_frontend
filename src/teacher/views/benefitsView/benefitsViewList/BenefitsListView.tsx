@@ -1,13 +1,14 @@
 import type React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaGift } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import styles from "./BenefitsListView.module.css";
-import { useBenefitAPI } from "../../../hooks/useBenefitAPI";
-import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
-import BenefitSearch from "../../../components/benefitsView/benefitSearch/BenefitSearch";
-import BenefitsList from "../../../components/benefitsView/benefitsList/BenefitsList";
 import Button from "../../../../shared/components/Button/ButtonComponent";
+import BenefitsList from "../../../components/benefitsView/benefitsList/BenefitsList";
+import BenefitSearch from "../../../components/benefitsView/benefitSearch/BenefitSearch";
+import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
+import { useBenefitAPI } from "../../../hooks/useBenefitAPI";
+import styles from "./BenefitsListView.module.css";
 
 const BenefitsListView: React.FC = () => {
   const { paginatedBenefits } = useBenefitAPI();
@@ -18,6 +19,8 @@ const BenefitsListView: React.FC = () => {
     handleFilter,
     handleSearch,
   } = usePaginationParams();
+
+  const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
 
   const navigate = useNavigate();
   const containerVariants = {
@@ -60,7 +63,7 @@ const BenefitsListView: React.FC = () => {
         </Button>
       </motion.div>
 
-      {/* Stats */}
+      {/* Estadísticas */}
       <motion.div variants={itemVariants} className={styles.statsSection}>
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
@@ -73,43 +76,23 @@ const BenefitsListView: React.FC = () => {
             <span className={styles.statLabel}>Beneficios Encontrados</span>
           </div>
         </div>
-
-        {/* <div className={styles.statCard}>
-          <div
-            className={styles.statIcon}
-            style={{ backgroundColor: "#10b981" }}
-          >
-            <FaChartLine />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statNumber}></span>
-            <span className={styles.statLabel}>Activos</span>
-          </div>
-        </div> */}
-
-        {/* <div className={styles.statCard}>
-          <div
-            className={styles.statIcon}
-            style={{ backgroundColor: "#f59e0b" }}
-          >
-            <FaUsers />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statNumber}>{totalUsage}</span>
-            <span className={styles.statLabel}>Usos Totales</span>
-          </div>
-        </div> */}
       </motion.div>
 
-      {/* Filters */}
-      <BenefitSearch handleFilter={handleFilter} handleSearch={handleSearch} />
+      {/* Filtros */}
+      <BenefitSearch
+        handleFilter={handleFilter}
+        handleSearch={handleSearch}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+      />
 
-      {/* Benefits Grid */}
+      {/* Benefits List (Grid o Table) */}
       <motion.div variants={itemVariants} className={styles.benefitsSection}>
         <BenefitsList
           paginationParams={paginationParams}
           handlePageChange={handlePageChange}
           handlePageSizeChange={handlePageSizeChange}
+          viewMode={viewMode}
         />
       </motion.div>
     </motion.div>

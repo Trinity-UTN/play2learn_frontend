@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FaSearch, FaFilter } from "react-icons/fa";
+import { FaSearch, FaFilter, FaTh, FaList } from "react-icons/fa";
+import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import {
   BENEFIT_CATEGORIES,
   BENEFIT_PLACEHOLDERS,
@@ -12,9 +14,16 @@ import styles from "./BenefitSearch.module.css";
 type BenefitSearchProps = {
   handleSearch: (value: string) => void;
   handleFilter: (filter: string[], value: string[]) => void;
+  viewMode: "grid" | "table";
+  onViewModeChange: (mode: "grid" | "table") => void;
 };
 
-const BenefitSearch = ({ handleFilter, handleSearch }: BenefitSearchProps) => {
+const BenefitSearch = ({
+  handleFilter,
+  handleSearch,
+  viewMode,
+  onViewModeChange,
+}: BenefitSearchProps) => {
   const categoriesForFilter = [
     "ALL",
     ...BENEFIT_CATEGORIES.map((c) => c.value),
@@ -73,6 +82,29 @@ const BenefitSearch = ({ handleFilter, handleSearch }: BenefitSearchProps) => {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div className={styles.viewToggle}>
+              <Tooltip content="Vista en grilla">
+                <Button
+                  variant={viewMode === "grid" ? "primary" : "ghost"}
+                  size="sm"
+                  onClick={() => onViewModeChange("grid")}
+                  className={styles.viewButton}
+                >
+                  <FaTh />
+                </Button>
+              </Tooltip>
+              <Tooltip content="Vista en tabla">
+                <Button
+                  variant={viewMode === "table" ? "primary" : "ghost"}
+                  size="sm"
+                  onClick={() => onViewModeChange("table")}
+                  className={styles.viewButton}
+                >
+                  <FaList />
+                </Button>
+              </Tooltip>
             </div>
           </div>
         </div>
