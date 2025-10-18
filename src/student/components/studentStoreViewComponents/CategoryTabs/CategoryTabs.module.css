@@ -54,14 +54,6 @@
   font-weight: 600;
 }
 
-.tabCount {
-  padding: 0.25rem 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
 @media (max-width: 768px) {
   .tabsContainer {
     justify-content: flex-start;

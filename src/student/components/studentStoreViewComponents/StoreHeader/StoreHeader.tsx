@@ -3,7 +3,7 @@ import { FaStore, FaCoins, FaTshirt, FaCheckCircle } from "react-icons/fa";
 import styles from "./StoreHeader.module.css";
 
 interface StoreHeaderProps {
-  balance: number;
+  balance: number | string;
   totalItems: number;
   ownedItems: number;
 }

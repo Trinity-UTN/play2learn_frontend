@@ -12,7 +12,7 @@ import styles from "./PurchaseModal.module.css";
 
 interface PurchaseModalProps {
   skin: BodyPart;
-  userBalance: number;
+  userBalance: number | string;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -23,7 +23,10 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
   onConfirm,
   onCancel,
 }) => {
-  const newBalance = userBalance - skin.price;
+  const newBalance =
+    userBalance === "Sin saldo"
+      ? "Sin Saldo"
+      : (userBalance as number) - skin.price;
 
   const overlayVariants = {
     hidden: { opacity: 0 },
@@ -32,11 +35,10 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
   };
 
   const modalVariants: Variants = {
-    hidden: { scale: 0.8, opacity: 0, y: 50 },
+    hidden: { scale: 0.7, opacity: 0 },
     visible: {
       scale: 1,
       opacity: 1,
-      y: 0,
       transition: {
         type: "spring",
         stiffness: 300,
@@ -46,7 +48,6 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
     exit: {
       scale: 0.8,
       opacity: 0,
-      y: 50,
     },
   };
 
@@ -79,8 +80,8 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
           <div className={styles.itemPreview}>
             <div className={styles.previewImage}>
               <div className={styles.imagePlaceholder}>
-                <div className={styles.imageIcon}>
-                  {skin.type === "avatar" ? "👤" : "🎩"}
+                <div className={styles.image}>
+                  <img src={skin.image} alt={skin.name} />
                 </div>
               </div>
             </div>
@@ -114,7 +115,9 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
               <span className={styles.balanceLabel}>Saldo restante</span>
               <span
                 className={styles.balanceValue}
-                style={{ color: newBalance >= 0 ? "#22c55e" : "#ef4444" }}
+                style={{
+                  color: newBalance === "Sin Saldo" ? "#ef4444" : "#22c55e",
+                }}
               >
                 {newBalance.toLocaleString()}
               </span>
@@ -124,7 +127,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
           <div className={styles.confirmInfo}>
             <FaCheckCircle className={styles.confirmIcon} />
             <p>
-              Este item se agregará a tu colección y podrás usarlo de inmediato
+              Esta skin se agregará a tu colección y podrás usarlo de inmediato
             </p>
           </div>
 

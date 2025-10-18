@@ -1,16 +1,17 @@
 .tableCard {
-  background: white;
+  background-color: white;
   border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
 }
-
+.card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
 .searchSection {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
   gap: 1rem;
 }
 

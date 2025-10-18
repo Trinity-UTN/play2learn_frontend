@@ -8,7 +8,7 @@ import styles from "./SkinCard.module.css";
 interface SkinCardProps {
   skin: BodyPart;
   onPurchase: (skin: BodyPart) => void;
-  userBalance: number;
+  userBalance: number | string;
 }
 
 const SkinCard: React.FC<SkinCardProps> = ({
@@ -16,7 +16,10 @@ const SkinCard: React.FC<SkinCardProps> = ({
   onPurchase,
   userBalance,
 }) => {
-  const canAfford = userBalance >= skin.price;
+  const canAfford =
+    userBalance !== "Sin saldo"
+      ? (userBalance as number) >= skin.price
+      : "Sin Saldo";
   const isOwned = skin.bought;
   const isAvailable = skin.available;
 

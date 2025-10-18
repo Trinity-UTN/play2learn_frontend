@@ -5,39 +5,72 @@ import styles from "./CategoryTabs.module.css";
 interface CategoryTabsProps {
   selectedCategory: string;
   onSelectCategory: (category: string) => void;
-  avatarCount: number;
-  hatCount: number;
+
+  handleFilter: (filter: string[], value: string[]) => void;
 }
+
+export const FILTER_TYPES = {
+  TYPE: "type",
+} as const;
+
+export const FILTER_VALUES = {
+  CUERPO: "Cuerpo",
+  SOMBRERO: "Sombrero",
+  REMERA: "Remera",
+} as const;
 
 const CategoryTabs: React.FC<CategoryTabsProps> = ({
   selectedCategory,
   onSelectCategory,
-  avatarCount,
-  hatCount,
+
+  handleFilter,
 }) => {
   const categories = [
     {
       value: "all",
       label: "Todos",
       icon: FaGlobe,
-      count: avatarCount + hatCount,
+
       color: "#8b5cf6",
+      filterValue: null, // No aplica filtro
     },
     {
-      value: "avatar",
-      label: "Avatares",
+      value: "cuerpo",
+      label: "Cuerpo",
       icon: FaUser,
-      count: avatarCount,
+
       color: "#3b82f6",
+      filterValue: FILTER_VALUES.CUERPO,
     },
     {
       value: "sombrero",
       label: "Sombreros",
       icon: FaHatWizard,
-      count: hatCount,
+
       color: "#f59e0b",
+      filterValue: FILTER_VALUES.SOMBRERO,
+    },
+    {
+      value: "remera",
+      label: "Remeras",
+      icon: FaHatWizard,
+
+      color: "#f59e0b",
+      filterValue: FILTER_VALUES.REMERA,
     },
   ];
+
+  const handleCategoryClick = (category: (typeof categories)[0]) => {
+    onSelectCategory(category.value);
+
+    if (category.filterValue === null) {
+      // Si es "Todos", limpiar filtros
+      handleFilter([], []);
+    } else {
+      // Aplicar filtro específico
+      handleFilter([FILTER_TYPES.TYPE], [category.filterValue]);
+    }
+  };
 
   const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
@@ -57,7 +90,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
         {categories.map((category) => (
           <button
             key={category.value}
-            onClick={() => onSelectCategory(category.value)}
+            onClick={() => handleCategoryClick(category)}
             className={`${styles.tab} ${
               selectedCategory === category.value ? styles.tabActive : ""
             }`}
@@ -79,16 +112,6 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
               }
             />
             <span className={styles.tabLabel}>{category.label}</span>
-            <span
-              className={styles.tabCount}
-              style={
-                selectedCategory === category.value
-                  ? { color: category.color }
-                  : {}
-              }
-            >
-              {category.count}
-            </span>
           </button>
         ))}
       </div>

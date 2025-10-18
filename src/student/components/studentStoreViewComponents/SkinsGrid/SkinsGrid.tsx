@@ -2,17 +2,21 @@ import { motion, type Variants } from "framer-motion";
 import SkinCard from "../SkinCard/SkinCard";
 import type { BodyPart } from "../../../types/CurrentStudent.type";
 import styles from "./SkinsGrid.module.css";
+import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
+import type { PaginationInfo } from "../../../context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 
 interface SkinsGridProps {
   skins: BodyPart[];
   onPurchase: (skin: BodyPart) => void;
-  userBalance: number;
+  userBalance: number | string;
+  paginationInfo: PaginationInfo | null;
 }
 
 const SkinsGrid: React.FC<SkinsGridProps> = ({
   skins,
   onPurchase,
   userBalance,
+  paginationInfo,
 }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -47,22 +51,37 @@ const SkinsGrid: React.FC<SkinsGridProps> = ({
   }
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className={styles.grid}
+    <PaginateComponent
+      background="transparent"
+      backgroundPagination="rgba(255, 255, 255, 0.54)"
+      {...(paginationInfo && {
+        pagination: {
+          currentPage: paginationInfo.currentPage,
+          totalPages: paginationInfo.totalPages,
+          pageSize: paginationInfo.pageSize,
+          totalItems: paginationInfo.totalItems,
+          onPageChange: paginationInfo.onPageChange,
+          onPageSizeChange: paginationInfo.onPageSizeChange,
+        },
+      })}
     >
-      {skins.map((skin) => (
-        <motion.div key={skin.id} variants={itemVariants}>
-          <SkinCard
-            skin={skin}
-            onPurchase={onPurchase}
-            userBalance={userBalance}
-          />
-        </motion.div>
-      ))}
-    </motion.div>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className={styles.grid}
+      >
+        {skins.map((skin) => (
+          <motion.div key={skin.id} variants={itemVariants}>
+            <SkinCard
+              skin={skin}
+              onPurchase={onPurchase}
+              userBalance={userBalance}
+            />
+          </motion.div>
+        ))}
+      </motion.div>
+    </PaginateComponent>
   );
 };
 

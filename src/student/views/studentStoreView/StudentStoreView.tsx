@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import StoreHeader from "../../components/studentStoreViewComponents/StoreHeader/StoreHeader";
 import CategoryTabs from "../../components/studentStoreViewComponents/CategoryTabs/CategoryTabs";
@@ -6,27 +6,56 @@ import SkinsGrid from "../../components/studentStoreViewComponents/SkinsGrid/Ski
 import PurchaseModal from "../../components/studentStoreViewComponents/PurchaseModal/PurchaseModal";
 import type { BodyPart } from "../../types/CurrentStudent.type";
 import styles from "./StudentStoreView.module.css";
-import { useProfileAvatar } from "../../hooks/useProfileAvatar";
+import { useCurrentStudent } from "../../hooks/useCurrentStudent";
+import { useStore } from "../../hooks/useStoreStudent";
+import usePaginationParams from "../../../shared/hooks/usePaginateParams";
+import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import type { PaginationInfo } from "../../context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
+
 const StudentStoreView: React.FC = () => {
+  const {
+    paginationParams,
+    handlePageChange,
+    handlePageSizeChange,
+    handleFilter,
+  } = usePaginationParams();
+  const { aspects, getPaginatedAspects, loading } = useStore();
+  const { currentStudent } = useCurrentStudent();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedSkin, setSelectedSkin] = useState<BodyPart | null>(null);
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-  const [userBalance] = useState(2450); // Mock balance
-  const { filteredAspects } = useProfileAvatar();
+  const [userBalance] = useState(
+    currentStudent ? currentStudent.wallet.balance.toFixed(2) : "Sin saldo"
+  );
+  useEffect(() => {
+    getPaginatedAspects(paginationParams);
+  }, [paginationParams]);
 
-  const filteredSkins = filteredAspects.filter((skin) => {
-    if (selectedCategory === "all") return true;
-    return skin.type === selectedCategory;
-  });
+  const paginationInfo: PaginationInfo | null = aspects
+    ? {
+        currentPage: aspects.currentPage,
+        totalPages: aspects.totalPages,
+        pageSize: aspects.pageSize,
+        totalItems: aspects.results.length,
+        onPageChange: handlePageChange,
+        onPageSizeChange: handlePageSizeChange,
+      }
+    : null;
 
   const handlePurchase = (skin: BodyPart) => {
+    window.scrollTo(0, 0);
     setSelectedSkin(skin);
     setShowPurchaseModal(true);
   };
 
   const confirmPurchase = () => {
     if (selectedSkin) {
-      console.log("Comprando:", selectedSkin);
+      const data = {
+        aspectId: selectedSkin.id,
+        profileId: currentStudent?.profile.id,
+      };
+      console.log("Comprando:", data);
+
       // Aquí iría la lógica de compra real
       setShowPurchaseModal(false);
       setSelectedSkin(null);
@@ -43,6 +72,9 @@ const StudentStoreView: React.FC = () => {
     },
   };
 
+  if (!aspects?.results || loading) {
+    return <LoadingSpinnerComponent />;
+  }
   return (
     <motion.div
       variants={containerVariants}
@@ -52,25 +84,25 @@ const StudentStoreView: React.FC = () => {
     >
       <StoreHeader
         balance={userBalance}
-        totalItems={filteredAspects.length}
+        totalItems={aspects.results.length}
         ownedItems={
-          filteredAspects
+          aspects.results
             .filter((s): s is BodyPart => "bought" in s)
             .filter((s) => s.bought).length
         }
       />
 
       <CategoryTabs
+        handleFilter={handleFilter}
         selectedCategory={selectedCategory}
         onSelectCategory={setSelectedCategory}
-        avatarCount={filteredAspects.filter((s) => s.type === "avatar").length}
-        hatCount={filteredAspects.filter((s) => s.type === "sombrero").length}
       />
 
       <SkinsGrid
-        skins={filteredSkins}
+        skins={aspects.results}
         onPurchase={handlePurchase}
         userBalance={userBalance}
+        paginationInfo={paginationInfo}
       />
 
       <AnimatePresence>

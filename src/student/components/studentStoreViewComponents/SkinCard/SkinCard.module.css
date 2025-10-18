@@ -154,7 +154,7 @@
 }
 
 .buyButton {
-  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+  background: var(--color-primary);
   border: none;
   display: flex;
   align-items: center;
@@ -165,7 +165,7 @@
 }
 
 .buyButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  background: var(--color-secondary);
   transform: translateY(-2px);
 }
 
