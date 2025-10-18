@@ -1,17 +1,33 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import styles from "./BenefitSearch.module.css";
-import { categories } from "../../../types/BenefitType";
-import { FaSearch, FaFilter } from "react-icons/fa";
+import { FaSearch, FaFilter, FaTh, FaList } from "react-icons/fa";
+import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Input from "../../../../shared/components/Input/InputComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import {
+  BENEFIT_CATEGORIES,
+  BENEFIT_PLACEHOLDERS,
+} from "../../../constants/benefits.constants";
+import styles from "./BenefitSearch.module.css";
 
-type Props = {
+type BenefitSearchProps = {
   handleSearch: (value: string) => void;
   handleFilter: (filter: string[], value: string[]) => void;
+  viewMode: "grid" | "table";
+  onViewModeChange: (mode: "grid" | "table") => void;
 };
-const BenefitSearch = ({ handleFilter, handleSearch }: Props) => {
-  const categoriesForFilter = ["ALL", ...categories] as const;
+
+const BenefitSearch = ({
+  handleFilter,
+  handleSearch,
+  viewMode,
+  onViewModeChange,
+}: BenefitSearchProps) => {
+  const categoriesForFilter = [
+    "ALL",
+    ...BENEFIT_CATEGORIES.map((c) => c.value),
+  ] as const;
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
 
@@ -32,6 +48,12 @@ const BenefitSearch = ({ handleFilter, handleSearch }: Props) => {
     }
   }, [selectedCategory]);
 
+  const getCategoryLabel = (value: string): string => {
+    if (value === "ALL") return BENEFIT_PLACEHOLDERS.DEFAULT_CATEGORY;
+    const category = BENEFIT_CATEGORIES.find((c) => c.value === value);
+    return category?.label || value;
+  };
+
   return (
     <motion.div variants={itemVariants}>
       <Card className={styles.filtersCard}>
@@ -39,7 +61,7 @@ const BenefitSearch = ({ handleFilter, handleSearch }: Props) => {
           <div className={styles.searchWrapper}>
             <FaSearch className={styles.searchIcon} />
             <Input
-              placeholder="Buscar beneficios..."
+              placeholder={BENEFIT_PLACEHOLDERS.SEARCH_BENEFITS}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={styles.searchInput}
@@ -56,10 +78,33 @@ const BenefitSearch = ({ handleFilter, handleSearch }: Props) => {
               >
                 {categoriesForFilter.map((category) => (
                   <option key={category} value={category}>
-                    {category === "ALL" ? "Todas las categorías" : category}
+                    {getCategoryLabel(category)}
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div className={styles.viewToggle}>
+              <Tooltip content="Vista en grilla">
+                <Button
+                  variant={viewMode === "grid" ? "primary" : "ghost"}
+                  size="sm"
+                  onClick={() => onViewModeChange("grid")}
+                  className={styles.viewButton}
+                >
+                  <FaTh />
+                </Button>
+              </Tooltip>
+              <Tooltip content="Vista en tabla">
+                <Button
+                  variant={viewMode === "table" ? "primary" : "ghost"}
+                  size="sm"
+                  onClick={() => onViewModeChange("table")}
+                  className={styles.viewButton}
+                >
+                  <FaList />
+                </Button>
+              </Tooltip>
             </div>
           </div>
         </div>

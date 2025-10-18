@@ -9,6 +9,7 @@ interface TooltipProps {
   children?: React.ReactNode;
   icon?: React.ReactNode;
   className?: string;
+  long?: boolean;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
@@ -17,10 +18,12 @@ const Tooltip: React.FC<TooltipProps> = ({
   children,
   icon = <FaInfoCircle />,
   className = "",
+  long = false,
 }) => {
   const tooltipClass = [
     styles.tooltip,
     styles[`tooltip${position.charAt(0).toUpperCase() + position.slice(1)}`],
+    long && styles.tooltipLong,
     className,
   ]
     .filter(Boolean)
