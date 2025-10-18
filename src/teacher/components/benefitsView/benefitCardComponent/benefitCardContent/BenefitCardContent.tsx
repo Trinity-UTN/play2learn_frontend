@@ -79,7 +79,7 @@ const BenefitCardContent = ({
           <Tooltip content="Costo">
             <FaCoins className={styles.costIcon} />
           </Tooltip>
-          <span className={styles.costValue}>{benefit.cost || 0} puntos</span>
+          <span className={styles.costValue}>{benefit.cost || 0} monedas</span>
         </div>
 
         {/* Límite total de canjes */}
