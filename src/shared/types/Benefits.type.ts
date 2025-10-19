@@ -1,4 +1,11 @@
 import type { SubjectResponseDto } from "../../admin/services/subject/SubjectService";
+import type { PaginatedData } from "../../shared/types/PaginacionType";
+
+type BenefitStudentState =
+  | "AVAILABLE"
+  | "PURCHASED"
+  | "USE_REQUESTED"
+  | "EXPIRED";
 
 export interface BenefitResponseInterface {
   id: number;
@@ -12,6 +19,29 @@ export interface BenefitResponseInterface {
   endAt: string;
   icon: Icon;
   category: Category;
+}
+
+export interface BenefitStudentResponseInterface {
+  id: number;
+  name: string;
+  description: string;
+  cost: number;
+  state: BenefitStudentState;
+  purchasesLeft: number | null;
+  purchasesLeftByStudent: number | null;
+  endAt: string;
+  subjectId: number;
+  subjectName: string;
+  icon: Icon;
+  category: Category;
+  color: Color;
+}
+
+export interface PaginatedBenefitStudentResponseInterface {
+  data: PaginatedData<BenefitStudentResponseInterface>;
+  message: string;
+  errors: any;
+  timestamp: string;
 }
 
 export interface CreateBenefitInterface {
