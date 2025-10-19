@@ -1,21 +1,25 @@
 import { motion } from "framer-motion";
-import styles from "./BenefitHeader.module.css";
-import Button from "../../../../../shared/components/Button/ButtonComponent";
 import { FaInfoCircle } from "react-icons/fa";
-import { useBenefitUI } from "../../../../hooks/useBenefitUI";
+import Button from "../../../../../shared/components/Button/ButtonComponent";
+import styles from "./BenefitHeader.module.css";
 
-const BenefitHeader = () => {
-  const { setPreviewMode, previewMode } = useBenefitUI();
+type BenefitHeaderProps = {
+  previewMode: boolean;
+  setPreviewMode: (value: boolean) => void;
+};
+
+const BenefitHeader = ({ previewMode, setPreviewMode }: BenefitHeaderProps) => {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
   return (
     <motion.div variants={itemVariants} className={styles.header}>
       <div>
         <h1 className={styles.title}>Crear Nuevo Beneficio</h1>
         <p className={styles.subtitle}>
-          Diseña una recompensa atractiva para motivar a los estudiantes
+          Diseña una recompensa para motivar a los estudiantes
         </p>
       </div>
       <div className={styles.headerActions}>

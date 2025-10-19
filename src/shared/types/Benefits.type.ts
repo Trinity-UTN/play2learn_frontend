@@ -5,8 +5,8 @@ export interface BenefitResponseInterface {
   name: string;
   description: string;
   cost: number;
-  totalRedeemableAmount: number | null;
-  redeemableAmountPerStudent: number | null;
+  purchaseLimit: number | null;
+  purchaseLimitPerStudent: number | null;
   subjectDto: SubjectResponseDto;
   color: Color;
   endAt: string;
@@ -18,13 +18,27 @@ export interface CreateBenefitInterface {
   name: string;
   description: string;
   cost: number | string;
-  totalRedeemableAmount: number | null;
-  redeemableAmountPerStudent: number | null;
+  purchaseLimit: number | null;
+  purchaseLimitPerStudent: number | null;
+  purchaseLeft?: number;
   subjectId: number;
   endAt: string;
   color: Color;
   icon: Icon;
   category: Category;
+}
+
+export interface BenefitValidationErrors {
+  name?: string;
+  description?: string;
+  cost?: string;
+  endAt?: string;
+  subjectId?: string;
+  icon?: string;
+  category?: string;
+  color?: string;
+  purchaseLimit?: string;
+  purchaseLimitPerStudent?: string;
 }
 
 export const colors = [
