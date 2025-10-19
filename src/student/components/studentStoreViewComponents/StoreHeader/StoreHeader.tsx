@@ -1,7 +1,7 @@
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { FaStore, FaCoins, FaTshirt, FaCheckCircle } from "react-icons/fa";
 import styles from "./StoreHeader.module.css";
-
+import { itemVariants } from "../../../constants/store.contanst";
 interface StoreHeaderProps {
   balance: number | string;
   totalItems: number;
@@ -13,18 +13,6 @@ const StoreHeader: React.FC<StoreHeaderProps> = ({
   totalItems,
   ownedItems,
 }) => {
-  const itemVariants: Variants = {
-    hidden: { y: -20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-      },
-    },
-  };
-
   return (
     <div className={styles.header}>
       <motion.div variants={itemVariants} className={styles.titleSection}>

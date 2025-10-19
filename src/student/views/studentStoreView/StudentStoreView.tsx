@@ -1,78 +1,34 @@
-import { useEffect, useState } from "react";
+import type { BodyPart } from "../../types/CurrentStudent.type";
+
 import { motion, AnimatePresence } from "framer-motion";
+import { containerVariants } from "../../constants/store.contanst";
+import { useStoreStudentUI } from "../../hooks/useStoreStudentUI";
+
+import styles from "./StudentStoreView.module.css";
+
+import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import StoreHeader from "../../components/studentStoreViewComponents/StoreHeader/StoreHeader";
 import CategoryTabs from "../../components/studentStoreViewComponents/CategoryTabs/CategoryTabs";
 import SkinsGrid from "../../components/studentStoreViewComponents/SkinsGrid/SkinsGrid";
 import PurchaseModal from "../../components/studentStoreViewComponents/PurchaseModal/PurchaseModal";
-import type { BodyPart } from "../../types/CurrentStudent.type";
-import styles from "./StudentStoreView.module.css";
-import { useCurrentStudent } from "../../hooks/useCurrentStudent";
-import { useStore } from "../../hooks/useStoreStudent";
-import usePaginationParams from "../../../shared/hooks/usePaginateParams";
-import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
-import type { PaginationInfo } from "../../context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 
 const StudentStoreView: React.FC = () => {
   const {
-    paginationParams,
-    handlePageChange,
-    handlePageSizeChange,
+    aspects,
+    confirmPurchase,
     handleFilter,
-  } = usePaginationParams();
-  const { aspects, getPaginatedAspects, loading, buyAspect } = useStore();
-  const { currentStudent, getCurrentStudentByToken } = useCurrentStudent();
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [selectedSkin, setSelectedSkin] = useState<BodyPart | null>(null);
-  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-  const [userBalance] = useState(
-    currentStudent ? currentStudent.wallet.balance.toFixed(2) : "Sin saldo"
-  );
-  useEffect(() => {
-    getPaginatedAspects(paginationParams);
-  }, [paginationParams]);
+    handlePurchase,
+    paginationInfo,
+    selectedCategory,
+    selectedSkin,
+    setSelectedCategory,
+    setShowPurchaseModal,
+    showPurchaseModal,
+    userBalance,
+    setSelectedSkin,
+  } = useStoreStudentUI();
 
-  const paginationInfo: PaginationInfo | null = aspects
-    ? {
-        currentPage: aspects.currentPage,
-        totalPages: aspects.totalPages,
-        pageSize: aspects.pageSize,
-        totalItems: aspects.results.length,
-        onPageChange: handlePageChange,
-        onPageSizeChange: handlePageSizeChange,
-      }
-    : null;
-
-  const handlePurchase = (skin: BodyPart) => {
-    window.scrollTo(0, 0);
-    setSelectedSkin(skin);
-    setShowPurchaseModal(true);
-  };
-
-  const confirmPurchase = async () => {
-    if (selectedSkin && currentStudent) {
-      const data = {
-        aspectId: selectedSkin.id,
-        profileId: currentStudent.profile.id,
-      };
-      await buyAspect(data);
-      await getCurrentStudentByToken();
-      getPaginatedAspects(paginationParams);
-      setShowPurchaseModal(false);
-      setSelectedSkin(null);
-    }
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  if (!aspects?.results || loading) {
+  if (!aspects?.results) {
     return <LoadingSpinnerComponent />;
   }
   return (

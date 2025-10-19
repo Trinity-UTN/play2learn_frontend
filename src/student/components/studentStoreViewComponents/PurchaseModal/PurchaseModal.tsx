@@ -1,4 +1,4 @@
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   FaCoins,
   FaTimes,
@@ -9,6 +9,10 @@ import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import type { BodyPart } from "../../../types/CurrentStudent.type";
 import styles from "./PurchaseModal.module.css";
+import {
+  modalVariants,
+  overlayVariants,
+} from "../../../constants/store.contanst";
 
 interface PurchaseModalProps {
   skin: BodyPart;
@@ -27,29 +31,6 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
     userBalance === "Sin saldo"
       ? "Sin Saldo"
       : (userBalance as number) - skin.price;
-
-  const overlayVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-    exit: { opacity: 0 },
-  };
-
-  const modalVariants: Variants = {
-    hidden: { scale: 0.7, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 30,
-      },
-    },
-    exit: {
-      scale: 0.8,
-      opacity: 0,
-    },
-  };
 
   return (
     <motion.div

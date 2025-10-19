@@ -1,9 +1,13 @@
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import SkinCard from "../SkinCard/SkinCard";
 import type { BodyPart } from "../../../types/CurrentStudent.type";
 import styles from "./SkinsGrid.module.css";
 import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
 import type { PaginationInfo } from "../../../context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
+import {
+  containerVariants,
+  itemVariants,
+} from "../../../constants/store.contanst";
 
 interface SkinsGridProps {
   skins: BodyPart[];
@@ -18,33 +22,11 @@ const SkinsGrid: React.FC<SkinsGridProps> = ({
   userBalance,
   paginationInfo,
 }) => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-      },
-    },
-  };
-
   if (skins.length === 0) {
     return (
       <motion.div variants={itemVariants} className={styles.emptyState}>
         <div className={styles.emptyIcon}>🔍</div>
-        <h3 className={styles.emptyTitle}>No se encontraron items</h3>
+        <h3 className={styles.emptyTitle}>No se encontraron aspectos</h3>
         <p className={styles.emptyMessage}>Intenta con otra categoría</p>
       </motion.div>
     );
