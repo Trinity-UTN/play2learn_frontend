@@ -19,8 +19,8 @@ const StudentStoreView: React.FC = () => {
     handlePageSizeChange,
     handleFilter,
   } = usePaginationParams();
-  const { aspects, getPaginatedAspects, loading } = useStore();
-  const { currentStudent } = useCurrentStudent();
+  const { aspects, getPaginatedAspects, loading, buyAspect } = useStore();
+  const { currentStudent, getCurrentStudentByToken } = useCurrentStudent();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedSkin, setSelectedSkin] = useState<BodyPart | null>(null);
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
@@ -48,15 +48,15 @@ const StudentStoreView: React.FC = () => {
     setShowPurchaseModal(true);
   };
 
-  const confirmPurchase = () => {
-    if (selectedSkin) {
+  const confirmPurchase = async () => {
+    if (selectedSkin && currentStudent) {
       const data = {
         aspectId: selectedSkin.id,
-        profileId: currentStudent?.profile.id,
+        profileId: currentStudent.profile.id,
       };
-      console.log("Comprando:", data);
-
-      // Aquí iría la lógica de compra real
+      await buyAspect(data);
+      await getCurrentStudentByToken();
+      getPaginatedAspects(paginationParams);
       setShowPurchaseModal(false);
       setSelectedSkin(null);
     }

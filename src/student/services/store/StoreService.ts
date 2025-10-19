@@ -2,7 +2,10 @@ import qs from "qs";
 import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
-import type { PaginatedAspectResponseInterface } from "../../types/AspectStore.type";
+import type {
+  BuyAspect,
+  PaginatedAspectResponseInterface,
+} from "../../types/AspectStore.type";
 import { urls } from "../urls";
 
 const getPaginatedAspectsApi = async (
@@ -20,7 +23,12 @@ const getPaginatedAspectsApi = async (
   });
   return response.data;
 };
+const buyAspectApi = async (data: BuyAspect) => {
+  const response = await api.post(urls.AspectToInventory, data);
+  return response.data;
+};
 
 export const StoreService = {
   getPaginatedAspectsApi,
+  buyAspectApi,
 };

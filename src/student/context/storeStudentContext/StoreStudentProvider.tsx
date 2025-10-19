@@ -8,13 +8,15 @@ import type {
   GetPaginated,
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
-
+import type { BuyAspect } from "../../types/AspectStore.type";
+import { useToaster } from "../../../shared/hooks/useToaster";
 interface StoreProviderProps {
   children: ReactNode;
 }
 
 export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
   const { handleApiError } = useHandleApiError();
+  const { showToast } = useToaster();
   const [loading, setLoading] = useState<boolean>(false);
   const [aspects, setAspects] = useState<PaginatedData<BodyPart> | null>(null);
 
@@ -33,12 +35,28 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
     },
     []
   );
-
+  const buyAspect = async (data: BuyAspect): Promise<void> => {
+    setLoading(true);
+    try {
+      await StoreService.buyAspectApi(data);
+      showToast({
+        title: "Aspecto comprado exitosamente",
+        message: "El aspecto se ha agregado en perfil.",
+        type: "success",
+        position: "bottom-right",
+      });
+    } catch (error) {
+      handleApiError(error, "Error al comprar el aspecto");
+    } finally {
+      setLoading(false);
+    }
+  };
   const contextValue: StoreContextType = {
     // Estados principales
     loading,
     aspects,
     getPaginatedAspects,
+    buyAspect,
   };
 
   return (

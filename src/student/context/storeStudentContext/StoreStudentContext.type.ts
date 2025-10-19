@@ -2,6 +2,7 @@ import type {
   GetPaginated,
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
+import type { BuyAspect } from "../../types/AspectStore.type";
 import type { BodyPart } from "../../types/CurrentStudent.type";
 
 export interface StoreContextType {
@@ -9,4 +10,5 @@ export interface StoreContextType {
   loading: boolean;
   aspects: PaginatedData<BodyPart> | null;
   getPaginatedAspects: (params: GetPaginated) => Promise<void>;
+  buyAspect: (data: BuyAspect) => void;
 }
