@@ -1,0 +1,55 @@
+@import "../../../../shared/styles/colors.css";
+.navigation {
+  margin-bottom: 2.5rem;
+}
+
+.tabsContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tab {
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.tab:hover {
+  background: var(--color-secondary) !important;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.tab.active {
+  background: var(--color-primary);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.tabIcon {
+  font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .tabsContainer {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .tab {
+    flex-shrink: 0;
+  }
+}

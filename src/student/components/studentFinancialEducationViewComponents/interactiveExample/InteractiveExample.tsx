@@ -1,11 +1,18 @@
-import type React from "react";
 import { useState } from "react";
-import { FaPlay, FaSync, FaCoins, FaChartLine } from "react-icons/fa";
+import { FaPlay, FaRedo, FaCoins, FaChartLine } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
-import styles from "./InteractiveExample.module.css";
 
-const InteractiveExample = () => {
+import styles from "./InteractiveExample.module.css";
+import type { EducationalConcept } from "../../../types/generalType";
+
+interface InteractiveExampleProps {
+  concepts: EducationalConcept[];
+}
+
+const InteractiveExample: React.FC<InteractiveExampleProps> = ({
+  concepts,
+}) => {
   const [selectedScenario, setSelectedScenario] =
     useState<string>("investment");
   const [simulationStep, setSimulationStep] = useState(0);
@@ -31,42 +38,12 @@ const InteractiveExample = () => {
       icon: "🐷",
       color: "#8B5CF6",
     },
-  ];
-
-  const results = [
     {
-      id: 1,
-      backgroundColor: "#b0f3dd99",
-      color: "#05b63aff",
-      icon: <FaCoins />,
-      simulationData: simulationData.initialAmount,
-      name: "Inversión Inicial",
-    },
-    {
-      id: 4,
-      backgroundColor: "#fc393976",
-      color: "#ff0505ff",
-      icon: <FaChartLine />,
-      simulationData: selectedScenario === "investment" ? "5%" : "2%",
-      name:
-        selectedScenario === "investment" ? "% Mensual" : "% De Ahorro Mensual",
-    },
-    {
-      id: 2,
-      backgroundColor: "#99c0fed6",
-      color: "#094bb5ff",
-      icon: <FaChartLine />,
-      simulationData: simulationData.currentAmount,
-      name: "Valor Actual",
-    },
-    {
-      id: 3,
-      backgroundColor: "#bda3f7d7",
-      color: "#6a2affff",
-      icon: <FaCoins />,
-      simulationData:
-        simulationData.currentAmount - simulationData.initialAmount,
-      name: "Ganancia",
+      id: "spending",
+      title: "Gasto Inteligente",
+      description: "Compara diferentes opciones de compra",
+      icon: "🎯",
+      color: "#F59E0B",
     },
   ];
 
@@ -106,7 +83,7 @@ const InteractiveExample = () => {
           {scenarios.map((scenario) => (
             <Button
               key={scenario.id}
-              variant={"ghost"}
+              variant={selectedScenario === scenario.id ? "primary" : "ghost"}
               onClick={() => setSelectedScenario(scenario.id)}
               className={styles.scenarioButton}
               style={
@@ -133,7 +110,7 @@ const InteractiveExample = () => {
           </h3>
           <div className={styles.simulatorControls}>
             <Button
-              variant="ghost"
+              variant="primary"
               onClick={runSimulation}
               disabled={simulationStep >= simulationData.totalSteps}
               className={styles.controlButton}
@@ -148,7 +125,7 @@ const InteractiveExample = () => {
               onClick={resetSimulation}
               className={styles.controlButton}
             >
-              <FaSync />
+              <FaRedo />
               Reiniciar
             </Button>
           </div>
@@ -169,28 +146,50 @@ const InteractiveExample = () => {
           </div>
 
           <div className={styles.resultsGrid}>
-            {results.map((result) => (
-              <div className={styles.resultCard} key={result.id}>
-                <div
-                  className={styles.resultIcon}
-                  style={{
-                    backgroundColor: result.backgroundColor,
-                    color: result.color,
-                  }}
-                >
-                  {result.icon}
-                </div>
-                <div className={styles.resultInfo}>
-                  <span
-                    className={styles.resultValue}
-                    style={{ color: result.color }}
-                  >
-                    {result.simulationData}
-                  </span>
-                  <span className={styles.resultLabel}>{result.name}</span>
-                </div>
+            <div className={styles.resultCard}>
+              <div
+                className={styles.resultIcon}
+                style={{ backgroundColor: "#10B98120", color: "#10B981" }}
+              >
+                <FaCoins />
               </div>
-            ))}
+              <div className={styles.resultInfo}>
+                <span className={styles.resultValue}>
+                  {simulationData.initialAmount}
+                </span>
+                <span className={styles.resultLabel}>Inversión Inicial</span>
+              </div>
+            </div>
+
+            <div className={styles.resultCard}>
+              <div
+                className={styles.resultIcon}
+                style={{ backgroundColor: "#3B82F620", color: "#3B82F6" }}
+              >
+                <FaChartLine />
+              </div>
+              <div className={styles.resultInfo}>
+                <span className={styles.resultValue}>
+                  {simulationData.currentAmount}
+                </span>
+                <span className={styles.resultLabel}>Valor Actual</span>
+              </div>
+            </div>
+
+            <div className={styles.resultCard}>
+              <div
+                className={styles.resultIcon}
+                style={{ backgroundColor: "#8B5CF620", color: "#8B5CF6" }}
+              >
+                <FaCoins />
+              </div>
+              <div className={styles.resultInfo}>
+                <span className={styles.resultValue}>
+                  +{simulationData.currentAmount - simulationData.initialAmount}
+                </span>
+                <span className={styles.resultLabel}>Ganancia</span>
+              </div>
+            </div>
           </div>
 
           <div className={styles.insightBox}>
