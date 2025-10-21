@@ -56,6 +56,7 @@ export interface Wallet {
   id: number;
   balance: number;
   invertedBalance: number;
+  totalBalance: number;
 }
 
 export interface StudentResponseDto {

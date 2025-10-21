@@ -29,9 +29,9 @@ const StoreHeader: React.FC<StoreHeaderProps> = ({
         <div className={styles.statCard}>
           <div
             className={styles.statIcon}
-            style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
+            style={{ backgroundColor: "rgba(34, 197, 94, 0.72)" }}
           >
-            <FaCoins style={{ color: "#22c55e" }} />
+            <FaCoins />
           </div>
           <div className={styles.statInfo}>
             <span className={styles.statLabel}>Tu saldo líquido</span>
@@ -42,9 +42,9 @@ const StoreHeader: React.FC<StoreHeaderProps> = ({
         <div className={styles.statCard}>
           <div
             className={styles.statIcon}
-            style={{ backgroundColor: "rgba(139, 92, 246, 0.2)" }}
+            style={{ backgroundColor: "rgba(138, 92, 246, 0.69)" }}
           >
-            <FaTshirt style={{ color: "#8b5cf6" }} />
+            <FaTshirt />
           </div>
           <div className={styles.statInfo}>
             <span className={styles.statLabel}>Disponibles</span>
@@ -55,9 +55,9 @@ const StoreHeader: React.FC<StoreHeaderProps> = ({
         <div className={styles.statCard}>
           <div
             className={styles.statIcon}
-            style={{ backgroundColor: "rgba(59, 130, 246, 0.2)" }}
+            style={{ backgroundColor: "rgba(59, 131, 246, 0.82)" }}
           >
-            <FaCheckCircle style={{ color: "#3b82f6" }} />
+            <FaCheckCircle />
           </div>
           <div className={styles.statInfo}>
             <span className={styles.statLabel}>Comprados</span>
