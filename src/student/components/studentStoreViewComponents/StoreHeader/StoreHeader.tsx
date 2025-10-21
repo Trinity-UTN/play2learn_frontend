@@ -34,7 +34,7 @@ const StoreHeader: React.FC<StoreHeaderProps> = ({
             <FaCoins style={{ color: "#22c55e" }} />
           </div>
           <div className={styles.statInfo}>
-            <span className={styles.statLabel}>Tu saldo</span>
+            <span className={styles.statLabel}>Tu saldo líquido</span>
             <span className={styles.statValue}>{balance.toLocaleString()}</span>
           </div>
         </div>

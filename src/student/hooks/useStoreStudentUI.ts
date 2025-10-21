@@ -34,7 +34,12 @@ export const useStoreStudentUI = () => {
   // Actualizar saldo si cambia el estudiante
   useEffect(() => {
     if (currentStudent) {
-      setUserBalance(currentStudent.wallet.balance.toFixed(2));
+      //Calculo momentaneo, hasta que se agregue el atributo desde el back TODO:STORE
+      setUserBalance(
+        (
+          currentStudent.wallet.balance - currentStudent.wallet.invertedBalance
+        ).toFixed(2)
+      );
     }
   }, [currentStudent]);
 

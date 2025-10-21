@@ -31,7 +31,8 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
     userBalance === "Sin saldo"
       ? "Sin Saldo"
       : (userBalance as number) - skin.price;
-
+  const subTotal = skin.price / 1.21;
+  const iva = skin.price - subTotal;
   return (
     <motion.div
       variants={overlayVariants}
@@ -88,7 +89,27 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
                 className={styles.balanceValue}
                 style={{ color: "#ef4444" }}
               >
-                -{skin.price.toLocaleString()}
+                {subTotal.toFixed(2)}
+              </span>
+            </div>
+            <div className={styles.balanceRow}>
+              <span className={styles.balanceLabel}>
+                Impuesto al Valor Agregado (IVA)
+              </span>
+              <span
+                className={styles.balanceValue}
+                style={{ color: "#ef4444" }}
+              >
+                {iva.toFixed(2)}
+              </span>
+            </div>
+            <div className={styles.balanceRow}>
+              <span className={styles.balanceLabel}>Total</span>
+              <span
+                className={styles.balanceValue}
+                style={{ color: "#ef4444" }}
+              >
+                {skin.price.toFixed(2)}
               </span>
             </div>
             <div className={styles.balanceDivider} />
@@ -108,7 +129,8 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
           <div className={styles.confirmInfo}>
             <FaCheckCircle className={styles.confirmIcon} />
             <p>
-              Esta skin se agregará a tu colección y podrás usarlo de inmediato
+              Este aspecto se agregará a tu colección y podrás usarlo de
+              inmediato
             </p>
           </div>
 
