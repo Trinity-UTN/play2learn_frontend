@@ -14,4 +14,6 @@ export const urls = {
   LastTransactionsWallet: "/wallet/last-transactions",
   Statistics: "/statistics/home/student",
   ActivityNoLudicaComplete: "/activity/completed/no-ludica",
+  Aspect: "/profile/avatar/aspect/paginated",
+  AspectToInventory: "/profile/add-aspect-to-inventory",
 };

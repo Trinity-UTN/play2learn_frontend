@@ -55,7 +55,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       icon: FaWallet,
       path: StudentRoutes.Wallet,
       color: "#10B981",
-      badge: isLoading ? "..." : formatPrice(wallet?.balance) ?? "0",
+      badge: isLoading ? "..." : formatPrice(wallet?.totalBalance) ?? "0",
     },
     {
       title: "Mis Actividades",

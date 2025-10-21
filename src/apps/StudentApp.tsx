@@ -23,6 +23,7 @@ import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaP
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
 import { WalletStudentProvider } from "../student/context/walletStudentContext/WalletStudentProvider";
+import { StoreProvider } from "../student/context/storeStudentContext/StoreStudentProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
@@ -70,17 +71,19 @@ const StudentApp = () => {
                                             <PreguntadosProvider>
                                               <PreguntadosGameProvider mode="student">
                                                 <WalletStudentProvider>
-                                                  <motion.div
-                                                    key="dashboardStudent"
-                                                    initial={{ opacity: 0 }}
-                                                    animate={{ opacity: 1 }}
-                                                    exit={{ opacity: 0 }}
-                                                    transition={{
-                                                      duration: 0.3,
-                                                    }}
-                                                  >
-                                                    <StudentDashboard />
-                                                  </motion.div>
+                                                  <StoreProvider>
+                                                    <motion.div
+                                                      key="dashboardStudent"
+                                                      initial={{ opacity: 0 }}
+                                                      animate={{ opacity: 1 }}
+                                                      exit={{ opacity: 0 }}
+                                                      transition={{
+                                                        duration: 0.3,
+                                                      }}
+                                                    >
+                                                      <StudentDashboard />
+                                                    </motion.div>
+                                                  </StoreProvider>
                                                 </WalletStudentProvider>
                                               </PreguntadosGameProvider>
                                             </PreguntadosProvider>

@@ -1,0 +1,66 @@
+.categoryTabs {
+  margin-bottom: 2rem;
+}
+
+.tabsContainer {
+  display: flex;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 0.5rem;
+  overflow-x: auto;
+}
+
+.tab {
+  flex: 1;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  background: transparent;
+  border: 2px solid transparent;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.tabActive {
+  color: white;
+}
+
+.tabIcon {
+  font-size: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.tabActive .tabIcon {
+  transform: scale(1.1);
+}
+
+.tabLabel {
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .tabsContainer {
+    justify-content: flex-start;
+  }
+
+  .tab {
+    min-width: 120px;
+    padding: 0.75rem 1rem;
+  }
+}
