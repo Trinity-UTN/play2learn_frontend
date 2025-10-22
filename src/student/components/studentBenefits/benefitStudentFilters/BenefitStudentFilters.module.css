@@ -159,6 +159,7 @@
   color: white;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .filtersCard {
     padding: 1rem;

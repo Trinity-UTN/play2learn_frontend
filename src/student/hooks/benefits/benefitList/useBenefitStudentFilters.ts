@@ -1,10 +1,6 @@
 import { useState, useCallback } from "react";
+import type { FilterOption } from "../../../../shared/types/Filter.type";
 import type { BenefitStatus } from "../../../constants/benefitStudent.constants";
-
-export interface FilterOption {
-  id: string;
-  name: string;
-}
 
 export const useBenefitStudentFilters = () => {
   const [activeFilter, setActiveFilter] = useState<BenefitStatus>("AVAILABLE");

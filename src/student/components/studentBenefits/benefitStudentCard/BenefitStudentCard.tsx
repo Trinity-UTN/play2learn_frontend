@@ -1,7 +1,8 @@
 import { FaShoppingCart, FaCheckCircle } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
+import Card from "../../../../shared/components/Card/CardComponent";
 import BenefitCardContent from "../../../../teacher/components/benefitsView/benefitCardComponent/benefitCardContent/BenefitCardContent";
+import { BENEFIT_STATUS } from "../../../constants/benefitStudent.constants";
 import styles from "./BenefitStudentCard.module.css";
 
 interface BenefitStudentCardProps {
@@ -25,7 +26,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
 
   const getActionButton = () => {
     switch (benefit.state) {
-      case "AVAILABLE":
+      case BENEFIT_STATUS.AVAILABLE:
         return (
           <Button
             variant="primary"
@@ -37,7 +38,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
             Canjear Beneficio
           </Button>
         );
-      case "PURCHASED":
+      case BENEFIT_STATUS.PURCHASED:
         return (
           <Button
             variant="secondary"
@@ -49,7 +50,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
             Usar Beneficio
           </Button>
         );
-      case "USE_REQUESTED":
+      case BENEFIT_STATUS.USE_REQUESTED:
         return (
           <Button
             variant="ghost"
@@ -60,7 +61,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
             Uso Solicitado
           </Button>
         );
-      case "EXPIRED":
+      case BENEFIT_STATUS.EXPIRED:
         return (
           <Button
             variant="ghost"

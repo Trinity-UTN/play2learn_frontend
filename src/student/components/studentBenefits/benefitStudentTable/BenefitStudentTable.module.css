@@ -189,6 +189,7 @@
   font-size: 0.75rem;
 }
 
+/* Responsive Design */
 @media (max-width: 1200px) {
   .benefitDescription {
     max-width: 200px;

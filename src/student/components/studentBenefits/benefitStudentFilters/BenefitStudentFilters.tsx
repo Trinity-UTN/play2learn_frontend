@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FaFilter, FaBook, FaTags, FaTh, FaList } from "react-icons/fa";
-import type { FilterOption } from "../../../hooks/benefits/benefitList/useBenefitStudentFilters";
+import type { FilterOption } from "../../../../shared/types/Filter.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
@@ -89,7 +89,7 @@ const BenefitStudentFilters: React.FC<BenefitStudentFiltersProps> = ({
           </div>
         </div>
 
-        {/* Status Filters */}
+        {/* Estados */}
         <div className={styles.filterSection}>
           <div className={styles.filterButtons}>
             {BENEFIT_STATUS_FILTERS.map((filter) => {
@@ -118,7 +118,7 @@ const BenefitStudentFilters: React.FC<BenefitStudentFiltersProps> = ({
           </div>
         </div>
 
-        {/* Subject and Category Filters */}
+        {/* Filtros de Materia y Categoría */}
         <div className={styles.selectFilters}>
           <div className={styles.selectGroup}>
             <div className={styles.selectLabel}>

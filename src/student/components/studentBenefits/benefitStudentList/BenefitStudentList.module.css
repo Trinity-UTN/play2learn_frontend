@@ -53,6 +53,7 @@
   opacity: 0.85;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .benefitsGrid {
     grid-template-columns: 1fr;

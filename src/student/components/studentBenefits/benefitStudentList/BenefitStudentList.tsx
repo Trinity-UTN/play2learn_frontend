@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FaGift } from "react-icons/fa";
+import type { PaginationInfo } from "../../../../shared/types/PaginacionType";
 import LoadingSpinner from "../../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import BenefitPaginateComponent from "../benefitPaginateComponent/BenefitPaginateComponent";
 import BenefitStudentCard from "../benefitStudentCard/BenefitStudentCard";
@@ -7,15 +8,6 @@ import BenefitStudentTable from "../benefitStudentTable/BenefitStudentTable";
 import type { BenefitStatus } from "../../../constants/benefitStudent.constants";
 import { useBenefitStudentActions } from "../../../hooks/benefits/useBenefitStudentActions";
 import styles from "./BenefitStudentList.module.css";
-
-interface PaginationInfo {
-  currentPage: number;
-  totalPages: number;
-  pageSize: number;
-  totalItems: number;
-  onPageChange: (page: number) => void;
-  onPageSizeChange: (size: number) => void;
-}
 
 interface BenefitStudentListProps {
   loading: boolean;

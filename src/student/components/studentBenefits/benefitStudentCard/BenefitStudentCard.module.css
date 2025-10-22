@@ -49,6 +49,7 @@
   cursor: not-allowed;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .benefitCard {
     padding: 1.25rem;

@@ -16,6 +16,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .benefitsView {
     padding: 0 0.5rem;

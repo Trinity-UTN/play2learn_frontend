@@ -8,6 +8,7 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
+import { BENEFIT_STATUS } from "../../../constants/benefitStudent.constants";
 import {
   getIconByValue,
   getColorByValue,
@@ -37,7 +38,7 @@ const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
 
   const getActionButton = (benefit: any) => {
     switch (benefit.state) {
-      case "AVAILABLE":
+      case BENEFIT_STATUS.AVAILABLE:
         return (
           <Button
             variant="primary"
@@ -49,7 +50,7 @@ const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
             Canjear
           </Button>
         );
-      case "PURCHASED":
+      case BENEFIT_STATUS.PURCHASED:
         return (
           <Button
             variant="secondary"
@@ -61,7 +62,7 @@ const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
             Usar
           </Button>
         );
-      case "USE_REQUESTED":
+      case BENEFIT_STATUS.USE_REQUESTED:
         return (
           <Button
             variant="ghost"
@@ -72,7 +73,7 @@ const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
             Solicitado
           </Button>
         );
-      case "EXPIRED":
+      case BENEFIT_STATUS.EXPIRED:
         return (
           <Button
             variant="ghost"

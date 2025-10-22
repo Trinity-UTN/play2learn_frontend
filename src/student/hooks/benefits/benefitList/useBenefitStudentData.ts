@@ -28,22 +28,21 @@ export const useBenefitStudentData = () => {
   const { stats, counts, totalCount } =
     useBenefitStudentStats(paginatedBenefits);
 
-  // Load benefits based on filters
   const loadBenefits = useCallback(async () => {
     const filters: string[] = [];
     const filtersValues: string[] = [];
 
-    // State filter (siempre aplicar)
+    // Estado (benefit.state)
     filters.push("state");
     filtersValues.push(activeFilter);
 
-    // Subject filter
+    // Materia (benefit.subjectId)
     if (selectedSubject && selectedSubject.id !== "ALL") {
       filters.push("subjectId");
       filtersValues.push(selectedSubject.id);
     }
 
-    // Category filter
+    // Categoría (benefit.category)
     if (selectedCategory && selectedCategory !== "ALL") {
       filters.push("category");
       filtersValues.push(selectedCategory);
@@ -60,23 +59,21 @@ export const useBenefitStudentData = () => {
     loadBenefits();
   }, [loadBenefits]);
 
-  // Reset page on filter change
+  // Resetear paginación
   useEffect(() => {
     setPaginationParams((prev) => ({ ...prev, page: 1 }));
   }, [activeFilter, selectedSubject, selectedCategory]);
 
-  // Filtered benefits
+  // Datos Generales
   const filteredBenefits = useMemo(() => {
     return paginatedBenefits?.results ?? [];
   }, [paginatedBenefits]);
 
-  // Subjects (extraer de los resultados actuales)
   const subjects = useMemo(() => {
     const benefits = paginatedBenefits?.results ?? [];
     return extractUniqueSubjectsFromBenefits(benefits);
   }, [paginatedBenefits]);
 
-  // Pagination info
   const paginationInfo = useMemo(() => {
     return paginatedBenefits
       ? {
@@ -91,20 +88,21 @@ export const useBenefitStudentData = () => {
   }, [paginatedBenefits, handlePageChange, handlePageSizeChange]);
 
   return {
-    // Filter state
+    // Estados Generales
+    loading,
     activeFilter,
-    setActiveFilter,
     selectedSubject,
-    setSelectedSubject,
     selectedCategory,
+    setActiveFilter,
+    setSelectedSubject,
     setSelectedCategory,
-    // Data
+
+    // Datos Generales
     filteredBenefits,
     subjects,
     stats,
     counts,
     totalCount,
     paginationInfo,
-    loading,
   };
 };

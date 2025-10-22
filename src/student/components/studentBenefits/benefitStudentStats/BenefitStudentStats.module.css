@@ -65,6 +65,7 @@
   pointer-events: none;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
