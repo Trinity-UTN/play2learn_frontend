@@ -46,10 +46,6 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({
     <motion.div
       className={styles.card}
       onClick={onClick}
-      whileHover={{
-        y: -8,
-        boxShadow: "0 20px 40px rgba(139, 92, 246, 0.3)",
-      }}
       whileTap={{ scale: 0.98 }}
       style={
         {

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaChartLine, FaCoins, FaRocket, FaBullseye } from "react-icons/fa";
 import styles from "./LoadingScreen.module.css";
-
+import { useLockScroll } from "../../hooks/useLockScroll";
 const loadingMessages = [
   "Preparando tu portafolio...",
   "Analizando el mercado...",
@@ -10,9 +10,20 @@ const loadingMessages = [
   "Calculando rentabilidades...",
   "¡Casi listo para invertir!",
 ];
+const loadingImg = [
+  "/inversiones/1.jpg",
+  "/inversiones/2.jpg",
+  "/inversiones/3.jpg",
+  "/inversiones/4.jpg",
+  "/inversiones/5.jpg",
+];
 
 const LoadingScreen: React.FC = () => {
+  useLockScroll();
   const [messageIndex, setMessageIndex] = useState(0);
+  const [imgIndex, setImgIndex] = useState(() =>
+    Math.floor(Math.random() * loadingImg.length)
+  );
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -20,6 +31,10 @@ const LoadingScreen: React.FC = () => {
     const messageInterval = setInterval(() => {
       setMessageIndex((prev) => (prev + 1) % loadingMessages.length);
     }, 800);
+
+    const imgInterval = setInterval(() => {
+      setImgIndex(Math.floor(Math.random() * loadingImg.length));
+    }, 1800);
 
     // Incrementar progreso
     const progressInterval = setInterval(() => {
@@ -32,6 +47,7 @@ const LoadingScreen: React.FC = () => {
     return () => {
       clearInterval(messageInterval);
       clearInterval(progressInterval);
+      clearInterval(imgInterval);
     };
   }, []);
 
@@ -42,6 +58,11 @@ const LoadingScreen: React.FC = () => {
       exit={{ opacity: 0 }}
       className={styles.container}
     >
+      <img
+        src={loadingImg[imgIndex]}
+        alt={loadingImg[imgIndex]}
+        className={styles.img}
+      />
       <div className={styles.content}>
         {/* Iconos flotantes */}
         <div className={styles.floatingIcons}>

@@ -66,7 +66,7 @@ const InvestmentsView: React.FC<InvestmentsViewProps> = ({
   return (
     <div className={styles.container}>
       <AnimatePresence mode="wait">
-        {isLoading && !investments?.results ? (
+        {isLoading ? (
           <LoadingScreen key="loading" />
         ) : (
           <motion.div
