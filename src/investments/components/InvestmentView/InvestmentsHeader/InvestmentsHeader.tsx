@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
 import { FaChartLine, FaFilter } from "react-icons/fa";
 import styles from "./InvestmentsHeader.module.css";
-import type { RiskLevel } from "../../types/investment.type";
-import { FILTER_TYPES, riskFilters } from "../../contanst/investments.contanst";
+import type { RiskLevel } from "../../../types/investment.type";
+import {
+  FILTER_TYPES,
+  riskFilters,
+} from "../../../contanst/investments.contanst";
 
 interface InvestmentsHeaderProps {
   totalInvestments: number;

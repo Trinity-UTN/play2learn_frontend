@@ -196,6 +196,7 @@
   gap: 0.5rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+  z-index: 10;
 }
 
 .actionButton:hover {

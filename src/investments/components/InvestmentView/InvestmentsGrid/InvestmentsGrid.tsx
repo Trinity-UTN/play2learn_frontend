@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import styles from "./InvestmentsGrid.module.css";
-import type { InvestmentResponse } from "../../types/investment.type";
+import type { InvestmentResponse } from "../../../types/investment.type";
 import InvestmentCard from "../InvestmentCard/InvestmentCard";
-import type { PaginationInfo } from "../../../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
-import PaginateComponent from "../../../shared/components/PaginateComponent/PaginateComponent";
+import type { PaginationInfo } from "../../../../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
+import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
 
 interface InvestmentsGridProps {
   investments: InvestmentResponse[] | undefined;

@@ -5,6 +5,7 @@ import type {
 import type {
   CandleStickValuesResponse,
   InvestmentResponse,
+  RangeValue,
 } from "../../types/investment.type";
 
 export interface InvestmentsContextType {
@@ -14,5 +15,5 @@ export interface InvestmentsContextType {
   getPaginatedInvestments: (params: GetPaginated) => Promise<void>;
 
   candleStickValues: CandleStickValuesResponse[];
-  getCandleStickValues: (id: number) => void;
+  getCandleStickValues: (id: number, range: RangeValue) => void;
 }

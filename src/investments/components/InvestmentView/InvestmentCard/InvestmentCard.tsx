@@ -10,7 +10,8 @@ import styles from "./InvestmentCard.module.css";
 import type {
   InvestmentResponse,
   RiskLevel,
-} from "../../types/investment.type";
+} from "../../../types/investment.type";
+import { useNavigate } from "react-router-dom";
 
 interface InvestmentCardProps {
   investment: InvestmentResponse;
@@ -32,6 +33,7 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({
   investment,
   onClick,
 }) => {
+  const navigate = useNavigate();
   const riskConfig = getRiskConfig(investment.riskLevel);
   const priceChange = investment.currentPrice - investment.initialPrice;
   const priceChangePercent = (
@@ -42,6 +44,11 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({
   const availabilityPercent =
     (investment.availableAmount / investment.totalAmount) * 100;
 
+  const handleDetails = () => {
+    navigate("/dashboard/student/investments/details", {
+      state: investment,
+    });
+  };
   return (
     <motion.div
       className={styles.card}
@@ -151,6 +158,7 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({
         className={styles.actionButton}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
+        onClick={() => handleDetails()}
       >
         <FaChartLine />
         <span>Ver Detalles y Gráfico</span>

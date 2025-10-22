@@ -3,7 +3,10 @@ import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import { urls } from "../urls";
-import type { InvestmentsPaginatedResponseInterface } from "../../types/investment.type";
+import type {
+  InvestmentsPaginatedResponseInterface,
+  RangeValue,
+} from "../../types/investment.type";
 
 const getPaginatedInvestmentsApi = async (
   params: GetPaginated
@@ -21,8 +24,10 @@ const getPaginatedInvestmentsApi = async (
   return response.data;
 };
 
-const getCandleStickValues = async (id: number) => {
-  const response = await api.get(`${urls.CandleStickValues}${id}`);
+const getCandleStickValues = async (id: number, range: RangeValue) => {
+  const response = await api.get(urls.CandleStickValues, {
+    params: { stockId: id, rangeValue: range },
+  });
   return response.data;
 };
 

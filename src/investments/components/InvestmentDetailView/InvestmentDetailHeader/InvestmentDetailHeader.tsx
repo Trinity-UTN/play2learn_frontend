@@ -1,0 +1,104 @@
+import { motion } from "framer-motion";
+import { FaArrowUp, FaArrowDown, FaShieldAlt } from "react-icons/fa";
+import styles from "./InvestmentDetailHeader.module.css";
+import type { InvestmentResponse } from "../../../types/investment.type";
+import formatPrice from "../../../../shared/utils/formatPrice";
+
+interface InvestmentHeaderProps {
+  investment: InvestmentResponse;
+}
+
+const InvestmentHeader: React.FC<InvestmentHeaderProps> = ({ investment }) => {
+  const priceChange = investment.currentPrice - investment.initialPrice;
+  const priceChangePercent = (
+    (priceChange / investment.initialPrice) *
+    100
+  ).toFixed(2);
+  const isPositive = priceChange >= 0;
+
+  const getRiskColor = (risk: string) => {
+    switch (risk) {
+      case "BAJO":
+        return "#22c55e";
+      case "MEDIO":
+        return "#f59e0b";
+      case "ALTO":
+        return "#ef4444";
+      default:
+        return "#6b7280";
+    }
+  };
+
+  return (
+    <motion.div
+      className={styles.header}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className={styles.mainInfo}>
+        <div className={styles.titleSection}>
+          <h1 className={styles.name}>{investment.name}</h1>
+          <div className={styles.subTitle}>
+            <span className={styles.abbreviation}>
+              {investment.abbreviation}
+            </span>
+            <div
+              className={styles.riskBadge}
+              style={{ backgroundColor: getRiskColor(investment.riskLevel) }}
+            >
+              <FaShieldAlt />
+              Riesgo {investment.riskLevel}
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.priceSection}>
+          <div
+            className={`${styles.priceChange} ${
+              isPositive ? styles.positive : styles.negative
+            }`}
+          >
+            {isPositive ? <FaArrowUp /> : <FaArrowDown />}
+            <span className={styles.changeAmount}>
+              ${formatPrice(priceChange)}
+            </span>
+            <span className={styles.changePercent}>
+              ({isPositive ? "+" : "-"}
+              {Math.abs(Number.parseFloat(priceChangePercent))}%)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.stats}>
+        <div className={styles.statCard}>
+          <span className={styles.statLabel}>Precio Inicial</span>
+          <span className={styles.statValue}>
+            ${formatPrice(investment.initialPrice)}
+          </span>
+        </div>
+        <div className={styles.statCard}>
+          <span className={styles.statLabel}>Total Acciones</span>
+          <span className={styles.statValue}>
+            {formatPrice(investment.totalAmount)}
+          </span>
+        </div>
+        <div className={styles.statCard}>
+          <span className={styles.statLabel}>Disponibles</span>
+          <span className={styles.statValue}>
+            {formatPrice(investment.availableAmount)}
+          </span>
+        </div>
+        <div className={styles.statCard}>
+          <span className={styles.statLabel}>Vendidas</span>
+          <span className={styles.statValue}>
+            {formatPrice(investment.soldAmount)}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export default InvestmentHeader;

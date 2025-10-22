@@ -9,6 +9,7 @@ import type {
 import type {
   CandleStickValuesResponse,
   InvestmentResponse,
+  RangeValue,
 } from "../../types/investment.type";
 import { InvestmentsService } from "../../services/investments/InvestmentsService";
 
@@ -46,10 +47,13 @@ export const InvestmentsProvider: React.FC<InvestmentsProviderProps> = ({
   );
 
   const getCandleStickValues = useCallback(
-    async (id: number): Promise<void> => {
+    async (id: number, range: RangeValue): Promise<void> => {
       setLoading(true);
       try {
-        const response = await InvestmentsService.getCandleStickValues(id);
+        const response = await InvestmentsService.getCandleStickValues(
+          id,
+          range
+        );
         setCandleStickValues(response.data);
       } catch (error) {
         handleApiError(error, "Error al obtener los valores de vela");

@@ -1,6 +1,12 @@
 import type { PaginatedData } from "../../shared/types/PaginacionType";
 
 export type RiskLevel = "BAJO" | "MEDIO" | "ALTO";
+export type RangeValue =
+  | "DIARIO"
+  | "SEMANAL"
+  | "QUINZENAL"
+  | "MENSUAL"
+  | "HISTORICO";
 
 export interface InvestmentResponse {
   id: number;
