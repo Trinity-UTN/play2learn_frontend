@@ -26,7 +26,8 @@
   flex: 1;
 }
 
-.benefitName {
+/* Teacher Styles */
+.benefitNameTeacher {
   font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-title);
@@ -34,7 +35,7 @@
   line-height: 1.2;
 }
 
-.benefitCategory {
+.benefitCategoryTeacher {
   font-size: 0.875rem;
   color: var(--color-text-subtitle);
   font-weight: 600;
@@ -42,13 +43,12 @@
   letter-spacing: 0.05em;
 }
 
-.benefitDescription {
+.benefitDescriptionTeacher {
   flex: 1;
   font-size: 0.875rem;
   color: var(--color-text-subtitle);
   line-height: 1.5;
-  margin-bottom: 1rem;
-  min-height: 3em;
+  min-height: 1em;
 }
 
 .endDateSection {
@@ -79,7 +79,7 @@
   color: #78350f;
 }
 
-.benefitStats {
+.benefitStatsTeacher {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -95,13 +95,13 @@
   gap: 0.5rem;
 }
 
-.costIcon {
+.costIconTeacher {
   color: #f59e0b;
   font-size: 1rem;
   cursor: help;
 }
 
-.costValue {
+.costValueTeacher {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text);
@@ -119,7 +119,7 @@
   cursor: help;
 }
 
-.limitValue {
+.limitValueTeacher {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text);
@@ -137,8 +137,67 @@
   cursor: help;
 }
 
-.limitPerStudentValue {
+.limitPerStudentValueTeacher {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text);
+}
+
+/* Student Styles */
+.benefitNameStudent {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.benefitCategoryStudent {
+  font-size: 0.875rem;
+  color: lightgray;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.benefitDescriptionStudent {
+  flex: 1;
+  font-size: 0.875rem;
+  color: white;
+  line-height: 1.5;
+  min-height: 1em;
+}
+
+.benefitStatsStudent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.costIconStudent {
+  color: #f1ab32;
+  font-size: 1rem;
+  cursor: help;
+}
+
+.costValueStudent {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}
+
+.limitValueStudent {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}
+
+.limitPerStudentValueStudent {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
 }

@@ -63,7 +63,11 @@ const BenefitStudentFilters: React.FC<BenefitStudentFiltersProps> = ({
                 variant={viewMode === "grid" ? "primary" : "ghost"}
                 size="sm"
                 onClick={() => onViewModeChange("grid")}
-                className={styles.viewButton}
+                className={
+                  viewMode === "grid"
+                    ? styles.viewButton
+                    : styles.viewButtonInactive
+                }
               >
                 <FaTh />
               </Button>
@@ -73,7 +77,11 @@ const BenefitStudentFilters: React.FC<BenefitStudentFiltersProps> = ({
                 variant={viewMode === "table" ? "primary" : "ghost"}
                 size="sm"
                 onClick={() => onViewModeChange("table")}
-                className={styles.viewButton}
+                className={
+                  viewMode === "table"
+                    ? styles.viewButton
+                    : styles.viewButtonInactive
+                }
               >
                 <FaList />
               </Button>

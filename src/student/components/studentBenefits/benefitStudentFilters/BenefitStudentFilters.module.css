@@ -48,10 +48,24 @@
   border: none;
   font-size: 1rem;
   min-width: auto;
+  color: white;
 }
 
 .viewButton svg {
   display: block;
+}
+
+.viewButtonInactive {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  font-size: 1rem;
+  min-width: auto;
+  color: white;
+}
+
+.viewButtonInactive:hover {
+  background-color: white !important;
+  color: black;
 }
 
 .filtersTitle {

@@ -64,7 +64,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({ benefit }) => {
 
   return (
     <Card className={styles.benefitCard}>
-      <BenefitCardContent benefit={benefit} />
+      <BenefitCardContent benefit={benefit} variant="student" />
 
       {/* Acción */}
       <div className={styles.cardActions}>{getActionButton()}</div>
