@@ -1,0 +1,42 @@
+@import "../../../../shared/styles/colors.css";
+
+.paginateContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background: transparent;
+}
+
+.contentWrapper {
+  background: transparent;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .paginateContainer {
+    gap: 1.5rem;
+  }
+
+  .paginationWrapper {
+    padding: 0.75rem;
+  }
+}

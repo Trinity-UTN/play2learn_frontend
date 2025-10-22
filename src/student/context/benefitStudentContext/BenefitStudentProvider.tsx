@@ -9,7 +9,7 @@ import type {
 } from "../../../shared/types/PaginacionType";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
-export const ActivityStudentProvider = ({
+export const BenefitStudentProvider = ({
   children,
 }: {
   children: ReactNode;
