@@ -24,6 +24,7 @@ import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/Pre
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
 import { WalletStudentProvider } from "../student/context/walletStudentContext/WalletStudentProvider";
 import { StoreProvider } from "../student/context/storeStudentContext/StoreStudentProvider";
+import { InvestmentsProvider } from "../investments/contexts/investmentContext/InvestmentStudentProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
@@ -37,6 +38,8 @@ import StudentRankingView from "../student/views/studentRankingView/StudentRanki
 import StudentStoreView from "../student/views/studentStoreView/StudentStoreView";
 import StudentWalletView from "../student/views/studentWalletView/StudentWalletView";
 import StudentFinancialEducationView from "../student/views/studentFinancialEducationView/StudentFinancialEducationView";
+import InvestmentDetailView from "../investments/views/investmentsDetailView/InvestmentsDetailView";
+import InvestmentsView from "../investments/views/investments/InvestmentsView";
 
 const StudentApp = () => {
   return (
@@ -72,17 +75,19 @@ const StudentApp = () => {
                                               <PreguntadosGameProvider mode="student">
                                                 <WalletStudentProvider>
                                                   <StoreProvider>
-                                                    <motion.div
-                                                      key="dashboardStudent"
-                                                      initial={{ opacity: 0 }}
-                                                      animate={{ opacity: 1 }}
-                                                      exit={{ opacity: 0 }}
-                                                      transition={{
-                                                        duration: 0.3,
-                                                      }}
-                                                    >
-                                                      <StudentDashboard />
-                                                    </motion.div>
+                                                    <InvestmentsProvider>
+                                                      <motion.div
+                                                        key="dashboardStudent"
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        exit={{ opacity: 0 }}
+                                                        transition={{
+                                                          duration: 0.3,
+                                                        }}
+                                                      >
+                                                        <StudentDashboard />
+                                                      </motion.div>
+                                                    </InvestmentsProvider>
                                                   </StoreProvider>
                                                 </WalletStudentProvider>
                                               </PreguntadosGameProvider>
@@ -140,6 +145,13 @@ const StudentApp = () => {
             <Route
               path="wallet/financial-education"
               element={<StudentFinancialEducationView />}
+            />
+
+            {/* INVERSIONES */}
+            <Route path="investments/list" element={<InvestmentsView />} />
+            <Route
+              path="investments/details"
+              element={<InvestmentDetailView />}
             />
           </Route>
         </Routes>

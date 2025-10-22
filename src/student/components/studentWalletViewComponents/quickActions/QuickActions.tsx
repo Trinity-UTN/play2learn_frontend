@@ -23,7 +23,7 @@ const QuickActions = () => {
       color: "#3B82F6",
       view: "investments",
       badge: "Nuevo",
-      url: "/dashboard/student/overview", //HASTA QUE SE REALICE LA VIEW DE INVERSIONES
+      url: "/dashboard/student/investments/list", //HASTA QUE SE REALICE LA VIEW DE INVERSIONES
     },
     {
       title: "Beneficios",
