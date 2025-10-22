@@ -25,7 +25,14 @@ const purchaseBenefitStudentApi = async (benefitId: number): Promise<void> => {
   await api.post(urls.PurchaseBenefitStudent, { benefitId });
 };
 
+const requestUseBenefitStudentApi = async (
+  benefitId: number
+): Promise<void> => {
+  await api.patch(urls.RequestUseBenefitStudent(benefitId));
+};
+
 export const BenefitService = {
   getPaginatedBenefitStudentApi,
   purchaseBenefitStudentApi,
+  requestUseBenefitStudentApi,
 };

@@ -65,6 +65,7 @@ const StudentBenefitsView: React.FC = () => {
           paginationInfo={paginationInfo!}
           loading={loading}
           viewMode={viewMode}
+          onFilterChange={setActiveFilter}
         />
       </motion.div>
     </motion.div>

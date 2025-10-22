@@ -18,11 +18,23 @@ import styles from "./BenefitStudentTable.module.css";
 
 interface BenefitStudentTableProps {
   benefits: any[];
+  onPurchase: (benefitId: number, benefitName: string, cost: number) => void;
+  onRequestUse: (benefitId: number, benefitName: string) => void;
 }
 
 const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
   benefits,
+  onPurchase,
+  onRequestUse,
 }) => {
+  const handlePurchase = (benefit: any) => {
+    onPurchase(benefit.id, benefit.name, benefit.cost);
+  };
+
+  const handleRequestUse = (benefit: any) => {
+    onRequestUse(benefit.id, benefit.name);
+  };
+
   const getActionButton = (benefit: any) => {
     switch (benefit.state) {
       case "AVAILABLE":
@@ -31,7 +43,7 @@ const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
             variant="primary"
             size="sm"
             className={styles.actionButton}
-            disabled={benefit.purchasesLeft === 0}
+            onClick={() => handlePurchase(benefit)}
           >
             <FaShoppingCart className={styles.buttonIcon} />
             Canjear
@@ -43,7 +55,7 @@ const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
             variant="secondary"
             size="sm"
             className={styles.actionButton}
-            disabled={benefit.purchasesLeftByStudent === 0}
+            onClick={() => handleRequestUse(benefit)}
           >
             <FaCheckCircle className={styles.buttonIcon} />
             Usar

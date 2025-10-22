@@ -48,7 +48,7 @@
   font-size: 0.875rem;
   color: var(--color-text-subtitle);
   line-height: 1.5;
-  min-height: 1em;
+  min-height: 3em;
 }
 
 .endDateSection {

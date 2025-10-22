@@ -12,4 +12,5 @@ export interface BenefitStudentContextType {
   // Funciones Principales
   getPaginatedBenefitStudent: (params: GetPaginated) => Promise<void>;
   purchaseBenefitStudent: (benefitId: number) => Promise<void>;
+  requestUseBenefitStudent: (benefitId: number) => Promise<void>;
 }

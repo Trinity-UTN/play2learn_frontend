@@ -6,9 +6,23 @@ import styles from "./BenefitStudentCard.module.css";
 
 interface BenefitStudentCardProps {
   benefit: any;
+  onPurchase: (benefitId: number, benefitName: string, cost: number) => void;
+  onRequestUse: (benefitId: number, benefitName: string) => void;
 }
 
-const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({ benefit }) => {
+const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
+  benefit,
+  onPurchase,
+  onRequestUse,
+}) => {
+  const handlePurchase = () => {
+    onPurchase(benefit.id, benefit.name, benefit.cost);
+  };
+
+  const handleRequestUse = () => {
+    onRequestUse(benefit.id, benefit.name);
+  };
+
   const getActionButton = () => {
     switch (benefit.state) {
       case "AVAILABLE":
@@ -17,7 +31,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({ benefit }) => {
             variant="primary"
             size="sm"
             className={styles.actionButton}
-            disabled={benefit.purchasesLeft === 0}
+            onClick={handlePurchase}
           >
             <FaShoppingCart className={styles.buttonIcon} />
             Canjear Beneficio
@@ -29,7 +43,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({ benefit }) => {
             variant="secondary"
             size="sm"
             className={styles.actionButton}
-            disabled={benefit.purchasesLeftByStudent === 0}
+            onClick={handleRequestUse}
           >
             <FaCheckCircle className={styles.buttonIcon} />
             Usar Beneficio

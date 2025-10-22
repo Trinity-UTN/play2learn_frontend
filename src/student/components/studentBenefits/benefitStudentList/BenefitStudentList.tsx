@@ -4,6 +4,8 @@ import LoadingSpinner from "../../../../shared/components/LoadingSpinner/Loading
 import BenefitPaginateComponent from "../benefitPaginateComponent/BenefitPaginateComponent";
 import BenefitStudentCard from "../benefitStudentCard/BenefitStudentCard";
 import BenefitStudentTable from "../benefitStudentTable/BenefitStudentTable";
+import type { BenefitStatus } from "../../../constants/benefitStudent.constants";
+import { useBenefitStudentActions } from "../../../hooks/benefits/useBenefitStudentActions";
 import styles from "./BenefitStudentList.module.css";
 
 interface PaginationInfo {
@@ -20,6 +22,7 @@ interface BenefitStudentListProps {
   benefits: any[];
   paginationInfo: PaginationInfo;
   viewMode: "grid" | "table";
+  onFilterChange: (filter: BenefitStatus) => void;
 }
 
 const BenefitStudentList: React.FC<BenefitStudentListProps> = ({
@@ -27,7 +30,11 @@ const BenefitStudentList: React.FC<BenefitStudentListProps> = ({
   benefits,
   paginationInfo,
   viewMode,
+  onFilterChange,
 }) => {
+  const { purchaseBenefit, requestUseBenefit } =
+    useBenefitStudentActions(onFilterChange);
+
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
@@ -55,12 +62,20 @@ const BenefitStudentList: React.FC<BenefitStudentListProps> = ({
               transition={{ delay: index * 0.1 }}
               whileHover={{ y: -5, scale: 1.02 }}
             >
-              <BenefitStudentCard benefit={benefit} />
+              <BenefitStudentCard
+                benefit={benefit}
+                onPurchase={purchaseBenefit}
+                onRequestUse={requestUseBenefit}
+              />
             </motion.div>
           ))}
         </div>
       ) : (
-        <BenefitStudentTable benefits={benefits} />
+        <BenefitStudentTable
+          benefits={benefits}
+          onPurchase={purchaseBenefit}
+          onRequestUse={requestUseBenefit}
+        />
       )}
 
       {/* Sin resultados */}

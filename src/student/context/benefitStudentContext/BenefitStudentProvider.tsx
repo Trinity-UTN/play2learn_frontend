@@ -44,6 +44,22 @@ export const BenefitStudentProvider = ({
         await BenefitService.purchaseBenefitStudentApi(benefitId);
       } catch (error) {
         handleApiError(error, "Error al comprar el beneficio del estudiante");
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  const requestUseBenefitStudent = useCallback(
+    async (benefitId: number): Promise<void> => {
+      setLoading(true);
+      try {
+        await BenefitService.requestUseBenefitStudentApi(benefitId);
+      } catch (error) {
+        handleApiError(error, "Error al solicitar el beneficio del estudiante");
+        throw error;
       } finally {
         setLoading(false);
       }
@@ -56,6 +72,7 @@ export const BenefitStudentProvider = ({
     paginatedBenefits,
     getPaginatedBenefitStudent,
     purchaseBenefitStudent,
+    requestUseBenefitStudent,
   };
 
   return (
