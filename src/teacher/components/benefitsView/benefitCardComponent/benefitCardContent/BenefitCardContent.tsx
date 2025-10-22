@@ -2,6 +2,7 @@ import { FaCoins, FaUsers, FaUser, FaCalendarAlt } from "react-icons/fa";
 import Tooltip from "../../../../../shared/components/Tooltip/TooltipComponent";
 import type {
   BenefitResponseInterface,
+  BenefitStudentResponseInterface,
   CreateBenefitInterface,
 } from "../../../../../shared/types/Benefits.type";
 import {
@@ -10,12 +11,24 @@ import {
   getCategoryByValue,
   formatBenefitDate,
 } from "../../../../utils/benefits.utils";
+import {
+  getPurchaseLimit,
+  getPurchaseLimitPerStudent,
+  formatPurchaseLimitText,
+  formatPurchaseLimitPerStudentText,
+  isTeacherBenefit,
+  isStudentBenefit,
+  type BenefitCardVariant,
+} from "../../../../utils/benefitCard.utils";
 import styles from "./BenefitCardContent.module.css";
 
 type BenefitCardContentProps = {
-  benefit: BenefitResponseInterface | CreateBenefitInterface;
+  benefit:
+    | BenefitResponseInterface
+    | BenefitStudentResponseInterface
+    | CreateBenefitInterface;
   isPreview?: boolean;
-  variant?: "student" | "teacher";
+  variant?: BenefitCardVariant;
 };
 
 const BenefitCardContent = ({
@@ -27,11 +40,13 @@ const BenefitCardContent = ({
   const iconColor = getColorByValue(benefit.color);
   const category = getCategoryByValue(benefit.category);
 
-  // Helper para verificar si es un BenefitResponseInterface
-  const isResponse = (b: any): b is BenefitResponseInterface => "id" in b;
-
-  // Determinar el sufijo de estilo según el modo
   const styleSuffix = variant === "student" ? "Student" : "Teacher";
+
+  const purchaseLimit = getPurchaseLimit(benefit);
+  const purchaseLimitPerStudent = getPurchaseLimitPerStudent(benefit);
+
+  const hasEndDate =
+    isTeacherBenefit(benefit) || isStudentBenefit(benefit) || benefit.endAt;
 
   return (
     <>
@@ -61,15 +76,13 @@ const BenefitCardContent = ({
       </p>
 
       {/* Fecha de finalización */}
-      {(isResponse(benefit) || benefit.endAt) && (
+      {hasEndDate && (
         <div className={styles.endDateSection}>
           <FaCalendarAlt className={styles.endDateIcon} />
           <span className={styles.endDateText}>
             Finaliza:{" "}
             <strong>
-              {isResponse(benefit)
-                ? formatBenefitDate(benefit.endAt)
-                : benefit.endAt
+              {benefit.endAt
                 ? formatBenefitDate(benefit.endAt)
                 : "Fecha no especificada"}
             </strong>
@@ -95,11 +108,7 @@ const BenefitCardContent = ({
             <FaUsers className={styles.limitIcon} />
           </Tooltip>
           <span className={styles[`limitValue${styleSuffix}`]}>
-            {benefit.purchaseLimit
-              ? `Puede canjearse hasta ${benefit.purchaseLimit} ${
-                  benefit.purchaseLimit > 1 ? "veces" : "vez"
-                }`
-              : "Sin límite de canjes"}
+            {formatPurchaseLimitText(purchaseLimit, variant)}
           </span>
         </div>
 
@@ -112,9 +121,10 @@ const BenefitCardContent = ({
             <FaUser className={styles.limitPerStudentIcon} />
           </Tooltip>
           <span className={styles[`limitPerStudentValue${styleSuffix}`]}>
-            {benefit.purchaseLimitPerStudent
-              ? `Máx. ${benefit.purchaseLimitPerStudent} por estudiante`
-              : "Sin límite por estudiante"}
+            {formatPurchaseLimitPerStudentText(
+              purchaseLimitPerStudent,
+              variant
+            )}
           </span>
         </div>
       </div>
