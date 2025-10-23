@@ -24,6 +24,7 @@ import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/Pre
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
 import { WalletStudentProvider } from "../student/context/walletStudentContext/WalletStudentProvider";
 import { BenefitStudentProvider } from "../student/context/benefitStudentContext/BenefitStudentProvider";
+import { StoreProvider } from "../student/context/storeStudentContext/StoreStudentProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
@@ -72,17 +73,19 @@ const StudentApp = () => {
                                               <PreguntadosGameProvider mode="student">
                                                 <WalletStudentProvider>
                                                   <BenefitStudentProvider>
-                                                    <motion.div
-                                                      key="dashboardStudent"
-                                                      initial={{ opacity: 0 }}
-                                                      animate={{ opacity: 1 }}
-                                                      exit={{ opacity: 0 }}
-                                                      transition={{
-                                                        duration: 0.3,
-                                                      }}
-                                                    >
-                                                      <StudentDashboard />
-                                                    </motion.div>
+                                                    <StoreProvider>
+                                                      <motion.div
+                                                        key="dashboardStudent"
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        exit={{ opacity: 0 }}
+                                                        transition={{
+                                                          duration: 0.3,
+                                                        }}
+                                                      >
+                                                        <StudentDashboard />
+                                                      </motion.div>
+                                                    </StoreProvider>
                                                   </BenefitStudentProvider>
                                                 </WalletStudentProvider>
                                               </PreguntadosGameProvider>

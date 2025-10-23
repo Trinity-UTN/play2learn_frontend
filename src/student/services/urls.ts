@@ -18,10 +18,12 @@ export const urls = {
   RequestUseBenefitStudent: (benefitId: number) =>
     `/benefits/student/request-use/${benefitId}`,
 
-  // Profile
+  // Profile & Aspects
   ProfileAddAspect: "/profile/add-aspect-to-inventory",
   ProfileEditAspect: "/profile/select-aspect",
   ProfileUnselectAspect: "/profile/unselect-aspect",
+  Aspect: "/profile/avatar/aspect/paginated",
+  AspectToInventory: "/profile/add-aspect-to-inventory",
 
   // Wallet
   Wallet: "/wallet",
