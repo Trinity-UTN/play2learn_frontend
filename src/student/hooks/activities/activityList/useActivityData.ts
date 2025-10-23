@@ -14,10 +14,9 @@ export const useActivityData = () => {
     activityApproved,
     paginatedActivitiesNotApproved,
     paginatedActivitiesApproved,
-    getActivityNotApproved,
-    getActivityApproved,
     getPaginatedActivitiesNotApproved,
     getPaginatedActivitiesApproved,
+    getActivityStudentStats,
   } = useActivityStudent();
 
   const {
@@ -36,20 +35,11 @@ export const useActivityData = () => {
     setSelectedDifficulty,
   } = useActivityFilters();
 
-  const { stats, counts } = useActivityStats(
-    activityNotApproved,
-    activityApproved
-  );
+  const { stats, counts } = useActivityStats();
 
-  // Fetch inicial
-  useEffect(() => {
-    if (activityNotApproved.length <= 0) {
-      getActivityNotApproved();
-      getActivityApproved();
-    }
-  }, []);
-
-  // Load activities based on filters
+  /**
+   * Carga de actividades filtradas y paginadas
+   */
   const loadActivities = useCallback(async () => {
     const filters: string[] = [];
     const filtersValues: string[] = [];
@@ -96,18 +86,33 @@ export const useActivityData = () => {
       filters,
       filtersValues,
     });
-  }, [activeFilter, paginationParams, selectedSubject, selectedDifficulty]);
+  }, [
+    activeFilter,
+    paginationParams,
+    selectedSubject,
+    selectedDifficulty,
+    getPaginatedActivitiesApproved,
+    getPaginatedActivitiesNotApproved,
+  ]);
 
+  /**
+   * Carga de actividades y estadísticas
+   */
   useEffect(() => {
-    loadActivities();
-  }, [loadActivities]);
+    const fetchInitialData = async () => {
+      await Promise.all([loadActivities(), getActivityStudentStats()]);
+    };
+    fetchInitialData();
+  }, [loadActivities, getActivityStudentStats]);
 
-  // Reset page on filter change
+  /**
+   * Reinicia la paginación al cambiar el filtro
+   */
   useEffect(() => {
     setPaginationParams((prev) => ({ ...prev, page: 1 }));
-  }, [activeFilter, selectedSubject, selectedDifficulty]);
+  }, [activeFilter, selectedSubject, selectedDifficulty, setPaginationParams]);
 
-  // Filtered activities
+  // Datos Generales
   const filteredActivities: ActivityUI[] = useMemo(() => {
     if (activeFilter === "APPROVED") {
       return (paginatedActivitiesApproved?.results ?? []).map(mapActivityToUI);

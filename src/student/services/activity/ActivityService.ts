@@ -6,6 +6,7 @@ import type {
 import api from "../../../shared/utils/api";
 import { urls } from "../urls";
 import type {
+  ActivityStatsApiResponse,
   PaginatedActivityApprovedResponseInterface,
   PaginatedActivityNotApprovedResponseInterface,
 } from "../../types/Activity.type";
@@ -23,8 +24,19 @@ const getActivityApprovedApi = async () => {
   return response.data;
 };
 
-const getActivityByIdApi = async (id: number) => {
-  const response = await api.get(`${urls.ActivityById}/${id}`);
+const getPaginatedActivityNotApprovedApi = async (
+  params: GetPaginated
+): Promise<PaginatedActivityNotApprovedResponseInterface> => {
+  const cleanParams = {
+    ...buildCleanPaginatedParams(params),
+    filters: params.filters?.join(","),
+    filtersValues: params.filtersValues?.join(","),
+  };
+  const response = await api.get(urls.PaginatedActivityNotApproved, {
+    params: cleanParams,
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  });
   return response.data;
 };
 
@@ -53,21 +65,16 @@ const getPaginatedActivityApprovedApi = async (
   return response.data;
 };
 
-const getPaginatedActivityNotApprovedApi = async (
-  params: GetPaginated
-): Promise<PaginatedActivityNotApprovedResponseInterface> => {
-  const cleanParams = {
-    ...buildCleanPaginatedParams(params),
-    filters: params.filters?.join(","),
-    filtersValues: params.filtersValues?.join(","),
-  };
-  const response = await api.get(urls.PaginatedActivityNotApproved, {
-    params: cleanParams,
-    paramsSerializer: (params) =>
-      qs.stringify(params, { arrayFormat: "repeat" }),
-  });
+const getActivityByIdApi = async (id: number) => {
+  const response = await api.get(`${urls.ActivityById}/${id}`);
   return response.data;
 };
+
+const getActivityStudentStatsApi =
+  async (): Promise<ActivityStatsApiResponse> => {
+    const response = await api.get(urls.ActivityStudentStats);
+    return response.data;
+  };
 
 const registerActivityStartedApi = async (
   id: number
@@ -94,9 +101,10 @@ const registerActivityNoLudicaCompleteApi = async (data: FormData) => {
 export const ActivityStudentService = {
   getActivityNotApprovedApi,
   getActivityApprovedApi,
-  getActivityByIdApi,
-  getPaginatedActivityApprovedApi,
   getPaginatedActivityNotApprovedApi,
+  getPaginatedActivityApprovedApi,
+  getActivityByIdApi,
+  getActivityStudentStatsApi,
   registerActivityStartedApi,
   registerActivityCompletedApi,
   registerActivityNoLudicaCompleteApi,

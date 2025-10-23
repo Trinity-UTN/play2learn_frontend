@@ -1,22 +1,30 @@
 import { useMemo } from "react";
 import { ACTIVITY_STATS_CONFIG } from "../../../constants/activities.constants";
-import { calculateActivityCounts } from "../../../utils/activities.utils";
+import { useActivityStudent } from "../../useActivityStudentAPI";
 
-export const useActivityStats = (
-  notApprovedActivities: any[],
-  approvedActivities: any[]
-) => {
-  const counts = useMemo(
-    () => calculateActivityCounts(notApprovedActivities, approvedActivities),
-    [notApprovedActivities, approvedActivities]
-  );
+export const useActivityStats = () => {
+  const { activityStudentStats } = useActivityStudent();
+
+  const counts = useMemo(() => {
+    if (!activityStudentStats) {
+      return {
+        available: 0,
+        approved: 0,
+        dissaproved: 0,
+        expired: 0,
+      };
+    }
+    return activityStudentStats;
+  }, [activityStudentStats]);
 
   const stats = useMemo(() => {
     return ACTIVITY_STATS_CONFIG.map((config) => ({
       ...config,
       value: counts[config.key as keyof typeof counts],
     }));
-  }, [counts]);
+  }, [activityStudentStats]);
 
-  return { stats, counts };
+  const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
+
+  return { stats, counts, totalCount };
 };

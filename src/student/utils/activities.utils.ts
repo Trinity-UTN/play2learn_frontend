@@ -82,32 +82,6 @@ export const getActivityStatusConfig = (status: string) => {
 };
 
 /**
- * Calcula los contadores de actividades por estado
- */
-export const calculateActivityCounts = (
-  notApprovedActivities: any[],
-  approvedActivities: any[]
-) => {
-  const pending = notApprovedActivities.filter(
-    (a) => a.status === "PUBLISHED" && a.remainingAttempts > 0
-  ).length;
-
-  const expired = notApprovedActivities.filter(
-    (a) => a.status === "EXPIRED" && a.remainingAttempts > 0
-  ).length;
-
-  const approved = approvedActivities.filter(
-    (a) => a.state === "APPROVED"
-  ).length;
-
-  const disapproved = notApprovedActivities.filter(
-    (a) => a.remainingAttempts === 0
-  ).length;
-
-  return { pending, expired, approved, disapproved };
-};
-
-/**
  * Extrae las materias únicas de las actividades
  */
 export const extractUniqueSubjects = (

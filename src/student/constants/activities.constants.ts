@@ -95,7 +95,7 @@ export const ACTIVITY_COLORS = [
 // Configuración de stats
 export const ACTIVITY_STATS_CONFIG = [
   {
-    key: "pending",
+    key: "available",
     label: "Disponibles",
     icon: FaClock,
     color: "#F59E0B",

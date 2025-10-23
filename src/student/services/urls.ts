@@ -8,6 +8,7 @@ export const urls = {
   ActivityStarted: "/activity/start",
   ActivityCompleted: "/activity/completed",
   ActivityNoLudicaComplete: "/activity/completed/no-ludica",
+  ActivityStudentStats: "/activity/student/count",
 
   // Student
   StudentByToken: "/student",
