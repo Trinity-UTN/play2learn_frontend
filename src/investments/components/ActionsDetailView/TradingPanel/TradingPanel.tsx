@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaShoppingCart,
@@ -6,11 +5,11 @@ import {
   FaCoins,
   FaExclamationTriangle,
 } from "react-icons/fa";
-
 import styles from "./TradingPanel.module.css";
 import type { ActionsResponse } from "../../../types/actions.type";
 import formatPrice from "../../../../shared/utils/formatPrice";
-
+import { useTradingPanel } from "../../../hooks/useActions/useTrandingPanel";
+import { quicksButton } from "../../../contanst/actionsContanst/tradingPanel.contanst";
 interface TradingPanelProps {
   action: ActionsResponse;
   onBuy: (amount: number) => void;
@@ -24,32 +23,19 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
   onSell,
   userBalance,
 }) => {
-  const [activeTab, setActiveTab] = useState<"buy" | "sell">("buy");
-  const [amount, setAmount] = useState<string>("1");
-
-  const numAmount = Number.parseInt(amount) || 0;
-  const totalCost = numAmount * action.currentPrice;
-  const canAfford = totalCost <= userBalance;
-  const canSell = numAmount <= action.availableAmount;
-
-  const handleBuy = () => {
-    if (canAfford && numAmount > 0) {
-      onBuy(numAmount);
-      setAmount("1");
-    }
-  };
-
-  const handleSell = () => {
-    if (canSell && numAmount > 0) {
-      onSell(numAmount);
-      setAmount("1");
-    }
-  };
-
-  const handleQuickAmount = (value: number) => {
-    setAmount(value.toString());
-  };
-  const quicksButton = [1, 5, 10, 50];
+  const {
+    activeTab,
+    amount,
+    numAmount,
+    totalCost,
+    canAfford,
+    canSell,
+    handleBuy,
+    handleSell,
+    handleQuickAmount,
+    setActiveTab,
+    setAmount,
+  } = useTradingPanel({ action, onBuy, onSell, userBalance });
 
   return (
     <motion.div

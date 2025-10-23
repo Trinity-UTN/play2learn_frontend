@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
 import ActionHeader from "../../components/ActionsDetailView/ActionsDetailHeader/ActionsDetailHeader";
@@ -7,50 +6,30 @@ import TradingPanel from "../../components/ActionsDetailView/TradingPanel/Tradin
 import AutomationPanel from "../../components/ActionsDetailView/AutomationPanel/AutomationPanel";
 import ActionStats from "../../components/ActionsDetailView/ActionsDetailsStats/ActionsDetailsStats";
 import styles from "./ActionsDetailView.module.css";
-import { useNavigate } from "react-router-dom";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
-import { useLocation } from "react-router-dom";
-import { useActionsStudent } from "../../hooks/useInvestmentsStudentAPI";
-import type { RangeValue } from "../../types/actions.type";
-import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
+import { useActionsDetailsView } from "../../hooks/useActions/useActionsDetailsView";
 
 const ActionDetailView = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { getCandleStickValues, candleStickValues, loading } =
-    useActionsStudent();
-  const { currentStudent } = useCurrentStudent();
-  const userBalance = currentStudent?.wallet.balance || 0;
-  const action = location.state;
-  const [range, setRange] = useState<RangeValue>("HISTORICO");
-
-  useEffect(() => {
-    if (action) {
-      getCandleStickValues(action.id, range);
-    }
-  }, [range]);
-  const handleBuy = (amount: number) => {
-    console.log("Comprando", amount, "acciones");
-    // TODO: Implementar lógica de compra
-  };
-
-  const handleSell = (amount: number) => {
-    console.log("Vendiendo", amount, "acciones");
-    // TODO: Implementar lógica de venta
-  };
-
-  const handleSetAutomation = (minPrice: number, maxPrice: number) => {
-    console.log("Configurando automatización:", { minPrice, maxPrice });
-    // TODO: Implementar lógica de automatización
-  };
+  const {
+    candleStickValues,
+    loading,
+    userBalance,
+    action,
+    range,
+    setRange,
+    navigate,
+    handleBuy,
+    handleSell,
+    handleSetAutomation,
+  } = useActionsDetailsView();
 
   if (loading && !candleStickValues) {
     return <LoadingScreen key="loading" titulo="Cargando Acción" />;
   }
-
   if (!action) {
     return (
       <div className={styles.error}>
+        <p>¡Lo sentimos!</p>
         <p>No se pudo cargar la inversión</p>
         <button
           className={styles.backButton}

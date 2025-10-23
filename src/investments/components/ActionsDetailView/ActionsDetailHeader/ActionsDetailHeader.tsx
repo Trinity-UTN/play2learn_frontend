@@ -3,31 +3,14 @@ import { FaArrowUp, FaArrowDown, FaShieldAlt } from "react-icons/fa";
 import styles from "./ActionsDetailHeader.module.css";
 import type { ActionsResponse } from "../../../types/actions.type";
 import formatPrice from "../../../../shared/utils/formatPrice";
+import { getRiskConfig } from "../../../utils/actions.utils";
+import { useActionData } from "../../../hooks/useActions/useActionData";
 
 interface ActionHeaderProps {
   action: ActionsResponse;
 }
-
 const ActionHeader: React.FC<ActionHeaderProps> = ({ action }) => {
-  const priceChange = action.currentPrice - action.initialPrice;
-  const priceChangePercent = (
-    (priceChange / action.initialPrice) *
-    100
-  ).toFixed(2);
-  const isPositive = priceChange >= 0;
-
-  const getRiskColor = (risk: string) => {
-    switch (risk) {
-      case "BAJO":
-        return "#22c55e";
-      case "MEDIO":
-        return "#f59e0b";
-      case "ALTO":
-        return "#ef4444";
-      default:
-        return "#6b7280";
-    }
-  };
+  const { priceChangePercent, isPositive, priceChange } = useActionData(action);
 
   return (
     <motion.div
@@ -43,7 +26,7 @@ const ActionHeader: React.FC<ActionHeaderProps> = ({ action }) => {
             <span className={styles.abbreviation}>{action.abbreviation}</span>
             <div
               className={styles.riskBadge}
-              style={{ backgroundColor: getRiskColor(action.riskLevel) }}
+              style={{ backgroundColor: getRiskConfig(action.riskLevel).color }}
             >
               <FaShieldAlt />
               Riesgo {action.riskLevel}

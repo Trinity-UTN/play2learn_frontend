@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaRobot,
@@ -8,6 +7,7 @@ import {
   FaInfoCircle,
 } from "react-icons/fa";
 import styles from "./AutomationPanel.module.css";
+import { useAutomationPanel } from "../../../hooks/useActions/useAutomationPanel";
 
 interface AutomationPanelProps {
   currentPrice: number;
@@ -18,33 +18,16 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
   currentPrice,
   onSetAutomation,
 }) => {
-  const [minPrice, setMinPrice] = useState<string>("");
-  const [maxPrice, setMaxPrice] = useState<string>("");
-  const [isActive, setIsActive] = useState(false);
-
-  const handleActivate = () => {
-    const min = Number.parseFloat(minPrice);
-    const max = Number.parseFloat(maxPrice);
-
-    if (min && max && min < max && min < currentPrice && max > currentPrice) {
-      onSetAutomation(min, max);
-      setIsActive(true);
-    }
-  };
-
-  const handleDeactivate = () => {
-    setIsActive(false);
-    setMinPrice("");
-    setMaxPrice("");
-  };
-
-  const isValid =
-    minPrice !== "" &&
-    maxPrice !== "" &&
-    Number.parseFloat(minPrice) < Number.parseFloat(maxPrice) &&
-    Number.parseFloat(minPrice) < currentPrice &&
-    Number.parseFloat(maxPrice) > currentPrice;
-
+  const {
+    minPrice,
+    maxPrice,
+    isActive,
+    isValid,
+    setMinPrice,
+    setMaxPrice,
+    handleActivate,
+    handleDeactivate,
+  } = useAutomationPanel({ currentPrice, onSetAutomation });
   return (
     <motion.div
       className={styles.container}

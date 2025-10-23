@@ -1,73 +1,15 @@
 import { motion } from "framer-motion";
-import { FaChartLine, FaClock, FaPiggyBank, FaRocket } from "react-icons/fa";
+import { FaRocket } from "react-icons/fa";
 import InvestmentTypeCard from "../../components/InvestmentsView/InvestmentsTypeCard/InvestmentsTypeCard";
 import styles from "./InvestmentsView.module.css";
 import { useNavigate } from "react-router-dom";
-export type InvestmentType = "acciones" | "plazo-fijo" | "caja-ahorro";
+import { investmentTypes } from "../../contanst/investmentsView.contanst";
 
-interface InvestmentsViewProps {
-  onSelectType?: (type: InvestmentType) => void;
-}
-
-const InvestmentsView: React.FC<InvestmentsViewProps> = ({ onSelectType }) => {
+const InvestmentsView = () => {
   const navigate = useNavigate();
-  const handleTypeClick = (type: InvestmentType, url: string) => {
-    if (onSelectType) {
-      onSelectType(type);
-    }
+  const handleNavigateClick = (url: string) => {
     navigate(url);
   };
-  const investmentTypes = [
-    {
-      type: "acciones" as InvestmentType,
-      title: "Acciones",
-      description:
-        "Compra y vende acciones de empresas virtuales. Mayor riesgo, mayor recompensa.",
-      icon: FaChartLine,
-      color: "var(--color-stat-4)",
-      features: [
-        "Gráficos en tiempo real",
-        "Trading activo",
-        "Alto potencial de ganancia",
-        "Riesgo variable",
-      ],
-      delay: 0.1,
-      url: "/dashboard/student/actions/list",
-    },
-    {
-      type: "plazo-fijo" as InvestmentType,
-      title: "Plazo Fijo",
-      description:
-        "Deposita tus monedas por un tiempo determinado y gana intereses garantizados.",
-      icon: FaClock,
-      color: "var(--color-stat-2)",
-      features: [
-        "Interés garantizado",
-        "Diferentes plazos disponibles",
-        "Bajo riesgo",
-        "Rendimiento predecible",
-      ],
-      delay: 0.2,
-      url: "/dashboard/student/actions/list",
-    },
-    {
-      type: "caja-ahorro" as InvestmentType,
-      title: "Caja de Ahorro",
-      description:
-        "Guarda tus monedas de forma segura y gana intereses diarios sin compromisos.",
-      icon: FaPiggyBank,
-      color: "var(--color-stat-3)",
-      features: [
-        "Acceso inmediato",
-        "Interés diario",
-        "Sin plazo mínimo",
-        "100% líquido",
-      ],
-      delay: 0.3,
-      url: "/dashboard/student/actions/list",
-    },
-  ];
-
   return (
     <div className={styles.container}>
       <motion.div
@@ -102,7 +44,7 @@ const InvestmentsView: React.FC<InvestmentsViewProps> = ({ onSelectType }) => {
             <InvestmentTypeCard
               key={item.type}
               {...item}
-              onClick={() => handleTypeClick(item.type, item.url)}
+              onClick={() => handleNavigateClick(item.url)}
             />
           ))}
         </div>

@@ -5,7 +5,7 @@ import type { RiskLevel } from "../../../types/actions.type";
 import {
   FILTER_TYPES,
   riskFilters,
-} from "../../../contanst/investments.contanst";
+} from "../../../contanst/actionsContanst/actions.contanst";
 
 interface ActionsHeaderProps {
   totalActions: number;

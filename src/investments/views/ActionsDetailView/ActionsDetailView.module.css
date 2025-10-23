@@ -74,7 +74,10 @@
   justify-content: center;
   min-height: 50vh;
   color: white;
-  gap: 1rem;
+  gap: 2rem;
+}
+.error p {
+  font-size: 2rem;
 }
 
 @media (max-width: 1200px) {

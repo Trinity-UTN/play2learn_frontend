@@ -2,20 +2,14 @@ import { motion } from "framer-motion";
 import { FaChartBar, FaPercentage, FaCoins, FaChartLine } from "react-icons/fa";
 import styles from "./ActionsDetailsStats.module.css";
 import type { ActionsResponse } from "../../../types/actions.type";
-
+import { useActionData } from "../../../hooks/useActions/useActionData";
 interface ActionStatsProps {
   action: ActionsResponse;
 }
 
 const ActionStats: React.FC<ActionStatsProps> = ({ action }) => {
-  const availabilityPercent =
-    (action.availableAmount / action.totalAmount) * 100;
-  const soldPercent = (action.soldAmount / action.totalAmount) * 100;
-  const priceChange = action.currentPrice - action.initialPrice;
-  const priceChangePercent = (
-    (priceChange / action.initialPrice) *
-    100
-  ).toFixed(2);
+  const { priceChangePercent, availabilityPercent, soldPercent } =
+    useActionData(action);
 
   return (
     <motion.div

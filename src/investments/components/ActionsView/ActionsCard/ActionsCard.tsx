@@ -1,52 +1,26 @@
 import { motion } from "framer-motion";
-import {
-  FaChartLine,
-  FaCoins,
-  FaShieldAlt,
-  FaArrowUp,
-  FaArrowDown,
-} from "react-icons/fa";
+import { FaChartLine, FaCoins, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import styles from "./ActionsCard.module.css";
-import type { ActionsResponse, RiskLevel } from "../../../types/actions.type";
-import { useNavigate } from "react-router-dom";
+import type { ActionsResponse } from "../../../types/actions.type";
+import { useActionData } from "../../../hooks/useActions/useActionData";
 
 interface ActionsCardProps {
   actions: ActionsResponse;
-  onClick: () => void;
 }
 
-const getRiskConfig = (risk: RiskLevel) => {
-  switch (risk) {
-    case "BAJO":
-      return { color: "#22c55e", label: "Bajo Riesgo", icon: FaShieldAlt };
-    case "MEDIO":
-      return { color: "#f59e0b", label: "Riesgo Medio", icon: FaShieldAlt };
-    case "ALTO":
-      return { color: "#ef4444", label: "Alto Riesgo", icon: FaShieldAlt };
-  }
-};
+const ActionCard: React.FC<ActionsCardProps> = ({ actions }) => {
+  const {
+    riskConfig,
+    isPositive,
+    availabilityPercent,
+    priceChangePercent,
+    stats,
+    handleDetails,
+  } = useActionData(actions);
 
-const ActionCard: React.FC<ActionsCardProps> = ({ actions, onClick }) => {
-  const navigate = useNavigate();
-  const riskConfig = getRiskConfig(actions.riskLevel);
-  const priceChange = actions.currentPrice - actions.initialPrice;
-  const priceChangePercent = (
-    (priceChange / actions.initialPrice) *
-    100
-  ).toFixed(2);
-  const isPositive = priceChange >= 0;
-  const availabilityPercent =
-    (actions.availableAmount / actions.totalAmount) * 100;
-
-  const handleDetails = () => {
-    navigate("/dashboard/student/actions/details", {
-      state: actions,
-    });
-  };
   return (
     <motion.div
       className={styles.card}
-      onClick={onClick}
       whileTap={{ scale: 0.98 }}
       style={
         {
@@ -95,30 +69,14 @@ const ActionCard: React.FC<ActionsCardProps> = ({ actions, onClick }) => {
 
       {/* Stats Grid */}
       <div className={styles.statsGrid}>
-        <div className={styles.stat}>
-          <span className={styles.statLabel}>Total Acciones</span>
-          <span className={styles.statValue}>
-            {actions.totalAmount.toLocaleString("es-AR")}
-          </span>
-        </div>
-        <div className={styles.stat}>
-          <span className={styles.statLabel}>Disponibles</span>
-          <span className={styles.statValue}>
-            {actions.availableAmount.toLocaleString("es-AR")}
-          </span>
-        </div>
-        <div className={styles.stat}>
-          <span className={styles.statLabel}>Vendidas</span>
-          <span className={styles.statValue}>
-            {actions.soldAmount.toLocaleString("es-AR")}
-          </span>
-        </div>
-        <div className={styles.stat}>
-          <span className={styles.statLabel}>Precio Inicial</span>
-          <span className={styles.statValue}>
-            {actions.initialPrice.toLocaleString("es-AR")}
-          </span>
-        </div>
+        {stats.map(({ label, value }) => (
+          <div key={label} className={styles.stat}>
+            <span className={styles.statLabel}>{label}</span>
+            <span className={styles.statValue}>
+              {value.toLocaleString("es-AR")}
+            </span>
+          </div>
+        ))}
       </div>
 
       {/* Availability Bar */}

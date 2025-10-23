@@ -7,13 +7,11 @@ import PaginateComponent from "../../../../shared/components/PaginateComponent/P
 
 interface ActionsGridProps {
   actions: ActionsResponse[] | undefined;
-  onInvestmentClick: (investmentId: number) => void;
   paginationInfo: PaginationInfo | null;
 }
 
 const ActionsGrid: React.FC<ActionsGridProps> = ({
   actions,
-  onInvestmentClick,
   paginationInfo,
 }) => {
   if (actions === undefined) {
@@ -59,10 +57,7 @@ const ActionsGrid: React.FC<ActionsGridProps> = ({
               stiffness: 100,
             }}
           >
-            <ActionCard
-              actions={action}
-              onClick={() => onInvestmentClick(action.id)}
-            />
+            <ActionCard actions={action} />
           </motion.div>
         ))}
       </div>
