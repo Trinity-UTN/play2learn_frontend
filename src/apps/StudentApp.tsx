@@ -40,6 +40,7 @@ import StudentWalletView from "../student/views/studentWalletView/StudentWalletV
 import StudentFinancialEducationView from "../student/views/studentFinancialEducationView/StudentFinancialEducationView";
 import ActionDetailView from "../investments/views/ActionsDetailView/ActionsDetailView";
 import ActionsView from "../investments/views/actionsView/ActionsView";
+import InvestmentsView from "../investments/views/InvestmentsView/InvestmentsView";
 
 const StudentApp = () => {
   return (
@@ -148,6 +149,7 @@ const StudentApp = () => {
             />
 
             {/* INVERSIONES */}
+            <Route path="investmests/list" element={<InvestmentsView />} />
             <Route path="actions/list" element={<ActionsView />} />
             <Route path="actions/details" element={<ActionDetailView />} />
           </Route>

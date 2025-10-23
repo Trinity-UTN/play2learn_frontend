@@ -72,6 +72,13 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       badge: isLoading ? "..." : 0,
     },
     {
+      title: "Inversiones",
+      icon: FaGift,
+      path: StudentRoutes.Investments,
+      color: "#4df50b9c",
+      badge: "¡Nuevo!",
+    },
+    {
       title: "Tienda",
       icon: FaStore,
       path: StudentRoutes.Store,

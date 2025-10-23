@@ -59,13 +59,13 @@ const ActionsView: React.FC<ActionsViewProps> = ({ onSelectAction }) => {
   };
 
   if (!actions?.results) {
-    return <LoadingScreen key="loading" />;
+    return <LoadingScreen key="loading" titulo="Cargando Acciones" />;
   }
   return (
     <div className={styles.container}>
       <AnimatePresence mode="wait">
         {isLoading ? (
-          <LoadingScreen key="loading" />
+          <LoadingScreen key="loading" titulo="Cargando Acciones" />
         ) : (
           <motion.div
             key="content"

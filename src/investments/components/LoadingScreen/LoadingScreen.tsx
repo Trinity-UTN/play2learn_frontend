@@ -18,7 +18,10 @@ const loadingImg = [
   "/inversiones/5.jpg",
 ];
 
-const LoadingScreen: React.FC = () => {
+type Props = {
+  titulo?: string;
+};
+const LoadingScreen = ({ titulo }: Props) => {
   useLockScroll();
   const [messageIndex, setMessageIndex] = useState(0);
   const [imgIndex, setImgIndex] = useState(() =>
@@ -149,7 +152,7 @@ const LoadingScreen: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          Cargando Inversiones
+          {titulo ? titulo : "Cargando Inversiones"}
         </motion.h1>
 
         {/* Mensaje dinámico */}

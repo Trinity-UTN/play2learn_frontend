@@ -40,7 +40,9 @@ const ActionsHeader: React.FC<ActionsHeaderProps> = ({
           <FaChartLine className={styles.icon} />
         </div>
         <div>
-          <h1 className={styles.title}>Oportunidades de Inversión</h1>
+          <h1 className={styles.title}>
+            Oportunidades de Inversión en Acciones
+          </h1>
           <p className={styles.subtitle}>
             Descubre {totalActions} oportunidades para hacer crecer tu dinero
           </p>

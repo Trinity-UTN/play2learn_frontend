@@ -45,7 +45,7 @@ const ActionDetailView = () => {
   };
 
   if (loading && !candleStickValues) {
-    return <LoadingScreen key="loading" />;
+    return <LoadingScreen key="loading" titulo="Cargando Acción" />;
   }
 
   if (!action) {
