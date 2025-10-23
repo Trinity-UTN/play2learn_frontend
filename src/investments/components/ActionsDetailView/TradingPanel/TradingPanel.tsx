@@ -98,6 +98,7 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
             <button
               className={styles.quickButton}
               onClick={() => handleQuickAmount(quickButton)}
+              key={quickButton}
             >
               {quickButton}
             </button>

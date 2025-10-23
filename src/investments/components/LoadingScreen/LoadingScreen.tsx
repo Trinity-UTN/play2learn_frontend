@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { FaChartLine, FaCoins, FaRocket, FaBullseye } from "react-icons/fa";
 import styles from "./LoadingScreen.module.css";
 import { useLockScroll } from "../../hooks/useLockScroll";
+
 const loadingMessages = [
   "Preparando tu portafolio...",
   "Analizando el mercado...",
@@ -11,11 +12,11 @@ const loadingMessages = [
   "¡Casi listo para invertir!",
 ];
 const loadingImg = [
-  "/inversiones/1.jpg",
-  "/inversiones/2.jpg",
-  "/inversiones/3.jpg",
-  "/inversiones/4.jpg",
-  "/inversiones/5.jpg",
+  "/inversiones/1.webp",
+  "/inversiones/2.webp",
+  "/inversiones/3.webp",
+  "/inversiones/4.webp",
+  "/inversiones/5.webp",
 ];
 
 type Props = {

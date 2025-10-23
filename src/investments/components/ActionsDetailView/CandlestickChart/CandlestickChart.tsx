@@ -21,6 +21,7 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({
   range,
 }) => {
   const { chartContainerRef } = useCandlestickChart(data);
+
   return (
     <motion.div
       className={styles.container}
