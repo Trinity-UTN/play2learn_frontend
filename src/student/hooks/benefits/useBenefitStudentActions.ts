@@ -52,7 +52,7 @@ export const useBenefitStudentActions = (
             onFilterChange("USE_REQUESTED");
             showToast({
               title: "Solicitud de uso enviada exitosamente",
-              message: "El docente ha sido notificado exitosamente",
+              message: "El docente ha sido notificado",
               type: "success",
               position: "bottom-right",
             });

@@ -1,4 +1,4 @@
-import { FaShoppingCart, FaCheckCircle } from "react-icons/fa";
+import { FaShoppingCart, FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
 import type { BenefitStudentResponseInterface } from "../../../../shared/types/Benefits.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
@@ -49,7 +49,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
         if (noPurchasesLeft) {
           return (
             <Tooltip
-              content="Ya utilizaste todas tus compras disponibles para este beneficio."
+              content="Ya utilizaste todas tus compras disponibles para este beneficio"
               position="top"
             >
               {button}
@@ -73,15 +73,24 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
           </Button>
         );
       case BENEFIT_STATUS.USE_REQUESTED:
-        return (
+        const button = (
           <Button
-            variant="ghost"
+            variant={"ghost"}
             size="sm"
-            className={styles.actionButton}
+            className={`${styles.actionButton} ${styles.disabledButton}`}
             disabled
           >
+            <FaHourglassHalf className={styles.buttonIcon} />
             Uso solicitado
           </Button>
+        );
+        return (
+          <Tooltip
+            content="El docente debe aprobar tu solicitud de uso del beneficio"
+            position="top"
+          >
+            {button}
+          </Tooltip>
         );
       case BENEFIT_STATUS.EXPIRED:
         return (
