@@ -20,7 +20,7 @@ import {
   isStudentBenefit,
   type BenefitCardVariant,
 } from "../../../../utils/benefitCard.utils";
-import { BENEFIT_STATUS } from "../../../../../student/constants/benefitStudent.constants";
+import { shouldShowBenefitStats } from "../../../../../student/utils/benefitStudent.validation";
 import styles from "./BenefitCardContent.module.css";
 
 type BenefitCardContentProps = {
@@ -48,10 +48,10 @@ const BenefitCardContent = ({
 
   const hasEndDate =
     isTeacherBenefit(benefit) || isStudentBenefit(benefit) || benefit.endAt;
-  const isPurchasedOrRequested =
-    isStudentBenefit(benefit) &&
-    (benefit.state === BENEFIT_STATUS.PURCHASED ||
-      benefit.state === BENEFIT_STATUS.USE_REQUESTED);
+
+  const showStats =
+    variant === "teacher" ||
+    (isStudentBenefit(benefit) && shouldShowBenefitStats(benefit));
 
   return (
     <>
@@ -96,7 +96,7 @@ const BenefitCardContent = ({
       )}
 
       {/* Estadísticas */}
-      {!isPurchasedOrRequested && (
+      {showStats && (
         <div className={styles[`benefitStats${styleSuffix}`]}>
           {/* Costo */}
           <div className={styles.costSection}>

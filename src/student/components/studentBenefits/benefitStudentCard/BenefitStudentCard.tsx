@@ -1,10 +1,13 @@
 import { FaShoppingCart, FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
+import { FiXCircle } from "react-icons/fi";
 import type { BenefitStudentResponseInterface } from "../../../../shared/types/Benefits.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import BenefitCardContent from "../../../../teacher/components/benefitsView/benefitCardComponent/benefitCardContent/BenefitCardContent";
 import { BENEFIT_STATUS } from "../../../constants/benefitStudent.constants";
+import { validateBenefitPurchase } from "../../../utils/benefitStudent.validation";
+import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 import styles from "./BenefitStudentCard.module.css";
 
 interface BenefitStudentCardProps {
@@ -18,6 +21,8 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
   onPurchase,
   onRequestUse,
 }) => {
+  const { wallet } = useCurrentStudent();
+
   const handlePurchase = () => {
     onPurchase(benefit.id, benefit.name, benefit.cost);
   };
@@ -29,27 +34,28 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
   const getActionButton = () => {
     switch (benefit.state) {
       case BENEFIT_STATUS.AVAILABLE: {
-        const noPurchasesLeft = benefit.purchasesLeftByStudent === 0;
+        const validation = validateBenefitPurchase(benefit, wallet);
+        const cannotPurchase = !validation.canPurchase;
 
         const button = (
           <Button
-            variant={noPurchasesLeft ? "ghost" : "primary"}
+            variant={cannotPurchase ? "ghost" : "primary"}
             size="sm"
             className={`${styles.actionButton} ${
-              noPurchasesLeft ? styles.disabledButton : ""
+              cannotPurchase ? styles.disabledButton : ""
             }`}
-            disabled={noPurchasesLeft}
-            onClick={!noPurchasesLeft ? handlePurchase : undefined}
+            disabled={cannotPurchase}
+            onClick={!cannotPurchase ? handlePurchase : undefined}
           >
             <FaShoppingCart className={styles.buttonIcon} />
-            {noPurchasesLeft ? "Sin compras disponibles" : "Canjear beneficio"}
+            {cannotPurchase ? "No disponible" : "Canjear beneficio"}
           </Button>
         );
 
-        if (noPurchasesLeft) {
+        if (cannotPurchase) {
           return (
             <Tooltip
-              content="Ya utilizaste todas tus compras disponibles para este beneficio"
+              content={validation.reason || "No puedes comprar este beneficio"}
               position="top"
             >
               {button}
@@ -59,7 +65,6 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
 
         return button;
       }
-
       case BENEFIT_STATUS.PURCHASED:
         return (
           <Button
@@ -73,7 +78,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
           </Button>
         );
       case BENEFIT_STATUS.USE_REQUESTED:
-        const button = (
+        const buttonUseRequested = (
           <Button
             variant={"ghost"}
             size="sm"
@@ -89,19 +94,25 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
             content="El docente debe aprobar tu solicitud de uso del beneficio"
             position="top"
           >
-            {button}
+            {buttonUseRequested}
           </Tooltip>
         );
       case BENEFIT_STATUS.EXPIRED:
-        return (
+        const buttonExpired = (
           <Button
-            variant="ghost"
+            variant={"ghost"}
             size="sm"
-            className={styles.actionButton}
+            className={`${styles.actionButton} ${styles.disabledButton}`}
             disabled
           >
+            <FiXCircle className={styles.buttonIcon} />
             Vencido
           </Button>
+        );
+        return (
+          <Tooltip content="El beneficio ha caducado" position="top">
+            {buttonExpired}
+          </Tooltip>
         );
       default:
         return null;
