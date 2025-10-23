@@ -1,4 +1,4 @@
-import type { PaginationInfo } from "../../../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
+import type { PaginationInfo } from "../../types/PaginacionType";
 import { PaginationComponent } from "../Pagination";
 import styles from "./FlexBox.module.css";
 import { FiList, FiGrid } from "react-icons/fi";

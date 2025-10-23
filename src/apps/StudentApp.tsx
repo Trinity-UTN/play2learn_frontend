@@ -10,7 +10,6 @@ import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvide
 import { CurrentStudentProvider } from "../student/context/currentStudent/CurrentStudentProvider";
 import { ProfileAvatarProvider } from "../student/context/profileAvatarContext/ProfileAvatarProvider";
 import { ActivityStudentProvider } from "../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
-import { ActivityStudentProviderUI } from "../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
 import { AhorcadoGameProvider } from "../shared/contexts/gamesContext/ahorcadoGameContext/AhorcadoGameProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
@@ -59,47 +58,45 @@ const StudentApp = () => {
                   <CurrentStudentProvider>
                     <ProfileAvatarProvider>
                       <ActivityStudentProvider>
-                        <ActivityStudentProviderUI>
-                          <ConfigurationActivityProvider>
-                            <NoLudicaProvider>
-                              <NoLudicaGameProvider mode="student">
-                                <AhorcadoProvider>
-                                  <AhorcadoGameProvider mode="student">
-                                    <CompletarOracionProvider>
-                                      <CompletarOracionGameProvider mode="student">
-                                        <DesafioClasificacionProvider>
-                                          <DesafioClasificacionGameProvider mode="student">
-                                            <PreguntadosProvider>
-                                              <PreguntadosGameProvider mode="student">
-                                                <WalletStudentProvider>
-                                                  <BenefitStudentProvider>
-                                                    <StoreProvider>
-                                                      <motion.div
-                                                        key="dashboardStudent"
-                                                        initial={{ opacity: 0 }}
-                                                        animate={{ opacity: 1 }}
-                                                        exit={{ opacity: 0 }}
-                                                        transition={{
-                                                          duration: 0.3,
-                                                        }}
-                                                      >
-                                                        <StudentDashboard />
-                                                      </motion.div>
-                                                    </StoreProvider>
-                                                  </BenefitStudentProvider>
-                                                </WalletStudentProvider>
-                                              </PreguntadosGameProvider>
-                                            </PreguntadosProvider>
-                                          </DesafioClasificacionGameProvider>
-                                        </DesafioClasificacionProvider>
-                                      </CompletarOracionGameProvider>
-                                    </CompletarOracionProvider>
-                                  </AhorcadoGameProvider>
-                                </AhorcadoProvider>
-                              </NoLudicaGameProvider>
-                            </NoLudicaProvider>
-                          </ConfigurationActivityProvider>
-                        </ActivityStudentProviderUI>
+                        <ConfigurationActivityProvider>
+                          <NoLudicaProvider>
+                            <NoLudicaGameProvider mode="student">
+                              <AhorcadoProvider>
+                                <AhorcadoGameProvider mode="student">
+                                  <CompletarOracionProvider>
+                                    <CompletarOracionGameProvider mode="student">
+                                      <DesafioClasificacionProvider>
+                                        <DesafioClasificacionGameProvider mode="student">
+                                          <PreguntadosProvider>
+                                            <PreguntadosGameProvider mode="student">
+                                              <WalletStudentProvider>
+                                                <BenefitStudentProvider>
+                                                  <StoreProvider>
+                                                    <motion.div
+                                                      key="dashboardStudent"
+                                                      initial={{ opacity: 0 }}
+                                                      animate={{ opacity: 1 }}
+                                                      exit={{ opacity: 0 }}
+                                                      transition={{
+                                                        duration: 0.3,
+                                                      }}
+                                                    >
+                                                      <StudentDashboard />
+                                                    </motion.div>
+                                                  </StoreProvider>
+                                                </BenefitStudentProvider>
+                                              </WalletStudentProvider>
+                                            </PreguntadosGameProvider>
+                                          </PreguntadosProvider>
+                                        </DesafioClasificacionGameProvider>
+                                      </DesafioClasificacionProvider>
+                                    </CompletarOracionGameProvider>
+                                  </CompletarOracionProvider>
+                                </AhorcadoGameProvider>
+                              </AhorcadoProvider>
+                            </NoLudicaGameProvider>
+                          </NoLudicaProvider>
+                        </ConfigurationActivityProvider>
                       </ActivityStudentProvider>
                     </ProfileAvatarProvider>
                   </CurrentStudentProvider>
