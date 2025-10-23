@@ -6,15 +6,12 @@ import {
   FaArrowUp,
   FaArrowDown,
 } from "react-icons/fa";
-import styles from "./InvestmentCard.module.css";
-import type {
-  InvestmentResponse,
-  RiskLevel,
-} from "../../../types/investment.type";
+import styles from "./ActionsCard.module.css";
+import type { ActionsResponse, RiskLevel } from "../../../types/actions.type";
 import { useNavigate } from "react-router-dom";
 
-interface InvestmentCardProps {
-  investment: InvestmentResponse;
+interface ActionsCardProps {
+  actions: ActionsResponse;
   onClick: () => void;
 }
 
@@ -29,24 +26,21 @@ const getRiskConfig = (risk: RiskLevel) => {
   }
 };
 
-const InvestmentCard: React.FC<InvestmentCardProps> = ({
-  investment,
-  onClick,
-}) => {
+const ActionCard: React.FC<ActionsCardProps> = ({ actions, onClick }) => {
   const navigate = useNavigate();
-  const riskConfig = getRiskConfig(investment.riskLevel);
-  const priceChange = investment.currentPrice - investment.initialPrice;
+  const riskConfig = getRiskConfig(actions.riskLevel);
+  const priceChange = actions.currentPrice - actions.initialPrice;
   const priceChangePercent = (
-    (priceChange / investment.initialPrice) *
+    (priceChange / actions.initialPrice) *
     100
   ).toFixed(2);
   const isPositive = priceChange >= 0;
   const availabilityPercent =
-    (investment.availableAmount / investment.totalAmount) * 100;
+    (actions.availableAmount / actions.totalAmount) * 100;
 
   const handleDetails = () => {
-    navigate("/dashboard/student/investments/details", {
-      state: investment,
+    navigate("/dashboard/student/actions/details", {
+      state: actions,
     });
   };
   return (
@@ -63,9 +57,9 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.titleSection}>
-          <div className={styles.abbreviation}>{investment.abbreviation}</div>
+          <div className={styles.abbreviation}>{actions.abbreviation}</div>
           <div>
-            <h3 className={styles.name}>{investment.name}</h3>
+            <h3 className={styles.name}>{actions.name}</h3>
             <div
               className={styles.riskBadge}
               style={{ backgroundColor: riskConfig.color }}
@@ -82,7 +76,7 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({
         <div className={styles.currentPrice}>
           <FaCoins className={styles.coinIcon} />
           <span className={styles.price}>
-            {investment.currentPrice.toLocaleString("es-AR")}
+            {actions.currentPrice.toLocaleString("es-AR")}
           </span>
           <span className={styles.currency}>monedas</span>
         </div>
@@ -104,25 +98,25 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({
         <div className={styles.stat}>
           <span className={styles.statLabel}>Total Acciones</span>
           <span className={styles.statValue}>
-            {investment.totalAmount.toLocaleString("es-AR")}
+            {actions.totalAmount.toLocaleString("es-AR")}
           </span>
         </div>
         <div className={styles.stat}>
           <span className={styles.statLabel}>Disponibles</span>
           <span className={styles.statValue}>
-            {investment.availableAmount.toLocaleString("es-AR")}
+            {actions.availableAmount.toLocaleString("es-AR")}
           </span>
         </div>
         <div className={styles.stat}>
           <span className={styles.statLabel}>Vendidas</span>
           <span className={styles.statValue}>
-            {investment.soldAmount.toLocaleString("es-AR")}
+            {actions.soldAmount.toLocaleString("es-AR")}
           </span>
         </div>
         <div className={styles.stat}>
           <span className={styles.statLabel}>Precio Inicial</span>
           <span className={styles.statValue}>
-            {investment.initialPrice.toLocaleString("es-AR")}
+            {actions.initialPrice.toLocaleString("es-AR")}
           </span>
         </div>
       </div>
@@ -167,4 +161,4 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({
   );
 };
 
-export default InvestmentCard;
+export default ActionCard;

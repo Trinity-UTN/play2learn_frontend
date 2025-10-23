@@ -4,19 +4,19 @@ import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import { urls } from "../urls";
 import type {
-  InvestmentsPaginatedResponseInterface,
+  ActionsPaginatedResponseInterface,
   RangeValue,
-} from "../../types/investment.type";
+} from "../../types/actions.type";
 
-const getPaginatedInvestmentsApi = async (
+const getPaginatedActionsApi = async (
   params: GetPaginated
-): Promise<InvestmentsPaginatedResponseInterface> => {
+): Promise<ActionsPaginatedResponseInterface> => {
   const cleanParams = {
     ...buildCleanPaginatedParams(params),
     filters: params.filters?.join(","),
     filtersValues: params.filtersValues?.join(","),
   };
-  const response = await api.get(urls.InvestmentsPaginated, {
+  const response = await api.get(urls.ActionsPaginated, {
     params: cleanParams,
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
@@ -31,7 +31,7 @@ const getCandleStickValues = async (id: number, range: RangeValue) => {
   return response.data;
 };
 
-export const InvestmentsService = {
-  getPaginatedInvestmentsApi,
+export const ActionsService = {
+  getPaginatedActionsApi,
   getCandleStickValues,
 };

@@ -1,29 +1,29 @@
 import { motion } from "framer-motion";
-import styles from "./InvestmentsGrid.module.css";
-import type { InvestmentResponse } from "../../../types/investment.type";
-import InvestmentCard from "../InvestmentCard/InvestmentCard";
+import styles from "./ActionsGrid.module.css";
+import type { ActionsResponse } from "../../../types/actions.type";
+import ActionCard from "../ActionsCard/ActionsCard";
 import type { PaginationInfo } from "../../../../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
 
-interface InvestmentsGridProps {
-  investments: InvestmentResponse[] | undefined;
+interface ActionsGridProps {
+  actions: ActionsResponse[] | undefined;
   onInvestmentClick: (investmentId: number) => void;
   paginationInfo: PaginationInfo | null;
 }
 
-const InvestmentsGrid: React.FC<InvestmentsGridProps> = ({
-  investments,
+const ActionsGrid: React.FC<ActionsGridProps> = ({
+  actions,
   onInvestmentClick,
   paginationInfo,
 }) => {
-  if (investments === undefined) {
+  if (actions === undefined) {
     return (
       <div className={styles.emptyState}>
         <p>No hay inversiones disponibles con este filtro</p>
       </div>
     );
   }
-  if (investments.length === 0) {
+  if (actions.length === 0) {
     return (
       <div className={styles.emptyState}>
         <p>No hay inversiones disponibles con este filtro</p>
@@ -47,9 +47,9 @@ const InvestmentsGrid: React.FC<InvestmentsGridProps> = ({
       })}
     >
       <div className={styles.grid}>
-        {investments.map((investment, index) => (
+        {actions.map((action, index) => (
           <motion.div
-            key={investment.id}
+            key={action.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -59,9 +59,9 @@ const InvestmentsGrid: React.FC<InvestmentsGridProps> = ({
               stiffness: 100,
             }}
           >
-            <InvestmentCard
-              investment={investment}
-              onClick={() => onInvestmentClick(investment.id)}
+            <ActionCard
+              actions={action}
+              onClick={() => onInvestmentClick(action.id)}
             />
           </motion.div>
         ))}
@@ -70,4 +70,4 @@ const InvestmentsGrid: React.FC<InvestmentsGridProps> = ({
   );
 };
 
-export default InvestmentsGrid;
+export default ActionsGrid;

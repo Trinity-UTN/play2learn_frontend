@@ -8,7 +8,7 @@ export type RangeValue =
   | "MENSUAL"
   | "HISTORICO";
 
-export interface InvestmentResponse {
+export interface ActionsResponse {
   id: number;
   name: string;
   abbreviation: string;
@@ -19,8 +19,8 @@ export interface InvestmentResponse {
   initialPrice: number;
   riskLevel: RiskLevel;
 }
-export interface InvestmentsPaginatedResponseInterface {
-  data: PaginatedData<InvestmentResponse>;
+export interface ActionsPaginatedResponseInterface {
+  data: PaginatedData<ActionsResponse>;
   message: string;
   errors: any;
   timestamp: string;

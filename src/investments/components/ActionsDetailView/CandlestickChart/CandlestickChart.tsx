@@ -5,7 +5,7 @@ import styles from "./CandlestickChart.module.css";
 import type {
   CandleStickValuesResponse,
   RangeValue,
-} from "../../../types/investment.type";
+} from "../../../types/actions.type";
 import {
   createChart,
   CrosshairMode,
@@ -14,14 +14,14 @@ import {
 } from "lightweight-charts";
 interface CandlestickChartProps {
   data: CandleStickValuesResponse[];
-  investmentName: string;
+  actionName: string;
   setRange: (range: RangeValue) => void;
   range: RangeValue;
 }
 
 const CandlestickChart: React.FC<CandlestickChartProps> = ({
   data,
-  investmentName,
+  actionName,
   setRange,
   range,
 }) => {
@@ -132,7 +132,7 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({
         <div className={styles.titleSection}>
           <FaChartLine className={styles.icon} />
           <h3 className={styles.title}>
-            Gráfico de Precios - {investmentName} - {range}
+            Gráfico de Precios - {actionName} - {range}
           </h3>
         </div>
         <div>

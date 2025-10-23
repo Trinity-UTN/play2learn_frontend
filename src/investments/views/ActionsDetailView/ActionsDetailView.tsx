@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
-import InvestmentHeader from "../../components/InvestmentDetailView/InvestmentDetailHeader/InvestmentDetailHeader";
-import CandlestickChart from "../../components/InvestmentDetailView/CandlestickChart/CandlestickChart";
-import TradingPanel from "../../components/InvestmentDetailView/TradingPanel/TradingPanel";
-import AutomationPanel from "../../components/InvestmentDetailView/AutomationPanel/AutomationPanel";
-import InvestmentStats from "../../components/InvestmentDetailView/InvestmentsDetailsStats/InvestmentsDetailsStats";
-import styles from "./InvestmentsDetailView.module.css";
+import ActionHeader from "../../components/ActionsDetailView/ActionsDetailHeader/ActionsDetailHeader";
+import CandlestickChart from "../../components/ActionsDetailView/CandlestickChart/CandlestickChart";
+import TradingPanel from "../../components/ActionsDetailView/TradingPanel/TradingPanel";
+import AutomationPanel from "../../components/ActionsDetailView/AutomationPanel/AutomationPanel";
+import ActionStats from "../../components/ActionsDetailView/ActionsDetailsStats/ActionsDetailsStats";
+import styles from "./ActionsDetailView.module.css";
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import { useLocation } from "react-router-dom";
-import { useInvestmentsStudent } from "../../hooks/useInvestmentsStudentAPI";
-import type { RangeValue } from "../../types/investment.type";
+import { useActionsStudent } from "../../hooks/useInvestmentsStudentAPI";
+import type { RangeValue } from "../../types/actions.type";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 
-const InvestmentDetailView = () => {
+const ActionDetailView = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { getCandleStickValues, candleStickValues, loading } =
-    useInvestmentsStudent();
+    useActionsStudent();
   const { currentStudent } = useCurrentStudent();
   const userBalance = currentStudent?.wallet.balance || 0;
-  const investment = location.state;
+  const action = location.state;
   const [range, setRange] = useState<RangeValue>("HISTORICO");
 
   useEffect(() => {
-    if (investment) {
-      getCandleStickValues(investment.id, range);
+    if (action) {
+      getCandleStickValues(action.id, range);
     }
   }, [range]);
   const handleBuy = (amount: number) => {
@@ -48,13 +48,13 @@ const InvestmentDetailView = () => {
     return <LoadingScreen key="loading" />;
   }
 
-  if (!investment) {
+  if (!action) {
     return (
       <div className={styles.error}>
         <p>No se pudo cargar la inversión</p>
         <button
           className={styles.backButton}
-          onClick={() => navigate("/dashboard/student/investments/list")}
+          onClick={() => navigate("/dashboard/student/actions/list")}
         >
           <FaArrowLeft />
           Volver
@@ -73,34 +73,34 @@ const InvestmentDetailView = () => {
       >
         <button
           className={styles.backButton}
-          onClick={() => navigate("/dashboard/student/investments/list")}
+          onClick={() => navigate("/dashboard/student/actions/list")}
         >
           <FaArrowLeft />
           <span>Volver a Inversiones</span>
         </button>
 
-        <InvestmentHeader investment={investment} />
+        <ActionHeader action={action} />
 
         <div className={styles.mainContent}>
           <div className={styles.chartSection}>
             <CandlestickChart
               data={candleStickValues}
-              investmentName={investment.name}
+              actionName={action.name}
               setRange={setRange}
               range={range}
             />
-            <InvestmentStats investment={investment} />
+            <ActionStats action={action} />
           </div>
 
           <div className={styles.tradingSection}>
             <TradingPanel
-              investment={investment}
+              action={action}
               onBuy={handleBuy}
               onSell={handleSell}
               userBalance={userBalance} // TODO: Obtener del contexto del usuario
             />
             <AutomationPanel
-              currentPrice={investment.currentPrice}
+              currentPrice={action.currentPrice}
               onSetAutomation={handleSetAutomation}
             />
           </div>
@@ -110,4 +110,4 @@ const InvestmentDetailView = () => {
   );
 };
 
-export default InvestmentDetailView;
+export default ActionDetailView;

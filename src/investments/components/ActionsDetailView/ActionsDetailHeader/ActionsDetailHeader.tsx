@@ -1,17 +1,17 @@
 import { motion } from "framer-motion";
 import { FaArrowUp, FaArrowDown, FaShieldAlt } from "react-icons/fa";
-import styles from "./InvestmentDetailHeader.module.css";
-import type { InvestmentResponse } from "../../../types/investment.type";
+import styles from "./ActionsDetailHeader.module.css";
+import type { ActionsResponse } from "../../../types/actions.type";
 import formatPrice from "../../../../shared/utils/formatPrice";
 
-interface InvestmentHeaderProps {
-  investment: InvestmentResponse;
+interface ActionHeaderProps {
+  action: ActionsResponse;
 }
 
-const InvestmentHeader: React.FC<InvestmentHeaderProps> = ({ investment }) => {
-  const priceChange = investment.currentPrice - investment.initialPrice;
+const ActionHeader: React.FC<ActionHeaderProps> = ({ action }) => {
+  const priceChange = action.currentPrice - action.initialPrice;
   const priceChangePercent = (
-    (priceChange / investment.initialPrice) *
+    (priceChange / action.initialPrice) *
     100
   ).toFixed(2);
   const isPositive = priceChange >= 0;
@@ -38,17 +38,15 @@ const InvestmentHeader: React.FC<InvestmentHeaderProps> = ({ investment }) => {
     >
       <div className={styles.mainInfo}>
         <div className={styles.titleSection}>
-          <h1 className={styles.name}>{investment.name}</h1>
+          <h1 className={styles.name}>{action.name}</h1>
           <div className={styles.subTitle}>
-            <span className={styles.abbreviation}>
-              {investment.abbreviation}
-            </span>
+            <span className={styles.abbreviation}>{action.abbreviation}</span>
             <div
               className={styles.riskBadge}
-              style={{ backgroundColor: getRiskColor(investment.riskLevel) }}
+              style={{ backgroundColor: getRiskColor(action.riskLevel) }}
             >
               <FaShieldAlt />
-              Riesgo {investment.riskLevel}
+              Riesgo {action.riskLevel}
             </div>
           </div>
         </div>
@@ -75,25 +73,25 @@ const InvestmentHeader: React.FC<InvestmentHeaderProps> = ({ investment }) => {
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Precio Inicial</span>
           <span className={styles.statValue}>
-            ${formatPrice(investment.initialPrice)}
+            ${formatPrice(action.initialPrice)}
           </span>
         </div>
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Total Acciones</span>
           <span className={styles.statValue}>
-            {formatPrice(investment.totalAmount)}
+            {formatPrice(action.totalAmount)}
           </span>
         </div>
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Disponibles</span>
           <span className={styles.statValue}>
-            {formatPrice(investment.availableAmount)}
+            {formatPrice(action.availableAmount)}
           </span>
         </div>
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Vendidas</span>
           <span className={styles.statValue}>
-            {formatPrice(investment.soldAmount)}
+            {formatPrice(action.soldAmount)}
           </span>
         </div>
       </div>
@@ -101,4 +99,4 @@ const InvestmentHeader: React.FC<InvestmentHeaderProps> = ({ investment }) => {
   );
 };
 
-export default InvestmentHeader;
+export default ActionHeader;

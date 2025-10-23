@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { InvestmentsContext } from "../contexts/investmentContext/InvestmentStudentContext";
+import { ActionsContext } from "../contexts/actionsContext/ActionsStudentContext";
 
-export const useInvestmentsStudent = () => {
-  const context = useContext(InvestmentsContext);
+export const useActionsStudent = () => {
+  const context = useContext(ActionsContext);
   if (!context) {
     throw new Error(
-      "useInvestmentsStudent must be used within an InvestmentsStudentProvider"
+      "useActionsStudent must be used within an ActionsStudentProvider"
     );
   }
   return context;

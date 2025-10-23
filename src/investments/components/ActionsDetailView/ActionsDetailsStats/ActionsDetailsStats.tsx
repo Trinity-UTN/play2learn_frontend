@@ -1,19 +1,19 @@
 import { motion } from "framer-motion";
 import { FaChartBar, FaPercentage, FaCoins, FaChartLine } from "react-icons/fa";
-import styles from "./InvestmentsDetailsStats.module.css";
-import type { InvestmentResponse } from "../../../types/investment.type";
+import styles from "./ActionsDetailsStats.module.css";
+import type { ActionsResponse } from "../../../types/actions.type";
 
-interface InvestmentStatsProps {
-  investment: InvestmentResponse;
+interface ActionStatsProps {
+  action: ActionsResponse;
 }
 
-const InvestmentStats: React.FC<InvestmentStatsProps> = ({ investment }) => {
+const ActionStats: React.FC<ActionStatsProps> = ({ action }) => {
   const availabilityPercent =
-    (investment.availableAmount / investment.totalAmount) * 100;
-  const soldPercent = (investment.soldAmount / investment.totalAmount) * 100;
-  const priceChange = investment.currentPrice - investment.initialPrice;
+    (action.availableAmount / action.totalAmount) * 100;
+  const soldPercent = (action.soldAmount / action.totalAmount) * 100;
+  const priceChange = action.currentPrice - action.initialPrice;
   const priceChangePercent = (
-    (priceChange / investment.initialPrice) *
+    (priceChange / action.initialPrice) *
     100
   ).toFixed(2);
 
@@ -77,10 +77,7 @@ const InvestmentStats: React.FC<InvestmentStatsProps> = ({ investment }) => {
           <div className={styles.statContent}>
             <span className={styles.statLabel}>Valor Total de Mercado</span>
             <span className={styles.statValue}>
-              $
-              {(
-                investment.totalAmount * investment.currentPrice
-              ).toLocaleString()}
+              ${(action.totalAmount * action.currentPrice).toLocaleString()}
             </span>
           </div>
         </div>
@@ -118,4 +115,4 @@ const InvestmentStats: React.FC<InvestmentStatsProps> = ({ investment }) => {
   );
 };
 
-export default InvestmentStats;
+export default ActionStats;

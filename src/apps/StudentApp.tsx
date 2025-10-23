@@ -24,7 +24,7 @@ import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/Pre
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
 import { WalletStudentProvider } from "../student/context/walletStudentContext/WalletStudentProvider";
 import { StoreProvider } from "../student/context/storeStudentContext/StoreStudentProvider";
-import { InvestmentsProvider } from "../investments/contexts/investmentContext/InvestmentStudentProvider";
+import { ActionsProvider } from "../investments/contexts/actionsContext/ActionsStudentProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
@@ -38,8 +38,8 @@ import StudentRankingView from "../student/views/studentRankingView/StudentRanki
 import StudentStoreView from "../student/views/studentStoreView/StudentStoreView";
 import StudentWalletView from "../student/views/studentWalletView/StudentWalletView";
 import StudentFinancialEducationView from "../student/views/studentFinancialEducationView/StudentFinancialEducationView";
-import InvestmentDetailView from "../investments/views/investmentsDetailView/InvestmentsDetailView";
-import InvestmentsView from "../investments/views/investments/InvestmentsView";
+import ActionDetailView from "../investments/views/ActionsDetailView/ActionsDetailView";
+import ActionsView from "../investments/views/actionsView/ActionsView";
 
 const StudentApp = () => {
   return (
@@ -75,7 +75,7 @@ const StudentApp = () => {
                                               <PreguntadosGameProvider mode="student">
                                                 <WalletStudentProvider>
                                                   <StoreProvider>
-                                                    <InvestmentsProvider>
+                                                    <ActionsProvider>
                                                       <motion.div
                                                         key="dashboardStudent"
                                                         initial={{ opacity: 0 }}
@@ -87,7 +87,7 @@ const StudentApp = () => {
                                                       >
                                                         <StudentDashboard />
                                                       </motion.div>
-                                                    </InvestmentsProvider>
+                                                    </ActionsProvider>
                                                   </StoreProvider>
                                                 </WalletStudentProvider>
                                               </PreguntadosGameProvider>
@@ -148,11 +148,8 @@ const StudentApp = () => {
             />
 
             {/* INVERSIONES */}
-            <Route path="investments/list" element={<InvestmentsView />} />
-            <Route
-              path="investments/details"
-              element={<InvestmentDetailView />}
-            />
+            <Route path="actions/list" element={<ActionsView />} />
+            <Route path="actions/details" element={<ActionDetailView />} />
           </Route>
         </Routes>
       </AnimatePresence>

@@ -8,18 +8,18 @@ import {
 } from "react-icons/fa";
 
 import styles from "./TradingPanel.module.css";
-import type { InvestmentResponse } from "../../../types/investment.type";
+import type { ActionsResponse } from "../../../types/actions.type";
 import formatPrice from "../../../../shared/utils/formatPrice";
 
 interface TradingPanelProps {
-  investment: InvestmentResponse;
+  action: ActionsResponse;
   onBuy: (amount: number) => void;
   onSell: (amount: number) => void;
   userBalance: number;
 }
 
 const TradingPanel: React.FC<TradingPanelProps> = ({
-  investment,
+  action,
   onBuy,
   onSell,
   userBalance,
@@ -28,9 +28,9 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
   const [amount, setAmount] = useState<string>("1");
 
   const numAmount = Number.parseInt(amount) || 0;
-  const totalCost = numAmount * investment.currentPrice;
+  const totalCost = numAmount * action.currentPrice;
   const canAfford = totalCost <= userBalance;
-  const canSell = numAmount <= investment.availableAmount;
+  const canSell = numAmount <= action.availableAmount;
 
   const handleBuy = () => {
     if (canAfford && numAmount > 0) {
@@ -91,7 +91,7 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
         <div className={styles.priceInfo}>
           <span className={styles.label}>Precio por acción</span>
           <span className={styles.price}>
-            ${formatPrice(investment.currentPrice)}
+            ${formatPrice(action.currentPrice)}
           </span>
         </div>
 

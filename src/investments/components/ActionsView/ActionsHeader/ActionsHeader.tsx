@@ -1,21 +1,21 @@
 import { motion } from "framer-motion";
 import { FaChartLine, FaFilter } from "react-icons/fa";
-import styles from "./InvestmentsHeader.module.css";
-import type { RiskLevel } from "../../../types/investment.type";
+import styles from "./ActionsHeader.module.css";
+import type { RiskLevel } from "../../../types/actions.type";
 import {
   FILTER_TYPES,
   riskFilters,
 } from "../../../contanst/investments.contanst";
 
-interface InvestmentsHeaderProps {
-  totalInvestments: number;
+interface ActionsHeaderProps {
+  totalActions: number;
   filterRisk: RiskLevel | "TODOS";
   onFilterChange: (risk: RiskLevel | "TODOS") => void;
   handleFilter: (filter: string[], value: string[]) => void;
 }
 
-const InvestmentsHeader: React.FC<InvestmentsHeaderProps> = ({
-  totalInvestments,
+const ActionsHeader: React.FC<ActionsHeaderProps> = ({
+  totalActions,
   filterRisk,
   onFilterChange,
   handleFilter,
@@ -42,8 +42,7 @@ const InvestmentsHeader: React.FC<InvestmentsHeaderProps> = ({
         <div>
           <h1 className={styles.title}>Oportunidades de Inversión</h1>
           <p className={styles.subtitle}>
-            Descubre {totalInvestments} oportunidades para hacer crecer tu
-            dinero
+            Descubre {totalActions} oportunidades para hacer crecer tu dinero
           </p>
         </div>
       </motion.div>
@@ -91,4 +90,4 @@ const InvestmentsHeader: React.FC<InvestmentsHeaderProps> = ({
   );
 };
 
-export default InvestmentsHeader;
+export default ActionsHeader;

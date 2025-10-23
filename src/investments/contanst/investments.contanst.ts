@@ -1,4 +1,4 @@
-import type { RiskLevel } from "../types/investment.type";
+import type { RiskLevel } from "../types/actions.type";
 
 export const FILTER_TYPES = {
   TYPE: "riskLevel",

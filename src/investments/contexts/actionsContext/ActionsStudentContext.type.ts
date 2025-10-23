@@ -4,15 +4,15 @@ import type {
 } from "../../../shared/types/PaginacionType";
 import type {
   CandleStickValuesResponse,
-  InvestmentResponse,
+  ActionsResponse,
   RangeValue,
-} from "../../types/investment.type";
+} from "../../types/actions.type";
 
-export interface InvestmentsContextType {
+export interface ActionsContextType {
   // Estados principales
   loading: boolean;
-  investments: PaginatedData<InvestmentResponse> | null;
-  getPaginatedInvestments: (params: GetPaginated) => Promise<void>;
+  actions: PaginatedData<ActionsResponse> | null;
+  getPaginatedActions: (params: GetPaginated) => Promise<void>;
 
   candleStickValues: CandleStickValuesResponse[];
   getCandleStickValues: (id: number, range: RangeValue) => void;

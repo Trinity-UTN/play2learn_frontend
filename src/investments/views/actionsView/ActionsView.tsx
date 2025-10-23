@@ -1,21 +1,19 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import styles from "./InvestmentsView.module.css";
+import styles from "./ActionsView.module.css";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
-import InvestmentsHeader from "../../components/InvestmentView/InvestmentsHeader/InvestmentsHeader";
-import InvestmentsGrid from "../../components/InvestmentView/InvestmentsGrid/InvestmentsGrid";
-import type { RiskLevel } from "../../types/investment.type";
-import { useInvestmentsStudent } from "../../hooks/useInvestmentsStudentAPI";
+import ActionHeader from "../../components/ActionsView/ActionsHeader/ActionsHeader";
+import ActionsGrid from "../../components/ActionsView/ActionsGrid/ActionsGrid";
+import type { RiskLevel } from "../../types/actions.type";
+import { useActionsStudent } from "../../hooks/useInvestmentsStudentAPI";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import type { PaginationInfo } from "../../../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 
-interface InvestmentsViewProps {
-  onSelectInvestment?: (investmentId: number) => void;
+interface ActionsViewProps {
+  onSelectAction?: (actionId: number) => void;
 }
 
-const InvestmentsView: React.FC<InvestmentsViewProps> = ({
-  onSelectInvestment,
-}) => {
+const ActionsView: React.FC<ActionsViewProps> = ({ onSelectAction }) => {
   // Paginación
   const {
     paginationParams,
@@ -23,21 +21,21 @@ const InvestmentsView: React.FC<InvestmentsViewProps> = ({
     handlePageSizeChange,
     handleFilter,
   } = usePaginationParams();
-  const { getPaginatedInvestments, investments } = useInvestmentsStudent();
+  const { getPaginatedActions, actions } = useActionsStudent();
   const [isLoading, setIsLoading] = useState(true);
   const [filterRisk, setFilterRisk] = useState<RiskLevel | "TODOS">("TODOS");
 
   // Efecto para cargar los aspectos
   useEffect(() => {
-    getPaginatedInvestments(paginationParams);
+    getPaginatedActions(paginationParams);
   }, [paginationParams]);
   // 7️⃣ Paginación info
-  const paginationInfo: PaginationInfo | null = investments
+  const paginationInfo: PaginationInfo | null = actions
     ? {
-        currentPage: investments.currentPage,
-        totalPages: investments.totalPages,
-        pageSize: investments.pageSize,
-        totalItems: investments.results.length,
+        currentPage: actions.currentPage,
+        totalPages: actions.totalPages,
+        pageSize: actions.pageSize,
+        totalItems: actions.results.length,
         onPageChange: handlePageChange,
         onPageSizeChange: handlePageSizeChange,
       }
@@ -54,13 +52,13 @@ const InvestmentsView: React.FC<InvestmentsViewProps> = ({
     return () => clearTimeout(timer);
   }, []);
 
-  const handleInvestmentClick = (investmentId: number) => {
-    if (onSelectInvestment) {
-      onSelectInvestment(investmentId);
+  const handleActionClick = (actionId: number) => {
+    if (onSelectAction) {
+      onSelectAction(actionId);
     }
   };
 
-  if (!investments?.results) {
+  if (!actions?.results) {
     return <LoadingScreen key="loading" />;
   }
   return (
@@ -77,15 +75,15 @@ const InvestmentsView: React.FC<InvestmentsViewProps> = ({
             transition={{ duration: 0.5 }}
             className={styles.content}
           >
-            <InvestmentsHeader
-              totalInvestments={investments.results.length}
+            <ActionHeader
+              totalActions={actions.results.length}
               filterRisk={filterRisk}
               onFilterChange={setFilterRisk}
               handleFilter={handleFilter}
             />
-            <InvestmentsGrid
-              investments={investments.results}
-              onInvestmentClick={handleInvestmentClick}
+            <ActionsGrid
+              actions={actions.results}
+              onInvestmentClick={handleActionClick}
               paginationInfo={paginationInfo}
             />
           </motion.div>
@@ -95,4 +93,4 @@ const InvestmentsView: React.FC<InvestmentsViewProps> = ({
   );
 };
 
-export default InvestmentsView;
+export default ActionsView;

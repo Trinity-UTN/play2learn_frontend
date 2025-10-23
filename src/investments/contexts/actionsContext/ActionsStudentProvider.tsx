@@ -1,6 +1,6 @@
 import { useCallback, useState, type ReactNode } from "react";
-import { InvestmentsContext } from "./InvestmentStudentContext";
-import type { InvestmentsContextType } from "./InvestmentStudentContext.type";
+import { ActionsContext } from "./ActionsStudentContext";
+import type { ActionsContextType } from "./ActionsStudentContext.type";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import type {
   GetPaginated,
@@ -8,37 +8,36 @@ import type {
 } from "../../../shared/types/PaginacionType";
 import type {
   CandleStickValuesResponse,
-  InvestmentResponse,
+  ActionsResponse,
   RangeValue,
-} from "../../types/investment.type";
-import { InvestmentsService } from "../../services/investments/InvestmentsService";
+} from "../../types/actions.type";
+import { ActionsService } from "../../services/investments/ActionsService";
 
-interface InvestmentsProviderProps {
+interface ActionsProviderProps {
   children: ReactNode;
 }
 
-export const InvestmentsProvider: React.FC<InvestmentsProviderProps> = ({
+export const ActionsProvider: React.FC<ActionsProviderProps> = ({
   children,
 }) => {
   const { handleApiError } = useHandleApiError();
   const [loading, setLoading] = useState<boolean>(false);
-  const [investments, setInvestments] =
-    useState<PaginatedData<InvestmentResponse> | null>(null);
+  const [actions, setActions] = useState<PaginatedData<ActionsResponse> | null>(
+    null
+  );
   const [candleStickValues, setCandleStickValues] = useState<
     CandleStickValuesResponse[]
   >([]);
 
   // Funciones Principales
-  const getPaginatedInvestments = useCallback(
+  const getPaginatedActions = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
       try {
-        const response = await InvestmentsService.getPaginatedInvestmentsApi(
-          params
-        );
-        setInvestments(response.data);
+        const response = await ActionsService.getPaginatedActionsApi(params);
+        setActions(response.data);
       } catch (error) {
-        handleApiError(error, "Error al obtener las estadisticas");
+        handleApiError(error, "Error al obtener las acciones");
       } finally {
         setLoading(false);
       }
@@ -50,10 +49,7 @@ export const InvestmentsProvider: React.FC<InvestmentsProviderProps> = ({
     async (id: number, range: RangeValue): Promise<void> => {
       setLoading(true);
       try {
-        const response = await InvestmentsService.getCandleStickValues(
-          id,
-          range
-        );
+        const response = await ActionsService.getCandleStickValues(id, range);
         setCandleStickValues(response.data);
       } catch (error) {
         handleApiError(error, "Error al obtener los valores de vela");
@@ -64,18 +60,18 @@ export const InvestmentsProvider: React.FC<InvestmentsProviderProps> = ({
     []
   );
 
-  const contextValue: InvestmentsContextType = {
+  const contextValue: ActionsContextType = {
     // Estados principales
     loading,
     candleStickValues,
-    investments,
+    actions,
     getCandleStickValues,
-    getPaginatedInvestments,
+    getPaginatedActions,
   };
 
   return (
-    <InvestmentsContext.Provider value={contextValue}>
+    <ActionsContext.Provider value={contextValue}>
       {children}
-    </InvestmentsContext.Provider>
+    </ActionsContext.Provider>
   );
 };
