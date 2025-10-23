@@ -48,8 +48,10 @@ const BenefitCardContent = ({
 
   const hasEndDate =
     isTeacherBenefit(benefit) || isStudentBenefit(benefit) || benefit.endAt;
-  const isPurchased =
-    isStudentBenefit(benefit) && benefit.state === BENEFIT_STATUS.PURCHASED;
+  const isPurchasedOrRequested =
+    isStudentBenefit(benefit) &&
+    (benefit.state === BENEFIT_STATUS.PURCHASED ||
+      benefit.state === BENEFIT_STATUS.USE_REQUESTED);
 
   return (
     <>
@@ -94,7 +96,7 @@ const BenefitCardContent = ({
       )}
 
       {/* Estadísticas */}
-      {!isPurchased && (
+      {!isPurchasedOrRequested && (
         <div className={styles[`benefitStats${styleSuffix}`]}>
           {/* Costo */}
           <div className={styles.costSection}>
