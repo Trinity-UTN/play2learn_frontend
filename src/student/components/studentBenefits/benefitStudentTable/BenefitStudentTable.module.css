@@ -8,14 +8,11 @@
   overflow: hidden;
 }
 
-.tableWrapper {
-  overflow-x: auto;
-}
-
 .table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
+  table-layout: fixed;
 }
 
 .tableHead {
@@ -25,13 +22,18 @@
 
 .tableHeader {
   padding: 1rem;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
   color: var(--color-text-light);
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   white-space: nowrap;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tableHeader:last-child {
+  border-right: none;
 }
 
 .tableBody {
@@ -51,13 +53,22 @@
   padding: 1rem;
   vertical-align: middle;
   color: var(--color-text-light);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tableCell:last-child {
+  border-right: none;
+}
+
+.centeredCell {
+  text-align: center;
 }
 
 .benefitInfo {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  min-width: 200px;
+  min-width: 0;
 }
 
 .iconWrapper {
@@ -96,7 +107,6 @@
 }
 
 .benefitDescription {
-  max-width: 300px;
   color: var(--color-text-subtitle-ligth);
   line-height: 1.5;
   display: -webkit-box;
@@ -104,12 +114,15 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  cursor: help;
+  max-width: 100%;
 }
 
 .statItem {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  justify-content: center;
 }
 
 .costIcon {
@@ -146,6 +159,7 @@
   border: 1px solid rgba(245, 158, 11, 0.2);
   border-radius: 0.375rem;
   width: fit-content;
+  margin: 0 auto;
 }
 
 .dateIcon {
@@ -179,10 +193,29 @@
   padding: 0.5rem 0.75rem;
   white-space: nowrap;
   color: var(--color-text-light);
+  background-color: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.actionButton:hover:not(:disabled) {
+  background-color: rgba(59, 130, 246, 0.3);
+  border-color: rgba(59, 130, 246, 0.6);
 }
 
 .actionButton:disabled {
   opacity: 0.6;
+}
+
+.disabledButton {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  cursor: not-allowed !important;
+}
+
+.disabledButton:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  transform: none !important;
 }
 
 .buttonIcon {
@@ -190,9 +223,14 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1200px) {
-  .benefitDescription {
-    max-width: 200px;
+@media (max-width: 1400px) {
+  .tableContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table {
+    min-width: 1200px;
   }
 
   .tableHeader,
@@ -201,16 +239,86 @@
   }
 }
 
-@media (max-width: 768px) {
-  .tableWrapper {
-    overflow-x: scroll;
+@media (max-width: 1200px) {
+  .table {
+    min-width: 1100px;
   }
 
+  .benefitName {
+    font-size: 0.85rem;
+  }
+
+  .dateSection {
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .table {
+    min-width: 1000px;
+  }
+}
+
+@media (max-width: 768px) {
   .table {
     min-width: 1000px;
   }
 
   .actions {
     flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .tableHeader,
+  .tableCell {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .benefitName {
+    font-size: 0.8rem;
+  }
+
+  .benefitCategory {
+    font-size: 0.7rem;
+  }
+
+  .iconWrapper {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .benefitIcon {
+    font-size: 0.9rem;
+  }
+
+  .actionButton {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .table {
+    min-width: 800px;
+    font-size: 0.75rem;
+  }
+
+  .tableHeader {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.3rem;
+  }
+
+  .tableCell {
+    padding: 0.5rem 0.3rem;
+  }
+
+  .iconWrapper {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .benefitInfo {
+    gap: 0.5rem;
   }
 }

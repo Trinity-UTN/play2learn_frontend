@@ -21,6 +21,12 @@
 .cardActions {
   margin-top: auto;
   padding-top: 1rem;
+  width: 100%;
+}
+
+.cardActions > * {
+  width: 100%;
+  display: block;
 }
 
 .actionButton {
@@ -47,6 +53,24 @@
 .actionButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.disabledButton {
+  background-color: rgba(240, 240, 240, 0.2);
+  color: var(--text-secondary);
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  opacity: 0.9;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.disabledButton:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.tooltipContainer:hover .disabledButton {
+  border-color: var(--warning-light);
 }
 
 /* Responsive Design */

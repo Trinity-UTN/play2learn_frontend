@@ -6,8 +6,12 @@ import { useBenefitStudentStats } from "./useBenefitStudentStats";
 import { extractUniqueSubjectsFromBenefits } from "../../../utils/benefitStudent.utils";
 
 export const useBenefitStudentData = () => {
-  const { loading, paginatedBenefits, getPaginatedBenefitStudent } =
-    useBenefitStudent();
+  const {
+    loading,
+    paginatedBenefits,
+    getPaginatedBenefitStudent,
+    getBenefitStudentStats,
+  } = useBenefitStudent();
 
   const {
     paginationParams,
@@ -25,9 +29,11 @@ export const useBenefitStudentData = () => {
     setSelectedCategory,
   } = useBenefitStudentFilters();
 
-  const { stats, counts, totalCount } =
-    useBenefitStudentStats(paginatedBenefits);
+  const { stats, counts, totalCount } = useBenefitStudentStats();
 
+  /**
+   * Carga de beneficios filtrados y paginados
+   */
   const loadBenefits = useCallback(async () => {
     const filters: string[] = [];
     const filtersValues: string[] = [];
@@ -53,16 +59,30 @@ export const useBenefitStudentData = () => {
       filters,
       filtersValues,
     });
-  }, [activeFilter, paginationParams, selectedSubject, selectedCategory]);
+  }, [
+    activeFilter,
+    paginationParams,
+    selectedSubject,
+    selectedCategory,
+    getPaginatedBenefitStudent,
+  ]);
 
+  /**
+   * Carga de beneficios y estadísticas
+   */
   useEffect(() => {
-    loadBenefits();
-  }, [loadBenefits]);
+    const fetchInitialData = async () => {
+      await Promise.all([loadBenefits(), getBenefitStudentStats()]);
+    };
+    fetchInitialData();
+  }, [loadBenefits, getBenefitStudentStats]);
 
-  // Resetear paginación
+  /**
+   * Reinicia la paginación al cambiar el filtro
+   */
   useEffect(() => {
     setPaginationParams((prev) => ({ ...prev, page: 1 }));
-  }, [activeFilter, selectedSubject, selectedCategory]);
+  }, [activeFilter, selectedSubject, selectedCategory, setPaginationParams]);
 
   // Datos Generales
   const filteredBenefits = useMemo(() => {

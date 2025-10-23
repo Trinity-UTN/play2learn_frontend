@@ -44,6 +44,21 @@ export interface PaginatedBenefitStudentResponseInterface {
   timestamp: string;
 }
 
+export interface BenefitStatsResponse {
+  available: number;
+  purchased: number;
+  use_requested: number;
+  used: number;
+  expired: number;
+}
+
+export interface BenefitStatsApiResponse {
+  data: BenefitStatsResponse;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
 export interface CreateBenefitInterface {
   name: string;
   description: string;

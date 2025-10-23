@@ -20,6 +20,7 @@ import {
   isStudentBenefit,
   type BenefitCardVariant,
 } from "../../../../utils/benefitCard.utils";
+import { shouldShowBenefitStats } from "../../../../../student/utils/benefitStudent.validation";
 import styles from "./BenefitCardContent.module.css";
 
 type BenefitCardContentProps = {
@@ -47,6 +48,10 @@ const BenefitCardContent = ({
 
   const hasEndDate =
     isTeacherBenefit(benefit) || isStudentBenefit(benefit) || benefit.endAt;
+
+  const showStats =
+    variant === "teacher" ||
+    (isStudentBenefit(benefit) && shouldShowBenefitStats(benefit));
 
   return (
     <>
@@ -91,43 +96,45 @@ const BenefitCardContent = ({
       )}
 
       {/* Estadísticas */}
-      <div className={styles[`benefitStats${styleSuffix}`]}>
-        {/* Costo */}
-        <div className={styles.costSection}>
-          <Tooltip content="Costo">
-            <FaCoins className={styles[`costIcon${styleSuffix}`]} />
-          </Tooltip>
-          <span className={styles[`costValue${styleSuffix}`]}>
-            {benefit.cost || 0} monedas
-          </span>
-        </div>
+      {showStats && (
+        <div className={styles[`benefitStats${styleSuffix}`]}>
+          {/* Costo */}
+          <div className={styles.costSection}>
+            <Tooltip content="Costo">
+              <FaCoins className={styles[`costIcon${styleSuffix}`]} />
+            </Tooltip>
+            <span className={styles[`costValue${styleSuffix}`]}>
+              {benefit.cost || 0} monedas
+            </span>
+          </div>
 
-        {/* Límite total de canjes */}
-        <div className={styles.limitSection}>
-          <Tooltip content="Cantidad de veces que puede canjearse" long>
-            <FaUsers className={styles.limitIcon} />
-          </Tooltip>
-          <span className={styles[`limitValue${styleSuffix}`]}>
-            {formatPurchaseLimitText(purchaseLimit, variant)}
-          </span>
-        </div>
+          {/* Límite total de canjes */}
+          <div className={styles.limitSection}>
+            <Tooltip content="Cantidad de veces que puede canjearse" long>
+              <FaUsers className={styles.limitIcon} />
+            </Tooltip>
+            <span className={styles[`limitValue${styleSuffix}`]}>
+              {formatPurchaseLimitText(purchaseLimit, variant)}
+            </span>
+          </div>
 
-        {/* Límite por estudiante */}
-        <div className={styles.limitPerStudentSection}>
-          <Tooltip
-            content="Cantidad de veces que puede canjearlo un estudiante"
-            long
-          >
-            <FaUser className={styles.limitPerStudentIcon} />
-          </Tooltip>
-          <span className={styles[`limitPerStudentValue${styleSuffix}`]}>
-            {formatPurchaseLimitPerStudentText(
-              purchaseLimitPerStudent,
-              variant
-            )}
-          </span>
+          {/* Límite por estudiante */}
+          <div className={styles.limitPerStudentSection}>
+            <Tooltip
+              content="Cantidad de veces que puede canjearlo un estudiante"
+              long
+            >
+              <FaUser className={styles.limitPerStudentIcon} />
+            </Tooltip>
+            <span className={styles[`limitPerStudentValue${styleSuffix}`]}>
+              {formatPurchaseLimitPerStudentText(
+                purchaseLimitPerStudent,
+                variant
+              )}
+            </span>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

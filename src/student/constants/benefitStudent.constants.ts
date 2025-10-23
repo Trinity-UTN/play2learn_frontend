@@ -68,7 +68,7 @@ export const BENEFIT_STATS_CONFIG = [
     bgColor: "#D1FAE5",
   },
   {
-    key: "useRequested",
+    key: "use_requested",
     label: "Uso Solicitado",
     icon: FaHandPaper,
     color: "#F59E0B",

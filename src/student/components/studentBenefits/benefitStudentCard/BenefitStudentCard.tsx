@@ -1,12 +1,17 @@
-import { FaShoppingCart, FaCheckCircle } from "react-icons/fa";
+import { FaShoppingCart, FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
+import { FiXCircle } from "react-icons/fi";
+import type { BenefitStudentResponseInterface } from "../../../../shared/types/Benefits.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import BenefitCardContent from "../../../../teacher/components/benefitsView/benefitCardComponent/benefitCardContent/BenefitCardContent";
 import { BENEFIT_STATUS } from "../../../constants/benefitStudent.constants";
+import { validateBenefitPurchase } from "../../../utils/benefitStudent.validation";
+import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 import styles from "./BenefitStudentCard.module.css";
 
 interface BenefitStudentCardProps {
-  benefit: any;
+  benefit: BenefitStudentResponseInterface;
   onPurchase: (benefitId: number, benefitName: string, cost: number) => void;
   onRequestUse: (benefitId: number, benefitName: string) => void;
 }
@@ -16,6 +21,8 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
   onPurchase,
   onRequestUse,
 }) => {
+  const { wallet } = useCurrentStudent();
+
   const handlePurchase = () => {
     onPurchase(benefit.id, benefit.name, benefit.cost);
   };
@@ -26,18 +33,38 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
 
   const getActionButton = () => {
     switch (benefit.state) {
-      case BENEFIT_STATUS.AVAILABLE:
-        return (
+      case BENEFIT_STATUS.AVAILABLE: {
+        const validation = validateBenefitPurchase(benefit, wallet);
+        const cannotPurchase = !validation.canPurchase;
+
+        const button = (
           <Button
-            variant="primary"
+            variant={cannotPurchase ? "ghost" : "primary"}
             size="sm"
-            className={styles.actionButton}
-            onClick={handlePurchase}
+            className={`${styles.actionButton} ${
+              cannotPurchase ? styles.disabledButton : ""
+            }`}
+            disabled={cannotPurchase}
+            onClick={!cannotPurchase ? handlePurchase : undefined}
           >
             <FaShoppingCart className={styles.buttonIcon} />
-            Canjear Beneficio
+            {cannotPurchase ? "No disponible" : "Canjear beneficio"}
           </Button>
         );
+
+        if (cannotPurchase) {
+          return (
+            <Tooltip
+              content={validation.reason || "No puedes comprar este beneficio"}
+              position="top"
+            >
+              {button}
+            </Tooltip>
+          );
+        }
+
+        return button;
+      }
       case BENEFIT_STATUS.PURCHASED:
         return (
           <Button
@@ -47,30 +74,45 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
             onClick={handleRequestUse}
           >
             <FaCheckCircle className={styles.buttonIcon} />
-            Usar Beneficio
+            Usar beneficio
           </Button>
         );
       case BENEFIT_STATUS.USE_REQUESTED:
-        return (
+        const buttonUseRequested = (
           <Button
-            variant="ghost"
+            variant={"ghost"}
             size="sm"
-            className={styles.actionButton}
+            className={`${styles.actionButton} ${styles.disabledButton}`}
             disabled
           >
-            Uso Solicitado
+            <FaHourglassHalf className={styles.buttonIcon} />
+            Uso solicitado
           </Button>
         );
-      case BENEFIT_STATUS.EXPIRED:
         return (
+          <Tooltip
+            content="El docente debe aprobar tu solicitud de uso del beneficio"
+            position="top"
+          >
+            {buttonUseRequested}
+          </Tooltip>
+        );
+      case BENEFIT_STATUS.EXPIRED:
+        const buttonExpired = (
           <Button
-            variant="ghost"
+            variant={"ghost"}
             size="sm"
-            className={styles.actionButton}
+            className={`${styles.actionButton} ${styles.disabledButton}`}
             disabled
           >
+            <FiXCircle className={styles.buttonIcon} />
             Vencido
           </Button>
+        );
+        return (
+          <Tooltip content="El beneficio ha caducado" position="top">
+            {buttonExpired}
+          </Tooltip>
         );
       default:
         return null;
