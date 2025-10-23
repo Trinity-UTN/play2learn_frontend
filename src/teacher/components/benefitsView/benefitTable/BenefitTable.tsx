@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import type { BenefitResponseInterface } from "../../../../shared/types/Benefits.type";
 import {
   getIconByValue,
@@ -55,11 +56,13 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
 
         {/* Descripción */}
         <td className={styles.tableCell}>
-          <p className={styles.benefitDescription}>{benefit.description}</p>
+          <Tooltip content={benefit.description} position="top">
+            <p className={styles.benefitDescription}>{benefit.description}</p>
+          </Tooltip>
         </td>
 
         {/* Costo */}
-        <td className={styles.tableCell}>
+        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
           <div className={styles.statItem}>
             <FaCoins className={styles.costIcon} />
             <span className={styles.statValue}>{benefit.cost}</span>
@@ -67,7 +70,7 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
         </td>
 
         {/* Límite total */}
-        <td className={styles.tableCell}>
+        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
           {benefit.purchaseLimit ? (
             <div className={styles.statItem}>
               <FaUsers className={styles.limitIcon} />
@@ -79,7 +82,7 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
         </td>
 
         {/* Límite por estudiante */}
-        <td className={styles.tableCell}>
+        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
           {benefit.purchaseLimitPerStudent ? (
             <div className={styles.statItem}>
               <FaUser className={styles.limitPerStudentIcon} />
@@ -93,7 +96,7 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
         </td>
 
         {/* Fecha de finalización */}
-        <td className={styles.tableCell}>
+        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
           <div className={styles.dateSection}>
             <FaCalendarAlt className={styles.dateIcon} />
             <span className={styles.dateValue}>
@@ -103,7 +106,7 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
         </td>
 
         {/* Acciones */}
-        <td className={styles.tableCell}>
+        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
           <div className={styles.actions}>
             <Button variant="primary" size="sm" className={styles.viewButton}>
               Ver Canjes
@@ -119,24 +122,22 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
 
   return (
     <Card className={styles.tableContainer}>
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead className={styles.tableHead}>
-            <tr>
-              <th className={styles.tableHeader}>Beneficio</th>
-              <th className={styles.tableHeader}>Descripción</th>
-              <th className={styles.tableHeader}>Costo</th>
-              <th className={styles.tableHeader}>Límite Total</th>
-              <th className={styles.tableHeader}>Por Estudiante</th>
-              <th className={styles.tableHeader}>Finaliza</th>
-              <th className={styles.tableHeader}>Acciones</th>
-            </tr>
-          </thead>
-          <tbody className={styles.tableBody}>
-            {benefits.map(renderBenefitRow)}
-          </tbody>
-        </table>
-      </div>
+      <table className={styles.table}>
+        <thead className={styles.tableHead}>
+          <tr>
+            <th className={styles.tableHeader}>Beneficio</th>
+            <th className={styles.tableHeader}>Descripción</th>
+            <th className={styles.tableHeader}>Costo</th>
+            <th className={styles.tableHeader}>Límite Total</th>
+            <th className={styles.tableHeader}>Límite p/ Est</th>
+            <th className={styles.tableHeader}>Fecha Fin</th>
+            <th className={styles.tableHeader}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody className={styles.tableBody}>
+          {benefits.map(renderBenefitRow)}
+        </tbody>
+      </table>
     </Card>
   );
 };
