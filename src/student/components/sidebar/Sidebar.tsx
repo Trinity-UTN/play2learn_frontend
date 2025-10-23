@@ -16,6 +16,7 @@ import Avatar from "../common/Avatar/AvatarComponent";
 import { StudentRoutes } from "../../routes/routes";
 import { useAuth } from "../../../user/hooks/useAuth";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
+import { useBenefitStudent } from "../../hooks/useBenefitStudent";
 import { useActivityStudentUI } from "../../hooks/useActivityStudentUI";
 import formatPrice from "../../../shared/utils/formatPrice";
 import styles from "./Sidebar.module.css";
@@ -40,8 +41,10 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
   const { logout } = useAuth();
   const { wallet, currentStudent } = useCurrentStudent();
   const { pendingCount } = useActivityStudentUI();
+  const { benefitStats } = useBenefitStudent();
   const navigate = useNavigate();
 
+  const availableCount = benefitStats?.available ?? 0;
   const menuItems: MenuItem[] = [
     {
       title: "Panel Principal",
@@ -69,7 +72,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       icon: FaGift,
       path: StudentRoutes.Benefit.list,
       color: "#F59E0B",
-      badge: isLoading ? "..." : 0,
+      badge: isLoading ? "..." : availableCount,
     },
     {
       title: "Tienda",

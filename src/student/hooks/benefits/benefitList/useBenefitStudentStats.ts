@@ -1,26 +1,27 @@
 import { useMemo } from "react";
 import { BENEFIT_STATS_CONFIG } from "../../../constants/benefitStudent.constants";
+import { useBenefitStudent } from "../../useBenefitStudent";
 
 /**
- * Hook para calcular estadísticas desde los resultados paginados
- * En lugar de hacer una petición extra, muestra stats de la página actual
+ * Hook para obtener estadísticas de beneficios del estudiante
+ * Ahora consume los datos del contexto, que a su vez consulta al endpoint:
+ * GET /benefits/student/count
  */
-export const useBenefitStudentStats = (paginatedData: any) => {
+export const useBenefitStudentStats = () => {
+  const { benefitStats } = useBenefitStudent();
+
   const counts = useMemo(() => {
-    if (!paginatedData || !paginatedData.results) {
-      return { available: 0, purchased: 0, useRequested: 0, expired: 0 };
+    if (!benefitStats) {
+      return {
+        available: 0,
+        purchased: 0,
+        use_requested: 0,
+        used: 0,
+        expired: 0,
+      };
     }
-
-    const benefits = paginatedData.results;
-
-    return {
-      available: benefits.filter((b: any) => b.state === "AVAILABLE").length,
-      purchased: benefits.filter((b: any) => b.state === "PURCHASED").length,
-      useRequested: benefits.filter((b: any) => b.state === "USE_REQUESTED")
-        .length,
-      expired: benefits.filter((b: any) => b.state === "EXPIRED").length,
-    };
-  }, [paginatedData]);
+    return benefitStats;
+  }, [benefitStats]);
 
   const stats = useMemo(() => {
     return BENEFIT_STATS_CONFIG.map((config) => ({
@@ -29,8 +30,7 @@ export const useBenefitStudentStats = (paginatedData: any) => {
     }));
   }, [counts]);
 
-  // Total count desde el backend
-  const totalCount = paginatedData?.count || 0;
+  const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
 
   return { stats, counts, totalCount };
 };

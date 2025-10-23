@@ -1,18 +1,4 @@
 /**
- * Calcula los contadores de beneficios por estado
- */
-export const calculateBenefitCounts = (benefits: any[]) => {
-  const available = benefits.filter((b) => b.state === "AVAILABLE").length;
-  const purchased = benefits.filter((b) => b.state === "PURCHASED").length;
-  const useRequested = benefits.filter(
-    (b) => b.state === "USE_REQUESTED"
-  ).length;
-  const expired = benefits.filter((b) => b.state === "EXPIRED").length;
-
-  return { available, purchased, useRequested, expired };
-};
-
-/**
  * Extrae las materias únicas de los beneficios
  */
 export const extractUniqueSubjectsFromBenefits = (benefits: any[]) => {

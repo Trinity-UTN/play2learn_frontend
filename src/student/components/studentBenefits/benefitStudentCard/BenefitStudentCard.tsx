@@ -1,12 +1,14 @@
 import { FaShoppingCart, FaCheckCircle } from "react-icons/fa";
+import type { BenefitStudentResponseInterface } from "../../../../shared/types/Benefits.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import BenefitCardContent from "../../../../teacher/components/benefitsView/benefitCardComponent/benefitCardContent/BenefitCardContent";
 import { BENEFIT_STATUS } from "../../../constants/benefitStudent.constants";
 import styles from "./BenefitStudentCard.module.css";
 
 interface BenefitStudentCardProps {
-  benefit: any;
+  benefit: BenefitStudentResponseInterface;
   onPurchase: (benefitId: number, benefitName: string, cost: number) => void;
   onRequestUse: (benefitId: number, benefitName: string) => void;
 }
@@ -26,18 +28,38 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
 
   const getActionButton = () => {
     switch (benefit.state) {
-      case BENEFIT_STATUS.AVAILABLE:
-        return (
+      case BENEFIT_STATUS.AVAILABLE: {
+        const noPurchasesLeft = benefit.purchasesLeftByStudent === 0;
+
+        const button = (
           <Button
-            variant="primary"
+            variant={noPurchasesLeft ? "ghost" : "primary"}
             size="sm"
-            className={styles.actionButton}
-            onClick={handlePurchase}
+            className={`${styles.actionButton} ${
+              noPurchasesLeft ? styles.disabledButton : ""
+            }`}
+            disabled={noPurchasesLeft}
+            onClick={!noPurchasesLeft ? handlePurchase : undefined}
           >
             <FaShoppingCart className={styles.buttonIcon} />
-            Canjear Beneficio
+            {noPurchasesLeft ? "Sin compras disponibles" : "Canjear beneficio"}
           </Button>
         );
+
+        if (noPurchasesLeft) {
+          return (
+            <Tooltip
+              content="Ya utilizaste todas tus compras disponibles para este beneficio."
+              position="top"
+            >
+              {button}
+            </Tooltip>
+          );
+        }
+
+        return button;
+      }
+
       case BENEFIT_STATUS.PURCHASED:
         return (
           <Button
@@ -47,7 +69,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
             onClick={handleRequestUse}
           >
             <FaCheckCircle className={styles.buttonIcon} />
-            Usar Beneficio
+            Usar beneficio
           </Button>
         );
       case BENEFIT_STATUS.USE_REQUESTED:
@@ -58,7 +80,7 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
             className={styles.actionButton}
             disabled
           >
-            Uso Solicitado
+            Uso solicitado
           </Button>
         );
       case BENEFIT_STATUS.EXPIRED:

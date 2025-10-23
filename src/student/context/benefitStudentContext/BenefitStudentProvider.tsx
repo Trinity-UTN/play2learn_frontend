@@ -2,7 +2,10 @@ import { useState, type ReactNode, useCallback } from "react";
 import { BenefitStudentContext } from "./BenefitStudentContext";
 import type { BenefitStudentContextType } from "./BenefitStudentContext.type";
 import { BenefitService } from "../../services/benefit/BenefitService";
-import type { BenefitStudentResponseInterface } from "../../../shared/types/Benefits.type";
+import type {
+  BenefitStudentResponseInterface,
+  BenefitStatsResponse,
+} from "../../../shared/types/Benefits.type";
 import type {
   GetPaginated,
   PaginatedData,
@@ -16,10 +19,15 @@ export const BenefitStudentProvider = ({
 }) => {
   const { handleApiError } = useHandleApiError();
 
+  // Estados Generales
   const [loading, setLoading] = useState<boolean>(false);
   const [paginatedBenefits, setPaginatedBenefits] =
     useState<PaginatedData<BenefitStudentResponseInterface> | null>(null);
+  const [benefitStats, setBenefitStats] = useState<BenefitStatsResponse | null>(
+    null
+  );
 
+  // Funciones Principales
   const getPaginatedBenefitStudent = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
@@ -36,6 +44,18 @@ export const BenefitStudentProvider = ({
     },
     []
   );
+
+  const getBenefitStudentStats = useCallback(async (): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await BenefitService.getBenefitStudentStatsApi();
+      setBenefitStats(response.data);
+    } catch (error) {
+      handleApiError(error, "Error al obtener las estadísticas de beneficios");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const purchaseBenefitStudent = useCallback(
     async (benefitId: number): Promise<void> => {
@@ -68,9 +88,14 @@ export const BenefitStudentProvider = ({
   );
 
   const contextValue: BenefitStudentContextType = {
+    // Estados Generales
     loading,
     paginatedBenefits,
+    benefitStats,
+
+    // Funciones Principales
     getPaginatedBenefitStudent,
+    getBenefitStudentStats,
     purchaseBenefitStudent,
     requestUseBenefitStudent,
   };
