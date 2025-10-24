@@ -4,7 +4,10 @@ import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
 import type { ActivityUI } from "../../../types/Activity.type";
-import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
+import {
+  getActivityStatusConfig,
+  getRandomActivityIcon,
+} from "../../../utils/activities.utils";
 import styles from "./ActivityCard.module.css";
 
 interface ActivityCardProps {
@@ -13,12 +16,13 @@ interface ActivityCardProps {
 }
 
 const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
-  const { getStatusConfig, getRandomIcon } = useActivityStudentUI();
+  const statusConfig = getActivityStatusConfig(activity.status);
+  const RandomIcon = getRandomActivityIcon();
 
-  const statusConfig = getStatusConfig(activity.status);
   const isDisabled =
     (activity.status === "CREATED" || activity.noAttempts) &&
     !(activity.status === "APPROVED");
+
   const buttonText =
     activity.noAttempts && !(activity.status === "APPROVED")
       ? "Sin intentos"
@@ -32,23 +36,14 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
 
   return (
     <motion.div
-      whileHover={{
-        y: -8,
-        scale: 1.02,
-      }}
+      whileHover={{ y: -8, scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       className={styles.cardWrapper}
     >
       <Card className={`${styles.activityCard} ${styles[activity.status]}`}>
         {/* Header */}
         <div className={styles.cardHeader}>
-          <div
-            className={styles.activityIcon}
-            style={{
-              // backgroundColor: getRandomColor(),
-              color: "white",
-            }}
-          >
+          <div className={styles.activityIcon} style={{ color: "white" }}>
             <motion.span
               animate={{
                 rotate: [0, 10, -10, 0],
@@ -56,11 +51,11 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
               }}
               transition={{
                 duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
+                repeat: Infinity,
                 repeatType: "reverse",
               }}
             >
-              {getRandomIcon()}
+              <RandomIcon />
             </motion.span>
           </div>
 
@@ -83,15 +78,15 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
                 <FaCalendarAlt className={styles.metaIcon} />
                 <span>{activity.subjectName}</span>
               </div>
-              {activity.status != "APPROVED" && (
+              {activity.status !== "APPROVED" && (
                 <div className={styles.metaItem}>
                   <FaStopwatch className={styles.metaIcon} />
-                  <span>{activity.timeLabel} </span>
+                  <span>{activity.timeLabel}</span>
                 </div>
               )}
             </div>
 
-            {activity.status != "APPROVED" && (
+            {activity.status !== "APPROVED" && (
               <div className={styles.metaRow}>
                 <div className={styles.metaItem}>
                   <FaRedo className={styles.metaIcon} />
@@ -104,31 +99,6 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
               </div>
             )}
           </div>
-
-          {/* {activity.status === "EXPIRED"  && (
-            <div className={styles.scoreSection}>
-              <div className={styles.scoreInfo}>
-                <span className={styles.pointsEarned}>
-                  +{activity.points} puntos
-                </span>
-                <span className={styles.completedDate}>
-                  {activity.completedDate &&
-                    new Date(activity.completedDate).toLocaleDateString(
-                      "es-ES"
-                    )}
-                </span>
-              </div>
-            </div>
-          )} */}
-
-          {/* {activity.status === "PUBLISHED" && (
-            <div className={styles.dueDateSection}>
-              <FaClock className={styles.dueDateIcon} />
-              <span className={styles.dueDateText}>
-                Vence {getDaysUntilDue(activity.endDate)}
-              </span>
-            </div>
-          )} */}
         </div>
 
         {/* Footer */}
@@ -150,7 +120,6 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
           </Button>
         </div>
 
-        {/* Glow effect */}
         <motion.div
           className={styles.glowEffect}
           initial={{ opacity: 0 }}

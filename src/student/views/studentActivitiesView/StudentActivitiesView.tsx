@@ -3,12 +3,10 @@ import ActivityHeader from "../../components/studentActivitiesViewComponents/act
 import ActivityStats from "../../components/studentActivitiesViewComponents/activityStats/ActivityStats";
 import ActivityFilters from "../../components/studentActivitiesViewComponents/activityFilters/ActivityFilters";
 import ActivityGrid from "../../components/studentActivitiesViewComponents/activityGrid/ActivityGrid";
-import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
-import { useActivityStudentUI } from "../../hooks/useActivityStudentUI";
+import { useActivityData } from "../../hooks/activities/activityList/useActivityData";
 import styles from "./StudentActivitiesView.module.css";
 
 const StudentActivitiesView: React.FC = () => {
-  const { loading } = useActivityStudent();
   const {
     activeFilter,
     setActiveFilter,
@@ -17,8 +15,11 @@ const StudentActivitiesView: React.FC = () => {
     selectedDifficulty,
     setSelectedDifficulty,
     filteredActivities,
+    subjects,
+    stats,
     paginationInfo,
-  } = useActivityStudentUI();
+    loading,
+  } = useActivityData();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -38,7 +39,7 @@ const StudentActivitiesView: React.FC = () => {
       className={styles.activitiesView}
     >
       <ActivityHeader />
-      <ActivityStats />
+      <ActivityStats stats={stats} />
       <ActivityFilters
         activeFilter={activeFilter}
         selectedSubject={selectedSubject}
@@ -46,6 +47,7 @@ const StudentActivitiesView: React.FC = () => {
         onFilterChange={setActiveFilter}
         onSubjectChange={setSelectedSubject}
         onDifficultyChange={setSelectedDifficulty}
+        subjects={subjects}
       />
       <ActivityGrid
         activities={filteredActivities}

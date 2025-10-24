@@ -5,21 +5,22 @@ import type {
   ActivityNotApprovedResponseInterface,
   ActivityApprovedResponseInterface,
   CurrentActivityInterface,
+  ActivityStatsResponse,
 } from "../../../types/Activity.type";
 import type {
   ActivityCompletedInterface,
   ActivityCompletedResponseInterface,
 } from "../../../types/ActivityCompleted.type";
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../../shared/types/PaginacionType";
 import { ActivityStudentService } from "../../../services/activity/ActivityService";
 import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
 import { createGameConfig } from "../../../../shared/registry/games/gameConfigFactory";
 import { useHandleApiError } from "../../../../shared/hooks/useHandleApiError";
 import usePaginateParams from "../../../../shared/hooks/usePaginateParams";
 import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../../shared/types/PaginacionType";
 
 export const ActivityStudentProvider = ({
   children,
@@ -30,6 +31,7 @@ export const ActivityStudentProvider = ({
   const { paginationParams } = usePaginateParams();
   const { getCurrentStudentByToken } = useCurrentStudent();
 
+  // Estados Principales
   const [loading, setLoading] = useState<boolean>(false);
   const [activityNotApproved, setActivitiesNotApproved] = useState<
     ActivityNotApprovedResponseInterface[]
@@ -37,17 +39,18 @@ export const ActivityStudentProvider = ({
   const [activityApproved, setActivitiesApproved] = useState<
     ActivityApprovedResponseInterface[]
   >([]);
-  const [currentActivity, setCurrentActivity] =
-    useState<CurrentActivityInterface | null>(null);
-
-  const [activityCompleted, setActivityCompleted] =
-    useState<ActivityCompletedResponseInterface | null>(null);
-
   const [paginatedActivitiesNotApproved, setPaginatedActivitiesNotApproved] =
     useState<PaginatedData<ActivityNotApprovedResponseInterface> | null>(null);
   const [paginatedActivitiesApproved, setPaginatedActivitiesApproved] =
     useState<PaginatedData<ActivityApprovedResponseInterface> | null>(null);
+  const [currentActivity, setCurrentActivity] =
+    useState<CurrentActivityInterface | null>(null);
+  const [activityCompleted, setActivityCompleted] =
+    useState<ActivityCompletedResponseInterface | null>(null);
+  const [activityStudentStats, setActivityStudentStats] =
+    useState<ActivityStatsResponse | null>(null);
 
+  // Funciones Principales
   const getPaginatedActivitiesNotApproved = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
@@ -65,6 +68,7 @@ export const ActivityStudentProvider = ({
     },
     []
   );
+
   const getPaginatedActivitiesApproved = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
@@ -110,7 +114,7 @@ export const ActivityStudentProvider = ({
     try {
       const response = await ActivityStudentService.getActivityByIdApi(id);
       const data = response.data;
-      // console.log(data);
+
       const gameType = getGameTypeFromActivityName(data.name);
       if (!gameType) {
         throw new Error(`Tipo de juego desconocido para: "${data.name}"`);
@@ -122,9 +126,21 @@ export const ActivityStudentProvider = ({
       };
 
       setCurrentActivity(transformedActivity);
-      // console.log(response.data);
     } catch (error) {
       handleApiError(error, "Error al obtener la actividad");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const getActivityStudentStats = useCallback(async (): Promise<void> => {
+    setLoading(true);
+    try {
+      const response =
+        await ActivityStudentService.getActivityStudentStatsApi();
+      setActivityStudentStats(response.data);
+    } catch (error) {
+      handleApiError(error, "Error al obtener las estadísticas de actividades");
     } finally {
       setLoading(false);
     }
@@ -134,9 +150,6 @@ export const ActivityStudentProvider = ({
     async (id: number): Promise<void> => {
       setLoading(true);
       try {
-        // const response =
-        //   await ActivityStudentService.registerActivityStartedApi(id);
-        // console.log(response);
         await ActivityStudentService.registerActivityStartedApi(id);
       } catch (error) {
         handleApiError(error, "Error al iniciar la actividad");
@@ -159,10 +172,10 @@ export const ActivityStudentProvider = ({
       } finally {
         setLoading(false);
       }
-      // console.log(activityCompleted); //DEBUG
     },
     []
   );
+
   const registerActivityNoLudicaCompleted = useCallback(
     async (payload: FormData): Promise<void> => {
       setLoading(true);
@@ -177,22 +190,21 @@ export const ActivityStudentProvider = ({
       } finally {
         setLoading(false);
       }
-      // console.log(activityCompleted); //DEBUG
     },
     []
   );
 
+  // Funciones Auxiliares
   const refreshActivityDataAfterCompletion = async () => {
     await Promise.all([
       getPaginatedActivitiesApproved(paginationParams),
       getPaginatedActivitiesNotApproved(paginationParams),
-      // getActivityNotApproved(),
-      // getActivityApproved(),
       getCurrentStudentByToken(),
     ]);
   };
 
   const contextValue: ActivityStudentContextType = {
+    // Estados Principales
     loading,
     activityNotApproved,
     activityApproved,
@@ -200,14 +212,20 @@ export const ActivityStudentProvider = ({
     paginatedActivitiesNotApproved,
     currentActivity,
     activityCompleted,
+    activityStudentStats,
+
+    // Funciones Principales
     getActivityNotApproved,
     getActivityApproved,
     getActivityById,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
+    getActivityStudentStats,
     registerActivityStarted,
     registerActivityCompleted,
     registerActivityNoLudicaCompleted,
+
+    // Funciones Auxiliares
     refreshActivityDataAfterCompletion,
   };
 
