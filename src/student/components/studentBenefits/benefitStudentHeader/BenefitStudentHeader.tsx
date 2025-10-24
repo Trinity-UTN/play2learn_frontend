@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FaGift, FaRocket } from "react-icons/fa";
-import { BENEFIT_HEADER } from "../../../constants/benefitStudent.constants";
+import { BENEFIT_HEADER } from "../../../../benefit/constants/benefit.constants";
 import styles from "./BenefitStudentHeader.module.css";
 
 const BenefitStudentHeader: React.FC = () => {

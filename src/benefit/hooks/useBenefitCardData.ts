@@ -1,24 +1,21 @@
 import { useMemo } from "react";
-import { getSubjectColor } from "../../constants/subject.constants";
+import type { AnyBenefit, BenefitVariant } from "../types/benefit.types";
+import { getSubjectColor } from "../../teacher/constants/subject.constants";
 import {
   getIconByValue,
   getColorByValue,
   getCategoryByValue,
   getCategoryColor,
-} from "../../utils/benefits.utils";
-import {
   getPurchaseLimit,
   getPurchaseLimitPerStudent,
   isTeacherBenefit,
   isStudentBenefit,
-  type AnyBenefit,
-  type BenefitCardVariant,
-} from "../../utils/benefitCard.utils";
-import { shouldShowBenefitStats } from "../../../student/utils/benefitStudent.validation";
+} from "../utils/benefit.utils";
+import { shouldShowBenefitStats } from "../utils/benefit.validation";
 
 interface UseBenefitCardDataProps {
   benefit: AnyBenefit;
-  variant: BenefitCardVariant;
+  variant: BenefitVariant;
   isPreview: boolean;
 }
 

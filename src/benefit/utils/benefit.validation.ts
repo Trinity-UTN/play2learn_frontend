@@ -1,15 +1,14 @@
-import type { BenefitStudentResponseInterface } from "../../shared/types/Benefits.type";
 import type { Wallet } from "../../admin/services/student/StudentService";
-import { BENEFIT_STATUS } from "../constants/benefitStudent.constants";
+import type {
+  BenefitStudentResponseInterface,
+  BenefitPurchaseValidation,
+} from "../types/benefit.types";
+import { BENEFIT_STATUS } from "../constants/benefit.constants";
 
-export interface BenefitPurchaseValidation {
-  canPurchase: boolean;
-  reason?: string;
-}
+// ============================================
+// PURCHASE VALIDATION
+// ============================================
 
-/**
- * Valida si un estudiante puede comprar un beneficio
- */
 export const validateBenefitPurchase = (
   benefit: BenefitStudentResponseInterface,
   wallet: Wallet | undefined
@@ -53,37 +52,28 @@ export const validateBenefitPurchase = (
   };
 };
 
-/**
- * Verifica si un beneficio puede ser usado (solicitar uso)
- */
+// ============================================
+// STATE CHECKS
+// ============================================
+
 export const canRequestBenefitUse = (
   benefit: BenefitStudentResponseInterface
 ): boolean => {
   return benefit.state === BENEFIT_STATUS.PURCHASED;
 };
 
-/**
- * Verifica si un beneficio está en estado de uso solicitado
- */
 export const isUseRequested = (
   benefit: BenefitStudentResponseInterface
 ): boolean => {
   return benefit.state === BENEFIT_STATUS.USE_REQUESTED;
 };
 
-/**
- * Verifica si un beneficio está vencido
- */
 export const isExpired = (
   benefit: BenefitStudentResponseInterface
 ): boolean => {
   return benefit.state === BENEFIT_STATUS.EXPIRED;
 };
 
-/**
- * Verifica si se deben mostrar las estadísticas del beneficio
- * Solo se muestran cuando el beneficio está disponible
- */
 export const shouldShowBenefitStats = (
   benefit: BenefitStudentResponseInterface
 ): boolean => {

@@ -1,18 +1,18 @@
 import { FaCoins, FaUsers, FaUser, FaCalendarAlt } from "react-icons/fa";
-import Badge from "../../../../../shared/components/Badge/BadgeComponent";
-import Tooltip from "../../../../../shared/components/Tooltip/TooltipComponent";
+import Badge from "../../../shared/components/Badge/BadgeComponent";
+import Tooltip from "../../../shared/components/Tooltip/TooltipComponent";
 import type {
   BenefitResponseInterface,
   BenefitStudentResponseInterface,
   CreateBenefitInterface,
-} from "../../../../../shared/types/Benefits.type";
-import { formatBenefitDate } from "../../../../utils/benefits.utils";
+} from "../../types/benefit.types";
 import {
+  formatBenefitDate,
   formatPurchaseLimitText,
   formatPurchaseLimitPerStudentText,
-  type BenefitCardVariant,
-} from "../../../../utils/benefitCard.utils";
-import { useBenefitCardData } from "../../../../hooks/benefits/useBenefitCardData";
+} from "../../utils/benefit.utils";
+import type { BenefitVariant } from "../../types/benefit.types";
+import { useBenefitCardData } from "../../hooks/useBenefitCardData";
 import styles from "./BenefitCardContent.module.css";
 
 type BenefitCardContentProps = {
@@ -21,7 +21,7 @@ type BenefitCardContentProps = {
     | BenefitStudentResponseInterface
     | CreateBenefitInterface;
   isPreview?: boolean;
-  variant?: BenefitCardVariant;
+  variant?: BenefitVariant;
 };
 
 const BenefitCardContent = ({

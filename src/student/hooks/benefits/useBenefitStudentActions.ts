@@ -1,16 +1,22 @@
 import { useCallback } from "react";
-import type { BenefitStatus } from "../../constants/benefitStudent.constants";
+import type { BenefitStatus } from "../../../benefit/constants/benefit.constants";
 import { useCurrentStudent } from "../useCurrentStudent";
 import { useBenefitStudent } from "../useBenefitStudent";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useToaster } from "../../../shared/hooks/useToaster";
 
+/**
+ * Hook que permite manejar las acciones de los beneficios del estudiante
+ */
 export const useBenefitStudentActions = (
   onFilterChange: (filter: BenefitStatus) => void
 ) => {
   const { getWalletByStudent } = useCurrentStudent();
-  const { purchaseBenefitStudent, requestUseBenefitStudent } =
-    useBenefitStudent();
+  const {
+    purchaseBenefitStudent,
+    requestUseBenefitStudent,
+    getPaginatedBenefitStudent,
+  } = useBenefitStudent();
   const { showConfirmation } = useConfirmation();
   const { showToast } = useToaster();
 
@@ -26,6 +32,10 @@ export const useBenefitStudentActions = (
           try {
             await purchaseBenefitStudent(benefitId);
             await getWalletByStudent();
+            await getPaginatedBenefitStudent({
+              page: 1,
+              page_size: 10,
+            });
             onFilterChange("PURCHASED");
             showToast({
               title: "Beneficio canjeado exitosamente",
@@ -38,7 +48,14 @@ export const useBenefitStudentActions = (
         },
       });
     },
-    [purchaseBenefitStudent, showConfirmation, onFilterChange]
+    [
+      purchaseBenefitStudent,
+      getPaginatedBenefitStudent,
+      showConfirmation,
+      onFilterChange,
+      getWalletByStudent,
+      showToast,
+    ]
   );
 
   const requestUseBenefit = useCallback(
@@ -52,6 +69,10 @@ export const useBenefitStudentActions = (
         onConfirm: async () => {
           try {
             await requestUseBenefitStudent(benefitId);
+            await getPaginatedBenefitStudent({
+              page: 1,
+              page_size: 10,
+            });
             onFilterChange("USE_REQUESTED");
             showToast({
               title: "Solicitud de uso enviada exitosamente",
@@ -65,7 +86,13 @@ export const useBenefitStudentActions = (
         },
       });
     },
-    [requestUseBenefitStudent, showConfirmation, onFilterChange]
+    [
+      requestUseBenefitStudent,
+      getPaginatedBenefitStudent,
+      showConfirmation,
+      onFilterChange,
+      showToast,
+    ]
   );
 
   return {

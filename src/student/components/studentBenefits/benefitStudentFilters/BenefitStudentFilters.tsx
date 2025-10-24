@@ -7,9 +7,9 @@ import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import {
   BENEFIT_STATUS_FILTERS,
   BENEFIT_CATEGORY_OPTIONS,
+  BENEFIT_CATEGORIES,
   type BenefitStatus,
-} from "../../../constants/benefitStudent.constants";
-import { BENEFIT_CATEGORIES } from "../../../../teacher/constants/benefits.constants";
+} from "../../../../benefit/constants/benefit.constants";
 import styles from "./BenefitStudentFilters.module.css";
 
 interface BenefitStudentFiltersProps {

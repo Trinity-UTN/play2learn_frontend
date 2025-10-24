@@ -1,10 +1,14 @@
 import { useEffect, useCallback, useMemo } from "react";
 import { useBenefitStudent } from "../../useBenefitStudent";
-import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
 import { useBenefitStudentFilters } from "./useBenefitStudentFilters";
 import { useBenefitStudentStats } from "./useBenefitStudentStats";
-import { extractUniqueSubjectsFromBenefits } from "../../../utils/benefitStudent.utils";
+import { extractUniqueSubjectsFromBenefits } from "../../../../benefit/utils/benefit.utils";
+import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
 
+/**
+ * Hook central de BenefitStudent donde se cargan los
+ * beneficios del estudiante
+ */
 export const useBenefitStudentData = () => {
   const {
     loading,

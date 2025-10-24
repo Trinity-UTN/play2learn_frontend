@@ -1,7 +1,7 @@
 import type {
   BenefitStudentResponseInterface,
   BenefitStatsResponse,
-} from "../../../shared/types/Benefits.type";
+} from "../../../benefit/types/benefit.types";
 import type {
   GetPaginated,
   PaginatedData,

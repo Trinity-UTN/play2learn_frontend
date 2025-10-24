@@ -193,13 +193,13 @@
   padding: 0.5rem 0.75rem;
   white-space: nowrap;
   color: var(--color-text-light);
-  background-color: rgba(59, 130, 246, 0.2);
-  border: 1px solid rgba(59, 130, 246, 0.4);
+  background-color: #8b5cf6;
+  border: 1px solid #9971f5;
 }
 
 .actionButton:hover:not(:disabled) {
-  background-color: rgba(59, 130, 246, 0.3);
-  border-color: rgba(59, 130, 246, 0.6);
+  background-color: #7844f3;
+  border-color: #8b5cf6;
 }
 
 .actionButton:disabled {

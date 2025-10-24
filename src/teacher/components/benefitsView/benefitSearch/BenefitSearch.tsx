@@ -8,7 +8,7 @@ import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import {
   BENEFIT_CATEGORIES,
   BENEFIT_PLACEHOLDERS,
-} from "../../../constants/benefits.constants";
+} from "../../../../benefit/constants/benefit.constants";
 import styles from "./BenefitSearch.module.css";
 
 type BenefitSearchProps = {

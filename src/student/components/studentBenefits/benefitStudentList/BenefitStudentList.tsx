@@ -5,7 +5,7 @@ import LoadingSpinner from "../../../../shared/components/LoadingSpinner/Loading
 import BenefitPaginateComponent from "../benefitPaginateComponent/BenefitPaginateComponent";
 import BenefitStudentCard from "../benefitStudentCard/BenefitStudentCard";
 import BenefitStudentTable from "../benefitStudentTable/BenefitStudentTable";
-import type { BenefitStatus } from "../../../constants/benefitStudent.constants";
+import type { BenefitStatus } from "../../../../benefit/constants/benefit.constants";
 import { useBenefitStudentActions } from "../../../hooks/benefits/useBenefitStudentActions";
 import styles from "./BenefitStudentList.module.css";
 

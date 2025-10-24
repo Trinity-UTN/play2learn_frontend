@@ -3,11 +3,11 @@ import Input from "../../../../../shared/components/Input/InputComponent";
 import type {
   CreateBenefitInterface,
   BenefitValidationErrors,
-} from "../../../../../shared/types/Benefits.type";
+} from "../../../../../benefit/types/benefit.types";
 import {
   BENEFIT_FORM_PLACEHOLDERS,
   BENEFIT_VALIDATION,
-} from "../../../../constants/benefits.constants";
+} from "../../../../../benefit/constants/benefit.constants";
 import styles from "./BenefitBasicForm.module.css";
 
 type BenefitBasicFormProps = {

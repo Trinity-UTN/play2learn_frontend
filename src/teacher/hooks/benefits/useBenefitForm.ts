@@ -2,11 +2,11 @@ import { useState, useCallback } from "react";
 import type {
   CreateBenefitInterface,
   BenefitValidationErrors,
-} from "../../../shared/types/Benefits.type";
+} from "../../../benefit/types/benefit.types";
 import {
   validateBenefitForm,
   hasValidationErrors,
-} from "../../utils/benefits.validation";
+} from "../../utils/benefit.formValidation";
 
 const INITIAL_FORM_DATA: CreateBenefitInterface = {
   name: "",

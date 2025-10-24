@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { BENEFIT_STATS_CONFIG } from "../../../constants/benefitStudent.constants";
+import { BENEFIT_STATS_CONFIG } from "../../../../benefit/constants/benefit.constants";
 import { useBenefitStudent } from "../../useBenefitStudent";
 
 /**

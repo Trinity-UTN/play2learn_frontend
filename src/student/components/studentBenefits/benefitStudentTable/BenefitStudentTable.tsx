@@ -1,29 +1,16 @@
 import { motion } from "framer-motion";
-import {
-  FaCoins,
-  FaUsers,
-  FaUser,
-  FaCalendarAlt,
-  FaShoppingCart,
-  FaCheckCircle,
-  FaHourglassHalf,
-} from "react-icons/fa";
+import { FaShoppingCart, FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
 import { FiXCircle } from "react-icons/fi";
-import type { BenefitStudentResponseInterface } from "../../../../shared/types/Benefits.type";
+import type { BenefitStudentResponseInterface } from "../../../../benefit/types/benefit.types";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
-import { BENEFIT_STATUS } from "../../../constants/benefitStudent.constants";
+import BenefitTableContent from "../../../../benefit/components/benefitTableContent/BenefitTableContent";
+import { BENEFIT_STATUS } from "../../../../benefit/constants/benefit.constants";
 import {
   validateBenefitPurchase,
   shouldShowBenefitStats,
-} from "../../../utils/benefitStudent.validation";
+} from "../../../../benefit/utils/benefit.validation";
 import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
-import {
-  getIconByValue,
-  getColorByValue,
-  formatBenefitDate,
-  getCategoryByValue,
-} from "../../../../teacher/utils/benefits.utils";
 import styles from "./BenefitStudentTable.module.css";
 
 interface BenefitStudentTableProps {
@@ -136,11 +123,6 @@ const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
     benefits.length > 0 && shouldShowBenefitStats(benefits[0]);
 
   const renderBenefitRow = (benefit: BenefitStudentResponseInterface) => {
-    const IconComponent = getIconByValue(benefit.icon);
-    const iconColor = getColorByValue(benefit.color);
-    const category = getCategoryByValue(benefit.category);
-    const showStats = shouldShowBenefitStats(benefit);
-
     return (
       <motion.tr
         key={benefit.id}
@@ -149,89 +131,12 @@ const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
         animate={{ opacity: 1, y: 0 }}
         whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}
       >
-        {/* Icono + Nombre */}
-        <td className={styles.tableCell}>
-          <div className={styles.benefitInfo}>
-            <div
-              className={styles.iconWrapper}
-              style={{ backgroundColor: iconColor }}
-            >
-              <IconComponent className={styles.benefitIcon} />
-            </div>
-            <div className={styles.benefitDetails}>
-              <span className={styles.benefitName}>{benefit.name}</span>
-              <span className={styles.benefitCategory}>
-                {category?.label || benefit.category}
-              </span>
-            </div>
-          </div>
-        </td>
-
-        {/* Descripción */}
-        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-          <Tooltip content={benefit.description} position="top">
-            <p className={styles.benefitDescription}>{benefit.description}</p>
-          </Tooltip>
-        </td>
-
-        {showStats && (
-          <>
-            {/* Costo */}
-            <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-              <div className={styles.statItem}>
-                <FaCoins className={styles.costIcon} />
-                <span className={styles.statValue}>{benefit.cost}</span>
-              </div>
-            </td>
-
-            {/* Canjes disponibles */}
-            <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-              {benefit.purchasesLeft !== null ? (
-                <div className={styles.statItem}>
-                  <FaUsers className={styles.limitIcon} />
-                  <span className={styles.statValue}>
-                    {benefit.purchasesLeft}
-                  </span>
-                </div>
-              ) : (
-                <Tooltip content={"Sin límite"} position="top">
-                  <span className={styles.emptyValue}>—</span>
-                </Tooltip>
-              )}
-            </td>
-
-            {/* Mis usos */}
-            <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-              {benefit.purchasesLeftByStudent !== null ? (
-                <div className={styles.statItem}>
-                  <FaUser className={styles.limitPerStudentIcon} />
-                  <span className={styles.statValue}>
-                    {benefit.purchasesLeftByStudent}
-                  </span>
-                </div>
-              ) : (
-                <Tooltip content={"Sin límite"} position="top">
-                  <span className={styles.emptyValue}>—</span>
-                </Tooltip>
-              )}
-            </td>
-          </>
-        )}
-
-        {/* Fecha de finalización */}
-        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-          <div className={styles.dateSection}>
-            <FaCalendarAlt className={styles.dateIcon} />
-            <span className={styles.dateValue}>
-              {formatBenefitDate(benefit.endAt)}
-            </span>
-          </div>
-        </td>
-
-        {/* Acciones */}
-        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-          <div className={styles.actions}>{getActionButton(benefit)}</div>
-        </td>
+        <BenefitTableContent
+          benefit={benefit}
+          variant="student"
+          actionButton={getActionButton(benefit)}
+          showStatsColumns={showStatsColumns}
+        />
       </motion.tr>
     );
   };

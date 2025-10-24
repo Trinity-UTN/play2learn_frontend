@@ -1,7 +1,10 @@
 import { useState, useCallback } from "react";
 import type { FilterOption } from "../../../../shared/types/Filter.type";
-import type { BenefitStatus } from "../../../constants/benefitStudent.constants";
+import type { BenefitStatus } from "../../../../benefit/constants/benefit.constants";
 
+/**
+ * Hook para obtener los filtros de beneficios del estudiante
+ */
 export const useBenefitStudentFilters = () => {
   const [activeFilter, setActiveFilter] = useState<BenefitStatus>("AVAILABLE");
   const [selectedSubject, setSelectedSubject] = useState<FilterOption | null>({

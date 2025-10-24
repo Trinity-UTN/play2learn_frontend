@@ -3,7 +3,7 @@ import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import type {
   BenefitStatsApiResponse,
   PaginatedBenefitStudentResponseInterface,
-} from "../../../shared/types/Benefits.type";
+} from "../../../benefit/types/benefit.types";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import api from "../../../shared/utils/api";
 import { urls } from "../urls";

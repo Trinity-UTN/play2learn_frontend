@@ -1,9 +1,9 @@
-import type { CreateBenefitInterface } from "../../../../../shared/types/Benefits.type";
+import type { CreateBenefitInterface } from "../../../../../benefit/types/benefit.types";
 import {
   BENEFIT_CATEGORIES,
   BENEFIT_ICON_OPTIONS,
   BENEFIT_COLOR_OPTIONS,
-} from "../../../../constants/benefits.constants";
+} from "../../../../../benefit/constants/benefit.constants";
 import styles from "./BenefitAppearance.module.css";
 
 type BenefitAppearanceProps = {
