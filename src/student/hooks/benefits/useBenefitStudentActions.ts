@@ -1,12 +1,14 @@
 import { useCallback } from "react";
 import type { BenefitStatus } from "../../constants/benefitStudent.constants";
+import { useCurrentStudent } from "../useCurrentStudent";
+import { useBenefitStudent } from "../useBenefitStudent";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useToaster } from "../../../shared/hooks/useToaster";
-import { useBenefitStudent } from "../useBenefitStudent";
 
 export const useBenefitStudentActions = (
   onFilterChange: (filter: BenefitStatus) => void
 ) => {
+  const { getWalletByStudent } = useCurrentStudent();
   const { purchaseBenefitStudent, requestUseBenefitStudent } =
     useBenefitStudent();
   const { showConfirmation } = useConfirmation();
@@ -23,6 +25,7 @@ export const useBenefitStudentActions = (
         onConfirm: async () => {
           try {
             await purchaseBenefitStudent(benefitId);
+            await getWalletByStudent();
             onFilterChange("PURCHASED");
             showToast({
               title: "Beneficio canjeado exitosamente",
