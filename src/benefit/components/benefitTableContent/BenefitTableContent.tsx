@@ -113,7 +113,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
                 </div>
               ) : (
                 <Tooltip content={"Sin límite"} position="top">
-                  <span className={styles.emptyValue}>—</span>
+                  <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
                 </Tooltip>
               )
             ) : (benefitWithLimits as BenefitStudentResponseInterface)
@@ -129,7 +129,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
               </div>
             ) : (
               <Tooltip content={"Sin límite"} position="top">
-                <span className={styles.emptyValue}>—</span>
+                <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
               </Tooltip>
             )}
           </td>
@@ -150,7 +150,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
                 </div>
               ) : (
                 <Tooltip content={"Sin límite"} position="top">
-                  <span className={styles.emptyValue}>—</span>
+                  <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
                 </Tooltip>
               )
             ) : (benefitWithLimits as BenefitStudentResponseInterface)
@@ -166,7 +166,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
               </div>
             ) : (
               <Tooltip content={"Sin límite"} position="top">
-                <span className={styles.emptyValue}>—</span>
+                <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
               </Tooltip>
             )}
           </td>

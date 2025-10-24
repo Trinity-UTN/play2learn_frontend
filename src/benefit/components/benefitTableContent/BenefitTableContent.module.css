@@ -1,7 +1,6 @@
 .tableCell {
   padding: 1rem;
   vertical-align: middle;
-  border-bottom: 1px solid #e5e7eb;
 }
 
 .centeredCell {
@@ -80,6 +79,11 @@
   gap: 0.5rem;
 }
 
+.emptyValueTeacher,
+.emptyValueStudent {
+  font-size: 1.25rem;
+}
+
 .statValueTeacher,
 .statValueStudent {
   font-weight: 600;
@@ -87,13 +91,15 @@
 }
 
 .benefitNameTeacher,
-.statValueTeacher {
+.statValueTeacher,
+.emptyValueTeacher {
   color: #1f2937;
 }
 
 .benefitNameStudent,
 .benefitDescriptionStudent,
-.statValueStudent {
+.statValueStudent,
+.emptyValueStudent {
   color: white;
 }
 
@@ -113,11 +119,6 @@
   color: #10b981;
   width: 1rem;
   height: 1rem;
-}
-
-.emptyValue {
-  color: white;
-  font-size: 1.25rem;
 }
 
 .dateSection {
