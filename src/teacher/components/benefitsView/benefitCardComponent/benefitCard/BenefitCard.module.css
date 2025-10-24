@@ -2,7 +2,7 @@
 
 .benefitCard {
   padding: 1.5rem;
-  height: 420px;
+  height: 430px;
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;

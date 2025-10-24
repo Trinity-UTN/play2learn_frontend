@@ -27,6 +27,20 @@ export const getCategoryByValue = (
 };
 
 /**
+ * Devuelve el color de una categoría
+ * @param category
+ * @returns
+ */
+export const getCategoryColor = (category: Category) => {
+  const categoryConfig = BENEFIT_CATEGORIES.find(
+    (cat) => cat.value === category
+  );
+  return categoryConfig
+    ? { bg: `${categoryConfig.color}20`, text: categoryConfig.textColor }
+    : { bg: "#f3f4f6", text: "#374151" };
+};
+
+/**
  * Obtiene el hex color correspondiente a un valor de color dado
  */
 export const getColorByValue = (color: Color): string | undefined => {

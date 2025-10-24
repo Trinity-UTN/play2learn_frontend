@@ -1,4 +1,4 @@
-import type { SubjectResponseDto } from "../../admin/services/subject/SubjectService";
+import type { SubjectSimplifiedResponseDto } from "../../admin/services/subject/SubjectService";
 import type { PaginatedData } from "../../shared/types/PaginacionType";
 
 type BenefitStudentState =
@@ -14,7 +14,7 @@ export interface BenefitResponseInterface {
   cost: number;
   purchaseLimit: number | null;
   purchaseLimitPerStudent: number | null;
-  subjectDto: SubjectResponseDto;
+  subjectDto: SubjectSimplifiedResponseDto;
   color: Color;
   endAt: string;
   icon: Icon;

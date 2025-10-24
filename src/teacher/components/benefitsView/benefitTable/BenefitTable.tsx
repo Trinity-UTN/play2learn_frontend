@@ -77,7 +77,9 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
               <span className={styles.statValue}>{benefit.purchaseLimit}</span>
             </div>
           ) : (
-            <span className={styles.emptyValue}>—</span>
+            <Tooltip content={"Sin límite"} position="top">
+              <span className={styles.emptyValue}>—</span>
+            </Tooltip>
           )}
         </td>
 
@@ -91,7 +93,9 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
               </span>
             </div>
           ) : (
-            <span className={styles.emptyValue}>—</span>
+            <Tooltip content={"Sin límite"} position="top">
+              <span className={styles.emptyValue}>—</span>
+            </Tooltip>
           )}
         </td>
 

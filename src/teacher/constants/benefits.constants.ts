@@ -16,30 +16,35 @@ export const BENEFIT_CATEGORIES: ReadonlyArray<{
   label: string;
   icon: IconType;
   color: string;
+  textColor: string;
 }> = [
   {
     value: "EVALUACION",
     label: "Evaluaciones",
     icon: FaGraduationCap,
     color: "#007bff",
+    textColor: "#fff",
   },
   {
     value: "TRABAJOS",
     label: "Trabajos",
     icon: FaFileAlt,
     color: "#ff6f3c",
+    textColor: "#fff",
   },
   {
     value: "ASISTENCIA",
     label: "Asistencia",
     icon: FaCalendarCheck,
     color: "#10b981",
+    textColor: "#fff",
   },
   {
     value: "EXTRAS",
     label: "Extras",
     icon: FaStar,
     color: "#8b5cf6",
+    textColor: "#fff",
   },
 ] as const;
 

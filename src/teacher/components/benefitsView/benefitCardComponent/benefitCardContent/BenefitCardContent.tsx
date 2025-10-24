@@ -1,26 +1,18 @@
 import { FaCoins, FaUsers, FaUser, FaCalendarAlt } from "react-icons/fa";
+import Badge from "../../../../../shared/components/Badge/BadgeComponent";
 import Tooltip from "../../../../../shared/components/Tooltip/TooltipComponent";
 import type {
   BenefitResponseInterface,
   BenefitStudentResponseInterface,
   CreateBenefitInterface,
 } from "../../../../../shared/types/Benefits.type";
+import { formatBenefitDate } from "../../../../utils/benefits.utils";
 import {
-  getIconByValue,
-  getColorByValue,
-  getCategoryByValue,
-  formatBenefitDate,
-} from "../../../../utils/benefits.utils";
-import {
-  getPurchaseLimit,
-  getPurchaseLimitPerStudent,
   formatPurchaseLimitText,
   formatPurchaseLimitPerStudentText,
-  isTeacherBenefit,
-  isStudentBenefit,
   type BenefitCardVariant,
 } from "../../../../utils/benefitCard.utils";
-import { shouldShowBenefitStats } from "../../../../../student/utils/benefitStudent.validation";
+import { useBenefitCardData } from "../../../../hooks/benefits/useBenefitCardData";
 import styles from "./BenefitCardContent.module.css";
 
 type BenefitCardContentProps = {
@@ -37,24 +29,23 @@ const BenefitCardContent = ({
   isPreview = false,
   variant = "teacher",
 }: BenefitCardContentProps) => {
-  const IconComponent = getIconByValue(benefit.icon);
-  const iconColor = getColorByValue(benefit.color);
-  const category = getCategoryByValue(benefit.category);
-
-  const styleSuffix = variant === "student" ? "Student" : "Teacher";
-
-  const purchaseLimit = getPurchaseLimit(benefit);
-  const purchaseLimitPerStudent = getPurchaseLimitPerStudent(benefit);
-
-  const hasEndDate =
-    isTeacherBenefit(benefit) || isStudentBenefit(benefit) || benefit.endAt;
-
-  const showStats =
-    variant === "teacher" ||
-    (isStudentBenefit(benefit) && shouldShowBenefitStats(benefit));
+  const {
+    IconComponent,
+    iconColor,
+    category,
+    styleSuffix,
+    purchaseLimit,
+    purchaseLimitPerStudent,
+    hasEndDate,
+    showStats,
+    descriptionText,
+    subjectName,
+    subjectColor,
+    categoryColor,
+  } = useBenefitCardData({ benefit, variant, isPreview });
 
   return (
-    <>
+    <div className={styles.contentContainer}>
       {/* Header con icono y nombre */}
       <div className={styles.benefitHeader}>
         <div
@@ -67,18 +58,27 @@ const BenefitCardContent = ({
           <h3 className={styles[`benefitName${styleSuffix}`]}>
             {benefit.name || (isPreview ? "Nombre del Beneficio" : "")}
           </h3>
-          <p className={styles[`benefitCategory${styleSuffix}`]}>
-            {category?.label ||
-              (isPreview ? "Selecciona una categoría" : benefit.category)}
-          </p>
+          <div className={styles.benefitMeta}>
+            {categoryColor && (
+              <Badge variant="custom" customColor={categoryColor}>
+                {category?.label ||
+                  (isPreview ? "Categoría" : benefit.category)}
+              </Badge>
+            )}
+            {subjectName && subjectColor && (
+              <Badge variant="custom" customColor={subjectColor}>
+                {subjectName}
+              </Badge>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Descripción */}
-      <p className={styles[`benefitDescription${styleSuffix}`]}>
-        {benefit.description ||
-          (isPreview ? "Descripción del beneficio aparecerá aquí..." : "")}
-      </p>
+      <Tooltip content={descriptionText}>
+        <p className={styles[`benefitDescription${styleSuffix}`]}>
+          {descriptionText}
+        </p>
+      </Tooltip>
 
       {/* Fecha de finalización */}
       {hasEndDate && (
@@ -135,7 +135,7 @@ const BenefitCardContent = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

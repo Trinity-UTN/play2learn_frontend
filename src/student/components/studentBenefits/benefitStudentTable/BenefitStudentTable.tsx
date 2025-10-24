@@ -194,7 +194,9 @@ const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
                   </span>
                 </div>
               ) : (
-                <span className={styles.emptyValue}>Sin limites</span>
+                <Tooltip content={"Sin límite"} position="top">
+                  <span className={styles.emptyValue}>—</span>
+                </Tooltip>
               )}
             </td>
 
@@ -208,7 +210,9 @@ const BenefitStudentTable: React.FC<BenefitStudentTableProps> = ({
                   </span>
                 </div>
               ) : (
-                <span className={styles.emptyValue}>Sin limites</span>
+                <Tooltip content={"Sin límite"} position="top">
+                  <span className={styles.emptyValue}>—</span>
+                </Tooltip>
               )}
             </td>
           </>
