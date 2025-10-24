@@ -125,14 +125,14 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
         {activeTab === "buy" && !canAfford && (
           <div className={styles.warning}>
             <FaExclamationTriangle />
-            <span>Saldo insuficiente</span>
+            <span className={styles.warningText}>Saldo insuficiente</span>
           </div>
         )}
 
         {activeTab === "sell" && !canSell && (
           <div className={styles.warning}>
             <FaExclamationTriangle />
-            <span>No tienes suficientes acciones disponibles</span>
+            <span className={styles.warningText}>Saldo insuficiente</span>
           </div>
         )}
 

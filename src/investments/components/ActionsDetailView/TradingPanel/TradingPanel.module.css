@@ -93,7 +93,7 @@
 }
 
 .price {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: white;
 }
@@ -167,13 +167,17 @@
   font-size: 1.25rem;
   font-weight: 700;
 }
+.positive,
+.negative {
+  font-size: 1.2rem;
+}
 
 .positive {
   color: #22c55e;
 }
 
 .negative {
-  color: #ef4444;
+  color: #f88888;
 }
 
 .warning {
@@ -184,8 +188,12 @@
   background: rgba(239, 68, 68, 0.2);
   border: 1px solid #ef4444;
   border-radius: 8px;
-  color: #ef4444;
+  color: rgb(230, 5, 5);
   font-weight: 600;
+}
+.warningText {
+  color: rgb(247, 247, 247);
+  font-size: 0.9rem;
 }
 
 .actionButton {
