@@ -60,13 +60,13 @@ const BenefitCardContent = ({
           </h3>
           <div className={styles.benefitMeta}>
             {categoryColor && (
-              <Badge variant="custom" customColor={categoryColor}>
+              <Badge variant="custom" size="sm" customColor={categoryColor}>
                 {category?.label ||
                   (isPreview ? "Categoría" : benefit.category)}
               </Badge>
             )}
             {subjectName && subjectColor && (
-              <Badge variant="custom" customColor={subjectColor}>
+              <Badge variant="custom" size="sm" customColor={subjectColor}>
                 {subjectName}
               </Badge>
             )}

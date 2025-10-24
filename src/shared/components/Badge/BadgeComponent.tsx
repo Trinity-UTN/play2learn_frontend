@@ -10,6 +10,7 @@ interface BadgeProps {
     | "warning"
     | "danger"
     | "custom";
+  size?: "xs" | "sm" | "md" | "lg";
   className?: string;
   customColor?: { bg: string; text: string };
 }
@@ -17,10 +18,11 @@ interface BadgeProps {
 const Badge: React.FC<BadgeProps> = ({
   children,
   variant = "primary",
+  size = "md",
   className = "",
   customColor,
 }) => {
-  const badgeClass = [styles.badge, styles[variant], className]
+  const badgeClass = [styles.badge, styles[variant], styles[size], className]
     .filter(Boolean)
     .join(" ");
 
