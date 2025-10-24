@@ -1,17 +1,13 @@
-import type React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaGift } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import BenefitHeader from "../../../components/benefitsView/benefitHeader/BenefitHeader";
 import BenefitsList from "../../../components/benefitsView/benefitsList/BenefitsList";
 import BenefitSearch from "../../../components/benefitsView/benefitSearch/BenefitSearch";
 import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
-import { useBenefitAPI } from "../../../hooks/useBenefitAPI";
 import styles from "./BenefitsListView.module.css";
 
 const BenefitsListView: React.FC = () => {
-  const { paginatedBenefits } = useBenefitAPI();
   const {
     paginationParams,
     handlePageChange,
@@ -47,35 +43,9 @@ const BenefitsListView: React.FC = () => {
     >
       {/* Header */}
       <motion.div variants={itemVariants} className={styles.header}>
-        <div>
-          <h1 className={styles.title}>Gestión de Beneficios</h1>
-          <p className={styles.subtitle}>
-            Administra las recompensas disponibles para los estudiantes
-          </p>
-        </div>
-        <Button
-          variant="primary"
-          className={styles.createButton}
-          onClick={() => navigate("/dashboard/teacher/beneficio/create")}
-        >
-          <FaGift className={styles.buttonIcon} />
-          Nuevo Beneficio
-        </Button>
-      </motion.div>
-
-      {/* Estadísticas */}
-      <motion.div variants={itemVariants} className={styles.statsSection}>
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>
-            <FaGift />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statNumber}>
-              {paginatedBenefits?.results.length}
-            </span>
-            <span className={styles.statLabel}>Beneficios Encontrados</span>
-          </div>
-        </div>
+        <BenefitHeader
+          onNavigate={() => navigate("/dashboard/teacher/beneficio/create")}
+        />
       </motion.div>
 
       {/* Filtros */}
@@ -87,7 +57,7 @@ const BenefitsListView: React.FC = () => {
       />
 
       {/* Benefits List (Grid o Table) */}
-      <motion.div variants={itemVariants} className={styles.benefitsSection}>
+      <motion.div variants={itemVariants}>
         <BenefitsList
           paginationParams={paginationParams}
           handlePageChange={handlePageChange}
