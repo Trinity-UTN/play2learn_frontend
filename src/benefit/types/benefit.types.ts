@@ -99,6 +99,13 @@ export type AnyBenefit =
 
 // ==================== PAGINACIÓN Y STATS ====================
 
+export interface PaginatedBenefitResponseInterface {
+  data: PaginatedData<BenefitResponseInterface>;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
 export interface PaginatedBenefitStudentResponseInterface {
   data: PaginatedData<BenefitStudentResponseInterface>;
   message: string;
