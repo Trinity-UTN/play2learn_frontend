@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type { AnyBenefit, BenefitVariant } from "../types/benefit.types";
-import { getSubjectColor } from "../../teacher/constants/subject.constants";
+import { getSubjectColor } from "../../shared/constants/subject.constants";
 import {
   getIconByValue,
   getColorByValue,
