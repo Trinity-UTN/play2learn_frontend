@@ -2,24 +2,39 @@ import { BaseBenefitService } from "../../../benefit/services/BaseBenefitService
 import type {
   CreateBenefitInterface,
   PaginatedBenefitResponseInterface,
+  PaginatedBenefitUseRequestedResponseInterface,
 } from "../../../benefit/types/benefit.types";
 import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import api from "../../../shared/utils/api";
 import { urls } from "../urls";
 
 export const BenefitTeacherService = {
-  registerBenefitApi: async (data: CreateBenefitInterface): Promise<void> => {
-    await api.post(urls.CreateBenefit, data);
+  getBenefitsApi: async () => {
+    const response = await api.get(urls.Benefits);
+    return response;
   },
 
   getPaginatedBenefitsApi: (params: GetPaginated) =>
     BaseBenefitService.getPaginated<PaginatedBenefitResponseInterface>(
-      urls.BenefitsPaginate,
+      urls.PaginatedBenefitTeacher,
       params
     ),
 
-  getBenefitsApi: async () => {
-    const response = await api.get(urls.Benefits);
-    return response;
+  getPaginatedUBenefitsUseRequestedApi: (params: GetPaginated) =>
+    BaseBenefitService.getPaginated<PaginatedBenefitUseRequestedResponseInterface>(
+      urls.PaginatedBenefitUseRequested,
+      params
+    ),
+
+  registerBenefitApi: async (data: CreateBenefitInterface): Promise<void> => {
+    await api.post(urls.CreateBenefit, data);
+  },
+
+  acceptUseBenefitApi: async (benefitId: number): Promise<void> => {
+    await api.patch(urls.AcceptUseBenefit(benefitId));
+  },
+
+  deleteBenefitApi: async (benefitId: number): Promise<void> => {
+    await api.delete(urls.DeleteBenefit(benefitId));
   },
 };

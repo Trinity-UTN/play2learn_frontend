@@ -60,6 +60,17 @@ export interface BenefitResponseInterface {
   category: Category;
 }
 
+export interface BenefitUseRequestedResponseInterface {
+  id: number;
+  state: "USE_REQUESTED";
+  benefitId: number;
+  benefitName: string;
+  subjectId: number;
+  subjectName: string;
+  studentId: number;
+  studentName: string;
+}
+
 export interface BenefitStudentResponseInterface {
   id: number;
   name: string;
@@ -108,6 +119,13 @@ export interface PaginatedBenefitResponseInterface {
 
 export interface PaginatedBenefitStudentResponseInterface {
   data: PaginatedData<BenefitStudentResponseInterface>;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
+export interface PaginatedBenefitUseRequestedResponseInterface {
+  data: PaginatedData<BenefitUseRequestedResponseInterface>;
   message: string;
   errors: any;
   timestamp: string;

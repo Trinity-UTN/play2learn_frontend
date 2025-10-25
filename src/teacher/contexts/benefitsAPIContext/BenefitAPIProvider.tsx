@@ -3,6 +3,7 @@ import { BenefitTeacherService } from "../../services/benefit/BenefitTeacherServ
 import { BenefitAPIContext } from "./BenefitAPIContext";
 import type { BenefitAPIContextType } from "./BenefitAPIContext.type";
 import type {
+  BenefitUseRequestedResponseInterface,
   BenefitResponseInterface,
   CreateBenefitInterface,
 } from "../../../benefit/types/benefit.types";
@@ -28,8 +29,59 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   const [benefits, setBenefits] = useState<BenefitResponseInterface[]>([]);
   const [paginatedBenefits, setPaginatedBenefits] =
     useState<PaginatedData<BenefitResponseInterface> | null>(null);
+  const [paginatedBenefitsUseRequested, setPaginatedBenefitsUseRequested] =
+    useState<PaginatedData<BenefitUseRequestedResponseInterface> | null>(null);
 
   // Funciones principales
+  const getBenefits = useCallback(async (): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await BenefitTeacherService.getBenefitsApi();
+      setBenefits(response.data.data);
+    } catch (error) {
+      handleApiError(error, "Error al obtener los beneficios");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const getPaginatedBenefits = useCallback(
+    async (params: GetPaginated): Promise<void> => {
+      setLoading(true);
+      try {
+        const response = await BenefitTeacherService.getPaginatedBenefitsApi(
+          params
+        );
+
+        setPaginatedBenefits(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener los beneficios paginados");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  const getPaginatedUBenefitsUseRequested = useCallback(
+    async (params: GetPaginated): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await BenefitTeacherService.getPaginatedUBenefitsUseRequestedApi(
+            params
+          );
+
+        setPaginatedBenefitsUseRequested(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener los beneficios paginados");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   const registerBenefit = async (
     data: CreateBenefitInterface
   ): Promise<void> => {
@@ -49,47 +101,54 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     }
   };
 
-  const getBenefits = useCallback(async (): Promise<void> => {
+  const acceptUseBenefit = async (benefitId: number) => {
     setLoading(true);
     try {
-      const response = await BenefitTeacherService.getBenefitsApi();
-      setBenefits(response.data.data);
+      await BenefitTeacherService.acceptUseBenefitApi(benefitId);
+      showToast({
+        title: "Beneficio aceptado exitosamente",
+        message: "El beneficio ha sido aceptado exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
     } catch (error) {
-      handleApiError(error, "Error al obtener los beneficios");
+      handleApiError(error, "Error al aceptar el beneficio");
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-  // Obtener beneficios paginados
-  const getPaginatedBenefits = useCallback(
-    async (params: GetPaginated): Promise<void> => {
-      setLoading(true);
-      try {
-        const response = await BenefitTeacherService.getPaginatedBenefitsApi(
-          params
-        );
-
-        setPaginatedBenefits(response.data);
-      } catch (error) {
-        handleApiError(error, "Error al obtener los beneficios paginados");
-      } finally {
-        setLoading(false);
-      }
-    },
-    []
-  );
+  const deleteBenefit = async (benefitId: number) => {
+    setLoading(true);
+    try {
+      await BenefitTeacherService.deleteBenefitApi(benefitId);
+      showToast({
+        title: "Beneficio eliminado exitosamente",
+        message: "El beneficio ha sido eliminado exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
+    } catch (error) {
+      handleApiError(error, "Error al eliminar el beneficio");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const contextValue: BenefitAPIContextType = {
     // Estados generales
     loading,
     benefits,
     paginatedBenefits,
+    paginatedBenefitsUseRequested,
 
     // Funciones principales
     getBenefits,
     getPaginatedBenefits,
+    getPaginatedUBenefitsUseRequested,
     registerBenefit,
+    acceptUseBenefit,
+    deleteBenefit,
   };
 
   return (
