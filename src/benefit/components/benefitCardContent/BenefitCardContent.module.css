@@ -1,0 +1,241 @@
+@import "../../../shared/styles/colors.css";
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.benefitHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+  min-height: 5rem;
+}
+
+.iconWrapper {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.benefitIcon {
+  font-size: 1.25rem;
+  color: white;
+}
+
+.benefitInfo {
+  flex: 1;
+}
+
+.benefitMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+/* Teacher Styles */
+.benefitNameTeacher {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.benefitCategoryTeacher {
+  font-size: 0.875rem;
+  color: var(--color-text-subtitle);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.benefitDescriptionTeacher {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--color-text-subtitle);
+  line-height: 1.5;
+  min-height: 3em;
+  margin-bottom: 1rem;
+  line-clamp: 2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: help;
+}
+
+.endDateSection {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.endDateIcon {
+  color: #d97706;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.endDateText {
+  font-size: 0.875rem;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.endDateText strong {
+  font-weight: 700;
+  color: #78350f;
+}
+
+.benefitStatsTeacher {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.costSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.costIconTeacher {
+  color: #f59e0b;
+  font-size: 1rem;
+  cursor: help;
+}
+
+.costValueTeacher {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.limitSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.limitIcon {
+  color: #3b82f6;
+  font-size: 1rem;
+  cursor: help;
+}
+
+.limitValueTeacher {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.limitPerStudentSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.limitPerStudentIcon {
+  color: #10b981;
+  font-size: 1rem;
+  cursor: help;
+}
+
+.limitPerStudentValueTeacher {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Student Styles */
+.benefitNameStudent {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.benefitCategoryStudent {
+  font-size: 0.875rem;
+  color: lightgray;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.benefitDescriptionStudent {
+  flex: 1;
+  font-size: 0.875rem;
+  color: white;
+  line-height: 1.5;
+  min-height: 3em;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: help;
+}
+
+.benefitStatsStudent {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+.costIconStudent {
+  color: #f1ab32;
+  font-size: 1rem;
+  cursor: help;
+}
+
+.costValueStudent {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}
+
+.limitValueStudent {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}
+
+.limitPerStudentValueStudent {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}

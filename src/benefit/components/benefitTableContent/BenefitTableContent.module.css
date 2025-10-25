@@ -1,0 +1,187 @@
+.tableCell {
+  padding: 1rem;
+  vertical-align: middle;
+}
+
+.centeredCell {
+  text-align: center;
+}
+
+.benefitInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.benefitIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: white;
+}
+
+.benefitDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.benefitNameStudent,
+.benefitNameTeacher {
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.benefitCategory {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.benefitDescriptionStudent,
+.benefitDescriptionTeacher {
+  font-size: 0.875rem;
+  color: #4b5563;
+  max-width: 18rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.benefitDescriptionTeacher {
+  color: #4b5563;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.emptyValueTeacher,
+.emptyValueStudent {
+  font-size: 1.25rem;
+}
+
+.statValueTeacher,
+.statValueStudent {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.benefitNameTeacher,
+.statValueTeacher,
+.emptyValueTeacher {
+  color: #1f2937;
+}
+
+.benefitNameStudent,
+.benefitDescriptionStudent,
+.statValueStudent,
+.emptyValueStudent {
+  color: white;
+}
+
+.costIcon {
+  color: #f59e0b;
+  width: 1rem;
+  height: 1rem;
+}
+
+.limitIcon {
+  color: #3b82f6;
+  width: 1rem;
+  height: 1rem;
+}
+
+.limitPerStudentIcon {
+  color: #10b981;
+  width: 1rem;
+  height: 1rem;
+}
+
+.dateSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 0.5rem;
+}
+
+.dateIcon {
+  color: #d97706;
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+}
+
+.dateValue {
+  font-size: 0.8rem;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tableCell {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .benefitInfo {
+    gap: 0.5rem;
+  }
+
+  .iconWrapper {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .benefitIcon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .benefitName {
+    font-size: 0.8125rem;
+  }
+
+  .benefitCategory {
+    font-size: 0.6875rem;
+  }
+
+  .benefitDescription {
+    font-size: 0.8125rem;
+    max-width: 15rem;
+  }
+}

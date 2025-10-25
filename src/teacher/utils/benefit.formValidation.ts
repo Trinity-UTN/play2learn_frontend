@@ -1,5 +1,5 @@
-import { BENEFIT_VALIDATION } from "../constants/benefits.constants";
-import type { BenefitValidationErrors } from "../../shared/types/Benefits.type";
+import { BENEFIT_VALIDATION } from "../../benefit/constants/benefit.constants";
+import type { BenefitValidationErrors } from "../../benefit/types/benefit.types";
 
 /**
  * Valida el nombre del beneficio

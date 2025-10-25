@@ -126,8 +126,11 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       setWallet(response.data);
     } catch (error) {
       handleApiError(error, "Error al cargar la billetera");
+    } finally {
+      setLoading(false);
     }
   };
+
   const getStatisticsStudent = async () => {
     setLoading(true);
     try {

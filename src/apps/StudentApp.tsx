@@ -10,7 +10,6 @@ import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvide
 import { CurrentStudentProvider } from "../student/context/currentStudent/CurrentStudentProvider";
 import { ProfileAvatarProvider } from "../student/context/profileAvatarContext/ProfileAvatarProvider";
 import { ActivityStudentProvider } from "../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
-import { ActivityStudentProviderUI } from "../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
 import { AhorcadoGameProvider } from "../shared/contexts/gamesContext/ahorcadoGameContext/AhorcadoGameProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
@@ -23,6 +22,7 @@ import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaP
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
 import { WalletStudentProvider } from "../student/context/walletStudentContext/WalletStudentProvider";
+import { BenefitStudentProvider } from "../student/context/benefitStudentContext/BenefitStudentProvider";
 import { StoreProvider } from "../student/context/storeStudentContext/StoreStudentProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
@@ -58,19 +58,19 @@ const StudentApp = () => {
                   <CurrentStudentProvider>
                     <ProfileAvatarProvider>
                       <ActivityStudentProvider>
-                        <ActivityStudentProviderUI>
-                          <ConfigurationActivityProvider>
-                            <NoLudicaProvider>
-                              <NoLudicaGameProvider mode="student">
-                                <AhorcadoProvider>
-                                  <AhorcadoGameProvider mode="student">
-                                    <CompletarOracionProvider>
-                                      <CompletarOracionGameProvider mode="student">
-                                        <DesafioClasificacionProvider>
-                                          <DesafioClasificacionGameProvider mode="student">
-                                            <PreguntadosProvider>
-                                              <PreguntadosGameProvider mode="student">
-                                                <WalletStudentProvider>
+                        <ConfigurationActivityProvider>
+                          <NoLudicaProvider>
+                            <NoLudicaGameProvider mode="student">
+                              <AhorcadoProvider>
+                                <AhorcadoGameProvider mode="student">
+                                  <CompletarOracionProvider>
+                                    <CompletarOracionGameProvider mode="student">
+                                      <DesafioClasificacionProvider>
+                                        <DesafioClasificacionGameProvider mode="student">
+                                          <PreguntadosProvider>
+                                            <PreguntadosGameProvider mode="student">
+                                              <WalletStudentProvider>
+                                                <BenefitStudentProvider>
                                                   <StoreProvider>
                                                     <motion.div
                                                       key="dashboardStudent"
@@ -84,19 +84,19 @@ const StudentApp = () => {
                                                       <StudentDashboard />
                                                     </motion.div>
                                                   </StoreProvider>
-                                                </WalletStudentProvider>
-                                              </PreguntadosGameProvider>
-                                            </PreguntadosProvider>
-                                          </DesafioClasificacionGameProvider>
-                                        </DesafioClasificacionProvider>
-                                      </CompletarOracionGameProvider>
-                                    </CompletarOracionProvider>
-                                  </AhorcadoGameProvider>
-                                </AhorcadoProvider>
-                              </NoLudicaGameProvider>
-                            </NoLudicaProvider>
-                          </ConfigurationActivityProvider>
-                        </ActivityStudentProviderUI>
+                                                </BenefitStudentProvider>
+                                              </WalletStudentProvider>
+                                            </PreguntadosGameProvider>
+                                          </PreguntadosProvider>
+                                        </DesafioClasificacionGameProvider>
+                                      </DesafioClasificacionProvider>
+                                    </CompletarOracionGameProvider>
+                                  </CompletarOracionProvider>
+                                </AhorcadoGameProvider>
+                              </AhorcadoProvider>
+                            </NoLudicaGameProvider>
+                          </NoLudicaProvider>
+                        </ConfigurationActivityProvider>
                       </ActivityStudentProvider>
                     </ProfileAvatarProvider>
                   </CurrentStudentProvider>

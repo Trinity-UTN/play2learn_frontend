@@ -3,7 +3,7 @@ import usePaginationParams from "../../shared/hooks/usePaginateParams";
 import { useStore } from "./useStoreStudent";
 import { useCurrentStudent } from "./useCurrentStudent";
 import type { BodyPart } from "../types/CurrentStudent.type";
-import type { PaginationInfo } from "../context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
+import type { PaginationInfo } from "../../shared/types/PaginacionType";
 
 export const useStoreStudentUI = () => {
   // Paginación

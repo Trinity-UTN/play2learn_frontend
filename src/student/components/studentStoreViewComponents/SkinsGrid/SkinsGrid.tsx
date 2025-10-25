@@ -3,7 +3,7 @@ import SkinCard from "../SkinCard/SkinCard";
 import type { BodyPart } from "../../../types/CurrentStudent.type";
 import styles from "./SkinsGrid.module.css";
 import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
-import type { PaginationInfo } from "../../../context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
+import type { PaginationInfo } from "../../../../shared/types/PaginacionType";
 import {
   containerVariants,
   itemVariants,
