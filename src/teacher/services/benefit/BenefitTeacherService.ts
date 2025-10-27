@@ -14,6 +14,11 @@ export const BenefitTeacherService = {
     return response;
   },
 
+  getBenefitDataByIdApi: async (benefitId: number) => {
+    const response = await api.get(urls.BenefitById(benefitId));
+    return response;
+  },
+
   getPaginatedBenefitsApi: (params: GetPaginated) =>
     BaseBenefitService.getPaginated<PaginatedBenefitResponseInterface>(
       urls.PaginatedBenefitTeacher,

@@ -5,6 +5,7 @@ import type { BenefitAPIContextType } from "./BenefitAPIContext.type";
 import type {
   BenefitUseRequestedResponseInterface,
   BenefitResponseInterface,
+  BenefitPurchaseSimpleResponse,
   CreateBenefitInterface,
 } from "../../../benefit/types/benefit.types";
 import type {
@@ -27,6 +28,8 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [benefits, setBenefits] = useState<BenefitResponseInterface[]>([]);
+  const [selectedBenefit, setSelectedBenefit] =
+    useState<BenefitPurchaseSimpleResponse | null>(null);
   const [paginatedBenefits, setPaginatedBenefits] =
     useState<PaginatedData<BenefitResponseInterface> | null>(null);
   const [paginatedBenefitsUseRequested, setPaginatedBenefitsUseRequested] =
@@ -44,6 +47,23 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
       setLoading(false);
     }
   }, []);
+
+  const getBenefitDataById = useCallback(
+    async (benefitId: number): Promise<void> => {
+      setLoading(true);
+      try {
+        const response = await BenefitTeacherService.getBenefitDataByIdApi(
+          benefitId
+        );
+        setSelectedBenefit(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener el beneficio");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   const getPaginatedBenefits = useCallback(
     async (params: GetPaginated): Promise<void> => {
@@ -139,11 +159,13 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     // Estados generales
     loading,
     benefits,
+    selectedBenefit,
     paginatedBenefits,
     paginatedBenefitsUseRequested,
 
     // Funciones principales
     getBenefits,
+    getBenefitDataById,
     getPaginatedBenefits,
     getPaginatedUBenefitsUseRequested,
     registerBenefit,

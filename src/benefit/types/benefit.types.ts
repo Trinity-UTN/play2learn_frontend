@@ -42,6 +42,8 @@ export type BenefitStudentState =
   | "USE_REQUESTED"
   | "EXPIRED";
 
+export type BenefitPurchaseState = "PURCHASED" | "USE_REQUESTED" | "USED";
+
 export type BenefitVariant = "student" | "teacher";
 
 // ==================== INTERFACES DE RESPUESTA ====================
@@ -63,6 +65,17 @@ export interface BenefitResponseInterface {
 export interface BenefitUseRequestedResponseInterface {
   id: number;
   state: "USE_REQUESTED";
+  benefitId: number;
+  benefitName: string;
+  subjectId: number;
+  subjectName: string;
+  studentId: number;
+  studentName: string;
+}
+
+export interface BenefitPurchaseSimpleResponse {
+  id: number;
+  state: BenefitPurchaseState;
   benefitId: number;
   benefitName: string;
   subjectId: number;
