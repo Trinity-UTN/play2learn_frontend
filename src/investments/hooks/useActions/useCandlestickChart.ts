@@ -7,10 +7,34 @@ import {
   type UTCTimestamp,
 } from "lightweight-charts";
 
+const prepareChartData = (data: CandleStickValuesResponse[]) => {
+  // 2. Ordenar ascendentemente por fecha
+  // const sortedData = data.sort(
+  //   (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  // );
+  const mappedData = data.map((candle) => ({
+    time: Math.floor(new Date(candle.date).getTime() / 1000) as UTCTimestamp,
+    open: candle.open,
+    high: candle.high,
+    low: candle.low,
+    close: candle.close,
+  }));
+
+  // Evitar duplicados de timestamp
+  for (let i = 1; i < mappedData.length; i++) {
+    if (mappedData[i].time <= mappedData[i - 1].time) {
+      mappedData[i].time = (mappedData[i - 1].time + 1) as UTCTimestamp;
+    }
+  }
+  return mappedData;
+};
+
 export const useCandlestickChart = (data: CandleStickValuesResponse[]) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
+  const dataCleaned = prepareChartData(data);
+
   useEffect(() => {
-    if (!chartContainerRef.current || data.length === 0) return;
+    if (!chartContainerRef.current || dataCleaned.length === 0) return;
 
     // Crear gráfico base
     const chart = createChart(chartContainerRef.current, {
@@ -70,16 +94,7 @@ export const useCandlestickChart = (data: CandleStickValuesResponse[]) => {
       wickDownColor: "#ef5350",
     });
 
-    // Formatear datos según el esquema de lightweight-charts
-    const formattedData = data.map((candle) => ({
-      time: Math.floor(new Date(candle.date).getTime() / 1000) as UTCTimestamp,
-      open: candle.open,
-      high: candle.high,
-      low: candle.low,
-      close: candle.close,
-    }));
-
-    candlestickSeries.setData(formattedData);
+    candlestickSeries.setData(dataCleaned);
     chart.timeScale().fitContent();
 
     // Resize automático
