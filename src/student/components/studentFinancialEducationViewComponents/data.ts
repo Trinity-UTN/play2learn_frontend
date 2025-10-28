@@ -1,12 +1,25 @@
-import {
-  FaWallet,
-  FaChartLine,
-  FaBullseye,
-  FaPiggyBank,
-  FaBalanceScale,
-  FaRocket,
-} from "react-icons/fa";
 import type { IconType } from "react-icons";
+import {
+  FaCoins,
+  FaExchangeAlt,
+  FaBalanceScale,
+  FaLock,
+  FaChartLine,
+  FaWallet,
+  FaPiggyBank,
+  FaHandHoldingUsd,
+  FaUniversity,
+  FaLandmark,
+  FaFileInvoiceDollar,
+  FaChartPie,
+  FaChartBar,
+  FaChartArea,
+  FaArrowUp,
+  FaArrowDown,
+  FaGavel,
+  FaBrain,
+  FaRegSmileBeam,
+} from "react-icons/fa";
 
 export interface FinancialConcept {
   id: string;
@@ -14,166 +27,835 @@ export interface FinancialConcept {
   icon: IconType;
   color: string;
   difficulty: "Básico" | "Intermedio" | "Avanzado";
+  categoria:
+    | "Dinero y sus funciones"
+    | "Poder adquisitivo e inflación"
+    | "Presupuesto personal o familiar"
+    | "Deuda y sus tipos"
+    | "Interés compuesto y valor del dinero en el tiempo"
+    | "Instituciones financieras"
+    | "Inversión"
+    | "Políticas macroeconómicas relevantes"
+    | "Aspectos legales e impositivos"
+    | "Educación financiera conductual";
   description: string;
   detailedExplanation: string;
   examples: string[];
   practicalTips: string[];
   relatedConcepts: string[];
+  bibliografia: string[];
 }
 
 export const financialConcepts: FinancialConcept[] = [
+  // 1 - Dinero y sus funciones
   {
-    id: "liquidity",
-    title: "Liquidez",
-    icon: FaWallet,
-    color: "#10B981",
+    id: "dinero",
+    title: "Qué es el dinero y sus funciones",
+    icon: FaCoins,
+    color: "#0EA5E9",
     difficulty: "Básico",
+    categoria: "Dinero y sus funciones",
     description:
-      "La facilidad con la que puedes convertir tus activos en dinero efectivo para usar inmediatamente.",
+      "Instrumento que facilita los intercambios al actuar como medio de intercambio, unidad de cuenta y reserva de valor.",
     detailedExplanation:
-      "La liquidez es un concepto fundamental en finanzas personales. Se refiere a qué tan rápido y fácil puedes acceder a tu dinero cuando lo necesitas. Un activo muy líquido es aquel que puedes convertir en efectivo de inmediato sin perder valor. Por ejemplo, las monedas en tu billetera son 100% líquidas porque las puedes usar en cualquier momento. En cambio, si inviertes esas monedas en un plazo fijo, pierdes liquidez temporalmente, pero ganas intereses a cambio.",
+      "El dinero surge para resolver las limitaciones del trueque: estandariza el intercambio, permite medir valores y almacenar poder adquisitivo. Sus funciones (medio de intercambio, unidad de cuenta y reserva de valor) explican por qué la sociedad lo utiliza como referente para precios, contratos y ahorro.",
     examples: [
-      "Tener 100 monedas en tu billetera = Alta liquidez (puedes comprar algo ahora mismo)",
-      "Tener 100 monedas invertidas a 30 días = Baja liquidez (no puedes usarlas hasta que termine el plazo)",
-      "Una casa tiene baja liquidez porque toma tiempo venderla",
-      "El dinero en efectivo tiene la máxima liquidez posible",
+      "Pagar bienes y servicios con billetes o transferencias.",
+      "Registrar el precio de un producto en la moneda local.",
+      "Ahorrar para una compra futura sin perder la medida de valor.",
     ],
     practicalTips: [
-      "Mantén siempre una parte de tus monedas disponibles para compras urgentes",
-      "No inviertas todo tu dinero si puedes necesitarlo pronto",
-      "Antes de invertir, pregúntate: ¿podré esperar sin necesitar este dinero?",
-      "Balancea entre tener dinero disponible y hacer crecer tus ahorros",
+      "Pensá el dinero como una herramienta: manejalo según objetivos (liquidez, seguridad, rendimiento).",
+      "Usá la unidad de cuenta para comparar precios y tomar decisiones informadas.",
     ],
-    relatedConcepts: ["investment", "savings"],
+    relatedConcepts: ["medio-intercambio", "unidad-cuenta", "reserva-valor"],
+    bibliografia: [
+      "McConnell, C. R., Brue, S. L., & Flynn, S. M. (2021). Economics: Principles, Problems, and Policies. McGraw-Hill. Cap. 13.",
+    ],
   },
   {
-    id: "investment",
-    title: "Inversión",
-    icon: FaChartLine,
-    color: "#3B82F6",
-    difficulty: "Intermedio",
+    id: "medio-intercambio",
+    title: "Medio de intercambio",
+    icon: FaExchangeAlt,
+    color: "#0EA5E9",
+    difficulty: "Básico",
+    categoria: "Dinero y sus funciones",
     description:
-      "Usar tu dinero para generar más dinero en el futuro, aunque no puedas usarlo inmediatamente.",
+      "Función del dinero que facilita la compraventa sin necesidad de trueque directo.",
     detailedExplanation:
-      "Invertir significa poner tu dinero a trabajar para ti. En lugar de simplemente guardar tus monedas, las usas de una forma que te genere más monedas con el tiempo. La clave de la inversión es la paciencia: aceptas no poder usar ese dinero por un tiempo a cambio de recibir más dinero después. En nuestra plataforma, puedes invertir tus monedas en diferentes opciones con distintos plazos y recompensas. Mientras más tiempo inviertas, generalmente más ganancias obtendrás.",
+      "Como medio de intercambio, el dinero elimina la doble coincidencia de necesidades del trueque: cualquier agente acepta la moneda por su valor reconocido, agilizando transacciones y reduciendo costos de negociación.",
     examples: [
-      "Inviertes 100 monedas por 7 días y recibes 105 monedas (ganaste 5%)",
-      "Inviertes 100 monedas por 30 días y recibes 115 monedas (ganaste 15%)",
-      "Si reinviertes las ganancias, tus monedas crecen aún más rápido (interés compuesto)",
-      "Inversión de bajo riesgo: ganas poco pero es seguro. Alto riesgo: puedes ganar mucho o perder",
+      "Pagar un café con efectivo o tarjeta.",
+      "Vender un artículo y recibir transferencia bancaria como pago.",
     ],
     practicalTips: [
-      "Empieza invirtiendo pequeñas cantidades hasta entender cómo funciona",
-      "No inviertas dinero que vayas a necesitar pronto",
-      "Diversifica: no pongas todas tus monedas en una sola inversión",
-      "Lee bien los términos antes de invertir: plazo, ganancia esperada, riesgo",
-      "Mientras más largo el plazo, generalmente más alta la ganancia",
+      "Mantené medios de pago alternativos (efectivo + digital) para mayor flexibilidad.",
     ],
-    relatedConcepts: ["liquidity", "compound-interest", "risk-return"],
+    relatedConcepts: ["dinero", "unidad-cuenta"],
+    bibliografia: ["McConnell et al., 2021, Cap. 13."],
   },
   {
-    id: "planned-spending",
-    title: "Gasto Planificado",
-    icon: FaBullseye,
+    id: "unidad-cuenta",
+    title: "Unidad de cuenta",
+    icon: FaBalanceScale,
+    color: "#0EA5E9",
+    difficulty: "Básico",
+    categoria: "Dinero y sus funciones",
+    description:
+      "Función del dinero que permite medir y comparar el valor de bienes y servicios.",
+    detailedExplanation:
+      "La unidad de cuenta estandariza precios y facilita la contabilidad. Sin una unidad común sería muy difícil comparar costos o llevar registros coherentes de ingresos y gastos.",
+    examples: [
+      "Comparar el precio de distintos modelos de celular en la misma moneda.",
+      "Registrar salarios y facturas usando una moneda estándar.",
+    ],
+    practicalTips: [
+      "Llevá tus registros (gastos/ingresos) siempre en la misma unidad.",
+    ],
+    relatedConcepts: ["dinero", "medio-intercambio"],
+    bibliografia: ["McConnell et al., 2021, Cap. 13."],
+  },
+  {
+    id: "reserva-valor",
+    title: "Reserva de valor",
+    icon: FaLock,
+    color: "#0EA5E9",
+    difficulty: "Básico",
+    categoria: "Dinero y sus funciones",
+    description:
+      "Capacidad del dinero para mantener su poder adquisitivo en el tiempo.",
+    detailedExplanation:
+      "Si el dinero conserva su valor, permite posponer consumo y planificar. Sin reserva de valor estable (por ejemplo, alta inflación), ahorrar en efectivo puede implicar pérdida de poder de compra.",
+    examples: [
+      "Guardar ahorros en una cuenta que preserve poder adquisitivo.",
+      "Invertir para protegerse ante la inflación.",
+    ],
+    practicalTips: [
+      "No acumulés efectivo sin estrategia: considerá instrumentos que rindan algo.",
+      "Combiná liquidez y activos que protejan contra la inflación.",
+    ],
+    relatedConcepts: ["inflacion", "ahorro"],
+    bibliografia: ["McConnell et al., 2021, Cap. 13."],
+  },
+
+  // 2 - Poder adquisitivo e inflación
+  {
+    id: "poder-adquisitivo",
+    title: "Poder adquisitivo",
+    icon: FaWallet,
     color: "#F59E0B",
     difficulty: "Básico",
+    categoria: "Poder adquisitivo e inflación",
     description:
-      "Decidir con anticipación en qué vas a gastar tu dinero para evitar compras impulsivas.",
+      "Cantidad de bienes y servicios que se pueden comprar con una unidad monetaria.",
     detailedExplanation:
-      "El gasto planificado es una habilidad esencial para manejar bien tu dinero. Consiste en pensar antes de comprar: ¿realmente necesito esto? ¿cuánto cuesta? ¿tengo suficiente dinero? En lugar de gastar impulsivamente cuando ves algo que te gusta, te tomas un tiempo para evaluar si es una buena decisión. Esto te ayuda a evitar arrepentimientos y a usar tu dinero de forma más inteligente. Planificar tus gastos también te permite ahorrar para cosas más importantes que realmente quieres.",
+      "El poder adquisitivo depende del nivel de precios: si los precios suben (inflación) una misma cantidad de dinero compra menos bienes. Mantener o mejorar el poder adquisitivo requiere estrategias de ahorro/inversión que superen la inflación.",
     examples: [
-      "Planificas comprar un avatar de 200 monedas: ahorras 50 por semana durante 4 semanas",
-      "Ves un sombrero de 150 monedas, pero decides esperar 3 días para pensarlo mejor",
-      "Haces una lista de prioridades: primero compro lo que necesito, luego lo que quiero",
-      "Comparas precios antes de comprar: el mismo item puede costar menos en otro momento",
+      "Con $1.000 hoy podés comprar menos que hace 5 años si hubo inflación.",
     ],
     practicalTips: [
-      "Antes de comprar algo, espera 24 horas y piensa si todavía lo quieres",
-      "Haz una lista de cosas que quieres comprar y ordénalas por prioridad",
-      "Pregúntate: ¿lo necesito o solo lo quiero? Ambas respuestas son válidas, pero ayudan a decidir",
-      "Compara el precio con cuánto esfuerzo te costó ganar esas monedas",
-      "Evita comprar solo porque está en oferta si no lo necesitas",
+      "Incluí en tus planes inversiones que al menos superen la inflación esperada.",
     ],
-    relatedConcepts: ["savings", "liquidity"],
+    relatedConcepts: ["inflacion", "valor-temporal-dinero"],
+    bibliografia: [
+      "Komlos, J. (2023). Foundations of Real-World Economics. Cap. 7.",
+    ],
   },
   {
-    id: "savings",
+    id: "inflacion",
+    title: "Inflación",
+    icon: FaArrowUp,
+    color: "#F59E0B",
+    difficulty: "Intermedio",
+    categoria: "Poder adquisitivo e inflación",
+    description:
+      "Aumento sostenido y generalizado de los precios que reduce el valor real del dinero.",
+    detailedExplanation:
+      "La inflación erosiona el poder adquisitivo: la misma cantidad de dinero compra menos con el tiempo. Los bancos centrales intentan controlarla mediante políticas monetarias, y los agentes económicos ajustan salarios, precios y decisiones de inversión.",
+    examples: [
+      "Incremento general de precios en alimentos, transporte y servicios.",
+    ],
+    practicalTips: [
+      "Considerá instrumentos indexados o que rindan por encima de la inflación.",
+    ],
+    relatedConcepts: ["poder-adquisitivo", "valor-temporal-dinero"],
+    bibliografia: [
+      "Komlos, J. (2023). Foundations of Real-World Economics. Cap. 7.",
+    ],
+  },
+  {
+    id: "erosion-tiempo",
+    title: "Erosión del dinero en el tiempo",
+    icon: FaChartLine,
+    color: "#F59E0B",
+    difficulty: "Intermedio",
+    categoria: "Poder adquisitivo e inflación",
+    description:
+      "Pérdida de valor real del dinero con el paso del tiempo por inflación y oportunidades perdidas.",
+    detailedExplanation:
+      "El dinero que no genera rendimiento puede perder valor real por inflación y por el costo de oportunidad de no invertir. Por eso la planificación y el interés compuesto son herramientas clave para preservar y aumentar riqueza.",
+    examples: [
+      "Mantener efectivo sin interés mientras los precios suben.",
+      "Perder el rendimiento compuesto por no invertir a tiempo.",
+    ],
+    practicalTips: [
+      "Comenzá a invertir temprano para aprovechar el interés compuesto.",
+    ],
+    relatedConcepts: ["interes-compuesto", "valor-temporal-dinero"],
+    bibliografia: ["Sowell, T. (2015). Basic Economics. Cap. 10."],
+  },
+
+  // 3 - Presupuesto personal o familiar (5)
+  {
+    id: "ingresos",
+    title: "Ingresos",
+    icon: FaHandHoldingUsd,
+    color: "#16A34A",
+    difficulty: "Básico",
+    categoria: "Presupuesto personal o familiar",
+    description:
+      "Entradas de dinero periódicas o esporádicas que recibe una persona o familia.",
+    detailedExplanation:
+      "Los ingresos pueden provenir de salarios, rentas, intereses o actividades comerciales. Ser claro sobre la composición y periodicidad de ingresos es la base para construir un presupuesto realista.",
+    examples: [
+      "Salario mensual, honorarios por trabajos freelance, renta de una propiedad.",
+    ],
+    practicalTips: [
+      "Registrá todas las fuentes de ingreso y revisalas periódicamente.",
+      "Diferenciá ingresos recurrentes de extraordinarios para planificación.",
+    ],
+    relatedConcepts: ["presupuesto-personal", "ahorro"],
+    bibliografia: ["Wargo, D. (2023). Economics for Life. Cap. 2."],
+  },
+  {
+    id: "gastos-fijos",
+    title: "Gastos fijos",
+    icon: FaFileInvoiceDollar,
+    color: "#16A34A",
+    difficulty: "Básico",
+    categoria: "Presupuesto personal o familiar",
+    description:
+      "Pagos recurrentes y predecibles como alquiler, servicios o seguros.",
+    detailedExplanation:
+      "Los gastos fijos son la parte estable del presupuesto: conocerlos permite calcular el piso de gastos mensuales y cuánto se puede destinar a ahorro o deuda.",
+    examples: [
+      "Alquiler, cuota de servicios, seguro del auto, planes de suscripción.",
+    ],
+    practicalTips: [
+      "Automatizá los pagos esenciales para evitar moras.",
+      "Revisá anual o semestralmente cada fijo para buscar optimizaciones.",
+    ],
+    relatedConcepts: ["presupuesto-personal", "gastos-variables"],
+    bibliografia: ["Wargo, 2023, Cap. 2."],
+  },
+  {
+    id: "gastos-variables",
+    title: "Gastos variables",
+    icon: FaChartArea,
+    color: "#16A34A",
+    difficulty: "Básico",
+    categoria: "Presupuesto personal o familiar",
+    description:
+      "Gastos que cambian según decisiones o circunstancias: ocio, transporte, alimentos.",
+    detailedExplanation:
+      "A diferencia de los fijos, los variables pueden ajustarse en el corto plazo para mejorar la salud financiera. Identificarlos permite recortar o redirigir gasto hacia objetivos.",
+    examples: [
+      "Comidas fuera, compras no planificadas, combustible según uso.",
+    ],
+    practicalTips: [
+      "Asigná topes claros para categorías variables y monitorealos semanalmente.",
+    ],
+    relatedConcepts: ["gastos-fijos", "presupuesto-personal"],
+    bibliografia: ["Wargo, 2023, Cap. 2."],
+  },
+  {
+    id: "ahorro",
     title: "Ahorro",
     icon: FaPiggyBank,
-    color: "#8B5CF6",
+    color: "#16A34A",
     difficulty: "Básico",
-    description:
-      "Guardar parte de tu dinero para usarlo en el futuro, ya sea para metas específicas o emergencias.",
+    categoria: "Presupuesto personal o familiar",
+    description: "Porción de ingresos que se reserva para metas o imprevistos.",
     detailedExplanation:
-      "Ahorrar es separar una parte de tus monedas en lugar de gastarlas todas. Es como guardar un poco de tu comida favorita para después. El ahorro te da seguridad: si necesitas monedas urgentemente, las tienes disponibles. También te permite alcanzar metas grandes que no podrías pagar de una sola vez. La clave del ahorro exitoso es la constancia: es mejor ahorrar poco pero seguido, que intentar ahorrar mucho de golpe. Incluso pequeñas cantidades se acumulan con el tiempo.",
+      "El ahorro sistemático permite alcanzar objetivos y cubrir emergencias. Debe formarse con disciplina y priorización dentro del presupuesto.",
     examples: [
-      "Ahorras 20 monedas cada semana. En 10 semanas tienes 200 monedas para algo especial",
-      "De cada 100 monedas que ganas, ahorras 20 (regla del 20%)",
-      "Creas un fondo de emergencia: 50 monedas que solo usas si realmente lo necesitas",
-      'Ahorras para un objetivo específico: "Quiero 500 monedas para comprar ese avatar épico"',
+      "Guardar 10% del salario cada mes en una cuenta destinada a un objetivo.",
     ],
     practicalTips: [
-      "Establece una meta de ahorro clara y específica",
-      "Ahorra un porcentaje fijo de cada moneda que ganes (ej: 10% o 20%)",
-      "Crea fondos separados: ahorro para metas, ahorro de emergencia",
-      "Celebra cuando alcances tus metas de ahorro (¡pero sin gastar todo!)",
-      'Haz del ahorro un hábito automático: "Primero ahorro, luego gasto"',
-      "Usa visualizaciones: dibuja un termómetro que sube mientras ahorras",
+      "Automatizá transferencias a una cuenta de ahorro al cobrar.",
+      "Definí metas (corto/mediano/largo plazo) y asigná montos concretos.",
     ],
-    relatedConcepts: ["planned-spending", "investment"],
+    relatedConcepts: ["fondo-emergencia", "presupuesto-personal"],
+    bibliografia: ["Wargo, 2023, Cap. 3."],
   },
   {
-    id: "risk-return",
-    title: "Riesgo vs Retorno",
-    icon: FaBalanceScale,
+    id: "fondo-emergencia",
+    title: "Fondo de emergencia",
+    icon: FaWallet,
+    color: "#16A34A",
+    difficulty: "Básico",
+    categoria: "Presupuesto personal o familiar",
+    description:
+      "Ahorro destinado exclusivamente a cubrir imprevistos y evitar endeudamiento.",
+    detailedExplanation:
+      "Un fondo de emergencia protege contra shocks (pérdida de empleo, salud, reparaciones). Su tamaño recomendado suele ser de 3–6 meses de gastos fijos, según perfil y estabilidad laboral.",
+    examples: [
+      "Cuenta con dinero para cubrir 3 meses de gastos en caso de desempleo.",
+    ],
+    practicalTips: [
+      "No uses el fondo para gastos no urgentes; mantenlo líquido y separado.",
+    ],
+    relatedConcepts: ["ahorro", "presupuesto-personal"],
+    bibliografia: ["Wargo, 2023, Cap. 3."],
+  },
+
+  // 4 - Deuda y sus tipos (6)
+  {
+    id: "deuda-buena",
+    title: "Deuda buena",
+    icon: FaHandHoldingUsd,
+    color: "#DC2626",
+    difficulty: "Intermedio",
+    categoria: "Deuda y sus tipos",
+    description:
+      "Deuda utilizada para financiar activos que generan ingresos o aumentan el patrimonio.",
+    detailedExplanation:
+      "La deuda buena se aplica en inversión productiva: educación que mejora ingresos, una vivienda que se valoriza o un préstamo para expandir un negocio con retorno positivo.",
+    examples: [
+      "Crédito estudiantil (si mejora perspectivas de ingreso), préstamo hipotecario para residencia.",
+    ],
+    practicalTips: [
+      "Analizá tasa vs retorno esperado antes de tomar deuda para invertir.",
+    ],
+    relatedConcepts: ["deuda-mala", "interes"],
+    bibliografia: ["Wargo, 2023, Cap. 4."],
+  },
+  {
+    id: "deuda-mala",
+    title: "Deuda mala",
+    icon: FaArrowDown,
+    color: "#DC2626",
+    difficulty: "Intermedio",
+    categoria: "Deuda y sus tipos",
+    description:
+      "Deuda que financia consumo sin retorno económico y suele tener alto costo.",
+    detailedExplanation:
+      "La deuda mala es aquella contraída para consumir hoy sin generar valor futuro, como compras impulsivas o consumos financiados con altas tasas que deterioran la salud financiera.",
+    examples: [
+      "Comprar gadgets con tarjeta y pagar solo cuotas mínimas con alto interés.",
+    ],
+    practicalTips: [
+      "Evitá financiar consumo corriente con deuda; priorizá pago de deudas caras.",
+    ],
+    relatedConcepts: ["deuda-buena", "tarjeta-credito"],
+    bibliografia: ["Wargo, 2023, Cap. 4."],
+  },
+  {
+    id: "tarjeta-credito",
+    title: "Tarjeta de crédito",
+    icon: FaFileInvoiceDollar,
+    color: "#DC2626",
+    difficulty: "Básico",
+    categoria: "Deuda y sus tipos",
+    description:
+      "Instrumento de pago que permite comprar ahora y pagar después; genera intereses si no se cancela a término.",
+    detailedExplanation:
+      "La tarjeta es útil para gestión de cash flow y protección en compras, pero su costo puede ser alto si se pagan intereses. Usada bien, aporta beneficios; mal usada, puede llevar a sobreendeudamiento.",
+    examples: [
+      "Comprar online y financiar en cuotas con o sin interés según la oferta.",
+    ],
+    practicalTips: [
+      "Pagá el total siempre que puedas; si usás cuotas, entendé la tasa efectiva.",
+      "Usá recompensas solo si no incrementan el costo real.",
+    ],
+    relatedConcepts: ["deuda-mala", "score-crediticio", "interes"],
+    bibliografia: ["Wargo, 2023, Cap. 4."],
+  },
+  {
+    id: "score-crediticio",
+    title: "Score crediticio",
+    icon: FaChartBar,
+    color: "#DC2626",
+    difficulty: "Intermedio",
+    categoria: "Deuda y sus tipos",
+    description:
+      "Puntaje que refleja tu historial de pago y comportamiento frente a compromisos financieros.",
+    detailedExplanation:
+      "El score resume historial crediticio: puntualidad en pagos, nivel de endeudamiento y antigüedad de cuentas. Afecta la capacidad de acceder a crédito y las condiciones (tasas, plazos).",
+    examples: [
+      "Historial con pagos a tiempo => mejor score => mejores tasas ofertadas.",
+    ],
+    practicalTips: [
+      "Mantené pagos a tiempo y endeudamiento razonable para mejorar score.",
+    ],
+    relatedConcepts: ["tarjeta-credito", "refinanciacion"],
+    bibliografia: ["McConnell et al., 2021, Cap. 35."],
+  },
+  {
+    id: "amortizacion",
+    title: "Amortización",
+    icon: FaChartArea,
+    color: "#DC2626",
+    difficulty: "Intermedio",
+    categoria: "Deuda y sus tipos",
+    description:
+      "Proceso de pago gradual de una deuda, distribuyendo capital e intereses en cuotas.",
+    detailedExplanation:
+      "Las tablas de amortización muestran cuánto del pago mensual es interés y cuánto capital. Entender la amortización ayuda a planificar pagos anticipados y comparar ofertas.",
+    examples: [
+      "Crédito hipotecario con cuota fija mensual que reduce capital a lo largo del tiempo.",
+    ],
+    practicalTips: [
+      "Solicitá la tabla de amortización antes de firmar y evaluá impacto de pagos extra.",
+    ],
+    relatedConcepts: ["interes", "refinanciacion"],
+    bibliografia: ["Wargo, 2023, Cap. 4."],
+  },
+  {
+    id: "riesgo-crediticio",
+    title: "Riesgo crediticio",
+    icon: FaChartPie,
+    color: "#DC2626",
+    difficulty: "Intermedio",
+    categoria: "Deuda y sus tipos",
+    description:
+      "Probabilidad de incumplimiento en el pago de deudas por parte del prestatario.",
+    detailedExplanation:
+      "Evaluar riesgo crediticio es clave para entidades que prestan y para quienes toman deuda: afecta tasas, garantías requeridas y montos aprobados.",
+    examples: [
+      "Persona con ingresos inestables tiene mayor riesgo y puede pagar tasas más altas.",
+    ],
+    practicalTips: [
+      "Antes de tomar deuda, analizá tu capacidad de pago en distintos escenarios.",
+    ],
+    relatedConcepts: ["score-crediticio", "deuda-buena"],
+    bibliografia: ["McConnell et al., 2021, Cap. 35."],
+  },
+
+  // 5 - Interés compuesto y valor del dinero en el tiempo (4)
+  {
+    id: "interes-simple",
+    title: "Interés simple",
+    icon: FaArrowDown,
+    color: "#7C3AED",
+    difficulty: "Básico",
+    categoria: "Interés compuesto y valor del dinero en el tiempo",
+    description:
+      "Interés calculado únicamente sobre el capital inicial; crecimiento lineal.",
+    detailedExplanation:
+      "El interés simple no capitaliza; cada periodo se calcula sobre el capital original. Es más fácil de entender, pero menos poderoso para generar riqueza que el interés compuesto.",
+    examples: [
+      "Préstamo de $1000 al 5% anual => 50$ anuales en interés (siempre sobre 1000$).",
+    ],
+    practicalTips: [
+      "Sos consciente si una oferta usa interés simple; comparar con ofertas capitalizadas.",
+    ],
+    relatedConcepts: ["interes-compuesto", "valor-temporal-dinero"],
+    bibliografia: ["Sowell, 2015, Cap. 10."],
+  },
+  {
+    id: "interes-compuesto",
+    title: "Interés compuesto",
+    icon: FaArrowUp,
+    color: "#7C3AED",
+    difficulty: "Intermedio",
+    categoria: "Interés compuesto y valor del dinero en el tiempo",
+    description:
+      "Interés que se calcula sobre el capital más los intereses ya generados; efecto acelerador.",
+    detailedExplanation:
+      "El interés compuesto produce crecimiento exponencial: los intereses ganan intereses. Es la fuerza principal detrás del crecimiento de largo plazo en inversiones y es clave para planificar el ahorro.",
+    examples: [
+      "Invertir $1.000 al 5% compuesto anual => al año 1.050$, al año 2 ~1.102,50$.",
+    ],
+    practicalTips: [
+      "Empezá a invertir temprano: compounding trabaja mejor con tiempo.",
+    ],
+    relatedConcepts: ["valor-temporal-dinero", "erosion-tiempo"],
+    bibliografia: ["Wargo, 2023, Cap. 5.", "Sowell, 2015, Cap. 10."],
+  },
+  {
+    id: "valor-temporal-dinero",
+    title: "Valor temporal del dinero",
+    icon: FaChartLine,
+    color: "#7C3AED",
+    difficulty: "Intermedio",
+    categoria: "Interés compuesto y valor del dinero en el tiempo",
+    description:
+      "Principio que indica que una suma hoy vale más que la misma suma en el futuro.",
+    detailedExplanation:
+      "Una suma disponible hoy puede invertirse para generar rendimientos; además, la inflación erosiona valor. Por eso se descuentan flujos futuros para compararlos en términos presentes.",
+    examples: [
+      "Comparar recibir $100 hoy vs $110 en 1 año; depende de la tasa de descuento.",
+    ],
+    practicalTips: [
+      "Usá tasas de descuento realistas para evaluar proyectos o inversiones personales.",
+    ],
+    relatedConcepts: ["interes-compuesto", "tasa-descuento"],
+    bibliografia: ["Komlos, 2023, Cap. 8."],
+  },
+  {
+    id: "tasa-descuento",
+    title: "Tasa de descuento",
+    icon: FaChartBar,
+    color: "#7C3AED",
+    difficulty: "Avanzado",
+    categoria: "Interés compuesto y valor del dinero en el tiempo",
+    description:
+      "Tasa usada para convertir flujos futuros en su valor presente.",
+    detailedExplanation:
+      "La tasa refleja la preferencia temporal y el riesgo. Elegirla correctamente es clave para valuaciones, comparaciones entre alternativas y decisiones de inversión.",
+    examples: [
+      "Usar 8% anual para traer a presente los flujos esperados de un proyecto.",
+    ],
+    practicalTips: [
+      "Aumentá la tasa cuando el proyecto tenga más incertidumbre.",
+    ],
+    relatedConcepts: ["valor-temporal-dinero", "interes-compuesto"],
+    bibliografia: ["Komlos, 2023, Cap. 8."],
+  },
+
+  // 6 - Instituciones financieras (3)
+  {
+    id: "bancos",
+    title: "Bancos",
+    icon: FaUniversity,
+    color: "#0F172A",
+    difficulty: "Básico",
+    categoria: "Instituciones financieras",
+    description:
+      "Entidades que intermedian entre ahorristas y prestatarios: administran depósitos y otorgan créditos.",
+    detailedExplanation:
+      "Los bancos facilitan la circulación del dinero, gestionan pagos, ofrecen productos de ahorro e inversión y evalúan riesgo crediticio. Son regulados y supervisados para garantizar estabilidad financiera.",
+    examples: ["Cuentas corrientes, depósitos a plazo, préstamos personales."],
+    practicalTips: [
+      "Compará condiciones (tasas, comisiones) entre entidades antes de elegir productos.",
+    ],
+    relatedConcepts: [
+      "cooperativas-de-credito",
+      "servicios-financieros-basicos",
+    ],
+    bibliografia: ["McConnell et al., 2021, Cap. 34."],
+  },
+  {
+    id: "cooperativas-de-credito",
+    title: "Cooperativas de crédito",
+    icon: FaLandmark,
+    color: "#0F172A",
+    difficulty: "Básico",
+    categoria: "Instituciones financieras",
+    description:
+      "Entidades financieras sin fines de lucro que prestan servicios a sus miembros con condiciones más cooperativas.",
+    detailedExplanation:
+      "Las cooperativas suelen ofrecer tasas más favorables para socios, promueven inclusión financiera y se centran en el beneficio de sus miembros en lugar de maximizar utilidades.",
+    examples: [
+      "Cuentas y microcréditos con condiciones preferenciales para asociados.",
+    ],
+    practicalTips: [
+      "Evaluá requisitos y servicios: en algunos casos conviene por tasas y atención personalizada.",
+    ],
+    relatedConcepts: ["bancos"],
+    bibliografia: ["Wargo, 2023, Cap. 6."],
+  },
+  {
+    id: "servicios-financieros-basicos",
+    title: "Servicios financieros básicos",
+    icon: FaChartPie,
+    color: "#0F172A",
+    difficulty: "Básico",
+    categoria: "Instituciones financieras",
+    description:
+      "Conjunto de servicios que facilitan la participación en la economía formal: cuentas, transferencias, créditos y seguros.",
+    detailedExplanation:
+      "Estos servicios permiten pagos eficientes, ahorro, acceso a crédito y protección ante riesgos. La accesibilidad y transparencia en condiciones son esenciales para inclusión financiera.",
+    examples: [
+      "Cuenta bancaria, tarjeta de débito, transferencias, microseguros.",
+    ],
+    practicalTips: [
+      "Usá servicios básicos para construir historial y mejorar acceso a productos más complejos.",
+    ],
+    relatedConcepts: ["bancos", "cooperativas-de-credito"],
+    bibliografia: ["McConnell et al., 2021, Cap. 34."],
+  },
+
+  // 7 - Inversión (6)
+  {
+    id: "depositos-bonos",
+    title: "Depósitos y bonos",
+    icon: FaCoins,
+    color: "#059669",
+    difficulty: "Básico",
+    categoria: "Inversión",
+    description:
+      "Instrumentos de renta fija: depósitos bancarios y bonos que pagan intereses predecibles.",
+    detailedExplanation:
+      "Son opciones conservadoras para inversores que buscan previsibilidad. Los bonos pueden ser emitidos por gobiernos o empresas y ofrecen rendimientos según plazo y riesgo del emisor.",
+    examples: ["Plazo fijo bancario, bono soberano a 2 años."],
+    practicalTips: [
+      "Considerá liquidez y riesgo del emisor antes de invertir.",
+    ],
+    relatedConcepts: ["plazo-fijo", "fondos-mutuales"],
+    bibliografia: ["Wargo, 2023, Cap. 5."],
+  },
+  {
+    id: "acciones",
+    title: "Acciones",
+    icon: FaChartLine,
+    color: "#059669",
+    difficulty: "Intermedio",
+    categoria: "Inversión",
+    description:
+      "Participaciones en el capital de una empresa que pueden generar dividendos y apreciación de precio.",
+    detailedExplanation:
+      "Invertir en acciones implica asumir mayor volatilidad y riesgo, pero con potencial de mayores rendimientos en el largo plazo. Requiere entender la empresa y el mercado.",
+    examples: ["Comprar acciones de una compañía que proyecta crecimiento."],
+    practicalTips: [
+      "Diversificá y analizá métricas clave (P/E, crecimiento, deuda).",
+    ],
+    relatedConcepts: ["fondos-mutuales", "diversificacion"],
+    bibliografia: ["Sowell, 2015, Cap. 11."],
+  },
+  {
+    id: "fondos-mutuales",
+    title: "Fondos comunes de inversión (FCI)",
+    icon: FaChartArea,
+    color: "#059669",
+    difficulty: "Básico",
+    categoria: "Inversión",
+    description:
+      "Vehículos que agrupan dinero de varios inversores para diversificar y profesionalizar la gestión.",
+    detailedExplanation:
+      "Los FCI permiten acceder a carteras diversificadas administradas por gestores profesionales. Hay fondos de renta fija, variable, mixtos y de mercado monetario según perfil de riesgo.",
+    examples: [
+      "Un fondo que combina bonos y acciones para balancear riesgo y retorno.",
+    ],
+    practicalTips: [
+      "Analizá comisiones y horizonte de inversión antes de entrar.",
+    ],
+    relatedConcepts: ["acciones", "diversificacion"],
+    bibliografia: ["Wargo, 2023, Cap. 5."],
+  },
+  {
+    id: "diversificacion",
+    title: "Diversificación",
+    icon: FaChartPie,
+    color: "#059669",
+    difficulty: "Intermedio",
+    categoria: "Inversión",
+    description:
+      "Estrategia que reparte inversiones para reducir el riesgo total del portafolio.",
+    detailedExplanation:
+      "No poner todos los huevos en la misma canasta reduce la probabilidad de pérdidas catastróficas: combinar activos, geografías y sectores suaviza la volatilidad.",
+    examples: [
+      "Tener bonos, acciones y efectivo en diferentes industrias y países.",
+    ],
+    practicalTips: [
+      "Diversificá también por horizonte temporal: activos líquidos vs ilíquidos.",
+    ],
+    relatedConcepts: ["fondos-mutuales", "acciones", "depositos-bonos"],
+    bibliografia: ["Komlos, 2023, Cap. 9."],
+  },
+  {
+    id: "liquidez-activos",
+    title: "Liquidez de activos",
+    icon: FaWallet,
+    color: "#059669",
+    difficulty: "Básico",
+    categoria: "Inversión",
+    description:
+      "Facilidad con la que un activo puede convertirse en efectivo sin perder valor.",
+    detailedExplanation:
+      "Activos como efectivo o depósitos a la vista son muy líquidos; bienes inmuebles o algunos bonos pueden tardar en venderse. La liquidez afecta la capacidad de responder a emergencias o aprovechar oportunidades.",
+    examples: [
+      "Vender acciones en un mercado activo vs vender una propiedad que puede tardar meses.",
+    ],
+    practicalTips: [
+      "Mantené una parte líquida para emergencias y mantén iliquidez con propósito (rendimiento).",
+    ],
+    relatedConcepts: ["depositos-bonos", "fondo-emergencia"],
+    bibliografia: ["Wargo, 2023, Cap. 5."],
+  },
+  {
+    id: "criptomonedas",
+    title: "Criptomonedas",
+    icon: FaChartArea,
+    color: "#059669",
+    difficulty: "Avanzado",
+    categoria: "Inversión",
+    description:
+      "Activos digitales descentralizados negociados en mercados digitales, con alta volatilidad.",
+    detailedExplanation:
+      "Las criptomonedas ofrecen oportunidades de retorno y riesgos particulares (volatilidad, regulación, seguridad). Son instrumentos especulativos que requieren conocimiento y tolerancia al riesgo.",
+    examples: ["Bitcoin, Ethereum y tokens con casos de uso específicos."],
+    practicalTips: [
+      "Si invertís, hacelo con capital que estés dispuesto a perder y diversificá.",
+    ],
+    relatedConcepts: ["acciones", "diversificacion"],
+    bibliografia: [
+      "Sowell, 2015 (contexto de riesgo), Komlos, 2023 (mercados modernos).",
+    ],
+  },
+
+  // 8 - Políticas macroeconómicas relevantes (3)
+  {
+    id: "politica-fiscal",
+    title: "Política fiscal",
+    icon: FaGavel,
+    color: "#F97316",
+    difficulty: "Intermedio",
+    categoria: "Políticas macroeconómicas relevantes",
+    description:
+      "Uso del gasto público y los impuestos para influir en la actividad económica y el empleo.",
+    detailedExplanation:
+      "La política fiscal afecta demanda agregada a través de gasto e impuestos. Puede estimular la economía (gasto público) o enfriar el crecimiento (austeridad). Sus efectos dependen de la situación macro y del tiempo de implementación.",
+    examples: ["Aumentar inversión pública para impulsar empleo en recesión."],
+    practicalTips: [
+      "Entendé cómo cambios en impuestos o subsidios pueden impactar precios y empleo.",
+    ],
+    relatedConcepts: ["politica-monetaria", "impuestos-ingresos"],
+    bibliografia: ["Komlos, 2023, Cap. 9."],
+  },
+  {
+    id: "politica-monetaria",
+    title: "Política monetaria",
+    icon: FaUniversity,
+    color: "#F97316",
+    difficulty: "Intermedio",
+    categoria: "Políticas macroeconómicas relevantes",
+    description:
+      "Acciones del banco central sobre oferta monetaria y tasas para controlar inflación y estabilidad.",
+    detailedExplanation:
+      "La política monetaria usa herramientas (tasas, operaciones de mercado abierto) para influir en crédito, gasto e inflación. Sus decisiones impactan mortalmente en tasas de interés y costo del crédito.",
+    examples: [
+      "Subir tasas para frenar inflación; bajar tasas para estimular inversión.",
+    ],
+    practicalTips: [
+      "Cuando las tasas suben, los costos de crédito aumentan y los activos de renta fija rinden más.",
+    ],
+    relatedConcepts: ["bancos-centrales", "inflacion"],
+    bibliografia: ["McConnell et al., 2021, Cap. 14."],
+  },
+  {
+    id: "bancos-centrales",
+    title: "Bancos centrales",
+    icon: FaLandmark,
+    color: "#F97316",
+    difficulty: "Intermedio",
+    categoria: "Políticas macroeconómicas relevantes",
+    description:
+      "Instituciones encargadas de emitir moneda, regular la oferta y mantener estabilidad de precios.",
+    detailedExplanation:
+      "El banco central define objetivos de inflación, regula el sistema financiero y actúa como prestamista de última instancia. Sus decisiones afectan directamente el poder adquisitivo y el costo del dinero.",
+    examples: [
+      "Decisión de la autoridad monetaria de modificar la tasa de referencia.",
+    ],
+    practicalTips: [
+      "SeguÍ comunicados del banco central para anticipar movimientos en tasas y mercados.",
+    ],
+    relatedConcepts: ["politica-monetaria", "inflacion"],
+    bibliografia: ["McConnell et al., 2021, Cap. 15."],
+  },
+
+  // 9 - Aspectos legales e impositivos (3)
+  {
+    id: "impuestos-ingresos",
+    title: "Impuestos sobre ingresos",
+    icon: FaFileInvoiceDollar,
     color: "#EF4444",
-    difficulty: "Avanzado",
+    difficulty: "Básico",
+    categoria: "Aspectos legales e impositivos",
     description:
-      "A mayor riesgo, mayor posible ganancia, pero también mayor posible pérdida.",
+      "Tributos que gravan las ganancias de personas y empresas, habitualmente con estructura progresiva.",
     detailedExplanation:
-      'El concepto de riesgo vs retorno es fundamental en inversiones. En términos simples: si quieres ganar mucho, tienes que arriesgar más, pero también podrías perder. Es como en un videojuego: las misiones difíciles dan más recompensas, pero también es más probable que falles. En finanzas, una inversión "segura" te da pocas ganancias pero casi no hay riesgo de perder. Una inversión "arriesgada" puede darte muchas ganancias, pero también podrías perder tu dinero. La clave es encontrar el balance correcto según tu situación y cuánto estás dispuesto a arriesgar.',
-    examples: [
-      "Inversión segura: Depositas 100 monedas y ganas 5 monedas garantizadas (+5%)",
-      "Inversión moderada: Depositas 100 monedas, puedes ganar 15 o perder 5 (+15% / -5%)",
-      "Inversión arriesgada: Depositas 100 monedas, puedes ganar 50 o perder 30 (+50% / -30%)",
-      "Competencia: Apuestas 50 monedas. Si ganas el torneo, recibes 200. Si pierdes, pierdes las 50",
-    ],
+      "Los impuestos sobre la renta financian servicios públicos y redistribuyen renta. Su diseño (tasas, deducciones) afecta incentivos laborales y de inversión.",
+    examples: ["Gravar salarios y utilidades con escalas progresivas."],
     practicalTips: [
-      "Nunca arriesgues dinero que no puedes permitirte perder",
-      "Empieza con inversiones de bajo riesgo hasta entender cómo funcionan",
-      "Diversifica: no pongas todo tu dinero en una inversión arriesgada",
-      "Lee bien la información: ¿cuál es el mejor y peor escenario posible?",
-      "Pregúntate: ¿cómo me sentiría si pierdo este dinero?",
-      "El riesgo no es malo, pero debe ser calculado e informado",
+      "Planificá legalmente para optimizar carga fiscal (deducciones autorizadas).",
     ],
-    relatedConcepts: ["investment", "savings"],
+    relatedConcepts: ["impuestos-consumo", "regulaciones-financieras"],
+    bibliografia: ["McConnell et al., 2021, Cap. 20."],
   },
   {
-    id: "compound-interest",
-    title: "Interés Compuesto",
-    icon: FaRocket,
-    color: "#06B6D4",
-    difficulty: "Avanzado",
+    id: "impuestos-consumo",
+    title: "Impuestos al consumo (IVA)",
+    icon: FaFileInvoiceDollar,
+    color: "#EF4444",
+    difficulty: "Básico",
+    categoria: "Aspectos legales e impositivos",
     description:
-      "Ganar dinero no solo sobre tu inversión inicial, sino también sobre las ganancias anteriores.",
+      "Tributos aplicados sobre la compra de bienes y servicios, usualmente indirectos.",
     detailedExplanation:
-      'El interés compuesto es uno de los conceptos más poderosos en finanzas. Albert Einstein supuestamente lo llamó "la octava maravilla del mundo". Funciona así: cuando inviertes dinero y ganas intereses, en lugar de retirar esas ganancias, las dejas invertidas. Entonces, la próxima vez, ganas intereses sobre tu inversión original MÁS sobre los intereses que ya ganaste. Es como una bola de nieve que rueda cuesta abajo: empieza pequeña pero se hace cada vez más grande. Con tiempo y paciencia, el interés compuesto puede hacer crecer tu dinero de forma increíble.',
+      "El IVA grava el consumo y es recaudado por empresas que actúan como agentes de retención. Afecta precios finales y tiene efectos distributivos distintos al impuesto sobre la renta.",
+    examples: ["IVA aplicado a productos y servicios en el punto de venta."],
+    practicalTips: [
+      "Entendé qué bienes/servicios están exentos o con tasa reducida en tu jurisdicción.",
+    ],
+    relatedConcepts: ["impuestos-ingresos", "retencion"],
+    bibliografia: ["Komlos, 2023, Cap. 9."],
+  },
+  {
+    id: "regulaciones-financieras",
+    title: "Regulaciones financieras",
+    icon: FaGavel,
+    color: "#EF4444",
+    difficulty: "Intermedio",
+    categoria: "Aspectos legales e impositivos",
+    description:
+      "Normas que buscan transparencia, estabilidad y protección al consumidor en el sistema financiero.",
+    detailedExplanation:
+      "Las regulaciones establecen requisitos de capital, controles contra lavado, protección de datos y disposición para evitar crisis sistémicas. Comprenderlas ayuda a evaluar riesgo regulatorio en inversiones y negocios.",
     examples: [
-      "Año 1: Inviertes 100 monedas al 10%. Al final tienes 110 monedas",
-      "Año 2: Los 110 generan 10% más = 121 monedas (no 120, porque ganaste sobre 110)",
-      "Año 3: Los 121 generan 10% más = 133 monedas",
-      "En 10 años, tus 100 monedas se convierten en 259 monedas sin agregar nada más",
-      "Si además agregas 10 monedas cada mes, el crecimiento es aún más rápido",
+      "Requerimientos de capital para bancos, límites a prácticas abusivas de crédito.",
     ],
     practicalTips: [
-      "Empieza a invertir lo antes posible: el tiempo es tu mejor aliado",
-      "Reinvierte las ganancias en lugar de gastarlas para aprovechar el efecto compuesto",
-      "Sé consistente: invierte regularmente, aunque sean cantidades pequeñas",
-      "Ten paciencia: el interés compuesto necesita tiempo para mostrar su magia",
-      "Usa calculadoras de interés compuesto para ver cómo crece tu dinero",
-      "Recuerda: pequeñas diferencias en tasas hacen grandes diferencias con el tiempo",
+      "Mantenete actualizado sobre cambios regulatorios que afecten tus inversiones o negocio.",
     ],
-    relatedConcepts: ["investment", "savings"],
+    relatedConcepts: ["bancos", "impuestos-ingresos"],
+    bibliografia: ["Wargo, 2023, Cap. 7.", "McConnell et al., 2021, Cap. 34."],
+  },
+
+  // 10 - Educación financiera conductual (2)
+  {
+    id: "sesgos-cognitivos",
+    title: "Sesgos cognitivos",
+    icon: FaBrain,
+    color: "#6366F1",
+    difficulty: "Intermedio",
+    categoria: "Educación financiera conductual",
+    description:
+      "Errores sistemáticos en el juicio que afectan la toma de decisiones financieras.",
+    detailedExplanation:
+      "Sesgos como la aversión a la pérdida, exceso de confianza o anclaje influyen en decisiones de inversión y consumo. Conocerlos ayuda a diseñar estrategias que minimicen decisiones irracionales.",
+    examples: [
+      "Vender en pánico tras una caída de mercado (aversión a la pérdida).",
+    ],
+    practicalTips: [
+      "Usá reglas automáticas (aportes sistemáticos) para mitigar sesgos.",
+    ],
+    relatedConcepts: [
+      "decisiones-irracionales",
+      "mentalidad-habitos-financieros",
+    ],
+    bibliografia: ["Komlos, 2023, Cap. 2."],
+  },
+  {
+    id: "mentalidad-habitos-financieros",
+    title: "Mentalidad y hábitos financieros",
+    icon: FaRegSmileBeam,
+    color: "#6366F1",
+    difficulty: "Básico",
+    categoria: "Educación financiera conductual",
+    description:
+      "Disciplina, paciencia y hábitos que sostienen la salud financiera a largo plazo.",
+    detailedExplanation:
+      "Más allá del conocimiento técnico, la constancia en hábitos (ahorro, presupuesto, revisar inversiones) y la mentalidad adecuada son determinantes para el bienestar financiero.",
+    examples: [
+      "Ahorrar mensualmente de forma automática en vez de depender de la voluntad del momento.",
+    ],
+    practicalTips: [
+      "Creá rutinas simples: revisar presupuesto semanal y metas mensuales.",
+    ],
+    relatedConcepts: ["ahorro", "fondo-emergencia"],
+    bibliografia: ["Wargo, 2023, Cap. 1.", "Komlos, 2023, Cap. 2."],
   },
 ];
 
