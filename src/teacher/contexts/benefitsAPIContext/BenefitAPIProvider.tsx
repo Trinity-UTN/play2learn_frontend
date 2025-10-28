@@ -28,8 +28,9 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [benefits, setBenefits] = useState<BenefitResponseInterface[]>([]);
-  const [selectedBenefit, setSelectedBenefit] =
-    useState<BenefitPurchaseSimpleResponse | null>(null);
+  const [benefitPurchases, setBenefitPurchases] = useState<
+    BenefitPurchaseSimpleResponse[]
+  >([]);
   const [paginatedBenefits, setPaginatedBenefits] =
     useState<PaginatedData<BenefitResponseInterface> | null>(null);
   const [paginatedBenefitsUseRequested, setPaginatedBenefitsUseRequested] =
@@ -48,16 +49,18 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     }
   }, []);
 
-  const getBenefitDataById = useCallback(
-    async (benefitId: number): Promise<void> => {
+  const getBenefitPurchases = useCallback(
+    async (benefitId: number): Promise<BenefitPurchaseSimpleResponse[]> => {
       setLoading(true);
       try {
-        const response = await BenefitTeacherService.getBenefitDataByIdApi(
+        const response = await BenefitTeacherService.getBenefitPurchasesApi(
           benefitId
         );
-        setSelectedBenefit(response.data);
+        setBenefitPurchases(response.data.data);
+        return response.data.data;
       } catch (error) {
-        handleApiError(error, "Error al obtener el beneficio");
+        handleApiError(error, "Error al obtener las compras del beneficio");
+        return [];
       } finally {
         setLoading(false);
       }
@@ -83,15 +86,14 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     []
   );
 
-  const getPaginatedUBenefitsUseRequested = useCallback(
+  const getPaginatedBenefitsUseRequested = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
       try {
         const response =
-          await BenefitTeacherService.getPaginatedUBenefitsUseRequestedApi(
+          await BenefitTeacherService.getPaginatedBenefitsUseRequestedApi(
             params
           );
-
         setPaginatedBenefitsUseRequested(response.data);
       } catch (error) {
         handleApiError(error, "Error al obtener los beneficios paginados");
@@ -159,15 +161,15 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     // Estados generales
     loading,
     benefits,
-    selectedBenefit,
+    benefitPurchases,
     paginatedBenefits,
     paginatedBenefitsUseRequested,
 
     // Funciones principales
     getBenefits,
-    getBenefitDataById,
+    getBenefitPurchases,
     getPaginatedBenefits,
-    getPaginatedUBenefitsUseRequested,
+    getPaginatedBenefitsUseRequested,
     registerBenefit,
     acceptUseBenefit,
     deleteBenefit,

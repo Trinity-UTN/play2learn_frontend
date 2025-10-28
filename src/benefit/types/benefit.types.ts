@@ -121,6 +121,10 @@ export type AnyBenefit =
   | BenefitStudentResponseInterface
   | CreateBenefitInterface;
 
+export type TeacherBenefitType =
+  | BenefitResponseInterface
+  | BenefitUseRequestedResponseInterface;
+
 // ==================== PAGINACIÓN Y STATS ====================
 
 export interface PaginatedBenefitResponseInterface {

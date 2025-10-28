@@ -1,6 +1,7 @@
 import { BaseBenefitService } from "../../../benefit/services/BaseBenefitService";
 import type {
   CreateBenefitInterface,
+  BenefitPurchaseSimpleResponse,
   PaginatedBenefitResponseInterface,
   PaginatedBenefitUseRequestedResponseInterface,
 } from "../../../benefit/types/benefit.types";
@@ -14,8 +15,13 @@ export const BenefitTeacherService = {
     return response;
   },
 
-  getBenefitDataByIdApi: async (benefitId: number) => {
-    const response = await api.get(urls.BenefitById(benefitId));
+  getBenefitPurchasesApi: async (benefitId: number) => {
+    const response = await api.get<{
+      data: BenefitPurchaseSimpleResponse[];
+      message: string;
+      errors: any;
+      timestamp: string;
+    }>(urls.BenefitPurchases(benefitId));
     return response;
   },
 
@@ -25,7 +31,7 @@ export const BenefitTeacherService = {
       params
     ),
 
-  getPaginatedUBenefitsUseRequestedApi: (params: GetPaginated) =>
+  getPaginatedBenefitsUseRequestedApi: (params: GetPaginated) =>
     BaseBenefitService.getPaginated<PaginatedBenefitUseRequestedResponseInterface>(
       urls.PaginatedBenefitUseRequested,
       params

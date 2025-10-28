@@ -1,5 +1,10 @@
 import { useMemo } from "react";
-import type { AnyBenefit, BenefitVariant } from "../types/benefit.types";
+import { FaGift } from "react-icons/fa";
+import type {
+  AnyBenefit,
+  BenefitVariant,
+  TeacherBenefitType,
+} from "../types/benefit.types";
 import { getSubjectColor } from "../../shared/constants/subject.constants";
 import {
   getIconByValue,
@@ -10,11 +15,13 @@ import {
   getPurchaseLimitPerStudent,
   isTeacherBenefit,
   isStudentBenefit,
+  isFullBenefitResponse,
+  hasBenefitBasicProperties,
 } from "../utils/benefit.utils";
 import { shouldShowBenefitStats } from "../utils/benefit.validation";
 
 interface UseBenefitCardDataProps {
-  benefit: AnyBenefit;
+  benefit: AnyBenefit | TeacherBenefitType;
   variant: BenefitVariant;
   isPreview: boolean;
 }
@@ -25,10 +32,19 @@ export const useBenefitCardData = ({
   isPreview,
 }: UseBenefitCardDataProps) => {
   const data = useMemo(() => {
-    // Iconos y colores básicos
-    const IconComponent = getIconByValue(benefit.icon);
-    const iconColor = getColorByValue(benefit.color);
-    const category = getCategoryByValue(benefit.category);
+    const hasFullProperties = isFullBenefitResponse(benefit);
+    const hasBasicProperties = hasBenefitBasicProperties(benefit);
+
+    // Iconos y colores básicos - use defaults if not available
+    const IconComponent = hasFullProperties
+      ? getIconByValue(benefit.icon)
+      : FaGift;
+    const iconColor = hasFullProperties
+      ? getColorByValue(benefit.color)
+      : "#94a3b8";
+    const category = hasFullProperties
+      ? getCategoryByValue(benefit.category)
+      : undefined;
     const styleSuffix = variant === "student" ? "Student" : "Teacher";
 
     // Límites de compra
@@ -37,20 +53,32 @@ export const useBenefitCardData = ({
 
     // Flags de visualización
     const hasEndDate =
-      isTeacherBenefit(benefit) || isStudentBenefit(benefit) || benefit.endAt;
+      isTeacherBenefit(benefit) ||
+      isStudentBenefit(benefit) ||
+      ("endAt" in benefit && !!benefit.endAt);
     const showStats =
       variant === "teacher" ||
       (isStudentBenefit(benefit) && shouldShowBenefitStats(benefit));
 
-    // Textos
-    const descriptionText =
-      benefit.description ||
-      (isPreview ? "Descripción del beneficio aparecerá aquí..." : "");
+    // Textos con Type Guards
+    const benefitName = hasBasicProperties
+      ? benefit.name
+      : isPreview
+      ? "Nombre del Beneficio"
+      : "";
+
+    const benefitCost = hasBasicProperties ? benefit.cost : 0;
+
+    const descriptionText = hasBasicProperties
+      ? benefit.description
+      : isPreview
+      ? "Descripción del beneficio aparecerá aquí..."
+      : "";
 
     // Subject name según tipo de benefit
     const getSubjectName = () => {
-      if ("subjectDto" in benefit) {
-        return benefit.subjectDto?.name;
+      if ("subjectDto" in benefit && benefit.subjectDto) {
+        return benefit.subjectDto.name;
       }
       if ("subjectName" in benefit) {
         return benefit.subjectName;
@@ -60,9 +88,10 @@ export const useBenefitCardData = ({
 
     const subjectName = getSubjectName();
     const subjectColor = subjectName ? getSubjectColor(subjectName) : null;
-    const categoryColor = benefit.category
-      ? getCategoryColor(benefit.category)
-      : null;
+    const categoryColor =
+      hasFullProperties && benefit.category
+        ? getCategoryColor(benefit.category)
+        : { bg: "#f3f4f6", text: "#374151" };
 
     return {
       IconComponent,
@@ -73,10 +102,14 @@ export const useBenefitCardData = ({
       purchaseLimitPerStudent,
       hasEndDate,
       showStats,
+      benefitName,
+      benefitCost,
       descriptionText,
       subjectName,
       subjectColor,
       categoryColor,
+      hasFullProperties,
+      hasBasicProperties,
     };
   }, [benefit, variant, isPreview]);
 

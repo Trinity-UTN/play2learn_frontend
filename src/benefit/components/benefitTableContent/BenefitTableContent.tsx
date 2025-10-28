@@ -6,13 +6,14 @@ import type {
   BenefitStudentResponseInterface,
   AnyBenefit,
   BenefitVariant,
+  TeacherBenefitType,
 } from "../../types/benefit.types";
 import { formatBenefitDate } from "../../utils/benefit.utils";
 import { useBenefitTableData } from "../../hooks/useBenefitTableData";
 import styles from "./BenefitTableContent.module.css";
 
 interface BenefitTableContentProps {
-  benefit: AnyBenefit;
+  benefit: AnyBenefit | TeacherBenefitType;
   variant: BenefitVariant;
   actionButton?: React.ReactNode;
   showStatsColumns?: boolean;
@@ -31,6 +32,9 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
     showStats,
     categoryName,
     categoryColor,
+    benefitName,
+    benefitDescription,
+    benefitCost,
     subjectName,
     subjectColor,
   } = useBenefitTableData({
@@ -42,7 +46,8 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
   const isTeacherVariant = variant === "teacher";
   const benefitWithLimits = benefit as
     | BenefitResponseInterface
-    | BenefitStudentResponseInterface;
+    | BenefitStudentResponseInterface
+    | TeacherBenefitType;
 
   return (
     <>
@@ -57,7 +62,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
           </div>
           <div className={styles.benefitDetails}>
             <span className={styles[`benefitName${styleSuffix}`]}>
-              {benefit.name}
+              {benefitName}
             </span>
             <div className={styles.badges}>
               <span className={styles.benefitCategory}>
@@ -79,9 +84,9 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
 
       {/* Descripción */}
       <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-        <Tooltip content={benefit.description} position="top">
+        <Tooltip content={benefitDescription} position="top">
           <p className={styles[`benefitDescription${styleSuffix}`]}>
-            {benefit.description}
+            {benefitDescription}
           </p>
         </Tooltip>
       </td>
@@ -93,7 +98,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
             <div className={styles.statItem}>
               <FaCoins className={styles.costIcon} />
               <span className={styles[`statValue${styleSuffix}`]}>
-                {benefit.cost}
+                {benefitCost}
               </span>
             </div>
           </td>

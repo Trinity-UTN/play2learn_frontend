@@ -5,6 +5,7 @@ import type {
   BenefitResponseInterface,
   BenefitStudentResponseInterface,
   CreateBenefitInterface,
+  TeacherBenefitType,
 } from "../../types/benefit.types";
 import {
   formatBenefitDate,
@@ -19,7 +20,8 @@ type BenefitCardContentProps = {
   benefit:
     | BenefitResponseInterface
     | BenefitStudentResponseInterface
-    | CreateBenefitInterface;
+    | CreateBenefitInterface
+    | TeacherBenefitType;
   isPreview?: boolean;
   variant?: BenefitVariant;
 };
@@ -38,6 +40,8 @@ const BenefitCardContent = ({
     purchaseLimitPerStudent,
     hasEndDate,
     showStats,
+    benefitName,
+    benefitCost,
     descriptionText,
     subjectName,
     subjectColor,
@@ -55,14 +59,16 @@ const BenefitCardContent = ({
           <IconComponent className={styles.benefitIcon} />
         </div>
         <div className={styles.benefitInfo}>
-          <h3 className={styles[`benefitName${styleSuffix}`]}>
-            {benefit.name || (isPreview ? "Nombre del Beneficio" : "")}
-          </h3>
+          <h3 className={styles[`benefitName${styleSuffix}`]}>{benefitName}</h3>
           <div className={styles.benefitMeta}>
-            {categoryColor && (
+            {category && categoryColor && (
               <Badge variant="custom" size="sm" customColor={categoryColor}>
-                {category?.label ||
-                  (isPreview ? "Categoría" : benefit.category)}
+                {category.label}
+              </Badge>
+            )}
+            {!category && isPreview && categoryColor && (
+              <Badge variant="custom" size="sm" customColor={categoryColor}>
+                Categoría
               </Badge>
             )}
             {subjectName && subjectColor && (
@@ -81,16 +87,11 @@ const BenefitCardContent = ({
       </Tooltip>
 
       {/* Fecha de finalización */}
-      {hasEndDate && (
+      {hasEndDate && "endAt" in benefit && benefit.endAt && (
         <div className={styles.endDateSection}>
           <FaCalendarAlt className={styles.endDateIcon} />
           <span className={styles.endDateText}>
-            Finaliza:{" "}
-            <strong>
-              {benefit.endAt
-                ? formatBenefitDate(benefit.endAt)
-                : "Fecha no especificada"}
-            </strong>
+            Finaliza: <strong>{formatBenefitDate(benefit.endAt)}</strong>
           </span>
         </div>
       )}
@@ -104,7 +105,7 @@ const BenefitCardContent = ({
               <FaCoins className={styles[`costIcon${styleSuffix}`]} />
             </Tooltip>
             <span className={styles[`costValue${styleSuffix}`]}>
-              {benefit.cost || 0} monedas
+              {benefitCost} monedas
             </span>
           </div>
 

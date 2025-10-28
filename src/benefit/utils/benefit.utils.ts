@@ -5,10 +5,12 @@ import type {
   BenefitStudentResponseInterface,
   CreateBenefitInterface,
   AnyBenefit,
+  TeacherBenefitType,
   BenefitVariant,
   Category,
   Color,
   Icon,
+  BenefitUseRequestedResponseInterface,
 } from "../types/benefit.types";
 import {
   BENEFIT_CATEGORIES,
@@ -21,15 +23,23 @@ import {
 // ============================================
 
 export const isTeacherBenefit = (
-  benefit: AnyBenefit
+  benefit: AnyBenefit | TeacherBenefitType
 ): benefit is BenefitResponseInterface => {
-  return "id" in benefit && "purchaseLimit" in benefit;
+  return (
+    "id" in benefit && "purchaseLimit" in benefit && "subjectDto" in benefit
+  );
 };
 
 export const isStudentBenefit = (
-  benefit: AnyBenefit
+  benefit: AnyBenefit | TeacherBenefitType
 ): benefit is BenefitStudentResponseInterface => {
-  return "id" in benefit && "purchasesLeft" in benefit;
+  return (
+    "id" in benefit &&
+    "purchasesLeft" in benefit &&
+    "state" in benefit &&
+    "subjectId" in benefit &&
+    !("subjectDto" in benefit)
+  );
 };
 
 export const isCreateBenefit = (
@@ -38,11 +48,47 @@ export const isCreateBenefit = (
   return !("id" in benefit);
 };
 
+export const isFullBenefitResponse = (
+  benefit: any
+): benefit is BenefitResponseInterface => {
+  return (
+    "id" in benefit &&
+    "icon" in benefit &&
+    "color" in benefit &&
+    "category" in benefit &&
+    "description" in benefit &&
+    "subjectDto" in benefit &&
+    "purchaseLimit" in benefit
+  );
+};
+
+export const isBenefitUseRequested = (
+  benefit: any
+): benefit is BenefitUseRequestedResponseInterface => {
+  return (
+    "id" in benefit &&
+    "state" in benefit &&
+    benefit.state === "USE_REQUESTED" &&
+    "benefitId" in benefit &&
+    "studentName" in benefit
+  );
+};
+
+export const hasBenefitBasicProperties = (
+  benefit: any
+): benefit is
+  | BenefitResponseInterface
+  | BenefitStudentResponseInterface
+  | CreateBenefitInterface => {
+  return "name" in benefit && "description" in benefit && "cost" in benefit;
+};
+
 // ============================================
 // ICON & COLOR UTILITIES
 // ============================================
 
-export const getIconByValue = (icon: Icon): IconType => {
+export const getIconByValue = (icon?: Icon): IconType => {
+  if (!icon) return FaGift;
   const selected = BENEFIT_ICON_OPTIONS.find((option) => option.value === icon);
   return selected ? selected.icon : FaGift;
 };
@@ -92,18 +138,23 @@ export const formatBenefitDate = (dateString: string): string => {
 // PURCHASE LIMIT UTILITIES
 // ============================================
 
-export const getPurchaseLimit = (benefit: AnyBenefit): number | null => {
+export const getPurchaseLimit = (
+  benefit: AnyBenefit | TeacherBenefitType
+): number | null => {
   if (isStudentBenefit(benefit)) {
     return benefit.purchasesLeft;
   }
   if (isTeacherBenefit(benefit)) {
     return benefit.purchaseLimit;
   }
-  return benefit.purchaseLimit;
+  if (isBenefitUseRequested(benefit)) {
+    return null;
+  }
+  return benefit.purchaseLimit ?? null;
 };
 
 export const getPurchaseLimitPerStudent = (
-  benefit: AnyBenefit
+  benefit: AnyBenefit | TeacherBenefitType
 ): number | null => {
   if (isStudentBenefit(benefit)) {
     return benefit.purchasesLeftByStudent;
@@ -111,7 +162,10 @@ export const getPurchaseLimitPerStudent = (
   if (isTeacherBenefit(benefit)) {
     return benefit.purchaseLimitPerStudent;
   }
-  return benefit.purchaseLimitPerStudent;
+  if (isBenefitUseRequested(benefit)) {
+    return null;
+  }
+  return benefit.purchaseLimitPerStudent ?? null;
 };
 
 export const formatPurchaseLimitText = (
@@ -161,12 +215,19 @@ export const calculateUsagePercentage = (
 // ============================================
 
 export const extractUniqueSubjectsFromBenefits = (benefits: any[]) => {
-  const subjectsMap = new Map(
-    benefits.map((b) => [
-      b.subjectId.toString(),
-      { id: b.subjectId.toString(), name: b.subjectName },
-    ])
-  );
+  const subjectsMap = new Map<string, { id: string; name: string }>();
+
+  benefits.forEach((b) => {
+    if (b.subjectId != null && b.subjectName) {
+      const subjectId = b.subjectId.toString();
+      if (!subjectsMap.has(subjectId)) {
+        subjectsMap.set(subjectId, {
+          id: subjectId,
+          name: b.subjectName,
+        });
+      }
+    }
+  });
 
   return [
     { id: "ALL", name: "Todas las materias" },
