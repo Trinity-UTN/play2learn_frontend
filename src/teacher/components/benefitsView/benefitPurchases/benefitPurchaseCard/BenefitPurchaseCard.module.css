@@ -1,0 +1,108 @@
+.purchaseCard {
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.purchaseCard:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.studentInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.studentIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.studentDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.studentName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.badgeIcon {
+  margin-right: 0.25rem;
+}
+
+.statusIcon {
+  margin-right: 0.375rem;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.acceptButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.disabledButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .studentInfo {
+    width: 100%;
+  }
+
+  .cardActions {
+    justify-content: stretch;
+  }
+
+  .acceptButton,
+  .disabledButton {
+    width: 100%;
+    justify-content: center;
+  }
+}

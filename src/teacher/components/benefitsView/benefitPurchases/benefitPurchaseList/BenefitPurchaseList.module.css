@@ -1,0 +1,29 @@
+.purchasesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.emptyText {
+  font-size: 1.125rem;
+  color: #6b7280;
+  text-align: center;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .purchasesList {
+    grid-template-columns: 1fr;
+  }
+}
