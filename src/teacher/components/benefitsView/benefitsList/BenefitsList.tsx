@@ -1,55 +1,41 @@
-import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaGift } from "react-icons/fa";
-import type { GetPaginated } from "../../../../shared/types/PaginacionType";
 import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
 import BenefitCard from "../benefitCardComponent/benefitCard/BenefitCard";
 import BenefitTable from "../benefitTable/BenefitTable";
-import { useBenefitAPI } from "../../../hooks/useBenefitAPI";
+import type { TeacherBenefitType } from "../../../../benefit/types/benefit.types";
 import styles from "./BenefitsList.module.css";
 
 type BenefitsListProps = {
-  paginationParams: GetPaginated;
-  handlePageChange: (page: number) => void;
-  handlePageSizeChange: (pageSize: number) => void;
+  benefits: TeacherBenefitType[];
+  paginationInfo: {
+    currentPage: number;
+    totalPages: number;
+    pageSize: number;
+    totalItems: number;
+    onPageChange: (page: number) => void;
+    onPageSizeChange: (pageSize: number) => void;
+  } | null;
   viewMode: "grid" | "table";
+  loading?: boolean;
 };
 
 const BenefitsList = ({
-  paginationParams,
-  handlePageChange,
-  handlePageSizeChange,
+  benefits,
+  paginationInfo,
   viewMode,
+  loading,
 }: BenefitsListProps) => {
-  const { getPaginatedBenefits, paginatedBenefits } = useBenefitAPI();
-
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
 
-  useEffect(() => {
-    getPaginatedBenefits(paginationParams);
-  }, [paginationParams, getPaginatedBenefits]);
-
   return (
-    <PaginateComponent
-      pagination={
-        paginatedBenefits
-          ? {
-              currentPage: paginatedBenefits.currentPage,
-              totalPages: paginatedBenefits.totalPages,
-              pageSize: paginatedBenefits.pageSize,
-              totalItems: paginatedBenefits.count,
-              onPageChange: handlePageChange,
-              onPageSizeChange: handlePageSizeChange,
-            }
-          : undefined
-      }
-    >
+    <PaginateComponent pagination={paginationInfo || undefined}>
       {viewMode === "grid" ? (
         <div className={styles.benefitsGrid}>
-          {paginatedBenefits?.results.map((benefit) => (
+          {benefits.map((benefit) => (
             <motion.div
               key={benefit.id}
               variants={itemVariants}
@@ -61,11 +47,11 @@ const BenefitsList = ({
           ))}
         </div>
       ) : (
-        <BenefitTable benefits={paginatedBenefits?.results || []} />
+        <BenefitTable benefits={benefits} />
       )}
 
       {/* Sin resultados */}
-      {paginatedBenefits?.results.length === 0 && (
+      {benefits.length === 0 && !loading && (
         <motion.div variants={itemVariants} className={styles.noResults}>
           <FaGift className={styles.noResultsIcon} />
           <h3 className={styles.noResultsTitle}>

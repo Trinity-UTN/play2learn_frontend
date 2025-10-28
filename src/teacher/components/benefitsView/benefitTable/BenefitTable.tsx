@@ -1,23 +1,44 @@
 import { motion } from "framer-motion";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaEye } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import BenefitTableContent from "../../../../benefit/components/benefitTableContent/BenefitTableContent";
-import type { BenefitResponseInterface } from "../../../../benefit/types/benefit.types";
+import type { TeacherBenefitType } from "../../../../benefit/types/benefit.types";
+import { useBenefitTeacherActions } from "../../../hooks/benefits/benefitList/useBenefitTeacherActions";
+import { useBenefitTeacherData } from "../../../hooks/benefits/benefitList/useBenefitTeacherData";
 import styles from "./BenefitTable.module.css";
 
 type BenefitTableProps = {
-  benefits: BenefitResponseInterface[];
+  benefits: TeacherBenefitType[];
 };
 
 const BenefitTable = ({ benefits }: BenefitTableProps) => {
-  const renderBenefitRow = (benefit: BenefitResponseInterface) => {
+  const { handleDeleteBenefit, handleViewPurchases } =
+    useBenefitTeacherActions();
+  const { loading } = useBenefitTeacherData();
+
+  const renderBenefitRow = (benefit: TeacherBenefitType) => {
+    const benefitId = "benefitId" in benefit ? benefit.benefitId : benefit.id;
+    const benefitName =
+      "benefitName" in benefit ? benefit.benefitName : benefit.name;
+
     const actionButton = (
       <>
-        <Button variant="primary" size="sm" className={styles.viewButton}>
-          Ver Canjes
+        <Button
+          variant="primary"
+          size="sm"
+          className={styles.viewButton}
+          onClick={() => handleViewPurchases(benefitId)}
+        >
+          <FaEye /> Ver Canjes
         </Button>
-        <Button variant="ghost" size="sm" className={styles.deleteButton}>
+        <Button
+          variant="ghost"
+          size="sm"
+          className={styles.deleteButton}
+          onClick={() => handleDeleteBenefit(benefitId, benefitName)}
+          disabled={loading}
+        >
           <FaTrash />
         </Button>
       </>

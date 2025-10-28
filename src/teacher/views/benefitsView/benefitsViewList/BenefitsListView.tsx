@@ -3,20 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import BenefitHeader from "../../../components/benefitsView/benefitHeader/BenefitHeader";
 import BenefitsList from "../../../components/benefitsView/benefitsList/BenefitsList";
-import BenefitSearch from "../../../components/benefitsView/benefitSearch/BenefitSearch";
-import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
+import BenefitFilters from "../../../components/benefitsView/benefitFilters/BenefitFilters";
+import { useBenefitTeacherData } from "../../../hooks/benefits/benefitList/useBenefitTeacherData";
 import styles from "./BenefitsListView.module.css";
 
 const BenefitsListView: React.FC = () => {
-  const {
-    paginationParams,
-    handlePageChange,
-    handlePageSizeChange,
-    handleFilter,
-    handleSearch,
-  } = usePaginationParams();
-
   const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
+
+  const {
+    loading,
+    activeStatusFilter,
+    selectedSubject,
+    selectedCategory,
+    setActiveStatusFilter,
+    setSelectedSubject,
+    setSelectedCategory,
+    filteredBenefits,
+    subjects,
+    paginationInfo,
+  } = useBenefitTeacherData();
 
   const navigate = useNavigate();
   const containerVariants = {
@@ -48,21 +53,23 @@ const BenefitsListView: React.FC = () => {
         />
       </motion.div>
 
-      {/* Filtros */}
-      <BenefitSearch
-        handleFilter={handleFilter}
-        handleSearch={handleSearch}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
+      <BenefitFilters
+        activeStatusFilter={activeStatusFilter}
+        selectedCategory={selectedCategory}
+        selectedSubject={selectedSubject}
+        subjects={subjects}
+        onStatusFilterChange={setActiveStatusFilter}
+        onCategoryChange={setSelectedCategory}
+        onSubjectChange={setSelectedSubject}
       />
 
       {/* Benefits List (Grid o Table) */}
       <motion.div variants={itemVariants}>
         <BenefitsList
-          paginationParams={paginationParams}
-          handlePageChange={handlePageChange}
-          handlePageSizeChange={handlePageSizeChange}
+          benefits={filteredBenefits}
+          paginationInfo={paginationInfo}
           viewMode={viewMode}
+          loading={loading}
         />
       </motion.div>
     </motion.div>
