@@ -68,7 +68,11 @@ const ActionDetailView = () => {
               setRange={setRange}
               range={range}
             />
-            <ActionStats action={action} />
+            <AutomationPanel
+              stockId={action.id}
+              currentPrice={action.currentPrice}
+              onSetAutomation={handleSetAutomation}
+            />
           </div>
 
           <div className={styles.tradingSection}>
@@ -78,10 +82,7 @@ const ActionDetailView = () => {
               onSell={handleSell}
               userBalance={userBalance}
             />
-            <AutomationPanel
-              currentPrice={action.currentPrice}
-              onSetAutomation={handleSetAutomation}
-            />
+            <ActionStats action={action} />
           </div>
         </div>
       </motion.div>

@@ -2,7 +2,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useActionsStudent } from "../useActionsStudentAPI";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 import { useEffect, useState } from "react";
-import type { RangeValue, TradeActionsRequest } from "../../types/actions.type";
+import type {
+  RangeValue,
+  TradeActionsRequest,
+  TradeActionStopLimitRequest,
+} from "../../types/actions.type";
 
 export const useActionsDetailsView = () => {
   const navigate = useNavigate();
@@ -13,6 +17,7 @@ export const useActionsDetailsView = () => {
     loading,
     buyActions,
     sellActions,
+    stopActions,
   } = useActionsStudent();
   const { wallet } = useCurrentStudent();
 
@@ -36,9 +41,14 @@ export const useActionsDetailsView = () => {
     sellActions(data);
   };
 
-  const handleSetAutomation = (minPrice: number, maxPrice: number) => {
-    console.log("Configurando automatización:", { minPrice, maxPrice });
-    // TODO: Implementar lógica de automatización
+  const handleSetAutomation = async (data: TradeActionStopLimitRequest) => {
+    const payload: TradeActionStopLimitRequest = {
+      stockId: data.stockId, // o el que corresponda
+      quantity: data.quantity,
+      pricePerUnit: data.pricePerUnit,
+      orderStop: data.orderStop,
+    };
+    await stopActions(payload);
   };
 
   return {

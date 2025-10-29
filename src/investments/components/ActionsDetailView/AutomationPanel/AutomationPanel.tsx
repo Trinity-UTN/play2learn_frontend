@@ -7,27 +7,45 @@ import {
   FaInfoCircle,
 } from "react-icons/fa";
 import styles from "./AutomationPanel.module.css";
+import type { TradeActionStopLimitRequest } from "../../../types/actions.type";
 import { useAutomationPanel } from "../../../hooks/useActions/useAutomationPanel";
+import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
 
 interface AutomationPanelProps {
+  stockId: number;
   currentPrice: number;
-  onSetAutomation: (minPrice: number, maxPrice: number) => void;
+  onSetAutomation: (data: TradeActionStopLimitRequest) => void;
 }
 
 const AutomationPanel: React.FC<AutomationPanelProps> = ({
+  stockId,
   currentPrice,
   onSetAutomation,
 }) => {
   const {
-    minPrice,
-    maxPrice,
-    isActive,
-    isValid,
-    setMinPrice,
-    setMaxPrice,
-    handleActivate,
-    handleDeactivate,
-  } = useAutomationPanel({ currentPrice, onSetAutomation });
+    profitPrice,
+    setProfitPrice,
+    profitQuantity,
+    setProfitQuantity,
+    isProfitActive,
+    handleActivateProfit,
+    isLossActive,
+    lossPrice,
+    setLossPrice,
+    isLossValid,
+    isProfitValid,
+    handleActivateLoss,
+    lossQuantity,
+    setLossQuantity,
+    openModal,
+    setOpenModal,
+    handleActivateLossConfirmation,
+    handleActivateProfitConfirmation,
+  } = useAutomationPanel({
+    currentPrice,
+    onSetAutomation,
+    stockId,
+  });
   return (
     <motion.div
       className={styles.container}
@@ -40,115 +58,181 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
           <FaRobot className={styles.icon} />
           <h3 className={styles.title}>Trading Automático</h3>
         </div>
-        {isActive && (
-          <div className={styles.activeBadge}>
-            <FaCheckCircle />
-            Activo
-          </div>
-        )}
+        <div className={styles.badgesContainer}>
+          {isProfitActive && (
+            <div className={styles.activeBadge}>
+              <FaCheckCircle />
+              Take Profit
+            </div>
+          )}
+          {isLossActive && (
+            <div className={styles.activeBadge}>
+              <FaCheckCircle />
+              Stop Loss
+            </div>
+          )}
+        </div>
       </div>
 
       <div className={styles.infoBox}>
         <FaInfoCircle className={styles.infoIcon} />
         <p className={styles.infoText}>
-          Configura límites de precio para que el sistema compre o venda
-          automáticamente cuando se alcancen.
+          Configura órdenes automáticas: Take Profit para vender cuando suba, y
+          Stop Loss para comprar cuando baje.
         </p>
       </div>
-
       <div className={styles.content}>
-        <div className={styles.currentPrice}>
-          <span className={styles.label}>Precio Actual</span>
-          <span className={styles.price}>${currentPrice.toFixed(2)}</span>
-        </div>
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <FaArrowUp className={styles.profitIcon} />
+            <h4 className={styles.sectionTitle}>
+              Take Profit (Vender cuando suba)
+            </h4>
+          </div>
 
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>
-            <FaArrowDown className={styles.labelIcon} />
-            Precio Mínimo (Comprar Automáticamente)
-          </label>
-          <input
-            type="number"
-            step="0.01"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            className={styles.input}
-            placeholder="Ej: 100.00"
-            disabled={isActive}
-          />
-          <p className={styles.hint}>
-            Cuando el precio baje a este valor, se comprará automáticamente
-          </p>
-        </div>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Precio Máximo</label>
+            <input
+              type="number"
+              step="0.01"
+              value={profitPrice}
+              onChange={(e) => setProfitPrice(e.target.value)}
+              className={styles.input}
+              placeholder="Ej: 150.00"
+              disabled={isProfitActive}
+            />
+            <p className={styles.hint}>
+              Vender automáticamente cuando el precio llegue a este valor
+            </p>
+          </div>
 
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>
-            <FaArrowUp className={styles.labelIcon} />
-            Precio Máximo (Vender Automáticamente)
-          </label>
-          <input
-            type="number"
-            step="0.01"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className={styles.input}
-            placeholder="Ej: 150.00"
-            disabled={isActive}
-          />
-          <p className={styles.hint}>
-            Cuando el precio suba a este valor, se venderá automáticamente
-          </p>
-        </div>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Cantidad de Acciones</label>
+            <input
+              type="number"
+              step="1"
+              value={profitQuantity}
+              onChange={(e) => setProfitQuantity(e.target.value)}
+              className={styles.input}
+              placeholder="Ej: 10"
+              disabled={isProfitActive}
+            />
+            <p className={styles.hint}>
+              Cuántas acciones vender cuando se alcance el precio
+            </p>
+          </div>
 
-        {minPrice && maxPrice && (
-          <div className={styles.preview}>
-            <div className={styles.previewTitle}>
-              Vista Previa de Configuración
-            </div>
-            <div className={styles.previewContent}>
-              <div className={styles.previewItem}>
-                <FaArrowDown className={styles.buyIcon} />
-                <span>
-                  Comprar cuando el precio llegue a{" "}
-                  <strong>${Number.parseFloat(minPrice).toFixed(2)}</strong>
-                </span>
-              </div>
+          {profitPrice && profitQuantity && (
+            <div className={styles.preview}>
               <div className={styles.previewItem}>
                 <FaArrowUp className={styles.sellIcon} />
                 <span>
-                  Vender cuando el precio llegue a{" "}
-                  <strong>${Number.parseFloat(maxPrice).toFixed(2)}</strong>
+                  Vender <strong>{profitQuantity} acciones</strong> cuando el
+                  precio llegue a{" "}
+                  <strong>${Number.parseFloat(profitPrice).toFixed(2)}</strong>
                 </span>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {!isActive ? (
           <button
             className={styles.activateButton}
-            onClick={handleActivate}
-            disabled={!isValid}
+            onClick={handleActivateProfit}
+            disabled={!isProfitValid}
           >
-            <FaRobot />
-            Activar Trading Automático
+            <FaArrowUp />
+            Activar Take Profit
           </button>
-        ) : (
-          <button
-            className={styles.deactivateButton}
-            onClick={handleDeactivate}
-          >
-            Desactivar Trading Automático
-          </button>
-        )}
 
-        {!isValid && minPrice && maxPrice && (
-          <div className={styles.validationError}>
-            El precio mínimo debe ser menor que el actual, y el máximo debe ser
-            mayor que el actual.
+          {!isProfitValid && profitPrice && profitQuantity && (
+            <div className={styles.validationError}>
+              El precio debe ser mayor que el actual (${currentPrice.toFixed(2)}
+              )
+            </div>
+          )}
+        </div>
+
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <FaArrowDown className={styles.lossIcon} />
+            <h4 className={styles.sectionTitle}>
+              Stop Loss (Comprar cuando baje)
+            </h4>
           </div>
-        )}
+
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Precio Mínimo</label>
+            <input
+              type="number"
+              step="0.01"
+              value={lossPrice}
+              onChange={(e) => setLossPrice(e.target.value)}
+              className={styles.input}
+              placeholder="Ej: 100.00"
+              disabled={isLossActive}
+            />
+            <p className={styles.hint}>
+              Comprar automáticamente cuando el precio baje a este valor
+            </p>
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Cantidad de Acciones</label>
+            <input
+              type="number"
+              step="1"
+              value={lossQuantity}
+              onChange={(e) => setLossQuantity(e.target.value)}
+              className={styles.input}
+              placeholder="Ej: 10"
+              disabled={isLossActive}
+            />
+            <p className={styles.hint}>
+              Cuántas acciones comprar cuando se alcance el precio
+            </p>
+          </div>
+
+          {lossPrice && lossQuantity && (
+            <div className={styles.preview}>
+              <div className={styles.previewItem}>
+                <FaArrowDown className={styles.buyIcon} />
+                <span>
+                  Comprar <strong>{lossQuantity} acciones</strong> cuando el
+                  precio baje a{" "}
+                  <strong>${Number.parseFloat(lossPrice).toFixed(2)}</strong>
+                </span>
+              </div>
+            </div>
+          )}
+
+          <button
+            className={styles.activateButton}
+            onClick={handleActivateLoss}
+            disabled={!isLossValid}
+          >
+            <FaArrowDown />
+            Activar Stop Loss
+          </button>
+
+          {!isLossValid && lossPrice && lossQuantity && (
+            <div className={styles.validationError}>
+              El precio debe ser menor que el actual (${currentPrice.toFixed(2)}
+              )
+            </div>
+          )}
+        </div>
       </div>
+      <ConfirmationModal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        title="Realizar Configuracion"
+        message="¿Esta seguro de realizar esta acción?"
+        onConfirm={
+          isProfitValid
+            ? handleActivateProfitConfirmation
+            : handleActivateLossConfirmation
+        }
+      />
     </motion.div>
   );
 };

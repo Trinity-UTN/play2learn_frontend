@@ -43,5 +43,5 @@ export interface TradeActionStopLimitRequest {
   stockId: number;
   quantity: number;
   pricePerUnit: number;
-  ordenStop: "PROFIT" | "LOSS";
+  orderStop: "PROFIT" | "LOSS";
 }
