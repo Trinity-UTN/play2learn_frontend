@@ -1,11 +1,5 @@
 import { motion } from "framer-motion";
-import {
-  FaRobot,
-  FaArrowUp,
-  FaArrowDown,
-  FaCheckCircle,
-  FaInfoCircle,
-} from "react-icons/fa";
+import { FaRobot, FaArrowUp, FaArrowDown, FaInfoCircle } from "react-icons/fa";
 import styles from "./AutomationPanel.module.css";
 import type { TradeActionStopLimitRequest } from "../../../types/actions.type";
 import { useAutomationPanel } from "../../../hooks/useActions/useAutomationPanel";
@@ -58,20 +52,6 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
           <FaRobot className={styles.icon} />
           <h3 className={styles.title}>Trading Automático</h3>
         </div>
-        <div className={styles.badgesContainer}>
-          {isProfitActive && (
-            <div className={styles.activeBadge}>
-              <FaCheckCircle />
-              Take Profit
-            </div>
-          )}
-          {isLossActive && (
-            <div className={styles.activeBadge}>
-              <FaCheckCircle />
-              Stop Loss
-            </div>
-          )}
-        </div>
       </div>
 
       <div className={styles.infoBox}>
@@ -95,6 +75,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
             <input
               type="number"
               step="0.01"
+              min={0}
               value={profitPrice}
               onChange={(e) => setProfitPrice(e.target.value)}
               className={styles.input}
@@ -111,6 +92,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
             <input
               type="number"
               step="1"
+              min={0}
               value={profitQuantity}
               onChange={(e) => setProfitQuantity(e.target.value)}
               className={styles.input}
@@ -166,6 +148,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
               type="number"
               step="0.01"
               value={lossPrice}
+              min={0}
               onChange={(e) => setLossPrice(e.target.value)}
               className={styles.input}
               placeholder="Ej: 100.00"
@@ -182,6 +165,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
               type="number"
               step="1"
               value={lossQuantity}
+              min={0}
               onChange={(e) => setLossQuantity(e.target.value)}
               className={styles.input}
               placeholder="Ej: 10"
