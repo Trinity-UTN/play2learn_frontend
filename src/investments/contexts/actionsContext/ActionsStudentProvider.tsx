@@ -11,6 +11,7 @@ import type {
   ActionsResponse,
   RangeValue,
   TradeActionsRequest,
+  TradeActionStopLimitRequest,
 } from "../../types/actions.type";
 import { ActionsService } from "../../services/investments/ActionsService";
 import { useToaster } from "../../../shared/hooks/useToaster";
@@ -95,6 +96,22 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
     }
   }, []);
 
+  const stopActions = useCallback(async (data: TradeActionStopLimitRequest) => {
+    setLoading(true);
+    try {
+      await ActionsService.stopActionApi(data);
+
+      showToast({
+        title: "Configuracion registrada con exito",
+        type: "success",
+      });
+    } catch (error) {
+      handleApiError(error, "Error al vender acciones");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const contextValue: ActionsContextType = {
     // Estados principales
     loading,
@@ -104,6 +121,7 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
     getPaginatedActions,
     buyActions,
     sellActions,
+    stopActions,
   };
 
   return (

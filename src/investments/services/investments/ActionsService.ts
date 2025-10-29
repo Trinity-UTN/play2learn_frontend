@@ -7,6 +7,7 @@ import type {
   ActionsPaginatedResponseInterface,
   RangeValue,
   TradeActionsRequest,
+  TradeActionStopLimitRequest,
 } from "../../types/actions.type";
 
 const getPaginatedActionsApi = async (
@@ -41,9 +42,15 @@ const sellActionsApi = async (data: TradeActionsRequest) => {
   return response.data;
 };
 
+const stopActionApi = async (data: TradeActionStopLimitRequest) => {
+  const response = await api.post(urls.StopActions, data);
+  return response.data;
+};
+
 export const ActionsService = {
   getPaginatedActionsApi,
   getCandleStickValues,
   buyActionsApi,
   sellActionsApi,
+  stopActionApi,
 };

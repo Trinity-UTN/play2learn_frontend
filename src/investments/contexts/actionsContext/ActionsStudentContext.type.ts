@@ -7,6 +7,7 @@ import type {
   ActionsResponse,
   RangeValue,
   TradeActionsRequest,
+  TradeActionStopLimitRequest,
 } from "../../types/actions.type";
 
 export interface ActionsContextType {
@@ -18,4 +19,5 @@ export interface ActionsContextType {
   getCandleStickValues: (id: number, range: RangeValue) => void;
   sellActions: (data: TradeActionsRequest) => void;
   buyActions: (data: TradeActionsRequest) => void;
+  stopActions: (data: TradeActionStopLimitRequest) => void;
 }

@@ -38,3 +38,10 @@ export interface TradeActionsRequest {
   stockId: number;
   quantity: number;
 }
+
+export interface TradeActionStopLimitRequest {
+  stockId: number;
+  quantity: number;
+  pricePerUnit: number;
+  ordenStop: "PROFIT" | "LOSS";
+}
