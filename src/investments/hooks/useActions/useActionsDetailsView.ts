@@ -2,16 +2,21 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useActionsStudent } from "../useActionsStudentAPI";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 import { useEffect, useState } from "react";
-import type { RangeValue } from "../../types/actions.type";
+import type { RangeValue, TradeActionsRequest } from "../../types/actions.type";
 
 export const useActionsDetailsView = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { getCandleStickValues, candleStickValues, loading } =
-    useActionsStudent();
-  const { currentStudent } = useCurrentStudent();
+  const {
+    getCandleStickValues,
+    candleStickValues,
+    loading,
+    buyActions,
+    sellActions,
+  } = useActionsStudent();
+  const { wallet } = useCurrentStudent();
 
-  const userBalance = currentStudent?.wallet.balance || 0;
+  const userBalance = wallet?.balance || 0;
   const action = location.state;
   const [range, setRange] = useState<RangeValue>("HISTORICO");
 
@@ -21,14 +26,14 @@ export const useActionsDetailsView = () => {
     }
   }, [range]);
 
-  const handleBuy = (amount: number) => {
-    console.log("Comprando", amount, "acciones");
-    // TODO: Implementar lógica de compra
+  const handleBuy = (stockId: number, quantity: number) => {
+    const data: TradeActionsRequest = { stockId, quantity };
+    buyActions(data);
   };
 
-  const handleSell = (amount: number) => {
-    console.log("Vendiendo", amount, "acciones");
-    // TODO: Implementar lógica de venta
+  const handleSell = (stockId: number, quantity: number) => {
+    const data: TradeActionsRequest = { stockId, quantity };
+    sellActions(data);
   };
 
   const handleSetAutomation = (minPrice: number, maxPrice: number) => {

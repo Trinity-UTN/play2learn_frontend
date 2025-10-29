@@ -10,9 +10,11 @@ import type {
   CandleStickValuesResponse,
   ActionsResponse,
   RangeValue,
+  TradeActionsRequest,
 } from "../../types/actions.type";
 import { ActionsService } from "../../services/investments/ActionsService";
-
+import { useToaster } from "../../../shared/hooks/useToaster";
+import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 interface ActionsProviderProps {
   children: ReactNode;
 }
@@ -21,6 +23,8 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
   children,
 }) => {
   const { handleApiError } = useHandleApiError();
+  const { showToast } = useToaster();
+  const { getWalletByStudent } = useCurrentStudent();
   const [loading, setLoading] = useState<boolean>(false);
   const [actions, setActions] = useState<PaginatedData<ActionsResponse> | null>(
     null
@@ -59,6 +63,37 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
     },
     []
   );
+  const buyActions = useCallback(async (data: TradeActionsRequest) => {
+    setLoading(true);
+    try {
+      await ActionsService.buyActionsApi(data);
+
+      getCandleStickValues(data.stockId, "HISTORICO");
+      await getWalletByStudent();
+
+      showToast({ title: "Compra realizada con éxito", type: "success" });
+    } catch (error) {
+      handleApiError(error, "Error al comprar acciones");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const sellActions = useCallback(async (data: TradeActionsRequest) => {
+    setLoading(true);
+    try {
+      await ActionsService.sellActionsApi(data);
+
+      getCandleStickValues(data.stockId, "HISTORICO");
+      await getWalletByStudent();
+
+      showToast({ title: "Venta realizada con éxito", type: "success" });
+    } catch (error) {
+      handleApiError(error, "Error al vender acciones");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const contextValue: ActionsContextType = {
     // Estados principales
@@ -67,6 +102,8 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
     actions,
     getCandleStickValues,
     getPaginatedActions,
+    buyActions,
+    sellActions,
   };
 
   return (

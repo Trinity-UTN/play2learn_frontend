@@ -3,8 +3,8 @@ import type { ActionsResponse } from "../../types/actions.type";
 
 type Props = {
   action: ActionsResponse;
-  onBuy: (amount: number) => void;
-  onSell: (amount: number) => void;
+  onBuy: (stockId: number, amount: number) => void;
+  onSell: (stockId: number, amount: number) => void;
   userBalance: number;
 };
 export const useTradingPanel = ({
@@ -15,24 +15,32 @@ export const useTradingPanel = ({
 }: Props) => {
   const [activeTab, setActiveTab] = useState<"buy" | "sell">("buy");
   const [amount, setAmount] = useState<string>("1");
-
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const numAmount = Number.parseInt(amount) || 0;
   const totalCost = numAmount * action.currentPrice;
   const canAfford = totalCost <= userBalance;
   const canSell = numAmount <= action.availableAmount;
 
   const handleBuy = () => {
+    setOpenModal(true);
+  };
+  const handleConfirmBuy = () => {
     if (canAfford && numAmount > 0) {
-      onBuy(numAmount);
+      onBuy(action.id, numAmount);
       setAmount("1");
     }
+    setOpenModal(false);
   };
 
   const handleSell = () => {
+    setOpenModal(true);
+  };
+  const handleConfirmSell = () => {
     if (canSell && numAmount > 0) {
-      onSell(numAmount);
+      onSell(action.id, numAmount);
       setAmount("1");
     }
+    setOpenModal(false);
   };
 
   const handleQuickAmount = (value: number) => {
@@ -46,10 +54,14 @@ export const useTradingPanel = ({
     totalCost,
     canAfford,
     canSell,
+    openModal,
+    setOpenModal,
     handleBuy,
     handleSell,
     handleQuickAmount,
     setActiveTab,
     setAmount,
+    handleConfirmBuy,
+    handleConfirmSell,
   };
 };

@@ -76,7 +76,7 @@ const ActionDetailView = () => {
               action={action}
               onBuy={handleBuy}
               onSell={handleSell}
-              userBalance={userBalance} // TODO: Obtener del contexto del usuario
+              userBalance={userBalance}
             />
             <AutomationPanel
               currentPrice={action.currentPrice}

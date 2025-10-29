@@ -33,3 +33,8 @@ export interface CandleStickValuesResponse {
   high: number;
   low: number;
 }
+
+export interface TradeActionsRequest {
+  stockId: number;
+  quantity: number;
+}
