@@ -22,7 +22,6 @@ const ActionDetailView = () => {
     handleSell,
     handleSetAutomation,
   } = useActionsDetailsView();
-  // console.log(action);
   if (loading && !candleStickValues) {
     return <LoadingScreen key="loading" titulo="Cargando Acción" />;
   }

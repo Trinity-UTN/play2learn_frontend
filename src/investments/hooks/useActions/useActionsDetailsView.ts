@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useActionsStudent } from "../useActionsStudentAPI";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 import { useEffect, useState } from "react";
@@ -10,35 +10,43 @@ import type {
 
 export const useActionsDetailsView = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { id } = useParams();
   const {
     getCandleStickValues,
+    getActionById,
     candleStickValues,
     loading,
     buyActions,
     sellActions,
     stopActions,
+    action,
   } = useActionsStudent();
   const { wallet } = useCurrentStudent();
-
   const userBalance = wallet?.balance || 0;
-  const action = location.state;
   const [range, setRange] = useState<RangeValue>("HISTORICO");
+
+  useEffect(() => {
+    if (id) {
+      getActionById(Number(id));
+    }
+  }, [id]);
 
   useEffect(() => {
     if (action) {
       getCandleStickValues(action.id, range);
     }
-  }, [range]);
+  }, [range, id, action]);
 
-  const handleBuy = (stockId: number, quantity: number) => {
+  const handleBuy = async (stockId: number, quantity: number) => {
     const data: TradeActionsRequest = { stockId, quantity };
-    buyActions(data);
+    await buyActions(data);
+    getActionById(stockId);
   };
 
-  const handleSell = (stockId: number, quantity: number) => {
+  const handleSell = async (stockId: number, quantity: number) => {
     const data: TradeActionsRequest = { stockId, quantity };
-    sellActions(data);
+    await sellActions(data);
+    getActionById(stockId);
   };
 
   const handleSetAutomation = async (data: TradeActionStopLimitRequest) => {

@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import styles from "./ActionsGrid.module.css";
 import type { ActionsResponse } from "../../../types/actions.type";
 import ActionCard from "../ActionsCard/ActionsCard";
-import type { PaginationInfo } from "../../../../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
+import type { PaginationInfo } from "../../../../shared/types/PaginacionType";
 
 interface ActionsGridProps {
   actions: ActionsResponse[] | undefined;

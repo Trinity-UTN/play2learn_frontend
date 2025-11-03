@@ -25,6 +25,10 @@ const getPaginatedActionsApi = async (
   });
   return response.data;
 };
+const getActionGetById = async (id: number) => {
+  const response = await api.get(`${urls.Action}/${id}`);
+  return response.data;
+};
 
 const getCandleStickValues = async (id: number, range: RangeValue) => {
   const response = await api.get(urls.CandleStickValues, {
@@ -49,6 +53,7 @@ const stopActionApi = async (data: TradeActionStopLimitRequest) => {
 
 export const ActionsService = {
   getPaginatedActionsApi,
+  getActionGetById,
   getCandleStickValues,
   buyActionsApi,
   sellActionsApi,

@@ -20,6 +20,7 @@ export const useTradingPanel = ({
   const totalCost = numAmount * action.currentPrice;
   const canAfford = totalCost <= userBalance;
   const canSell = numAmount <= action.availableAmount;
+  const actionSell = numAmount <= action.quantityBought;
 
   const handleBuy = () => {
     setOpenModal(true);
@@ -55,6 +56,7 @@ export const useTradingPanel = ({
     canAfford,
     canSell,
     openModal,
+    actionSell,
     setOpenModal,
     handleBuy,
     handleSell,

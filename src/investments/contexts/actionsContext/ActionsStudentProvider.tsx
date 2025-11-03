@@ -30,6 +30,7 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
   const [actions, setActions] = useState<PaginatedData<ActionsResponse> | null>(
     null
   );
+  const [action, setAction] = useState<ActionsResponse | null>(null);
   const [candleStickValues, setCandleStickValues] = useState<
     CandleStickValuesResponse[]
   >([]);
@@ -49,6 +50,18 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
     },
     []
   );
+  const getActionById = useCallback(async (id: number) => {
+    setLoading(true);
+    try {
+      const response = await ActionsService.getActionGetById(id);
+      setAction(response.data);
+    } catch (error) {
+      handleApiError(error, "Error al obtener la acción");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const getCandleStickValues = useCallback(
     async (id: number, range: RangeValue): Promise<void> => {
@@ -117,7 +130,9 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
     loading,
     candleStickValues,
     actions,
+    action,
     getCandleStickValues,
+    getActionById,
     getPaginatedActions,
     buyActions,
     sellActions,

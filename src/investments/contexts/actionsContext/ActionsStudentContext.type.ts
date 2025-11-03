@@ -14,7 +14,9 @@ export interface ActionsContextType {
   // Estados principales
   loading: boolean;
   actions: PaginatedData<ActionsResponse> | null;
+  action: ActionsResponse | null;
   getPaginatedActions: (params: GetPaginated) => Promise<void>;
+  getActionById: (id: number) => Promise<void>;
   candleStickValues: CandleStickValuesResponse[];
   getCandleStickValues: (id: number, range: RangeValue) => void;
   sellActions: (data: TradeActionsRequest) => void;

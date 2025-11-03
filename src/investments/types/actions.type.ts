@@ -8,6 +8,11 @@ export type RangeValue =
   | "MENSUAL"
   | "HISTORICO";
 
+export interface PendingOrders {
+  pricePerUnit: number;
+  quantity: number;
+  total: number;
+}
 export interface ActionsResponse {
   id: number;
   name: string;
@@ -18,6 +23,8 @@ export interface ActionsResponse {
   currentPrice: number;
   initialPrice: number;
   riskLevel: RiskLevel;
+  quantityBought: number;
+  pendingOrders: PendingOrders[];
 }
 export interface ActionsPaginatedResponseInterface {
   data: PaginatedData<ActionsResponse>;

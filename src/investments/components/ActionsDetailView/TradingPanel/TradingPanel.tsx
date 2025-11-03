@@ -32,6 +32,7 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
     canAfford,
     canSell,
     openModal,
+    actionSell,
     setOpenModal,
     handleBuy,
     handleConfirmBuy,
@@ -140,6 +141,14 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
             <span className={styles.warningText}>Saldo insuficiente</span>
           </div>
         )}
+        {activeTab === "sell" && !actionSell && (
+          <div className={styles.warning}>
+            <FaExclamationTriangle />
+            <span className={styles.warningText}>
+              No cuenta con la cantidad de acciones ingresadas
+            </span>
+          </div>
+        )}
 
         <button
           className={`${styles.actionButton} ${
@@ -149,6 +158,7 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
           disabled={
             (activeTab === "buy" && !canAfford) ||
             (activeTab === "sell" && !canSell) ||
+            !actionSell ||
             numAmount === 0
           }
         >
