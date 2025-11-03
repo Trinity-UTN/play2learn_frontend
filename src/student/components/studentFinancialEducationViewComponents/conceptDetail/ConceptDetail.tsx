@@ -6,6 +6,7 @@ import Badge from "../../../../shared/components/Badge/BadgeComponent";
 import type { FinancialConcept } from "../data";
 import { getDifficultyColor } from "../data";
 import styles from "./ConceptDetail.module.css";
+import { ImBook } from "react-icons/im";
 
 interface ConceptDetailProps {
   concept: FinancialConcept;
@@ -95,6 +96,13 @@ const ConceptDetail: React.FC<ConceptDetailProps> = ({ concept, onBack }) => {
                 </motion.div>
               ))}
             </div>
+          </section>
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>
+              <ImBook className={styles.sectionIcon} />
+              Bibliografia
+            </h2>
+            <div className={styles.tipsList}>{concept.bibliografia}</div>
           </section>
         </div>
       </Card>
