@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import ConceptCard from "../conceptCard/ConceptCard";
 import ConceptDetail from "../conceptDetail/ConceptDetail";
 import styles from "./ConceptSection.module.css";
-import type { FinancialConcept } from "../data";
+import { categories, type FinancialConcept } from "../data";
+import { useMemo, useState } from "react";
 
 interface ConceptsSectionProps {
   concepts: FinancialConcept[];
@@ -16,6 +17,7 @@ const ConceptsSection: React.FC<ConceptsSectionProps> = ({
   onConceptSelect,
 }) => {
   const selectedConcept = concepts.find((c) => c.id === selectedConceptId);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -26,9 +28,27 @@ const ConceptsSection: React.FC<ConceptsSectionProps> = ({
       },
     },
   };
+  const filteredConcepts = useMemo(() => {
+    return selectedCategory
+      ? concepts.filter((c) => c.categoria === selectedCategory)
+      : concepts;
+  }, [concepts, selectedCategory]);
 
   return (
     <div className={styles.conceptsSection}>
+      <div className={styles.filterContainer}>
+        <select
+          value={selectedCategory ?? ""}
+          onChange={(e) => setSelectedCategory(e.target.value || null)}
+        >
+          <option value="">Todas las categorías</option>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+      </div>
       {!selectedConceptId ? (
         <motion.div
           variants={containerVariants}
@@ -36,7 +56,7 @@ const ConceptsSection: React.FC<ConceptsSectionProps> = ({
           animate="visible"
           className={styles.conceptsGrid}
         >
-          {concepts.map((concept) => (
+          {filteredConcepts.map((concept) => (
             <ConceptCard
               key={concept.id}
               concept={concept}

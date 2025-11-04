@@ -45,6 +45,18 @@ export interface FinancialConcept {
   relatedConcepts: string[];
   bibliografia: string[];
 }
+export const categories = [
+  "Dinero y sus funciones",
+  "Poder adquisitivo e inflación",
+  "Presupuesto personal o familiar",
+  "Deuda y sus tipos",
+  "Interés compuesto y valor del dinero en el tiempo",
+  "Instituciones financieras",
+  "Inversión",
+  "Políticas macroeconómicas relevantes",
+  "Aspectos legales e impositivos",
+  "Educación financiera conductual",
+];
 
 export const financialConcepts: FinancialConcept[] = [
   // 1 - Dinero y sus funciones
