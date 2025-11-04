@@ -158,7 +158,7 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
           disabled={
             (activeTab === "buy" && !canAfford) ||
             (activeTab === "sell" && !canSell) ||
-            !actionSell ||
+            (activeTab === "sell" && !actionSell) ||
             numAmount === 0
           }
         >
