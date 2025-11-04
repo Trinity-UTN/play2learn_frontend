@@ -1,51 +1,97 @@
-import { useState, useMemo, useCallback } from "react";
-
+import { useState } from "react";
+import type { TradeActionStopLimitRequest } from "../../types/actions.type";
 interface UsePriceAutomationParams {
   currentPrice: number;
-  onSetAutomation: (min: number, max: number) => void;
+  stockId: number;
+  onSetAutomation: (data: TradeActionStopLimitRequest) => void;
 }
 
 export const useAutomationPanel = ({
   currentPrice,
   onSetAutomation,
+  stockId,
 }: UsePriceAutomationParams) => {
-  const [minPrice, setMinPrice] = useState<string>("");
-  const [maxPrice, setMaxPrice] = useState<string>("");
-  const [isActive, setIsActive] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [profitPrice, setProfitPrice] = useState<string>("");
+  const [profitQuantity, setProfitQuantity] = useState<string>("");
+  const [isProfitActive, setIsProfitActive] = useState(false);
 
-  const isValid = useMemo(() => {
-    if (!minPrice || !maxPrice) return false;
+  const [lossPrice, setLossPrice] = useState<string>("");
+  const [lossQuantity, setLossQuantity] = useState<string>("");
+  const [isLossActive, setIsLossActive] = useState(false);
 
-    const min = Number.parseFloat(minPrice);
-    const max = Number.parseFloat(maxPrice);
+  const handleActivateProfit = () => {
+    setOpenModal(true);
+  };
+  const handleActivateProfitConfirmation = () => {
+    const pricePerUnit = Number.parseFloat(profitPrice);
+    const quantity = Number.parseInt(profitQuantity);
 
-    return min < max && min < currentPrice && max > currentPrice;
-  }, [minPrice, maxPrice, currentPrice]);
-
-  const handleActivate = useCallback(() => {
-    const min = Number.parseFloat(minPrice);
-    const max = Number.parseFloat(maxPrice);
-
-    if (isValid) {
-      onSetAutomation(min, max);
-      setIsActive(true);
+    if (pricePerUnit && quantity && pricePerUnit > currentPrice) {
+      onSetAutomation({ stockId, quantity, pricePerUnit, orderStop: "PROFIT" });
+      setIsProfitActive(true);
     }
-  }, [minPrice, maxPrice, isValid, onSetAutomation]);
+    handleDeactivateProfit();
+    setOpenModal(false);
+  };
 
-  const handleDeactivate = useCallback(() => {
-    setIsActive(false);
-    setMinPrice("");
-    setMaxPrice("");
-  }, []);
+  const handleDeactivateProfit = () => {
+    setIsProfitActive(false);
+    setProfitPrice("");
+    setProfitQuantity("");
+  };
+
+  const handleActivateLoss = () => {
+    setOpenModal(true);
+  };
+  const handleActivateLossConfirmation = () => {
+    const pricePerUnit = Number.parseFloat(lossPrice);
+    const quantity = Number.parseInt(lossQuantity);
+
+    if (pricePerUnit && quantity && pricePerUnit < currentPrice) {
+      onSetAutomation({ stockId, quantity, pricePerUnit, orderStop: "LOSS" });
+      setIsLossActive(true);
+    }
+    handleDeactivateLoss();
+    setOpenModal(false);
+  };
+
+  const handleDeactivateLoss = () => {
+    setIsLossActive(false);
+    setLossPrice("");
+    setLossQuantity("");
+  };
+
+  const isProfitValid =
+    profitPrice !== "" &&
+    profitQuantity !== "" &&
+    Number.parseFloat(profitPrice) > currentPrice &&
+    Number.parseInt(profitQuantity) > 0;
+
+  const isLossValid =
+    lossPrice !== "" &&
+    lossQuantity !== "" &&
+    Number.parseFloat(lossPrice) < currentPrice &&
+    Number.parseInt(lossQuantity) > 0;
 
   return {
-    minPrice,
-    maxPrice,
-    isActive,
-    isValid,
-    setMinPrice,
-    setMaxPrice,
-    handleActivate,
-    handleDeactivate,
+    openModal,
+    setOpenModal,
+    profitPrice,
+    setProfitPrice,
+    profitQuantity,
+    setProfitQuantity,
+    isProfitActive,
+    handleActivateProfit,
+    isLossActive,
+    lossPrice,
+    setLossPrice,
+    isLossValid,
+    isProfitValid,
+    lossQuantity,
+    setLossQuantity,
+    handleActivateLoss,
+    handleActivateLossConfirmation,
+    handleActivateProfitConfirmation,
   };
 };

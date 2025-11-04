@@ -6,6 +6,8 @@ import { urls } from "../urls";
 import type {
   ActionsPaginatedResponseInterface,
   RangeValue,
+  TradeActionsRequest,
+  TradeActionStopLimitRequest,
 } from "../../types/actions.type";
 
 const getPaginatedActionsApi = async (
@@ -23,6 +25,10 @@ const getPaginatedActionsApi = async (
   });
   return response.data;
 };
+const getActionGetById = async (id: number) => {
+  const response = await api.get(`${urls.Action}/${id}`);
+  return response.data;
+};
 
 const getCandleStickValues = async (id: number, range: RangeValue) => {
   const response = await api.get(urls.CandleStickValues, {
@@ -31,7 +37,25 @@ const getCandleStickValues = async (id: number, range: RangeValue) => {
   return response.data;
 };
 
+const buyActionsApi = async (data: TradeActionsRequest) => {
+  const response = await api.post(urls.BuyActions, data);
+  return response.data;
+};
+const sellActionsApi = async (data: TradeActionsRequest) => {
+  const response = await api.post(urls.SellActions, data);
+  return response.data;
+};
+
+const stopActionApi = async (data: TradeActionStopLimitRequest) => {
+  const response = await api.post(urls.StopActions, data);
+  return response.data;
+};
+
 export const ActionsService = {
   getPaginatedActionsApi,
+  getActionGetById,
   getCandleStickValues,
+  buyActionsApi,
+  sellActionsApi,
+  stopActionApi,
 };

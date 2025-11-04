@@ -151,7 +151,7 @@ const StudentApp = () => {
             {/* INVERSIONES */}
             <Route path="investmests/list" element={<InvestmentsView />} />
             <Route path="actions/list" element={<ActionsView />} />
-            <Route path="actions/details" element={<ActionDetailView />} />
+            <Route path="actions/details/:id" element={<ActionDetailView />} />
           </Route>
         </Routes>
       </AnimatePresence>

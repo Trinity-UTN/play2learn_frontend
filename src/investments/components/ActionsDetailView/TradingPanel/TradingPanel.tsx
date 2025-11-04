@@ -10,10 +10,11 @@ import type { ActionsResponse } from "../../../types/actions.type";
 import formatPrice from "../../../../shared/utils/formatPrice";
 import { useTradingPanel } from "../../../hooks/useActions/useTrandingPanel";
 import { quicksButton } from "../../../contanst/actionsContanst/tradingPanel.contanst";
+import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
 interface TradingPanelProps {
   action: ActionsResponse;
-  onBuy: (amount: number) => void;
-  onSell: (amount: number) => void;
+  onBuy: (stockId: number, amount: number) => void;
+  onSell: (stockId: number, amount: number) => void;
   userBalance: number;
 }
 
@@ -30,8 +31,13 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
     totalCost,
     canAfford,
     canSell,
+    openModal,
+    actionSell,
+    setOpenModal,
     handleBuy,
+    handleConfirmBuy,
     handleSell,
+    handleConfirmSell,
     handleQuickAmount,
     setActiveTab,
     setAmount,
@@ -135,6 +141,14 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
             <span className={styles.warningText}>Saldo insuficiente</span>
           </div>
         )}
+        {activeTab === "sell" && !actionSell && (
+          <div className={styles.warning}>
+            <FaExclamationTriangle />
+            <span className={styles.warningText}>
+              No cuenta con la cantidad de acciones ingresadas
+            </span>
+          </div>
+        )}
 
         <button
           className={`${styles.actionButton} ${
@@ -144,6 +158,7 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
           disabled={
             (activeTab === "buy" && !canAfford) ||
             (activeTab === "sell" && !canSell) ||
+            !actionSell ||
             numAmount === 0
           }
         >
@@ -160,6 +175,17 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
           )}
         </button>
       </div>
+      <ConfirmationModal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        message={
+          activeTab === "buy"
+            ? "¿Estas seguro que desea comprar estas acciones?"
+            : "¿Estas seguro que desea vender estas acciones?"
+        }
+        title={activeTab === "buy" ? "Comprar Acciones" : "Vender Acciones"}
+        onConfirm={activeTab === "buy" ? handleConfirmBuy : handleConfirmSell}
+      />
     </motion.div>
   );
 };

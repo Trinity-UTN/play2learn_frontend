@@ -10,9 +10,12 @@ import type {
   CandleStickValuesResponse,
   ActionsResponse,
   RangeValue,
+  TradeActionsRequest,
+  TradeActionStopLimitRequest,
 } from "../../types/actions.type";
 import { ActionsService } from "../../services/investments/ActionsService";
-
+import { useToaster } from "../../../shared/hooks/useToaster";
+import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 interface ActionsProviderProps {
   children: ReactNode;
 }
@@ -21,10 +24,13 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
   children,
 }) => {
   const { handleApiError } = useHandleApiError();
+  const { showToast } = useToaster();
+  const { getWalletByStudent } = useCurrentStudent();
   const [loading, setLoading] = useState<boolean>(false);
   const [actions, setActions] = useState<PaginatedData<ActionsResponse> | null>(
     null
   );
+  const [action, setAction] = useState<ActionsResponse | null>(null);
   const [candleStickValues, setCandleStickValues] = useState<
     CandleStickValuesResponse[]
   >([]);
@@ -44,6 +50,18 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
     },
     []
   );
+  const getActionById = useCallback(async (id: number) => {
+    setLoading(true);
+    try {
+      const response = await ActionsService.getActionGetById(id);
+      setAction(response.data);
+    } catch (error) {
+      handleApiError(error, "Error al obtener la acción");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const getCandleStickValues = useCallback(
     async (id: number, range: RangeValue): Promise<void> => {
@@ -59,14 +77,66 @@ export const ActionsProvider: React.FC<ActionsProviderProps> = ({
     },
     []
   );
+  const buyActions = useCallback(async (data: TradeActionsRequest) => {
+    setLoading(true);
+    try {
+      await ActionsService.buyActionsApi(data);
+
+      getCandleStickValues(data.stockId, "HISTORICO");
+      await getWalletByStudent();
+
+      showToast({ title: "Compra realizada con éxito", type: "success" });
+    } catch (error) {
+      handleApiError(error, "Error al comprar acciones");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const sellActions = useCallback(async (data: TradeActionsRequest) => {
+    setLoading(true);
+    try {
+      await ActionsService.sellActionsApi(data);
+
+      getCandleStickValues(data.stockId, "HISTORICO");
+      await getWalletByStudent();
+
+      showToast({ title: "Venta realizada con éxito", type: "success" });
+    } catch (error) {
+      handleApiError(error, "Error al vender acciones");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const stopActions = useCallback(async (data: TradeActionStopLimitRequest) => {
+    setLoading(true);
+    try {
+      await ActionsService.stopActionApi(data);
+
+      showToast({
+        title: "Configuracion registrada con exito",
+        type: "success",
+      });
+    } catch (error) {
+      handleApiError(error, "Error al vender acciones");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const contextValue: ActionsContextType = {
     // Estados principales
     loading,
     candleStickValues,
     actions,
+    action,
     getCandleStickValues,
+    getActionById,
     getPaginatedActions,
+    buyActions,
+    sellActions,
+    stopActions,
   };
 
   return (

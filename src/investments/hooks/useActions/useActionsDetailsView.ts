@@ -1,39 +1,62 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useActionsStudent } from "../useActionsStudentAPI";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 import { useEffect, useState } from "react";
-import type { RangeValue } from "../../types/actions.type";
+import type {
+  RangeValue,
+  TradeActionsRequest,
+  TradeActionStopLimitRequest,
+} from "../../types/actions.type";
 
 export const useActionsDetailsView = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { getCandleStickValues, candleStickValues, loading } =
-    useActionsStudent();
-  const { currentStudent } = useCurrentStudent();
-
-  const userBalance = currentStudent?.wallet.balance || 0;
-  const action = location.state;
+  const { id } = useParams();
+  const {
+    getCandleStickValues,
+    getActionById,
+    candleStickValues,
+    loading,
+    buyActions,
+    sellActions,
+    stopActions,
+    action,
+  } = useActionsStudent();
+  const { wallet } = useCurrentStudent();
+  const userBalance = wallet?.balance || 0;
   const [range, setRange] = useState<RangeValue>("HISTORICO");
+
+  useEffect(() => {
+    if (id) {
+      getActionById(Number(id));
+    }
+  }, [id]);
 
   useEffect(() => {
     if (action) {
       getCandleStickValues(action.id, range);
     }
-  }, [range]);
+  }, [range, id, action]);
 
-  const handleBuy = (amount: number) => {
-    console.log("Comprando", amount, "acciones");
-    // TODO: Implementar lógica de compra
+  const handleBuy = async (stockId: number, quantity: number) => {
+    const data: TradeActionsRequest = { stockId, quantity };
+    await buyActions(data);
+    getActionById(stockId);
   };
 
-  const handleSell = (amount: number) => {
-    console.log("Vendiendo", amount, "acciones");
-    // TODO: Implementar lógica de venta
+  const handleSell = async (stockId: number, quantity: number) => {
+    const data: TradeActionsRequest = { stockId, quantity };
+    await sellActions(data);
+    getActionById(stockId);
   };
 
-  const handleSetAutomation = (minPrice: number, maxPrice: number) => {
-    console.log("Configurando automatización:", { minPrice, maxPrice });
-    // TODO: Implementar lógica de automatización
+  const handleSetAutomation = async (data: TradeActionStopLimitRequest) => {
+    const payload: TradeActionStopLimitRequest = {
+      stockId: data.stockId, // o el que corresponda
+      quantity: data.quantity,
+      pricePerUnit: data.pricePerUnit,
+      orderStop: data.orderStop,
+    };
+    await stopActions(payload);
   };
 
   return {

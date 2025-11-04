@@ -10,7 +10,8 @@ interface ActionHeaderProps {
   action: ActionsResponse;
 }
 const ActionHeader: React.FC<ActionHeaderProps> = ({ action }) => {
-  const { priceChangePercent, isPositive, priceChange } = useActionData(action);
+  const { priceChangePercent, isPositive, priceChange, purchased } =
+    useActionData(action);
 
   return (
     <motion.div
@@ -76,6 +77,10 @@ const ActionHeader: React.FC<ActionHeaderProps> = ({ action }) => {
           <span className={styles.statValue}>
             {formatPrice(action.soldAmount)}
           </span>
+        </div>
+        <div className={styles.statCard}>
+          <span className={styles.statLabel}>Compradas</span>
+          <span className={styles.statValue}>{formatPrice(purchased)}</span>
         </div>
       </div>
     </motion.div>

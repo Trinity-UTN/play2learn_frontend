@@ -5,6 +5,7 @@ import { getRiskConfig } from "../../utils/actions.utils";
 export const useActionData = (action: ActionsResponse) => {
   const navigate = useNavigate();
   const riskConfig = getRiskConfig(action.riskLevel);
+  const purchased = action.quantityBought;
   const priceChange = action.currentPrice - action.initialPrice;
   const priceChangePercent = (
     (priceChange / action.initialPrice) *
@@ -25,10 +26,9 @@ export const useActionData = (action: ActionsResponse) => {
   ];
 
   const handleDetails = () => {
-    navigate("/dashboard/student/actions/details", {
-      state: action,
-    });
+    navigate(`/dashboard/student/actions/details/${action.id}`);
   };
+
   return {
     riskConfig,
     priceChangePercent,
@@ -36,6 +36,7 @@ export const useActionData = (action: ActionsResponse) => {
     isPositive,
     availabilityPercent,
     stats,
+    purchased,
     soldPercent,
     handleDetails,
   };

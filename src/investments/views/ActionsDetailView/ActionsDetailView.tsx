@@ -22,7 +22,6 @@ const ActionDetailView = () => {
     handleSell,
     handleSetAutomation,
   } = useActionsDetailsView();
-  // console.log(action);
   if (loading && !candleStickValues) {
     return <LoadingScreen key="loading" titulo="Cargando Acción" />;
   }
@@ -68,7 +67,11 @@ const ActionDetailView = () => {
               setRange={setRange}
               range={range}
             />
-            <ActionStats action={action} />
+            <AutomationPanel
+              stockId={action.id}
+              currentPrice={action.currentPrice}
+              onSetAutomation={handleSetAutomation}
+            />
           </div>
 
           <div className={styles.tradingSection}>
@@ -76,12 +79,9 @@ const ActionDetailView = () => {
               action={action}
               onBuy={handleBuy}
               onSell={handleSell}
-              userBalance={userBalance} // TODO: Obtener del contexto del usuario
+              userBalance={userBalance}
             />
-            <AutomationPanel
-              currentPrice={action.currentPrice}
-              onSetAutomation={handleSetAutomation}
-            />
+            <ActionStats action={action} />
           </div>
         </div>
       </motion.div>
