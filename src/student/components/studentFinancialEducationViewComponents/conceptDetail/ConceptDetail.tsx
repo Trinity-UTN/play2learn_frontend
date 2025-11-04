@@ -7,6 +7,7 @@ import type { FinancialConcept } from "../data";
 import { getDifficultyColor } from "../data";
 import styles from "./ConceptDetail.module.css";
 import { ImBook } from "react-icons/im";
+import { useEffect } from "react";
 
 interface ConceptDetailProps {
   concept: FinancialConcept;
@@ -15,7 +16,9 @@ interface ConceptDetailProps {
 
 const ConceptDetail: React.FC<ConceptDetailProps> = ({ concept, onBack }) => {
   const Icon = concept.icon;
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
