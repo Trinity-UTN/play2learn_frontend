@@ -26,9 +26,9 @@ const StudentWalletView = () => {
   }
 
   const financialData: FinancialSummary = {
-    availableCoins: Number(wallet?.balance) - Number(wallet?.invertedBalance),
+    availableCoins: Number(wallet?.balance),
     investedCoins: Number(wallet?.invertedBalance),
-    totalBalance: Number(wallet?.balance),
+    totalBalance: Number(wallet?.totalBalance),
     lastMovementDate: "2024-03-15T14:30:00Z",
     monthlyGrowth: 12.5,
     savingsGoal: 5000,
