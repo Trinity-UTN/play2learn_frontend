@@ -5,4 +5,8 @@ export const urls = {
   SellActions: "/investment/stocks/sell",
   StopActions: "/investment/stocks/stop",
   Action: "/investment/stocks",
+
+  //Plazo Fijo URLs
+  PlazoFijosPaginated: "/investment/fixed-term-deposit/paginated",
+  CreatePlazoFijo: "/investment/fixed-term-deposit",
 };

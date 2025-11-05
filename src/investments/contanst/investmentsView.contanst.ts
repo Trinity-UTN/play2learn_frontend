@@ -31,7 +31,7 @@ export const investmentTypes = [
       "Rendimiento predecible",
     ],
     delay: 0.2,
-    url: "/dashboard/student/actions/list",
+    url: "/dashboard/student/plazo-fijo/list",
   },
   {
     type: "caja-ahorro",
