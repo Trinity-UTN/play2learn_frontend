@@ -16,6 +16,7 @@ export interface BenefitAPIContextType {
   benefitPurchases: BenefitPurchaseSimpleResponse[];
   paginatedBenefits: PaginatedData<BenefitResponseInterface> | null;
   paginatedBenefitsUseRequested: PaginatedData<BenefitUseRequestedResponseInterface> | null;
+  paginatedBenefitsPurchases: PaginatedData<BenefitPurchaseSimpleResponse> | null;
 
   // Funciones principales
   getBenefits: () => Promise<void>;
@@ -24,7 +25,15 @@ export interface BenefitAPIContextType {
   ) => Promise<BenefitPurchaseSimpleResponse[]>;
   getPaginatedBenefits: (params: GetPaginated) => Promise<void>;
   getPaginatedBenefitsUseRequested: (params: GetPaginated) => Promise<void>;
+  getPaginatedBenefitsPurchases: (
+    benefitId: number,
+    params: GetPaginated
+  ) => Promise<void>;
   registerBenefit: (data: CreateBenefitInterface) => Promise<void>;
   acceptUseBenefit: (benefitId: number) => Promise<void>;
   deleteBenefit: (benefitId: number) => Promise<void>;
+
+  // Funciones auxiliares
+  refreshBenefitsAfterDeletion: () => Promise<void>;
+  refreshBenefitsAfterAcceptance: () => Promise<void>;
 }

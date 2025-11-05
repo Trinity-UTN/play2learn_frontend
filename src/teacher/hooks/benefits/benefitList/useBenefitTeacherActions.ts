@@ -9,7 +9,12 @@ import { useToaster } from "../../../../shared/hooks/useToaster";
  */
 export const useBenefitTeacherActions = () => {
   const navigate = useNavigate();
-  const { deleteBenefit, acceptUseBenefit } = useBenefitAPI();
+  const {
+    deleteBenefit,
+    acceptUseBenefit,
+    refreshBenefitsAfterDeletion,
+    refreshBenefitsAfterAcceptance,
+  } = useBenefitAPI();
   const { showConfirmation } = useConfirmation();
   const { showToast } = useToaster();
 
@@ -30,6 +35,7 @@ export const useBenefitTeacherActions = () => {
               position: "bottom-right",
             });
             if (onSuccess) onSuccess();
+            refreshBenefitsAfterDeletion();
           } catch {
             // El provider ya mostró el error
           }
@@ -63,6 +69,7 @@ export const useBenefitTeacherActions = () => {
               position: "bottom-right",
             });
             if (onSuccess) onSuccess();
+            refreshBenefitsAfterAcceptance();
           } catch {
             // El provider ya mostró el error
           }

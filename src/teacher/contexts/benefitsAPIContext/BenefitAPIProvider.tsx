@@ -12,7 +12,7 @@ import type {
   GetPaginated,
   PaginatedData,
 } from "../../../shared/types/PaginacionType";
-import { useToaster } from "../../../shared/hooks/useToaster";
+import usePaginateParams from "../../../shared/hooks/usePaginateParams";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
 interface BenefitProviderProps {
@@ -23,7 +23,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   children,
 }) => {
   const { handleApiError } = useHandleApiError();
-  const { showToast } = useToaster();
+  const { paginationParams } = usePaginateParams();
 
   // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
@@ -35,6 +35,8 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     useState<PaginatedData<BenefitResponseInterface> | null>(null);
   const [paginatedBenefitsUseRequested, setPaginatedBenefitsUseRequested] =
     useState<PaginatedData<BenefitUseRequestedResponseInterface> | null>(null);
+  const [paginatedBenefitsPurchases, setPaginatedBenefitsPurchases] =
+    useState<PaginatedData<BenefitPurchaseSimpleResponse> | null>(null);
 
   // Funciones principales
   const getBenefits = useCallback(async (): Promise<void> => {
@@ -75,7 +77,6 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
         const response = await BenefitTeacherService.getPaginatedBenefitsApi(
           params
         );
-
         setPaginatedBenefits(response.data);
       } catch (error) {
         handleApiError(error, "Error al obtener los beneficios paginados");
@@ -104,18 +105,31 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     []
   );
 
+  const getPaginatedBenefitsPurchases = useCallback(
+    async (benefitId: number, params: GetPaginated): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await BenefitTeacherService.getPaginatedBenefitPurchasesApi(
+            benefitId,
+            params
+          );
+        setPaginatedBenefitsPurchases(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener las compras del beneficio");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   const registerBenefit = async (
     data: CreateBenefitInterface
   ): Promise<void> => {
     setLoading(true);
     try {
       await BenefitTeacherService.registerBenefitApi(data);
-      showToast({
-        title: "Beneficio creado exitosamente",
-        message: "El beneficio ha sido creado exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
     } catch (error) {
       handleApiError(error, "Error al crear el beneficio");
     } finally {
@@ -127,12 +141,6 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     setLoading(true);
     try {
       await BenefitTeacherService.acceptUseBenefitApi(benefitId);
-      showToast({
-        title: "Beneficio aceptado exitosamente",
-        message: "El beneficio ha sido aceptado exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
     } catch (error) {
       handleApiError(error, "Error al aceptar el beneficio");
     } finally {
@@ -144,17 +152,19 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     setLoading(true);
     try {
       await BenefitTeacherService.deleteBenefitApi(benefitId);
-      showToast({
-        title: "Beneficio eliminado exitosamente",
-        message: "El beneficio ha sido eliminado exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
     } catch (error) {
       handleApiError(error, "Error al eliminar el beneficio");
     } finally {
       setLoading(false);
     }
+  };
+
+  const refreshBenefitsAfterDeletion = async () => {
+    await getPaginatedBenefits(paginationParams);
+  };
+
+  const refreshBenefitsAfterAcceptance = async () => {
+    await getPaginatedBenefitsUseRequested(paginationParams);
   };
 
   const contextValue: BenefitAPIContextType = {
@@ -164,15 +174,21 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     benefitPurchases,
     paginatedBenefits,
     paginatedBenefitsUseRequested,
+    paginatedBenefitsPurchases,
 
     // Funciones principales
     getBenefits,
     getBenefitPurchases,
     getPaginatedBenefits,
     getPaginatedBenefitsUseRequested,
+    getPaginatedBenefitsPurchases,
     registerBenefit,
     acceptUseBenefit,
     deleteBenefit,
+
+    // Funciones auxiliares
+    refreshBenefitsAfterDeletion,
+    refreshBenefitsAfterAcceptance,
   };
 
   return (

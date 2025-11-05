@@ -24,10 +24,10 @@ export const useBenefitTeacherData = () => {
   } = usePaginationParams();
 
   const {
-    activeStatusFilter,
+    activeFilter,
     selectedSubject,
     selectedCategory,
-    setActiveStatusFilter,
+    setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
   } = useBenefitTeacherFilters();
@@ -39,11 +39,9 @@ export const useBenefitTeacherData = () => {
     const filters: string[] = [];
     const filtersValues: string[] = [];
 
-    // Categoría (benefit.category)
-    if (selectedCategory && selectedCategory !== "ALL") {
-      filters.push("category");
-      filtersValues.push(selectedCategory);
-    }
+    // Estado (benefit.state)
+    filters.push("state");
+    filtersValues.push(activeFilter);
 
     // Materia (benefit.subjectId)
     if (selectedSubject && selectedSubject.id !== "ALL") {
@@ -51,7 +49,13 @@ export const useBenefitTeacherData = () => {
       filtersValues.push(selectedSubject.id);
     }
 
-    if (activeStatusFilter === "USE_REQUESTED") {
+    // Categoría (benefit.category)
+    if (selectedCategory && selectedCategory !== "ALL") {
+      filters.push("category");
+      filtersValues.push(selectedCategory);
+    }
+
+    if (activeFilter === "USE_REQUESTED") {
       await getPaginatedBenefitsUseRequested({
         ...paginationParams,
         filters,
@@ -65,7 +69,7 @@ export const useBenefitTeacherData = () => {
       });
     }
   }, [
-    activeStatusFilter,
+    activeFilter,
     paginationParams,
     selectedSubject,
     selectedCategory,
@@ -85,32 +89,27 @@ export const useBenefitTeacherData = () => {
    */
   useEffect(() => {
     setPaginationParams((prev) => ({ ...prev, page: 1 }));
-  }, [
-    activeStatusFilter,
-    selectedSubject,
-    selectedCategory,
-    setPaginationParams,
-  ]);
+  }, [activeFilter, selectedSubject, selectedCategory, setPaginationParams]);
 
   // Datos Generales
   const filteredBenefits = useMemo(() => {
-    if (activeStatusFilter === "USE_REQUESTED") {
+    if (activeFilter === "USE_REQUESTED") {
       return paginatedBenefitsUseRequested?.results ?? [];
     }
     return paginatedBenefits?.results ?? [];
-  }, [activeStatusFilter, paginatedBenefits, paginatedBenefitsUseRequested]);
+  }, [activeFilter, paginatedBenefits, paginatedBenefitsUseRequested]);
 
   const subjects = useMemo(() => {
     const benefits =
-      activeStatusFilter === "USE_REQUESTED"
+      activeFilter === "USE_REQUESTED"
         ? paginatedBenefitsUseRequested?.results ?? []
         : paginatedBenefits?.results ?? [];
     return extractUniqueSubjectsFromBenefits(benefits);
-  }, [activeStatusFilter, paginatedBenefits, paginatedBenefitsUseRequested]);
+  }, [activeFilter, paginatedBenefits, paginatedBenefitsUseRequested]);
 
   const paginationInfo = useMemo(() => {
     const data =
-      activeStatusFilter === "USE_REQUESTED"
+      activeFilter === "USE_REQUESTED"
         ? paginatedBenefitsUseRequested
         : paginatedBenefits;
 
@@ -125,7 +124,7 @@ export const useBenefitTeacherData = () => {
         }
       : null;
   }, [
-    activeStatusFilter,
+    activeFilter,
     paginatedBenefits,
     paginatedBenefitsUseRequested,
     handlePageChange,
@@ -135,10 +134,10 @@ export const useBenefitTeacherData = () => {
   return {
     // Estados Generales
     loading,
-    activeStatusFilter,
+    activeFilter,
     selectedSubject,
     selectedCategory,
-    setActiveStatusFilter,
+    setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
 

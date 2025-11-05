@@ -90,6 +90,36 @@ export const BENEFIT_COLOR_OPTIONS: ReadonlyArray<{
 ] as const;
 
 // ============================================
+// BENEFIT STATUS (TEACHER)
+// ============================================
+export const BENEFIT_TEACHER_STATUS = {
+  PUBLISHED: "PUBLISHED",
+  EXPIRED: "EXPIRED",
+  USE_REQUESTED: "USE_REQUESTED",
+} as const;
+
+export type BenefitTeacherStatus =
+  (typeof BENEFIT_TEACHER_STATUS)[keyof typeof BENEFIT_TEACHER_STATUS];
+
+export const BENEFIT_TEACHER_STATUS_FILTERS = [
+  {
+    key: BENEFIT_TEACHER_STATUS.PUBLISHED,
+    label: "Disponibles",
+    icon: FaStar,
+  },
+  {
+    key: BENEFIT_TEACHER_STATUS.EXPIRED,
+    label: "Expirados",
+    icon: FiXCircle,
+  },
+  {
+    key: BENEFIT_TEACHER_STATUS.USE_REQUESTED,
+    label: "Uso solicitado",
+    icon: FiXCircle,
+  },
+] as const;
+
+// ============================================
 // BENEFIT STATUS (STUDENT)
 // ============================================
 export const BENEFIT_STATUS = {

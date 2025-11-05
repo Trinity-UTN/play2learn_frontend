@@ -1,38 +1,77 @@
+@import "../../../../shared/styles/colors.css";
+
 .filtersContainer {
-  width: 100%;
   margin-bottom: 2rem;
 }
 
 .filtersCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 1.5rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .filtersHeader {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
 
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .headerIcon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--color-stat-4), var(--color-stat-1));
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 10px;
   color: white;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
+}
+
+.viewToggle {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem;
+}
+
+.viewButton {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  font-size: 1rem;
+  min-width: auto;
+  color: white;
+}
+
+.viewButton svg {
+  display: block;
+}
+
+.viewButtonInactive {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  font-size: 1rem;
+  min-width: auto;
+  color: white;
+}
+
+.viewButtonInactive:hover {
+  background-color: white !important;
+  color: black;
 }
 
 .filtersTitle {
+  color: white;
   font-size: 1.25rem;
-  font-weight: 600;
-  color: #1f2937;
+  font-weight: 700;
   margin: 0;
 }
 
@@ -42,30 +81,35 @@
 
 .filterButtons {
   display: flex;
-  gap: 0.75rem;
   flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .filterButton {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  padding: 0.75rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  color: var(--color-text-light);
+}
+
+.filterButton:hover {
+  background-color: transparent !important;
+  border: 1px solid var(--color-secondary);
 }
 
 .filterButton.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-stat-4), var(--color-stat-1));
+  color: var(--color-stat-2);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
 }
 
-.filterEmoji {
-  font-size: 1.125rem;
-  display: flex;
-  align-items: center;
+.filterIcon {
+  font-size: 1.3rem;
 }
 
 .selectFilters {
@@ -84,48 +128,63 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #4b5563;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .selectIcon {
-  font-size: 1rem;
-  color: #9ca3af;
+  font-size: 0.8rem;
+  color: var(--color-stat-2);
 }
 
 .select {
-  padding: 0.625rem 0.875rem;
-  border: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  font-size: 0.9375rem;
-  color: #1f2937;
-  background-color: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.select:hover {
-  border-color: #d1d5db;
+  padding: 0.75rem;
+  color: white;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
 }
 
 .select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
+.select option {
+  background: #1f2937;
+  color: white;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
+  .filtersCard {
+    padding: 1rem;
+  }
+
   .filterButtons {
-    flex-direction: column;
+    justify-content: center;
   }
 
   .filterButton {
-    width: 100%;
-    justify-content: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
   }
 
   .selectFilters {
     grid-template-columns: 1fr;
+  }
+
+  .filtersHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .viewToggle {
+    align-self: flex-end;
   }
 }

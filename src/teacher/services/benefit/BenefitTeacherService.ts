@@ -4,6 +4,7 @@ import type {
   BenefitPurchaseSimpleResponse,
   PaginatedBenefitResponseInterface,
   PaginatedBenefitUseRequestedResponseInterface,
+  PaginatedBenefitPurchaseSimpleResponse,
 } from "../../../benefit/types/benefit.types";
 import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import api from "../../../shared/utils/api";
@@ -37,12 +38,18 @@ export const BenefitTeacherService = {
       params
     ),
 
+  getPaginatedBenefitPurchasesApi: (benefitId: number, params: GetPaginated) =>
+    BaseBenefitService.getPaginated<PaginatedBenefitPurchaseSimpleResponse>(
+      urls.PaginatedBenefitPurchases(benefitId),
+      params
+    ),
+
   registerBenefitApi: async (data: CreateBenefitInterface): Promise<void> => {
     await api.post(urls.CreateBenefit, data);
   },
 
-  acceptUseBenefitApi: async (benefitId: number): Promise<void> => {
-    await api.patch(urls.AcceptUseBenefit(benefitId));
+  acceptUseBenefitApi: async (id: number): Promise<void> => {
+    await api.patch(urls.AcceptUseBenefit(id));
   },
 
   deleteBenefitApi: async (benefitId: number): Promise<void> => {

@@ -6,9 +6,10 @@ export const urls = {
   BenefitPurchases: (benefitId: number) =>
     `/benefits/teacher/purchases/${benefitId}`,
   PaginatedBenefitTeacher: "/benefits/teacher/paginated",
-  PaginatedBenefitUseRequested: "/benefits/teacher/use-requested",
-  AcceptUseBenefit: (benefitId: number) =>
-    `/benefits/teacher/accept-use/${benefitId}`,
+  PaginatedBenefitUseRequested: "/benefits/teacher/use-requested/paginated",
+  PaginatedBenefitPurchases: (benefitId: number) =>
+    `/benefits/teacher/purchases/${benefitId}`,
+  AcceptUseBenefit: (id: number) => `/benefits/teacher/accept-use/${id}`,
 
   // Stats
   Statistics: "/statistics/home/teacher",

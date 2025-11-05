@@ -10,10 +10,10 @@ export const useBenefitPurchasesActions = () => {
   const { showToast } = useToaster();
   const [loading, setLoading] = useState(false);
 
-  const handleAcceptUse = async (benefitId: number) => {
+  const handleAcceptUse = async (id: number) => {
     setLoading(true);
     try {
-      await acceptUseBenefit(benefitId);
+      await acceptUseBenefit(id);
       showToast({
         title: "Uso de beneficio aceptado correctamente",
         type: "success",

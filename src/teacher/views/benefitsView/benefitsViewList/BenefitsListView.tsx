@@ -12,10 +12,10 @@ const BenefitsListView: React.FC = () => {
 
   const {
     loading,
-    activeStatusFilter,
+    activeFilter,
     selectedSubject,
     selectedCategory,
-    setActiveStatusFilter,
+    setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
     filteredBenefits,
@@ -54,13 +54,15 @@ const BenefitsListView: React.FC = () => {
       </motion.div>
 
       <BenefitFilters
-        activeStatusFilter={activeStatusFilter}
-        selectedCategory={selectedCategory}
+        activeFilter={activeFilter}
         selectedSubject={selectedSubject}
+        selectedCategory={selectedCategory}
         subjects={subjects}
-        onStatusFilterChange={setActiveStatusFilter}
-        onCategoryChange={setSelectedCategory}
+        viewMode={viewMode}
+        onFilterChange={setActiveFilter}
         onSubjectChange={setSelectedSubject}
+        onCategoryChange={setSelectedCategory}
+        onViewModeChange={setViewMode}
       />
 
       {/* Benefits List (Grid o Table) */}

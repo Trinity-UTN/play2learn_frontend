@@ -56,9 +56,7 @@ export const isFullBenefitResponse = (
     "icon" in benefit &&
     "color" in benefit &&
     "category" in benefit &&
-    "description" in benefit &&
-    "subjectDto" in benefit &&
-    "purchaseLimit" in benefit
+    "description" in benefit
   );
 };
 

@@ -1,53 +1,98 @@
 import { motion } from "framer-motion";
-import { FaFilter, FaBook, FaTags } from "react-icons/fa";
+import { FaFilter, FaBook, FaTags, FaTh, FaList } from "react-icons/fa";
 import type { FilterOption } from "../../../../shared/types/Filter.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
+import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import {
-  BENEFIT_PURCHASE_STATUS_FILTERS,
-  type BenefitPurchaseStatus,
-} from "../../../../benefit/constants/benefitPurchase.constants";
-import { BENEFIT_CATEGORIES } from "../../../../benefit/constants/benefit.constants";
+  BENEFIT_TEACHER_STATUS_FILTERS,
+  BENEFIT_CATEGORIES,
+  BENEFIT_CATEGORY_OPTIONS,
+  type BenefitTeacherStatus,
+} from "../../../../benefit/constants/benefit.constants";
 import styles from "./BenefitFilters.module.css";
 
 interface BenefitFiltersProps {
-  activeStatusFilter: BenefitPurchaseStatus;
-  selectedCategory: string;
+  activeFilter: BenefitTeacherStatus;
   selectedSubject: FilterOption | null;
+  selectedCategory: string;
   subjects: FilterOption[];
-  onStatusFilterChange: (filter: BenefitPurchaseStatus) => void;
-  onCategoryChange: (category: string) => void;
+  viewMode: "grid" | "table";
+  onFilterChange: (filter: BenefitTeacherStatus) => void;
   onSubjectChange: (subject: FilterOption | null) => void;
+  onCategoryChange: (category: string) => void;
+  onViewModeChange: (mode: "grid" | "table") => void;
 }
 
 const BenefitFilters: React.FC<BenefitFiltersProps> = ({
-  activeStatusFilter,
+  activeFilter,
   selectedCategory,
   selectedSubject,
   subjects,
-  onStatusFilterChange,
+  viewMode,
+  onFilterChange,
   onCategoryChange,
   onSubjectChange,
+  onViewModeChange,
 }) => {
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
 
+  const getCategoryLabel = (value: string): string => {
+    if (value === "ALL") return "Todas las categorías";
+    const category = BENEFIT_CATEGORIES.find((c) => c.value === value);
+    return category?.label || value;
+  };
+
   return (
     <motion.div variants={itemVariants} className={styles.filtersContainer}>
       <Card className={styles.filtersCard}>
         <div className={styles.filtersHeader}>
-          <div className={styles.headerIcon}>
-            <FaFilter />
+          <div className={styles.headerLeft}>
+            <div className={styles.headerIcon}>
+              <FaFilter />
+            </div>
+            <h3 className={styles.filtersTitle}>Filtros</h3>
           </div>
-          <h3 className={styles.filtersTitle}>Filtros</h3>
+
+          <div className={styles.viewToggle}>
+            <Tooltip content="Vista en grilla">
+              <Button
+                variant={viewMode === "grid" ? "primary" : "ghost"}
+                size="sm"
+                onClick={() => onViewModeChange("grid")}
+                className={
+                  viewMode === "grid"
+                    ? styles.viewButton
+                    : styles.viewButtonInactive
+                }
+              >
+                <FaTh />
+              </Button>
+            </Tooltip>
+            <Tooltip content="Vista en tabla">
+              <Button
+                variant={viewMode === "table" ? "primary" : "ghost"}
+                size="sm"
+                onClick={() => onViewModeChange("table")}
+                className={
+                  viewMode === "table"
+                    ? styles.viewButton
+                    : styles.viewButtonInactive
+                }
+              >
+                <FaList />
+              </Button>
+            </Tooltip>
+          </div>
         </div>
 
-        {/* Status Filters */}
+        {/* Estados */}
         <div className={styles.filterSection}>
           <div className={styles.filterButtons}>
-            {BENEFIT_PURCHASE_STATUS_FILTERS.map((filter) => {
+            {BENEFIT_TEACHER_STATUS_FILTERS.map((filter) => {
               const IconComponent = filter.icon;
               return (
                 <motion.div
@@ -56,20 +101,18 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
                   whileTap={{ scale: 0.95 }}
                 >
                   <Button
-                    variant={
-                      activeStatusFilter === filter.key ? "primary" : "ghost"
-                    }
+                    variant={activeFilter === filter.key ? "primary" : "ghost"}
                     onClick={() =>
-                      onStatusFilterChange(filter.key as BenefitPurchaseStatus)
+                      onFilterChange(filter.key as BenefitTeacherStatus)
                     }
                     className={`${styles.filterButton} ${
-                      activeStatusFilter === filter.key ? styles.active : ""
+                      activeFilter === filter.key ? styles.active : ""
                     }`}
                   >
-                    <span className={styles.filterEmoji}>
+                    <span className={styles.filterIcon}>
                       <IconComponent />
                     </span>
-                    <span>{filter.label}</span>
+                    {filter.label}
                   </Button>
                 </motion.div>
               );
@@ -77,22 +120,24 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
           </div>
         </div>
 
-        {/* Category and Subject Filters */}
+        {/* Filtros de Materia y Categoría */}
         <div className={styles.selectFilters}>
           <div className={styles.selectGroup}>
             <div className={styles.selectLabel}>
-              <FaTags className={styles.selectIcon} />
-              <span>Categoría</span>
+              <FaBook className={styles.selectIcon} />
+              Materia
             </div>
             <select
-              value={selectedCategory}
-              onChange={(e) => onCategoryChange(e.target.value)}
+              value={selectedSubject?.id}
+              onChange={(e) => {
+                const subject = subjects.find((s) => s.id === e.target.value);
+                if (subject) onSubjectChange(subject);
+              }}
               className={styles.select}
             >
-              <option value="ALL">Todas las categorías</option>
-              {BENEFIT_CATEGORIES.map((category) => (
-                <option key={category.value} value={category.value}>
-                  {category.label}
+              {subjects.map((subject) => (
+                <option key={subject.id} value={subject.id}>
+                  {subject.name}
                 </option>
               ))}
             </select>
@@ -100,26 +145,17 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
 
           <div className={styles.selectGroup}>
             <div className={styles.selectLabel}>
-              <FaBook className={styles.selectIcon} />
-              <span>Materia</span>
+              <FaTags className={styles.selectIcon} />
+              Categoría
             </div>
             <select
-              value={selectedSubject?.id || "ALL"}
-              onChange={(e) => {
-                const subjectId = e.target.value;
-                if (subjectId === "ALL") {
-                  onSubjectChange({ id: "ALL", name: "Todas las materias" });
-                } else {
-                  const subject = subjects.find((s) => s.id === subjectId);
-                  if (subject) onSubjectChange(subject);
-                }
-              }}
+              value={selectedCategory}
+              onChange={(e) => onCategoryChange(e.target.value)}
               className={styles.select}
             >
-              <option value="ALL">Todas las materias</option>
-              {subjects.map((subject) => (
-                <option key={subject.id} value={subject.id}>
-                  {subject.name}
+              {BENEFIT_CATEGORY_OPTIONS.map((category) => (
+                <option key={category} value={category}>
+                  {getCategoryLabel(category)}
                 </option>
               ))}
             </select>

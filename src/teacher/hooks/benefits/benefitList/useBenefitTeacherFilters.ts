@@ -1,13 +1,13 @@
 import { useState, useCallback } from "react";
 import type { FilterOption } from "../../../../shared/types/Filter.type";
-import type { BenefitPurchaseStatus } from "../../../../benefit/constants/benefitPurchase.constants";
+import type { BenefitTeacherStatus } from "../../../../benefit/constants/benefit.constants";
 
 /**
  * Hook para manejar los filtros de beneficios del teacher
  */
 export const useBenefitTeacherFilters = () => {
-  const [activeStatusFilter, setActiveStatusFilter] =
-    useState<BenefitPurchaseStatus>("ALL");
+  const [activeFilter, setActiveFilter] =
+    useState<BenefitTeacherStatus>("PUBLISHED");
   const [selectedSubject, setSelectedSubject] = useState<FilterOption | null>({
     id: "ALL",
     name: "Todas las materias",
@@ -15,16 +15,16 @@ export const useBenefitTeacherFilters = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
 
   const resetFilters = useCallback(() => {
-    setActiveStatusFilter("ALL");
+    setActiveFilter("PUBLISHED");
     setSelectedSubject({ id: "ALL", name: "Todas las materias" });
     setSelectedCategory("ALL");
   }, []);
 
   return {
-    activeStatusFilter,
+    activeFilter,
     selectedSubject,
     selectedCategory,
-    setActiveStatusFilter,
+    setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
     resetFilters,
