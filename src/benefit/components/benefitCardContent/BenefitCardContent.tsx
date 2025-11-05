@@ -46,6 +46,8 @@ const BenefitCardContent = ({
     subjectName,
     subjectColor,
     categoryColor,
+    isUseRequest,
+    studentName,
   } = useBenefitCardData({ benefit, variant, isPreview });
 
   return (
@@ -61,15 +63,23 @@ const BenefitCardContent = ({
         <div className={styles.benefitInfo}>
           <h3 className={styles[`benefitName${styleSuffix}`]}>{benefitName}</h3>
           <div className={styles.benefitMeta}>
-            {category && categoryColor && (
+            {isUseRequest ? (
               <Badge variant="custom" size="sm" customColor={categoryColor}>
-                {category.label}
+                Solicitud de Uso
               </Badge>
-            )}
-            {!category && isPreview && categoryColor && (
-              <Badge variant="custom" size="sm" customColor={categoryColor}>
-                Categoría
-              </Badge>
+            ) : (
+              <>
+                {category && categoryColor && (
+                  <Badge variant="custom" size="sm" customColor={categoryColor}>
+                    {category.label}
+                  </Badge>
+                )}
+                {!category && isPreview && categoryColor && (
+                  <Badge variant="custom" size="sm" customColor={categoryColor}>
+                    Categoría
+                  </Badge>
+                )}
+              </>
             )}
             {subjectName && subjectColor && (
               <Badge variant="custom" size="sm" customColor={subjectColor}>
@@ -80,11 +90,21 @@ const BenefitCardContent = ({
         </div>
       </div>
 
-      <Tooltip content={descriptionText}>
-        <p className={styles[`benefitDescription${styleSuffix}`]}>
-          {descriptionText}
-        </p>
-      </Tooltip>
+      {/* Descripción (info de solicitud) */}
+      {isUseRequest && studentName ? (
+        <div className={styles.requestInfo}>
+          <FaUser className={styles.studentIcon} />
+          <p className={styles[`benefitDescription${styleSuffix}`]}>
+            Solicitado por: <strong>{studentName}</strong>
+          </p>
+        </div>
+      ) : (
+        <Tooltip content={descriptionText}>
+          <p className={styles[`benefitDescription${styleSuffix}`]}>
+            {descriptionText}
+          </p>
+        </Tooltip>
+      )}
 
       {/* Fecha de finalización */}
       {hasEndDate && "endAt" in benefit && benefit.endAt && (
@@ -96,8 +116,8 @@ const BenefitCardContent = ({
         </div>
       )}
 
-      {/* Estadísticas */}
-      {showStats && (
+      {/* Estadísticas (si no es solicitud) */}
+      {showStats && !isUseRequest && (
         <div className={styles[`benefitStats${styleSuffix}`]}>
           {/* Costo */}
           <div className={styles.costSection}>

@@ -79,6 +79,13 @@
   gap: 0.5rem;
 }
 
+.requestInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
 .emptyValueTeacher,
 .emptyValueStudent {
   font-size: 1.25rem;
@@ -101,6 +108,11 @@
 .statValueStudent,
 .emptyValueStudent {
   color: white;
+}
+
+.studentIcon {
+  color: #f59e0b;
+  font-size: 0.875rem;
 }
 
 .costIcon {

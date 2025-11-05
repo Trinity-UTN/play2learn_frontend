@@ -30,6 +30,23 @@
   flex: 1;
 }
 
+.acceptButton {
+  flex: 1;
+  background-color: #10b981;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.acceptButton:hover:not(:disabled) {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+.acceptButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .viewRedemptionsButton {
   flex: 0 0 65%;
   display: flex;

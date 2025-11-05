@@ -37,6 +37,8 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
     benefitCost,
     subjectName,
     subjectColor,
+    isUseRequest,
+    studentName,
   } = useBenefitTableData({
     benefit,
     variant,
@@ -65,13 +67,17 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
               {benefitName}
             </span>
             <div className={styles.badges}>
-              <span className={styles.benefitCategory}>
-                {category && (
+              {isUseRequest ? (
+                <Badge variant="custom" size="sm" customColor={categoryColor}>
+                  Solicitud de Uso
+                </Badge>
+              ) : (
+                category && (
                   <Badge variant="custom" size="sm" customColor={categoryColor}>
                     {categoryName}
                   </Badge>
-                )}
-              </span>
+                )
+              )}
               {subjectName && subjectColor && (
                 <Badge variant="custom" size="sm" customColor={subjectColor}>
                   {subjectName}
@@ -82,16 +88,26 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
         </div>
       </td>
 
-      {/* Descripción */}
+      {/* Descripción / Estudiante */}
       <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-        <Tooltip content={benefitDescription} position="top">
-          <p className={styles[`benefitDescription${styleSuffix}`]}>
-            {benefitDescription}
-          </p>
-        </Tooltip>
+        {isUseRequest && studentName ? (
+          <div className={styles.requestInfo}>
+            <FaUser className={styles.studentIcon} />
+            <span className={styles[`benefitDescription${styleSuffix}`]}>
+              {studentName}
+            </span>
+          </div>
+        ) : (
+          <Tooltip content={benefitDescription} position="top">
+            <p className={styles[`benefitDescription${styleSuffix}`]}>
+              {benefitDescription}
+            </p>
+          </Tooltip>
+        )}
       </td>
 
-      {showStats && showStatsColumns && (
+      {/* Columnas de stats - solo si NO es solicitud */}
+      {showStats && !isUseRequest && showStatsColumns && (
         <>
           {/* Costo */}
           <td className={`${styles.tableCell} ${styles.centeredCell}`}>

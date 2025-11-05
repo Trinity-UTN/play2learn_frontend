@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { FaGift } from "react-icons/fa";
+import { FaGift, FaHandPaper } from "react-icons/fa";
 import type {
   AnyBenefit,
   BenefitVariant,
@@ -17,6 +17,8 @@ import {
   isStudentBenefit,
   isFullBenefitResponse,
   hasBenefitBasicProperties,
+  isBenefitUseRequested,
+  getBenefitSubjectName,
 } from "../utils/benefit.utils";
 import { shouldShowBenefitStats } from "../utils/benefit.validation";
 
@@ -32,10 +34,40 @@ export const useBenefitCardData = ({
   isPreview,
 }: UseBenefitCardDataProps) => {
   const data = useMemo(() => {
+    const isUseRequest = isBenefitUseRequested(benefit);
+
+    // Si es una solicitud de uso, retornar data específica (POR AHORA) TODO: Agg icon, category, color backend
+    if (isUseRequest) {
+      const subjectName = benefit.subjectName;
+      const subjectColor = getSubjectColor(subjectName);
+
+      return {
+        IconComponent: FaHandPaper,
+        iconColor: "#F59E0B",
+        category: undefined,
+        styleSuffix: "Teacher",
+        purchaseLimit: null,
+        purchaseLimitPerStudent: null,
+        hasEndDate: false,
+        showStats: false,
+        benefitName: benefit.benefitName,
+        benefitCost: 0,
+        descriptionText: `Solicitud de uso de beneficio`,
+        subjectName,
+        subjectColor,
+        categoryColor: { bg: "#FEF3C7", text: "#92400E" },
+        hasFullProperties: false,
+        hasBasicProperties: false,
+        isUseRequest: true,
+        studentName: benefit.studentName,
+      };
+    }
+
+    // Lógica original para beneficios normales
     const hasFullProperties = isFullBenefitResponse(benefit);
     const hasBasicProperties = hasBenefitBasicProperties(benefit);
 
-    // Iconos y colores básicos - use defaults if not available
+    // Iconos y colores básicos
     const IconComponent = hasFullProperties
       ? getIconByValue(benefit.icon)
       : FaGift;
@@ -75,18 +107,7 @@ export const useBenefitCardData = ({
       ? "Descripción del beneficio aparecerá aquí..."
       : "";
 
-    // Subject name según tipo de benefit
-    const getSubjectName = () => {
-      if ("subjectDto" in benefit && benefit.subjectDto) {
-        return benefit.subjectDto.name;
-      }
-      if ("subjectName" in benefit) {
-        return benefit.subjectName;
-      }
-      return null;
-    };
-
-    const subjectName = getSubjectName();
+    const subjectName = getBenefitSubjectName(benefit as TeacherBenefitType);
     const subjectColor = subjectName ? getSubjectColor(subjectName) : null;
     const categoryColor =
       hasFullProperties && benefit.category
@@ -110,6 +131,8 @@ export const useBenefitCardData = ({
       categoryColor,
       hasFullProperties,
       hasBasicProperties,
+      isUseRequest: false,
+      studentName: undefined,
     };
   }, [benefit, variant, isPreview]);
 

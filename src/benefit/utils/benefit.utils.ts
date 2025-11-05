@@ -257,3 +257,38 @@ export const getBenefitAvailabilityStatus = (benefit: any): string => {
   if (benefit.purchasesLeft === 0) return "Agotado";
   return "Disponible";
 };
+
+// ============================================
+// BENEFIT REQUEST UTILITIES
+// ============================================
+
+export const getBenefitDisplayName = (benefit: TeacherBenefitType): string => {
+  if (isBenefitUseRequested(benefit)) {
+    return benefit.benefitName;
+  }
+  return benefit.name;
+};
+
+export const getBenefitId = (benefit: TeacherBenefitType): number => {
+  if (isBenefitUseRequested(benefit)) {
+    return benefit.id;
+  }
+  return benefit.id;
+};
+
+export const getActualBenefitId = (benefit: TeacherBenefitType): number => {
+  if (isBenefitUseRequested(benefit)) {
+    return benefit.benefitId;
+  }
+  return benefit.id;
+};
+
+export const getBenefitSubjectName = (benefit: TeacherBenefitType): string => {
+  if (isBenefitUseRequested(benefit)) {
+    return benefit.subjectName;
+  }
+  if ("subjectDto" in benefit) {
+    return benefit.subjectDto.name;
+  }
+  return "";
+};
