@@ -19,9 +19,9 @@ const TERM_OPTIONS: {
   days: number;
   rate: number;
 }[] = [
-  { value: "SEMANAL", label: "Semanal", days: 7, rate: 1.5 },
-  { value: "QUINCENAL", label: "Quincenal", days: 15, rate: 3.0 },
-  { value: "MENSUAL", label: "Mensual", days: 30, rate: 5.0 },
+  { value: "SEMANAL", label: "Semanal", days: 7, rate: 2.877 },
+  { value: "QUINCENAL", label: "Quincenal", days: 15, rate: 6.165 },
+  { value: "MENSUAL", label: "Mensual", days: 30, rate: 12.33 },
 ];
 
 const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({

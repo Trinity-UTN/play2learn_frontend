@@ -127,6 +127,11 @@
   border-color: #3b82f6;
   color: white;
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s ease-in-out !important;
+}
+.termButtonActive:hover {
+  background: linear-gradient(135deg, #105bd3, #071f60);
+  border-color: #3b82f6;
 }
 
 .termLabel {

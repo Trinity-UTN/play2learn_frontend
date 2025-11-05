@@ -4,12 +4,23 @@ import { FaListAlt } from "react-icons/fa";
 import styles from "./PlazoFijoList.module.css";
 import type { PlazoFijoResponse } from "../../../types/plazoFijo.type";
 import PlazoFijoCard from "../PlazoFijoCard/PlazoFijoCard";
+import type { PaginationInfo } from "../../../../shared/types/PaginacionType";
+import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
+import LoadingSpinnerComponent from "../../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 
 interface PlazoFijoListProps {
-  plazosFijos: PlazoFijoResponse[];
+  plazosFijos: PlazoFijoResponse[] | undefined;
+  paginationInfo: PaginationInfo | null;
 }
 
-const PlazoFijoList: React.FC<PlazoFijoListProps> = ({ plazosFijos }) => {
+const PlazoFijoList: React.FC<PlazoFijoListProps> = ({
+  plazosFijos,
+  paginationInfo,
+}) => {
+  if (!plazosFijos) {
+    return <LoadingSpinnerComponent />;
+  }
+
   if (plazosFijos.length === 0) {
     return (
       <motion.div
@@ -36,16 +47,30 @@ const PlazoFijoList: React.FC<PlazoFijoListProps> = ({ plazosFijos }) => {
         <h2 className={styles.title}>Mis Plazos Fijos</h2>
         <span className={styles.count}>{plazosFijos.length} inversiones</span>
       </div>
-
-      <div className={styles.grid}>
-        {plazosFijos.map((plazoFijo, index) => (
-          <PlazoFijoCard
-            key={plazoFijo.id}
-            plazoFijo={plazoFijo}
-            index={index}
-          />
-        ))}
-      </div>
+      <PaginateComponent
+        background="transparent"
+        backgroundPagination="rgba(255, 255, 255, 0.54)"
+        {...(paginationInfo && {
+          pagination: {
+            currentPage: paginationInfo.currentPage,
+            totalPages: paginationInfo.totalPages,
+            pageSize: paginationInfo.pageSize,
+            totalItems: paginationInfo.totalItems,
+            onPageChange: paginationInfo.onPageChange,
+            onPageSizeChange: paginationInfo.onPageSizeChange,
+          },
+        })}
+      >
+        <div className={styles.grid}>
+          {plazosFijos.map((plazoFijo, index) => (
+            <PlazoFijoCard
+              key={plazoFijo.id}
+              plazoFijo={plazoFijo}
+              index={index}
+            />
+          ))}
+        </div>
+      </PaginateComponent>
     </motion.div>
   );
 };

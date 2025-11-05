@@ -1,44 +1,13 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import styles from "./PlazoFijoView.module.css";
 import CreatePlazoFijoForm from "../../components/PlazoFijoView/CreatePlazoFijoForm/CreatePlazoFijoForm";
 import PlazoFijoList from "../../components/PlazoFijoView/PlazoFijoList/PlazoFijoList";
 import { FaClock, FaCoins, FaChartLine, FaCheckCircle } from "react-icons/fa";
-import type {
-  PlazoFijoResponse,
-  RegisterPlazoFijo,
-} from "../../types/plazoFijo.type";
-
-// Mock data para desarrollo
-const mockPlazosFijos: PlazoFijoResponse[] = [
-  {
-    id: 1,
-    amountInvested: 5000,
-    amountReward: 5250,
-    fixedTermDays: "MENSUAL",
-    startDate: "2025-01-05",
-    endDate: "2025-02-05",
-    fixedTermState: "IN_PROGRESS",
-  },
-  {
-    id: 2,
-    amountInvested: 10000,
-    amountReward: 10150,
-    fixedTermDays: "QUINCENAL",
-    startDate: "2024-12-20",
-    endDate: "2025-01-04",
-    fixedTermState: "FINISHED",
-  },
-  {
-    id: 3,
-    amountInvested: 3000,
-    amountReward: 3045,
-    fixedTermDays: "SEMANAL",
-    startDate: "2025-01-01",
-    endDate: "2025-01-08",
-    fixedTermState: "IN_PROGRESS",
-  },
-];
+import type { RegisterPlazoFijo } from "../../types/plazoFijo.type";
+import { usePlazoFijoStudent } from "../../hooks/usePlazoFijoAPI";
+import usePaginationParams from "../../../shared/hooks/usePaginateParams";
+import type { PaginationInfo } from "../../../shared/types/PaginacionType";
 
 interface PlazoFijoViewProps {
   userBalance?: number;
@@ -47,8 +16,28 @@ interface PlazoFijoViewProps {
 const PlazoFijoView: React.FC<PlazoFijoViewProps> = ({
   userBalance = 50000,
 }) => {
-  const [plazosFijos] = useState<PlazoFijoResponse[]>(mockPlazosFijos);
+  const {
+    paginationParams,
+    handlePageChange,
+    handlePageSizeChange,
+    // handleFilter,
+  } = usePaginationParams();
+  const { plazoFijos, getPaginatedPlazoFijo } = usePlazoFijoStudent();
 
+  useEffect(() => {
+    getPaginatedPlazoFijo(paginationParams);
+  }, [paginationParams]);
+
+  const paginationInfo: PaginationInfo | null = plazoFijos
+    ? {
+        currentPage: plazoFijos.currentPage,
+        totalPages: plazoFijos.totalPages,
+        pageSize: plazoFijos.pageSize,
+        totalItems: plazoFijos.results.length,
+        onPageChange: handlePageChange,
+        onPageSizeChange: handlePageSizeChange,
+      }
+    : null;
   const handleCreatePlazoFijo = async (data: RegisterPlazoFijo) => {
     console.log("[v0] Creating plazo fijo:", data);
     // TODO: Llamar al backend para crear el plazo fijo
@@ -56,17 +45,9 @@ const PlazoFijoView: React.FC<PlazoFijoViewProps> = ({
     // setPlazosFijos([...plazosFijos, newPlazoFijo])
   };
 
-  const totalInvested = plazosFijos.reduce(
-    (sum, pf) => sum + pf.amountInvested,
-    0
-  );
-  const totalRewards = plazosFijos.reduce(
-    (sum, pf) => sum + (pf.amountReward - pf.amountInvested),
-    0
-  );
-  const activePlazosFijos = plazosFijos.filter(
-    (pf) => pf.fixedTermState === "IN_PROGRESS"
-  ).length;
+  const totalInvested = 8;
+  const totalRewards = 10;
+  const activePlazosFijos = 5;
 
   return (
     <div className={styles.container}>
@@ -175,7 +156,10 @@ const PlazoFijoView: React.FC<PlazoFijoViewProps> = ({
         />
 
         {/* List */}
-        <PlazoFijoList plazosFijos={plazosFijos} />
+        <PlazoFijoList
+          plazosFijos={plazoFijos?.results}
+          paginationInfo={paginationInfo}
+        />
       </div>
     </div>
   );

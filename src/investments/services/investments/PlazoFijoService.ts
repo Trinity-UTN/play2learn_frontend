@@ -16,7 +16,7 @@ const getPaginatedPlazoFijosApi = async (
     filters: params.filters?.join(","),
     filtersValues: params.filtersValues?.join(","),
   };
-  const response = await api.get(urls.ActionsPaginated, {
+  const response = await api.get(urls.PlazoFijosPaginated, {
     params: cleanParams,
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
