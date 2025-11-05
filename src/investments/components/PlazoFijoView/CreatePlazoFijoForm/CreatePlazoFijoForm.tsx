@@ -7,6 +7,8 @@ import type {
   FIXED_TERM_DAYS,
   RegisterPlazoFijo,
 } from "../../../types/plazoFijo.type";
+import formatPrice from "../../../../shared/utils/formatPrice";
+import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
 
 interface CreatePlazoFijoFormProps {
   userBalance: number;
@@ -30,6 +32,7 @@ const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({
 }) => {
   const [amount, setAmount] = useState<string>("");
   const [selectedTerm, setSelectedTerm] = useState<FIXED_TERM_DAYS>("MENSUAL");
+  const [isOpen, setIsOpen] = useState(false);
 
   const selectedTermConfig = TERM_OPTIONS.find(
     (opt) => opt.value === selectedTerm
@@ -42,11 +45,12 @@ const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsOpen(true);
+  };
+  const handleSubmitConfirm = () => {
+    const data = { amountInvested: numericAmount, fixedTermDays: selectedTerm };
     if (isValid) {
-      onSubmit({
-        amountInvested: numericAmount,
-        fixedTermDays: selectedTerm,
-      });
+      onSubmit(data);
       setAmount("");
     }
   };
@@ -66,9 +70,7 @@ const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({
         <h2 className={styles.title}>Crear Nuevo Plazo Fijo</h2>
         <div className={styles.balanceInfo}>
           <FaCoins className={styles.coinIcon} />
-          <span>
-            Saldo disponible: {userBalance.toLocaleString("es-AR")} monedas
-          </span>
+          <span>Saldo disponible: {formatPrice(userBalance)} monedas</span>
         </div>
       </div>
 
@@ -91,24 +93,31 @@ const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({
           <div className={styles.quickButtons}>
             <button
               type="button"
-              onClick={() => handleQuickAmount(1000)}
+              onClick={() => handleQuickAmount(1)}
               className={styles.quickButton}
             >
-              1,000
+              1
             </button>
             <button
               type="button"
-              onClick={() => handleQuickAmount(5000)}
+              onClick={() => handleQuickAmount(5)}
               className={styles.quickButton}
             >
-              5,000
+              5
             </button>
             <button
               type="button"
-              onClick={() => handleQuickAmount(10000)}
+              onClick={() => handleQuickAmount(50)}
               className={styles.quickButton}
             >
-              10,000
+              50
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickAmount(100)}
+              className={styles.quickButton}
+            >
+              100
             </button>
             <button
               type="button"
@@ -211,6 +220,14 @@ const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({
           </div>
         )}
       </form>
+
+      <ConfirmationModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        message="Una vez creado el plazo fijo no se podra borrar"
+        title="¿Estas seguro que desea crear el Plazo Fijo?"
+        onConfirm={handleSubmitConfirm}
+      />
     </motion.div>
   );
 };

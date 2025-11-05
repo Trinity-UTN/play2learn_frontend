@@ -8,22 +8,19 @@ import type { RegisterPlazoFijo } from "../../types/plazoFijo.type";
 import { usePlazoFijoStudent } from "../../hooks/usePlazoFijoAPI";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import type { PaginationInfo } from "../../../shared/types/PaginacionType";
+import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 
-interface PlazoFijoViewProps {
-  userBalance?: number;
-}
-
-const PlazoFijoView: React.FC<PlazoFijoViewProps> = ({
-  userBalance = 50000,
-}) => {
+const PlazoFijoView = () => {
   const {
     paginationParams,
     handlePageChange,
     handlePageSizeChange,
     // handleFilter,
   } = usePaginationParams();
-  const { plazoFijos, getPaginatedPlazoFijo } = usePlazoFijoStudent();
-
+  const { plazoFijos, getPaginatedPlazoFijo, registerPlazoFijo } =
+    usePlazoFijoStudent();
+  const { wallet } = useCurrentStudent();
+  const userBalance = wallet?.balance;
   useEffect(() => {
     getPaginatedPlazoFijo(paginationParams);
   }, [paginationParams]);
@@ -39,10 +36,7 @@ const PlazoFijoView: React.FC<PlazoFijoViewProps> = ({
       }
     : null;
   const handleCreatePlazoFijo = async (data: RegisterPlazoFijo) => {
-    console.log("[v0] Creating plazo fijo:", data);
-    // TODO: Llamar al backend para crear el plazo fijo
-    // const newPlazoFijo = await plazoFijoService.create(data)
-    // setPlazosFijos([...plazosFijos, newPlazoFijo])
+    registerPlazoFijo(data);
   };
 
   const totalInvested = 8;
@@ -151,7 +145,7 @@ const PlazoFijoView: React.FC<PlazoFijoViewProps> = ({
 
         {/* Create Form */}
         <CreatePlazoFijoForm
-          userBalance={userBalance}
+          userBalance={userBalance ? userBalance : 0}
           onSubmit={handleCreatePlazoFijo}
         />
 
