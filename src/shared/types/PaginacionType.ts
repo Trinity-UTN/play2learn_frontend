@@ -15,9 +15,12 @@ export interface PaginatedData<T> {
   count: number;
   totalPages: number;
 }
-// export interface PaginatedYearResponse {
-//   data: PaginatedData<YearResponseDto>;
-//   message: string;
-//   errors: any;
-//   timestamp: string;
-// }
+
+export interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+  totalItems: number;
+  onPageChange: (page: number) => void;
+  onPageSizeChange: (size: number) => void;
+}

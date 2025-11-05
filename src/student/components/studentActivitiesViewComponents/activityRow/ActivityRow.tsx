@@ -5,20 +5,16 @@ import Badge from "../../../../shared/components/Badge/BadgeComponent";
 import formatPrice from "../../../../shared/utils/formatPrice";
 import type { ActivityUI } from "../../../types/Activity.type";
 import { getActivityIcon } from "../../../../shared/utils/activityIcons";
-import { useActivityStudentUI } from "../../../hooks/useActivityStudentUI";
+import { getActivityStatusConfig } from "../../../utils/activities.utils";
 import styles from "./ActivityRow.module.css";
 
 interface ActivityRowProps {
   activity: ActivityUI;
   onStart?: (activityId: string) => void;
-  onContinue?: (activityId: string) => void;
-  onViewResults?: (activityId: string) => void;
 }
 
 const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
-  const { getStatusConfig } = useActivityStudentUI();
-
-  const statusConfig = getStatusConfig(activity.status);
+  const statusConfig = getActivityStatusConfig(activity.status);
   const isDisabled =
     (activity.status === "CREATED" || activity.noAttempts) &&
     !(activity.status === "APPROVED");
@@ -50,7 +46,6 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
             <span className={styles.activityIcon}>
               <ActivityIcon />
             </span>
-
             <div className={styles.titleInfo}>
               <h3 className={styles.activityTitle}>{activity.name}</h3>
               <div className={styles.metadata}>
@@ -76,20 +71,18 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
         </div>
 
         {/* Información secundaria */}
-        {activity.status != "APPROVED" && (
+        {activity.status !== "APPROVED" && (
           <div className={styles.secondaryInfo}>
             <div className={styles.infoItem}>
               <FaCalendarAlt className={styles.metaIcon} />
               <span className={styles.infoText}>{activity.dateLabel}</span>
             </div>
 
-            {/* Tiempo máximo */}
             <div className={styles.infoItem}>
               <FaStopwatch className={styles.metaIcon} />
               <span className={styles.infoText}>{activity.timeLabel}</span>
             </div>
 
-            {/* Intentos */}
             <div className={styles.infoItem}>
               <FaRedo className={styles.metaIcon} />
               <span className={styles.infoText}>{activity.attemptsLabel}</span>
@@ -100,7 +93,6 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
 
       {/* Botón de acción */}
       <div className={styles.actionSection}>
-        {/* Estado */}
         <div className={styles.statusBadge}>
           <Badge>
             <statusConfig.icon className={styles.statusIcon} />
@@ -119,7 +111,7 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
         </Button>
       </div>
 
-      {/* Puntuación (si está completada) */}
+      {/* Puntuación */}
       {activity.status === "APPROVED" && activity.reward !== undefined && (
         <div className={styles.scoreSection}>
           <div className={styles.scoreCircle}>
@@ -133,5 +125,4 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
     </motion.div>
   );
 };
-
 export default ActivityRow;

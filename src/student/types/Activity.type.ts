@@ -35,6 +35,21 @@ export interface ActivityApprovedResponseInterface extends BaseActivity {
   reward: number;
   state: "APPROVED";
 }
+
+export interface ActivityStatsResponse {
+  available: number;
+  approved: number;
+  disapproved: number;
+  expired: number;
+}
+
+export interface ActivityStatsApiResponse {
+  data: ActivityStatsResponse;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
 export interface PaginatedActivityNotApprovedResponseInterface {
   data: PaginatedData<ActivityNotApprovedResponseInterface>;
   message: string;

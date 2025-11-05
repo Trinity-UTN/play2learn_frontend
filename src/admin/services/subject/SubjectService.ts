@@ -33,6 +33,16 @@ export interface SubjectResponseDto {
   initialBalance: number;
 }
 
+export interface SubjectSimplifiedResponseDto {
+  id: number;
+  name: string;
+  course: CourseResponseDto;
+  teacher: TeacherResponseDto;
+  optional: boolean;
+  actualBalance: number;
+  initialBalance: number;
+}
+
 export interface PaginatedSubjectResponse {
   data: PaginatedData<SubjectResponseDto>;
   message: string;

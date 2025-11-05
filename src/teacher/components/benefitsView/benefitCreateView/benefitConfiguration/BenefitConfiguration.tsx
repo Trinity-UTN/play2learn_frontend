@@ -5,11 +5,11 @@ import type { SubjectResponseDto } from "../../../../../admin/services/subject/S
 import type {
   CreateBenefitInterface,
   BenefitValidationErrors,
-} from "../../../../../shared/types/Benefits.type";
+} from "../../../../../benefit/types/benefit.types";
 import {
   BENEFIT_FORM_PLACEHOLDERS,
   BENEFIT_TOOLTIP,
-} from "../../../../constants/benefits.constants";
+} from "../../../../../benefit/constants/benefit.constants";
 import styles from "./BenefitConfiguration.module.css";
 
 type BenefitConfigurationProps = {

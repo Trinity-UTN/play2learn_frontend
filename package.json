@@ -15,6 +15,7 @@
     "axios": "^1.10.0",
     "framer-motion": "^12.18.1",
     "jsdom": "^26.1.0",
+    "lightweight-charts": "^5.0.9",
     "pdf-lib": "^1.17.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

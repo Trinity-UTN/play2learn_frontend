@@ -10,7 +10,6 @@ import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvide
 import { CurrentStudentProvider } from "../student/context/currentStudent/CurrentStudentProvider";
 import { ProfileAvatarProvider } from "../student/context/profileAvatarContext/ProfileAvatarProvider";
 import { ActivityStudentProvider } from "../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
-import { ActivityStudentProviderUI } from "../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
 import { AhorcadoProvider } from "../activity/contexts/ahorcadoContext/AhorcadoProvider";
 import { AhorcadoGameProvider } from "../shared/contexts/gamesContext/ahorcadoGameContext/AhorcadoGameProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
@@ -23,6 +22,9 @@ import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaP
 import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/PreguntadosProvider";
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
 import { WalletStudentProvider } from "../student/context/walletStudentContext/WalletStudentProvider";
+import { BenefitStudentProvider } from "../student/context/benefitStudentContext/BenefitStudentProvider";
+import { StoreProvider } from "../student/context/storeStudentContext/StoreStudentProvider";
+import { ActionsProvider } from "../investments/contexts/actionsContext/ActionsStudentProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
@@ -36,6 +38,9 @@ import StudentRankingView from "../student/views/studentRankingView/StudentRanki
 import StudentStoreView from "../student/views/studentStoreView/StudentStoreView";
 import StudentWalletView from "../student/views/studentWalletView/StudentWalletView";
 import StudentFinancialEducationView from "../student/views/studentFinancialEducationView/StudentFinancialEducationView";
+import ActionDetailView from "../investments/views/ActionsDetailView/ActionsDetailView";
+import ActionsView from "../investments/views/actionsView/ActionsView";
+import InvestmentsView from "../investments/views/InvestmentsView/InvestmentsView";
 
 const StudentApp = () => {
   return (
@@ -57,43 +62,47 @@ const StudentApp = () => {
                   <CurrentStudentProvider>
                     <ProfileAvatarProvider>
                       <ActivityStudentProvider>
-                        <ActivityStudentProviderUI>
-                          <ConfigurationActivityProvider>
-                            <NoLudicaProvider>
-                              <NoLudicaGameProvider mode="student">
-                                <AhorcadoProvider>
-                                  <AhorcadoGameProvider mode="student">
-                                    <CompletarOracionProvider>
-                                      <CompletarOracionGameProvider mode="student">
-                                        <DesafioClasificacionProvider>
-                                          <DesafioClasificacionGameProvider mode="student">
-                                            <PreguntadosProvider>
-                                              <PreguntadosGameProvider mode="student">
-                                                <WalletStudentProvider>
-                                                  <motion.div
-                                                    key="dashboardStudent"
-                                                    initial={{ opacity: 0 }}
-                                                    animate={{ opacity: 1 }}
-                                                    exit={{ opacity: 0 }}
-                                                    transition={{
-                                                      duration: 0.3,
-                                                    }}
-                                                  >
-                                                    <StudentDashboard />
-                                                  </motion.div>
-                                                </WalletStudentProvider>
-                                              </PreguntadosGameProvider>
-                                            </PreguntadosProvider>
-                                          </DesafioClasificacionGameProvider>
-                                        </DesafioClasificacionProvider>
-                                      </CompletarOracionGameProvider>
-                                    </CompletarOracionProvider>
-                                  </AhorcadoGameProvider>
-                                </AhorcadoProvider>
-                              </NoLudicaGameProvider>
-                            </NoLudicaProvider>
-                          </ConfigurationActivityProvider>
-                        </ActivityStudentProviderUI>
+                        <ConfigurationActivityProvider>
+                          <NoLudicaProvider>
+                            <NoLudicaGameProvider mode="student">
+                              <AhorcadoProvider>
+                                <AhorcadoGameProvider mode="student">
+                                  <CompletarOracionProvider>
+                                    <CompletarOracionGameProvider mode="student">
+                                      <DesafioClasificacionProvider>
+                                        <DesafioClasificacionGameProvider mode="student">
+                                          <PreguntadosProvider>
+                                            <PreguntadosGameProvider mode="student">
+                                              <WalletStudentProvider>
+                                                <BenefitStudentProvider>
+                                                  <StoreProvider>
+                                                    <ActionsProvider>
+                                                      <motion.div
+                                                        key="dashboardStudent"
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        exit={{ opacity: 0 }}
+                                                        transition={{
+                                                          duration: 0.3,
+                                                        }}
+                                                      >
+                                                        <StudentDashboard />
+                                                      </motion.div>
+                                                    </ActionsProvider>
+                                                  </StoreProvider>
+                                                </BenefitStudentProvider>
+                                              </WalletStudentProvider>
+                                            </PreguntadosGameProvider>
+                                          </PreguntadosProvider>
+                                        </DesafioClasificacionGameProvider>
+                                      </DesafioClasificacionProvider>
+                                    </CompletarOracionGameProvider>
+                                  </CompletarOracionProvider>
+                                </AhorcadoGameProvider>
+                              </AhorcadoProvider>
+                            </NoLudicaGameProvider>
+                          </NoLudicaProvider>
+                        </ConfigurationActivityProvider>
                       </ActivityStudentProvider>
                     </ProfileAvatarProvider>
                   </CurrentStudentProvider>
@@ -138,6 +147,11 @@ const StudentApp = () => {
               path="wallet/financial-education"
               element={<StudentFinancialEducationView />}
             />
+
+            {/* INVERSIONES */}
+            <Route path="investmests/list" element={<InvestmentsView />} />
+            <Route path="actions/list" element={<ActionsView />} />
+            <Route path="actions/details/:id" element={<ActionDetailView />} />
           </Route>
         </Routes>
       </AnimatePresence>

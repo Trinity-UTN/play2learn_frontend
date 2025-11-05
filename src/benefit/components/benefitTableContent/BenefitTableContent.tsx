@@ -1,0 +1,198 @@
+import { FaCoins, FaUsers, FaUser, FaCalendarAlt } from "react-icons/fa";
+import Badge from "../../../shared/components/Badge/BadgeComponent";
+import Tooltip from "../../../shared/components/Tooltip/TooltipComponent";
+import type {
+  BenefitResponseInterface,
+  BenefitStudentResponseInterface,
+  AnyBenefit,
+  BenefitVariant,
+} from "../../types/benefit.types";
+import { formatBenefitDate } from "../../utils/benefit.utils";
+import { useBenefitTableData } from "../../hooks/useBenefitTableData";
+import styles from "./BenefitTableContent.module.css";
+
+interface BenefitTableContentProps {
+  benefit: AnyBenefit;
+  variant: BenefitVariant;
+  actionButton?: React.ReactNode;
+  showStatsColumns?: boolean;
+}
+
+const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
+  benefit,
+  variant,
+  actionButton,
+  showStatsColumns = true,
+}) => {
+  const {
+    IconComponent,
+    iconColor,
+    category,
+    showStats,
+    categoryName,
+    categoryColor,
+    subjectName,
+    subjectColor,
+  } = useBenefitTableData({
+    benefit,
+    variant,
+  });
+
+  const styleSuffix = variant === "student" ? "Student" : "Teacher";
+  const isTeacherVariant = variant === "teacher";
+  const benefitWithLimits = benefit as
+    | BenefitResponseInterface
+    | BenefitStudentResponseInterface;
+
+  return (
+    <>
+      {/* Icono + Nombre + Categoría + Subject */}
+      <td className={styles.tableCell}>
+        <div className={styles.benefitInfo}>
+          <div
+            className={styles.iconWrapper}
+            style={{ backgroundColor: iconColor }}
+          >
+            <IconComponent className={styles.benefitIcon} />
+          </div>
+          <div className={styles.benefitDetails}>
+            <span className={styles[`benefitName${styleSuffix}`]}>
+              {benefit.name}
+            </span>
+            <div className={styles.badges}>
+              <span className={styles.benefitCategory}>
+                {category && (
+                  <Badge variant="custom" size="sm" customColor={categoryColor}>
+                    {categoryName}
+                  </Badge>
+                )}
+              </span>
+              {subjectName && subjectColor && (
+                <Badge variant="custom" size="sm" customColor={subjectColor}>
+                  {subjectName}
+                </Badge>
+              )}
+            </div>
+          </div>
+        </div>
+      </td>
+
+      {/* Descripción */}
+      <td className={`${styles.tableCell} ${styles.centeredCell}`}>
+        <Tooltip content={benefit.description} position="top">
+          <p className={styles[`benefitDescription${styleSuffix}`]}>
+            {benefit.description}
+          </p>
+        </Tooltip>
+      </td>
+
+      {showStats && showStatsColumns && (
+        <>
+          {/* Costo */}
+          <td className={`${styles.tableCell} ${styles.centeredCell}`}>
+            <div className={styles.statItem}>
+              <FaCoins className={styles.costIcon} />
+              <span className={styles[`statValue${styleSuffix}`]}>
+                {benefit.cost}
+              </span>
+            </div>
+          </td>
+
+          {/* Límite total / Canjes disponibles */}
+          <td className={`${styles.tableCell} ${styles.centeredCell}`}>
+            {isTeacherVariant ? (
+              (benefitWithLimits as BenefitResponseInterface).purchaseLimit ? (
+                <div className={styles.statItem}>
+                  <FaUsers className={styles.limitIcon} />
+                  <span className={styles[`statValue${styleSuffix}`]}>
+                    {
+                      (benefitWithLimits as BenefitResponseInterface)
+                        .purchaseLimit
+                    }
+                  </span>
+                </div>
+              ) : (
+                <Tooltip content={"Sin límite"} position="top">
+                  <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
+                </Tooltip>
+              )
+            ) : (benefitWithLimits as BenefitStudentResponseInterface)
+                .purchasesLeft !== null ? (
+              <div className={styles.statItem}>
+                <FaUsers className={styles.limitIcon} />
+                <span className={styles[`statValue${styleSuffix}`]}>
+                  {
+                    (benefitWithLimits as BenefitStudentResponseInterface)
+                      .purchasesLeft
+                  }
+                </span>
+              </div>
+            ) : (
+              <Tooltip content={"Sin límite"} position="top">
+                <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
+              </Tooltip>
+            )}
+          </td>
+
+          {/* Límite por estudiante / Mis usos */}
+          <td className={`${styles.tableCell} ${styles.centeredCell}`}>
+            {isTeacherVariant ? (
+              (benefitWithLimits as BenefitResponseInterface)
+                .purchaseLimitPerStudent ? (
+                <div className={styles.statItem}>
+                  <FaUser className={styles.limitPerStudentIcon} />
+                  <span className={styles[`statValue${styleSuffix}`]}>
+                    {
+                      (benefitWithLimits as BenefitResponseInterface)
+                        .purchaseLimitPerStudent
+                    }
+                  </span>
+                </div>
+              ) : (
+                <Tooltip content={"Sin límite"} position="top">
+                  <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
+                </Tooltip>
+              )
+            ) : (benefitWithLimits as BenefitStudentResponseInterface)
+                .purchasesLeftByStudent !== null ? (
+              <div className={styles.statItem}>
+                <FaUser className={styles.limitPerStudentIcon} />
+                <span className={styles[`statValue${styleSuffix}`]}>
+                  {
+                    (benefitWithLimits as BenefitStudentResponseInterface)
+                      .purchasesLeftByStudent
+                  }
+                </span>
+              </div>
+            ) : (
+              <Tooltip content={"Sin límite"} position="top">
+                <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
+              </Tooltip>
+            )}
+          </td>
+        </>
+      )}
+
+      {/* Fecha de finalización */}
+      <td className={`${styles.tableCell} ${styles.centeredCell}`}>
+        {"endAt" in benefit && benefit.endAt && (
+          <div className={styles.dateSection}>
+            <FaCalendarAlt className={styles.dateIcon} />
+            <span className={styles.dateValue}>
+              {formatBenefitDate(benefit.endAt)}
+            </span>
+          </div>
+        )}
+      </td>
+
+      {/* Acciones */}
+      {actionButton && (
+        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
+          <div className={styles.actions}>{actionButton}</div>
+        </td>
+      )}
+    </>
+  );
+};
+
+export default BenefitTableContent;

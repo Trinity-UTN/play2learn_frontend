@@ -41,6 +41,7 @@ export interface BodyPart {
   price: number;
   type: string;
   available: boolean;
+  bought?: boolean;
 }
 
 export interface Profile {
@@ -55,6 +56,7 @@ export interface Wallet {
   id: number;
   balance: number;
   invertedBalance: number;
+  totalBalance: number;
 }
 
 export interface StudentResponseDto {

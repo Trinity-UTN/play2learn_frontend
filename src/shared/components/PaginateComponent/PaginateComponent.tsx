@@ -15,37 +15,46 @@ export interface PaginateComponentProps {
     onPageChange: (page: number) => void;
     onPageSizeChange: (pageSize: number) => void;
   };
+  background?: string;
+  backgroundPagination?: string;
 }
 
 const PaginateComponent = ({
   loading = false,
   loadingText = "Cargando...",
-
+  background,
   children,
   pagination,
+  backgroundPagination,
 }: PaginateComponentProps) => {
   return (
-    <Card className={`${styles.tableCard}`}>
-      <div className={styles.tableWrapper}>
-        {loading ? (
-          <div className={styles.loadingContainer}>
-            <LoadingSpinnerComponent text={loadingText} />
-          </div>
-        ) : (
-          <>{children}</>
+    <div
+      className={`${styles.tableCard}`}
+      style={{ backgroundColor: background }}
+    >
+      <Card className={styles.card}>
+        <div>
+          {loading ? (
+            <div className={styles.loadingContainer}>
+              <LoadingSpinnerComponent text={loadingText} />
+            </div>
+          ) : (
+            <>{children}</>
+          )}
+        </div>
+        {pagination && !loading && (
+          <PaginationComponent
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+            pageSize={pagination.pageSize}
+            totalItems={pagination.totalItems}
+            onPageChange={pagination.onPageChange}
+            onPageSizeChange={pagination.onPageSizeChange}
+            background={backgroundPagination}
+          />
         )}
-      </div>
-      {pagination && !loading && (
-        <PaginationComponent
-          currentPage={pagination.currentPage}
-          totalPages={pagination.totalPages}
-          pageSize={pagination.pageSize}
-          totalItems={pagination.totalItems}
-          onPageChange={pagination.onPageChange}
-          onPageSizeChange={pagination.onPageSizeChange}
-        />
-      )}
-    </Card>
+      </Card>
+    </div>
   );
 };
 

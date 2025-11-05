@@ -10,4 +10,5 @@ export const StudentRoutes = {
   },
   Store: "student/store",
   Ranking: "student/ranking/list",
+  Investments: "student/investmests/list",
 };
