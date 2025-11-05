@@ -28,16 +28,14 @@ const Badge: React.FC<BadgeProps> = ({
     .filter(Boolean)
     .join(" ");
 
+  const customStyle =
+    variant === "custom" && customColor
+      ? { backgroundColor: customColor.bg, color: customColor.text }
+      : undefined;
 
   return (
-    <span className={badgeClass} style={style}>
-
-      const customStyle =
-       variant === "custom" && customColor
-        ? { backgroundColor: customColor.bg, color: customColor.text }
-        : undefined;
-
-        {children}
+    <span className={badgeClass} style={{ ...customStyle, ...style }}>
+      {children}
     </span>
   );
 };
