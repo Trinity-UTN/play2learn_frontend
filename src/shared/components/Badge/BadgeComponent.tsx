@@ -12,6 +12,7 @@ interface BadgeProps {
     | "custom";
   size?: "xs" | "sm" | "md" | "lg";
   className?: string;
+  style?: React.CSSProperties;
   customColor?: { bg: string; text: string };
 }
 
@@ -20,6 +21,7 @@ const Badge: React.FC<BadgeProps> = ({
   variant = "primary",
   size = "md",
   className = "",
+  style,
   customColor,
 }) => {
   const badgeClass = [styles.badge, styles[variant], styles[size], className]
@@ -32,7 +34,7 @@ const Badge: React.FC<BadgeProps> = ({
       : undefined;
 
   return (
-    <span className={badgeClass} style={customStyle}>
+    <span className={badgeClass} style={{ ...customStyle, ...style }}>
       {children}
     </span>
   );
