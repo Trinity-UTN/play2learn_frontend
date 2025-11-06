@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#Carpeta de cursor
+.cursor/
+docs/
+

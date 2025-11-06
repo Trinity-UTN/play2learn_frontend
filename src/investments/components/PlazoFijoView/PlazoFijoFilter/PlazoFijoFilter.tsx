@@ -1,5 +1,7 @@
 import styles from "./PlazoFijoFilter.module.css";
 import { motion } from "framer-motion";
+import { useMemo } from "react";
+import type React from "react";
 import { type FIXED_TERM_STATES } from "../../../types/plazoFijo.type";
 
 import { FaFilter } from "react-icons/fa";
@@ -18,11 +20,15 @@ const PlazoFijoFilter = ({
   handleFilter,
   onFilterChange,
 }: Props) => {
-  const handleClick = createFilterHandler({
-    onFilterChange,
-    handleFilter,
-    filterType: FILTER_TYPES.PLAZO_FIJO_STATUS,
-  });
+  const handleClick = useMemo(
+    () =>
+      createFilterHandler({
+        onFilterChange,
+        handleFilter,
+        filterType: FILTER_TYPES.PLAZO_FIJO_STATUS,
+      }),
+    [onFilterChange, handleFilter]
+  );
   return (
     <motion.div
       className={styles.filterSection}
@@ -35,19 +41,26 @@ const PlazoFijoFilter = ({
         <span>Filtrar por riesgo:</span>
       </div>
 
-      <div className={styles.filterButtons}>
-        {statusFilters.map((filter, index) => (
+      <div
+        className={styles.filterButtons}
+        role="group"
+        aria-label="Filtros de riesgo de plazo fijo"
+      >
+        {statusFilters.map((statusOption, index) => (
           <motion.button
-            key={filter.value}
+            key={statusOption.value}
             className={`${styles.filterButton} ${
-              filterStatus === filter.value ? styles.active : ""
+              filterStatus === statusOption.value ? styles.active : ""
             }`}
-            onClick={() => handleClick(filter)}
+            onClick={() => handleClick(statusOption)}
             style={
               {
-                "--filter-color": filter.color,
+                "--filter-color": statusOption.color,
               } as React.CSSProperties
             }
+            type="button"
+            aria-pressed={filterStatus === statusOption.value}
+            aria-label={`Filtrar por ${statusOption.label}`}
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{
@@ -59,7 +72,7 @@ const PlazoFijoFilter = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            {filter.label}
+            {statusOption.label}
           </motion.button>
         ))}
       </div>

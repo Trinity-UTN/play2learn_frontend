@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 import { usePlazoFijoStudent } from "../usePlazoFijoAPI";
@@ -31,20 +31,24 @@ export const usePlazoFijoView = () => {
     getPaginatedPlazoFijo(paginationParams);
   }, [paginationParams]);
 
-  const paginationInfo: PaginationInfo | null = plazoFijos
-    ? {
-        currentPage: plazoFijos.currentPage,
-        totalPages: plazoFijos.totalPages,
-        pageSize: plazoFijos.pageSize,
-        totalItems: plazoFijos.results.length,
-        onPageChange: handlePageChange,
-        onPageSizeChange: handlePageSizeChange,
-      }
-    : null;
+  const paginationInfo: PaginationInfo | null = useMemo(() => {
+    if (!plazoFijos) return null;
+    return {
+      currentPage: plazoFijos.currentPage,
+      totalPages: plazoFijos.totalPages,
+      pageSize: plazoFijos.pageSize,
+      totalItems: plazoFijos.results.length,
+      onPageChange: handlePageChange,
+      onPageSizeChange: handlePageSizeChange,
+    };
+  }, [plazoFijos, handlePageChange, handlePageSizeChange]);
 
-  const handleCreatePlazoFijo = async (data: RegisterPlazoFijo) => {
-    registerPlazoFijo(data);
-  };
+  const handleCreatePlazoFijo = useCallback(
+    async (data: RegisterPlazoFijo) => {
+      await registerPlazoFijo(data);
+    },
+    [registerPlazoFijo]
+  );
 
   return {
     //Paginacion
