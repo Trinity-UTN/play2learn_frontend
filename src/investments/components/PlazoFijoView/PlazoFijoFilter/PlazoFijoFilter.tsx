@@ -1,13 +1,11 @@
 import styles from "./PlazoFijoFilter.module.css";
 import { motion } from "framer-motion";
-import {
-  statusFilters,
-  type FIXED_TERM_STATES,
-} from "../../../types/plazoFijo.type";
+import { type FIXED_TERM_STATES } from "../../../types/plazoFijo.type";
 
 import { FaFilter } from "react-icons/fa";
 import { createFilterHandler } from "../../../../shared/utils/createFilterHandler";
 import { FILTER_TYPES } from "../../../../shared/contanst/filters.contanst";
+import { statusFilters } from "../../../contanst/plazoFijoContanst/plazoFijoContanst";
 
 type Props = {
   filterStatus: FIXED_TERM_STATES;
