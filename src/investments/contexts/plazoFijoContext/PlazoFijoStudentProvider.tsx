@@ -70,8 +70,8 @@ export const PlazoFijoProvider: React.FC<PlazoFijoProviderProps> = ({
   const contextValue: PlazoFijoContextType = {
     // Estados principales
     loading,
-    getPaginatedPlazoFijo,
     plazoFijos,
+    getPaginatedPlazoFijo,
     registerPlazoFijo,
   };
 

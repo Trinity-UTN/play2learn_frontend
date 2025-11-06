@@ -1,63 +1,39 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaCoins, FaClock, FaPlus, FaInfoCircle } from "react-icons/fa";
-
 import styles from "./CreatePlazoFijoForm.module.css";
-import type {
-  FIXED_TERM_DAYS,
-  RegisterPlazoFijo,
-} from "../../../types/plazoFijo.type";
+import type { RegisterPlazoFijo } from "../../../types/plazoFijo.type";
+import {
+  quickAmounts,
+  TERM_OPTIONS,
+} from "../../../contanst/plazoFijoContanst/plazoFijoContanst";
 import formatPrice from "../../../../shared/utils/formatPrice";
 import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
-
+import { usePlazoFijoForm } from "../../../hooks/usePlazoFijo/usePlazoFijoForm";
 interface CreatePlazoFijoFormProps {
   userBalance: number;
   onSubmit: (data: RegisterPlazoFijo) => void;
 }
 
-const TERM_OPTIONS: {
-  value: FIXED_TERM_DAYS;
-  label: string;
-  days: number;
-  rate: number;
-}[] = [
-  { value: "SEMANAL", label: "Semanal", days: 7, rate: 2.877 },
-  { value: "QUINCENAL", label: "Quincenal", days: 15, rate: 6.165 },
-  { value: "MENSUAL", label: "Mensual", days: 30, rate: 12.33 },
-];
-
 const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({
   userBalance,
   onSubmit,
 }) => {
-  const [amount, setAmount] = useState<string>("");
-  const [selectedTerm, setSelectedTerm] = useState<FIXED_TERM_DAYS>("MENSUAL");
-  const [isOpen, setIsOpen] = useState(false);
-
-  const selectedTermConfig = TERM_OPTIONS.find(
-    (opt) => opt.value === selectedTerm
-  )!;
-  const numericAmount = Number.parseFloat(amount) || 0;
-  const estimatedReward = numericAmount * (selectedTermConfig.rate / 100);
-  const totalReturn = numericAmount + estimatedReward;
-
-  const isValid = numericAmount > 0 && numericAmount <= userBalance;
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsOpen(true);
-  };
-  const handleSubmitConfirm = () => {
-    const data = { amountInvested: numericAmount, fixedTermDays: selectedTerm };
-    if (isValid) {
-      onSubmit(data);
-      setAmount("");
-    }
-  };
-
-  const handleQuickAmount = (value: number) => {
-    setAmount(value.toString());
-  };
+  const {
+    amount,
+    selectedTerm,
+    isOpen,
+    selectedTermConfig,
+    isValid,
+    numericAmount,
+    estimatedReward,
+    totalReturn,
+    setAmount,
+    setSelectedTerm,
+    setIsOpen,
+    handleSubmit,
+    handleSubmitConfirm,
+    handleQuickAmount,
+  } = usePlazoFijoForm({ userBalance, onSubmit });
 
   return (
     <motion.div
@@ -91,34 +67,16 @@ const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({
             max={userBalance}
           />
           <div className={styles.quickButtons}>
-            <button
-              type="button"
-              onClick={() => handleQuickAmount(1)}
-              className={styles.quickButton}
-            >
-              1
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickAmount(5)}
-              className={styles.quickButton}
-            >
-              5
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickAmount(50)}
-              className={styles.quickButton}
-            >
-              50
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickAmount(100)}
-              className={styles.quickButton}
-            >
-              100
-            </button>
+            {quickAmounts.map(({ label, value }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => handleQuickAmount(value)}
+                className={styles.quickButton}
+              >
+                {label}
+              </button>
+            ))}
             <button
               type="button"
               onClick={() => handleQuickAmount(userBalance)}
@@ -156,7 +114,7 @@ const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({
         </div>
 
         {/* Estimated Return */}
-        {numericAmount > 0 && (
+        {numericAmount > 0 && isValid && (
           <motion.div
             className={styles.estimateCard}
             initial={{ opacity: 0, height: 0 }}
@@ -224,9 +182,10 @@ const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({
       <ConfirmationModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        message="Una vez creado el plazo fijo no se podra borrar"
         title="¿Estas seguro que desea crear el Plazo Fijo?"
+        message="Una vez creado el plazo fijo no se podra borrar."
         onConfirm={handleSubmitConfirm}
+        type="warning"
       />
     </motion.div>
   );
