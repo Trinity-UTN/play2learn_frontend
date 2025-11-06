@@ -204,6 +204,22 @@
   justify-content: center;
 }
 
+.acceptButton {
+  background-color: #10b981;
+  color: white;
+  transition: all 0.2s ease;
+  margin-right: 0.5rem;
+}
+
+.acceptButton:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.acceptButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .viewButton {
   font-size: 0.75rem;
   padding: 0.5rem 0.75rem;

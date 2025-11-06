@@ -31,8 +31,15 @@
 }
 
 .acceptButton {
-  flex: 1;
+  flex: 0 0 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #10b981;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
   color: white;
   transition: all 0.2s ease;
 }
@@ -45,6 +52,18 @@
 .acceptButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.viewRedemptionsButtonUR {
+  flex: 0 0 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .viewRedemptionsButton {

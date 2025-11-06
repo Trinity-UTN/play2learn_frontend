@@ -195,16 +195,18 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
       )}
 
       {/* Fecha de finalización */}
-      <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-        {"endAt" in benefit && benefit.endAt && (
-          <div className={styles.dateSection}>
-            <FaCalendarAlt className={styles.dateIcon} />
-            <span className={styles.dateValue}>
-              {formatBenefitDate(benefit.endAt)}
-            </span>
-          </div>
-        )}
-      </td>
+      {!isUseRequest && (
+        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
+          {"endAt" in benefit && benefit.endAt && (
+            <div className={styles.dateSection}>
+              <FaCalendarAlt className={styles.dateIcon} />
+              <span className={styles.dateValue}>
+                {formatBenefitDate(benefit.endAt)}
+              </span>
+            </div>
+          )}
+        </td>
+      )}
 
       {/* Acciones */}
       {actionButton && (

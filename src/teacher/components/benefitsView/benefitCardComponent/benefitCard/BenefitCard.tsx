@@ -44,13 +44,13 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
               Aceptar Uso
             </Button>
             <Button
-              variant="ghost"
+              variant="primary"
               size="sm"
-              className={styles.viewRedemptionsButton}
+              className={styles.viewRedemptionsButtonUR}
               onClick={() => handleViewPurchases(actualBenefitId)}
             >
               <FaEye className={styles.actionIcon} />
-              Ver Otros Canjes
+              Ver Canjes
             </Button>
           </>
         ) : (
