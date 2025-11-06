@@ -5,10 +5,11 @@
 }
 
 .filtersCard {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
   padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .filtersHeader {
@@ -28,13 +29,20 @@
 .headerIcon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--color-stat-4), var(--color-stat-1));
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #ffffff;
   font-size: 1.1rem;
+}
+
+.filtersTitle {
+  color: #1e1e1e;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
 }
 
 .viewToggle {
@@ -43,36 +51,36 @@
   padding: 0.25rem;
 }
 
-.viewButton {
-  padding: 0.5rem 0.75rem;
-  border: none;
-  font-size: 1rem;
-  min-width: auto;
-  color: white;
-}
-
-.viewButton svg {
-  display: block;
-}
-
+.viewButton,
 .viewButtonInactive {
   padding: 0.5rem 0.75rem;
   border: none;
   font-size: 1rem;
+  border-radius: 8px;
   min-width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.viewButton {
+  background-color: #7c3aed;
   color: white;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.viewButton:hover {
+  background-color: #6d28d9;
+}
+
+.viewButtonInactive {
+  background-color: #f3f4f6;
+  color: #374151;
 }
 
 .viewButtonInactive:hover {
-  background-color: white !important;
-  color: black;
-}
-
-.filtersTitle {
-  color: white;
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin: 0;
+  background-color: #e5e7eb;
 }
 
 .filterSection {
@@ -93,23 +101,26 @@
   border-radius: 50px;
   font-weight: 600;
   transition: all 0.3s ease;
-  border: 1px solid transparent;
-  color: var(--color-text-light);
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  background-color: #ffffff;
 }
 
 .filterButton:hover {
-  background-color: transparent !important;
-  border: 1px solid var(--color-secondary);
+  border-color: #7c3aed;
+  color: #7c3aed;
+  background-color: #f9f5ff;
 }
 
 .filterButton.active {
-  background: linear-gradient(135deg, var(--color-stat-4), var(--color-stat-1));
-  color: var(--color-stat-2);
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
 }
 
 .filterIcon {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
 .selectFilters {
@@ -128,35 +139,35 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--color-text-light);
+  color: #374151;
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 .selectIcon {
   font-size: 0.8rem;
-  color: var(--color-stat-2);
+  color: #7c3aed;
 }
 
 .select {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
   padding: 0.75rem;
-  color: white;
+  color: #111827;
   font-size: 0.9rem;
   transition: all 0.3s ease;
 }
 
 .select:focus {
   outline: none;
-  border-color: #8b5cf6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
 }
 
 .select option {
-  background: #1f2937;
-  color: white;
+  background: #ffffff;
+  color: #111827;
 }
 
 /* Responsive Design */
