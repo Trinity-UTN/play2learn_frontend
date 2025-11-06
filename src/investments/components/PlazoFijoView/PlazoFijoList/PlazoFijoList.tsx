@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { FaListAlt } from "react-icons/fa";
-
 import styles from "./PlazoFijoList.module.css";
 import type { PlazoFijoResponse } from "../../../types/plazoFijo.type";
 import PlazoFijoCard from "../PlazoFijoCard/PlazoFijoCard";

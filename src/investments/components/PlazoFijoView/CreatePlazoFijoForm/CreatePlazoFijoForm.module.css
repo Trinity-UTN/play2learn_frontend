@@ -3,7 +3,6 @@
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 2rem;
-  margin-bottom: 2rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }

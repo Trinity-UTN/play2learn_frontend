@@ -142,20 +142,6 @@ const PlazoFijoCard: React.FC<PlazoFijoCardProps> = ({ plazoFijo, index }) => {
           </span>
         </div>
       )}
-
-      {isFinished && (
-        <motion.button
-          className={styles.collectButton}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() =>
-            console.log("[v0] Collecting plazo fijo:", plazoFijo.id)
-          }
-        >
-          <FaCheckCircle />
-          <span>Cobrar Plazo Fijo</span>
-        </motion.button>
-      )}
     </motion.div>
   );
 };

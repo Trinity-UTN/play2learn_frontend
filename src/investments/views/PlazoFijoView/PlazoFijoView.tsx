@@ -3,16 +3,20 @@ import CreatePlazoFijoForm from "../../components/PlazoFijoView/CreatePlazoFijoF
 import PlazoFijoList from "../../components/PlazoFijoView/PlazoFijoList/PlazoFijoList";
 import { PlazoFijoHeader } from "../../components/PlazoFijoView/PlazoFijoHeader/PlazoFijoHeader";
 import { usePlazoFijoView } from "../../hooks/usePlazoFijo/usePlazoFijoView";
+import PlazoFijoFilter from "../../components/PlazoFijoView/PlazoFijoFilter/PlazoFijoFilter";
 
 const PlazoFijoView = () => {
   const {
     //Paginacion
     paginationInfo,
+    handleFilter,
     //Valores del context API
     plazoFijos,
     //Valores internos
     userBalance,
     handleCreatePlazoFijo,
+    filterStatus,
+    setFilterStatus,
   } = usePlazoFijoView();
 
   return (
@@ -27,6 +31,12 @@ const PlazoFijoView = () => {
           onSubmit={handleCreatePlazoFijo}
         />
 
+        {/* Filtro */}
+        <PlazoFijoFilter
+          filterStatus={filterStatus}
+          onFilterChange={setFilterStatus}
+          handleFilter={handleFilter}
+        />
         {/* List */}
         <PlazoFijoList
           plazosFijos={plazoFijos?.results}
