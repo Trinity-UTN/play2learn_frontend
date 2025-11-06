@@ -1,12 +1,17 @@
 import { motion } from "framer-motion";
 import styles from "./PlazoFijoStats.module.css";
 import { FaCoins, FaChartLine, FaCheckCircle } from "react-icons/fa";
+import type { StatisticsPlazoFijoResponse } from "../../../types/plazoFijo.type";
+import formatPrice from "../../../../shared/utils/formatPrice";
 
-export const PlazoFijoStats = () => {
-  const totalInvested = 8;
-  const totalRewards = 10;
-  const activePlazosFijos = 5;
+export const PlazoFijoStats = ({
+  statistics,
+}: {
+  statistics: StatisticsPlazoFijoResponse | null;
+}) => {
+  if (!statistics) return null;
 
+  const { totalInvested, totalReward, quantityInProgress } = statistics;
   return (
     <div className={styles.statsGrid}>
       <motion.div
@@ -25,9 +30,7 @@ export const PlazoFijoStats = () => {
         </div>
         <div className={styles.statContent}>
           <span className={styles.statLabel}>Total Invertido</span>
-          <span className={styles.statValue}>
-            {totalInvested.toLocaleString("es-AR")}
-          </span>
+          <span className={styles.statValue}>{formatPrice(totalInvested)}</span>
         </div>
       </motion.div>
 
@@ -47,9 +50,7 @@ export const PlazoFijoStats = () => {
         </div>
         <div className={styles.statContent}>
           <span className={styles.statLabel}>Ganancias Totales</span>
-          <span className={styles.statValue}>
-            {totalRewards.toLocaleString("es-AR")}
-          </span>
+          <span className={styles.statValue}>{formatPrice(totalReward)}</span>
         </div>
       </motion.div>
 
@@ -69,7 +70,7 @@ export const PlazoFijoStats = () => {
         </div>
         <div className={styles.statContent}>
           <span className={styles.statLabel}>Plazos Activos</span>
-          <span className={styles.statValue}>{activePlazosFijos}</span>
+          <span className={styles.statValue}>{quantityInProgress}</span>
         </div>
       </motion.div>
     </div>

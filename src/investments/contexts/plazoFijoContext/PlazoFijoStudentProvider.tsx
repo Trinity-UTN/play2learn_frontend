@@ -13,8 +13,8 @@ import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 import type {
   PlazoFijoResponse,
   RegisterPlazoFijo,
+  StatisticsPlazoFijoResponse,
 } from "../../types/plazoFijo.type";
-import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 interface PlazoFijoProviderProps {
   children: ReactNode;
 }
@@ -23,14 +23,26 @@ export const PlazoFijoProvider: React.FC<PlazoFijoProviderProps> = ({
   children,
 }) => {
   const { handleApiError } = useHandleApiError();
-  const { paginationParams } = usePaginationParams();
   const { showToast } = useToaster();
   const { getWalletByStudent } = useCurrentStudent();
   const [loading, setLoading] = useState<boolean>(false);
   const [plazoFijos, setPlazoFijos] =
     useState<PaginatedData<PlazoFijoResponse> | null>(null);
+  const [statistics, setStatistics] =
+    useState<StatisticsPlazoFijoResponse | null>(null);
 
   // Funciones Principales
+  const getStatisticsPlazoFijo = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await PlazoFijoService.getStatisticsPlazoFijoApi();
+      setStatistics(response.data);
+    } catch (error) {
+      handleApiError(error, "Error al obtener las estadísticas del plazo fijo");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
   const getPaginatedPlazoFijo = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
@@ -57,7 +69,7 @@ export const PlazoFijoProvider: React.FC<PlazoFijoProviderProps> = ({
           type: "success",
         });
         await getWalletByStudent();
-        await getPaginatedPlazoFijo(paginationParams);
+        await getStatisticsPlazoFijo();
       } catch (error) {
         handleApiError(error, "Error al registrar el plazo fijo");
       } finally {
@@ -73,6 +85,8 @@ export const PlazoFijoProvider: React.FC<PlazoFijoProviderProps> = ({
     plazoFijos,
     getPaginatedPlazoFijo,
     registerPlazoFijo,
+    getStatisticsPlazoFijo,
+    statistics,
   };
 
   return (

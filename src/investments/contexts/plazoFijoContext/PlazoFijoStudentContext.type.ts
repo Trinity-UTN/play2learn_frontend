@@ -5,6 +5,7 @@ import type {
 import type {
   PlazoFijoResponse,
   RegisterPlazoFijo,
+  StatisticsPlazoFijoResponse,
 } from "../../types/plazoFijo.type";
 
 export interface PlazoFijoContextType {
@@ -13,4 +14,6 @@ export interface PlazoFijoContextType {
   plazoFijos: PaginatedData<PlazoFijoResponse> | null;
   getPaginatedPlazoFijo: (params: GetPaginated) => Promise<void>;
   registerPlazoFijo: (data: RegisterPlazoFijo) => Promise<void>;
+  getStatisticsPlazoFijo: () => Promise<void>;
+  statistics: StatisticsPlazoFijoResponse | null;
 }

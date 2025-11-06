@@ -36,6 +36,7 @@ export const usePlazoFijoForm = ({
     if (isValid) {
       onSubmit(data);
       setAmount("");
+      setIsOpen(false);
     }
   };
 

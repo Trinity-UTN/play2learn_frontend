@@ -2,8 +2,13 @@ import { motion } from "framer-motion";
 import styles from "./PlazoFijoHeader.module.css";
 import { FaClock } from "react-icons/fa";
 import { PlazoFijoStats } from "../PlazoFijoStats/PlazoFijoStats";
+import type { StatisticsPlazoFijoResponse } from "../../../types/plazoFijo.type";
 
-export const PlazoFijoHeader = () => {
+export const PlazoFijoHeader = ({
+  statistics,
+}: {
+  statistics: StatisticsPlazoFijoResponse | null;
+}) => {
   return (
     <motion.div
       className={styles.header}
@@ -34,7 +39,7 @@ export const PlazoFijoHeader = () => {
       </div>
 
       {/* Stats Cards */}
-      <PlazoFijoStats />
+      <PlazoFijoStats statistics={statistics} />
     </motion.div>
   );
 };

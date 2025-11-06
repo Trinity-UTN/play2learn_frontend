@@ -16,14 +16,20 @@ export const usePlazoFijoView = () => {
     handleFilter,
   } = usePaginationParams();
 
-  const { plazoFijos, getPaginatedPlazoFijo, registerPlazoFijo } =
-    usePlazoFijoStudent();
+  const {
+    plazoFijos,
+    getPaginatedPlazoFijo,
+    registerPlazoFijo,
+    getStatisticsPlazoFijo,
+    statistics,
+  } = usePlazoFijoStudent();
   const { wallet } = useCurrentStudent();
   const userBalance = wallet?.balance;
   const [filterStatus, setFilterStatus] =
     useState<FIXED_TERM_STATES>("IN_PROGRESS");
 
   useEffect(() => {
+    getStatisticsPlazoFijo();
     handleFilter(["fixedTermState"], [filterStatus]);
   }, []);
 
@@ -46,10 +52,10 @@ export const usePlazoFijoView = () => {
   const handleCreatePlazoFijo = useCallback(
     async (data: RegisterPlazoFijo) => {
       await registerPlazoFijo(data);
+      await getPaginatedPlazoFijo(paginationParams);
     },
-    [registerPlazoFijo]
+    [registerPlazoFijo, paginationParams]
   );
-
   return {
     //Paginacion
     paginationParams,
@@ -61,6 +67,7 @@ export const usePlazoFijoView = () => {
     plazoFijos,
     getPaginatedPlazoFijo,
     registerPlazoFijo,
+    statistics,
 
     //Valores internos
     userBalance,

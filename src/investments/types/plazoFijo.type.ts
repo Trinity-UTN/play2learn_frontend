@@ -24,3 +24,9 @@ export interface PlazoFijoPaginatedResponseInterface {
   errors: any;
   timestamp: string;
 }
+
+export interface StatisticsPlazoFijoResponse {
+  totalInvested: number;
+  totalReward: number;
+  quantityInProgress: number;
+}

@@ -12,6 +12,7 @@ const PlazoFijoView = () => {
     handleFilter,
     //Valores del context API
     plazoFijos,
+    statistics,
     //Valores internos
     userBalance,
     handleCreatePlazoFijo,
@@ -23,7 +24,7 @@ const PlazoFijoView = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         {/* Header */}
-        <PlazoFijoHeader />
+        <PlazoFijoHeader statistics={statistics} />
 
         {/* Create Form */}
         <CreatePlazoFijoForm

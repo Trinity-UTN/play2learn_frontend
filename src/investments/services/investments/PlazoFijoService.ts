@@ -28,7 +28,13 @@ const registerPlazoFijoApi = async (data: RegisterPlazoFijo): Promise<void> => {
   await api.post(urls.CreatePlazoFijo, data);
 };
 
+const getStatisticsPlazoFijoApi = async () => {
+  const response = await api.get(urls.StatisticsPlazoFijo);
+  return response.data;
+};
+
 export const PlazoFijoService = {
   getPaginatedPlazoFijosApi,
   registerPlazoFijoApi,
+  getStatisticsPlazoFijoApi,
 };

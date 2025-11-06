@@ -9,4 +9,5 @@ export const urls = {
   //Plazo Fijo URLs
   PlazoFijosPaginated: "/investment/fixed-term-deposit/paginated",
   CreatePlazoFijo: "/investment/fixed-term-deposit",
+  StatisticsPlazoFijo: "/statistics/investment/fixed-term-deposit",
 };
