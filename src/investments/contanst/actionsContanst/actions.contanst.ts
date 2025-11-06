@@ -1,8 +1,5 @@
 import type { RiskLevel } from "../../types/actions.type";
 
-export const FILTER_TYPES = {
-  TYPE: "riskLevel",
-} as const;
 export const FILTER_VALUES = {
   BAJO: "BAJO",
   MEDIO: "MEDIO",

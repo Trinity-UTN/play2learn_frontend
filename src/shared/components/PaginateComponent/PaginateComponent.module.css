@@ -6,6 +6,9 @@
   background: transparent;
   border: none;
   box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
 }
 .searchSection {
   display: flex;

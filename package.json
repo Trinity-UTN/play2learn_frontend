@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest --ui"
+    "test": "vitest --ui",
+    "render-md": "node tools/markdown-renderer.js"
   },
   "dependencies": {
     "@uiw/react-md-editor": "^4.0.8",
@@ -16,6 +17,7 @@
     "framer-motion": "^12.18.1",
     "jsdom": "^26.1.0",
     "lightweight-charts": "^5.0.9",
+    "markdown-it": "^14.1.0",
     "pdf-lib": "^1.17.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

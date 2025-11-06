@@ -2,10 +2,9 @@ import { motion } from "framer-motion";
 import { FaChartLine, FaFilter } from "react-icons/fa";
 import styles from "./ActionsHeader.module.css";
 import type { RiskLevel } from "../../../types/actions.type";
-import {
-  FILTER_TYPES,
-  riskFilters,
-} from "../../../contanst/actionsContanst/actions.contanst";
+import { riskFilters } from "../../../contanst/actionsContanst/actions.contanst";
+import { FILTER_TYPES } from "../../../../shared/contanst/filters.contanst";
+import { createFilterHandler } from "../../../../shared/utils/createFilterHandler";
 
 interface ActionsHeaderProps {
   totalActions: number;
@@ -20,14 +19,11 @@ const ActionsHeader: React.FC<ActionsHeaderProps> = ({
   onFilterChange,
   handleFilter,
 }) => {
-  const handleRiskClick = (risk: (typeof riskFilters)[0]) => {
-    onFilterChange(risk.value);
-    if (risk.filterValue === null) {
-      handleFilter([], []);
-    } else {
-      handleFilter([FILTER_TYPES.TYPE], [risk.filterValue]);
-    }
-  };
+  const handleClick = createFilterHandler({
+    onFilterChange,
+    handleFilter,
+    filterType: FILTER_TYPES.ACCION_RISK,
+  });
   return (
     <div className={styles.container}>
       <motion.div
@@ -66,7 +62,7 @@ const ActionsHeader: React.FC<ActionsHeaderProps> = ({
               className={`${styles.filterButton} ${
                 filterRisk === filter.value ? styles.active : ""
               }`}
-              onClick={() => handleRiskClick(filter)}
+              onClick={() => handleClick(filter)}
               style={
                 {
                   "--filter-color": filter.color,

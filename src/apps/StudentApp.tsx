@@ -25,6 +25,7 @@ import { WalletStudentProvider } from "../student/context/walletStudentContext/W
 import { BenefitStudentProvider } from "../student/context/benefitStudentContext/BenefitStudentProvider";
 import { StoreProvider } from "../student/context/storeStudentContext/StoreStudentProvider";
 import { ActionsProvider } from "../investments/contexts/actionsContext/ActionsStudentProvider";
+import { PlazoFijoProvider } from "../investments/contexts/plazoFijoContext/PlazoFijoStudentProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
@@ -41,7 +42,7 @@ import StudentFinancialEducationView from "../student/views/studentFinancialEduc
 import ActionDetailView from "../investments/views/ActionsDetailView/ActionsDetailView";
 import ActionsView from "../investments/views/actionsView/ActionsView";
 import InvestmentsView from "../investments/views/InvestmentsView/InvestmentsView";
-
+import PlazoFijoView from "../investments/views/PlazoFijoView/PlazoFijoView";
 const StudentApp = () => {
   return (
     <motion.div
@@ -77,17 +78,23 @@ const StudentApp = () => {
                                                 <BenefitStudentProvider>
                                                   <StoreProvider>
                                                     <ActionsProvider>
-                                                      <motion.div
-                                                        key="dashboardStudent"
-                                                        initial={{ opacity: 0 }}
-                                                        animate={{ opacity: 1 }}
-                                                        exit={{ opacity: 0 }}
-                                                        transition={{
-                                                          duration: 0.3,
-                                                        }}
-                                                      >
-                                                        <StudentDashboard />
-                                                      </motion.div>
+                                                      <PlazoFijoProvider>
+                                                        <motion.div
+                                                          key="dashboardStudent"
+                                                          initial={{
+                                                            opacity: 0,
+                                                          }}
+                                                          animate={{
+                                                            opacity: 1,
+                                                          }}
+                                                          exit={{ opacity: 0 }}
+                                                          transition={{
+                                                            duration: 0.3,
+                                                          }}
+                                                        >
+                                                          <StudentDashboard />
+                                                        </motion.div>
+                                                      </PlazoFijoProvider>
                                                     </ActionsProvider>
                                                   </StoreProvider>
                                                 </BenefitStudentProvider>
@@ -152,6 +159,9 @@ const StudentApp = () => {
             <Route path="investmests/list" element={<InvestmentsView />} />
             <Route path="actions/list" element={<ActionsView />} />
             <Route path="actions/details/:id" element={<ActionDetailView />} />
+
+            {/* PLAZO FIJO */}
+            <Route path="plazo-fijo/list" element={<PlazoFijoView />} />
           </Route>
         </Routes>
       </AnimatePresence>
