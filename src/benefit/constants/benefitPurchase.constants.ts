@@ -1,7 +1,7 @@
-import { FaClock, FaShoppingCart } from "react-icons/fa";
+import { FaClock, FaShoppingCart, FaCheckCircle } from "react-icons/fa";
 import type { IconType } from "react-icons";
 
-export type BenefitPurchaseStatus = "ALL" | "USE_REQUESTED" | "PURCHASED";
+export type BenefitPurchaseStatus = "PURCHASED" | "USE_REQUESTED" | "USED";
 
 export interface BenefitPurchaseStatusFilter {
   key: BenefitPurchaseStatus;
@@ -11,14 +11,19 @@ export interface BenefitPurchaseStatusFilter {
 
 export const BENEFIT_PURCHASE_STATUS_FILTERS: BenefitPurchaseStatusFilter[] = [
   {
-    key: "ALL",
-    label: "Todos",
+    key: "PURCHASED",
+    label: "Canjeado",
     icon: FaShoppingCart,
   },
   {
     key: "USE_REQUESTED",
     label: "Uso Solicitado",
     icon: FaClock,
+  },
+  {
+    key: "USED",
+    label: "Usado",
+    icon: FaCheckCircle,
   },
 ];
 

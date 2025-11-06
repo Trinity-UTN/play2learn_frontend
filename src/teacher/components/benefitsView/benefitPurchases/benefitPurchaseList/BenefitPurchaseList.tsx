@@ -1,58 +1,67 @@
 import { motion } from "framer-motion";
+import { FaShoppingCart } from "react-icons/fa";
+import PaginateComponent from "../../../../../shared/components/PaginateComponent/PaginateComponent";
 import BenefitPurchaseCard from "../benefitPurchaseCard/BenefitPurchaseCard";
 import type { BenefitPurchaseSimpleResponse } from "../../../../../benefit/types/benefit.types";
 import styles from "./BenefitPurchaseList.module.css";
 
-interface BenefitPurchasesListProps {
+interface BenefitPurchaseListProps {
   purchases: BenefitPurchaseSimpleResponse[];
+  paginationInfo: {
+    currentPage: number;
+    totalPages: number;
+    pageSize: number;
+    totalItems: number;
+    onPageChange: (page: number) => void;
+    onPageSizeChange: (pageSize: number) => void;
+  } | null;
   onAcceptUse: (purchaseId: number) => void;
   loading: boolean;
 }
 
-const BenefitPurchasesList: React.FC<BenefitPurchasesListProps> = ({
+const BenefitPurchaseList: React.FC<BenefitPurchaseListProps> = ({
   purchases,
+  paginationInfo,
   onAcceptUse,
   loading,
 }) => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
   };
 
-  if (purchases.length === 0) {
-    return (
-      <div className={styles.emptyState}>
-        <p className={styles.emptyText}>
-          No hay canjes registrados para este beneficio
-        </p>
-      </div>
-    );
-  }
-
-  console.log("Rendering BenefitPurchasesList with purchases:", purchases);
-
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className={styles.purchasesList}
-    >
-      {purchases.map((purchase) => (
-        <BenefitPurchaseCard
-          key={purchase.id}
-          purchase={purchase}
-          onAcceptUse={onAcceptUse}
-          loading={loading}
-        />
-      ))}
-    </motion.div>
+    <PaginateComponent pagination={paginationInfo || undefined}>
+      <div className={styles.purchasesList}>
+        {purchases.map((purchase) => (
+          <motion.div
+            key={purchase.id}
+            variants={itemVariants}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <BenefitPurchaseCard
+              purchase={purchase}
+              onAcceptUse={onAcceptUse}
+              loading={loading}
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Sin resultados */}
+      {purchases.length === 0 && !loading && (
+        <motion.div variants={itemVariants} className={styles.noResults}>
+          <FaShoppingCart className={styles.noResultsIcon} />
+          <h3 className={styles.noResultsTitle}>No se encontraron canjes</h3>
+          <p className={styles.noResultsText}>
+            No hay canjes registrados para este beneficio con los filtros
+            seleccionados.
+          </p>
+        </motion.div>
+      )}
+    </PaginateComponent>
   );
 };
 
-export default BenefitPurchasesList;
+export default BenefitPurchaseList;

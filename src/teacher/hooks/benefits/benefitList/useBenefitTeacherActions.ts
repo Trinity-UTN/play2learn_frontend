@@ -42,12 +42,12 @@ export const useBenefitTeacherActions = () => {
         },
       });
     },
-    [deleteBenefit, showConfirmation, showToast]
+    [deleteBenefit, showConfirmation, showToast, refreshBenefitsAfterDeletion]
   );
 
   const handleViewPurchases = useCallback(
     (benefitId: number) => {
-      navigate(`/dashboard/teacher/beneficio/list/${benefitId}`);
+      // navigate(`/dashboard/teacher/beneficio/list/${benefitId}`);
     },
     [navigate]
   );
@@ -76,7 +76,12 @@ export const useBenefitTeacherActions = () => {
         },
       });
     },
-    [acceptUseBenefit, showConfirmation, showToast]
+    [
+      acceptUseBenefit,
+      showConfirmation,
+      showToast,
+      refreshBenefitsAfterDeletion,
+    ]
   );
 
   return {

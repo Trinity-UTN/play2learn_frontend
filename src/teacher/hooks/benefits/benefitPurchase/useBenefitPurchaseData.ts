@@ -1,35 +1,97 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback, useMemo } from "react";
 import { useBenefitAPI } from "../../useBenefitAPI";
-import type { BenefitPurchaseSimpleResponse } from "../../../../benefit/types/benefit.types";
+import { useBenefitPurchaseFilters } from "./useBenefitPurchaseFilters";
+import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
 
 /**
- * Hook para obtener los canjes de un beneficio específico
+ * Hook central para cargar y manejar los datos de canjes de un beneficio
  */
-export const useBenefitPurchasesData = (benefitId: number) => {
-  const { getBenefitPurchases, loading } = useBenefitAPI();
-  const [purchases, setPurchases] = useState<BenefitPurchaseSimpleResponse[]>(
-    []
-  );
+export const useBenefitPurchaseData = (benefitId: number) => {
+  const { loading, paginatedBenefitsPurchases, getPaginatedBenefitsPurchases } =
+    useBenefitAPI();
 
+  const {
+    paginationParams,
+    handlePageChange,
+    handlePageSizeChange,
+    setPaginationParams,
+  } = usePaginationParams();
+
+  const { activeFilter, setActiveFilter } = useBenefitPurchaseFilters();
+
+  /**
+   * Carga de canjes filtrados y paginados
+   */
   const loadPurchases = useCallback(async () => {
-    if (benefitId) {
-      try {
-        const data = await getBenefitPurchases(benefitId);
-        setPurchases(data);
-      } catch (error) {
-        console.error("Error loading purchases:", error);
-        setPurchases([]);
-      }
-    }
-  }, [benefitId, getBenefitPurchases]);
+    const filters: string[] = [];
+    const filtersValues: string[] = [];
 
+    // Estado (purchase.state)
+    filters.push("state");
+    filtersValues.push(activeFilter);
+
+    await getPaginatedBenefitsPurchases(benefitId, {
+      ...paginationParams,
+      filters,
+      filtersValues,
+    });
+  }, [
+    benefitId,
+    activeFilter,
+    paginationParams,
+    getPaginatedBenefitsPurchases,
+  ]);
+
+  /**
+   * Carga inicial de canjes
+   */
   useEffect(() => {
     loadPurchases();
   }, [loadPurchases]);
 
+  /**
+   * Reinicia la paginación al cambiar el filtro
+   */
+  useEffect(() => {
+    setPaginationParams((prev) => ({ ...prev, page: 1 }));
+  }, [activeFilter, setPaginationParams]);
+
+  const filteredPurchases = useMemo(() => {
+    if (Array.isArray(paginatedBenefitsPurchases)) {
+      return paginatedBenefitsPurchases;
+    }
+
+    return paginatedBenefitsPurchases?.results ?? [];
+  }, [paginatedBenefitsPurchases]);
+
+  const paginationInfo = useMemo(() => {
+    if (Array.isArray(paginatedBenefitsPurchases)) {
+      return null;
+    }
+
+    return paginatedBenefitsPurchases
+      ? {
+          currentPage: paginatedBenefitsPurchases.currentPage,
+          totalPages: paginatedBenefitsPurchases.totalPages,
+          pageSize: paginatedBenefitsPurchases.pageSize,
+          totalItems: paginatedBenefitsPurchases.count,
+          onPageChange: handlePageChange,
+          onPageSizeChange: handlePageSizeChange,
+        }
+      : null;
+  }, [paginatedBenefitsPurchases, handlePageChange, handlePageSizeChange]);
+
   return {
-    purchases,
+    // Estados Generales
     loading,
+    activeFilter,
+    setActiveFilter,
+
+    // Datos Generales
+    filteredPurchases,
+    paginationInfo,
+
+    // Funciones
     refetch: loadPurchases,
   };
 };

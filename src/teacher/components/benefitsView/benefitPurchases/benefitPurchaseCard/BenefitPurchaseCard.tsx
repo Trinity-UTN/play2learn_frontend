@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaUser, FaBook, FaCheck } from "react-icons/fa";
+import { FaUser, FaBook, FaCheck, FaHashtag } from "react-icons/fa";
 import Card from "../../../../../shared/components/Card/CardComponent";
 import Button from "../../../../../shared/components/Button/ButtonComponent";
 import Badge from "../../../../../shared/components/Badge/BadgeComponent";
@@ -14,7 +14,7 @@ import styles from "./BenefitPurchaseCard.module.css";
 
 interface BenefitPurchaseCardProps {
   purchase: BenefitPurchaseSimpleResponse;
-  onAcceptUse: (benefitId: number) => void;
+  onAcceptUse: (purchaseId: number) => void;
   loading: boolean;
 }
 
@@ -32,15 +32,30 @@ const BenefitPurchaseCard: React.FC<BenefitPurchaseCardProps> = ({
     visible: { opacity: 1, y: 0 },
   };
 
+  const getTooltipMessage = () => {
+    switch (purchase.state) {
+      case "PURCHASED":
+        return "El estudiante aún no ha solicitado el uso del beneficio";
+      case "USED":
+        return "Este beneficio ya fue usado";
+      default:
+        return "Estado desconocido";
+    }
+  };
+
   return (
     <motion.div
       variants={cardVariants}
       initial="hidden"
       animate="visible"
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: canAccept ? 1.02 : 1 }}
       transition={{ duration: 0.2 }}
     >
-      <Card className={styles.purchaseCard}>
+      <Card
+        className={`${styles.purchaseCard} ${
+          !canAccept ? styles.disabled : ""
+        }`}
+      >
         <div className={styles.cardHeader}>
           <div className={styles.studentInfo}>
             <div className={styles.studentIcon}>
@@ -62,22 +77,27 @@ const BenefitPurchaseCard: React.FC<BenefitPurchaseCardProps> = ({
           </Badge>
         </div>
 
+        <div className={styles.cardInfo}>
+          <div className={styles.infoItem}>
+            <FaHashtag className={styles.infoIcon} />
+            <span className={styles.infoLabel}>ID de Canje:</span>
+            <span className={styles.infoValue}>{purchase.id}</span>
+          </div>
+        </div>
+
         <div className={styles.cardActions}>
           {canAccept ? (
             <Button
               variant="primary"
               size="md"
-              onClick={() => onAcceptUse(purchase.benefitId)}
+              onClick={() => onAcceptUse(purchase.id)}
               disabled={loading}
               className={styles.acceptButton}
             >
               <FaCheck /> Aceptar Uso
             </Button>
           ) : (
-            <Tooltip
-              content="El estudiante aún no ha solicitado el uso del beneficio"
-              position="top"
-            >
+            <Tooltip content={getTooltipMessage()} position="top">
               <Button
                 variant="secondary"
                 size="md"

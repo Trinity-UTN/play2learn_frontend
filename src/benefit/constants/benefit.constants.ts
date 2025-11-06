@@ -115,7 +115,7 @@ export const BENEFIT_TEACHER_STATUS_FILTERS = [
   {
     key: BENEFIT_TEACHER_STATUS.USE_REQUESTED,
     label: "Uso solicitado",
-    icon: FiXCircle,
+    icon: FaHandPaper,
   },
 ] as const;
 

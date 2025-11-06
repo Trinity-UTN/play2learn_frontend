@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaArrowLeft, FaGift } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import BenefitPurchasesList from "../../../components/benefitsView/benefitPurchases/benefitPurchaseList/BenefitPurchaseList";
-import { useBenefitPurchasesData } from "../../../hooks/benefits/benefitPurchase/useBenefitPurchaseData";
+import BenefitPurchasesHeader from "../../../components/benefitsView/benefitPurchases/benefitPurchaseHeader/BenefitPurchasesHeader";
+import BenefitPurchaseInfo from "../../../components/benefitsView/benefitPurchases/benefitPurchaseInfo/BenefitPurchaseInfo";
+import BenefitPurchaseFilters from "../../../components/benefitsView/benefitPurchases/benefitPurchasesFilters/BenefitPurchaseFilters";
+import BenefitPurchaseList from "../../../components/benefitsView/benefitPurchases/benefitPurchaseList/BenefitPurchaseList";
+import { useBenefitPurchaseData } from "../../../hooks/benefits/benefitPurchase/useBenefitPurchaseData";
 import { useBenefitPurchasesActions } from "../../../hooks/benefits/benefitPurchase/useBenefitPurchaseActions";
 import styles from "./BenefitPurchasesView.module.css";
 
@@ -13,23 +14,24 @@ const BenefitPurchasesView: React.FC = () => {
   const benefitId = Number.parseInt(id || "0", 10);
 
   const {
-    purchases,
-    loading: loadingPurchases,
+    loading,
+    activeFilter,
+    setActiveFilter,
+    filteredPurchases,
+    paginationInfo,
     refetch,
-  } = useBenefitPurchasesData(benefitId);
+  } = useBenefitPurchaseData(benefitId);
+
   const { acceptUse, loading: acceptingUse } = useBenefitPurchasesActions();
 
   const handleBack = () => {
     navigate("/dashboard/teacher/beneficio/list");
   };
 
-  const handleAcceptUse = async (benefitId: number) => {
-    await acceptUse(benefitId);
+  const handleAcceptUse = async (purchaseId: number) => {
+    await acceptUse(purchaseId);
     await refetch();
   };
-
-  const benefitName =
-    purchases.length > 0 ? purchases[0].benefitName : "Beneficio";
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -46,6 +48,9 @@ const BenefitPurchasesView: React.FC = () => {
     visible: { y: 0, opacity: 1 },
   };
 
+  const firstPurchase =
+    filteredPurchases.length > 0 ? filteredPurchases[0] : null;
+
   return (
     <motion.div
       variants={containerVariants}
@@ -55,34 +60,32 @@ const BenefitPurchasesView: React.FC = () => {
     >
       {/* Header */}
       <motion.div variants={itemVariants} className={styles.header}>
-        <Button
-          variant="ghost"
-          size="md"
-          onClick={handleBack}
-          className={styles.backButton}
-        >
-          <FaArrowLeft /> Volver
-        </Button>
-        <div className={styles.titleSection}>
-          <div className={styles.titleIcon}>
-            <FaGift />
-          </div>
-          <div>
-            <h1 className={styles.title}>Canjes del Beneficio</h1>
-            <p className={styles.subtitle}>{benefitName}</p>
-          </div>
-        </div>
+        <BenefitPurchasesHeader onNavigate={handleBack} />
       </motion.div>
+
+      {/* Benefit Info */}
+      {firstPurchase && (
+        <motion.div variants={itemVariants}>
+          <BenefitPurchaseInfo purchase={firstPurchase} />
+        </motion.div>
+      )}
+
+      {/* Filters */}
+      <BenefitPurchaseFilters
+        activeFilter={activeFilter}
+        onFilterChange={setActiveFilter}
+      />
 
       {/* Content */}
       <motion.div variants={itemVariants} className={styles.content}>
-        {loadingPurchases ? (
+        {loading ? (
           <div className={styles.loadingContainer}>
             <p className={styles.loadingText}>Cargando canjes...</p>
           </div>
         ) : (
-          <BenefitPurchasesList
-            purchases={purchases}
+          <BenefitPurchaseList
+            purchases={filteredPurchases}
+            paginationInfo={paginationInfo}
             onAcceptUse={handleAcceptUse}
             loading={acceptingUse}
           />
