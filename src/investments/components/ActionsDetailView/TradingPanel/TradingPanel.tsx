@@ -150,30 +150,25 @@ const TradingPanel: React.FC<TradingPanelProps> = ({
           </div>
         )}
 
-        <button
-          className={`${styles.actionButton} ${
-            activeTab === "buy" ? styles.buyButton : styles.sellButton
-          }`}
-          onClick={activeTab === "buy" ? handleBuy : handleSell}
-          disabled={
-            (activeTab === "buy" && !canAfford) ||
-            (activeTab === "sell" && !canSell) ||
-            !actionSell ||
-            numAmount === 0
-          }
-        >
-          {activeTab === "buy" ? (
-            <>
-              <FaShoppingCart />
-              Comprar {numAmount} {numAmount === 1 ? "acción" : "acciones"}
-            </>
-          ) : (
-            <>
-              <FaMoneyBillWave />
-              Vender {numAmount} {numAmount === 1 ? "acción" : "acciones"}
-            </>
-          )}
-        </button>
+        {activeTab === "buy" ? (
+          <button
+            className={`${styles.actionButton} ${styles.buyButton}`}
+            onClick={handleBuy}
+            disabled={!canAfford || numAmount === 0}
+          >
+            <FaShoppingCart />
+            Comprar {numAmount} {numAmount === 1 ? "acción" : "acciones"}
+          </button>
+        ) : (
+          <button
+            className={`${styles.actionButton} ${styles.sellButton}`}
+            onClick={handleSell}
+            disabled={!canSell || !actionSell || numAmount === 0}
+          >
+            <FaMoneyBillWave />
+            Vender {numAmount} {numAmount === 1 ? "acción" : "acciones"}
+          </button>
+        )}
       </div>
       <ConfirmationModal
         isOpen={openModal}
