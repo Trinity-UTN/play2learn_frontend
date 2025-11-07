@@ -47,7 +47,7 @@ export const useBenefitTeacherActions = () => {
 
   const handleViewPurchases = useCallback(
     (benefitId: number) => {
-      // navigate(`/dashboard/teacher/beneficio/list/${benefitId}`);
+      navigate(`/dashboard/teacher/beneficio/list/${benefitId}`);
     },
     [navigate]
   );

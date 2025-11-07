@@ -1,4 +1,10 @@
-import { FaCoins, FaUsers, FaUser, FaCalendarAlt } from "react-icons/fa";
+import {
+  FaHashtag,
+  FaCoins,
+  FaUsers,
+  FaUser,
+  FaCalendarAlt,
+} from "react-icons/fa";
 import Badge from "../../../shared/components/Badge/BadgeComponent";
 import Tooltip from "../../../shared/components/Tooltip/TooltipComponent";
 import type {
@@ -12,6 +18,7 @@ import {
   formatPurchaseLimitText,
   formatPurchaseLimitPerStudentText,
 } from "../../utils/benefit.utils";
+import { getPurchaseStateConfig } from "../../utils/benefitCard.utils";
 import type { BenefitVariant } from "../../types/benefit.types";
 import { useBenefitCardData } from "../../hooks/useBenefitCardData";
 import styles from "./BenefitCardContent.module.css";
@@ -24,12 +31,14 @@ type BenefitCardContentProps = {
     | TeacherBenefitType;
   isPreview?: boolean;
   variant?: BenefitVariant;
+  isPurchase?: boolean;
 };
 
 const BenefitCardContent = ({
   benefit,
   isPreview = false,
   variant = "teacher",
+  isPurchase = false,
 }: BenefitCardContentProps) => {
   const {
     IconComponent,
@@ -47,12 +56,48 @@ const BenefitCardContent = ({
     subjectColor,
     categoryColor,
     isUseRequest,
+    isPurchaseCard,
     studentName,
-  } = useBenefitCardData({ benefit, variant, isPreview });
+    purchaseState,
+    purchaseId,
+  } = useBenefitCardData({ benefit, variant, isPreview, isPurchase });
 
+  if (isPurchaseCard) {
+    const stateConfig = getPurchaseStateConfig(purchaseState);
+
+    return (
+      <div className={styles.purchaseContent}>
+        <div className={styles.purchaseHeader}>
+          <div
+            className={styles.iconWrapper}
+            style={{ backgroundColor: iconColor }}
+          >
+            <IconComponent className={styles.benefitIcon} />
+          </div>
+          <div className={styles.purchaseInfo}>
+            <h3 className={styles.studentNamePurchase}>{studentName}</h3>
+            <div className={styles.purchaseBadges}>
+              <Badge variant="custom" size="sm" customColor={stateConfig.color}>
+                {stateConfig.label}
+              </Badge>
+              <Badge
+                variant="custom"
+                size="sm"
+                customColor={{ bg: "#f3f4f6", text: "#6b7280" }}
+              >
+                <FaHashtag className={styles.badgeIcon} />
+                Canje #{purchaseId}
+              </Badge>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Vista normal (no purchase)
   return (
     <div className={styles.contentContainer}>
-      {/* Header con icono y nombre */}
       <div className={styles.benefitHeader}>
         <div
           className={styles.iconWrapper}
@@ -90,7 +135,6 @@ const BenefitCardContent = ({
         </div>
       </div>
 
-      {/* Descripción (info de solicitud) */}
       {isUseRequest && studentName ? (
         <div className={styles.requestInfo}>
           <FaUser className={styles.studentIcon} />
@@ -99,17 +143,11 @@ const BenefitCardContent = ({
           </p>
         </div>
       ) : (
-        // <Tooltip content={descriptionText}>
-        //   <p className={styles[`benefitDescription${styleSuffix}`]}>
-        //     {descriptionText}
-        //   </p>
-        // </Tooltip>
         <p className={styles[`benefitDescription${styleSuffix}`]}>
           {descriptionText}
         </p>
       )}
 
-      {/* Fecha de finalización */}
       {hasEndDate && "endAt" in benefit && benefit.endAt && (
         <div className={styles.endDateSection}>
           <FaCalendarAlt className={styles.endDateIcon} />
@@ -119,10 +157,8 @@ const BenefitCardContent = ({
         </div>
       )}
 
-      {/* Estadísticas (si no es solicitud) */}
       {showStats && !isUseRequest && (
         <div className={styles[`benefitStats${styleSuffix}`]}>
-          {/* Costo */}
           <div className={styles.costSection}>
             <Tooltip content="Costo">
               <FaCoins className={styles[`costIcon${styleSuffix}`]} />
@@ -132,7 +168,6 @@ const BenefitCardContent = ({
             </span>
           </div>
 
-          {/* Límite total de canjes */}
           <div className={styles.limitSection}>
             <Tooltip content="Cantidad de veces que puede canjearse" long>
               <FaUsers className={styles.limitIcon} />
@@ -142,7 +177,6 @@ const BenefitCardContent = ({
             </span>
           </div>
 
-          {/* Límite por estudiante */}
           <div className={styles.limitPerStudentSection}>
             <Tooltip
               content="Cantidad de veces que puede canjearlo un estudiante"

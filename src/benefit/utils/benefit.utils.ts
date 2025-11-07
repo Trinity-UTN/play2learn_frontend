@@ -11,6 +11,7 @@ import type {
   Color,
   Icon,
   BenefitUseRequestedResponseInterface,
+  BenefitPurchaseSimpleResponse,
 } from "../types/benefit.types";
 import {
   BENEFIT_CATEGORIES,
@@ -19,7 +20,7 @@ import {
 } from "../constants/benefit.constants";
 
 // ============================================
-// TYPE GUARDS ()
+// TYPE GUARDS
 // ============================================
 
 export const isTeacherBenefit = (
@@ -38,14 +39,15 @@ export const isStudentBenefit = (
     "purchasesLeft" in benefit &&
     "state" in benefit &&
     "subjectId" in benefit &&
-    !("subjectDto" in benefit)
+    !("subjectDto" in benefit) &&
+    !("benefitId" in benefit)
   );
 };
 
 export const isCreateBenefit = (
   benefit: AnyBenefit
 ): benefit is CreateBenefitInterface => {
-  return !("id" in benefit);
+  return !("id" in benefit) && "name" in benefit;
 };
 
 export const isFullBenefitResponse = (
@@ -56,7 +58,9 @@ export const isFullBenefitResponse = (
     "icon" in benefit &&
     "color" in benefit &&
     "category" in benefit &&
-    "description" in benefit
+    "description" in benefit &&
+    "name" in benefit &&
+    !("benefitId" in benefit)
   );
 };
 
@@ -68,7 +72,22 @@ export const isBenefitUseRequested = (
     "state" in benefit &&
     benefit.state === "USE_REQUESTED" &&
     "benefitId" in benefit &&
+    "benefitName" in benefit &&
     "studentName" in benefit
+  );
+};
+
+export const isBenefitPurchase = (
+  benefit: any
+): benefit is BenefitPurchaseSimpleResponse => {
+  return (
+    "benefitName" in benefit &&
+    "benefitId" in benefit &&
+    "studentName" in benefit &&
+    "state" in benefit &&
+    (benefit.state === "PURCHASED" ||
+      benefit.state === "USE_REQUESTED" ||
+      benefit.state === "USED")
   );
 };
 
@@ -139,6 +158,9 @@ export const formatBenefitDate = (dateString: string): string => {
 export const getPurchaseLimit = (
   benefit: AnyBenefit | TeacherBenefitType
 ): number | null => {
+  if (isBenefitPurchase(benefit)) {
+    return null;
+  }
   if (isStudentBenefit(benefit)) {
     return benefit.purchasesLeft;
   }
@@ -148,12 +170,21 @@ export const getPurchaseLimit = (
   if (isBenefitUseRequested(benefit)) {
     return null;
   }
-  return benefit.purchaseLimit ?? null;
+
+  // CreateBenefitInterface
+  if ("purchaseLimit" in benefit) {
+    return benefit.purchaseLimit ?? null;
+  }
+
+  return null;
 };
 
 export const getPurchaseLimitPerStudent = (
   benefit: AnyBenefit | TeacherBenefitType
 ): number | null => {
+  if (isBenefitPurchase(benefit)) {
+    return null;
+  }
   if (isStudentBenefit(benefit)) {
     return benefit.purchasesLeftByStudent;
   }
@@ -163,7 +194,13 @@ export const getPurchaseLimitPerStudent = (
   if (isBenefitUseRequested(benefit)) {
     return null;
   }
-  return benefit.purchaseLimitPerStudent ?? null;
+
+  // CreateBenefitInterface
+  if ("purchaseLimitPerStudent" in benefit) {
+    return benefit.purchaseLimitPerStudent ?? null;
+  }
+
+  return null;
 };
 
 export const formatPurchaseLimitText = (
@@ -266,13 +303,13 @@ export const getBenefitDisplayName = (benefit: TeacherBenefitType): string => {
   if (isBenefitUseRequested(benefit)) {
     return benefit.benefitName;
   }
+  if (isBenefitPurchase(benefit)) {
+    return benefit.benefitName;
+  }
   return benefit.name;
 };
 
 export const getBenefitId = (benefit: TeacherBenefitType): number => {
-  if (isBenefitUseRequested(benefit)) {
-    return benefit.id;
-  }
   return benefit.id;
 };
 
@@ -280,11 +317,17 @@ export const getActualBenefitId = (benefit: TeacherBenefitType): number => {
   if (isBenefitUseRequested(benefit)) {
     return benefit.benefitId;
   }
+  if (isBenefitPurchase(benefit)) {
+    return benefit.benefitId;
+  }
   return benefit.id;
 };
 
 export const getBenefitSubjectName = (benefit: TeacherBenefitType): string => {
   if (isBenefitUseRequested(benefit)) {
+    return benefit.subjectName;
+  }
+  if (isBenefitPurchase(benefit)) {
     return benefit.subjectName;
   }
   if ("subjectDto" in benefit) {

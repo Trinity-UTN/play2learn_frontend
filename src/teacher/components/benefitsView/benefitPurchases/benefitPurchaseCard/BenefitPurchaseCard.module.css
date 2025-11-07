@@ -12,136 +12,109 @@
 }
 
 .purchaseCard.disabled {
-  opacity: 0.7;
-  background: #f9fafb;
-}
-
-.cardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-  gap: 1rem;
-}
-
-.studentInfo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex: 1;
-}
-
-.studentIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 50%;
-  color: white;
-  font-size: 1.25rem;
-  flex-shrink: 0;
-}
-
-.studentDetails {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.studentName {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0;
-}
-
-.badges {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.badgeIcon {
-  margin-right: 0.25rem;
-}
-
-.statusIcon {
-  margin-right: 0.375rem;
-}
-
-.cardInfo {
-  padding: 0.75rem;
-  background: #f9fafb;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.infoItem {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-}
-
-.infoIcon {
-  color: #6b7280;
-  font-size: 0.875rem;
-}
-
-.infoLabel {
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.infoValue {
-  color: #1f2937;
-  font-weight: 600;
+  opacity: 0.85;
+  background: #fafafa;
 }
 
 .cardActions {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 0;
-  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f3f4f6;
 }
 
 .acceptButton {
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
-  font-weight: 500;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
-.disabledButton {
+.usedIndicator {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  cursor: not-allowed;
-  opacity: 0.5;
-  padding: 0.625rem 1.25rem;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  border-radius: 10px;
+  border: 2px solid #6ee7b7;
+}
+
+.purchasedIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 10px;
+  border: 2px solid #fcd34d;
+  cursor: help;
+}
+
+.stateIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.usedIndicator .stateIcon {
+  color: #059669;
+}
+
+.purchasedIndicator .stateIcon {
+  color: #d97706;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.stateContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.stateLabel {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.usedIndicator .stateLabel {
+  color: #065f46;
+}
+
+.purchasedIndicator .stateLabel {
+  color: #92400e;
+}
+
+.usedDate {
+  color: #047857;
   font-weight: 500;
+  font-size: 0.8125rem;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 
 @media (max-width: 768px) {
-  .cardHeader {
-    flex-direction: column;
-    align-items: flex-start;
+  .purchaseCard {
+    padding: 1.25rem;
   }
 
-  .studentInfo {
-    width: 100%;
+  .acceptButton {
+    font-size: 0.9375rem;
+    padding: 0.75rem 1.25rem;
   }
 
-  .cardActions {
-    justify-content: stretch;
-  }
-
-  .acceptButton,
-  .disabledButton {
-    width: 100%;
-    justify-content: center;
+  .stateLabel {
+    font-size: 0.875rem;
   }
 }

@@ -18,6 +18,7 @@ import {
   isFullBenefitResponse,
   hasBenefitBasicProperties,
   isBenefitUseRequested,
+  isBenefitPurchase,
   getBenefitSubjectName,
 } from "../utils/benefit.utils";
 import { shouldShowBenefitStats } from "../utils/benefit.validation";
@@ -26,19 +27,54 @@ interface UseBenefitCardDataProps {
   benefit: AnyBenefit | TeacherBenefitType;
   variant: BenefitVariant;
   isPreview: boolean;
+  isPurchase?: boolean;
 }
 
 export const useBenefitCardData = ({
   benefit,
   variant,
   isPreview,
+  isPurchase = false,
 }: UseBenefitCardDataProps) => {
   const data = useMemo(() => {
     const isUseRequest = isBenefitUseRequested(benefit);
+    const isPurchaseCard = isPurchase || isBenefitPurchase(benefit);
 
-    // ============================================
-    // CASO 1: Solicitud de uso (USE_REQUESTED)
-    // ============================================
+    // CASO 1: Compra de beneficio (PURCHASE)
+    if (isPurchaseCard && isBenefitPurchase(benefit)) {
+      const iconComponent = getIconByValue(benefit.benefitIcon);
+      const iconColor = getColorByValue(benefit.benefitColor) ?? "#94a3b8";
+      const category = getCategoryByValue(benefit.benefitCategory);
+      const categoryColor = getCategoryColor(benefit.benefitCategory);
+      const subjectName = benefit.subjectName;
+      const subjectColor = getSubjectColor(subjectName);
+
+      return {
+        IconComponent: iconComponent,
+        iconColor,
+        category,
+        styleSuffix: "Teacher",
+        purchaseLimit: null,
+        purchaseLimitPerStudent: null,
+        hasEndDate: false,
+        showStats: false,
+        benefitName: benefit.benefitName,
+        benefitCost: 0,
+        descriptionText: `Canje #${benefit.id}`,
+        subjectName,
+        subjectColor,
+        categoryColor,
+        hasFullProperties: true,
+        hasBasicProperties: false,
+        isUseRequest: false,
+        isPurchaseCard: true,
+        studentName: benefit.studentName,
+        purchaseState: benefit.state,
+        purchaseId: benefit.id,
+      };
+    }
+
+    // CASO 2: Solicitud de uso (USE_REQUESTED)
     if (isUseRequest) {
       const iconComponent = getIconByValue(benefit.benefitIcon);
       const iconColor = getColorByValue(benefit.benefitColor) ?? "#94a3b8";
@@ -64,15 +100,16 @@ export const useBenefitCardData = ({
         subjectColor,
         categoryColor,
         hasFullProperties: true,
-        hasBasicProperties: true,
+        hasBasicProperties: false,
         isUseRequest: true,
+        isPurchaseCard: false,
         studentName: benefit.studentName,
+        purchaseState: undefined,
+        purchaseId: undefined,
       };
     }
 
-    // ============================================
-    // CASO 2: Beneficios normales
-    // ============================================
+    // CASO 3: Beneficios normales
     const hasFullProperties = isFullBenefitResponse(benefit);
     const hasBasicProperties = hasBenefitBasicProperties(benefit);
 
@@ -141,9 +178,12 @@ export const useBenefitCardData = ({
       hasFullProperties,
       hasBasicProperties,
       isUseRequest: false,
+      isPurchaseCard: false,
       studentName: undefined,
+      purchaseState: undefined,
+      purchaseId: undefined,
     };
-  }, [benefit, variant, isPreview]);
+  }, [benefit, variant, isPreview, isPurchase]);
 
   return data;
 };

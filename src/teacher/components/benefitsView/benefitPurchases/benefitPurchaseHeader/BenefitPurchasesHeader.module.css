@@ -1,18 +1,33 @@
-@import "../../../../../shared//styles/colors.css";
+@import "../../../../../shared/styles/colors.css";
+
+.headerContainer {
+  margin-bottom: 2rem;
+}
+
+.headerTop {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.5rem;
+}
 
 .backButton {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
   font-weight: 500;
+  white-space: nowrap;
+}
+
+.headerContent {
+  flex: 1;
 }
 
 .title {
   font-size: 2.5rem;
   font-weight: bold;
   color: var(--color-text-title);
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem 0;
   background: linear-gradient(
     145deg,
     var(--color-primary) 40%,
@@ -27,30 +42,32 @@
   color: var(--color-text-subtitle);
   font-size: 1.125rem;
   line-height: 1.6;
+  margin: 0;
 }
 
-.createButton {
-  padding: 1rem 1.5rem;
-  font-weight: 600;
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
   white-space: nowrap;
-  border: none;
-  background: var(--color-primary);
-  box-shadow: 0 4px 12px var(--color-primary);
-  transition: all 0.3s ease;
-}
-
-.createButton:hover {
-  transform: translateY(-2px);
-  background: var(--color-secondary) !important;
-  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
-}
-
-.buttonIcon {
-  margin-right: 0.5rem;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .headerTop {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .backButton {
+    justify-self: flex-start;
+  }
+
+  .toggleButton {
+    justify-self: flex-start;
+  }
+
   .title {
     font-size: 2rem;
   }
@@ -58,8 +75,14 @@
   .subtitle {
     font-size: 1rem;
   }
+}
 
-  .createButton {
-    align-self: flex-start;
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 0.9375rem;
   }
 }

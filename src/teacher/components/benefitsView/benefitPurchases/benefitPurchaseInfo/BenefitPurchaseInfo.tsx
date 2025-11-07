@@ -1,7 +1,11 @@
-import { FaGift, FaBook } from "react-icons/fa";
+import { FaBook } from "react-icons/fa";
 import Card from "../../../../../shared/components/Card/CardComponent";
 import Badge from "../../../../../shared/components/Badge/BadgeComponent";
 import { getSubjectColor } from "../../../../../shared/constants/subject.constants";
+import {
+  getIconByValue,
+  getColorByValue,
+} from "../../../../../benefit/utils/benefit.utils";
 import type { BenefitPurchaseSimpleResponse } from "../../../../../benefit/types/benefit.types";
 import styles from "./BenefitPurchaseInfo.module.css";
 
@@ -15,12 +19,17 @@ const BenefitPurchaseInfo: React.FC<BenefitInfoProps> = ({ purchase }) => {
   }
 
   const subjectColor = getSubjectColor(purchase.subjectName);
+  const BenefitIcon = getIconByValue(purchase.benefitIcon);
+  const benefitColor = getColorByValue(purchase.benefitColor) ?? "#667eea";
 
   return (
     <Card className={styles.benefitInfoCard}>
       <div className={styles.infoHeader}>
-        <div className={styles.iconContainer}>
-          <FaGift className={styles.giftIcon} />
+        <div
+          className={styles.iconContainer}
+          style={{ backgroundColor: benefitColor }}
+        >
+          <BenefitIcon className={styles.benefitIcon} />
         </div>
         <div className={styles.infoContent}>
           <h3 className={styles.benefitName}>{purchase.benefitName}</h3>

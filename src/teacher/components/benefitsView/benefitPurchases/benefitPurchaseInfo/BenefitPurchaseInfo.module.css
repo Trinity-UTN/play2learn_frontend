@@ -3,7 +3,7 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   color: white;
-  margin-bottom: 1.5rem;
+  margin-top: 1rem;
 }
 
 .infoHeader {
@@ -24,7 +24,7 @@
   flex-shrink: 0;
 }
 
-.giftIcon {
+.benefitIcon {
   font-size: 1.5rem;
   color: white;
 }

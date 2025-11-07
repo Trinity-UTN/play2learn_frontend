@@ -20,6 +20,18 @@ export const useBenefitPurchaseData = (benefitId: number) => {
   const { activeFilter, setActiveFilter } = useBenefitPurchaseFilters();
 
   /**
+   * Detecta si la respuesta tiene paginación o es un array simple
+   */
+  const hasPagination = useMemo(() => {
+    return (
+      paginatedBenefitsPurchases !== null &&
+      !Array.isArray(paginatedBenefitsPurchases) &&
+      "results" in paginatedBenefitsPurchases &&
+      "totalPages" in paginatedBenefitsPurchases
+    );
+  }, [paginatedBenefitsPurchases]);
+
+  /**
    * Carga de canjes filtrados y paginados
    */
   const loadPurchases = useCallback(async () => {
@@ -47,14 +59,16 @@ export const useBenefitPurchaseData = (benefitId: number) => {
    */
   useEffect(() => {
     loadPurchases();
-  }, [loadPurchases]);
+  }, [loadPurchases, benefitId]);
 
   /**
-   * Reinicia la paginación al cambiar el filtro
+   * Reinicia la paginación al cambiar el filtro (solo si hay paginación)
    */
   useEffect(() => {
-    setPaginationParams((prev) => ({ ...prev, page: 1 }));
-  }, [activeFilter, setPaginationParams]);
+    if (hasPagination) {
+      setPaginationParams((prev) => ({ ...prev, page: 1 }));
+    }
+  }, [activeFilter, hasPagination, setPaginationParams]);
 
   const filteredPurchases = useMemo(() => {
     if (Array.isArray(paginatedBenefitsPurchases)) {
@@ -90,6 +104,7 @@ export const useBenefitPurchaseData = (benefitId: number) => {
     // Datos Generales
     filteredPurchases,
     paginationInfo,
+    hasPagination,
 
     // Funciones
     refetch: loadPurchases,

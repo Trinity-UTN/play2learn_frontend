@@ -91,6 +91,7 @@ export interface BenefitPurchaseSimpleResponse {
   subjectName: string;
   studentId: number;
   studentName: string;
+  usedAt?: string;
 }
 
 export interface BenefitStudentResponseInterface {
@@ -128,11 +129,13 @@ export interface CreateBenefitInterface {
 export type AnyBenefit =
   | BenefitResponseInterface
   | BenefitStudentResponseInterface
-  | CreateBenefitInterface;
+  | CreateBenefitInterface
+  | BenefitPurchaseSimpleResponse;
 
 export type TeacherBenefitType =
   | BenefitResponseInterface
-  | BenefitUseRequestedResponseInterface;
+  | BenefitUseRequestedResponseInterface
+  | BenefitPurchaseSimpleResponse;
 
 // ==================== PAGINACIÓN Y STATS ====================
 
