@@ -83,6 +83,41 @@
   background-color: #e5e7eb;
 }
 
+.searchContainer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.searchInput {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+.searchButton {
+  background-color: #6d28d9;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.searchButton:hover {
+  border-color: #7c3aed;
+}
+
+.clearButton {
+  background-color: #e5e7eb;
+  color: #374151;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
 .filterSection {
   margin-bottom: 1.5rem;
 }

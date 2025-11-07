@@ -1,8 +1,16 @@
 import { motion } from "framer-motion";
-import { FaFilter, FaBook, FaTags, FaTh, FaList } from "react-icons/fa";
+import {
+  FaFilter,
+  FaTimes,
+  FaBook,
+  FaTags,
+  FaTh,
+  FaList,
+} from "react-icons/fa";
 import type { FilterOption } from "../../../../shared/types/Filter.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
+import Input from "../../../../shared/components/Input/InputComponent";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import {
   BENEFIT_TEACHER_STATUS_FILTERS,
@@ -14,25 +22,41 @@ import styles from "./BenefitFilters.module.css";
 
 interface BenefitFiltersProps {
   activeFilter: BenefitTeacherStatus;
+  searchValue: string;
+  subjectValue: string;
   selectedSubject: FilterOption | null;
   selectedCategory: string;
   subjects: FilterOption[];
+  benefitIdValue: string;
+  availableBenefits?: Array<{ id: number; name: string }>;
   viewMode: "grid" | "table";
   onFilterChange: (filter: BenefitTeacherStatus) => void;
+  onSearchChange: (value: string) => void;
   onSubjectChange: (subject: FilterOption | null) => void;
   onCategoryChange: (category: string) => void;
+  onBenefitIdChange: (value: string) => void;
+  onApplyFilters: () => void;
+  onClearFilters: () => void;
   onViewModeChange: (mode: "grid" | "table") => void;
 }
 
 const BenefitFilters: React.FC<BenefitFiltersProps> = ({
   activeFilter,
+  searchValue,
+  subjectValue,
   selectedCategory,
   selectedSubject,
   subjects,
+  benefitIdValue,
+  availableBenefits,
   viewMode,
   onFilterChange,
-  onCategoryChange,
+  onSearchChange,
   onSubjectChange,
+  onCategoryChange,
+  onBenefitIdChange,
+  onApplyFilters,
+  onClearFilters,
   onViewModeChange,
 }) => {
   const itemVariants = {
@@ -45,6 +69,13 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
     const category = BENEFIT_CATEGORIES.find((c) => c.value === value);
     return category?.label || value;
   };
+
+  const hasActiveFilters = searchValue || subjectValue || benefitIdValue;
+
+  const placeholder =
+    activeFilter === "USE_REQUESTED"
+      ? "Nombre del estudiante"
+      : "Nombre del beneficio";
 
   return (
     <motion.div variants={itemVariants} className={styles.filtersContainer}>
@@ -87,6 +118,40 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
               </Button>
             </Tooltip>
           </div>
+        </div>
+
+        {/* Busqueda */}
+        <div className={styles.searchContainer}>
+          <Input
+            type="text"
+            value={searchValue}
+            onChange={(e) => onSearchChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onApplyFilters?.();
+              }
+            }}
+            placeholder={placeholder}
+            className={styles.searchInput}
+          />
+          <Button
+            variant="primary"
+            onClick={onApplyFilters}
+            className={styles.searchButton}
+          >
+            Buscar
+          </Button>
+          {hasActiveFilters && (
+            <Tooltip content="Limpiar filtros">
+              <Button
+                variant="ghost"
+                onClick={onClearFilters}
+                className={styles.clearButton}
+              >
+                <FaTimes />
+              </Button>
+            </Tooltip>
+          )}
         </div>
 
         {/* Estados */}
@@ -160,6 +225,28 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
               ))}
             </select>
           </div>
+
+          {/* Filtro por beneficio */}
+          {activeFilter === "USE_REQUESTED" && (
+            <div className={styles.selectGroup}>
+              <div className={styles.selectLabel}>
+                <FaTags className={styles.selectIcon} />
+                Beneficio
+              </div>
+              <select
+                value={benefitIdValue}
+                onChange={(e) => onBenefitIdChange(e.target.value)}
+                className={styles.select}
+              >
+                <option value="">Todos los beneficios</option>
+                {availableBenefits?.map((benefit) => (
+                  <option key={benefit.id} value={benefit.id}>
+                    {benefit.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       </Card>
     </motion.div>

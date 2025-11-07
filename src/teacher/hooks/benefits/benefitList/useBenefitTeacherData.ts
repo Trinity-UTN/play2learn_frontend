@@ -1,7 +1,8 @@
 import { useEffect, useCallback, useMemo } from "react";
+import type { FilterOption } from "../../../../shared/types/Filter.type";
+import { COMMON_SECONDARY_SUBJECTS } from "../../../../shared/constants/subject.constants";
 import { useBenefitAPI } from "../../useBenefitAPI";
 import { useBenefitTeacherFilters } from "./useBenefitTeacherFilters";
-import { extractUniqueSubjectsFromBenefits } from "../../../../benefit/utils/benefit.utils";
 import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
 
 /**
@@ -27,9 +28,15 @@ export const useBenefitTeacherData = () => {
     activeFilter,
     selectedSubject,
     selectedCategory,
+    search,
+    benefitId,
     setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
+    setSearch,
+    setBenefitId,
+    applyFilters,
+    resetFilters,
   } = useBenefitTeacherFilters();
 
   /**
@@ -55,15 +62,23 @@ export const useBenefitTeacherData = () => {
       filtersValues.push(selectedCategory);
     }
 
+    // Filtro por beneficio (solo en uso solicitado)
+    if (activeFilter === "USE_REQUESTED" && benefitId) {
+      filters.push("benefitId");
+      filtersValues.push(benefitId);
+    }
+
     if (activeFilter === "USE_REQUESTED") {
       await getPaginatedBenefitsUseRequested({
         ...paginationParams,
+        search,
         filters,
         filtersValues,
       });
     } else {
       await getPaginatedBenefits({
         ...paginationParams,
+        search,
         filters,
         filtersValues,
       });
@@ -73,6 +88,8 @@ export const useBenefitTeacherData = () => {
     paginationParams,
     selectedSubject,
     selectedCategory,
+    search,
+    benefitId,
     getPaginatedBenefits,
     getPaginatedBenefitsUseRequested,
   ]);
@@ -82,29 +99,54 @@ export const useBenefitTeacherData = () => {
    */
   useEffect(() => {
     loadBenefits();
-  }, [loadBenefits]);
+  }, [loadBenefits, search, benefitId]);
 
   /**
    * Reinicia la paginación al cambiar el filtro
    */
   useEffect(() => {
     setPaginationParams((prev) => ({ ...prev, page: 1 }));
-  }, [activeFilter, selectedSubject, selectedCategory, setPaginationParams]);
+  }, [
+    activeFilter,
+    selectedSubject,
+    selectedCategory,
+    search,
+    benefitId,
+    setPaginationParams,
+  ]);
 
   // Datos Generales
+  const subjects: FilterOption[] = useMemo(() => {
+    const mapped: FilterOption[] = COMMON_SECONDARY_SUBJECTS.map(
+      (name, index) => ({
+        id: String(index + 1),
+        name,
+      })
+    );
+    return [{ id: "ALL", name: "Todas las materias" }, ...mapped];
+  }, []);
+
+  const availableBenefits = useMemo(() => {
+    const items = [
+      ...(paginatedBenefitsUseRequested?.results ?? []),
+      ...(paginatedBenefits?.results ?? []),
+    ];
+    const unique = new Map<number, string>();
+    for (const item of items) {
+      if ("benefitId" in item && item.benefitId) {
+        unique.set(item.benefitId, (item as any).benefitName);
+      } else if ("id" in item && "name" in item) {
+        unique.set((item as any).id, (item as any).name);
+      }
+    }
+    return Array.from(unique, ([id, name]) => ({ id, name }));
+  }, [paginatedBenefits, paginatedBenefitsUseRequested]);
+
   const filteredBenefits = useMemo(() => {
     if (activeFilter === "USE_REQUESTED") {
       return paginatedBenefitsUseRequested?.results ?? [];
     }
     return paginatedBenefits?.results ?? [];
-  }, [activeFilter, paginatedBenefits, paginatedBenefitsUseRequested]);
-
-  const subjects = useMemo(() => {
-    const benefits =
-      activeFilter === "USE_REQUESTED"
-        ? paginatedBenefitsUseRequested?.results ?? []
-        : paginatedBenefits?.results ?? [];
-    return extractUniqueSubjectsFromBenefits(benefits);
   }, [activeFilter, paginatedBenefits, paginatedBenefitsUseRequested]);
 
   const paginationInfo = useMemo(() => {
@@ -132,18 +174,25 @@ export const useBenefitTeacherData = () => {
   ]);
 
   return {
-    // Estados Generales
+    // Estados y handlers
     loading,
     activeFilter,
     selectedSubject,
     selectedCategory,
+    search,
+    benefitId,
     setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
+    setSearch,
+    setBenefitId,
+    applyFilters,
+    resetFilters,
 
-    // Datos Generales
+    // Datos
     filteredBenefits,
     subjects,
+    availableBenefits,
     paginationInfo,
   };
 };

@@ -98,11 +98,14 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
             </span>
           </div>
         ) : (
-          <Tooltip content={benefitDescription} position="top">
-            <p className={styles[`benefitDescription${styleSuffix}`]}>
-              {benefitDescription}
-            </p>
-          </Tooltip>
+          // <Tooltip content={benefitDescription} position="top">
+          //   <p className={styles[`benefitDescription${styleSuffix}`]}>
+          //     {benefitDescription}
+          //   </p>
+          // </Tooltip>
+          <p className={styles[`benefitDescription${styleSuffix}`]}>
+            {benefitDescription}
+          </p>
         )}
       </td>
 

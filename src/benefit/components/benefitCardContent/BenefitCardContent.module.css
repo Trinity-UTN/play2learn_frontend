@@ -89,7 +89,6 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  cursor: help;
 }
 
 .requestInfo .benefitDescriptionTeacher {
@@ -228,7 +227,6 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  cursor: help;
 }
 
 .studentIcon {

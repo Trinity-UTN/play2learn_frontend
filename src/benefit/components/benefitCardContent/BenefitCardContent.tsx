@@ -99,11 +99,14 @@ const BenefitCardContent = ({
           </p>
         </div>
       ) : (
-        <Tooltip content={descriptionText}>
-          <p className={styles[`benefitDescription${styleSuffix}`]}>
-            {descriptionText}
-          </p>
-        </Tooltip>
+        // <Tooltip content={descriptionText}>
+        //   <p className={styles[`benefitDescription${styleSuffix}`]}>
+        //     {descriptionText}
+        //   </p>
+        // </Tooltip>
+        <p className={styles[`benefitDescription${styleSuffix}`]}>
+          {descriptionText}
+        </p>
       )}
 
       {/* Fecha de finalización */}

@@ -41,7 +41,7 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
           <FaCheck /> Aceptar
         </Button>
         <Button
-          variant="primary"
+          variant="secondary"
           size="sm"
           className={styles.viewButton}
           onClick={() => handleViewPurchases(actualBenefitId)}
@@ -52,7 +52,7 @@ const BenefitTable = ({ benefits }: BenefitTableProps) => {
     ) : (
       <>
         <Button
-          variant="primary"
+          variant="secondary"
           size="sm"
           className={styles.viewButton}
           onClick={() => handleViewPurchases(benefitId)}

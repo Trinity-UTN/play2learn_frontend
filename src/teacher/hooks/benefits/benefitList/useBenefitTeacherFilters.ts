@@ -13,20 +13,33 @@ export const useBenefitTeacherFilters = () => {
     name: "Todas las materias",
   });
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
+  const [search, setSearch] = useState<string>("");
+  const [benefitId, setBenefitId] = useState<string>("");
+
+  const applyFilters = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const resetFilters = useCallback(() => {
     setActiveFilter("PUBLISHED");
     setSelectedSubject({ id: "ALL", name: "Todas las materias" });
     setSelectedCategory("ALL");
+    setSearch("");
+    setBenefitId("");
   }, []);
 
   return {
     activeFilter,
     selectedSubject,
     selectedCategory,
+    search,
+    benefitId,
     setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
+    setSearch,
+    setBenefitId,
+    applyFilters,
     resetFilters,
   };
 };

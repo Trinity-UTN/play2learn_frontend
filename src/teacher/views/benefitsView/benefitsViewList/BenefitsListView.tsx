@@ -15,15 +15,23 @@ const BenefitsListView: React.FC = () => {
     activeFilter,
     selectedSubject,
     selectedCategory,
+    search,
+    benefitId,
+    subjects,
+    availableBenefits,
+    filteredBenefits,
+    paginationInfo,
     setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
-    filteredBenefits,
-    subjects,
-    paginationInfo,
+    setSearch,
+    setBenefitId,
+    applyFilters,
+    resetFilters,
   } = useBenefitTeacherData();
 
   const navigate = useNavigate();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -55,13 +63,21 @@ const BenefitsListView: React.FC = () => {
 
       <BenefitFilters
         activeFilter={activeFilter}
+        searchValue={search}
+        subjectValue={selectedSubject?.id ?? ""}
         selectedSubject={selectedSubject}
         selectedCategory={selectedCategory}
         subjects={subjects}
+        benefitIdValue={benefitId}
+        availableBenefits={availableBenefits}
         viewMode={viewMode}
         onFilterChange={setActiveFilter}
+        onSearchChange={setSearch}
         onSubjectChange={setSelectedSubject}
         onCategoryChange={setSelectedCategory}
+        onBenefitIdChange={setBenefitId}
+        onApplyFilters={applyFilters}
+        onClearFilters={resetFilters}
         onViewModeChange={setViewMode}
       />
 

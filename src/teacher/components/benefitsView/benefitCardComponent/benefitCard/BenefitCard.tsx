@@ -44,7 +44,7 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
               Aceptar Uso
             </Button>
             <Button
-              variant="primary"
+              variant="secondary"
               size="sm"
               className={styles.viewRedemptionsButtonUR}
               onClick={() => handleViewPurchases(actualBenefitId)}
@@ -56,7 +56,7 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
         ) : (
           <>
             <Button
-              variant="primary"
+              variant="secondary"
               size="sm"
               className={styles.viewRedemptionsButton}
               onClick={() => handleViewPurchases(benefitId)}

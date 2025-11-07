@@ -1,3 +1,21 @@
+export const COMMON_SECONDARY_SUBJECTS = [
+  "Matemática",
+  "Lengua",
+  "Inglés",
+  "Ciencias Naturales",
+  "Biología",
+  "Física",
+  "Química",
+  "Historia",
+  "Geografía",
+  "Educación Física",
+  "Educación Artística",
+  "Tecnología",
+  "Informática",
+  "Filosofía",
+  "Ética",
+];
+
 export const SUBJECT_COLORS: Record<string, { bg: string; text: string }> = {
   // === ÁREA MATEMÁTICA Y LÓGICA ===
   Matematica: {
