@@ -70,6 +70,9 @@ export interface BenefitUseRequestedResponseInterface {
   state: "USE_REQUESTED";
   benefitId: number;
   benefitName: string;
+  benefitCategory: Category;
+  benefitColor: Color;
+  benefitIcon: Icon;
   subjectId: number;
   subjectName: string;
   studentId: number;
@@ -81,6 +84,9 @@ export interface BenefitPurchaseSimpleResponse {
   state: BenefitPurchaseState;
   benefitId: number;
   benefitName: string;
+  benefitCategory: Category;
+  benefitColor: Color;
+  benefitIcon: Icon;
   subjectId: number;
   subjectName: string;
   studentId: number;

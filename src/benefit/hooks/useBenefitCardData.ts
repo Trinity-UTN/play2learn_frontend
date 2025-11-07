@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { FaGift, FaHandPaper } from "react-icons/fa";
+import { FaGift } from "react-icons/fa";
 import type {
   AnyBenefit,
   BenefitVariant,
@@ -36,15 +36,22 @@ export const useBenefitCardData = ({
   const data = useMemo(() => {
     const isUseRequest = isBenefitUseRequested(benefit);
 
-    // Si es una solicitud de uso, retornar data específica (POR AHORA) TODO: Agg icon, category, color backend
+    // ============================================
+    // CASO 1: Solicitud de uso (USE_REQUESTED)
+    // ============================================
     if (isUseRequest) {
+      const iconComponent = getIconByValue(benefit.benefitIcon);
+      const iconColor = getColorByValue(benefit.benefitColor) ?? "#94a3b8";
+      const category = getCategoryByValue(benefit.benefitCategory);
+      const categoryColor = getCategoryColor(benefit.benefitCategory);
+
       const subjectName = benefit.subjectName;
       const subjectColor = getSubjectColor(subjectName);
 
       return {
-        IconComponent: FaHandPaper,
-        iconColor: "#F59E0B",
-        category: undefined,
+        IconComponent: iconComponent,
+        iconColor,
+        category,
         styleSuffix: "Teacher",
         purchaseLimit: null,
         purchaseLimitPerStudent: null,
@@ -52,18 +59,20 @@ export const useBenefitCardData = ({
         showStats: false,
         benefitName: benefit.benefitName,
         benefitCost: 0,
-        descriptionText: `Solicitud de uso de beneficio`,
+        descriptionText: "Solicitud de uso de beneficio",
         subjectName,
         subjectColor,
-        categoryColor: { bg: "#FEF3C7", text: "#92400E" },
-        hasFullProperties: false,
-        hasBasicProperties: false,
+        categoryColor,
+        hasFullProperties: true,
+        hasBasicProperties: true,
         isUseRequest: true,
         studentName: benefit.studentName,
       };
     }
 
-    // Lógica original para beneficios normales
+    // ============================================
+    // CASO 2: Beneficios normales
+    // ============================================
     const hasFullProperties = isFullBenefitResponse(benefit);
     const hasBasicProperties = hasBenefitBasicProperties(benefit);
 
