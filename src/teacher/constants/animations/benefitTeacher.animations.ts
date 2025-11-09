@@ -30,3 +30,8 @@ export const benefitsListItemVariants: Variants = {
     scale: 1.02,
   },
 };
+
+export const tableRowVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+};
