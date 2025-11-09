@@ -19,6 +19,7 @@ import {
   hasBenefitBasicProperties,
   isBenefitUseRequested,
   isBenefitPurchase,
+  isBenefitPurchasedUsed,
   getBenefitSubjectName,
 } from "../utils/benefit.utils";
 import { shouldShowBenefitStats } from "../utils/benefit.validation";
@@ -48,6 +49,42 @@ export const useBenefitCardData = ({
      *   - Si state === "USE_REQUESTED" -> Mostrar como UseRequest
      *   - Si state === "PURCHASED" o "USED" -> Mostrar como beneficio normal
      */
+
+    // CASO 0: Beneficio USADO
+    if (isBenefitPurchasedUsed(benefit)) {
+      const iconComponent = getIconByValue(benefit.icon);
+      const iconColor = getColorByValue(benefit.color) ?? "#94a3b8";
+      const category = getCategoryByValue(benefit.category);
+      const categoryColor = getCategoryColor(benefit.category);
+      const subjectName = benefit.subjectName;
+      const subjectColor = getSubjectColor(subjectName);
+
+      return {
+        IconComponent: iconComponent,
+        iconColor,
+        category,
+        styleSuffix: "Student",
+        purchaseLimit: null,
+        purchaseLimitPerStudent: null,
+        hasEndDate: false,
+        showStats: false,
+        benefitName: benefit.benefitName,
+        benefitCost: 0,
+        descriptionText: benefit.benefitDescription,
+        subjectName,
+        subjectColor,
+        categoryColor,
+        hasFullProperties: true,
+        hasBasicProperties: false,
+        isUseRequest: false,
+        isPurchaseCard: false,
+        isUsedBenefit: true,
+        usedAt: benefit.usedAt,
+        studentName: undefined,
+        purchaseState: benefit.state,
+        purchaseId: benefit.id,
+      };
+    }
 
     // CASO 1: Contexto de CANJES (isPurchase=true)
     if (
@@ -80,6 +117,8 @@ export const useBenefitCardData = ({
         hasBasicProperties: false,
         isUseRequest: false,
         isPurchaseCard: true,
+        isUsedBenefit: false,
+        usedAt: undefined,
         studentName: benefit.studentName,
         purchaseState: benefit.state,
         purchaseId: benefit.id,
@@ -116,6 +155,8 @@ export const useBenefitCardData = ({
         hasBasicProperties: false,
         isUseRequest: true,
         isPurchaseCard: false,
+        isUsedBenefit: false,
+        usedAt: undefined,
         studentName: benefit.studentName,
         purchaseState: benefit.state,
         purchaseId: benefit.id,
@@ -191,6 +232,8 @@ export const useBenefitCardData = ({
       hasBasicProperties,
       isUseRequest: false,
       isPurchaseCard: false,
+      isUsedBenefit: false,
+      usedAt: undefined,
       studentName: undefined,
       purchaseState: undefined,
       purchaseId: undefined,

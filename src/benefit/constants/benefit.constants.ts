@@ -10,6 +10,7 @@ import {
   FaGift,
   FaShoppingBag,
   FaHandPaper,
+  FaCheckCircle,
 } from "react-icons/fa";
 import { FiXCircle } from "react-icons/fi";
 import type { Category, Color, Icon } from "../types/benefit.types";
@@ -127,6 +128,7 @@ export const BENEFIT_STATUS = {
   PURCHASED: "PURCHASED",
   USE_REQUESTED: "USE_REQUESTED",
   EXPIRED: "EXPIRED",
+  USED: "USED",
 } as const;
 
 export type BenefitStatus =
@@ -152,6 +154,11 @@ export const BENEFIT_STATUS_FILTERS = [
     key: BENEFIT_STATUS.EXPIRED,
     label: "Vencidos",
     icon: FiXCircle,
+  },
+  {
+    key: BENEFIT_STATUS.USED,
+    label: "Usados",
+    icon: FaCheckCircle,
   },
 ] as const;
 
@@ -233,6 +240,13 @@ export const BENEFIT_STATS_CONFIG = [
     icon: FaHandPaper,
     color: "#F59E0B",
     bgColor: "#FEF3C7",
+  },
+  {
+    key: "used",
+    label: "Usados",
+    icon: FaCheckCircle,
+    color: "#059669",
+    bgColor: "#D1FAE5",
   },
   {
     key: "expired",

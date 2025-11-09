@@ -237,3 +237,30 @@
   font-weight: 600;
   color: white;
 }
+
+.usedAtSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: #d1fae5;
+  border-radius: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.usedAtIcon {
+  color: #059669;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.usedAtText {
+  font-size: 0.875rem;
+  color: #065f46;
+  line-height: 1.4;
+}
+
+.usedAtText strong {
+  font-weight: 600;
+  color: #047857;
+}
