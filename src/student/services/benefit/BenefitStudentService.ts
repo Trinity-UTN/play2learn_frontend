@@ -2,6 +2,7 @@ import { BaseBenefitService } from "../../../benefit/services/BaseBenefitService
 import type {
   BenefitStatsApiResponse,
   PaginatedBenefitStudentResponseInterface,
+  PaginatedBenefitPurchasedUsedResponse,
 } from "../../../benefit/types/benefit.types";
 import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import api from "../../../shared/utils/api";
@@ -11,6 +12,12 @@ export const BenefitStudentService = {
   getPaginatedBenefitStudentApi: (params: GetPaginated) =>
     BaseBenefitService.getPaginated<PaginatedBenefitStudentResponseInterface>(
       urls.PaginatedBenefitStudent,
+      params
+    ),
+
+  getPaginatedUsedBenefitStudentApi: (params: GetPaginated) =>
+    BaseBenefitService.getPaginated<PaginatedBenefitPurchasedUsedResponse>(
+      urls.PaginatedUsedBenefitStudent,
       params
     ),
 
