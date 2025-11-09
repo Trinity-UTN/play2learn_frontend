@@ -15,6 +15,7 @@ export const useBenefitTeacherFilters = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
   const [search, setSearch] = useState<string>("");
   const [benefitId, setBenefitId] = useState<string>("");
+  const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
 
   const applyFilters = useCallback(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -29,16 +30,21 @@ export const useBenefitTeacherFilters = () => {
   }, []);
 
   return {
+    // Estados
     activeFilter,
     selectedSubject,
     selectedCategory,
     search,
     benefitId,
+    viewMode,
+
+    // Handlers
     setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
     setSearch,
     setBenefitId,
+    setViewMode,
     applyFilters,
     resetFilters,
   };

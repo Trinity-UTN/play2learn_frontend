@@ -3,38 +3,33 @@ import Button from "../../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../../shared/components/Card/CardComponent";
 import BenefitCardContent from "../../../../../benefit/components/benefitCardContent/BenefitCardContent";
 import type { TeacherBenefitType } from "../../../../../benefit/types/benefit.types";
+import { isBenefitUseRequested } from "../../../../../benefit/utils/benefit.utils";
 import {
-  isBenefitPurchase,
-  isBenefitUseRequested,
-} from "../../../../../benefit/utils/benefit.utils";
-import { useBenefitTeacherActions } from "../../../../hooks/benefits/benefitList/useBenefitTeacherActions";
-import { useBenefitTeacherData } from "../../../../hooks/benefits/benefitList/useBenefitTeacherData";
+  getBenefitIds,
+  getBenefitName,
+  type BenefitActionHandlers,
+} from "../../../../utils/benefitList.utils";
 import styles from "./BenefitCard.module.css";
 
 type BenefitCardProps = {
   benefit: TeacherBenefitType;
+  actions: BenefitActionHandlers;
+  loading?: boolean;
 };
 
-const BenefitCard = ({ benefit }: BenefitCardProps) => {
-  const { handleDeleteBenefit, handleViewPurchases, handleAcceptUseBenefit } =
-    useBenefitTeacherActions();
-  const { loading } = useBenefitTeacherData();
-
+const BenefitCard: React.FC<BenefitCardProps> = ({
+  benefit,
+  actions,
+  loading = false,
+}) => {
   const isUseRequest = isBenefitUseRequested(benefit);
-  const isPurchase = isBenefitPurchase(benefit);
-
-  // Extraer IDs según el tipo
-  const benefitId = isUseRequest ? benefit.id : benefit.id;
-  const actualBenefitId = isUseRequest ? benefit.benefitId : benefit.id;
-  const benefitName =
-    isUseRequest || isPurchase ? benefit.benefitName : benefit.name;
+  const { benefitId, actualBenefitId } = getBenefitIds(benefit);
+  const name = getBenefitName(benefit);
 
   return (
     <Card className={styles.benefitCard}>
-      {/* Contenido reutilizable */}
       <BenefitCardContent benefit={benefit} isPurchase={false} />
 
-      {/* Acciones dinámicas según el tipo */}
       <div className={styles.cardActions}>
         {isUseRequest ? (
           <>
@@ -42,7 +37,7 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
               variant="ghost"
               size="sm"
               className={styles.acceptButton}
-              onClick={() => handleAcceptUseBenefit(benefitId, benefitName)}
+              onClick={() => actions.onAcceptUse(benefitId, name)}
               disabled={loading}
             >
               <FaCheck className={styles.actionIcon} />
@@ -52,7 +47,7 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
               variant="secondary"
               size="sm"
               className={styles.viewRedemptionsButtonUR}
-              onClick={() => handleViewPurchases(actualBenefitId)}
+              onClick={() => actions.onViewPurchases(actualBenefitId)}
             >
               <FaEye className={styles.actionIcon} />
               Ver otros canjes
@@ -64,7 +59,7 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
               variant="secondary"
               size="sm"
               className={styles.viewRedemptionsButton}
-              onClick={() => handleViewPurchases(benefitId)}
+              onClick={() => actions.onViewPurchases(benefitId)}
             >
               <FaEye className={styles.actionIcon} />
               Ver Canjes
@@ -73,7 +68,7 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
               variant="ghost"
               size="sm"
               className={styles.deleteButton}
-              onClick={() => handleDeleteBenefit(benefitId, benefitName)}
+              onClick={() => actions.onDelete(benefitId, name)}
               disabled={loading}
             >
               <FaTrash className={styles.actionIcon} />

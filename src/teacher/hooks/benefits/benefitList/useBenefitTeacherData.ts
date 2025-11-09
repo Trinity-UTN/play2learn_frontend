@@ -36,11 +36,13 @@ export const useBenefitTeacherData = () => {
     selectedCategory,
     search,
     benefitId,
+    viewMode,
     setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
     setSearch,
     setBenefitId,
+    setViewMode,
     applyFilters,
     resetFilters,
   } = useBenefitTeacherFilters();
@@ -206,6 +208,7 @@ export const useBenefitTeacherData = () => {
     selectedCategory,
     search,
     benefitId,
+    viewMode,
 
     // Handlers
     setActiveFilter,
@@ -213,6 +216,7 @@ export const useBenefitTeacherData = () => {
     setSelectedCategory,
     setSearch,
     setBenefitId,
+    setViewMode,
     applyFilters,
     resetFilters,
 

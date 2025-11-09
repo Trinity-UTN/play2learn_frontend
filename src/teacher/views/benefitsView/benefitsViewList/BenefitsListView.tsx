@@ -1,17 +1,20 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import BenefitHeader from "../../../components/benefitsView/benefitHeader/BenefitHeader";
-import BenefitsList from "../../../components/benefitsView/benefitsList/BenefitsList";
+import BenefitList from "../../../components/benefitsView/benefitList/BenefitList";
 import BenefitFilters from "../../../components/benefitsView/benefitFilters/BenefitFilters";
+import {
+  benefitListContainerVariants,
+  benefitItemVariants,
+} from "../../../constants/animations/benefitTeacher.animations";
+import { useBenefitTeacherActions } from "../../../hooks/benefits/benefitList/useBenefitTeacherActions";
 import { useBenefitTeacherData } from "../../../hooks/benefits/benefitList/useBenefitTeacherData";
 import styles from "./BenefitsListView.module.css";
 
 const BenefitsListView: React.FC = () => {
-  const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
-
+  const navigate = useNavigate();
   const {
-    loading,
+    loading: dataLoading,
     activeFilter,
     selectedSubject,
     selectedCategory,
@@ -21,6 +24,7 @@ const BenefitsListView: React.FC = () => {
     availableBenefits,
     filteredBenefits,
     paginationInfo,
+    viewMode,
     setActiveFilter,
     setSelectedSubject,
     setSelectedCategory,
@@ -28,39 +32,28 @@ const BenefitsListView: React.FC = () => {
     setBenefitId,
     applyFilters,
     resetFilters,
+    setViewMode,
   } = useBenefitTeacherData();
+  const { actions, loading: actionsLoading } = useBenefitTeacherActions();
 
-  const navigate = useNavigate();
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
-  };
+  const loading = dataLoading || actionsLoading;
+  const showEmptyState = filteredBenefits.length === 0 && !loading;
 
   return (
     <motion.div
-      variants={containerVariants}
+      variants={benefitListContainerVariants}
       initial="hidden"
       animate="visible"
       className={styles.container}
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className={styles.header}>
+      <motion.div variants={benefitItemVariants} className={styles.header}>
         <BenefitHeader
           onNavigate={() => navigate("/dashboard/teacher/beneficio/create")}
         />
       </motion.div>
 
+      {/* Filtros */}
       <BenefitFilters
         activeFilter={activeFilter}
         searchValue={search}
@@ -81,13 +74,15 @@ const BenefitsListView: React.FC = () => {
         onViewModeChange={setViewMode}
       />
 
-      {/* Benefits List (Grid o Table) */}
-      <motion.div variants={itemVariants}>
-        <BenefitsList
+      {/* Lista de Beneficios (Grid o Table) */}
+      <motion.div variants={benefitItemVariants}>
+        <BenefitList
           benefits={filteredBenefits}
           paginationInfo={paginationInfo}
           viewMode={viewMode}
+          actions={actions}
           loading={loading}
+          showEmptyState={showEmptyState}
         />
       </motion.div>
     </motion.div>

@@ -1,25 +1,32 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useBenefitAPI } from "../../useBenefitAPI";
 import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
 import { useToaster } from "../../../../shared/hooks/useToaster";
 
-/**
- * Hook que permite manejar las acciones de los beneficios del teacher
- */
-export const useBenefitTeacherActions = () => {
+export type BenefitActionHandlers = {
+  onDelete: (benefitId: number, name: string) => void;
+  onViewPurchases: (benefitId: number) => void;
+  onAcceptUse: (benefitId: number, name: string) => void;
+};
+
+export const useBenefitTeacherActions = (): {
+  actions: BenefitActionHandlers;
+  loading: boolean;
+} => {
   const navigate = useNavigate();
   const {
     deleteBenefit,
     acceptUseBenefit,
     refreshBenefitsAfterDeletion,
     refreshBenefitsAfterAcceptance,
+    loading: apiLoading,
   } = useBenefitAPI();
   const { showConfirmation } = useConfirmation();
   const { showToast } = useToaster();
 
   const handleDeleteBenefit = useCallback(
-    (benefitId: number, benefitName: string, onSuccess?: () => void) => {
+    (benefitId: number, benefitName: string) => {
       showConfirmation({
         title: "¿Estás seguro de eliminar este beneficio?",
         message: `Vas a eliminar "${benefitName}". Esta acción no se puede revertir.`,
@@ -34,7 +41,6 @@ export const useBenefitTeacherActions = () => {
               type: "success",
               position: "bottom-right",
             });
-            if (onSuccess) onSuccess();
             refreshBenefitsAfterDeletion();
           } catch {
             // El provider ya mostró el error
@@ -53,7 +59,7 @@ export const useBenefitTeacherActions = () => {
   );
 
   const handleAcceptUseBenefit = useCallback(
-    (benefitId: number, benefitName: string, onSuccess?: () => void) => {
+    (benefitId: number, benefitName: string) => {
       showConfirmation({
         title: "¿Aceptar uso del beneficio?",
         message: `Vas a aceptar el uso de "${benefitName}" para el estudiante.`,
@@ -68,7 +74,6 @@ export const useBenefitTeacherActions = () => {
               type: "success",
               position: "bottom-right",
             });
-            if (onSuccess) onSuccess();
             refreshBenefitsAfterAcceptance();
           } catch {
             // El provider ya mostró el error
@@ -80,13 +85,21 @@ export const useBenefitTeacherActions = () => {
       acceptUseBenefit,
       showConfirmation,
       showToast,
-      refreshBenefitsAfterDeletion,
+      refreshBenefitsAfterAcceptance,
     ]
   );
 
+  const actions = useMemo(
+    () => ({
+      onDelete: handleDeleteBenefit,
+      onViewPurchases: handleViewPurchases,
+      onAcceptUse: handleAcceptUseBenefit,
+    }),
+    [handleDeleteBenefit, handleViewPurchases, handleAcceptUseBenefit]
+  );
+
   return {
-    handleDeleteBenefit,
-    handleViewPurchases,
-    handleAcceptUseBenefit,
+    actions,
+    loading: apiLoading,
   };
 };

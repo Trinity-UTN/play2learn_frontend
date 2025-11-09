@@ -14,10 +14,15 @@ import Input from "../../../../shared/components/Input/InputComponent";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import {
   BENEFIT_TEACHER_STATUS_FILTERS,
-  BENEFIT_CATEGORIES,
   BENEFIT_CATEGORY_OPTIONS,
   type BenefitTeacherStatus,
 } from "../../../../benefit/constants/benefit.constants";
+import { benefitItemVariants } from "../../../constants/animations/benefitTeacher.animations";
+import {
+  getCategoryLabel,
+  getSearchPlaceholder,
+  hasActiveFilters,
+} from "../../../utils/benefitFilters.utils";
 import styles from "./BenefitFilters.module.css";
 
 interface BenefitFiltersProps {
@@ -44,8 +49,8 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
   activeFilter,
   searchValue,
   subjectValue,
-  selectedCategory,
   selectedSubject,
+  selectedCategory,
   subjects,
   benefitIdValue,
   availableBenefits,
@@ -59,27 +64,20 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
   onClearFilters,
   onViewModeChange,
 }) => {
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
-  };
-
-  const getCategoryLabel = (value: string): string => {
-    if (value === "ALL") return "Todas las categorías";
-    const category = BENEFIT_CATEGORIES.find((c) => c.value === value);
-    return category?.label || value;
-  };
-
-  const hasActiveFilters = searchValue || subjectValue || benefitIdValue;
-
-  const placeholder =
-    activeFilter === "USE_REQUESTED"
-      ? "Nombre del estudiante"
-      : "Nombre del beneficio";
+  const placeholder = getSearchPlaceholder(activeFilter);
+  const showClearButton = hasActiveFilters(
+    searchValue,
+    subjectValue,
+    benefitIdValue
+  );
 
   return (
-    <motion.div variants={itemVariants} className={styles.filtersContainer}>
+    <motion.div
+      variants={benefitItemVariants}
+      className={styles.filtersContainer}
+    >
       <Card className={styles.filtersCard}>
+        {/* Header */}
         <div className={styles.filtersHeader}>
           <div className={styles.headerLeft}>
             <div className={styles.headerIcon}>
@@ -126,11 +124,7 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
             type="text"
             value={searchValue}
             onChange={(e) => onSearchChange(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                onApplyFilters?.();
-              }
-            }}
+            onKeyDown={(e) => e.key === "Enter" && onApplyFilters()}
             placeholder={placeholder}
             className={styles.searchInput}
           />
@@ -141,7 +135,7 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
           >
             Buscar
           </Button>
-          {hasActiveFilters && (
+          {showClearButton && (
             <Tooltip content="Limpiar filtros">
               <Button
                 variant="ghost"
@@ -159,7 +153,6 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
           <div className={styles.filterButtons}>
             {BENEFIT_TEACHER_STATUS_FILTERS.map((filter) => {
               const IconComponent = filter.icon;
-
               const isExpiredFilter = filter.key === "EXPIRED";
               const isUseRequestedActive = activeFilter === "USE_REQUESTED";
               const isDisabled = isExpiredFilter && isUseRequestedActive;
@@ -193,16 +186,17 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
 
         {/* Filtros de Materia y Categoría */}
         <div className={styles.selectFilters}>
+          {/* Subject */}
           <div className={styles.selectGroup}>
             <div className={styles.selectLabel}>
               <FaBook className={styles.selectIcon} />
               Materia
             </div>
             <select
-              value={selectedSubject?.id}
+              value={selectedSubject?.id ?? ""}
               onChange={(e) => {
                 const subject = subjects.find((s) => s.id === e.target.value);
-                if (subject) onSubjectChange(subject);
+                onSubjectChange(subject ?? null);
               }}
               className={styles.select}
             >
@@ -214,6 +208,7 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
             </select>
           </div>
 
+          {/* Category */}
           <div className={styles.selectGroup}>
             <div className={styles.selectLabel}>
               <FaTags className={styles.selectIcon} />
@@ -232,7 +227,7 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
             </select>
           </div>
 
-          {/* Filtro por beneficio */}
+          {/* Benefit ID (solo en USE_REQUESTED) */}
           {activeFilter === "USE_REQUESTED" && (
             <div className={styles.selectGroup}>
               <div className={styles.selectLabel}>
