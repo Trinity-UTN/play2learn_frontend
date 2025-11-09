@@ -1,29 +1,40 @@
+@import "../../../../../shared/styles/colors.css";
+
 .purchaseCard {
   padding: 1.5rem;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .purchaseCard:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-.purchaseCard.disabled {
+.disabledCard {
   opacity: 0.85;
   background: #fafafa;
 }
 
+.disabledCard:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .cardActions {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #f3f4f6;
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .acceptButton {
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,9 +42,28 @@
   padding: 0.875rem 1.5rem;
   font-weight: 600;
   font-size: 1rem;
+  background-color: #6d28d9;
+  color: white;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  max-width: fit-content;
 }
 
-.usedIndicator {
+.acceptButton:hover:not(:disabled) {
+  background-color: #7c3aed;
+  transform: translateY(-1px);
+}
+
+.acceptButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.actionIcon {
+  font-size: 1rem;
+}
+
+.usedStatus {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -41,58 +71,75 @@
   background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
   border-radius: 10px;
   border: 2px solid #6ee7b7;
+  max-width: fit-content;
+  cursor: help;
 }
 
-.purchasedIndicator {
+.usedIcon {
+  font-size: 1.5rem;
+  color: #059669;
+  flex-shrink: 0;
+}
+
+.purchasedStatus {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   padding: 0.875rem 1.25rem;
   background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
   border-radius: 10px;
   border: 2px solid #fcd34d;
+  max-width: fit-content;
   cursor: help;
 }
 
-.stateIcon {
+.purchasedIcon {
   font-size: 1.5rem;
-  flex-shrink: 0;
-}
-
-.usedIndicator .stateIcon {
-  color: #059669;
-}
-
-.purchasedIndicator .stateIcon {
   color: #d97706;
+  flex-shrink: 0;
   animation: pulse 2s ease-in-out infinite;
 }
 
-.stateContent {
+.statusContent {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   flex: 1;
 }
 
-.stateLabel {
-  font-weight: 600;
+.statusLabel {
+  font-weight: 700;
   font-size: 0.9375rem;
+  line-height: 1.3;
 }
 
-.usedIndicator .stateLabel {
+.usedStatus .statusLabel {
   color: #065f46;
 }
 
-.purchasedIndicator .stateLabel {
+.purchasedStatus .statusLabel {
   color: #92400e;
 }
 
-.usedDate {
+.statusDate {
   color: #047857;
   font-weight: 500;
   font-size: 0.8125rem;
+  opacity: 0.85;
 }
+
+.statusSubtext {
+  color: #047857;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  opacity: 0.85;
+}
+
+.purchasedStatus .statusSubtext {
+  color: #92400e;
+}
+
+/* Animations */
 
 @keyframes pulse {
   0%,
@@ -104,6 +151,8 @@
   }
 }
 
+/* Responsive Design */
+
 @media (max-width: 768px) {
   .purchaseCard {
     padding: 1.25rem;
@@ -114,7 +163,23 @@
     padding: 0.75rem 1.25rem;
   }
 
-  .stateLabel {
+  .statusLabel {
     font-size: 0.875rem;
+  }
+
+  .statusDate,
+  .statusSubtext {
+    font-size: 0.75rem;
+  }
+
+  .usedIcon,
+  .purchasedIcon {
+    font-size: 1.5rem;
+  }
+
+  .usedStatus,
+  .purchasedStatus {
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
   }
 }

@@ -32,7 +32,7 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
   return (
     <Card className={styles.benefitCard}>
       {/* Contenido reutilizable */}
-      <BenefitCardContent benefit={benefit} />
+      <BenefitCardContent benefit={benefit} isPurchase={false} />
 
       {/* Acciones dinámicas según el tipo */}
       <div className={styles.cardActions}>
@@ -46,7 +46,7 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
               disabled={loading}
             >
               <FaCheck className={styles.actionIcon} />
-              Aceptar Uso
+              Aceptar uso
             </Button>
             <Button
               variant="secondary"
@@ -55,7 +55,7 @@ const BenefitCard = ({ benefit }: BenefitCardProps) => {
               onClick={() => handleViewPurchases(actualBenefitId)}
             >
               <FaEye className={styles.actionIcon} />
-              Ver Canjes
+              Ver otros canjes
             </Button>
           </>
         ) : (

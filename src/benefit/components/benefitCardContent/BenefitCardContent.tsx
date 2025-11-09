@@ -62,31 +62,32 @@ const BenefitCardContent = ({
     purchaseId,
   } = useBenefitCardData({ benefit, variant, isPreview, isPurchase });
 
+  // CASO 1: isPurchaseCard - Mostrar estudiante y estado de compra
   if (isPurchaseCard) {
     const stateConfig = getPurchaseStateConfig(purchaseState);
 
     return (
-      <div className={styles.purchaseContent}>
-        <div className={styles.purchaseHeader}>
+      <div className={styles.contentContainer}>
+        <div className={styles.benefitHeader}>
           <div
             className={styles.iconWrapper}
             style={{ backgroundColor: iconColor }}
           >
             <IconComponent className={styles.benefitIcon} />
           </div>
-          <div className={styles.purchaseInfo}>
+          <div className={styles.benefitInfo}>
             <h3 className={styles.studentNamePurchase}>{studentName}</h3>
-            <div className={styles.purchaseBadges}>
-              <Badge variant="custom" size="sm" customColor={stateConfig.color}>
-                {stateConfig.label}
-              </Badge>
+            <div className={styles.benefitMeta}>
               <Badge
                 variant="custom"
                 size="sm"
                 customColor={{ bg: "#f3f4f6", text: "#6b7280" }}
               >
                 <FaHashtag className={styles.badgeIcon} />
-                Canje #{purchaseId}
+                Canje Nº{purchaseId}
+              </Badge>
+              <Badge variant="custom" size="sm" customColor={stateConfig.color}>
+                {stateConfig.label}
               </Badge>
             </div>
           </div>
@@ -95,7 +96,45 @@ const BenefitCardContent = ({
     );
   }
 
-  // Vista normal (no purchase)
+  // CASO 2: isUseRequest
+  if (isUseRequest) {
+    return (
+      <div className={styles.contentContainer}>
+        <div className={styles.benefitHeader}>
+          <div
+            className={styles.iconWrapper}
+            style={{ backgroundColor: iconColor }}
+          >
+            <IconComponent className={styles.benefitIcon} />
+          </div>
+          <div className={styles.benefitInfo}>
+            <h3 className={styles[`benefitName${styleSuffix}`]}>
+              {benefitName}
+            </h3>
+            <div className={styles.benefitMeta}>
+              <Badge variant="custom" size="sm" customColor={categoryColor}>
+                Solicitud de Uso
+              </Badge>
+              {subjectName && subjectColor && (
+                <Badge variant="custom" size="sm" customColor={subjectColor}>
+                  {subjectName}
+                </Badge>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.requestInfo}>
+          <FaUser className={styles.studentIcon} />
+          <p className={styles[`benefitDescription${styleSuffix}`]}>
+            Solicitado por: <strong>{studentName}</strong>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // CASO 3: Vista normal (beneficio estándar)
   return (
     <div className={styles.contentContainer}>
       <div className={styles.benefitHeader}>
@@ -108,23 +147,15 @@ const BenefitCardContent = ({
         <div className={styles.benefitInfo}>
           <h3 className={styles[`benefitName${styleSuffix}`]}>{benefitName}</h3>
           <div className={styles.benefitMeta}>
-            {isUseRequest ? (
+            {category && categoryColor && (
               <Badge variant="custom" size="sm" customColor={categoryColor}>
-                Solicitud de Uso
+                {category.label}
               </Badge>
-            ) : (
-              <>
-                {category && categoryColor && (
-                  <Badge variant="custom" size="sm" customColor={categoryColor}>
-                    {category.label}
-                  </Badge>
-                )}
-                {!category && isPreview && categoryColor && (
-                  <Badge variant="custom" size="sm" customColor={categoryColor}>
-                    Categoría
-                  </Badge>
-                )}
-              </>
+            )}
+            {!category && isPreview && categoryColor && (
+              <Badge variant="custom" size="sm" customColor={categoryColor}>
+                Categoría
+              </Badge>
             )}
             {subjectName && subjectColor && (
               <Badge variant="custom" size="sm" customColor={subjectColor}>
@@ -135,18 +166,9 @@ const BenefitCardContent = ({
         </div>
       </div>
 
-      {isUseRequest && studentName ? (
-        <div className={styles.requestInfo}>
-          <FaUser className={styles.studentIcon} />
-          <p className={styles[`benefitDescription${styleSuffix}`]}>
-            Solicitado por: <strong>{studentName}</strong>
-          </p>
-        </div>
-      ) : (
-        <p className={styles[`benefitDescription${styleSuffix}`]}>
-          {descriptionText}
-        </p>
-      )}
+      <p className={styles[`benefitDescription${styleSuffix}`]}>
+        {descriptionText}
+      </p>
 
       {hasEndDate && "endAt" in benefit && benefit.endAt && (
         <div className={styles.endDateSection}>
@@ -157,7 +179,7 @@ const BenefitCardContent = ({
         </div>
       )}
 
-      {showStats && !isUseRequest && (
+      {showStats && (
         <div className={styles[`benefitStats${styleSuffix}`]}>
           <div className={styles.costSection}>
             <Tooltip content="Costo">

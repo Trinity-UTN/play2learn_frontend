@@ -37,11 +37,24 @@ export const useBenefitCardData = ({
   isPurchase = false,
 }: UseBenefitCardDataProps) => {
   const data = useMemo(() => {
-    const isUseRequest = isBenefitUseRequested(benefit);
-    const isPurchaseCard = isPurchase || isBenefitPurchase(benefit);
+    /**
+     * CONTEXTO DE VISUALIZACIÓN:
+     *
+     * isPurchase={true} -> Estamos en BenefitPurchaseCard (vista de canjes)
+     *   - Mostrar como PURCHASE CARD (con nombre de estudiante)
+     *   - Incluso si state === "USE_REQUESTED"
+     *
+     * isPurchase={false} -> Estamos en BenefitCard (lista principal)
+     *   - Si state === "USE_REQUESTED" -> Mostrar como USE REQUEST
+     *   - Si state === "PURCHASED" o "USED" -> Mostrar como beneficio normal
+     */
 
-    // CASO 1: Compra de beneficio (PURCHASE)
-    if (isPurchaseCard && isBenefitPurchase(benefit)) {
+    // CASO 1: Contexto de CANJES (isPurchase=true)
+    // En este contexto, SIEMPRE mostramos como purchase card
+    if (
+      isPurchase &&
+      (isBenefitPurchase(benefit) || isBenefitUseRequested(benefit))
+    ) {
       const iconComponent = getIconByValue(benefit.benefitIcon);
       const iconColor = getColorByValue(benefit.benefitColor) ?? "#94a3b8";
       const category = getCategoryByValue(benefit.benefitCategory);
@@ -74,13 +87,15 @@ export const useBenefitCardData = ({
       };
     }
 
-    // CASO 2: Solicitud de uso (USE_REQUESTED)
-    if (isUseRequest) {
+    // CASO 2: Contexto de LISTA PRINCIPAL (isPurchase=false)
+    // Aquí SÍ diferenciamos entre USE_REQUESTED y otros estados
+    const isUseRequestInList = !isPurchase && isBenefitUseRequested(benefit);
+
+    if (isUseRequestInList) {
       const iconComponent = getIconByValue(benefit.benefitIcon);
       const iconColor = getColorByValue(benefit.benefitColor) ?? "#94a3b8";
       const category = getCategoryByValue(benefit.benefitCategory);
       const categoryColor = getCategoryColor(benefit.benefitCategory);
-
       const subjectName = benefit.subjectName;
       const subjectColor = getSubjectColor(subjectName);
 
@@ -104,12 +119,12 @@ export const useBenefitCardData = ({
         isUseRequest: true,
         isPurchaseCard: false,
         studentName: benefit.studentName,
-        purchaseState: undefined,
-        purchaseId: undefined,
+        purchaseState: benefit.state,
+        purchaseId: benefit.id,
       };
     }
 
-    // CASO 3: Beneficios normales
+    // CASO 3: Beneficios normales (estado estándar)
     const hasFullProperties = isFullBenefitResponse(benefit);
     const hasBasicProperties = hasBenefitBasicProperties(benefit);
 
