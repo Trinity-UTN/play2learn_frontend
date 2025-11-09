@@ -1,10 +1,12 @@
 @import "../../../../shared/styles/colors.css";
+
 .benefitsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: 2rem;
   padding: 20px;
 }
+
 .noResults {
   text-align: center;
   padding: 4rem 2rem;
@@ -14,7 +16,6 @@
 .noResultsIcon {
   color: var(--color-secondary);
   font-size: 4rem;
-  margin-bottom: 1rem;
   opacity: 0.5;
 }
 
