@@ -96,6 +96,16 @@
   border-radius: 0.5rem;
 }
 
+.searchButton,
+.clearButton {
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 .searchButton {
   background-color: #6d28d9;
   color: #fff;
@@ -103,10 +113,11 @@
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  white-space: nowrap;
 }
 
 .searchButton:hover {
-  border-color: #7c3aed;
+  background-color: #7c3aed;
 }
 
 .clearButton {
@@ -116,6 +127,11 @@
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  min-width: 44px;
+}
+
+.clearButton:hover {
+  background-color: #d1d5db;
 }
 
 .filterSection {
@@ -156,6 +172,18 @@
 
 .filterIcon {
   font-size: 1.1rem;
+}
+
+.disabledFilterButton {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.disabledFilterButton:hover {
+  background-color: transparent;
+  transform: none;
+  border-color: #e5e7eb;
+  color: #374151;
 }
 
 .selectFilters {
@@ -205,7 +233,6 @@
   color: #111827;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .filtersCard {
     padding: 1rem;

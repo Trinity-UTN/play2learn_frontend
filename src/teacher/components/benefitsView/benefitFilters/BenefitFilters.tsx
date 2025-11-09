@@ -159,11 +159,16 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
           <div className={styles.filterButtons}>
             {BENEFIT_TEACHER_STATUS_FILTERS.map((filter) => {
               const IconComponent = filter.icon;
+
+              const isExpiredFilter = filter.key === "EXPIRED";
+              const isUseRequestedActive = activeFilter === "USE_REQUESTED";
+              const isDisabled = isExpiredFilter && isUseRequestedActive;
+
               return (
                 <motion.div
                   key={filter.key}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: isDisabled ? 1 : 1.05 }}
+                  whileTap={{ scale: isDisabled ? 1 : 0.95 }}
                 >
                   <Button
                     variant={activeFilter === filter.key ? "primary" : "ghost"}
@@ -172,7 +177,8 @@ const BenefitFilters: React.FC<BenefitFiltersProps> = ({
                     }
                     className={`${styles.filterButton} ${
                       activeFilter === filter.key ? styles.active : ""
-                    }`}
+                    } ${isDisabled ? styles.disabledFilterButton : ""}`}
+                    disabled={isDisabled}
                   >
                     <span className={styles.filterIcon}>
                       <IconComponent />

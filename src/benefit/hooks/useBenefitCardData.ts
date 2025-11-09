@@ -40,17 +40,16 @@ export const useBenefitCardData = ({
     /**
      * CONTEXTO DE VISUALIZACIÓN:
      *
-     * isPurchase={true} -> Estamos en BenefitPurchaseCard (vista de canjes)
+     * isPurchase={true} -> BenefitPurchaseCard (vista de canjes)
      *   - Mostrar como PURCHASE CARD (con nombre de estudiante)
      *   - Incluso si state === "USE_REQUESTED"
      *
-     * isPurchase={false} -> Estamos en BenefitCard (lista principal)
-     *   - Si state === "USE_REQUESTED" -> Mostrar como USE REQUEST
+     * isPurchase={false} -> BenefitCard (lista principal)
+     *   - Si state === "USE_REQUESTED" -> Mostrar como UseRequest
      *   - Si state === "PURCHASED" o "USED" -> Mostrar como beneficio normal
      */
 
     // CASO 1: Contexto de CANJES (isPurchase=true)
-    // En este contexto, SIEMPRE mostramos como purchase card
     if (
       isPurchase &&
       (isBenefitPurchase(benefit) || isBenefitUseRequested(benefit))
@@ -88,7 +87,6 @@ export const useBenefitCardData = ({
     }
 
     // CASO 2: Contexto de LISTA PRINCIPAL (isPurchase=false)
-    // Aquí SÍ diferenciamos entre USE_REQUESTED y otros estados
     const isUseRequestInList = !isPurchase && isBenefitUseRequested(benefit);
 
     if (isUseRequestInList) {
@@ -128,7 +126,6 @@ export const useBenefitCardData = ({
     const hasFullProperties = isFullBenefitResponse(benefit);
     const hasBasicProperties = hasBenefitBasicProperties(benefit);
 
-    // Iconos y colores básicos
     const IconComponent = hasFullProperties
       ? getIconByValue(benefit.icon)
       : FaGift;
