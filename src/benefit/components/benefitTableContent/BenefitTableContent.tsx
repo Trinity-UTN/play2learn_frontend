@@ -39,10 +39,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
     subjectColor,
     isUseRequest,
     studentName,
-  } = useBenefitTableData({
-    benefit,
-    variant,
-  });
+  } = useBenefitTableData({ benefit, variant });
 
   const styleSuffix = variant === "student" ? "Student" : "Teacher";
   const isTeacherVariant = variant === "teacher";
@@ -53,7 +50,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
 
   return (
     <>
-      {/* Icono + Nombre + Categoría + Subject */}
+      {/* Beneficio*/}
       <td className={styles.tableCell}>
         <div className={styles.benefitInfo}>
           <div
@@ -98,18 +95,15 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
             </span>
           </div>
         ) : (
-          // <Tooltip content={benefitDescription} position="top">
-          //   <p className={styles[`benefitDescription${styleSuffix}`]}>
-          //     {benefitDescription}
-          //   </p>
-          // </Tooltip>
-          <p className={styles[`benefitDescription${styleSuffix}`]}>
-            {benefitDescription}
-          </p>
+          <Tooltip content={benefitDescription} position="top">
+            <p className={styles[`benefitDescription${styleSuffix}`]}>
+              {benefitDescription}
+            </p>
+          </Tooltip>
         )}
       </td>
 
-      {/* Columnas de stats - solo si NO es solicitud */}
+      {/* Estadísticas */}
       {showStats && !isUseRequest && showStatsColumns && (
         <>
           {/* Costo */}
@@ -136,7 +130,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
                   </span>
                 </div>
               ) : (
-                <Tooltip content={"Sin límite"} position="top">
+                <Tooltip content="Sin límite" position="top">
                   <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
                 </Tooltip>
               )
@@ -152,13 +146,13 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
                 </span>
               </div>
             ) : (
-              <Tooltip content={"Sin límite"} position="top">
+              <Tooltip content="Sin límite" position="top">
                 <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
               </Tooltip>
             )}
           </td>
 
-          {/* Límite por estudiante / Mis usos */}
+          {/* Límite por estudiante */}
           <td className={`${styles.tableCell} ${styles.centeredCell}`}>
             {isTeacherVariant ? (
               (benefitWithLimits as BenefitResponseInterface)
@@ -173,7 +167,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
                   </span>
                 </div>
               ) : (
-                <Tooltip content={"Sin límite"} position="top">
+                <Tooltip content="Sin límite" position="top">
                   <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
                 </Tooltip>
               )
@@ -189,7 +183,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
                 </span>
               </div>
             ) : (
-              <Tooltip content={"Sin límite"} position="top">
+              <Tooltip content="Sin límite" position="top">
                 <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
               </Tooltip>
             )}
@@ -197,7 +191,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
         </>
       )}
 
-      {/* Fecha de finalización */}
+      {/* Fecha de Finalización */}
       {!isUseRequest && (
         <td className={`${styles.tableCell} ${styles.centeredCell}`}>
           {"endAt" in benefit && benefit.endAt && (

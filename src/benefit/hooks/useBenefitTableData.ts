@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { FaGift, FaHandPaper } from "react-icons/fa";
+import { FaGift } from "react-icons/fa";
 import type {
   AnyBenefit,
   BenefitVariant,
@@ -19,47 +19,46 @@ import {
 } from "../utils/benefit.utils";
 import { shouldShowBenefitStats } from "../utils/benefit.validation";
 
-interface UseBenefitTableDataProps {
-  benefit: AnyBenefit | TeacherBenefitType;
-  variant: BenefitVariant;
-}
-
 export const useBenefitTableData = ({
   benefit,
   variant,
-}: UseBenefitTableDataProps) => {
-  const data = useMemo(() => {
+}: {
+  benefit: AnyBenefit | TeacherBenefitType;
+  variant: BenefitVariant;
+}) => {
+  return useMemo(() => {
     const isUseRequest = isBenefitUseRequested(benefit);
 
-    // Si es una solicitud de uso, retornar data específica (POR AHORA) TODO: Agg icon, category, color backend
+    // Caso 1: USE REQUEST
     if (isUseRequest) {
+      const iconComponent = getIconByValue(benefit.benefitIcon);
+      const iconColor = getColorByValue(benefit.benefitColor) ?? "#94a3b8";
+      const category = getCategoryByValue(benefit.benefitCategory);
+      const categoryColor = getCategoryColor(benefit.benefitCategory);
       const subjectName = benefit.subjectName;
       const subjectColor = getSubjectColor(subjectName);
 
       return {
-        IconComponent: FaHandPaper,
-        iconColor: "#F59E0B",
-        category: undefined,
-        categoryName: "",
-        categoryColor: { bg: "#FEF3C7", text: "#92400E" },
+        IconComponent: iconComponent,
+        iconColor,
+        category,
+        categoryName: category?.label || "",
+        categoryColor,
         showStats: false,
         benefitName: benefit.benefitName,
-        benefitDescription: `Solicitado por ${benefit.studentName}`,
+        benefitDescription: benefit.studentName,
         benefitCost: 0,
         subjectName,
         subjectColor,
-        hasFullProperties: false,
-        hasBasicProperties: false,
         isUseRequest: true,
         studentName: benefit.studentName,
       };
     }
 
-    // Lógica original para beneficios normales
+    // Caso 2: BENEFICIO NORMAL
     const hasFullProperties = isFullBenefitResponse(benefit);
     const hasBasicProperties = hasBenefitBasicProperties(benefit);
 
-    // Iconos y colores básicos
     const IconComponent = hasFullProperties
       ? getIconByValue(benefit.icon)
       : FaGift;
@@ -70,12 +69,10 @@ export const useBenefitTableData = ({
       ? getCategoryByValue(benefit.category)
       : undefined;
 
-    // Flags de visualización
     const showStats =
       variant === "teacher" ||
       (isStudentBenefit(benefit) && shouldShowBenefitStats(benefit));
 
-    // Propiedades básicas con Type Guards
     const benefitName = hasBasicProperties ? benefit.name : "";
     const benefitDescription = hasBasicProperties ? benefit.description : "";
     const benefitCost = hasBasicProperties ? benefit.cost : 0;
@@ -85,6 +82,7 @@ export const useBenefitTableData = ({
     const categoryColor = hasFullProperties
       ? getCategoryColor(benefit.category)
       : { bg: "#f3f4f6", text: "#374151" };
+
     const subjectName = getBenefitSubjectName(benefit as TeacherBenefitType);
     const subjectColor = subjectName ? getSubjectColor(subjectName) : null;
 
@@ -100,12 +98,8 @@ export const useBenefitTableData = ({
       benefitCost,
       subjectName,
       subjectColor,
-      hasFullProperties,
-      hasBasicProperties,
       isUseRequest: false,
       studentName: undefined,
     };
   }, [benefit, variant]);
-
-  return data;
 };

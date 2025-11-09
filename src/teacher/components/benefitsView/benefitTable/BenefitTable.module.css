@@ -12,27 +12,26 @@
   table-layout: fixed;
 }
 
-/* Anchos específicos para cada columna */
 .table thead tr th:nth-child(1) {
-  width: 22%;
+  width: 28%;
 } /* Beneficio */
 .table thead tr th:nth-child(2) {
-  width: 26%;
-} /* Descripción */
+  width: 20%;
+} /* Descripción / Estudiante */
 .table thead tr th:nth-child(3) {
-  width: 8%;
+  width: 7%;
 } /* Costo */
 .table thead tr th:nth-child(4) {
-  width: 10%;
+  width: 9%;
 } /* Límite Total */
 .table thead tr th:nth-child(5) {
-  width: 10%;
-} /* Por Estudiante */
+  width: 9%;
+} /* Límite p/ Est */
 .table thead tr th:nth-child(6) {
-  width: 14%;
-} /* Finaliza */
+  width: 15%;
+} /* Fecha Fin */
 .table thead tr th:nth-child(7) {
-  width: 10%;
+  width: 28%;
 } /* Acciones */
 
 .tableHead {
@@ -54,6 +53,10 @@
 
 .tableHeader:last-child {
   border-right: none;
+}
+
+.requestStudentHeader {
+  width: 15% !important;
 }
 
 .tableBody {
@@ -202,17 +205,31 @@
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
+  padding: 0.5rem 0;
+}
+
+.actionButton {
+  min-width: 90px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .acceptButton {
-  background-color: #10b981;
+  background-color: #6d28d9;
   color: white;
-  transition: all 0.2s ease;
-  margin-right: 0.5rem;
 }
 
 .acceptButton:hover:not(:disabled) {
-  background-color: #059669;
+  background-color: #7c3aed;
+  transform: translateY(-1px);
 }
 
 .acceptButton:disabled {
@@ -221,17 +238,21 @@
 }
 
 .viewButton {
-  font-size: 0.75rem;
-  white-space: nowrap;
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.viewButton:hover:not(:disabled) {
+  background-color: #d1d5db;
 }
 
 .deleteButton {
-  color: var(--color-delete-button);
-  padding: 0.5rem;
+  background-color: #fee2e2;
+  color: #dc2626;
 }
 
-.deleteButton:hover {
-  background-color: #fef2f2;
+.deleteButton:hover:not(:disabled) {
+  background-color: #fecaca;
 }
 
 /* Responsive Design */
@@ -309,8 +330,10 @@
     font-size: 0.9rem;
   }
 
-  .viewButton {
-    font-size: 0.7rem;
+  .actionButton {
+    min-width: 80px;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
   }
 }
 
