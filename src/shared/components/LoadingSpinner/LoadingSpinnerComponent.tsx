@@ -6,17 +6,23 @@ interface LoadingSpinnerProps {
   size?: "sm" | "md" | "lg";
   text?: string;
   overlay?: boolean;
+  color?: string;
 }
 
 const LoadingSpinnerComponent: React.FC<LoadingSpinnerProps> = ({
   size = "md",
   text = "Cargando...",
   overlay = false,
+  color = "#3b82f6",
 }) => {
   const spinnerContent = (
     <div className={`${styles.container} ${styles[size]}`}>
       <motion.div
         className={styles.spinner}
+        style={{
+          borderTopColor: color,
+          borderLeftColor: color,
+        }}
         animate={{ rotate: 360 }}
         transition={{
           duration: 1,
