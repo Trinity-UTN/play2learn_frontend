@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { FaWallet, FaGraduationCap } from "react-icons/fa";
-// import FinancialOverview from "../../components/studentWalletViewComponents/financialOverview/FinancialOverview";
 import type { FinancialSummary } from "../../types/generalType";
 import WalletSummary from "../../components/studentWalletViewComponents/walletSummary/WalletSummary";
 import QuickActions from "../../components/studentWalletViewComponents/quickActions/QuickActions";
@@ -17,7 +16,7 @@ const StudentWalletView = () => {
   const navigate = useNavigate();
   const { loading, wallet } = useCurrentStudent();
 
-  if (loading && !wallet) {
+  if (loading || !wallet) {
     return (
       <div className={styles.loadingContainer}>
         <LoadingSpinner />
@@ -26,9 +25,9 @@ const StudentWalletView = () => {
   }
 
   const financialData: FinancialSummary = {
-    availableCoins: Number(wallet?.balance),
-    investedCoins: Number(wallet?.invertedBalance),
-    totalBalance: Number(wallet?.totalBalance),
+    availableCoins: Number(wallet.balance) || 0,
+    investedCoins: Number(wallet.invertedBalance) || 0,
+    totalBalance: Number(wallet.totalBalance) || 0,
     lastMovementDate: "2024-03-15T14:30:00Z",
     monthlyGrowth: 12.5,
     savingsGoal: 5000,
@@ -83,10 +82,6 @@ const StudentWalletView = () => {
             <WalletSummary data={financialData} />
           </motion.div>
 
-          {/* <motion.div variants={itemVariants}>
-          </motion.div> */}
-          {/* TODO: Componente para agregar en el panel principal */}
-          {/* <FinancialOverview data={financialData} /> */}
           <motion.div variants={itemVariants}>
             <EducationalTips />
           </motion.div>
