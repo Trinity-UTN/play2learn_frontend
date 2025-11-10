@@ -22,7 +22,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<UserResponseDto | null>(null);
-  const [role, setRole] = useState<Role>(localStorage.getItem("role") as Role);
+  const [role, setRole] = useState<Role>(authService.getRole() as Role);
   const [studentData, setStudentData] = useState<
     StudentResponseDto | undefined
   >();
@@ -34,7 +34,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       try {
         // Verificar si hay un token válido
         const accessToken = authService.getAccessToken();
-        const storedRole = localStorage.getItem("role") as Role;
+        const storedRole = authService.getRole() as Role;
 
         if (accessToken && storedRole) {
           await authService.getValidAccessToken();
@@ -72,8 +72,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         response.data.accessToken,
         response.data.refreshToken
       );
-
-      localStorage.setItem("role", response.data.role);
+      authService.setRole(response.data.role);
 
       setUser(response.data);
       setRole(response.data.role);
@@ -102,7 +101,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  //FUNCION QUE DEVUELVE EL ROL PARA VALIDACIONES MAS CONCRETAS
   const hasRole = (allowed: Role[]): boolean => {
     if (!role) return false;
     return allowed.includes(role);
