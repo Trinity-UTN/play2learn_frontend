@@ -1,4 +1,4 @@
-import type React from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   FaChartLine,
@@ -11,7 +11,6 @@ import {
 import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import styles from "./QuickActions.module.css";
-import { useNavigate } from "react-router-dom";
 
 const QuickActions = () => {
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const QuickActions = () => {
       color: "#3B82F6",
       view: "investments",
       badge: "Nuevo",
-      url: "/dashboard/student/investmests/list", //HASTA QUE SE REALICE LA VIEW DE INVERSIONES
+      url: "/dashboard/student/investmests/list",
     },
     {
       title: "Beneficios",
@@ -31,7 +30,7 @@ const QuickActions = () => {
       icon: FaGift,
       color: "#F59E0B",
       view: "benefits",
-      badge: "5 activos",
+      badge: "Revisar",
       url: "/dashboard/student/beneficios/list",
     },
     {
