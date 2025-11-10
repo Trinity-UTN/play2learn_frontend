@@ -14,6 +14,7 @@ export const useBenefitStudentData = () => {
     loading,
     paginatedBenefits,
     getPaginatedBenefitStudent,
+    getPaginatedUsedBenefitStudent,
     getBenefitStudentStats,
   } = useBenefitStudent();
 
@@ -42,6 +43,18 @@ export const useBenefitStudentData = () => {
     const filters: string[] = [];
     const filtersValues: string[] = [];
 
+    // Caso especial: filtro "Usados"
+    if (activeFilter === "USED") {
+      await getPaginatedUsedBenefitStudent({
+        ...paginationParams,
+        ...(selectedSubject &&
+          selectedSubject.id !== "ALL" && { subjectId: selectedSubject.id }),
+        ...(selectedCategory &&
+          selectedCategory !== "ALL" && { category: selectedCategory }),
+      });
+      return;
+    }
+
     // Estado (benefit.state)
     filters.push("state");
     filtersValues.push(activeFilter);
@@ -69,6 +82,7 @@ export const useBenefitStudentData = () => {
     selectedSubject,
     selectedCategory,
     getPaginatedBenefitStudent,
+    getPaginatedUsedBenefitStudent,
   ]);
 
   /**

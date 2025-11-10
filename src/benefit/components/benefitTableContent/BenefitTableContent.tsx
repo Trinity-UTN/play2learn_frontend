@@ -1,4 +1,10 @@
-import { FaCoins, FaUsers, FaUser, FaCalendarAlt } from "react-icons/fa";
+import {
+  FaCoins,
+  FaUsers,
+  FaUser,
+  FaCalendarAlt,
+  FaCheckCircle,
+} from "react-icons/fa";
 import Badge from "../../../shared/components/Badge/BadgeComponent";
 import Tooltip from "../../../shared/components/Tooltip/TooltipComponent";
 import type {
@@ -6,13 +12,14 @@ import type {
   BenefitStudentResponseInterface,
   AnyBenefit,
   BenefitVariant,
+  TeacherBenefitType,
 } from "../../types/benefit.types";
 import { formatBenefitDate } from "../../utils/benefit.utils";
 import { useBenefitTableData } from "../../hooks/useBenefitTableData";
 import styles from "./BenefitTableContent.module.css";
 
 interface BenefitTableContentProps {
-  benefit: AnyBenefit;
+  benefit: AnyBenefit | TeacherBenefitType;
   variant: BenefitVariant;
   actionButton?: React.ReactNode;
   showStatsColumns?: boolean;
@@ -31,22 +38,27 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
     showStats,
     categoryName,
     categoryColor,
+    benefitName,
+    benefitDescription,
+    benefitCost,
     subjectName,
     subjectColor,
-  } = useBenefitTableData({
-    benefit,
-    variant,
-  });
+    isUseRequest,
+    isUsedBenefit,
+    usedAt,
+    studentName,
+  } = useBenefitTableData({ benefit, variant });
 
   const styleSuffix = variant === "student" ? "Student" : "Teacher";
   const isTeacherVariant = variant === "teacher";
   const benefitWithLimits = benefit as
     | BenefitResponseInterface
-    | BenefitStudentResponseInterface;
+    | BenefitStudentResponseInterface
+    | TeacherBenefitType;
 
   return (
     <>
-      {/* Icono + Nombre + Categoría + Subject */}
+      {/* Beneficio*/}
       <td className={styles.tableCell}>
         <div className={styles.benefitInfo}>
           <div
@@ -57,16 +69,28 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
           </div>
           <div className={styles.benefitDetails}>
             <span className={styles[`benefitName${styleSuffix}`]}>
-              {benefit.name}
+              {benefitName}
             </span>
             <div className={styles.badges}>
-              <span className={styles.benefitCategory}>
-                {category && (
+              {isUseRequest ? (
+                <Badge variant="custom" size="sm" customColor={categoryColor}>
+                  Solicitud de Uso
+                </Badge>
+              ) : isUsedBenefit ? (
+                <Badge
+                  variant="custom"
+                  size="sm"
+                  customColor={{ bg: "#d1fae5", text: "#065f46" }}
+                >
+                  Usado
+                </Badge>
+              ) : (
+                category && (
                   <Badge variant="custom" size="sm" customColor={categoryColor}>
                     {categoryName}
                   </Badge>
-                )}
-              </span>
+                )
+              )}
               {subjectName && subjectColor && (
                 <Badge variant="custom" size="sm" customColor={subjectColor}>
                   {subjectName}
@@ -77,23 +101,33 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
         </div>
       </td>
 
-      {/* Descripción */}
+      {/* Descripción / Estudiante */}
       <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-        <Tooltip content={benefit.description} position="top">
-          <p className={styles[`benefitDescription${styleSuffix}`]}>
-            {benefit.description}
-          </p>
-        </Tooltip>
+        {isUseRequest && studentName ? (
+          <div className={styles.requestInfo}>
+            <FaUser className={styles.studentIcon} />
+            <span className={styles[`benefitDescription${styleSuffix}`]}>
+              {studentName}
+            </span>
+          </div>
+        ) : (
+          <Tooltip content={benefitDescription} position="top">
+            <p className={styles[`benefitDescription${styleSuffix}`]}>
+              {benefitDescription}
+            </p>
+          </Tooltip>
+        )}
       </td>
 
-      {showStats && showStatsColumns && (
+      {/* Estadísticas */}
+      {showStats && !isUseRequest && !isUsedBenefit && showStatsColumns && (
         <>
           {/* Costo */}
           <td className={`${styles.tableCell} ${styles.centeredCell}`}>
             <div className={styles.statItem}>
               <FaCoins className={styles.costIcon} />
               <span className={styles[`statValue${styleSuffix}`]}>
-                {benefit.cost}
+                {benefitCost}
               </span>
             </div>
           </td>
@@ -112,7 +146,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
                   </span>
                 </div>
               ) : (
-                <Tooltip content={"Sin límite"} position="top">
+                <Tooltip content="Sin límite" position="top">
                   <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
                 </Tooltip>
               )
@@ -128,13 +162,13 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
                 </span>
               </div>
             ) : (
-              <Tooltip content={"Sin límite"} position="top">
+              <Tooltip content="Sin límite" position="top">
                 <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
               </Tooltip>
             )}
           </td>
 
-          {/* Límite por estudiante / Mis usos */}
+          {/* Límite por estudiante */}
           <td className={`${styles.tableCell} ${styles.centeredCell}`}>
             {isTeacherVariant ? (
               (benefitWithLimits as BenefitResponseInterface)
@@ -149,7 +183,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
                   </span>
                 </div>
               ) : (
-                <Tooltip content={"Sin límite"} position="top">
+                <Tooltip content="Sin límite" position="top">
                   <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
                 </Tooltip>
               )
@@ -165,7 +199,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
                 </span>
               </div>
             ) : (
-              <Tooltip content={"Sin límite"} position="top">
+              <Tooltip content="Sin límite" position="top">
                 <span className={styles[`emptyValue${styleSuffix}`]}>—</span>
               </Tooltip>
             )}
@@ -173,17 +207,29 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
         </>
       )}
 
-      {/* Fecha de finalización */}
-      <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-        {"endAt" in benefit && benefit.endAt && (
-          <div className={styles.dateSection}>
-            <FaCalendarAlt className={styles.dateIcon} />
-            <span className={styles.dateValue}>
-              {formatBenefitDate(benefit.endAt)}
-            </span>
-          </div>
-        )}
-      </td>
+      {/* Fecha de Finalización o Fecha de Uso */}
+      {!isUseRequest && (
+        <td className={`${styles.tableCell} ${styles.centeredCell}`}>
+          {isUsedBenefit && usedAt ? (
+            <div className={styles.usedDateSection}>
+              <FaCheckCircle className={styles.usedDateIcon} />
+              <span className={styles.usedDateValue}>
+                {formatBenefitDate(usedAt)}
+              </span>
+            </div>
+          ) : (
+            "endAt" in benefit &&
+            benefit.endAt && (
+              <div className={styles.dateSection}>
+                <FaCalendarAlt className={styles.dateIcon} />
+                <span className={styles.dateValue}>
+                  {formatBenefitDate(benefit.endAt)}
+                </span>
+              </div>
+            )
+          )}
+        </td>
+      )}
 
       {/* Acciones */}
       {actionButton && (

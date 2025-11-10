@@ -40,7 +40,12 @@ export type BenefitStudentState =
   | "AVAILABLE"
   | "PURCHASED"
   | "USE_REQUESTED"
-  | "EXPIRED";
+  | "EXPIRED"
+  | "USED";
+
+export type BenefitTeacherState = "PUBLISHED" | "EXPIRED";
+
+export type BenefitPurchaseState = "PURCHASED" | "USE_REQUESTED" | "USED";
 
 export type BenefitVariant = "student" | "teacher";
 
@@ -53,11 +58,55 @@ export interface BenefitResponseInterface {
   cost: number;
   purchaseLimit: number | null;
   purchaseLimitPerStudent: number | null;
-  subjectDto: SubjectSimplifiedResponseDto;
-  color: Color;
   endAt: string;
+  state: BenefitTeacherState;
+  subjectDto: SubjectSimplifiedResponseDto;
   icon: Icon;
   category: Category;
+  color: Color;
+}
+
+export interface BenefitUseRequestedResponseInterface {
+  id: number;
+  state: "USE_REQUESTED";
+  benefitId: number;
+  benefitName: string;
+  benefitCategory: Category;
+  benefitColor: Color;
+  benefitIcon: Icon;
+  subjectId: number;
+  subjectName: string;
+  studentId: number;
+  studentName: string;
+}
+
+export interface BenefitPurchaseSimpleResponse {
+  id: number;
+  state: BenefitPurchaseState;
+  benefitId: number;
+  benefitName: string;
+  benefitCategory: Category;
+  benefitColor: Color;
+  benefitIcon: Icon;
+  subjectId: number;
+  subjectName: string;
+  studentId: number;
+  studentName: string;
+  usedAt?: string;
+}
+
+export interface BenefitPurchasedUsedResponse {
+  id: number;
+  state: "USED";
+  benefitId: number;
+  benefitName: string;
+  benefitDescription: string;
+  category: Category;
+  color: Color;
+  icon: Icon;
+  subjectId: number;
+  subjectName: string;
+  usedAt?: string;
 }
 
 export interface BenefitStudentResponseInterface {
@@ -95,12 +144,47 @@ export interface CreateBenefitInterface {
 export type AnyBenefit =
   | BenefitResponseInterface
   | BenefitStudentResponseInterface
-  | CreateBenefitInterface;
+  | CreateBenefitInterface
+  | BenefitPurchaseSimpleResponse
+  | BenefitPurchasedUsedResponse;
+
+export type TeacherBenefitType =
+  | BenefitResponseInterface
+  | BenefitUseRequestedResponseInterface
+  | BenefitPurchaseSimpleResponse;
 
 // ==================== PAGINACIÓN Y STATS ====================
 
+export interface PaginatedBenefitResponseInterface {
+  data: PaginatedData<BenefitResponseInterface>;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
 export interface PaginatedBenefitStudentResponseInterface {
   data: PaginatedData<BenefitStudentResponseInterface>;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
+export interface PaginatedBenefitUseRequestedResponseInterface {
+  data: PaginatedData<BenefitUseRequestedResponseInterface>;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
+export interface PaginatedBenefitPurchaseSimpleResponse {
+  data: PaginatedData<BenefitPurchaseSimpleResponse>;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
+export interface PaginatedBenefitPurchasedUsedResponse {
+  data: PaginatedData<BenefitPurchasedUsedResponse>;
   message: string;
   errors: any;
   timestamp: string;

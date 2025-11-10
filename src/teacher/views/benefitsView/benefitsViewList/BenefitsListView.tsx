@@ -1,98 +1,88 @@
-import type React from "react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaGift } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import BenefitsList from "../../../components/benefitsView/benefitsList/BenefitsList";
-import BenefitSearch from "../../../components/benefitsView/benefitSearch/BenefitSearch";
-import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
-import { useBenefitAPI } from "../../../hooks/useBenefitAPI";
+import BenefitHeader from "../../../components/benefitsView/benefitHeader/BenefitHeader";
+import BenefitList from "../../../components/benefitsView/benefitList/BenefitList";
+import BenefitFilters from "../../../components/benefitsView/benefitFilters/BenefitFilters";
+import {
+  benefitListContainerVariants,
+  benefitItemVariants,
+} from "../../../constants/animations/benefitTeacher.animations";
+import { useBenefitTeacherActions } from "../../../hooks/benefits/benefitList/useBenefitTeacherActions";
+import { useBenefitTeacherData } from "../../../hooks/benefits/benefitList/useBenefitTeacherData";
 import styles from "./BenefitsListView.module.css";
 
 const BenefitsListView: React.FC = () => {
-  const { paginatedBenefits } = useBenefitAPI();
-  const {
-    paginationParams,
-    handlePageChange,
-    handlePageSizeChange,
-    handleFilter,
-    handleSearch,
-  } = usePaginationParams();
-
-  const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
-
   const navigate = useNavigate();
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
+  const {
+    loading: dataLoading,
+    activeFilter,
+    selectedSubject,
+    selectedCategory,
+    search,
+    benefitId,
+    subjects,
+    availableBenefits,
+    filteredBenefits,
+    paginationInfo,
+    viewMode,
+    setActiveFilter,
+    setSelectedSubject,
+    setSelectedCategory,
+    setSearch,
+    setBenefitId,
+    applyFilters,
+    resetFilters,
+    setViewMode,
+  } = useBenefitTeacherData();
+  const { actions, loading: actionsLoading } = useBenefitTeacherActions();
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
-  };
+  const loading = dataLoading || actionsLoading;
+  const showEmptyState = filteredBenefits.length === 0 && !loading;
 
   return (
     <motion.div
-      variants={containerVariants}
+      variants={benefitListContainerVariants}
       initial="hidden"
       animate="visible"
       className={styles.container}
     >
       {/* Header */}
-      <motion.div variants={itemVariants} className={styles.header}>
-        <div>
-          <h1 className={styles.title}>Gestión de Beneficios</h1>
-          <p className={styles.subtitle}>
-            Administra las recompensas disponibles para los estudiantes
-          </p>
-        </div>
-        <Button
-          variant="primary"
-          className={styles.createButton}
-          onClick={() => navigate("/dashboard/teacher/beneficio/create")}
-        >
-          <FaGift className={styles.buttonIcon} />
-          Nuevo Beneficio
-        </Button>
-      </motion.div>
-
-      {/* Estadísticas */}
-      <motion.div variants={itemVariants} className={styles.statsSection}>
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>
-            <FaGift />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statNumber}>
-              {paginatedBenefits?.results.length}
-            </span>
-            <span className={styles.statLabel}>Beneficios Encontrados</span>
-          </div>
-        </div>
+      <motion.div variants={benefitItemVariants} className={styles.header}>
+        <BenefitHeader
+          onNavigate={() => navigate("/dashboard/teacher/beneficio/create")}
+        />
       </motion.div>
 
       {/* Filtros */}
-      <BenefitSearch
-        handleFilter={handleFilter}
-        handleSearch={handleSearch}
+      <BenefitFilters
+        activeFilter={activeFilter}
+        searchValue={search}
+        subjectValue={selectedSubject?.id ?? ""}
+        selectedSubject={selectedSubject}
+        selectedCategory={selectedCategory}
+        subjects={subjects}
+        benefitIdValue={benefitId}
+        availableBenefits={availableBenefits}
         viewMode={viewMode}
+        onFilterChange={setActiveFilter}
+        onSearchChange={setSearch}
+        onSubjectChange={setSelectedSubject}
+        onCategoryChange={setSelectedCategory}
+        onBenefitIdChange={setBenefitId}
+        onApplyFilters={applyFilters}
+        onClearFilters={resetFilters}
         onViewModeChange={setViewMode}
       />
 
-      {/* Benefits List (Grid o Table) */}
-      <motion.div variants={itemVariants} className={styles.benefitsSection}>
-        <BenefitsList
-          paginationParams={paginationParams}
-          handlePageChange={handlePageChange}
-          handlePageSizeChange={handlePageSizeChange}
+      {/* Lista de Beneficios (Grid o Table) */}
+      <motion.div variants={benefitItemVariants}>
+        <BenefitList
+          benefits={filteredBenefits}
+          paginationInfo={paginationInfo}
           viewMode={viewMode}
+          actions={actions}
+          loading={loading}
+          showEmptyState={showEmptyState}
         />
       </motion.div>
     </motion.div>

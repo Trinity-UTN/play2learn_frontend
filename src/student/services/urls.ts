@@ -15,6 +15,7 @@ export const urls = {
 
   // Benefits
   PaginatedBenefitStudent: "/benefits/student/paginated",
+  PaginatedUsedBenefitStudent: "/benefits/student/used/paginated",
   BenefitStudentStats: "/benefits/student/count",
   PurchaseBenefitStudent: "/benefits/student/purchase",
   RequestUseBenefitStudent: (benefitId: number) =>

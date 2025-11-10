@@ -36,7 +36,6 @@ const BenefitStudentList: React.FC<BenefitStudentListProps> = ({
     return (
       <div className={styles.loadingContainer}>
         <LoadingSpinner />
-        <p className={styles.loadingText}>Cargando beneficios...</p>
       </div>
     );
   }

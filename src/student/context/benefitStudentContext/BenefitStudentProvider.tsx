@@ -1,9 +1,10 @@
 import { useState, type ReactNode, useCallback } from "react";
 import { BenefitStudentContext } from "./BenefitStudentContext";
 import type { BenefitStudentContextType } from "./BenefitStudentContext.type";
-import { BenefitService } from "../../services/benefit/BenefitService";
+import { BenefitStudentService } from "../../services/benefit/BenefitStudentService";
 import type {
   BenefitStudentResponseInterface,
+  BenefitPurchasedUsedResponse,
   BenefitStatsResponse,
 } from "../../../benefit/types/benefit.types";
 import type {
@@ -21,8 +22,11 @@ export const BenefitStudentProvider = ({
 
   // Estados Generales
   const [loading, setLoading] = useState<boolean>(false);
-  const [paginatedBenefits, setPaginatedBenefits] =
-    useState<PaginatedData<BenefitStudentResponseInterface> | null>(null);
+  const [paginatedBenefits, setPaginatedBenefits] = useState<
+    | PaginatedData<BenefitStudentResponseInterface>
+    | PaginatedData<BenefitPurchasedUsedResponse>
+    | null
+  >(null);
   const [benefitStats, setBenefitStats] = useState<BenefitStatsResponse | null>(
     null
   );
@@ -32,9 +36,8 @@ export const BenefitStudentProvider = ({
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
       try {
-        const response = await BenefitService.getPaginatedBenefitStudentApi(
-          params
-        );
+        const response =
+          await BenefitStudentService.getPaginatedBenefitStudentApi(params);
         setPaginatedBenefits(response.data);
       } catch (error) {
         handleApiError(error, "Error al obtener los beneficios del estudiante");
@@ -45,10 +48,29 @@ export const BenefitStudentProvider = ({
     []
   );
 
+  const getPaginatedUsedBenefitStudent = useCallback(
+    async (params: GetPaginated): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await BenefitStudentService.getPaginatedUsedBenefitStudentApi(params);
+        setPaginatedBenefits(response.data);
+      } catch (error) {
+        handleApiError(
+          error,
+          "Error al obtener los beneficios usados del estudiante"
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   const getBenefitStudentStats = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {
-      const response = await BenefitService.getBenefitStudentStatsApi();
+      const response = await BenefitStudentService.getBenefitStudentStatsApi();
       setBenefitStats(response.data);
     } catch (error) {
       handleApiError(error, "Error al obtener las estadísticas de beneficios");
@@ -61,7 +83,7 @@ export const BenefitStudentProvider = ({
     async (benefitId: number): Promise<void> => {
       setLoading(true);
       try {
-        await BenefitService.purchaseBenefitStudentApi(benefitId);
+        await BenefitStudentService.purchaseBenefitStudentApi(benefitId);
       } catch (error) {
         handleApiError(error, "Error al comprar el beneficio del estudiante");
         throw error;
@@ -76,7 +98,7 @@ export const BenefitStudentProvider = ({
     async (benefitId: number): Promise<void> => {
       setLoading(true);
       try {
-        await BenefitService.requestUseBenefitStudentApi(benefitId);
+        await BenefitStudentService.requestUseBenefitStudentApi(benefitId);
       } catch (error) {
         handleApiError(error, "Error al solicitar el beneficio del estudiante");
         throw error;
@@ -95,6 +117,7 @@ export const BenefitStudentProvider = ({
 
     // Funciones Principales
     getPaginatedBenefitStudent,
+    getPaginatedUsedBenefitStudent,
     getBenefitStudentStats,
     purchaseBenefitStudent,
     requestUseBenefitStudent,

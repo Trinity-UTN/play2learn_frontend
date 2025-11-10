@@ -114,6 +114,18 @@ const BenefitStudentCard: React.FC<BenefitStudentCardProps> = ({
             {buttonExpired}
           </Tooltip>
         );
+      case BENEFIT_STATUS.USED:
+        return (
+          <Button
+            variant="ghost"
+            size="sm"
+            className={`${styles.actionButton} ${styles.disabledButton}`}
+            disabled
+          >
+            <FaCheckCircle className={styles.buttonIcon} />
+            Usado
+          </Button>
+        );
       default:
         return null;
     }

@@ -27,6 +27,7 @@ import { NoLudicaGameProvider } from "../shared/contexts/gamesContext/noLudicaGa
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
 import BenefitsListView from "../teacher/views/benefitsView/benefitsViewList/BenefitsListView";
 import BenefitCreateView from "../teacher/views/benefitsView/benefitCreateView/BenefitsCreateView";
+import BenefitPurchasesView from "../teacher/views/benefitsView/benefitPurchaseView/BenefitPurchasesView";
 import OverviewView from "../teacher/views/overviewView/Overview";
 import ConfigureActivityView from "../activity/views/configurationView/ConfigureActivityView";
 import ActivityView from "../activity/views/activityView/ActivityView";
@@ -120,6 +121,10 @@ const TeacherApp = () => {
             {/* BENEFICIOS */}
             <Route path="beneficio/list" element={<BenefitsListView />} />
             <Route path="beneficio/create" element={<BenefitCreateView />} />
+            <Route
+              path="beneficio/list/:id"
+              element={<BenefitPurchasesView />}
+            />
           </Route>
         </Routes>
       </AnimatePresence>

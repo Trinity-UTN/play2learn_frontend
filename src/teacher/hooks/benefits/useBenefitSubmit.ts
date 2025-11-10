@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { useToaster } from "../../../shared/hooks/useToaster";
 import { useBenefitAPI } from "../useBenefitAPI";
 import type { useBenefitForm } from "./useBenefitForm";
 
@@ -8,6 +9,7 @@ export const useBenefitSubmit = (
   resetForm: ReturnType<typeof useBenefitForm>["resetForm"]
 ) => {
   const { registerBenefit } = useBenefitAPI();
+  const { showToast } = useToaster();
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -18,6 +20,12 @@ export const useBenefitSubmit = (
       }
 
       await registerBenefit(formData);
+      showToast({
+        title: "Beneficio creado exitosamente",
+        message: "El beneficio ha sido creado exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
       resetForm();
     },
     [formData, validateForm, registerBenefit, resetForm]
