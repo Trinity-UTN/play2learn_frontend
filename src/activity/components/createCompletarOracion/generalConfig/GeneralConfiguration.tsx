@@ -9,6 +9,7 @@ import {
   FaEdit,
   FaSave,
   FaTimes,
+  FaPencilAlt,
 } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
@@ -275,7 +276,7 @@ const GeneralConfiguration = () => {
 
             {sentences.length === 0 && (
               <div className={styles.emptyState}>
-                <div className={styles.emptyIcon}>📝</div>
+                <FaPencilAlt className={styles.emptyIcon} />
                 <p>No hay oraciones agregadas aún</p>
               </div>
             )}

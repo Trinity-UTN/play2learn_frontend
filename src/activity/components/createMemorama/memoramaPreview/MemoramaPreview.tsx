@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaRedo, FaPuzzlePiece, FaEye, FaEyeSlash } from "react-icons/fa";
+import {
+  FaRedo,
+  FaPuzzlePiece,
+  FaEye,
+  FaEyeSlash,
+  FaClone,
+} from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
@@ -130,7 +136,7 @@ const MemoramaPreview: React.FC = () => {
 
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>🧩</span>
+            <FaPuzzlePiece className={styles.statIconMain} />
             <div>
               <span className={styles.statLabel}>
                 Pareja{pairs.length !== 1 ? "s" : ""}
@@ -139,7 +145,7 @@ const MemoramaPreview: React.FC = () => {
             </div>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>🃏</span>
+            <FaClone className={styles.statIconCartas} />
             <div>
               <span className={styles.statLabel}>Cartas</span>
               <span className={styles.statValue}>{pairs.length * 2}</span>

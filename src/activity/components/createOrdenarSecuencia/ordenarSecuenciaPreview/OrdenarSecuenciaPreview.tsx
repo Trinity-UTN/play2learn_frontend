@@ -6,6 +6,8 @@ import {
   FaCheckCircle,
   FaTimesCircle,
   FaEye,
+  FaChartBar,
+  FaSlidersH,
 } from "react-icons/fa";
 import type { SequenceEvent } from "../../../types/OrdenarSecuencia.type";
 import Button from "../../../../shared/components/Button/ButtonComponent";
@@ -108,13 +110,14 @@ const OrdenarSecuenciaPreview: React.FC<OrdenarSecuenciaPreviewProps> = ({
 
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>📊</span>
+            <FaChartBar className={styles.statIconMain} />
             <div>
               <span className={styles.statLabel}>Eventos</span>
               <span className={styles.statValue}>{events.length}</span>
             </div>
           </div>
           <div className={styles.stat}>
+            <FaSlidersH className={styles.statIconDifficulty} />
             <span className={styles.statIcon}>🎚️</span>
             <div>
               <span className={styles.statLabel}>Dificultad</span>

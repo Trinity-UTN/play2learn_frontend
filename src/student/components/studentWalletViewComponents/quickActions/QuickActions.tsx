@@ -7,6 +7,7 @@ import {
   FaStore,
   FaCoins,
   FaArrowRight,
+  FaBullseye,
 } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
@@ -107,7 +108,7 @@ const QuickActions = () => {
       </div>
 
       <div className={styles.educationalNote}>
-        <div className={styles.noteIcon}>🎯</div>
+        <FaBullseye className={styles.noteIcon} />
         <div className={styles.noteContent}>
           <strong>Planificación financiera:</strong> Antes de gastar, piensa si
           es una necesidad o un deseo. Las inversiones pueden hacer crecer tu

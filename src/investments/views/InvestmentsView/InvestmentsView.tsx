@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaRocket } from "react-icons/fa";
+import { FaRocket, FaLightbulb } from "react-icons/fa";
 import InvestmentTypeCard from "../../components/InvestmentsView/InvestmentsTypeCard/InvestmentsTypeCard";
 import styles from "./InvestmentsView.module.css";
 import { useNavigate } from "react-router-dom";
@@ -56,7 +56,7 @@ const InvestmentsView = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          <div className={styles.bannerIcon}>💡</div>
+          <FaLightbulb className={styles.bannerIcon} />
           <div className={styles.bannerContent}>
             <h3>¿No sabes por dónde empezar?</h3>
             <p>

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaColumns, FaList } from "react-icons/fa";
+import { FaColumns, FaList, FaTrophy } from "react-icons/fa";
 import {
   FcStatistics,
   FcApproval,
@@ -145,7 +145,7 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
           {activity?.rewardLabel && (
             <div className={styles.detailItem}>
               <div className={styles.detailContent}>
-                <span className={styles.detailIcon}>🏆</span>
+                <FaTrophy className={styles.detailIcon} />
                 <div>
                   <span className={styles.label}>Recompensa</span>
                   <span className={styles.value}>{activity.rewardLabel}</span>
