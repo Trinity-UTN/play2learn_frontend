@@ -7,8 +7,12 @@ import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
  * Hook central para cargar y manejar los datos de canjes de un beneficio
  */
 export const useBenefitPurchaseData = (benefitId: number) => {
-  const { loading, paginatedBenefitsPurchases, getPaginatedBenefitsPurchases } =
-    useBenefitAPI();
+  const {
+    loading,
+    paginatedBenefitsPurchases,
+    getPaginatedBenefitsPurchases,
+    selectedBenefit,
+  } = useBenefitAPI();
 
   const {
     paginationParams,
@@ -55,14 +59,14 @@ export const useBenefitPurchaseData = (benefitId: number) => {
   ]);
 
   /**
-   * Carga inicial de canjes
+   * Carga inicial
    */
   useEffect(() => {
     loadPurchases();
   }, [loadPurchases, benefitId]);
 
   /**
-   * Reinicia la paginación al cambiar el filtro (solo si hay paginación)
+   * Reinicia paginación al cambiar filtro
    */
   useEffect(() => {
     if (hasPagination) {
@@ -74,7 +78,6 @@ export const useBenefitPurchaseData = (benefitId: number) => {
     if (Array.isArray(paginatedBenefitsPurchases)) {
       return paginatedBenefitsPurchases;
     }
-
     return paginatedBenefitsPurchases?.results ?? [];
   }, [paginatedBenefitsPurchases]);
 
@@ -82,7 +85,6 @@ export const useBenefitPurchaseData = (benefitId: number) => {
     if (Array.isArray(paginatedBenefitsPurchases)) {
       return null;
     }
-
     return paginatedBenefitsPurchases
       ? {
           currentPage: paginatedBenefitsPurchases.currentPage,
@@ -100,13 +102,12 @@ export const useBenefitPurchaseData = (benefitId: number) => {
     loading,
     activeFilter,
     setActiveFilter,
-
-    // Datos Generales
+    selectedBenefit,
     filteredPurchases,
     paginationInfo,
     hasPagination,
 
-    // Funciones
+    // Acciones
     refetch: loadPurchases,
   };
 };

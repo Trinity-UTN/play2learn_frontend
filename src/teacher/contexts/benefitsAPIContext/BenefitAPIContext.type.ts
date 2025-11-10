@@ -13,6 +13,7 @@ export interface BenefitAPIContextType {
   // Estados generales
   loading: boolean;
   benefits: BenefitResponseInterface[];
+  selectedBenefit: BenefitResponseInterface | null;
   benefitPurchases: BenefitPurchaseSimpleResponse[];
   paginatedBenefits: PaginatedData<BenefitResponseInterface> | null;
   paginatedBenefitsUseRequested: PaginatedData<BenefitUseRequestedResponseInterface> | null;
@@ -34,6 +35,7 @@ export interface BenefitAPIContextType {
   deleteBenefit: (benefitId: number) => Promise<void>;
 
   // Funciones auxiliares
+  setSelectedBenefit: (benefit: BenefitResponseInterface | null) => void;
   refreshBenefitsAfterDeletion: () => Promise<void>;
   refreshBenefitsAfterAcceptance: () => Promise<void>;
 }

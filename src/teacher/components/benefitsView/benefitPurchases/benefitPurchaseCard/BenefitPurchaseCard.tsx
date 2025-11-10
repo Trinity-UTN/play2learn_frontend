@@ -3,8 +3,9 @@ import { FaCheck, FaCheckCircle, FaShoppingCart } from "react-icons/fa";
 import Card from "../../../../../shared/components/Card/CardComponent";
 import Button from "../../../../../shared/components/Button/ButtonComponent";
 import Tooltip from "../../../../../shared/components/Tooltip/TooltipComponent";
-import BenefitCardContent from "../../../../../benefit/components/benefitCardContent/BenefitCardContent";
 import type { BenefitPurchaseSimpleResponse } from "../../../../../benefit/types/benefit.types";
+import BenefitCardContent from "../../../../../benefit/components/benefitCardContent/BenefitCardContent";
+import { benefitCardVariants } from "../../../../constants/animations/benefitTeacher.animations";
 import { formatPurchaseDate } from "../../../../utils/benefitPurchaseCard.utils";
 import styles from "./BenefitPurchaseCard.module.css";
 
@@ -19,11 +20,6 @@ const BenefitPurchaseCard: React.FC<BenefitPurchaseCardProps> = ({
   onAcceptUse,
   loading,
 }) => {
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   const getActionButtons = () => {
     // CASO 1: Solicitud de uso pendiente (USE_REQUESTED)
     if (purchase.state === "USE_REQUESTED") {
@@ -96,7 +92,7 @@ const BenefitPurchaseCard: React.FC<BenefitPurchaseCardProps> = ({
 
   return (
     <motion.div
-      variants={cardVariants}
+      variants={benefitCardVariants}
       initial="hidden"
       animate="visible"
       whileHover={{

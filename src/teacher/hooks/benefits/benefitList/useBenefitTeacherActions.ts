@@ -1,14 +1,10 @@
 import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import type { BenefitActionHandlers } from "../../../utils/benefitList.utils";
+import type { BenefitResponseInterface } from "../../../../benefit/types/benefit.types";
 import { useBenefitAPI } from "../../useBenefitAPI";
 import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
 import { useToaster } from "../../../../shared/hooks/useToaster";
-
-export type BenefitActionHandlers = {
-  onDelete: (benefitId: number, name: string) => void;
-  onViewPurchases: (benefitId: number) => void;
-  onAcceptUse: (benefitId: number, name: string) => void;
-};
 
 export const useBenefitTeacherActions = (): {
   actions: BenefitActionHandlers;
@@ -18,6 +14,7 @@ export const useBenefitTeacherActions = (): {
   const {
     deleteBenefit,
     acceptUseBenefit,
+    setSelectedBenefit,
     refreshBenefitsAfterDeletion,
     refreshBenefitsAfterAcceptance,
     loading: apiLoading,
@@ -52,10 +49,11 @@ export const useBenefitTeacherActions = (): {
   );
 
   const handleViewPurchases = useCallback(
-    (benefitId: number) => {
+    (benefit: BenefitResponseInterface, benefitId: number) => {
+      setSelectedBenefit(benefit);
       navigate(`/dashboard/teacher/beneficio/list/${benefitId}`);
     },
-    [navigate]
+    [navigate, setSelectedBenefit]
   );
 
   const handleAcceptUseBenefit = useCallback(

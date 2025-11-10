@@ -47,7 +47,7 @@ const BenefitCard: React.FC<BenefitCardProps> = ({
               variant="secondary"
               size="sm"
               className={styles.viewRedemptionsButtonUR}
-              onClick={() => actions.onViewPurchases(actualBenefitId)}
+              onClick={() => actions.onViewPurchases(benefit, actualBenefitId)}
             >
               <FaEye className={styles.actionIcon} />
               Ver otros canjes
@@ -59,7 +59,7 @@ const BenefitCard: React.FC<BenefitCardProps> = ({
               variant="secondary"
               size="sm"
               className={styles.viewRedemptionsButton}
-              onClick={() => actions.onViewPurchases(benefitId)}
+              onClick={() => actions.onViewPurchases(benefit, actualBenefitId)}
             >
               <FaEye className={styles.actionIcon} />
               Ver Canjes

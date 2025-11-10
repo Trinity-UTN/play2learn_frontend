@@ -1,4 +1,4 @@
-import { useCallback, useState, type ReactNode } from "react";
+import { useEffect, useCallback, useState, type ReactNode } from "react";
 import { BenefitTeacherService } from "../../services/benefit/BenefitTeacherService";
 import { BenefitAPIContext } from "./BenefitAPIContext";
 import type { BenefitAPIContextType } from "./BenefitAPIContext.type";
@@ -19,6 +19,8 @@ interface BenefitProviderProps {
   children: ReactNode;
 }
 
+const SELECTED_BENEFIT_KEY = "teacher_selected_benefit";
+
 export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   children,
 }) => {
@@ -28,6 +30,16 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [benefits, setBenefits] = useState<BenefitResponseInterface[]>([]);
+  const [selectedBenefit, setSelectedBenefit] =
+    useState<BenefitResponseInterface | null>(() => {
+      try {
+        const stored = localStorage.getItem(SELECTED_BENEFIT_KEY);
+        return stored ? JSON.parse(stored) : null;
+      } catch (error) {
+        console.warn("Error al leer selectedBenefit de localStorage", error);
+        return null;
+      }
+    });
   const [benefitPurchases, setBenefitPurchases] = useState<
     BenefitPurchaseSimpleResponse[]
   >([]);
@@ -37,6 +49,24 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     useState<PaginatedData<BenefitUseRequestedResponseInterface> | null>(null);
   const [paginatedBenefitsPurchases, setPaginatedBenefitsPurchases] =
     useState<PaginatedData<BenefitPurchaseSimpleResponse> | null>(null);
+
+  useEffect(() => {
+    if (selectedBenefit === null) {
+      localStorage.removeItem(SELECTED_BENEFIT_KEY);
+    } else {
+      try {
+        localStorage.setItem(
+          SELECTED_BENEFIT_KEY,
+          JSON.stringify(selectedBenefit)
+        );
+      } catch (error) {
+        console.warn(
+          "No se pudo guardar selectedBenefit en localStorage",
+          error
+        );
+      }
+    }
+  }, [selectedBenefit]);
 
   // Funciones principales
   const getBenefits = useCallback(async (): Promise<void> => {
@@ -171,6 +201,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     // Estados generales
     loading,
     benefits,
+    selectedBenefit,
     benefitPurchases,
     paginatedBenefits,
     paginatedBenefitsUseRequested,
@@ -187,6 +218,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     deleteBenefit,
 
     // Funciones auxiliares
+    setSelectedBenefit,
     refreshBenefitsAfterDeletion,
     refreshBenefitsAfterAcceptance,
   };

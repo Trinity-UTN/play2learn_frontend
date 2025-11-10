@@ -6,6 +6,7 @@ import {
   BENEFIT_PURCHASE_STATUS_FILTERS,
   type BenefitPurchaseStatus,
 } from "../../../../../benefit/constants/benefitPurchase.constants";
+import { benefitItemVariants } from "../../../../constants/animations/benefitTeacher.animations";
 import styles from "./BenefitPurchaseFilters.module.css";
 
 interface BenefitPurchasesFiltersProps {
@@ -17,13 +18,11 @@ const BenefitPurchaseFilters: React.FC<BenefitPurchasesFiltersProps> = ({
   activeFilter,
   onFilterChange,
 }) => {
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
-  };
-
   return (
-    <motion.div variants={itemVariants} className={styles.filtersContainer}>
+    <motion.div
+      variants={benefitItemVariants}
+      className={styles.filtersContainer}
+    >
       <Card className={styles.filtersCard}>
         <div className={styles.filtersHeader}>
           <div className={styles.headerLeft}>
