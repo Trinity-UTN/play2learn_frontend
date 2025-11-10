@@ -4,6 +4,7 @@ import type { BenefitStudentContextType } from "./BenefitStudentContext.type";
 import { BenefitStudentService } from "../../services/benefit/BenefitStudentService";
 import type {
   BenefitStudentResponseInterface,
+  BenefitPurchasedUsedResponse,
   BenefitStatsResponse,
 } from "../../../benefit/types/benefit.types";
 import type {
@@ -21,8 +22,11 @@ export const BenefitStudentProvider = ({
 
   // Estados Generales
   const [loading, setLoading] = useState<boolean>(false);
-  const [paginatedBenefits, setPaginatedBenefits] =
-    useState<PaginatedData<BenefitStudentResponseInterface> | null>(null);
+  const [paginatedBenefits, setPaginatedBenefits] = useState<
+    | PaginatedData<BenefitStudentResponseInterface>
+    | PaginatedData<BenefitPurchasedUsedResponse>
+    | null
+  >(null);
   const [benefitStats, setBenefitStats] = useState<BenefitStatsResponse | null>(
     null
   );
@@ -37,6 +41,25 @@ export const BenefitStudentProvider = ({
         setPaginatedBenefits(response.data);
       } catch (error) {
         handleApiError(error, "Error al obtener los beneficios del estudiante");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  const getPaginatedUsedBenefitStudent = useCallback(
+    async (params: GetPaginated): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await BenefitStudentService.getPaginatedUsedBenefitStudentApi(params);
+        setPaginatedBenefits(response.data);
+      } catch (error) {
+        handleApiError(
+          error,
+          "Error al obtener los beneficios usados del estudiante"
+        );
       } finally {
         setLoading(false);
       }
@@ -94,6 +117,7 @@ export const BenefitStudentProvider = ({
 
     // Funciones Principales
     getPaginatedBenefitStudent,
+    getPaginatedUsedBenefitStudent,
     getBenefitStudentStats,
     purchaseBenefitStudent,
     requestUseBenefitStudent,

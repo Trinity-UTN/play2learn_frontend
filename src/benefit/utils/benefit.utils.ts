@@ -3,6 +3,7 @@ import { FaGift } from "react-icons/fa";
 import type {
   BenefitResponseInterface,
   BenefitStudentResponseInterface,
+  BenefitPurchasedUsedResponse,
   CreateBenefitInterface,
   AnyBenefit,
   TeacherBenefitType,
@@ -88,6 +89,20 @@ export const isBenefitPurchase = (
     (benefit.state === "PURCHASED" ||
       benefit.state === "USE_REQUESTED" ||
       benefit.state === "USED")
+  );
+};
+
+export const isBenefitPurchasedUsed = (
+  benefit: any
+): benefit is BenefitPurchasedUsedResponse => {
+  return (
+    "id" in benefit &&
+    "state" in benefit &&
+    benefit.state === "USED" &&
+    "benefitId" in benefit &&
+    "benefitName" in benefit &&
+    "usedAt" in benefit &&
+    !("name" in benefit)
   );
 };
 

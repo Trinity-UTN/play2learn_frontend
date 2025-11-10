@@ -1,4 +1,10 @@
-import { FaCoins, FaUsers, FaUser, FaCalendarAlt } from "react-icons/fa";
+import {
+  FaCoins,
+  FaUsers,
+  FaUser,
+  FaCalendarAlt,
+  FaCheckCircle,
+} from "react-icons/fa";
 import Badge from "../../../shared/components/Badge/BadgeComponent";
 import Tooltip from "../../../shared/components/Tooltip/TooltipComponent";
 import type {
@@ -38,6 +44,8 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
     subjectName,
     subjectColor,
     isUseRequest,
+    isUsedBenefit,
+    usedAt,
     studentName,
   } = useBenefitTableData({ benefit, variant });
 
@@ -67,6 +75,14 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
               {isUseRequest ? (
                 <Badge variant="custom" size="sm" customColor={categoryColor}>
                   Solicitud de Uso
+                </Badge>
+              ) : isUsedBenefit ? (
+                <Badge
+                  variant="custom"
+                  size="sm"
+                  customColor={{ bg: "#d1fae5", text: "#065f46" }}
+                >
+                  Usado
                 </Badge>
               ) : (
                 category && (
@@ -104,7 +120,7 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
       </td>
 
       {/* Estadísticas */}
-      {showStats && !isUseRequest && showStatsColumns && (
+      {showStats && !isUseRequest && !isUsedBenefit && showStatsColumns && (
         <>
           {/* Costo */}
           <td className={`${styles.tableCell} ${styles.centeredCell}`}>
@@ -191,16 +207,26 @@ const BenefitTableContent: React.FC<BenefitTableContentProps> = ({
         </>
       )}
 
-      {/* Fecha de Finalización */}
+      {/* Fecha de Finalización o Fecha de Uso */}
       {!isUseRequest && (
         <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-          {"endAt" in benefit && benefit.endAt && (
-            <div className={styles.dateSection}>
-              <FaCalendarAlt className={styles.dateIcon} />
-              <span className={styles.dateValue}>
-                {formatBenefitDate(benefit.endAt)}
+          {isUsedBenefit && usedAt ? (
+            <div className={styles.usedDateSection}>
+              <FaCheckCircle className={styles.usedDateIcon} />
+              <span className={styles.usedDateValue}>
+                {formatBenefitDate(usedAt)}
               </span>
             </div>
+          ) : (
+            "endAt" in benefit &&
+            benefit.endAt && (
+              <div className={styles.dateSection}>
+                <FaCalendarAlt className={styles.dateIcon} />
+                <span className={styles.dateValue}>
+                  {formatBenefitDate(benefit.endAt)}
+                </span>
+              </div>
+            )
           )}
         </td>
       )}

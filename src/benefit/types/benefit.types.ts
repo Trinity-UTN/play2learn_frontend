@@ -40,7 +40,8 @@ export type BenefitStudentState =
   | "AVAILABLE"
   | "PURCHASED"
   | "USE_REQUESTED"
-  | "EXPIRED";
+  | "EXPIRED"
+  | "USED";
 
 export type BenefitTeacherState = "PUBLISHED" | "EXPIRED";
 
@@ -94,6 +95,20 @@ export interface BenefitPurchaseSimpleResponse {
   usedAt?: string;
 }
 
+export interface BenefitPurchasedUsedResponse {
+  id: number;
+  state: "USED";
+  benefitId: number;
+  benefitName: string;
+  benefitDescription: string;
+  category: Category;
+  color: Color;
+  icon: Icon;
+  subjectId: number;
+  subjectName: string;
+  usedAt?: string;
+}
+
 export interface BenefitStudentResponseInterface {
   id: number;
   name: string;
@@ -130,7 +145,8 @@ export type AnyBenefit =
   | BenefitResponseInterface
   | BenefitStudentResponseInterface
   | CreateBenefitInterface
-  | BenefitPurchaseSimpleResponse;
+  | BenefitPurchaseSimpleResponse
+  | BenefitPurchasedUsedResponse;
 
 export type TeacherBenefitType =
   | BenefitResponseInterface
@@ -162,6 +178,13 @@ export interface PaginatedBenefitUseRequestedResponseInterface {
 
 export interface PaginatedBenefitPurchaseSimpleResponse {
   data: PaginatedData<BenefitPurchaseSimpleResponse>;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
+
+export interface PaginatedBenefitPurchasedUsedResponse {
+  data: PaginatedData<BenefitPurchasedUsedResponse>;
   message: string;
   errors: any;
   timestamp: string;

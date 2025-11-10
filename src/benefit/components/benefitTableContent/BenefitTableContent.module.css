@@ -172,6 +172,31 @@
   gap: 0.5rem;
 }
 
+.usedDateSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #d1fae5;
+  border-radius: 0.375rem;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.usedDateIcon {
+  color: #059669;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.usedDateValue {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #065f46;
+  white-space: nowrap;
+}
+
 /* Responsive Design */
 @media (max-width: 1400px) {
   .tableCell {

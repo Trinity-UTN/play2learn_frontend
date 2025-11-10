@@ -15,6 +15,7 @@ import {
   isFullBenefitResponse,
   hasBenefitBasicProperties,
   isBenefitUseRequested,
+  isBenefitPurchasedUsed,
   getBenefitSubjectName,
 } from "../utils/benefit.utils";
 import { shouldShowBenefitStats } from "../utils/benefit.validation";
@@ -27,9 +28,37 @@ export const useBenefitTableData = ({
   variant: BenefitVariant;
 }) => {
   return useMemo(() => {
+    // CASO 0: BENEFICIO USADO
+    if (isBenefitPurchasedUsed(benefit)) {
+      const iconComponent = getIconByValue(benefit.icon);
+      const iconColor = getColorByValue(benefit.color) ?? "#94a3b8";
+      const category = getCategoryByValue(benefit.category);
+      const categoryColor = getCategoryColor(benefit.category);
+      const subjectName = benefit.subjectName;
+      const subjectColor = getSubjectColor(subjectName);
+
+      return {
+        IconComponent: iconComponent,
+        iconColor,
+        category,
+        categoryName: category?.label || "",
+        categoryColor,
+        showStats: false,
+        benefitName: benefit.benefitName,
+        benefitDescription: benefit.benefitDescription,
+        benefitCost: 0,
+        subjectName,
+        subjectColor,
+        isUseRequest: false,
+        isUsedBenefit: true,
+        usedAt: benefit.usedAt,
+        studentName: undefined,
+      };
+    }
+
+    // CASO 1: USE REQUEST
     const isUseRequest = isBenefitUseRequested(benefit);
 
-    // Caso 1: USE REQUEST
     if (isUseRequest) {
       const iconComponent = getIconByValue(benefit.benefitIcon);
       const iconColor = getColorByValue(benefit.benefitColor) ?? "#94a3b8";
@@ -51,11 +80,13 @@ export const useBenefitTableData = ({
         subjectName,
         subjectColor,
         isUseRequest: true,
+        isUsedBenefit: false,
+        usedAt: undefined,
         studentName: benefit.studentName,
       };
     }
 
-    // Caso 2: BENEFICIO NORMAL
+    // CASO 2: BENEFICIO NORMAL
     const hasFullProperties = isFullBenefitResponse(benefit);
     const hasBasicProperties = hasBenefitBasicProperties(benefit);
 
@@ -99,6 +130,8 @@ export const useBenefitTableData = ({
       subjectName,
       subjectColor,
       isUseRequest: false,
+      isUsedBenefit: false,
+      usedAt: undefined,
       studentName: undefined,
     };
   }, [benefit, variant]);
