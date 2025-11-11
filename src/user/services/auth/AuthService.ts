@@ -1,6 +1,5 @@
 import axios from "axios";
 import { BASE_URL } from "../../../shared/utils/apiAuth";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 
 /**
  * AuthService - Singleton para gestión de autenticación
@@ -37,17 +36,11 @@ class AuthService {
   // Evita múltiples llamadas simultáneas a /refresh
   private refreshPromise: Promise<string> | null = null;
 
-  private handleApiError!: ReturnType<
-    typeof useHandleApiError
-  >["handleApiError"];
-
   private constructor() {}
 
   static getInstance(): AuthService {
     if (!AuthService.instance) {
       AuthService.instance = new AuthService();
-      const { handleApiError } = useHandleApiError();
-      AuthService.instance.handleApiError = handleApiError;
     }
     return AuthService.instance;
   }
@@ -156,7 +149,6 @@ class AuthService {
         this.setCookie(this.ACCESS_KEY, newAccessToken, 15);
         return newAccessToken;
       } catch (err: any) {
-        this.handleApiError(err, "Sesión expirada", { showAsToast: true });
         this.logout();
         throw new Error("Session expired");
       } finally {

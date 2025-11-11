@@ -45,6 +45,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           setIsAuthenticated(false);
         }
       } catch (error) {
+        handleApiError(error, "Sesión expirada o inválida");
         setIsAuthenticated(false);
         authService.logout();
       } finally {
