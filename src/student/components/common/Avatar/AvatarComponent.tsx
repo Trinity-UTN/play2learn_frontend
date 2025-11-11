@@ -24,7 +24,7 @@ const Avatar: React.FC<AvatarComponentProps> = ({
 
   const avatarComponents = previewState
     ? {
-        body: previewState.selectedBody?.image || "/placeholder.svg",
+        body: previewState.selectedBody?.image || "/avatar/body_anonymous.png",
         shirt: previewState.selectedShirt?.image || "",
         hat: previewState.selectedHat?.image || "",
       }
@@ -57,7 +57,6 @@ const Avatar: React.FC<AvatarComponentProps> = ({
         {avatarComponents.shirt && (
           <img
             src={avatarComponents.shirt}
-            alt="Remera"
             className={`${styles.avatarImage} ${styles.avatarShirt}`}
             loading="lazy"
           />
@@ -66,7 +65,6 @@ const Avatar: React.FC<AvatarComponentProps> = ({
         {avatarComponents.hat && (
           <img
             src={avatarComponents.hat}
-            alt="Sombrero"
             className={`${styles.avatarImage} ${styles.avatarHat}`}
             loading="lazy"
           />

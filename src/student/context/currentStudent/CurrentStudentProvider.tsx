@@ -146,14 +146,11 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   // Funcioens de utilidad
   const getAvatarComponents = (): AvatarComponents => {
     const profile = currentStudent?.profile;
+
     return {
-      body:
-        profile?.selectedBody?.image || "/placeholder.svg?height=200&width=200",
-      shirt:
-        profile?.selectedShirt?.image ||
-        "/placeholder.svg?height=200&width=200",
-      hat:
-        profile?.selectedHat?.image || "/placeholder.svg?height=200&width=200",
+      body: profile?.selectedBody?.image || "/avatar/body_anonymous.png",
+      shirt: profile?.selectedShirt?.image || "",
+      hat: profile?.selectedHat?.image || "",
     };
   };
 
