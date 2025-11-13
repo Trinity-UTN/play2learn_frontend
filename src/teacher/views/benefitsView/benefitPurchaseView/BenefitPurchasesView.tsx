@@ -1,66 +1,40 @@
-import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
 import Button from "../../../../shared/components/Button/ButtonComponent";
+import LoadingSpinnerComponent from "../../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import BenefitPurchaseInfo from "../../../components/benefitsView/benefitPurchases/benefitPurchaseInfo/BenefitPurchaseInfo";
 import BenefitPurchaseFilters from "../../../components/benefitsView/benefitPurchases/benefitPurchasesFilters/BenefitPurchaseFilters";
 import BenefitPurchaseList from "../../../components/benefitsView/benefitPurchases/benefitPurchaseList/BenefitPurchaseList";
-import { useBenefitPurchaseData } from "../../../hooks/benefits/benefitPurchase/useBenefitPurchaseData";
-import { useBenefitPurchasesActions } from "../../../hooks/benefits/benefitPurchase/useBenefitPurchaseActions";
+import {
+  benefitPurchasesContainerVariants,
+  benefitItemVariants,
+} from "../../../constants/animations/benefitTeacher.animations";
+import { useBenefitPurchaseView } from "../../../hooks/benefits/benefitPurchase/useBenefitPurchaseView";
 import styles from "./BenefitPurchasesView.module.css";
 
 const BenefitPurchasesView: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const benefitId = Number.parseInt(id || "0", 10);
-
   const {
+    selectedBenefit,
     loading,
     activeFilter,
     setActiveFilter,
     filteredPurchases,
     paginationInfo,
     hasPagination,
-    refetch,
-  } = useBenefitPurchaseData(benefitId);
-
-  const { acceptUse, loading: acceptingUse } = useBenefitPurchasesActions();
-
-  const handleBack = () => {
-    navigate("/dashboard/teacher/beneficio/list");
-  };
-
-  const handleAcceptUse = async (purchaseId: number) => {
-    await acceptUse(purchaseId);
-    await refetch();
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
-  };
-
-  const firstPurchase =
-    filteredPurchases.length > 0 ? filteredPurchases[0] : null;
+    handleBack,
+    handleAcceptUse,
+  } = useBenefitPurchaseView();
 
   return (
     <motion.div
-      variants={containerVariants}
+      variants={benefitPurchasesContainerVariants}
       initial="hidden"
       animate="visible"
       className={styles.purchasesView}
     >
       {/* Botón Volver */}
       <motion.div
-        variants={itemVariants}
+        variants={benefitItemVariants}
         className={styles.backButtonContainer}
       >
         <Button
@@ -73,16 +47,14 @@ const BenefitPurchasesView: React.FC = () => {
         </Button>
       </motion.div>
 
-      {/* Info del Beneficio */}
-      {firstPurchase && (
-        <motion.div variants={itemVariants}>
-          <BenefitPurchaseInfo purchase={firstPurchase} />
-        </motion.div>
-      )}
+      {/* Información del Beneficio */}
+      <motion.div variants={benefitItemVariants}>
+        <BenefitPurchaseInfo benefit={selectedBenefit} />
+      </motion.div>
 
-      {/* Filtros - SOLO SI HAY PAGINACIÓN */}
+      {/* Filtros - Solo si hay paginación */}
       {hasPagination && (
-        <motion.div variants={itemVariants}>
+        <motion.div variants={benefitItemVariants} className={styles.filters}>
           <BenefitPurchaseFilters
             activeFilter={activeFilter}
             onFilterChange={setActiveFilter}
@@ -90,25 +62,16 @@ const BenefitPurchasesView: React.FC = () => {
         </motion.div>
       )}
 
-      {/* Content */}
-      <motion.div variants={itemVariants} className={styles.content}>
+      {/* Lista de Canjes */}
+      <motion.div variants={benefitItemVariants} className={styles.content}>
         {loading ? (
-          <div className={styles.loadingContainer}>
-            <div className={styles.spinner} />
-            <p className={styles.loadingText}>Cargando canjes...</p>
-          </div>
-        ) : filteredPurchases.length === 0 ? (
-          <div className={styles.emptyState}>
-            <p className={styles.emptyText}>
-              No hay canjes para mostrar con el filtro seleccionado
-            </p>
-          </div>
+          <LoadingSpinnerComponent color="#f76300" />
         ) : (
           <BenefitPurchaseList
             purchases={filteredPurchases}
             paginationInfo={paginationInfo}
             onAcceptUse={handleAcceptUse}
-            loading={acceptingUse}
+            loading={loading}
           />
         )}
       </motion.div>

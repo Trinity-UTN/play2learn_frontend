@@ -72,7 +72,9 @@ const BenefitTable: React.FC<BenefitTableProps> = ({
                   variant="ghost"
                   size="sm"
                   className={`${styles.actionButton} ${styles.viewButton}`}
-                  onClick={() => actions.onViewPurchases(actualBenefitId)}
+                  onClick={() =>
+                    actions.onViewPurchases(benefit, actualBenefitId)
+                  }
                 >
                   <FaEye /> Canjes
                 </Button>
@@ -83,7 +85,7 @@ const BenefitTable: React.FC<BenefitTableProps> = ({
                   variant="ghost"
                   size="sm"
                   className={`${styles.actionButton} ${styles.viewButton}`}
-                  onClick={() => actions.onViewPurchases(benefitId)}
+                  onClick={() => actions.onViewPurchases(benefit, benefitId)}
                 >
                   <FaEye /> Ver Canjes
                 </Button>

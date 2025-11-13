@@ -8,7 +8,7 @@ export const urls = {
   PaginatedBenefitTeacher: "/benefits/teacher/paginated",
   PaginatedBenefitUseRequested: "/benefits/teacher/use-requested/paginated",
   PaginatedBenefitPurchases: (benefitId: number) =>
-    `/benefits/teacher/purchases/${benefitId}`,
+    `/benefits/teacher/purchases/paginated/${benefitId}`,
   AcceptUseBenefit: (id: number) => `/benefits/teacher/accept-use/${id}`,
 
   // Stats
