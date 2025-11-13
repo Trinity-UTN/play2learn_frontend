@@ -32,6 +32,8 @@ import OverviewView from "../teacher/views/overviewView/Overview";
 import ConfigureActivityView from "../activity/views/configurationView/ConfigureActivityView";
 import ActivityView from "../activity/views/activityView/ActivityView";
 import styles from "../App.module.css";
+import CreatedActivitiesView from "../teacher/views/CreatedActivitiesView/CreatedActivitiesView";
+import ActivityDetailView from "../teacher/views/ActivityDetailView/ActivityDetailView";
 
 const TeacherApp = () => {
   return (
@@ -106,6 +108,14 @@ const TeacherApp = () => {
 
             {/* ACTIVIDADES */}
             <Route path="actividades/list" element={<ActivitiesView />} />
+            <Route
+              path="actividades/created/list"
+              element={<CreatedActivitiesView />}
+            />
+            <Route
+              path="actividades/created/details/:id"
+              element={<ActivityDetailView />}
+            />
             {/* VIEW GENERAL CONFIGURATION */}
             <Route
               path="actividades/configuration/:code_game"
