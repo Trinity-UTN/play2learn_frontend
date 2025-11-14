@@ -47,6 +47,6 @@ export const investmentTypes = [
       "100% líquido",
     ],
     delay: 0.3,
-    url: "/dashboard/student/actions/list",
+    url: "/dashboard/student/caja-de-ahorro/list",
   },
 ];

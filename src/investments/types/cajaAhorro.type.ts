@@ -1,0 +1,27 @@
+import type { PaginatedData } from "../../shared/types/PaginacionType";
+
+export interface RegisterCajaDeAhorro {
+  initialAmount: number;
+  name: string;
+}
+
+// Depositar y Retirar
+export interface MovimientoCajaDeAhorro {
+  id: number;
+  amount: number;
+}
+export interface CajaDeAhorroResponse {
+  id: number;
+  initialAmount: number;
+  currentAmount: number;
+  accumulatedInterest: number;
+  startDate: string;
+  lastUpdate: string;
+}
+
+export interface CajaDeAhorroPaginatedResponseInterface {
+  data: PaginatedData<CajaDeAhorroResponse>;
+  message: string;
+  errors: any;
+  timestamp: string;
+}
