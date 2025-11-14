@@ -12,6 +12,7 @@ import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 
 import type {
   CajaDeAhorroResponse,
+  CajaDeAhorroStats,
   MovimientoCajaDeAhorro,
   RegisterCajaDeAhorro,
 } from "../../types/cajaAhorro.type";
@@ -29,7 +30,7 @@ export const CajaDeAhorroProvider: React.FC<CajaDeAhorroProviderProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [cajaDeAhorro, setCajaDeAhorro] =
     useState<PaginatedData<CajaDeAhorroResponse> | null>(null);
-
+  const [statsView, setStatsView] = useState<CajaDeAhorroStats>();
   // Funciones Principales
   const getPaginatedCajaDeAhorro = useCallback(
     async (params: GetPaginated): Promise<void> => {
@@ -47,6 +48,17 @@ export const CajaDeAhorroProvider: React.FC<CajaDeAhorroProviderProps> = ({
     },
     []
   );
+  const getCajaDeAhorroStats = useCallback(async (): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await CajaDeAhorroService.getStats();
+      setStatsView(response.data);
+    } catch (error) {
+      handleApiError(error, "Error al traer los stats");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
   const registerCajaDeAhorro = useCallback(
     async (data: RegisterCajaDeAhorro): Promise<void> => {
       setLoading(true);
@@ -121,11 +133,13 @@ export const CajaDeAhorroProvider: React.FC<CajaDeAhorroProviderProps> = ({
     // Estados principales
     loading,
     cajaDeAhorro,
+    statsView,
     deleteCajaDeAhorro,
     depositCajaDeAhorro,
     getPaginatedCajaDeAhorro,
     registerCajaDeAhorro,
     withdrawalCajaDeAhorro,
+    getCajaDeAhorroStats,
   };
 
   return (

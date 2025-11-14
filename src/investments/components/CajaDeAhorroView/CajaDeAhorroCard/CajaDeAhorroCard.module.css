@@ -58,7 +58,8 @@
 .balanceLabel {
   display: block;
   font-size: 1rem;
-  color: rgba(73, 73, 73, 0.6);
+  color: rgba(58, 57, 57, 0.822);
+  font-weight: 600;
 }
 
 .balanceValue {
@@ -214,146 +215,6 @@
   box-shadow: 0 4px 12px rgba(246, 59, 59, 0.3);
 }
 /* Modal Styles */
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: self-start;
-  justify-content: center;
-  z-index: 2000;
-  padding: 1rem;
-}
-
-.modal {
-  position: absolute;
-  left: 33%;
-  top: 20%;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  max-width: 500px;
-  width: 100%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-.modalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.modalHeader h3 {
-  color: white;
-  font-size: 1.25rem;
-  margin: 0;
-}
-
-.closeButton {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.closeButton:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.modalContent {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.modalInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.modalInfo span:first-child {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.modalBalance {
-  color: #22c55e;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-.modalInput {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 1rem;
-  color: white;
-  font-size: 1.1rem;
-  text-align: center;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.modalInput:focus {
-  outline: none;
-  border-color: #22c55e;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
-}
-
-.modalButton {
-  background: linear-gradient(135deg, #22c55e, #15803d);
-  border: none;
-  border-radius: 12px;
-  padding: 1rem;
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
-}
-
-.modalButton:hover:not(:disabled) {
-  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
-}
-
-.modalButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.modalButtonWithdraw {
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-.modalButtonWithdraw:hover:not(:disabled) {
-  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
-}
 
 @media (max-width: 768px) {
   .card {

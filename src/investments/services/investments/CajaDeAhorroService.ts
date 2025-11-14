@@ -25,6 +25,10 @@ const getPaginatedCajaDeAhorroApi = async (
   });
   return response.data;
 };
+const getStats = async () => {
+  const response = await api.get(urls.CajaDeAhorroStats);
+  return response.data;
+};
 
 const registerCajaDeAhorroApi = async (
   data: RegisterCajaDeAhorro
@@ -51,4 +55,5 @@ export const CajaDeAhorroService = {
   depositCajaDeAhorroApi,
   withdrawalCajaDeAhorroApi,
   deleteCajaDeAhorroApi,
+  getStats,
 };

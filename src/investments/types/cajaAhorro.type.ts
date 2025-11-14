@@ -12,6 +12,7 @@ export interface MovimientoCajaDeAhorro {
 }
 export interface CajaDeAhorroResponse {
   id: number;
+  name: string;
   initialAmount: number;
   currentAmount: number;
   accumulatedInterest: number;
@@ -24,4 +25,10 @@ export interface CajaDeAhorroPaginatedResponseInterface {
   message: string;
   errors: any;
   timestamp: string;
+}
+
+export interface CajaDeAhorroStats {
+  totalInvested: number;
+  quantityInProgress: number;
+  totalReward: number;
 }

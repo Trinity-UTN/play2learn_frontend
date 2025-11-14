@@ -16,4 +16,5 @@ export const urls = {
   CreatedCajaDeAhorro: "/investment/saving-accounts",
   DepositCajaDeAhorro: "/investment/saving-accounts/deposit",
   WithdrawalCajaDeAhorro: "/investment/saving-accounts/withdrawal",
+  CajaDeAhorroStats: "/statistics/investment/saving-account",
 };

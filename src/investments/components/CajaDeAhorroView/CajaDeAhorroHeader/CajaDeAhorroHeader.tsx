@@ -2,22 +2,15 @@ import { FaPiggyBank } from "react-icons/fa";
 import { motion } from "framer-motion";
 import styles from "./CajaDeAhorroHeader.module.css";
 import { useStatsHeader } from "../../../hooks/useCajaDeAhorro/useStatsHeader";
+import type { CajaDeAhorroStats } from "../../../types/cajaAhorro.type";
 type Props = {
   open: boolean;
   setOpen: (data: boolean) => void;
-  totalSaved: number;
-  totalInterest: number;
-  activeCajas: number;
+  statsView: CajaDeAhorroStats;
 };
 
-const CajaDeAhorroHeader = ({
-  open,
-  setOpen,
-  totalInterest,
-  totalSaved,
-  activeCajas,
-}: Props) => {
-  const { stats } = useStatsHeader({ totalInterest, totalSaved, activeCajas });
+const CajaDeAhorroHeader = ({ open, setOpen, statsView }: Props) => {
+  const { stats } = useStatsHeader({ statsView });
 
   return (
     <motion.div

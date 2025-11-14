@@ -11,9 +11,7 @@ const CajaDeAhorroView = () => {
     userBalance,
     openForm,
     paginationInfo,
-    totalSaved,
-    totalInterest,
-    activeCajas,
+    statsView,
     setOpenForm,
     handleCreateCaja,
     handleDeposit,
@@ -25,13 +23,13 @@ const CajaDeAhorroView = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         {/* Header */}
-        <CajaDeAhorroHeader
-          open={openForm}
-          setOpen={setOpenForm}
-          activeCajas={activeCajas}
-          totalInterest={totalInterest}
-          totalSaved={totalSaved}
-        />
+        {statsView && (
+          <CajaDeAhorroHeader
+            open={openForm}
+            setOpen={setOpenForm}
+            statsView={statsView}
+          />
+        )}
         {/* Create Form */}
         <AnimatePresence>
           {openForm && (

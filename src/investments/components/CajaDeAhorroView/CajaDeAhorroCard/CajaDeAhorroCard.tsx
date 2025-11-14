@@ -1,20 +1,17 @@
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaPiggyBank,
   FaCoins,
   FaChartLine,
   FaCalendarAlt,
-  FaArrowUp,
-  FaArrowDown,
-  FaTimes,
   FaCheckCircle,
 } from "react-icons/fa";
 import styles from "./CajaDeAhorroCard.module.css";
 import type { CajaDeAhorroResponse } from "../../../types/cajaAhorro.type";
 import formatPrice from "../../../../shared/utils/formatPrice";
-import { MdDelete } from "react-icons/md";
 import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
+import { CajaDeAhorroModalMovimiento } from "../CajaDeAhorroModalMovimiento/CajaDeAhorroModalMovimiento";
+import { useCajaDeAhorroCard } from "../../../hooks/useCajaDeAhorro/useCajaDeAhorroCard";
 
 interface CajaDeAhorroCardProps {
   cajaDeAhorro: CajaDeAhorroResponse;
@@ -33,46 +30,28 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
   onWithdraw,
   onDelete,
 }) => {
-  const [showDepositModal, setShowDepositModal] = useState(false);
-  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
-  const [amount, setAmount] = useState("");
-  const [openDelete, setOpenDelete] = useState(false);
-
-  const profit = cajaDeAhorro.currentAmount - cajaDeAhorro.initialAmount;
-  const profitPercent = ((profit / cajaDeAhorro.initialAmount) * 100).toFixed(
-    2
-  );
-  const startDate = new Date(cajaDeAhorro.startDate);
-  const lastUpdate = new Date(cajaDeAhorro.lastUpdate);
-
-  const handleDeposit = () => {
-    const numericAmount = Number.parseFloat(amount);
-    if (numericAmount > 0 && numericAmount <= userBalance) {
-      onDeposit(cajaDeAhorro.id, numericAmount);
-      setAmount("");
-      setShowDepositModal(false);
-    }
-  };
-
-  const handleWithdraw = () => {
-    const numericAmount = Number.parseFloat(amount);
-    if (numericAmount > 0 && numericAmount <= cajaDeAhorro.currentAmount) {
-      onWithdraw(cajaDeAhorro.id, numericAmount);
-      setAmount("");
-      setShowWithdrawModal(false);
-    }
-  };
-  const handleOpenModal = (handle: (data: boolean) => void, open: boolean) => {
-    window.scrollTo(0, 0);
-    handle(open);
-  };
-  const handleConfirmDelete = () => {
-    onDelete(cajaDeAhorro.id);
-    setOpenDelete(false);
-  };
-  const handleDelete = () => {
-    setOpenDelete(true);
-  };
+  const {
+    // states
+    amount,
+    openDelete,
+    startDate,
+    lastUpdate,
+    profit,
+    // setters
+    setAmount,
+    setOpenDelete,
+    // handlers
+    handleDelete,
+    handleConfirmDelete,
+    actionButtons,
+    modalsConfig,
+  } = useCajaDeAhorroCard({
+    cajaDeAhorro,
+    userBalance,
+    onDeposit,
+    onWithdraw,
+    onDelete,
+  });
   return (
     <>
       <motion.div
@@ -85,7 +64,7 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
         <div className={styles.header}>
           <div className={styles.nameSection}>
             <FaPiggyBank className={styles.piggyIcon} />
-            {/* <h3 className={styles.name}>{cajaDeAhorro.name}</h3> */}
+            <h3 className={styles.name}>{cajaDeAhorro.name}</h3>
           </div>
         </div>
 
@@ -120,8 +99,7 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
           <div className={styles.interestContent}>
             <span className={styles.interestLabel}>Interés Acumulado</span>
             <span className={styles.interestValue}>
-              {cajaDeAhorro.accumulatedInterest.toLocaleString("es-AR")} (
-              {profitPercent}%)
+              {cajaDeAhorro.accumulatedInterest.toLocaleString("es-AR")}
             </span>
           </div>
         </div>
@@ -150,28 +128,18 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
 
         {/* Action Buttons */}
         <div className={styles.actionsSection}>
-          <motion.button
-            className={styles.depositButton}
-            onClick={() =>
-              handleOpenModal(setShowDepositModal, !showDepositModal)
-            }
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <FaArrowUp />
-            <span>Depositar</span>
-          </motion.button>
-          <motion.button
-            className={styles.withdrawButton}
-            onClick={() =>
-              handleOpenModal(setShowWithdrawModal, !showWithdrawModal)
-            }
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <FaArrowDown />
-            <span>Retirar</span>
-          </motion.button>
+          {actionButtons.map((btn, i) => (
+            <motion.button
+              key={i}
+              className={styles[btn.className]}
+              onClick={btn.onClick}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {btn.icon}
+              <span>{btn.label}</span>
+            </motion.button>
+          ))}
         </div>
         <motion.button
           className={styles.deleteButton}
@@ -179,140 +147,35 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
-          <MdDelete />
-          <span>Eliminar</span>
+          <span>Cerrar Caja De Ahorro</span>
         </motion.button>
         <ConfirmationModal
           isOpen={openDelete}
           onClose={() => setOpenDelete(false)}
-          title="Eliminar Caja De Ahorro"
-          message="Si eliminas la caja de ahorro no obtendras los intereses"
+          title="¿Estas seguro?"
+          message="Cerrar Caja De Ahorro"
           onConfirm={handleConfirmDelete}
         />
       </motion.div>
 
-      {/* Deposit Modal */}
+      {/* Movimientos Modal */}
       <AnimatePresence>
-        {showDepositModal && (
-          <motion.div
-            className={styles.modalOverlay}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowDepositModal(false)}
+        {modalsConfig.map((m, i) => (
+          <CajaDeAhorroModalMovimiento
+            key={i}
+            show={m.show}
+            onClose={m.onClose}
+            title={m.title}
+            balanceLabel={m.balanceLabel}
+            balanceValue={m.balanceValue}
+            amount={amount}
+            setAmount={setAmount}
+            confirmText={m.confirmText}
+            onConfirm={m.onConfirm}
           >
-            <motion.div
-              className={styles.modal}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className={styles.modalHeader}>
-                <h3>Depositar en "nombre caja de ahorro"</h3>
-                <button
-                  className={styles.closeButton}
-                  onClick={() => setShowDepositModal(false)}
-                >
-                  <FaTimes />
-                </button>
-              </div>
-              <div className={styles.modalContent}>
-                <div className={styles.modalInfo}>
-                  <span>Saldo disponible:</span>
-                  <span className={styles.modalBalance}>
-                    {userBalance.toLocaleString("es-AR")} monedas
-                  </span>
-                </div>
-                <input
-                  type="number"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Monto a depositar"
-                  className={styles.modalInput}
-                  min="0"
-                  max={userBalance}
-                />
-                <motion.button
-                  className={styles.modalButton}
-                  onClick={handleDeposit}
-                  disabled={
-                    !amount ||
-                    Number.parseFloat(amount) <= 0 ||
-                    Number.parseFloat(amount) > userBalance
-                  }
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <FaCheckCircle />
-                  <span>Confirmar Depósito</span>
-                </motion.button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Withdraw Modal */}
-      <AnimatePresence>
-        {showWithdrawModal && (
-          <motion.div
-            className={styles.modalOverlay}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowWithdrawModal(false)}
-          >
-            <motion.div
-              className={styles.modal}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className={styles.modalHeader}>
-                <h3>Retirar de "NombreCajaDeAhorro"</h3>
-                <button
-                  className={styles.closeButton}
-                  onClick={() => setShowWithdrawModal(false)}
-                >
-                  <FaTimes />
-                </button>
-              </div>
-              <div className={styles.modalContent}>
-                <div className={styles.modalInfo}>
-                  <span>Saldo en la caja:</span>
-                  <span className={styles.modalBalance}>
-                    {cajaDeAhorro.currentAmount.toLocaleString("es-AR")} monedas
-                  </span>
-                </div>
-                <input
-                  type="number"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Monto a retirar"
-                  className={styles.modalInput}
-                  min="0"
-                  max={cajaDeAhorro.currentAmount}
-                />
-                <motion.button
-                  className={`${styles.modalButton} ${styles.modalButtonWithdraw}`}
-                  onClick={handleWithdraw}
-                  disabled={
-                    !amount ||
-                    Number.parseFloat(amount) <= 0 ||
-                    Number.parseFloat(amount) > cajaDeAhorro.currentAmount
-                  }
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <FaCheckCircle />
-                  <span>Confirmar Retiro</span>
-                </motion.button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
+            <FaCheckCircle />
+          </CajaDeAhorroModalMovimiento>
+        ))}
       </AnimatePresence>
     </>
   );

@@ -8,8 +8,10 @@ import type { RegisterCajaDeAhorro } from "../../types/cajaAhorro.type";
 export const useCajaDeAhorroView = () => {
   const { wallet } = useCurrentStudent();
   const {
-    getPaginatedCajaDeAhorro,
     cajaDeAhorro,
+    statsView,
+    getPaginatedCajaDeAhorro,
+    getCajaDeAhorroStats,
     registerCajaDeAhorro,
     depositCajaDeAhorro,
     withdrawalCajaDeAhorro,
@@ -28,6 +30,9 @@ export const useCajaDeAhorroView = () => {
   useEffect(() => {
     getPaginatedCajaDeAhorro(paginationParams);
   }, [paginationParams]);
+  useEffect(() => {
+    getCajaDeAhorroStats();
+  }, []);
   // 7️⃣ Paginación info
 
   const paginationInfo: PaginationInfo | null = cajaDeAhorro
@@ -60,25 +65,12 @@ export const useCajaDeAhorroView = () => {
     await getPaginatedCajaDeAhorro(paginationParams);
   };
 
-  const totalSaved = cajaDeAhorro
-    ? cajaDeAhorro.results.reduce((sum, caja) => sum + caja.currentAmount, 0)
-    : 0;
-  const totalInterest = cajaDeAhorro
-    ? cajaDeAhorro.results.reduce(
-        (sum, caja) => sum + caja.accumulatedInterest,
-        0
-      )
-    : 0;
-  const activeCajas = cajaDeAhorro ? cajaDeAhorro.results.length : 0;
-
   return {
     cajaDeAhorro,
+    statsView,
     userBalance,
     openForm,
     paginationInfo,
-    totalSaved,
-    totalInterest,
-    activeCajas,
     setOpenForm,
     handleCreateCaja,
     handleDeposit,
