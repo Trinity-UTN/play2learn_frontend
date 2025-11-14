@@ -13,6 +13,8 @@ import {
 import styles from "./CajaDeAhorroCard.module.css";
 import type { CajaDeAhorroResponse } from "../../../types/cajaAhorro.type";
 import formatPrice from "../../../../shared/utils/formatPrice";
+import { MdDelete } from "react-icons/md";
+import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
 
 interface CajaDeAhorroCardProps {
   cajaDeAhorro: CajaDeAhorroResponse;
@@ -20,6 +22,7 @@ interface CajaDeAhorroCardProps {
   userBalance: number;
   onDeposit: (cajaId: number, amount: number) => void;
   onWithdraw: (cajaId: number, amount: number) => void;
+  onDelete: (cajaId: number) => void;
 }
 
 const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
@@ -28,10 +31,12 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
   userBalance,
   onDeposit,
   onWithdraw,
+  onDelete,
 }) => {
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [amount, setAmount] = useState("");
+  const [openDelete, setOpenDelete] = useState(false);
 
   const profit = cajaDeAhorro.currentAmount - cajaDeAhorro.initialAmount;
   const profitPercent = ((profit / cajaDeAhorro.initialAmount) * 100).toFixed(
@@ -57,7 +62,17 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
       setShowWithdrawModal(false);
     }
   };
-
+  const handleOpenModal = (handle: (data: boolean) => void, open: boolean) => {
+    window.scrollTo(0, 0);
+    handle(open);
+  };
+  const handleConfirmDelete = () => {
+    onDelete(cajaDeAhorro.id);
+    setOpenDelete(false);
+  };
+  const handleDelete = () => {
+    setOpenDelete(true);
+  };
   return (
     <>
       <motion.div
@@ -65,10 +80,6 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: index * 0.1 }}
-        whileHover={{
-          y: -8,
-          boxShadow: "0 20px 40px rgba(34, 197, 94, 0.25)",
-        }}
       >
         {/* Header */}
         <div className={styles.header}>
@@ -141,7 +152,9 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
         <div className={styles.actionsSection}>
           <motion.button
             className={styles.depositButton}
-            onClick={() => setShowDepositModal(true)}
+            onClick={() =>
+              handleOpenModal(setShowDepositModal, !showDepositModal)
+            }
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -150,7 +163,9 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
           </motion.button>
           <motion.button
             className={styles.withdrawButton}
-            onClick={() => setShowWithdrawModal(true)}
+            onClick={() =>
+              handleOpenModal(setShowWithdrawModal, !showWithdrawModal)
+            }
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -158,6 +173,22 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
             <span>Retirar</span>
           </motion.button>
         </div>
+        <motion.button
+          className={styles.deleteButton}
+          onClick={() => handleDelete()}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <MdDelete />
+          <span>Eliminar</span>
+        </motion.button>
+        <ConfirmationModal
+          isOpen={openDelete}
+          onClose={() => setOpenDelete(false)}
+          title="Eliminar Caja De Ahorro"
+          message="Si eliminas la caja de ahorro no obtendras los intereses"
+          onConfirm={handleConfirmDelete}
+        />
       </motion.div>
 
       {/* Deposit Modal */}

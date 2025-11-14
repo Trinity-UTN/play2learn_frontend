@@ -9,8 +9,13 @@
   flex-direction: column;
   gap: 1.25rem;
   border: 3px solid #22c55e;
+  transition: all 0.4s ease-in-out;
+  overflow: hidden;
 }
-
+.card:hover {
+  box-shadow: 0 0px 40px rgba(34, 197, 94, 0.55) !important;
+  transform: scale(1.01) !important;
+}
 .header {
   display: flex;
   justify-content: space-between;
@@ -169,7 +174,8 @@
 }
 
 .depositButton,
-.withdrawButton {
+.withdrawButton,
+.deleteButton {
   padding: 0.75rem 1rem;
   border-radius: 10px;
   border: none;
@@ -202,7 +208,11 @@
 .withdrawButton:hover {
   box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
 }
-
+.deleteButton {
+  background: linear-gradient(135deg, #f63b3b, #d81d1d);
+  color: white;
+  box-shadow: 0 4px 12px rgba(246, 59, 59, 0.3);
+}
 /* Modal Styles */
 .modalOverlay {
   position: fixed;
@@ -213,13 +223,17 @@
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: center;
+  align-items: self-start;
   justify-content: center;
-  z-index: 1000;
+  z-index: 2000;
   padding: 1rem;
 }
 
 .modal {
+  position: absolute;
+  left: 33%;
+  top: 20%;
+  transform: translate(-50%, -50%);
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;

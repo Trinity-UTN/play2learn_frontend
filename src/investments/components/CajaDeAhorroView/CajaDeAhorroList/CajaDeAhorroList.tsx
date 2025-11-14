@@ -11,6 +11,7 @@ interface CajaDeAhorroListProps {
   userBalance: number;
   onDeposit: (cajaId: number, amount: number) => void;
   onWithdraw: (cajaId: number, amount: number) => void;
+  onDelete: (cajaId: number) => void;
   paginationInfo: PaginationInfo | null;
 }
 
@@ -19,6 +20,7 @@ const CajaDeAhorroList: React.FC<CajaDeAhorroListProps> = ({
   userBalance,
   onDeposit,
   onWithdraw,
+  onDelete,
   paginationInfo,
 }) => {
   if (cajasDeAhorro.length === 0) {
@@ -69,6 +71,7 @@ const CajaDeAhorroList: React.FC<CajaDeAhorroListProps> = ({
               userBalance={userBalance}
               onDeposit={onDeposit}
               onWithdraw={onWithdraw}
+              onDelete={onDelete}
             />
           ))}
         </div>

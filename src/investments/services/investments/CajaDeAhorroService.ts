@@ -42,7 +42,7 @@ const withdrawalCajaDeAhorroApi = async (
   await api.post(urls.WithdrawalCajaDeAhorro, data);
 };
 const deleteCajaDeAhorroApi = async (id: number): Promise<void> => {
-  await api.post(`${urls.WithdrawalCajaDeAhorro}/${id}`);
+  await api.delete(`${urls.CreatedCajaDeAhorro}/${id}`);
 };
 
 export const CajaDeAhorroService = {

@@ -7,7 +7,14 @@ import type { RegisterCajaDeAhorro } from "../../types/cajaAhorro.type";
 
 export const useCajaDeAhorroView = () => {
   const { wallet } = useCurrentStudent();
-  const { getPaginatedCajaDeAhorro, cajaDeAhorro } = useCajaDeAhorroStudent();
+  const {
+    getPaginatedCajaDeAhorro,
+    cajaDeAhorro,
+    registerCajaDeAhorro,
+    depositCajaDeAhorro,
+    withdrawalCajaDeAhorro,
+    deleteCajaDeAhorro,
+  } = useCajaDeAhorroStudent();
   const {
     paginationParams,
     handlePageChange,
@@ -35,24 +42,22 @@ export const useCajaDeAhorroView = () => {
     : null;
 
   const handleCreateCaja = async (data: RegisterCajaDeAhorro) => {
-    console.log("[v0] Creating caja de ahorro:", data);
-    // TODO: Llamar al backend para crear la caja de ahorro
-    // const newCaja = await cajaDeAhorroService.create(data)
-    // setCajasDeAhorro([...cajasDeAhorro, newCaja])
+    await registerCajaDeAhorro(data);
+    await getPaginatedCajaDeAhorro(paginationParams);
   };
 
   const handleDeposit = async (cajaId: number, amount: number) => {
-    console.log("[v0] Depositing:", { cajaId, amount });
-    // TODO: Llamar al backend para depositar
-    // await cajaDeAhorroService.deposit({ id: cajaId, amount })
-    // Actualizar la lista
+    await depositCajaDeAhorro({ id: cajaId, amount });
+    await getPaginatedCajaDeAhorro(paginationParams);
   };
 
   const handleWithdraw = async (cajaId: number, amount: number) => {
-    console.log("[v0] Withdrawing:", { cajaId, amount });
-    // TODO: Llamar al backend para retirar
-    // await cajaDeAhorroService.withdraw({ id: cajaId, amount })
-    // Actualizar la lista
+    await withdrawalCajaDeAhorro({ id: cajaId, amount });
+    await getPaginatedCajaDeAhorro(paginationParams);
+  };
+  const handleDelete = async (cajaId: number) => {
+    await deleteCajaDeAhorro(cajaId);
+    await getPaginatedCajaDeAhorro(paginationParams);
   };
 
   const totalSaved = cajaDeAhorro
@@ -78,5 +83,6 @@ export const useCajaDeAhorroView = () => {
     handleCreateCaja,
     handleDeposit,
     handleWithdraw,
+    handleDelete,
   };
 };

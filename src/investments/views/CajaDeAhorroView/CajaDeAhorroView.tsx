@@ -18,6 +18,7 @@ const CajaDeAhorroView = () => {
     handleCreateCaja,
     handleDeposit,
     handleWithdraw,
+    handleDelete,
   } = useCajaDeAhorroView();
 
   return (
@@ -48,6 +49,7 @@ const CajaDeAhorroView = () => {
             userBalance={userBalance}
             onDeposit={handleDeposit}
             onWithdraw={handleWithdraw}
+            onDelete={handleDelete}
             paginationInfo={paginationInfo}
           />
         )}
