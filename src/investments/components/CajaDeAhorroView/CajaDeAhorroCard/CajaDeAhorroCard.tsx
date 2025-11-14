@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import styles from "./CajaDeAhorroCard.module.css";
 import type { CajaDeAhorroResponse } from "../../../types/cajaAhorro.type";
+import formatPrice from "../../../../shared/utils/formatPrice";
 
 interface CajaDeAhorroCardProps {
   cajaDeAhorro: CajaDeAhorroResponse;
@@ -82,7 +83,7 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
           <span className={styles.balanceLabel}>Saldo Actual</span>
           <div className={styles.balanceValue}>
             <FaCoins className={styles.coinIcon} />
-            <span>{cajaDeAhorro.currentAmount.toLocaleString("es-AR")}</span>
+            <span>{formatPrice(cajaDeAhorro.currentAmount)}</span>
           </div>
         </div>
 

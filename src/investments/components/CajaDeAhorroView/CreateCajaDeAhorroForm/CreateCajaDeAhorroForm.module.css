@@ -167,12 +167,12 @@
 }
 
 .estimateLabel {
-  color: rgba(255, 255, 255, 0.6);
+  color: #374151c8;
   font-size: 0.85rem;
 }
 
 .estimateValue {
-  color: white;
+  color: #374151c8;
   font-size: 1.1rem;
   font-weight: 600;
 }

@@ -45,14 +45,15 @@
   border: 1px solid rgba(34, 197, 94, 0.3);
   border-radius: 12px;
   padding: 1rem;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .balanceLabel {
   display: block;
+  font-size: 1rem;
   color: rgba(73, 73, 73, 0.6);
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
 }
 
 .balanceValue {
@@ -63,6 +64,7 @@
   color: rgb(0, 0, 0);
   font-size: 1.75rem;
   font-weight: 700;
+  align-self: flex-end;
 }
 
 .coinIcon {
