@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaCoins,
@@ -9,7 +8,12 @@ import {
 } from "react-icons/fa";
 import styles from "./CreateCajaDeAhorroForm.module.css";
 import type { RegisterCajaDeAhorro } from "../../../types/cajaAhorro.type";
-
+import { useCreatedCajaDeAhorro } from "../../../hooks/useCajaDeAhorro/useCreateCajaDeAhorro";
+import {
+  quickAmounts,
+  quickOptions,
+} from "../../../contanst/cajaDeAhorroContanst/cajaDeAhorroContanst";
+import formatPrice from "../../../../shared/utils/formatPrice";
 interface CreateCajaDeAhorroFormProps {
   userBalance: number;
   onSubmit: (data: RegisterCajaDeAhorro) => void;
@@ -19,35 +23,19 @@ const CreateCajaDeAhorroForm: React.FC<CreateCajaDeAhorroFormProps> = ({
   userBalance,
   onSubmit,
 }) => {
-  const [amount, setAmount] = useState<string>("");
-  const [name, setName] = useState<string>("");
-
-  const numericAmount = Number.parseFloat(amount) || 0;
-  const dailyInterestRate = 0.1; // 0.1% diario
-  const monthlyInterest = numericAmount * (dailyInterestRate / 100) * 30;
-
-  const isValid =
-    numericAmount > 0 && numericAmount <= userBalance && name.trim() !== "";
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isValid) {
-      onSubmit({
-        initialAmount: numericAmount,
-        name: name.trim(),
-      });
-      setAmount("");
-      setName("");
-    }
-  };
-
-  const handleQuickAmount = (value: number) => {
-    setAmount(value.toString());
-  };
-  const handleQuickName = (value: string) => {
-    setName(value);
-  };
-
+  const {
+    name,
+    amount,
+    numericAmount,
+    dailyInterestRate,
+    monthlyInterest,
+    isValid,
+    handleSubmit,
+    handleQuickAmount,
+    handleQuickName,
+    setName,
+    setAmount,
+  } = useCreatedCajaDeAhorro({ userBalance, onSubmit });
   return (
     <motion.div
       className={styles.container}
@@ -60,9 +48,7 @@ const CreateCajaDeAhorroForm: React.FC<CreateCajaDeAhorroFormProps> = ({
         <h2 className={styles.title}>Crear Nueva Caja de Ahorro</h2>
         <div className={styles.balanceInfo}>
           <FaCoins className={styles.coinIcon} />
-          <span>
-            Saldo disponible: {userBalance.toLocaleString("es-AR")} monedas
-          </span>
+          <span>Saldo disponible: {formatPrice(userBalance)} monedas</span>
         </div>
       </div>
 
@@ -82,34 +68,16 @@ const CreateCajaDeAhorroForm: React.FC<CreateCajaDeAhorroFormProps> = ({
             maxLength={50}
           />
           <div className={styles.quickButtons}>
-            <button
-              type="button"
-              onClick={() => handleQuickName("Comprar skins")}
-              className={styles.quickButton}
-            >
-              Comprar skins
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickName("Ahorro Épico")}
-              className={styles.quickButton}
-            >
-              Ahorro Épico
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickName("Desbloquear beneficios")}
-              className={styles.quickButton}
-            >
-              Desbloquear beneficios
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickName("Vacaciones")}
-              className={styles.quickButton}
-            >
-              Vacaciones
-            </button>
+            {quickOptions.map((label) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => handleQuickName(label)}
+                className={styles.quickButton}
+              >
+                {label}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -129,34 +97,18 @@ const CreateCajaDeAhorroForm: React.FC<CreateCajaDeAhorroFormProps> = ({
             max={userBalance}
           />
           <div className={styles.quickButtons}>
-            <button
-              type="button"
-              onClick={() => handleQuickAmount(1000)}
-              className={styles.quickButton}
-            >
-              1,000
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickAmount(5000)}
-              className={styles.quickButton}
-            >
-              5,000
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickAmount(10000)}
-              className={styles.quickButton}
-            >
-              10,000
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickAmount(userBalance)}
-              className={styles.quickButton}
-            >
-              Todo
-            </button>
+            {quickAmounts.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() =>
+                  handleQuickAmount(item.value ? item.value : userBalance)
+                }
+                className={styles.quickButton}
+              >
+                {item.label}
+              </button>
+            ))}
           </div>
         </div>
 

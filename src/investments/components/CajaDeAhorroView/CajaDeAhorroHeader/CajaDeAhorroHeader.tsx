@@ -1,6 +1,7 @@
-import { FaPiggyBank, FaCoins, FaChartLine, FaWallet } from "react-icons/fa";
+import { FaPiggyBank } from "react-icons/fa";
 import { motion } from "framer-motion";
 import styles from "./CajaDeAhorroHeader.module.css";
+import { useStatsHeader } from "../../../hooks/useCajaDeAhorro/useStatsHeader";
 type Props = {
   open: boolean;
   setOpen: (data: boolean) => void;
@@ -16,29 +17,7 @@ const CajaDeAhorroHeader = ({
   totalSaved,
   activeCajas,
 }: Props) => {
-  const stats = [
-    {
-      icon: <FaCoins />,
-      label: "Total Ahorrado",
-      value: totalSaved.toLocaleString("es-AR"),
-      gradient: "linear-gradient(135deg, #22c55e, #15803d)",
-      delay: 0.1,
-    },
-    {
-      icon: <FaChartLine />,
-      label: "Interés Acumulado",
-      value: totalInterest.toLocaleString("es-AR"),
-      gradient: "linear-gradient(135deg, #3b82f6, #1d4ed8)",
-      delay: 0.2,
-    },
-    {
-      icon: <FaWallet />,
-      label: "Cajas Activas",
-      value: activeCajas,
-      gradient: "linear-gradient(135deg, #8b5cf6, #6d28d9)",
-      delay: 0.3,
-    },
-  ];
+  const { stats } = useStatsHeader({ totalInterest, totalSaved, activeCajas });
 
   return (
     <motion.div
