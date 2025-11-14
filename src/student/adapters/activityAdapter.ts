@@ -25,15 +25,15 @@ export function mapActivityToUI(
     subjectName: activity.subjectName,
     status: "status" in activity ? activity.status : activity.state,
     dateLabel: isNotApproved
-      ? `${formatDate(activity.startDate)} - ${formatDate(activity.endDate)}`
+      ? `Vence el ${formatDate(activity.endDate)}`
       : undefined,
     timeLabel: isNotApproved ? `${activity.maxTime} min` : undefined,
     rewardLabel: isNotApproved
       ? activity.minReward
-        ? `${activity.minReward} - ${activity.maxReward} pts`
-        : `${activity.maxReward} pts`
+        ? `${activity.minReward} - ${activity.maxReward} monedas`
+        : `${activity.maxReward} monedas`
       : undefined,
-    reward: isNotApproved ? undefined : `${activity.reward} pts`,
+    reward: isNotApproved ? undefined : `${activity.reward} monedas`,
 
     attemptsLabel: `${activity.remainingAttempts} / ${activity.attempts} intentos`,
     remainingAttempts: activity.remainingAttempts,
