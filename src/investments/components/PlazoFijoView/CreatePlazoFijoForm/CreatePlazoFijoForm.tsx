@@ -40,7 +40,8 @@ const CreatePlazoFijoForm: React.FC<CreatePlazoFijoFormProps> = ({
       className={styles.container}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4 }}
+      exit={{ opacity: 0, scale: 0.7 }}
+      transition={{ delay: 0.2 }}
     >
       <div className={styles.header}>
         <h2 className={styles.title}>Crear Nuevo Plazo Fijo</h2>

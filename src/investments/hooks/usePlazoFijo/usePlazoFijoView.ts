@@ -27,7 +27,7 @@ export const usePlazoFijoView = () => {
   const userBalance = wallet?.balance;
   const [filterStatus, setFilterStatus] =
     useState<FIXED_TERM_STATES>("IN_PROGRESS");
-
+  const [openForm, setOpenForm] = useState(false);
   useEffect(() => {
     getStatisticsPlazoFijo();
     handleFilter(["fixedTermState"], [filterStatus]);
@@ -71,6 +71,8 @@ export const usePlazoFijoView = () => {
 
     //Valores internos
     userBalance,
+    openForm,
+    setOpenForm,
     handleCreatePlazoFijo,
     filterStatus,
     setFilterStatus,

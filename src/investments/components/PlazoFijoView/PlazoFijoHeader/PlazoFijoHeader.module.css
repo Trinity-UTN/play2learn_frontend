@@ -1,3 +1,8 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 .titleSection {
   display: flex;
   align-items: center;
@@ -32,6 +37,20 @@
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.2rem;
   margin: 0.5rem 0 0 0;
+}
+.buttonForm {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.922);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.buttonForm:hover {
+  background: #6d28d9;
 }
 
 @media (max-width: 768px) {

@@ -81,9 +81,10 @@
   line-height: 1.6;
 }
 
-.bannerContent strong {
+.linkTo {
   color: #fbbf24;
   font-weight: 600;
+  text-decoration: none;
 }
 
 /* Responsive */
