@@ -47,6 +47,7 @@ export const useActivityActions = () => {
         showDoubleConfirmation: true,
         doubleConfirmationText: "Confirma que has leído y aceptas las reglas",
         rules: rules,
+        showRulesIcon: false,
         onConfirm: () => {
           if (activityId) {
             registerActivityStarted(Number(activityId));

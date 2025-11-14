@@ -1,11 +1,5 @@
 import { motion, type Variants } from "framer-motion";
-import {
-  FaCheck,
-  FaRegChartBar,
-  FaRegLightbulb,
-  FaSearch,
-  FaTimes,
-} from "react-icons/fa";
+import { FaCheck, FaRegLightbulb, FaSearch, FaTimes } from "react-icons/fa";
 import { MdOutlineSpellcheck } from "react-icons/md";
 import { IoTimeOutline } from "react-icons/io5";
 import { GiBookshelf, GiBrain } from "react-icons/gi";
@@ -18,10 +12,9 @@ const DetailsCompletarOracionGame = () => {
   const {
     accuracy,
     score,
-    performance,
+    // performance,
     isGameWon,
     correctAnswers,
-    totalMissingWords,
     unanswered,
     correctList,
     incorrectList,
@@ -93,25 +86,17 @@ const DetailsCompletarOracionGame = () => {
             <div className={styles.summaryIcon}>
               <MdOutlineSpellcheck />
             </div>
-            <div className={styles.summaryContent}>
-              <span className={styles.summaryNumber}>{unanswered}</span>
-              <span className={styles.summaryLabel}>Sin responder</span>
-            </div>
-          </div>
-
-          <div className={`${styles.summaryCard} ${styles.total}`}>
-            <div className={styles.summaryIcon}>
-              <FaRegChartBar />
-            </div>
-            <div className={styles.summaryContent}>
-              <span className={styles.summaryNumber}>{totalMissingWords}</span>
-              <span className={styles.summaryLabel}>Total</span>
-            </div>
+            {unanswered === 0 && (
+              <div className={styles.summaryContent}>
+                <span className={styles.summaryNumber}>0</span>
+                <span className={styles.summaryLabel}>Sin responder</span>
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
 
-      {/* Estadísticas del Juego */}
+      {/* Estadísticas del Juego
       <motion.div className={styles.statsGrid} variants={itemVariants}>
         <div className={`${styles.statCard} ${styles.performanceCard}`}>
           <div className={styles.statIcon}>{performance.icon}</div>
@@ -124,7 +109,7 @@ const DetailsCompletarOracionGame = () => {
             </span>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       {/* Respuestas Correctas */}
       {correctList.length > 0 && (
