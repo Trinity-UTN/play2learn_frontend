@@ -1,9 +1,5 @@
 import type React from "react";
-import {
-  FaCoins,
-  FaChartLine,
-  //  FaClock
-} from "react-icons/fa";
+import { FaCoins, FaChartLine, FaLightbulb } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import type { FinancialSummary } from "../../../types/generalType";
 import styles from "./WalletSummary.module.css";
@@ -128,7 +124,7 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
       </div>
 
       <div className={styles.educationalNote}>
-        <div className={styles.noteIcon}>💡</div>
+        <FaLightbulb className={styles.noteIcon} />
         <div className={styles.noteContent}>
           <strong>Concepto clave:</strong> La <em>liquidez</em> es la facilidad
           con la que puedes usar tu dinero. Si algo tiene alta liquidez, como el

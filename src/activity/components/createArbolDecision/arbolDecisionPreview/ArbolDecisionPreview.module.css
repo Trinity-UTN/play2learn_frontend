@@ -53,8 +53,19 @@
   border: 1px solid #e5e7eb;
 }
 
-.statIcon {
+.statIconTree {
   font-size: 1.5rem;
+  color: #16a34a;
+}
+
+.statIconConsequence {
+  font-size: 1.5rem;
+  color: rgb(255, 86, 86);
+}
+
+.statIconChart {
+  font-size: 1.5rem;
+  color: #6b7280;
 }
 
 .statLabel {

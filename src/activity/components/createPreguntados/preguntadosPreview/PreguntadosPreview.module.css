@@ -54,8 +54,14 @@
   min-width: 150px;
 }
 
-.statIcon {
+.statIconQuestion {
   font-size: 1.5rem;
+  color: #ef4444;
+}
+
+.statIconClock {
+  font-size: 1.5rem;
+  color: white;
 }
 
 .statLabel {

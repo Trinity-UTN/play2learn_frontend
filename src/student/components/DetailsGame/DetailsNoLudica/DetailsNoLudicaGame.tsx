@@ -6,6 +6,7 @@ import {
   FaCoins,
   FaRegChartBar,
   FaSync,
+  FaHourglassHalf,
 } from "react-icons/fa";
 import { GiBookshelf } from "react-icons/gi";
 import { IoIosNotifications } from "react-icons/io";
@@ -75,7 +76,7 @@ const DetailsNoLudicaGame = () => {
             Tu trabajo está siendo revisado por el docente
           </p>
           <div className={styles.reviewBadge}>
-            <span className={styles.badgeIcon}>⏳</span>
+            <FaHourglassHalf className={styles.badgeIcon} />
             <span className={styles.badgeText}>Pendiente de Revisión</span>
           </div>
         </div>

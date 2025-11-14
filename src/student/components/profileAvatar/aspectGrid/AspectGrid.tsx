@@ -1,4 +1,5 @@
 import type { BodyPart, NullAspect } from "../../../types/CurrentStudent.type";
+import { EmptyStateComponent } from "../../../../shared/components/EmptyState/EmptyStateComponent";
 import AspectCard from "./aspectCard/AspectCard";
 import styles from "./AspectGrid.module.css";
 
@@ -15,6 +16,19 @@ const AspectGrid: React.FC<AspectGridProps> = ({
   onAspectClick,
   onInfoClick,
 }) => {
+  if (aspects.length === 0) {
+    return (
+      <div className={styles.emptyStateWrapper}>
+        <EmptyStateComponent
+          title="No se encontraron aspectos"
+          message="Prueba cambiar el filtro o buscar con otro término."
+          iconColor="#f59e0b"
+          textColor="white"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.aspectsGrid}>
       {aspects.map((aspect, index) => {

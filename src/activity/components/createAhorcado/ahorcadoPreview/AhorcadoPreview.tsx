@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaBullseye, FaHeart } from "react-icons/fa";
 import AhorcadoGame from "../../../../shared/components/Games/Ahorcado/AhorcadoGame";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import { useCreateAhorcado } from "../../../hooks/useCreateAhorcado";
@@ -37,7 +37,7 @@ const AhorcadoPreview: React.FC = () => {
 
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>🎯</span>
+            <FaBullseye className={styles.statIcon} />
             <div>
               <span className={styles.statLabel}>Palabra</span>
               <span className={styles.statValue}>
@@ -46,7 +46,7 @@ const AhorcadoPreview: React.FC = () => {
             </div>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>❤️</span>
+            <FaHeart className={styles.statIcon} />
             <div>
               <span className={styles.statLabel}>Errores permitidos</span>
               <span className={styles.statValue}>{getMaxErrors()}</span>

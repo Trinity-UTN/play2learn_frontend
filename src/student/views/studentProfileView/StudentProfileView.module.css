@@ -6,7 +6,6 @@
   margin: 0 auto;
 }
 
-/* Loading */
 .loadingContainer {
   display: flex;
   flex-direction: column;
