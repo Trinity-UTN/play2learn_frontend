@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 import {
   FaEye,
   FaTree,
+  FaSitemap,
+  FaBullseye,
+  FaChartBar,
   FaArrowRight,
   FaCheck,
   FaTimes,
@@ -114,13 +117,14 @@ const ArbolDecisionPreview: React.FC = () => {
 
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>🌳</span>
+            <FaSitemap className={styles.statIconTree} />
             <div>
               <span className={styles.statLabel}>Nodos totales</span>
               <span className={styles.statValue}>{stats.totalNodes}</span>
             </div>
           </div>
           <div className={styles.stat}>
+            <FaBullseye className={styles.statIconConsequence} />
             <span className={styles.statIcon}>🎯</span>
             <div>
               <span className={styles.statLabel}>Consecuencias</span>
@@ -130,7 +134,7 @@ const ArbolDecisionPreview: React.FC = () => {
             </div>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>📊</span>
+            <FaChartBar className={styles.statIconChart} />
             <div>
               <span className={styles.statLabel}>Profundidad máxima</span>
               <span className={styles.statValue}>

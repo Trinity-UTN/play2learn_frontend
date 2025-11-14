@@ -54,8 +54,14 @@
   min-width: 150px;
 }
 
-.statIcon {
+.statIconMain {
   font-size: 1.5rem;
+  color: #047857;
+}
+
+.statIconCartas {
+  font-size: 1.5rem;
+  color: lightslategrey;
 }
 
 .statLabel {

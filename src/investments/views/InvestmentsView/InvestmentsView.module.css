@@ -66,6 +66,7 @@
 .bannerIcon {
   font-size: 3rem;
   flex-shrink: 0;
+  color: #fbbf24;
 }
 
 .bannerContent h3 {

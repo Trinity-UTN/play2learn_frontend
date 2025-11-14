@@ -99,15 +99,28 @@ export const DesafioClasificacionGameProvider: React.FC<
     return [];
   };
 
+  const shuffleArray = (array: string[]): string[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
   // Funciones del juego
   const startGame = () => {
     setGameStarted(true);
     setScore(0);
     setGameStatus("playing");
-    const allConcepts = getConceptsSource();
-    setAvailableConcepts([...allConcepts]);
-    setConceptsInCategories({});
     setVerificationResults(null);
+    setHasVerified(false);
+
+    const allConcepts = getConceptsSource();
+    const shuffledConcepts = shuffleArray(allConcepts);
+
+    setAvailableConcepts(shuffledConcepts);
+    setConceptsInCategories({});
   };
 
   const resetGame = () => {

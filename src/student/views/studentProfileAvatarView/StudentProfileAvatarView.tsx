@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGlobe, FaUser, FaTshirt, FaHatWizard } from "react-icons/fa";
+import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import Avatar from "../../components/common/Avatar/AvatarComponent";
 import ActionButtons from "../../components/profileAvatar/actionButtons/ActionButtons";
 import AspectHeader from "../../components/profileAvatar/aspectHeader/AspectHeader";
@@ -64,8 +65,7 @@ const StudentProfileAvatarView: React.FC = () => {
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
-        <div className={styles.spinner}></div>
-        <p>Cargando inventario...</p>
+        <LoadingSpinnerComponent size="lg" color="#f59e0b" />
       </div>
     );
   }

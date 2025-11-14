@@ -1,4 +1,4 @@
-import type React from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   FaChartLine,
@@ -7,11 +7,11 @@ import {
   FaStore,
   FaCoins,
   FaArrowRight,
+  FaBullseye,
 } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 import Button from "../../../../shared/components/Button/ButtonComponent";
 import styles from "./QuickActions.module.css";
-import { useNavigate } from "react-router-dom";
 
 const QuickActions = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const QuickActions = () => {
       color: "#3B82F6",
       view: "investments",
       badge: "Nuevo",
-      url: "/dashboard/student/investmests/list", //HASTA QUE SE REALICE LA VIEW DE INVERSIONES
+      url: "/dashboard/student/investmests/list",
     },
     {
       title: "Beneficios",
@@ -31,7 +31,7 @@ const QuickActions = () => {
       icon: FaGift,
       color: "#F59E0B",
       view: "benefits",
-      badge: "5 activos",
+      badge: "Revisar",
       url: "/dashboard/student/beneficios/list",
     },
     {
@@ -108,7 +108,7 @@ const QuickActions = () => {
       </div>
 
       <div className={styles.educationalNote}>
-        <div className={styles.noteIcon}>🎯</div>
+        <FaBullseye className={styles.noteIcon} />
         <div className={styles.noteContent}>
           <strong>Planificación financiera:</strong> Antes de gastar, piensa si
           es una necesidad o un deseo. Las inversiones pueden hacer crecer tu

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaQuestionCircle, FaClock } from "react-icons/fa";
 import PreguntadosGame from "../../../../shared/components/Games/Preguntados/PreguntadosGame";
 import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
 import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
@@ -33,14 +33,14 @@ const PreguntadosPreview: React.FC = () => {
 
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>❓</span>
+            <FaQuestionCircle className={styles.statIconQuestion} />
             <div>
               <span className={styles.statLabel}>Preguntas</span>
               <span className={styles.statValue}>{questions.length}</span>
             </div>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statIcon}>⏱️</span>
+            <FaClock className={styles.statIconClock} />
             <div>
               <span className={styles.statLabel}>
                 Tiempo por pregunta (seg)

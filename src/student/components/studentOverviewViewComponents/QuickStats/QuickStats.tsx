@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import type { StatisticsStudentResponse } from "../../../types/CurrentStudent.type";
 import styles from "./QuickStats.module.css";
-import { FaTrophy, FaGamepad, FaStar } from "react-icons/fa";
+import { FaTrophy, FaGamepad, FaCoins } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
 
 type Props = {
@@ -14,9 +14,9 @@ const QuickStats = ({ statistics }: Props) => {
   //   : 0;
   const quickStats = [
     {
-      title: "Puntos Totales",
+      title: "Monedas Totales",
       value: statistics?.totalPoints,
-      icon: FaStar,
+      icon: FaCoins,
       color: "#F59E0B",
       // change: "+125 esta semana",
     },

@@ -52,8 +52,14 @@
   border: 1px solid #e5e7eb;
 }
 
-.statIcon {
+.statIconMain {
   font-size: 1.5rem;
+  color: #3b82f6;
+}
+
+.statIconDifficulty {
+  font-size: 1.5rem;
+  color: #f59e0b;
 }
 
 .statLabel {
