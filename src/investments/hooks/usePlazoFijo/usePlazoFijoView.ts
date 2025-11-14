@@ -28,14 +28,14 @@ export const usePlazoFijoView = () => {
   const [filterStatus, setFilterStatus] =
     useState<FIXED_TERM_STATES>("IN_PROGRESS");
   const [openForm, setOpenForm] = useState(false);
-  useEffect(() => {
-    getStatisticsPlazoFijo();
-    handleFilter(["fixedTermState"], [filterStatus]);
-  }, []);
 
   useEffect(() => {
     getPaginatedPlazoFijo(paginationParams);
   }, [paginationParams]);
+  useEffect(() => {
+    getStatisticsPlazoFijo();
+    handleFilter(["fixedTermState"], [filterStatus]);
+  }, []);
 
   const paginationInfo: PaginationInfo | null = useMemo(() => {
     if (!plazoFijos) return null;
