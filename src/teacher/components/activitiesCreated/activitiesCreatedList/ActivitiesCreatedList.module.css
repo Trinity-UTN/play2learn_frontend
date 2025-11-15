@@ -1,0 +1,38 @@
+@import "../../../../shared/styles/colors.css";
+
+.activitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.noResultsIcon {
+  color: var(--color-secondary);
+  font-size: 4rem;
+  opacity: 0.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .activitiesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .activitiesGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .table {
+    font-size: 0.85rem;
+    border-radius: 4px;
+  }
+
+  .tableHeader {
+    padding: 0.75rem 0.5rem;
+  }
+}

@@ -1,0 +1,251 @@
+@import "../../../../shared/styles/colors.css";
+
+.filtersContainer {
+  margin-bottom: 2rem;
+}
+
+.filtersCard {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.filtersHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.headerIcon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+.filtersTitle {
+  color: #1e1e1e;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.viewToggle {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem;
+}
+
+.viewButton,
+.viewButtonInactive {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  font-size: 1rem;
+  border-radius: 8px;
+  min-width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.viewButton {
+  background-color: #7c3aed;
+  color: white;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.viewButton:hover {
+  background-color: #6d28d9;
+}
+
+.viewButtonInactive {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.viewButtonInactive:hover {
+  background-color: #e5e7eb;
+}
+
+.searchContainer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.searchInput {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+.searchButton,
+.clearButton {
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.searchButton {
+  background-color: #6d28d9;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.searchButton:hover {
+  background-color: #7c3aed;
+}
+
+.clearButton {
+  background-color: #e5e7eb;
+  color: #374151;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 44px;
+}
+
+.clearButton:hover {
+  background-color: #d1d5db;
+}
+
+.filterSection {
+  margin-bottom: 1.5rem;
+}
+
+.filterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.filterButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  background-color: #ffffff;
+}
+
+.filterButton:hover {
+  border-color: #7c3aed;
+  color: #7c3aed;
+  background-color: #f9f5ff;
+}
+
+.filterButton.active {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+}
+
+.filterIcon {
+  font-size: 1.1rem;
+}
+
+.selectFilters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.selectGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.selectLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #374151;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.selectIcon {
+  font-size: 0.8rem;
+  color: #7c3aed;
+}
+
+.select {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: #111827;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.select option {
+  background: #ffffff;
+  color: #111827;
+}
+
+@media (max-width: 768px) {
+  .filtersCard {
+    padding: 1rem;
+  }
+
+  .filterButtons {
+    justify-content: center;
+  }
+
+  .filterButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .selectFilters {
+    grid-template-columns: 1fr;
+  }
+
+  .filtersHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .viewToggle {
+    align-self: flex-end;
+  }
+}
