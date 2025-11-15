@@ -1,4 +1,7 @@
 export const urls = {
+  // Activities
+  PaginatedActivitiesTeacher: "/activity/teacher/paginated",
+
   // Benefits
   CreateBenefit: "/benefits",
   DeleteBenefit: (benefitId: number) => `/benefits/teacher/${benefitId}`,
