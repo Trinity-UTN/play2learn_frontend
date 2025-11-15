@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { FaRocket, FaLightbulb } from "react-icons/fa";
 import InvestmentTypeCard from "../../components/InvestmentsView/InvestmentsTypeCard/InvestmentsTypeCard";
 import styles from "./InvestmentsView.module.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { investmentTypes } from "../../contanst/investmentsView.contanst";
 
 const InvestmentsView = () => {
@@ -60,7 +60,13 @@ const InvestmentsView = () => {
           <div className={styles.bannerContent}>
             <h3>¿No sabes por dónde empezar?</h3>
             <p>
-              Visita nuestra sección de <strong>Educación Financiera</strong>{" "}
+              Visita nuestra sección de{" "}
+              <Link
+                to="/dashboard/student/wallet/financial-education"
+                className={styles.linkTo}
+              >
+                Educación Financiera
+              </Link>{" "}
               para aprender sobre cada tipo de inversión y tomar decisiones
               inteligentes.
             </p>

@@ -27,15 +27,19 @@ export const usePlazoFijoView = () => {
   const userBalance = wallet?.balance;
   const [filterStatus, setFilterStatus] =
     useState<FIXED_TERM_STATES>("IN_PROGRESS");
+  const [openForm, setOpenForm] = useState(false);
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    if (!initialized) return;
+    getPaginatedPlazoFijo(paginationParams);
+  }, [paginationParams, initialized]);
 
   useEffect(() => {
     getStatisticsPlazoFijo();
     handleFilter(["fixedTermState"], [filterStatus]);
+    setInitialized(true);
   }, []);
-
-  useEffect(() => {
-    getPaginatedPlazoFijo(paginationParams);
-  }, [paginationParams]);
 
   const paginationInfo: PaginationInfo | null = useMemo(() => {
     if (!plazoFijos) return null;
@@ -71,6 +75,8 @@ export const usePlazoFijoView = () => {
 
     //Valores internos
     userBalance,
+    openForm,
+    setOpenForm,
     handleCreatePlazoFijo,
     filterStatus,
     setFilterStatus,

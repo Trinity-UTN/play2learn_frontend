@@ -1,0 +1,16 @@
+@import "../../../shared/styles/colors.css";
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+}

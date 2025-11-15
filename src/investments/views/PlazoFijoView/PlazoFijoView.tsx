@@ -4,6 +4,7 @@ import PlazoFijoList from "../../components/PlazoFijoView/PlazoFijoList/PlazoFij
 import { PlazoFijoHeader } from "../../components/PlazoFijoView/PlazoFijoHeader/PlazoFijoHeader";
 import { usePlazoFijoView } from "../../hooks/usePlazoFijo/usePlazoFijoView";
 import PlazoFijoFilter from "../../components/PlazoFijoView/PlazoFijoFilter/PlazoFijoFilter";
+import { AnimatePresence } from "framer-motion";
 
 const PlazoFijoView = () => {
   const {
@@ -14,6 +15,8 @@ const PlazoFijoView = () => {
     plazoFijos,
     statistics,
     //Valores internos
+    openForm,
+    setOpenForm,
     userBalance,
     handleCreatePlazoFijo,
     filterStatus,
@@ -24,13 +27,21 @@ const PlazoFijoView = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         {/* Header */}
-        <PlazoFijoHeader statistics={statistics} />
+        <PlazoFijoHeader
+          statistics={statistics}
+          open={openForm}
+          setOpen={setOpenForm}
+        />
 
         {/* Create Form */}
-        <CreatePlazoFijoForm
-          userBalance={userBalance ? userBalance : 0}
-          onSubmit={handleCreatePlazoFijo}
-        />
+        <AnimatePresence>
+          {openForm && (
+            <CreatePlazoFijoForm
+              userBalance={userBalance ? userBalance : 0}
+              onSubmit={handleCreatePlazoFijo}
+            />
+          )}
+        </AnimatePresence>
 
         {/* Filtro */}
         <PlazoFijoFilter

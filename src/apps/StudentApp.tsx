@@ -26,6 +26,7 @@ import { BenefitStudentProvider } from "../student/context/benefitStudentContext
 import { StoreProvider } from "../student/context/storeStudentContext/StoreStudentProvider";
 import { ActionsProvider } from "../investments/contexts/actionsContext/ActionsStudentProvider";
 import { PlazoFijoProvider } from "../investments/contexts/plazoFijoContext/PlazoFijoStudentProvider";
+import { CajaDeAhorroProvider } from "../investments/contexts/cajaDeAhorroContext/CajaDeAhorroStudentProvider";
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
@@ -43,6 +44,7 @@ import ActionDetailView from "../investments/views/ActionsDetailView/ActionsDeta
 import ActionsView from "../investments/views/actionsView/ActionsView";
 import InvestmentsView from "../investments/views/InvestmentsView/InvestmentsView";
 import PlazoFijoView from "../investments/views/PlazoFijoView/PlazoFijoView";
+import CajaDeAhorroView from "../investments/views/CajaDeAhorroView/CajaDeAhorroView";
 const StudentApp = () => {
   return (
     <motion.div
@@ -79,21 +81,25 @@ const StudentApp = () => {
                                                   <StoreProvider>
                                                     <ActionsProvider>
                                                       <PlazoFijoProvider>
-                                                        <motion.div
-                                                          key="dashboardStudent"
-                                                          initial={{
-                                                            opacity: 0,
-                                                          }}
-                                                          animate={{
-                                                            opacity: 1,
-                                                          }}
-                                                          exit={{ opacity: 0 }}
-                                                          transition={{
-                                                            duration: 0.3,
-                                                          }}
-                                                        >
-                                                          <StudentDashboard />
-                                                        </motion.div>
+                                                        <CajaDeAhorroProvider>
+                                                          <motion.div
+                                                            key="dashboardStudent"
+                                                            initial={{
+                                                              opacity: 0,
+                                                            }}
+                                                            animate={{
+                                                              opacity: 1,
+                                                            }}
+                                                            exit={{
+                                                              opacity: 0,
+                                                            }}
+                                                            transition={{
+                                                              duration: 0.3,
+                                                            }}
+                                                          >
+                                                            <StudentDashboard />
+                                                          </motion.div>
+                                                        </CajaDeAhorroProvider>
                                                       </PlazoFijoProvider>
                                                     </ActionsProvider>
                                                   </StoreProvider>
@@ -162,6 +168,9 @@ const StudentApp = () => {
 
             {/* PLAZO FIJO */}
             <Route path="plazo-fijo/list" element={<PlazoFijoView />} />
+
+            {/* CAJA DE AHORRO   */}
+            <Route path="caja-de-ahorro/list" element={<CajaDeAhorroView />} />
           </Route>
         </Routes>
       </AnimatePresence>

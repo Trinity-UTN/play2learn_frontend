@@ -4,11 +4,12 @@ import { FaClock } from "react-icons/fa";
 import { PlazoFijoStats } from "../PlazoFijoStats/PlazoFijoStats";
 import type { StatisticsPlazoFijoResponse } from "../../../types/plazoFijo.type";
 
-export const PlazoFijoHeader = ({
-  statistics,
-}: {
+type Props = {
+  open: boolean;
+  setOpen: (data: boolean) => void;
   statistics: StatisticsPlazoFijoResponse | null;
-}) => {
+};
+export const PlazoFijoHeader = ({ statistics, setOpen, open }: Props) => {
   return (
     <motion.div
       className={styles.header}
@@ -40,6 +41,9 @@ export const PlazoFijoHeader = ({
 
       {/* Stats Cards */}
       <PlazoFijoStats statistics={statistics} />
+      <button onClick={() => setOpen(!open)} className={styles.buttonForm}>
+        {!open ? "Nuevo Plazo Fijo" : "Cerrar formulario"}
+      </button>
     </motion.div>
   );
 };
