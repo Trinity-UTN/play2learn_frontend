@@ -12,20 +12,31 @@ import styles from "./ActivitiesCreatedView.module.css";
 
 const ActivitiesCreatedView: React.FC = () => {
   const {
+    // Estados
     loading: dataLoading,
     activeFilter,
     selectedSubject,
+    selectedCourse,
+    selectedYear,
     search,
-    subjects,
-    filteredActivities,
-    paginationInfo,
     viewMode,
+
+    // Handlers
     setActiveFilter,
     setSelectedSubject,
+    setSelectedCourse,
+    setSelectedYear,
     setSearch,
+    setViewMode,
     applyFilters,
     resetFilters,
-    setViewMode,
+
+    // Datos
+    subjects,
+    courses,
+    years,
+    filteredActivities,
+    paginationInfo,
   } = useActivityTeacherData();
 
   const { actions, loading: actionsLoading } = useActivityTeacherActions();
@@ -51,12 +62,20 @@ const ActivitiesCreatedView: React.FC = () => {
           activeFilter={activeFilter}
           searchValue={search}
           subjectValue={selectedSubject?.id ?? ""}
+          courseValue={selectedCourse?.id ?? ""}
+          yearValue={selectedYear?.id ?? ""}
           selectedSubject={selectedSubject}
+          selectedCourse={selectedCourse}
+          selectedYear={selectedYear}
           subjects={subjects}
+          courses={courses}
+          years={years}
           viewMode={viewMode}
           onFilterChange={setActiveFilter}
           onSearchChange={setSearch}
           onSubjectChange={setSelectedSubject}
+          onCourseChange={setSelectedCourse}
+          onYearChange={setSelectedYear}
           onApplyFilters={applyFilters}
           onClearFilters={resetFilters}
           onViewModeChange={setViewMode}

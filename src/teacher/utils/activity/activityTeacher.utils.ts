@@ -62,10 +62,9 @@ export const formatActivityDate = (dateString: string): string => {
 
 export const hasActiveFilters = (
   search: string,
-  subjectId: string
-  // yearId: string,
-  // courseId: string
+  subjectId: string,
+  courseId: string,
+  yearId: string
 ): boolean => {
-  // return !!search || !!subjectId || !!yearId || !!courseId;
-  return !!search || !!subjectId;
+  return !!search || !!subjectId || !!yearId || !!courseId;
 };

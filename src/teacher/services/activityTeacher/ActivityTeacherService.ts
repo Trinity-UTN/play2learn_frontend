@@ -1,6 +1,9 @@
 import qs from "qs";
 import type { GetPaginated } from "../../../shared/types/PaginacionType";
-import type { PaginatedActivityTeacherResponseInterface } from "../../types/TeacherActivity.type";
+import type {
+  PaginatedActivityTeacherResponseInterface,
+  SubjectCoursesYearsTeacherResponse,
+} from "../../types/TeacherActivity.type";
 import api from "../../../shared/utils/api";
 import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import { urls } from "../urls";
@@ -21,4 +24,10 @@ export const ActivityTeacherService = {
     });
     return response.data;
   },
+
+  getSubjectCoursesYearsTeacherApi:
+    async (): Promise<SubjectCoursesYearsTeacherResponse> => {
+      const response = await api.get(urls.SubjectCoursesYearsTeacher);
+      return response.data.data;
+    },
 };

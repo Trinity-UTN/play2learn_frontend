@@ -24,19 +24,20 @@ interface ActivitiesCreatedFiltersProps {
   activeFilter: ActivityTeacherStatus;
   searchValue: string;
   subjectValue: string;
-  // yearValue: string;
-  // courseValue: string;
+  courseValue: string;
+  yearValue: string;
   selectedSubject: FilterOption | null;
-  // selectedYear: FilterOption | null;
-  // selectedCourse: FilterOption | null;
+  selectedCourse: FilterOption | null;
+  selectedYear: FilterOption | null;
   subjects: FilterOption[];
-  // years: FilterOption[];
+  courses: FilterOption[];
+  years: FilterOption[];
   viewMode: "grid" | "table";
   onFilterChange: (filter: ActivityTeacherStatus) => void;
   onSearchChange: (value: string) => void;
   onSubjectChange: (subject: FilterOption | null) => void;
-  // onYearChange: (year: FilterOption | null) => void;
-  // onCourseChange: (course: string) => void;
+  onCourseChange: (course: FilterOption | null) => void;
+  onYearChange: (year: FilterOption | null) => void;
   onApplyFilters: () => void;
   onClearFilters: () => void;
   onViewModeChange: (mode: "grid" | "table") => void;
@@ -46,28 +47,29 @@ const ActivitiesCreatedFilters: React.FC<ActivitiesCreatedFiltersProps> = ({
   activeFilter,
   searchValue,
   subjectValue,
-  // yearValue,
-  // courseValue,
+  courseValue,
+  yearValue,
   selectedSubject,
-  // selectedYear,
-  // selectedCourse,
+  selectedCourse,
+  selectedYear,
   subjects,
-  // years,
+  courses,
+  years,
   viewMode,
   onFilterChange,
   onSearchChange,
   onSubjectChange,
-  // onYearChange,
-  // onCourseChange,
+  onYearChange,
+  onCourseChange,
   onApplyFilters,
   onClearFilters,
   onViewModeChange,
 }) => {
   const showClearButton = hasActiveFilters(
     searchValue,
-    subjectValue
-    // yearValue,
-    // courseValue
+    subjectValue,
+    courseValue,
+    yearValue
   );
 
   return (
@@ -203,16 +205,16 @@ const ActivitiesCreatedFilters: React.FC<ActivitiesCreatedFiltersProps> = ({
           </div>
 
           {/* Year */}
-          {/* <div className={styles.selectGroup}>
+          <div className={styles.selectGroup}>
             <div className={styles.selectLabel}>
-              <FaCalendarAlt className={styles.selectIcon} />
-              Años
+              <FaBook className={styles.selectIcon} />
+              Año
             </div>
             <select
               value={selectedYear?.id ?? ""}
               onChange={(e) => {
-                const year = years.find((s) => s.id === e.target.value);
-                onYearChange(year ?? null);
+                const selected = years.find((y) => y.id === e.target.value);
+                onYearChange(selected ?? null);
               }}
               className={styles.select}
             >
@@ -222,7 +224,31 @@ const ActivitiesCreatedFilters: React.FC<ActivitiesCreatedFiltersProps> = ({
                 </option>
               ))}
             </select>
-          </div> */}
+          </div>
+
+          {/* Course */}
+          <div className={styles.selectGroup}>
+            <div className={styles.selectLabel}>
+              <FaBook className={styles.selectIcon} />
+              Curso
+            </div>
+            <select
+              value={selectedCourse?.id ?? ""}
+              disabled={!selectedYear || selectedYear.id === "ALL"}
+              onChange={(e) => {
+                const selected = courses.find((c) => c.id === e.target.value);
+                onCourseChange(selected ?? null);
+              }}
+              className={styles.select}
+            >
+              <option value="ALL">Todos los cursos</option>
+              {courses.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {course.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </Card>
     </motion.div>

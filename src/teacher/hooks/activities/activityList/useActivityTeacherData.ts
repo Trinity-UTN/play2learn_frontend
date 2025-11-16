@@ -2,7 +2,6 @@ import { useEffect, useCallback, useMemo, useRef } from "react";
 import type { FilterOption } from "../../../../shared/types/Filter.type";
 import { useActivityTeacherFilters } from "./useActivityTeacherFilters";
 import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
-import { useSubject } from "../../../../admin/hooks/useSubject";
 import { useActivityTeacher } from "../../useActivityTeacher";
 
 /**
@@ -12,14 +11,12 @@ export const useActivityTeacherData = () => {
   const {
     loading: loadingActivities,
     paginatedActivitiesTeacher,
+    subjectsTeacher,
+    coursesTeacher,
+    yearsTeacher,
     getPaginatedActivitiesTeacher,
+    getSubjectCoursesYearsTeacher,
   } = useActivityTeacher();
-
-  const {
-    loading: loadingSubjects,
-    subjects: subjectsFromAPI,
-    getSubjectByTeacher,
-  } = useSubject();
 
   const {
     paginationParams,
@@ -31,10 +28,14 @@ export const useActivityTeacherData = () => {
   const {
     activeFilter,
     selectedSubject,
+    selectedCourse,
+    selectedYear,
     search,
     viewMode,
     setActiveFilter,
     setSelectedSubject,
+    setSelectedCourse,
+    setSelectedYear,
     setSearch,
     setViewMode,
     applyFilters,
@@ -47,7 +48,7 @@ export const useActivityTeacherData = () => {
   useEffect(() => {
     if (!hasLoadedSubjects.current) {
       hasLoadedSubjects.current = true;
-      getSubjectByTeacher();
+      getSubjectCoursesYearsTeacher();
     }
   }, []);
 
@@ -66,15 +67,17 @@ export const useActivityTeacherData = () => {
       filtersValues.push(selectedSubject.id);
     }
 
-    // if (selectedCourse?.id && selectedCourse.id !== "ALL") {
-    //   filters.push("courseId");
-    //   filtersValues.push(selectedCourse.id);
-    // }
+    // Curso (activity.courseId)
+    if (selectedCourse?.id && selectedCourse.id !== "ALL") {
+      filters.push("courseId");
+      filtersValues.push(selectedCourse.id);
+    }
 
-    // if (selectedYear?.id && selectedYear.id !== "ALL") {
-    //   filters.push("yearId");
-    //   filtersValues.push(selectedYear.id);
-    // }
+    // Año (activity.yearId)
+    if (selectedYear?.id && selectedYear.id !== "ALL") {
+      filters.push("yearId");
+      filtersValues.push(selectedYear.id);
+    }
 
     await getPaginatedActivitiesTeacher({
       ...paginationParams,
@@ -102,15 +105,22 @@ export const useActivityTeacherData = () => {
    */
   useEffect(() => {
     setPaginationParams((prev) => ({ ...prev, page: 1 }));
-  }, [activeFilter, selectedSubject, search, setPaginationParams]);
+  }, [
+    activeFilter,
+    selectedSubject,
+    selectedCourse,
+    selectedYear,
+    search,
+    setPaginationParams,
+  ]);
 
   // Mapear materias para el filtro
   const subjects: FilterOption[] = useMemo(() => {
-    if (!subjectsFromAPI || subjectsFromAPI.length === 0) {
+    if (!subjectsTeacher || subjectsTeacher.length === 0) {
       return [{ id: "ALL", name: "Todas las materias" }];
     }
 
-    const mapped = subjectsFromAPI
+    const mapped = subjectsTeacher
       .map((subject) => ({
         id: String(subject.id),
         name: `${subject.course?.year?.name || "Sin año"} ${
@@ -122,12 +132,55 @@ export const useActivityTeacherData = () => {
       );
 
     return [{ id: "ALL", name: "Todas las materias" }, ...mapped];
-  }, [subjectsFromAPI]);
+  }, [subjectsTeacher]);
+
+  // Mapeo de cursos para el filtro
+  const courses: FilterOption[] = useMemo(() => {
+    if (!coursesTeacher || coursesTeacher.length === 0) {
+      return [{ id: "ALL", name: "Todos los cursos" }];
+    }
+
+    const filteredCourses =
+      selectedYear && selectedYear.id !== "ALL"
+        ? coursesTeacher.filter(
+            (course) => String(course.year?.id) === selectedYear.id
+          )
+        : coursesTeacher;
+
+    const mapped = filteredCourses
+      .map((course) => ({
+        id: String(course.id),
+        name: course.name,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    return [{ id: "ALL", name: "Todos los cursos" }, ...mapped];
+  }, [coursesTeacher, selectedYear]);
+
+  // Mapeo de años para el filtro
+  const years: FilterOption[] = useMemo(() => {
+    if (!yearsTeacher || yearsTeacher.length === 0) {
+      return [{ id: "ALL", name: "Todos los años" }];
+    }
+
+    const mapped = yearsTeacher
+      .map((year) => ({
+        id: String(year.id),
+        name: year.name,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    return [{ id: "ALL", name: "Todos los años" }, ...mapped];
+  }, [yearsTeacher]);
 
   // Datos filtrados
   const filteredActivities = useMemo(() => {
     return paginatedActivitiesTeacher?.results ?? [];
   }, [paginatedActivitiesTeacher]);
+
+  useEffect(() => {
+    setSelectedCourse({ id: "ALL", name: "Todos los cursos" });
+  }, [selectedYear]);
 
   // Info de paginación
   const paginationInfo = useMemo(() => {
@@ -144,20 +197,23 @@ export const useActivityTeacherData = () => {
   }, [paginatedActivitiesTeacher, handlePageChange, handlePageSizeChange]);
 
   // Loading combinado
-  const loading =
-    loadingActivities || (hasLoadedSubjects.current && loadingSubjects);
+  const loading = loadingActivities;
 
   return {
     // Estados
     loading,
     activeFilter,
     selectedSubject,
+    selectedCourse,
+    selectedYear,
     search,
     viewMode,
 
     // Handlers
     setActiveFilter,
     setSelectedSubject,
+    setSelectedCourse,
+    setSelectedYear,
     setSearch,
     setViewMode,
     applyFilters,
@@ -165,6 +221,8 @@ export const useActivityTeacherData = () => {
 
     // Datos
     subjects,
+    courses,
+    years,
     filteredActivities,
     paginationInfo,
   };

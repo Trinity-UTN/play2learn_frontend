@@ -12,14 +12,14 @@ export const useActivityTeacherFilters = () => {
     id: "ALL",
     name: "Todas las materias",
   });
-  // const [selectedCourse, setSelectedCourse] = useState<FilterOption | null>({
-  //   id: "ALL",
-  //   name: "Todos los cursos",
-  // });
-  // const [selectedYear, setSelectedYear] = useState<FilterOption | null>({
-  //   id: "ALL",
-  //   name: "Todos los años",
-  // });
+  const [selectedCourse, setSelectedCourse] = useState<FilterOption | null>({
+    id: "ALL",
+    name: "Todos los cursos",
+  });
+  const [selectedYear, setSelectedYear] = useState<FilterOption | null>({
+    id: "ALL",
+    name: "Todos los años",
+  });
   const [search, setSearch] = useState<string>("");
   const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
 
@@ -30,8 +30,8 @@ export const useActivityTeacherFilters = () => {
   const resetFilters = useCallback(() => {
     setActiveFilter("PUBLISHED");
     setSelectedSubject({ id: "ALL", name: "Todas las materias" });
-    // setSelectedCourse({ id: "ALL", name: "Todos los cursos" });
-    // setSelectedYear({ id: "ALL", name: "Todos los años" });
+    setSelectedCourse({ id: "ALL", name: "Todos los cursos" });
+    setSelectedYear({ id: "ALL", name: "Todos los años" });
     setSearch("");
   }, []);
 
@@ -39,20 +39,19 @@ export const useActivityTeacherFilters = () => {
     // Estados
     activeFilter,
     selectedSubject,
+    selectedCourse,
+    selectedYear,
     search,
     viewMode,
 
     // Handlers
     setActiveFilter,
     setSelectedSubject,
+    setSelectedCourse,
+    setSelectedYear,
     setSearch,
     setViewMode,
     applyFilters,
     resetFilters,
-
-    // selectedCourse,
-    // setSelectedCourse,
-    // selectedYear,
-    // setSelectedYear,
   };
 };

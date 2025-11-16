@@ -1,3 +1,6 @@
+import type { CourseResponseDto } from "../../admin/services/course/CourseService";
+import type { SubjectSimplifiedResponseDto } from "../../admin/services/subject/SubjectService";
+import type { YearResponseDto } from "../../admin/services/Year/YearService";
 import type { PaginatedData } from "../../shared/types/PaginacionType";
 
 export interface Activity {
@@ -31,4 +34,10 @@ export interface PaginatedActivityTeacherResponseInterface {
   message: string;
   errors: any;
   timestamp: string;
+}
+
+export interface SubjectCoursesYearsTeacherResponse {
+  subjects: SubjectSimplifiedResponseDto[];
+  courses: CourseResponseDto[];
+  years: YearResponseDto[];
 }

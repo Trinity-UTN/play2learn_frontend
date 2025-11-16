@@ -2,6 +2,9 @@ export const urls = {
   // Activities
   PaginatedActivitiesTeacher: "/activity/teacher/paginated",
 
+  // Teacher subjects, courses, years
+  SubjectCoursesYearsTeacher: "/teacher/subjects",
+
   // Benefits
   CreateBenefit: "/benefits",
   DeleteBenefit: (benefitId: number) => `/benefits/teacher/${benefitId}`,

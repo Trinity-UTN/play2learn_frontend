@@ -3,6 +3,9 @@ import { ActivityTeacherService } from "../../services/activityTeacher/ActivityT
 import { ActivityTeacherContext } from "./ActivityTeacherContext";
 import type { ActivityTeacherContextType } from "./ActivityTeacherContext.type";
 import type { ActivityTeacherResponse } from "../../types/TeacherActivity.type";
+import type { SubjectSimplifiedResponseDto } from "../../../admin/services/subject/SubjectService";
+import type { CourseResponseDto } from "../../../admin/services/course/CourseService";
+import type { YearResponseDto } from "../../../admin/services/Year/YearService";
 import type {
   GetPaginated,
   PaginatedData,
@@ -22,6 +25,8 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
 
   // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
+
+  /// Estados de actividad
   const [selectedActivityTeacher, setSelectedActivityTeacher] =
     useState<ActivityTeacherResponse | null>(() => {
       try {
@@ -34,6 +39,13 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
     });
   const [paginatedActivitiesTeacher, setPaginatedActivitiesTeacher] =
     useState<PaginatedData<ActivityTeacherResponse> | null>(null);
+
+  /// Estados de materias, cursos, años
+  const [subjectsTeacher, setSubjectsTeacher] = useState<
+    SubjectSimplifiedResponseDto[]
+  >([]);
+  const [coursesTeacher, setCoursesTeacher] = useState<CourseResponseDto[]>([]);
+  const [yearsTeacher, setYearsTeacher] = useState<YearResponseDto[]>([]);
 
   useEffect(() => {
     if (selectedActivityTeacher === null) {
@@ -62,7 +74,7 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
           await ActivityTeacherService.getPaginatedActivitiesTeacherApi(params);
         setPaginatedActivitiesTeacher(response.data);
       } catch (error) {
-        handleApiError(error, "Error al obtener los beneficios paginados");
+        handleApiError(error, "Error al obtener las actividades paginados");
       } finally {
         setLoading(false);
       }
@@ -70,14 +82,38 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
     []
   );
 
+  const getSubjectCoursesYearsTeacher = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { subjects, courses, years } =
+        await ActivityTeacherService.getSubjectCoursesYearsTeacherApi();
+      setSubjectsTeacher(subjects);
+      setCoursesTeacher(courses);
+      setYearsTeacher(years);
+    } catch (error) {
+      handleApiError(
+        error,
+        "Error al obtener las materias, cursos y años del docente"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const contextValue: ActivityTeacherContextType = {
     // Estados generales
     loading,
     selectedActivityTeacher,
     paginatedActivitiesTeacher,
 
+    // Estados de materias, cursos, años
+    subjectsTeacher,
+    coursesTeacher,
+    yearsTeacher,
+
     // Funciones principales
     getPaginatedActivitiesTeacher,
+    getSubjectCoursesYearsTeacher,
 
     // Funciones auxiliares
     setSelectedActivityTeacher,
