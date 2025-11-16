@@ -154,7 +154,7 @@ export const useActivityTeacherData = () => {
       }))
       .sort((a, b) => a.name.localeCompare(b.name));
 
-    return [{ id: "ALL", name: "Todos los cursos" }, ...mapped];
+    return [...mapped];
   }, [coursesTeacher, selectedYear]);
 
   // Mapeo de años para el filtro

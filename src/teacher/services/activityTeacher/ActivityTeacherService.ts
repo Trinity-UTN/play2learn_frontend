@@ -1,6 +1,7 @@
 import qs from "qs";
 import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import type {
+  ActivityTeacherDetailsResponse,
   PaginatedActivityTeacherResponseInterface,
   SubjectCoursesYearsTeacherResponse,
 } from "../../types/TeacherActivity.type";
@@ -23,6 +24,13 @@ export const ActivityTeacherService = {
         qs.stringify(params, { arrayFormat: "repeat" }),
     });
     return response.data;
+  },
+
+  getActivityDetailsTeacherApi: async (
+    activityId: number
+  ): Promise<ActivityTeacherDetailsResponse> => {
+    const response = await api.get(urls.DetailsActivityTeacher(activityId));
+    return response.data.data;
   },
 
   getSubjectCoursesYearsTeacherApi:

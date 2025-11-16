@@ -16,6 +16,12 @@ export interface Activity {
 
 type ActivityTeacherStatus = "CREATED" | "PUBLISHED" | "EXPIRED";
 
+type ActivityStudentState =
+  | "APPROVED"
+  | "IN_PROGRESS"
+  | "DISAPPROVED"
+  | "NOT_COMPLETED";
+
 export interface ActivityTeacherResponse {
   id: number;
   name: string;
@@ -27,6 +33,34 @@ export interface ActivityTeacherResponse {
   yearId: number;
   status: ActivityTeacherStatus;
   date: string; // Depende de status. EXPIRED -> fecha de expiración, PUBLISHED -> fecha de publicación
+}
+
+interface ActivityStudentGetDto {
+  studentName: string;
+  state: ActivityStudentState;
+  attempts: number;
+  reward: number;
+}
+
+export interface ActivityTeacherDetailsResponse {
+  id: number;
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  difficulty: string;
+  maxTime: number;
+  subjectName: string;
+  courseName: string;
+  attempts: number;
+  reward: number;
+  typeReward: string;
+  studentsAttemptedCount: number;
+  studentsApprovedCount: number;
+  participationPercentage: number;
+  averageCompletionTime: number;
+  successPercentage: number;
+  activityStudentGetDtos: ActivityStudentGetDto[];
 }
 
 export interface PaginatedActivityTeacherResponseInterface {
