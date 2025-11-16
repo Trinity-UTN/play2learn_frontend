@@ -1,0 +1,119 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fafafa;
+  border-radius: 8px;
+  border-left: 4px solid #f59e0b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  background: #f5f5f5;
+}
+
+.cardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.mainInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.activityName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2e2e2e;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metadata {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.metaIcon {
+  font-size: 0.75rem;
+  color: #007bff;
+}
+
+.timeSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f59e0b;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.timeIcon {
+  font-size: 0.7rem;
+}
+
+.timeText {
+  white-space: nowrap;
+}
+
+.reviewButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reviewButton:hover {
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 0.75rem;
+  }
+
+  .activityName {
+    font-size: 0.85rem;
+  }
+
+  .metadata {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .metaItem {
+    font-size: 0.75rem;
+  }
+
+  .reviewButton {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+}

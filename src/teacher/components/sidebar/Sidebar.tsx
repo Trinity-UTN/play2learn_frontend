@@ -37,6 +37,11 @@ const Sidebar: React.FC = () => {
           icon: FaGamepad,
           path: TeacherRoutes.Actividades.List,
         },
+        {
+          title: "Ver Actividades",
+          icon: FaGamepad,
+          path: TeacherRoutes.Actividades.CreatedList,
+        },
       ],
     },
     {
