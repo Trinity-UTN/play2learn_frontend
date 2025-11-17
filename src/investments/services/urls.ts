@@ -10,4 +10,11 @@ export const urls = {
   PlazoFijosPaginated: "/investment/fixed-term-deposit/paginated",
   CreatePlazoFijo: "/investment/fixed-term-deposit",
   StatisticsPlazoFijo: "/statistics/investment/fixed-term-deposit",
+
+  //Caja de Ahoroo URLs
+  CajaDeAhorroPaginated: "/investment/saving-accounts/paginated",
+  CreatedCajaDeAhorro: "/investment/saving-accounts",
+  DepositCajaDeAhorro: "/investment/saving-accounts/deposit",
+  WithdrawalCajaDeAhorro: "/investment/saving-accounts/withdrawal",
+  CajaDeAhorroStats: "/statistics/investment/saving-account",
 };
