@@ -8,14 +8,14 @@ import {
   FaBullseye,
   FaCheck,
   FaHeart,
-  FaRegChartBar,
+  // FaRegChartBar,
   FaRegLightbulb,
   FaSync,
   FaTimes,
 } from "react-icons/fa";
 import { RiTextSnippet } from "react-icons/ri";
 import { GiBookshelf, GiBrain } from "react-icons/gi";
-import { getPerformanceLevel } from "../../../utils/performance";
+// import { getPerformanceLevel } from "../../../utils/performance";
 export default function ActivityDetails() {
   const {
     gameConfig,
@@ -34,8 +34,8 @@ export default function ActivityDetails() {
   //   return `${mins}:${secs.toString().padStart(2, "0")}`;
   // };
 
-  const errorRate = wrongGuesses / maxErrors;
-  const performance = getPerformanceLevel((1 - errorRate) * 100);
+  // const errorRate = wrongGuesses / maxErrors;
+  // const performance = getPerformanceLevel((1 - errorRate) * 100);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0, scale: 0.9 },
@@ -156,7 +156,7 @@ export default function ActivityDetails() {
           </div>
         </div>
 
-        <div className={`${styles.statCard} ${styles.performanceCard}`}>
+        {/* <div className={`${styles.statCard} ${styles.performanceCard}`}>
           <div className={styles.statIcon}>{performance.icon}</div>
           <div className={styles.statContent}>
             <span className={styles.statLabel}>Rendimiento</span>
@@ -166,7 +166,7 @@ export default function ActivityDetails() {
               {performance.level} %
             </span>
           </div>
-        </div>
+        </div> */}
       </motion.div>
 
       {/* Letras Utilizadas */}
@@ -204,7 +204,7 @@ export default function ActivityDetails() {
       </motion.div>
 
       {/* Análisis de Estrategia */}
-      <motion.div className={styles.analysisSection} variants={itemVariants}>
+      {/* <motion.div className={styles.analysisSection} variants={itemVariants}>
         <h4>
           <FaRegChartBar /> Análisis de tu Estrategia
         </h4>
@@ -227,7 +227,7 @@ export default function ActivityDetails() {
           </div>
 
           <div className={styles.analysisItem}>
-            {/* <span className={styles.analysisLabel}>Velocidad:</span>
+            <span className={styles.analysisLabel}>Velocidad:</span>
             <div className={styles.progressBar}>
               <motion.div
                 className={styles.progressFill}
@@ -237,10 +237,10 @@ export default function ActivityDetails() {
                 }}
                 transition={{ delay: 1.2, duration: 1.5, ease: "easeOut" }}
               />
-            </div> */}
+            </div>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       {/* Consejos para Mejorar */}
       {!isGameWon && (

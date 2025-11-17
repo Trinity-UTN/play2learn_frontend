@@ -172,7 +172,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
               disabled={isLossActive}
             />
             <p className={styles.hint}>
-              Cuántas acciones venders cuando se alcance el precio
+              Cuántas acciones vender cuando se alcance el precio
             </p>
           </div>
 
