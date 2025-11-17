@@ -12,7 +12,10 @@ export const useCreatedCajaDeAhorro = ({ userBalance, onSubmit }: Props) => {
 
   const numericAmount = Number.parseFloat(amount) || 0;
   const dailyInterestRate = 0.1;
-  const monthlyInterest = numericAmount * (dailyInterestRate / 100) * 30;
+  const dailyRateDecimal = dailyInterestRate / 100;
+
+  const monthlyInterest =
+    numericAmount * Math.pow(1 + dailyRateDecimal, 30) - numericAmount;
 
   const isValid =
     numericAmount > 0 && numericAmount <= userBalance && name.trim() !== "";

@@ -166,7 +166,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
                   </div>
                   <div className={styles.stat}>
                     <FaTrophy className={styles.statIcon} />
-                    <span>#8</span>
+                    <span>#3</span>
                   </div>
                 </div>
               </>
