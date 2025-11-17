@@ -4,6 +4,7 @@ import CreateCajaDeAhorroForm from "../../components/CajaDeAhorroView/CreateCaja
 import CajaDeAhorroList from "../../components/CajaDeAhorroView/CajaDeAhorroList/CajaDeAhorroList";
 import CajaDeAhorroHeader from "../../components/CajaDeAhorroView/CajaDeAhorroHeader/CajaDeAhorroHeader";
 import { useCajaDeAhorroView } from "../../hooks/useCajaDeAhorro/useCajaDeAhorroView";
+import BackButton from "../../../shared/components/BackButton/BackButton";
 
 const CajaDeAhorroView = () => {
   const {
@@ -21,6 +22,7 @@ const CajaDeAhorroView = () => {
 
   return (
     <div className={styles.container}>
+      <BackButton />
       <div className={styles.content}>
         {/* Header */}
         {statsView && (

@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaArrowLeft } from "react-icons/fa";
-import Button from "../../../shared/components/Button/ButtonComponent";
 import EducationHeader from "../../components/studentFinancialEducationViewComponents/educationHeader/EducationHeader";
 import NavigationTabs from "../../components/studentFinancialEducationViewComponents/navigationTabs/NavigationTabs";
 import ConceptsSection from "../../components/studentFinancialEducationViewComponents/conceptSection/ConceptSection";
@@ -9,16 +7,11 @@ import ConceptsSection from "../../components/studentFinancialEducationViewCompo
 import QuizSection from "../../components/studentFinancialEducationViewComponents/quizSection/QuizSection";
 import { financialConcepts } from "../../components/studentFinancialEducationViewComponents/data";
 import styles from "./StudentFinancialEducationView.module.css";
-
-interface FinancialEducationViewProps {
-  onBack?: () => void;
-}
+import BackButton from "../../../shared/components/BackButton/BackButton";
 
 type TabSection = "concepts" | "quiz";
 
-const StudentFinancialEducationView: React.FC<FinancialEducationViewProps> = ({
-  onBack,
-}) => {
+const StudentFinancialEducationView = () => {
   const [currentSection, setCurrentSection] = useState<TabSection>("concepts");
   const [selectedConceptId, setSelectedConceptId] = useState<string | null>(
     null
@@ -49,18 +42,8 @@ const StudentFinancialEducationView: React.FC<FinancialEducationViewProps> = ({
       <motion.div
         variants={itemVariants}
         className={styles.backButtonContainer}
-      >
-        {onBack && (
-          <Button
-            variant="ghost"
-            onClick={onBack}
-            className={styles.backButton}
-          >
-            <FaArrowLeft />
-            Volver
-          </Button>
-        )}
-      </motion.div>
+      ></motion.div>
+      <BackButton />
 
       <EducationHeader />
 
