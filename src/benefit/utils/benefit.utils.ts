@@ -32,6 +32,14 @@ export const isTeacherBenefit = (
   );
 };
 
+export const isFullTeacherBenefit = (
+  benefit: TeacherBenefitType | null
+): benefit is BenefitResponseInterface => {
+  if (!benefit) return false;
+
+  return "subjectDto" in benefit && benefit.subjectDto !== null;
+};
+
 export const isStudentBenefit = (
   benefit: AnyBenefit | TeacherBenefitType
 ): benefit is BenefitStudentResponseInterface => {
