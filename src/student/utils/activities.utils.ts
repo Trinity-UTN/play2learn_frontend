@@ -1,4 +1,4 @@
-import { FaPlay, FaCheck, FaClock } from "react-icons/fa";
+import { FaPlay, FaCheck, FaClock, FaPlus } from "react-icons/fa";
 import { FiX, FiXCircle } from "react-icons/fi";
 import type { IconType } from "react-icons";
 import {
@@ -54,8 +54,8 @@ export const getActivityStatusConfig = (status: string) => {
       return {
         icon: FaClock,
         label: "Disponible",
-        buttonText: "Comenzar",
-        buttonIcon: FaPlay,
+        buttonText: "Ver Detalles",
+        buttonIcon: FaPlus,
       };
     case "APPROVED":
       return {

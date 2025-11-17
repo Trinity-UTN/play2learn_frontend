@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import type { BenefitActionHandlers } from "../../../utils/benefitList.utils";
-import type { BenefitResponseInterface } from "../../../../benefit/types/benefit.types";
+import type { TeacherBenefitType } from "../../../../benefit/types/benefit.types";
 import { useBenefitAPI } from "../../useBenefitAPI";
 import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
 import { useToaster } from "../../../../shared/hooks/useToaster";
@@ -49,7 +49,7 @@ export const useBenefitTeacherActions = (): {
   );
 
   const handleViewPurchases = useCallback(
-    (benefit: BenefitResponseInterface, benefitId: number) => {
+    (benefit: TeacherBenefitType, benefitId: number) => {
       setSelectedBenefit(benefit);
       navigate(`/dashboard/teacher/beneficio/list/${benefitId}`);
     },
