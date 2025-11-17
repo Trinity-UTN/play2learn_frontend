@@ -7,6 +7,8 @@ export interface NoLudicaGameContextType {
   resetGame: () => void;
   startGame: () => void;
   gameStarted?: boolean;
+  isGameLost: boolean;
+  isGameWon: boolean;
 
   // Estados calculados
   studentResponse: string;

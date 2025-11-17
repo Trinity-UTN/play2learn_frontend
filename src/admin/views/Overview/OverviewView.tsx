@@ -14,6 +14,7 @@ import ReserveDisplay from "../../components/overViewViewComponents/ReserveDispl
 import { MdMenuBook } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useCountUp } from "../../../shared/hooks/useCountUp";
+import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 
 const OverviewView: React.FC = () => {
   const { getStatistics, loading, statistics } = useStatistics();
@@ -97,6 +98,9 @@ const OverviewView: React.FC = () => {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
+  if (loading) {
+    return <LoadingSpinnerComponent />;
+  }
 
   return (
     <motion.div

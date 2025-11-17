@@ -23,6 +23,9 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
   const [gameStarted, setGameStarted] = useState(false);
   const [studentResponse, setStudentResponse] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  //TODO: estas const no se usan pero fueron aplicadas por un tema del type, ver despues como se resuelve.
+  const isGameWon = false;
+  const isGameLost = true;
   // const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
   //   "playing"
   // );
@@ -78,6 +81,7 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
     const formData = await buildFormData();
     registerActivityNoLudicaCompleted(formData);
   };
+
   const value: NoLudicaGameContextType = {
     resetGame,
     startGame,
@@ -88,6 +92,8 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
     setSelectedFile,
     setStudentResponse,
     studentResponse,
+    isGameLost,
+    isGameWon,
   };
   return (
     <NoLudicaGameContext.Provider value={value}>

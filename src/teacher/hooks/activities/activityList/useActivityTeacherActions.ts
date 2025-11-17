@@ -27,6 +27,11 @@ export const useActivityTeacherActions = (): {
 
   const handleReexposeActivity = useCallback(
     (activityId: number, activityName: string) => {
+      console.log(
+        "TODO: Implementar lógica de re-exposición",
+        activityId,
+        activityName
+      );
       // TODO: Implementar lógica de re-exposición
     },
     [showConfirmation, showToast]
@@ -34,6 +39,11 @@ export const useActivityTeacherActions = (): {
 
   const handleEditActivity = useCallback(
     (activityId: number, activityName: string) => {
+      console.log(
+        "TODO: Implementar lógica de re-exposición",
+        activityId,
+        activityName
+      );
       // TODO: Implementar lógica de edición
     },
     [showConfirmation, showToast]
@@ -41,6 +51,11 @@ export const useActivityTeacherActions = (): {
 
   const handleDeleteActivity = useCallback(
     (activityId: number, activityName: string) => {
+      console.log(
+        "TODO: Implementar lógica de re-exposición",
+        activityId,
+        activityName
+      );
       // TODO: Implementar lógica de eliminación
     },
     [showConfirmation, showToast]

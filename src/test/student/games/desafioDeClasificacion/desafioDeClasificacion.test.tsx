@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { ActivityStudentProvider } from "../../../../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
-import { ActivityStudentProviderUI } from "../../../../student/context/activityStudentContext/activityStudentContextUI/ActivityStudentProviderUI";
+
 import { ToasterProvider } from "../../../../shared/contexts/toasterContext/ToasterProvider";
 import { ConfirmationProvider } from "../../../../shared/contexts/confirmationContext/ConfirmationProvider";
 import { ConfigurationActivityProvider } from "../../../../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";
@@ -44,15 +44,13 @@ const renderDesafioClasificacionGame = () =>
       <ToasterProvider>
         <ConfirmationProvider>
           <ActivityStudentProvider>
-            <ActivityStudentProviderUI>
-              <ConfigurationActivityProvider>
-                <DesafioClasificacionProvider>
-                  <DesafioClasificacionGameProvider>
-                    <DesafioClasificacionGame mode="student" />
-                  </DesafioClasificacionGameProvider>
-                </DesafioClasificacionProvider>
-              </ConfigurationActivityProvider>
-            </ActivityStudentProviderUI>
+            <ConfigurationActivityProvider>
+              <DesafioClasificacionProvider>
+                <DesafioClasificacionGameProvider>
+                  <DesafioClasificacionGame mode="student" />
+                </DesafioClasificacionGameProvider>
+              </DesafioClasificacionProvider>
+            </ConfigurationActivityProvider>
           </ActivityStudentProvider>
         </ConfirmationProvider>
       </ToasterProvider>

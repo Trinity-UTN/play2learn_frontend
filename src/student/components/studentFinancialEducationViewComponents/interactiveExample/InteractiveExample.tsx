@@ -10,9 +10,7 @@ interface InteractiveExampleProps {
   concepts: EducationalConcept[];
 }
 
-const InteractiveExample: React.FC<InteractiveExampleProps> = ({
-  concepts,
-}) => {
+const InteractiveExample: React.FC<InteractiveExampleProps> = () => {
   const [selectedScenario, setSelectedScenario] =
     useState<string>("investment");
   const [simulationStep, setSimulationStep] = useState(0);

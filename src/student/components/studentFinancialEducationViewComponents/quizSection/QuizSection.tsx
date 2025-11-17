@@ -19,7 +19,7 @@ interface QuizQuestion {
   concept: string;
 }
 
-const QuizSection: React.FC<QuizSectionProps> = ({ concepts }) => {
+const QuizSection: React.FC<QuizSectionProps> = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
