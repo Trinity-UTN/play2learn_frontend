@@ -1,0 +1,300 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.content {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.floatingIcon {
+  position: absolute;
+  opacity: 0.1;
+  font-size: 3rem;
+  color: #007bff;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.decorativeIcon {
+  filter: blur(1px);
+}
+
+.errorCard {
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.iconWrapper {
+  margin-bottom: 2rem;
+}
+
+.errorIcon {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #ff6f3c, #ff8f5c);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: white;
+  box-shadow: 0 10px 30px rgba(255, 111, 60, 0.3);
+  position: relative;
+}
+
+.errorIcon::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: linear-gradient(135deg, #ff6f3c, #ff8f5c);
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0.3;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.1;
+  }
+}
+
+.errorContent {
+  margin-bottom: 2rem;
+}
+
+.errorCode {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #2e2e2e;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.errorTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2e2e2e;
+  margin-bottom: 1rem;
+}
+
+.errorMessage {
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.errorDetails {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+
+.detailIcon {
+  color: #ff6f3c;
+  font-size: 1rem;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.primaryButton {
+  min-width: 200px;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+.secondaryButton {
+  min-width: 200px;
+  padding: 0.875rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.logoutButton {
+  color: #ef4444;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.logoutButton:hover {
+  background-color: #fef2f2;
+  color: #dc2626;
+  transform: translateY(-1px);
+}
+
+.buttonIcon {
+  margin-right: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.helpText {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.helpText p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .errorCard {
+    padding: 2rem 1.5rem;
+  }
+
+  .errorCode {
+    font-size: 3rem;
+  }
+
+  .errorTitle {
+    font-size: 1.5rem;
+  }
+
+  .errorDetails {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .actionButtons {
+    width: 100%;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .floatingIcon {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .errorIcon {
+    width: 100px;
+    height: 100px;
+    font-size: 2.5rem;
+  }
+
+  .errorCode {
+    font-size: 2.5rem;
+  }
+
+  .errorTitle {
+    font-size: 1.25rem;
+  }
+
+  .errorMessage {
+    font-size: 0.875rem;
+  }
+}
+
+/* Animaciones adicionales */
+@media (prefers-reduced-motion: no-preference) {
+  .errorCard {
+    animation: slideUp 0.6s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Estados de hover mejorados */
+.errorCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* Efectos de glassmorphism */
+.errorCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border-radius: inherit;
+  pointer-events: none;
+}

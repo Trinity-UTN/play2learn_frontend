@@ -1,0 +1,134 @@
+@import "../../../../shared/styles/colors.css";
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.iconWrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    var(--color-primary)
+  );
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+}
+
+.mainIcon {
+  font-size: 2.5rem;
+  color: var(--color-text-light);
+}
+
+.rocketIcon {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  background: var(--color-stat-2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  font-size: 0.8rem;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.textContent {
+  flex: 1;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--color-text-light);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.sparkle {
+  font-size: 1.5rem;
+  display: inline-block;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.2rem;
+  margin: 0.5rem 0 0 0;
+  font-weight: 500;
+}
+
+.motivationalBadge {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+  cursor: default;
+  transition: all 0.3s ease;
+}
+
+.motivationalBadge:hover {
+  box-shadow: 0 12px 35px rgba(245, 158, 11, 0.4);
+}
+
+.badgeText {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .titleSection {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .iconWrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .mainIcon {
+    font-size: 2rem;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .motivationalBadge {
+    padding: 0.5rem 1rem;
+  }
+
+  .badgeText {
+    font-size: 0.9rem;
+  }
+}

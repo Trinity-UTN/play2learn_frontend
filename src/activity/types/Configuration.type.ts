@@ -1,0 +1,23 @@
+export interface ConfigurationActivity {
+  description: string;
+  startDate: string;
+  endDate: string;
+  difficulty: string;
+  maxTime: number;
+  subjectId: number;
+  attempts: number;
+  initialBalance: number;
+  typeReward: string;
+}
+
+export type ConfigurationErrors = {
+  description?: string;
+  startDate?: string;
+  endDate?: string;
+  difficulty?: string;
+  maxTime?: string;
+  subjectId?: string;
+  attempts?: string;
+  initialBalance?: string;
+  typeReward?: string;
+};

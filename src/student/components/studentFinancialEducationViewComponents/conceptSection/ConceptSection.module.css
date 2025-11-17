@@ -1,0 +1,62 @@
+@import "../../../../shared/styles/colors.css";
+.conceptsSection {
+  width: 100%;
+}
+
+.conceptsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  align-content: start;
+  gap: 1.5rem;
+  height: 80vh;
+  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.filterContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.filterContainer select {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  appearance: none; /* quita la flecha del navegador */
+  background-image: linear-gradient(
+      45deg,
+      transparent 50%,
+      var(--color-primary) 50%
+    ),
+    linear-gradient(135deg, var(--color-primary) 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  transition: all 0.2s ease-in-out;
+}
+
+.filterContainer select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.filterContainer option {
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .conceptsGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,176 @@
+@import "../../../shared/styles/colors.css";
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--colot-text-title);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--colot-text-subtitle);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.buttonIcon {
+  margin-right: 0.5rem;
+}
+
+.tableCard {
+  background: var(--card-background);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.searchSection {
+  padding: 1.5rem;
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.searchWrapper {
+  position: relative;
+  max-width: 400px;
+  flex: 1;
+}
+
+.idBadge {
+  display: inline-block;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-weight: 600;
+  color: var(--color-badge);
+  background: #f1f5f9;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  min-width: 40px;
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.centeredWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.btnStatus,
+.status {
+  justify-self: center;
+  margin: auto;
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+.status {
+  cursor: default;
+}
+.btnStatus:hover {
+  box-shadow: 0 0 10px rgba(108, 21, 21, 0.787);
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.editButton {
+  color: var(--color-edit-button);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.editButton:hover {
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #047857;
+  transform: scale(1.05);
+}
+
+.deleteButton {
+  color: var(--color-delete-button);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .searchSection {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .actions {
+    gap: 0.25rem;
+  }
+
+  .headerContent {
+    gap: 0.25rem;
+  }
+
+  .sortIcon {
+    font-size: 0.625rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .table th,
+  .table td {
+    padding: 0.5rem 0.25rem;
+  }
+
+  .idColumn {
+    width: 80px;
+  }
+
+  .actionsColumn {
+    width: 80px;
+  }
+
+  .idBadge {
+    padding: 0.125rem 0.25rem;
+    font-size: 0.75rem;
+  }
+}

@@ -1,0 +1,30 @@
+.confettiContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.confettiPiece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.floatingEmoji {
+  position: absolute;
+  font-size: 2rem;
+  top: 20%;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+@media (max-width: 768px) {
+  .floatingEmoji {
+    font-size: 1.5rem;
+  }
+}

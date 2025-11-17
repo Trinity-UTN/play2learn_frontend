@@ -1,0 +1,49 @@
+@import "../../../../../shared/styles/colors.css";
+
+.content {
+  padding: 0 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 2;
+}
+
+.activityName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+  text-align: center;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.activityType {
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.activityDescription {
+  font-size: 0.875rem;
+  color: var(--color-text-subtitle);
+  text-align: center;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content {
+    padding: 0 1rem;
+  }
+
+  .activityName {
+    font-size: 1.125rem;
+  }
+}

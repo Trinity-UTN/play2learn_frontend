@@ -1,0 +1,92 @@
+@import "../../../../shared/styles/colors.css";
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.formSection {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 2px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.sectionHeader {
+  margin-bottom: 1rem;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionIcon {
+  font-size: 0.975rem;
+  color: var(--color-stat-2);
+  margin-right: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-title);
+  margin: 0;
+}
+
+.sectionTooltip {
+  margin-left: 0.5rem;
+}
+
+.sectionDescription {
+  font-size: 0.9rem;
+  color: var(--color-text-subtitle);
+  margin: 0.25rem 0 0 0;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid var(--color-border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-border);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.inputError {
+  border-color: var(--color-text-error) !important;
+}
+
+.addButton {
+  padding: 1rem 1rem;
+  white-space: nowrap;
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-error);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .inputGroup {
+    flex-direction: column;
+  }
+}

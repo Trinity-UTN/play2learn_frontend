@@ -1,0 +1,138 @@
+.container {
+  min-height: 100vh;
+  /* padding: 2rem; */
+}
+
+.content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.iconContainer {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.headerIcon {
+  font-size: 4rem;
+  color: #fbbf24;
+  filter: drop-shadow(0 10px 20px rgba(251, 191, 36, 0.3));
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+
+/* Types Grid */
+.typesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Educational Banner */
+.educationalBanner {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.bannerIcon {
+  font-size: 3rem;
+  flex-shrink: 0;
+  color: #fbbf24;
+}
+
+.bannerContent h3 {
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.bannerContent p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.linkTo {
+  color: #fbbf24;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .typesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .typesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .educationalBanner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .bannerContent h3 {
+    font-size: 1.25rem;
+  }
+
+  .bannerContent p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerIcon {
+    font-size: 3rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+}

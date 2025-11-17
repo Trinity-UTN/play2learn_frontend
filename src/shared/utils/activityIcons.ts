@@ -1,0 +1,80 @@
+import {
+  FaSpellCheck,
+  FaQuestionCircle,
+  FaSortAmountUp,
+  FaPuzzlePiece,
+  FaBrain,
+  FaCheckCircle,
+  FaRandom,
+  FaGamepad,
+  FaTree,
+  FaPenFancy,
+} from "react-icons/fa";
+import type { IconType } from "react-icons";
+
+export const activityIconMap: Record<string, IconType> = {
+  ahorcado_educativo: FaSpellCheck,
+  "Ahorcado Educativo": FaSpellCheck,
+  Ahorcado: FaSpellCheck,
+  completar_oraciones: FaCheckCircle,
+  "Completar Oraciones": FaCheckCircle,
+  "Completar Oracion": FaCheckCircle,
+  "Completar Oración": FaCheckCircle,
+  "Completar oración": FaCheckCircle,
+  "Completar oracion": FaCheckCircle,
+  preguntados: FaQuestionCircle,
+  Preguntados: FaQuestionCircle,
+  ordenar_secuencia: FaSortAmountUp,
+  "Ordenar Secuencias": FaSortAmountUp,
+  memorama: FaBrain,
+  Memorama: FaBrain,
+  desafio_clasificacion: FaPuzzlePiece,
+  "Desafio de clasificacion": FaPuzzlePiece,
+  "Desafío de clasificacion": FaPuzzlePiece,
+  "Desafío de clasificación": FaPuzzlePiece,
+  "Desafío de Clasificación": FaPuzzlePiece,
+  arbol_decision: FaTree,
+  "Árbol de Decisión": FaTree,
+  no_ludica: FaPenFancy,
+  "Actividad No Lúdica": FaPenFancy,
+  "Actividad No Ludica": FaPenFancy,
+  "No Lúdica": FaPenFancy,
+  "No Ludica": FaPenFancy,
+  random: FaRandom,
+  default: FaGamepad,
+};
+
+export const activityColorMap: Record<string, string> = {
+  ahorcado_educativo: "#b9e769",
+  "Ahorcado Educativo": "#b9e769",
+  Ahorcado: "#b9e769",
+  completar_oraciones: "#ff6f3c",
+  "Completar Oraciones": "#ff6f3c",
+  "Completar Oracion": "#ff6f3c",
+  "Completar Oración": "#ff6f3c",
+  "Completar oración": "#ff6f3c",
+  "Completar oracion": "#ff6f3c",
+  preguntados: "#007bff",
+  Preguntados: "#007bff",
+  ordenar_secuencia: "#9333ea",
+  "Ordenar Secuencias": "#9333ea",
+  memorama: "#f9c74f",
+  Memorama: "#f9c74f",
+  desafio_clasificacion: "#dc2626",
+  "Desafio de Clasificación": "#dc2626",
+  "Desafio de clasificacion": "#dc2626",
+  arbol_decision: "#ef4444",
+  "Árbol de Decisión": "#ef4444",
+  no_ludica: "#f59e0b",
+  "Actividad No Lúdica": "#f59e0b",
+  "Actividad No Ludica": "#f59e0b",
+  "No Lúdica": "#f59e0b",
+  "No Ludica": "#f59e0b",
+  default: "#6b7280",
+};
+
+export const getActivityIcon = (iconName: string): IconType =>
+  activityIconMap[iconName] || activityIconMap.default;
+
+export const getActivityColor = (activityName: string): string =>
+  activityColorMap[activityName] || activityColorMap.default;

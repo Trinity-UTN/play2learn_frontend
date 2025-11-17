@@ -1,0 +1,183 @@
+@import "../../../../shared/styles/colors.css";
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerIcon {
+  font-size: 0.875rem;
+  color: #4f46e5;
+  margin-right: 0.5rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+  margin: 0 0 0.5rem 0;
+}
+
+.tooltip {
+  margin-left: 0.5rem;
+}
+
+.description {
+  font-size: 1rem;
+  color: var(--color-text-subtitle);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  min-width: 150px;
+}
+
+.statIcon {
+  font-size: 1.5rem;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-subtitle);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statValue {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 0.25rem;
+}
+
+.contPreview {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  /* overflow: hidden; */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stat {
+    min-width: auto;
+  }
+
+  .activityHeader {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .responseSectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .assignmentCard,
+  .responseSection {
+    padding: 1.5rem;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .previewHeader,
+  .previewFooter {
+    padding: 1rem;
+  }
+
+  .assignmentCard,
+  .responseSection {
+    padding: 1rem;
+  }
+
+  .textArea {
+    min-height: 120px;
+  }
+
+  .fileUploadLabel {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.assignmentCard,
+.responseSection {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Estados de focus mejorados */
+.submitButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+.fileUploadLabel:focus-within {
+  border-color: #667eea;
+  background: #f0f4ff;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .assignmentCard,
+  .responseSection {
+    animation: none;
+  }
+
+  .tipoEntregaOption:hover,
+  .fileUploadLabel:hover {
+    transform: none;
+  }
+}

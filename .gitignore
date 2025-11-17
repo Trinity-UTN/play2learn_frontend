@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#Carpeta de cursor
+.cursor/
+docs/
+tools/
+temp_render.html

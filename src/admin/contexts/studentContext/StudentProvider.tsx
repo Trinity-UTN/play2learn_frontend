@@ -1,0 +1,137 @@
+import { useCallback, useState, type ReactNode } from "react";
+import { StudentContext } from "./StudentContext";
+import type { StudentContextType } from "./StudentContext.type";
+import { StudentService } from "../../services/student/StudentService";
+import type {
+  CreateStudentPayload,
+  UpdateStudentPayload,
+  StudentResponseDto,
+} from "../../services/student/StudentService";
+import type {
+  GetPaginated,
+  PaginatedData,
+} from "../../../shared/types/PaginacionType";
+import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+
+interface StudentProviderProps {
+  children: ReactNode;
+}
+
+export const StudentProvider: React.FC<StudentProviderProps> = ({
+  children,
+}) => {
+  const { handleApiError } = useHandleApiError();
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [students, setStudents] = useState<StudentResponseDto[]>([]);
+  const [paginatedStudents, setPaginatedStudents] =
+    useState<PaginatedData<StudentResponseDto> | null>(null);
+  const [selectedStudent, setSelectedStudent] =
+    useState<StudentResponseDto | null>(null);
+
+  const registerStudent = async (data: CreateStudentPayload): Promise<void> => {
+    setLoading(true);
+    try {
+      await StudentService.registerStudentApi(data);
+    } catch (error) {
+      handleApiError(error, "Error al crear el estudiante");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateStudent = async (data: UpdateStudentPayload): Promise<void> => {
+    setLoading(true);
+    try {
+      await StudentService.updateStudentApi(data);
+    } catch (error) {
+      handleApiError(error, "Error al actualizar el estudiante");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getStudent = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await StudentService.getStudentApi();
+      setStudents(response.data.data);
+    } catch (error) {
+      handleApiError(error, "Error al obtener los estudiantes");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const getStudentById = async (
+    id: number
+  ): Promise<StudentResponseDto | undefined> => {
+    setLoading(true);
+    try {
+      const StudentData = await StudentService.getStudentByIdApi(id);
+      return StudentData;
+    } catch (error) {
+      handleApiError(error, "Error al obtener el estudiante");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getPaginatedStudent = useCallback(
+    async (params: GetPaginated): Promise<void> => {
+      setLoading(true);
+      try {
+        const response = await StudentService.getPaginatedStudentApi(params);
+        setPaginatedStudents(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener los estudiantes paginados");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  const deleteStudent = async (id: number): Promise<void> => {
+    setLoading(true);
+    try {
+      await StudentService.deleteStudentApi(id);
+    } catch (error) {
+      handleApiError(error, "Error al eliminar el estudiante");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const restoreStudent = async (id: number): Promise<void> => {
+    setLoading(true);
+    try {
+      await StudentService.restoreStudentApi(id);
+    } catch (error) {
+      handleApiError(error, "Error al restaurar el estudiante");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const contextValue: StudentContextType = {
+    loading,
+    students,
+    paginatedStudents,
+    selectedStudent,
+    registerStudent,
+    updateStudent,
+    getStudent,
+    getStudentById,
+    getPaginatedStudent,
+    deleteStudent,
+    restoreStudent,
+    setSelectedStudent,
+  };
+
+  return (
+    <StudentContext.Provider value={contextValue}>
+      {children}
+    </StudentContext.Provider>
+  );
+};

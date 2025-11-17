@@ -1,0 +1,110 @@
+@import "../../../shared/styles/colors.css";
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.loadingContainer {
+  display: grid;
+  height: 90vh;
+  place-content: center;
+}
+
+.courseProgress {
+  margin-top: 1rem;
+}
+
+.courseProgressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.courseProgressLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.courseProgressValue {
+  font-size: 0.875rem;
+  color: #2e2e2e;
+  font-weight: 600;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .coursesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+}
+
+/* Animaciones adicionales */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.statCard {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.statCard:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.statCard:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.statCard:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.statCard:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+/* Estados especiales */
+.courseCard[data-low-completion="true"] {
+  border-left: 4px solid #f59e0b;
+}
+
+.courseCard[data-high-completion="true"] {
+  border-left: 4px solid #10b981;
+}
+
+.activityItem[data-urgent="true"] {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-left: 4px solid #f59e0b;
+}
+
+.eventItem[data-urgent="true"] {
+  background: linear-gradient(135deg, #fecaca, #fca5a5);
+  border-left: 4px solid #dc2626;
+}
+
+.comingSoon {
+  background: black;
+}

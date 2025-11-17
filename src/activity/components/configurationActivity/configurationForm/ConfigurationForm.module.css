@@ -1,0 +1,154 @@
+@import "../../../../shared/styles/colors.css";
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.formGrid.verticalLayout {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+}
+
+.formSection {
+  width: 100%;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border: 2px solid var(--color-border);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.textarea.inputError {
+  border-color: var(--color-text-error);
+}
+
+.charCount {
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--color-text-subtitle);
+  margin-top: 0.25rem;
+}
+
+.dateGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.dateInput {
+  width: 100%;
+}
+
+.dateInput.inputError {
+  border-color: var(--color-text-error);
+}
+
+.dcInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dcIcon {
+  position: absolute;
+  left: 0.75rem;
+  color: var(--color-text-subtitle);
+  z-index: 1;
+}
+
+.timeInput {
+  padding-left: 2.5rem !important;
+  padding-right: 2.5rem !important;
+}
+
+.timeInput.inputError {
+  border-color: var(--color-text-error);
+}
+
+.attemptsInput {
+  padding-left: 2.5rem !important;
+  padding-right: 4.25rem !important;
+}
+
+.attemptsInput.inputError {
+  border-color: var(--color-text-error);
+}
+
+.initialBalanceInput {
+  padding-left: 2.5rem !important;
+  padding-right: 4.25rem !important;
+}
+
+.initialBalanceInput.inputError {
+  border-color: var(--color-text-error);
+}
+
+.dcUnit {
+  position: absolute;
+  right: 0.75rem;
+  color: var(--color-text-subtitle);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--color-border);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  background: var(--card-background);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.select.inputError {
+  border-color: var(--color-text-error);
+}
+
+.noSubjectMessage {
+  font-size: 0.875rem;
+  color: var(--color-text-subtitle);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .formGrid.verticalLayout {
+    max-width: none;
+  }
+
+  .dateGrid {
+    grid-template-columns: 1fr;
+  }
+}

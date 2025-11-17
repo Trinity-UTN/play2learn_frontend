@@ -1,0 +1,37 @@
+:root {
+  --color-background: #f5f7fa;
+  --card-background: #ffffff;
+  --color-primary: #82018d;
+  --color-secondary: #f76300;
+  --color-third: #007bff;
+
+  --color-text: #333333;
+  --color-text-light: #ffffff;
+  --color-border: #e5e7eb;
+  --color-border-dark: rgba(255, 255, 255, 0.1);
+  --colot-text-title: #2e2e2e;
+  --color-text-subtitle: #6b7280;
+  --color-text-subtitle-ligth: #e7e8eac5;
+  --color-text-error: #ef4444;
+  /* admin */
+  --color-accent: #007bff;
+  --color-badge: #6366f1;
+  --color-edit-button: #059669;
+  --color-delete-button: #dc2626;
+
+  /* teacher */
+  --color-stat-1: #007bff;
+  --color-stat-2: #f59e0b;
+  --color-stat-3: #10b981;
+  --color-stat-4: #8b5cf6;
+  --color-stat-5: #92400e;
+  --color-stat: white;
+
+  /* Student */
+  --color-background-semitrasparent: rgba(255, 255, 255, 0.14);
+  --color-background-semitrasparent-dark: rgba(74, 74, 74, 0.346);
+
+  /* Variables RGB para poder usar alpha */
+  --color-primary-rgb: 130, 1, 141;
+  --color-secondary-rgb: 247, 99, 0;
+}

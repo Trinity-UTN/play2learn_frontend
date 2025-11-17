@@ -1,0 +1,18 @@
+@import "../../../shared/styles/colors.css";
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 1rem;
+  }
+}

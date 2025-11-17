@@ -1,0 +1,252 @@
+@import "../../../../shared/styles/colors.css";
+.container {
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.headerIcon {
+  font-size: 2rem;
+  color: var(--color-stat-4);
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+  margin: 0;
+}
+
+.description {
+  font-size: 1rem;
+  color: var(--color-text-subtitle);
+  margin: 0.25rem 0 0 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.formSection {
+  background: var(--card-background);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 2px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.sectionHeader {
+  margin-bottom: 1rem;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionIcon {
+  font-size: 0.875rem;
+  color: var(--color-stat-2);
+  margin-right: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-title);
+  margin: 0;
+}
+
+.sectionTooltip {
+  margin-left: 0.5rem;
+}
+
+.sectionDescription {
+  font-size: 0.9rem;
+  color: var(--color-text-subtitle);
+  margin: 0.25rem 0 0 0;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.label {
+  font-weight: 500;
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
+
+.labelHint {
+  display: block;
+  font-weight: 400;
+  color: var(--color-text-subtitle);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.input {
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s;
+  background: white;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input.error {
+  border-color: var(--color-text-error);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.errorMessage {
+  font-size: 12px;
+  color: var(--color-text-error);
+  margin-top: 4px;
+}
+
+.charCount {
+  font-size: 12px;
+  color: var(--color-text-subtitle);
+  text-align: right;
+}
+
+.overLimit {
+  color: var(--color-text-error);
+  font-weight: 500;
+}
+
+.suggestions {
+  margin-top: 16px;
+}
+
+.suggestionsLabel {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-subtitle);
+  gap: 0.5rem;
+  margin-bottom: 12px;
+}
+
+.suggestionIcon {
+  color: var(--color-stat-4);
+}
+
+.suggestionsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.suggestionButton {
+  padding: 6px 12px;
+  background: #f3f4f6;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.suggestionButton:hover {
+  background: #e5e7eb;
+  border-color: var(--color-border);
+}
+
+.difficultyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.difficultyOption {
+  padding: 20px;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.difficultyOption:hover {
+  border-color: var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.difficultyOption.selected {
+  border-width: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.optionHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.optionIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+}
+
+.optionContent {
+  flex: 1;
+}
+
+.optionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-title);
+  margin: 0 0 4px 0;
+}
+
+.optionDescription {
+  font-size: 14px;
+  color: var(--color-text-subtitle);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.errorCount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.errorLabel {
+  font-size: 12px;
+  color: var(--color-text-subtitle);
+}
+
+.errorNumber {
+  font-size: 14px;
+  font-weight: 600;
+}

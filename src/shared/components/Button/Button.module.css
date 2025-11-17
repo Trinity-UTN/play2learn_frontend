@@ -1,0 +1,104 @@
+@import "../../../shared/styles/colors.css";
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Variants */
+.primary {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.primary:hover:not(.disabled) {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.secondary {
+  background-color: var(--color-secondary);
+  color: white;
+  border-color: var(--color-secondary);
+}
+
+.secondary:hover:not(.disabled) {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.ghost {
+  background-color: transparent;
+  color: #2e2e2e;
+  border-color: transparent;
+}
+
+.ghost:hover:not(.disabled) {
+  background-color: #f3f4f6;
+}
+
+.outline {
+  background-color: transparent;
+  color: #2e2e2e;
+  border-color: #d1d5db;
+}
+
+.outline:hover:not(.disabled) {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.danger {
+  background-color: #dc2626;
+  color: white;
+  border-color: #dc2626;
+}
+
+.danger:hover:not(.disabled) {
+  background-color: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.danger:focus {
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.25);
+}
+
+/* Sizes */
+.sm {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.md {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}
+
+.lg {
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+}
+
+/* Modifiers */
+.fullWidth {
+  width: 100%;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

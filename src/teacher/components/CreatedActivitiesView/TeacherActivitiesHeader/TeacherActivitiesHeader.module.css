@@ -1,0 +1,84 @@
+.header {
+  margin-bottom: 2rem;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.iconWrapper {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.3);
+}
+
+.mainIcon {
+  font-size: 2rem;
+  color: white;
+}
+
+.chartIcon {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  background: #10b981;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.7rem;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.textContent {
+  flex: 1;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2e2e2e;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 1rem;
+  margin: 0.5rem 0 0 0;
+}
+
+@media (max-width: 768px) {
+  .titleSection {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .iconWrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .mainIcon {
+    font-size: 1.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+}

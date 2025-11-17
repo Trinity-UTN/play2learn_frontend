@@ -1,0 +1,163 @@
+@import "../../../../shared/styles/colors.css";
+.container {
+  height: 100%;
+}
+
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-top: 4px solid;
+  background: var(--color-background-semitrasparent);
+}
+
+.categoryInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.editCategoryForm {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.editInput {
+  flex: 1;
+  min-width: 0;
+}
+
+.inputError {
+  border-color: var(--color-text-error);
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+.editActions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.categoryTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.categoryIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.categoryName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.conceptCount {
+  flex-shrink: 0;
+}
+
+.categoryActions {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.actionButton {
+  padding: 0.5rem;
+  min-width: auto;
+  width: 36px;
+  height: 36px;
+}
+
+.deleteButton:hover {
+  background-color: #fed7d7;
+  color: var(--color-text-error);
+}
+
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #fed7d7;
+  border-top: 1px solid #feb2b2;
+  color: var(--color-text-error);
+  font-size: 0.875rem;
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  color: var(--color-text-error);
+}
+
+.footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  background: rgba(247, 250, 252, 0.8);
+}
+
+.footerInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footerText {
+  font-size: 0.75rem;
+  color: var(--color-text-subtitle);
+  font-weight: 500;
+}
+
+.maxBadge {
+  font-size: 0.7rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .categoryTitle {
+    justify-content: center;
+  }
+
+  .categoryActions {
+    justify-content: center;
+  }
+
+  .content {
+    padding: 0 1rem 1rem 1rem;
+  }
+
+  .footer {
+    padding: 0.75rem 1rem;
+  }
+}

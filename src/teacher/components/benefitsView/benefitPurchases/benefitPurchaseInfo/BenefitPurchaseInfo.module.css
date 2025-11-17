@@ -1,0 +1,58 @@
+.benefitInfoCard {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  margin-top: 1rem;
+}
+
+.infoHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.benefitIcon {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.infoContent {
+  flex: 1;
+}
+
+.benefitName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: white;
+}
+
+.badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.badgeIcon {
+  margin-right: 0.25rem;
+}
+
+.infoDescription {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.9;
+  color: white;
+}

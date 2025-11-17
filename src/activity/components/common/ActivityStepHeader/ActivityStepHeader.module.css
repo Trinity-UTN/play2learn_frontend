@@ -1,0 +1,88 @@
+@import "../../../../shared/styles/colors.css";
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(
+    160deg,
+    rgba(var(--color-primary-rgb), 0.9) 40%,
+    rgba(var(--color-secondary-rgb), 0.9) 100%
+  );
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.titleIcon {
+  font-size: 2.5rem;
+  color: var(--color-stat-2);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+  font-size: 1rem;
+  margin: 0.25rem 0 0 0;
+  opacity: 0.9;
+}
+
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.step {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.step.active {
+  background: #fbbf24;
+  border-color: #fbbf24;
+  color: var(--color-text);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+}
+
+.step.completed {
+  background: var(--color-stat-3);
+  border-color: var(--color-stat-3);
+  color: white;
+}
+
+.stepLine {
+  width: 3rem;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 1px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+}

@@ -1,0 +1,248 @@
+.summaryCard {
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  overflow: hidden;
+  position: relative;
+}
+
+.summaryCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle,
+    rgba(16, 185, 129, 0.1) 0%,
+    transparent 70%
+  );
+  transform: translate(30%, -30%);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.titleIcon {
+  color: #10b981;
+}
+
+.lastMovement {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}
+
+.clockIcon {
+  color: #3b82f6;
+}
+
+.balanceSection {
+  padding: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.mainBalance {
+  margin-bottom: 2rem;
+}
+
+.balanceCard {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.balanceIcon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.balanceInfo {
+  flex: 1;
+}
+
+.balanceAmount {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+  background: linear-gradient(135deg, #10b981, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.balanceLabel {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  margin: 0.5rem 0 0 0;
+}
+
+.balanceBreakdown {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.breakdownItem {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.breakdownIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.breakdownInfo {
+  flex: 1;
+}
+
+.breakdownAmount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  line-height: 1;
+}
+
+.breakdownLabel {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.liquidityBar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.liquidityFill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #059669);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+.investmentFill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #27549c);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.liquidityText {
+  color: #10b981;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.investmentText {
+  color: #3b82f6;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.growthIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.growthIcon {
+  color: #10b981;
+  font-size: 0.8rem;
+}
+
+.growthText {
+  color: #10b981;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.educationalNote {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  background: rgba(139, 92, 246, 0.1);
+  border-top: 1px solid rgba(139, 92, 246, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.noteIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  color: goldenrod;
+}
+
+.noteContent {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .balanceCard {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .balanceAmount {
+    font-size: 2.5rem;
+  }
+
+  .balanceBreakdown {
+    grid-template-columns: 1fr;
+  }
+
+  .educationalNote {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

@@ -1,0 +1,11 @@
+.storeView {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .storeView {
+    padding: 1rem;
+  }
+}

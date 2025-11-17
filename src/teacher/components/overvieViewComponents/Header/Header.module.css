@@ -1,0 +1,90 @@
+@import "../../../../shared/styles/colors.css";
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+.welcomeSection {
+  flex: 1;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2e2e2e;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--color-primary), white);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.headerStats {
+  display: flex;
+  gap: 2rem;
+}
+
+.headerStat {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+}
+
+.headerStatIcon {
+  font-size: 1.5rem;
+  color: var(--color-stat-4);
+}
+
+.headerStatNumber {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2e2e2e;
+  display: block;
+  line-height: 1;
+}
+
+.headerStatLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .headerStats {
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .headerStat {
+    flex: 1;
+    padding: 0.75rem 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+}
