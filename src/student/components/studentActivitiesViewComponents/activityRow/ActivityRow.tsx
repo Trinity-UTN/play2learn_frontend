@@ -6,6 +6,7 @@ import formatPrice from "../../../../shared/utils/formatPrice";
 import type { ActivityUI } from "../../../types/Activity.type";
 import { getActivityIcon } from "../../../../shared/utils/activityIcons";
 import { getActivityStatusConfig } from "../../../utils/activities.utils";
+import { getSubjectColor } from "../../../../shared/constants/subject.constants";
 import styles from "./ActivityRow.module.css";
 
 interface ActivityRowProps {
@@ -18,7 +19,7 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
   const isDisabled =
     (activity.status === "CREATED" || activity.noAttempts) &&
     !(activity.status === "APPROVED");
-
+  const subjectColor = getSubjectColor(activity.subjectName);
   const buttonText =
     activity.noAttempts && !(activity.status === "APPROVED")
       ? "Sin intentos"
@@ -49,7 +50,9 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
             <div className={styles.titleInfo}>
               <h3 className={styles.activityTitle}>{activity.name}</h3>
               <div className={styles.metadata}>
-                <span className={styles.subject}>{activity.subjectName}</span>
+                <Badge variant="custom" size="sm" customColor={subjectColor}>
+                  {activity.subjectName}
+                </Badge>
                 <Badge
                   className={`${styles[activity.difficulty]} ${
                     styles.infoTextDifficultyInfo
