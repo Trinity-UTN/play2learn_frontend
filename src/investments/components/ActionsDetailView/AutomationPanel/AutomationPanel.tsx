@@ -58,7 +58,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
         <FaInfoCircle className={styles.infoIcon} />
         <p className={styles.infoText}>
           Configura órdenes automáticas: Take Profit para vender cuando suba, y
-          Stop Loss para comprar cuando baje.
+          Stop Loss para vender cuando baje.
         </p>
       </div>
       <div className={styles.content}>
@@ -138,7 +138,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
           <div className={styles.sectionHeader}>
             <FaArrowDown className={styles.lossIcon} />
             <h4 className={styles.sectionTitle}>
-              Stop Loss (Comprar cuando baje)
+              Stop Loss (Vender cuando baje)
             </h4>
           </div>
 
@@ -155,7 +155,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
               disabled={isLossActive}
             />
             <p className={styles.hint}>
-              Comprar automáticamente cuando el precio baje a este valor
+              Vender automáticamente cuando el precio baje a este valor
             </p>
           </div>
 
@@ -172,7 +172,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
               disabled={isLossActive}
             />
             <p className={styles.hint}>
-              Cuántas acciones comprar cuando se alcance el precio
+              Cuántas acciones venders cuando se alcance el precio
             </p>
           </div>
 
@@ -181,7 +181,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
               <div className={styles.previewItem}>
                 <FaArrowDown className={styles.buyIcon} />
                 <span>
-                  Comprar <strong>{lossQuantity} acciones</strong> cuando el
+                  Vender <strong>{lossQuantity} acciones</strong> cuando el
                   precio baje a{" "}
                   <strong>${Number.parseFloat(lossPrice).toFixed(2)}</strong>
                 </span>

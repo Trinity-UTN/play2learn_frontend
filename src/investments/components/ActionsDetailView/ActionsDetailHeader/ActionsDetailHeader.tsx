@@ -54,12 +54,12 @@ const ActionHeader: React.FC<ActionHeaderProps> = ({ action }) => {
       </div>
 
       <div className={styles.stats}>
-        <div className={styles.statCard}>
+        {/* <div className={styles.statCard}>
           <span className={styles.statLabel}>Precio Inicial</span>
           <span className={styles.statValue}>
             ${formatPrice(action.initialPrice)}
           </span>
-        </div>
+        </div> */}
         <div className={styles.statCard}>
           <span className={styles.statLabel}>Total Acciones</span>
           <span className={styles.statValue}>
@@ -67,19 +67,19 @@ const ActionHeader: React.FC<ActionHeaderProps> = ({ action }) => {
           </span>
         </div>
         <div className={styles.statCard}>
-          <span className={styles.statLabel}>Disponibles</span>
+          <span className={styles.statLabel}>Disponibles en el mercado</span>
           <span className={styles.statValue}>
             {formatPrice(action.availableAmount)}
           </span>
         </div>
         <div className={styles.statCard}>
-          <span className={styles.statLabel}>Vendidas</span>
+          <span className={styles.statLabel}>Vendidas en el mercado</span>
           <span className={styles.statValue}>
             {formatPrice(action.soldAmount)}
           </span>
         </div>
         <div className={styles.statCard}>
-          <span className={styles.statLabel}>Compradas</span>
+          <span className={styles.statLabel}>Mis Acciones</span>
           <span className={styles.statValue}>{formatPrice(purchased)}</span>
         </div>
       </div>
