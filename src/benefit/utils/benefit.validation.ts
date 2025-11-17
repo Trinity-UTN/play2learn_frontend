@@ -4,6 +4,7 @@ import type {
   BenefitPurchaseValidation,
 } from "../types/benefit.types";
 import { BENEFIT_STATUS } from "../constants/benefit.constants";
+import formatPrice from "../../shared/utils/formatPrice";
 
 // ============================================
 // PURCHASE VALIDATION
@@ -30,12 +31,12 @@ export const validateBenefitPurchase = (
   }
 
   // Validar que el estudiante tenga suficientes monedas
-  if (!wallet || wallet.totalBalance < benefit.cost) {
+  if (!wallet || wallet.balance < benefit.cost) {
     return {
       canPurchase: false,
-      reason: `No tienes suficientes monedas. Necesitas ${
+      reason: `No tienes suficientes monedas líquidas. Necesitas ${
         benefit.cost
-      } monedas pero solo tienes ${wallet?.totalBalance || 0}`,
+      } monedas líquidas pero solo tienes ${formatPrice(wallet?.balance) || 0}`,
     };
   }
 
