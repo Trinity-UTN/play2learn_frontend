@@ -35,7 +35,7 @@ export interface ActivityTeacherResponse {
   date: string; // Depende de status. EXPIRED -> fecha de expiración, PUBLISHED -> fecha de publicación
 }
 
-interface ActivityStudentGetDto {
+export interface ActivityStudentGetDto {
   studentName: string;
   state: ActivityStudentState;
   attempts: number;
@@ -48,6 +48,7 @@ export interface ActivityTeacherDetailsResponse {
   description: string;
   startDate: string;
   endDate: string;
+  status: ActivityTeacherStatus;
   difficulty: string;
   maxTime: number;
   subjectName: string;

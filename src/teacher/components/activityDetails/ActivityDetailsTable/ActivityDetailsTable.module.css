@@ -1,0 +1,224 @@
+@import "../../../../shared/styles/colors.css";
+
+.tableContainer {
+  padding: 0;
+  overflow: hidden;
+}
+
+.header {
+  padding: 1.5rem 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-title, #1f2937);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  table-layout: fixed;
+}
+
+/* Anchos de columnas */
+.table thead tr th:nth-child(1) {
+  width: 35%;
+} /* Nombre */
+.table thead tr th:nth-child(2) {
+  width: 25%;
+} /* Estado */
+.table thead tr th:nth-child(3) {
+  width: 15%;
+} /* Intentos */
+.table thead tr th:nth-child(4) {
+  width: 25%;
+} /* Recompensa */
+
+.tableHead {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.tableHeader {
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-text-title);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  border-right: 1px solid var(--color-border);
+  cursor: default;
+  user-select: none;
+}
+
+.tableHeader:last-child {
+  border-right: none;
+}
+
+.sortable {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.sortable:hover {
+  color: #667eea;
+}
+
+.sortIcon {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  opacity: 0.5;
+  vertical-align: middle;
+}
+
+.tableBody {
+  background: white;
+}
+
+.tableRow {
+  border-bottom: 1px solid var(--color-border);
+  transition: all 0.2s ease;
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableRow:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.tableCell {
+  padding: 1rem;
+  vertical-align: middle;
+  border-right: 1px solid var(--color-border);
+}
+
+.tableCell:last-child {
+  border-right: none;
+}
+
+.centeredCell {
+  text-align: center;
+}
+
+.studentName {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--color-text-title, #1f2937);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.emptyState {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+.stateBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  min-width: 100px;
+  margin: 0 auto;
+}
+
+.rewardSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  min-width: 100px;
+  margin: 0 auto;
+}
+
+.coinIcon {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: #d97706;
+  flex-shrink: 0;
+}
+
+.rewardValue {
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .table {
+    min-width: 900px;
+  }
+  .tableHeader,
+  .tableCell {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .table {
+    min-width: 850px;
+  }
+}
+
+@media (max-width: 992px) {
+  .table {
+    min-width: 800px;
+  }
+  .studentName {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+  .table {
+    min-width: 750px;
+  }
+  .tableHeader,
+  .tableCell {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+  .sortIcon {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .table {
+    min-width: 650px;
+  }
+  .tableHeader,
+  .tableCell {
+    padding: 0.5rem 0.3rem;
+    font-size: 0.75rem;
+  }
+  .studentName {
+    font-size: 0.75rem;
+  }
+}
