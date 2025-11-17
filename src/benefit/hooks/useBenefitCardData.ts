@@ -207,6 +207,7 @@ export const useBenefitCardData = ({
       : "";
 
     const subjectName = getBenefitSubjectName(benefit as TeacherBenefitType);
+    console.log("subjectName", subjectName);
     const subjectColor = subjectName ? getSubjectColor(subjectName) : null;
     const categoryColor =
       hasFullProperties && benefit.category

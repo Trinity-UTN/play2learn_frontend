@@ -347,13 +347,14 @@ export const getActualBenefitId = (benefit: TeacherBenefitType): number => {
 };
 
 export const getBenefitSubjectName = (benefit: TeacherBenefitType): string => {
-  if (isBenefitUseRequested(benefit)) {
+  if ("subjectName" in benefit && typeof benefit.subjectName === "string") {
     return benefit.subjectName;
   }
-  if (isBenefitPurchase(benefit)) {
-    return benefit.subjectName;
-  }
-  if ("subjectDto" in benefit) {
+  if (
+    "subjectDto" in benefit &&
+    benefit.subjectDto &&
+    "name" in benefit.subjectDto
+  ) {
     return benefit.subjectDto.name;
   }
   return "";
