@@ -1,4 +1,7 @@
-import type { ActivityTeacherResponse } from "../../types/TeacherActivity.type";
+import type {
+  ActivityTeacherDetailsResponse,
+  ActivityTeacherResponse,
+} from "../../types/TeacherActivity.type";
 import type { SubjectSimplifiedResponseDto } from "../../../admin/services/subject/SubjectService";
 import type { CourseResponseDto } from "../../../admin/services/course/CourseService";
 import type { YearResponseDto } from "../../../admin/services/Year/YearService";
@@ -14,6 +17,7 @@ export interface ActivityTeacherContextType {
   /// Estados de Actividad
   selectedActivityTeacher: ActivityTeacherResponse | null;
   paginatedActivitiesTeacher: PaginatedData<ActivityTeacherResponse> | null;
+  activityDetails: ActivityTeacherDetailsResponse | null;
 
   /// Estados de materias, cursos, años
   subjectsTeacher: SubjectSimplifiedResponseDto[] | null;
@@ -22,6 +26,7 @@ export interface ActivityTeacherContextType {
 
   // Funciones principales
   getPaginatedActivitiesTeacher: (params: GetPaginated) => Promise<void>;
+  getActivityDetailsTeacher: (activityId: number) => Promise<void>;
   getSubjectCoursesYearsTeacher: () => Promise<void>;
 
   // Funciones auxiliares

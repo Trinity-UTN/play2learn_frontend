@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  color: #9ca3af;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding: 0.625rem 0.75rem 0.625rem 2.25rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input::placeholder {
+  color: #d1d5db;
+}
+
+.clearButton {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  font-size: 0.875rem;
+  padding: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.clearButton:hover {
+  color: #6b7280;
+}
+
+.resultInfo {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .resultInfo {
+    text-align: right;
+  }
+}

@@ -115,7 +115,6 @@ const ActivityDetailView = ({ onBack }: ActivityDetailViewProps) => {
   };
 
   const handleFinishActivity = () => {
-    console.log("[v0] Finishing activity:", activityId);
     // TODO: Implementar lógica de finalización
     setShowFinishModal(false);
   };

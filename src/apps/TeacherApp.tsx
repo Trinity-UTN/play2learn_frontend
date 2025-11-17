@@ -33,7 +33,7 @@ import BenefitPurchasesView from "../teacher/views/benefitsView/benefitPurchaseV
 import OverviewView from "../teacher/views/overviewView/Overview";
 import ConfigureActivityView from "../activity/views/configurationView/ConfigureActivityView";
 import ActivityView from "../activity/views/activityView/ActivityView";
-import ActivityDetailView from "../teacher/views/ActivityDetailView/ActivityDetailView";
+import ActivityDetailsView from "../teacher/views/ActivityDetailsView/ActivityDetailsView";
 import styles from "../App.module.css";
 
 const TeacherApp = () => {
@@ -120,18 +120,19 @@ const TeacherApp = () => {
               element={<ActivitiesCreatedView />}
             />
             <Route
-              path="actividades/created/details/:id"
-              element={<ActivityDetailView />}
+              path="actividades/created/details/:activityId/*"
+              element={<ActivityDetailsView />}
             />
+
             {/* VIEW GENERAL CONFIGURATION */}
             <Route
-              path="actividades/configuration/:code_game"
+              path="actividades/configuration/:code_game/*"
               element={<ConfigureActivityView />}
             />
 
             {/* VIEW SPECIFIC ACTIVITY */}
             <Route
-              path="actividad/configuration/:code_game"
+              path="actividad/configuration/:code_game/*"
               element={<ActivityView />}
             />
 
@@ -139,7 +140,7 @@ const TeacherApp = () => {
             <Route path="beneficio/list" element={<BenefitsListView />} />
             <Route path="beneficio/create" element={<BenefitCreateView />} />
             <Route
-              path="beneficio/list/:id"
+              path="beneficio/list/:id/*"
               element={<BenefitPurchasesView />}
             />
           </Route>

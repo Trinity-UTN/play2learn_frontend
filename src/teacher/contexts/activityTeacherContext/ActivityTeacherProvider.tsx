@@ -2,7 +2,10 @@ import { useEffect, useCallback, useState, type ReactNode } from "react";
 import { ActivityTeacherService } from "../../services/activityTeacher/ActivityTeacherService";
 import { ActivityTeacherContext } from "./ActivityTeacherContext";
 import type { ActivityTeacherContextType } from "./ActivityTeacherContext.type";
-import type { ActivityTeacherResponse } from "../../types/TeacherActivity.type";
+import type {
+  ActivityTeacherDetailsResponse,
+  ActivityTeacherResponse,
+} from "../../types/TeacherActivity.type";
 import type { SubjectSimplifiedResponseDto } from "../../../admin/services/subject/SubjectService";
 import type { CourseResponseDto } from "../../../admin/services/course/CourseService";
 import type { YearResponseDto } from "../../../admin/services/Year/YearService";
@@ -39,6 +42,8 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
     });
   const [paginatedActivitiesTeacher, setPaginatedActivitiesTeacher] =
     useState<PaginatedData<ActivityTeacherResponse> | null>(null);
+  const [activityDetails, setActivityDetails] =
+    useState<ActivityTeacherDetailsResponse | null>(null);
 
   /// Estados de materias, cursos, años
   const [subjectsTeacher, setSubjectsTeacher] = useState<
@@ -82,6 +87,22 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
     []
   );
 
+  const getActivityDetailsTeacher = useCallback(
+    async (activityId: number): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await ActivityTeacherService.getActivityDetailsTeacherApi(activityId);
+        setActivityDetails(response);
+      } catch (error) {
+        handleApiError(error, "Error al obtener detalles de la actividad");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   const getSubjectCoursesYearsTeacher = useCallback(async () => {
     setLoading(true);
     try {
@@ -105,6 +126,7 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
     loading,
     selectedActivityTeacher,
     paginatedActivitiesTeacher,
+    activityDetails,
 
     // Estados de materias, cursos, años
     subjectsTeacher,
@@ -113,6 +135,7 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
 
     // Funciones principales
     getPaginatedActivitiesTeacher,
+    getActivityDetailsTeacher,
     getSubjectCoursesYearsTeacher,
 
     // Funciones auxiliares
