@@ -5,6 +5,7 @@ import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import { useEffect } from "react";
 import QuickStats from "../../components/studentOverviewViewComponents/QuickStats/QuickStats";
 import LastRealizationsComponents from "../../components/studentOverviewViewComponents/LastRealizations/LastRealizationsComponent";
+import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 
 const StudentOverviewView: React.FC = () => {
   const { currentStudent, getStatisticsStudent, statistics } =
@@ -28,7 +29,14 @@ const StudentOverviewView: React.FC = () => {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
-
+  {
+    if (!statistics)
+      return (
+        <div className={styles.contLoading}>
+          <LoadingSpinnerComponent colorText="white" />
+        </div>
+      );
+  }
   return (
     <motion.div
       variants={containerVariants}
@@ -59,7 +67,7 @@ const StudentOverviewView: React.FC = () => {
       <QuickStats statistics={statistics!} />
 
       <LastRealizationsComponents
-        lastRealizations={statistics?.lastRealizations!}
+        lastRealizations={statistics.lastRealizations}
       />
     </motion.div>
   );

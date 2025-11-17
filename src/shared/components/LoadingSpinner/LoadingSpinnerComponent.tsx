@@ -7,6 +7,7 @@ interface LoadingSpinnerProps {
   text?: string;
   overlay?: boolean;
   color?: string;
+  colorText?: string;
 }
 
 const LoadingSpinnerComponent: React.FC<LoadingSpinnerProps> = ({
@@ -14,6 +15,7 @@ const LoadingSpinnerComponent: React.FC<LoadingSpinnerProps> = ({
   text = "Cargando...",
   overlay = false,
   color = "#3b82f6",
+  colorText,
 }) => {
   const spinnerContent = (
     <div className={`${styles.container} ${styles[size]}`}>
@@ -30,7 +32,11 @@ const LoadingSpinnerComponent: React.FC<LoadingSpinnerProps> = ({
           ease: "linear",
         }}
       />
-      {text && <p className={styles.text}>{text}</p>}
+      {text && (
+        <p className={styles.text} style={{ color: colorText }}>
+          {text}
+        </p>
+      )}
     </div>
   );
 
