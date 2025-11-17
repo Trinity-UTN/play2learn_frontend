@@ -41,6 +41,7 @@ export const PlazoFijoHeader = ({ statistics, setOpen, open }: Props) => {
 
       {/* Stats Cards */}
       <PlazoFijoStats statistics={statistics} />
+
       <button onClick={() => setOpen(!open)} className={styles.buttonForm}>
         {!open ? "Nuevo Plazo Fijo" : "Cerrar formulario"}
       </button>
