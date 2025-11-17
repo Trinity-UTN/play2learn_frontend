@@ -23,6 +23,7 @@ export const usePlazoFijoView = () => {
     getStatisticsPlazoFijo,
     statistics,
   } = usePlazoFijoStudent();
+
   const { wallet } = useCurrentStudent();
   const userBalance = wallet?.balance;
   const [filterStatus, setFilterStatus] =
@@ -56,6 +57,7 @@ export const usePlazoFijoView = () => {
   const handleCreatePlazoFijo = useCallback(
     async (data: RegisterPlazoFijo) => {
       await registerPlazoFijo(data);
+      setOpenForm(false);
       await getPaginatedPlazoFijo(paginationParams);
     },
     [registerPlazoFijo, paginationParams]

@@ -158,7 +158,7 @@ const CreateCajaDeAhorroForm: React.FC<CreateCajaDeAhorroFormProps> = ({
                   className={styles.estimateValue}
                   style={{ color: "#22c55e" }}
                 >
-                  +{monthlyInterest.toLocaleString("es-AR")}
+                  +{formatPrice(monthlyInterest)}
                 </span>
               </div>
               <div className={styles.estimateItem}>
@@ -167,7 +167,7 @@ const CreateCajaDeAhorroForm: React.FC<CreateCajaDeAhorroFormProps> = ({
                   className={styles.estimateValue}
                   style={{ fontWeight: 700 }}
                 >
-                  {(numericAmount + monthlyInterest).toLocaleString("es-AR")}
+                  {formatPrice(numericAmount + monthlyInterest)}
                 </span>
               </div>
             </div>

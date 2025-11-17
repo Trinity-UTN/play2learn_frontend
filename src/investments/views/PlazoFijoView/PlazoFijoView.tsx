@@ -5,6 +5,7 @@ import { PlazoFijoHeader } from "../../components/PlazoFijoView/PlazoFijoHeader/
 import { usePlazoFijoView } from "../../hooks/usePlazoFijo/usePlazoFijoView";
 import PlazoFijoFilter from "../../components/PlazoFijoView/PlazoFijoFilter/PlazoFijoFilter";
 import { AnimatePresence } from "framer-motion";
+import BackButton from "../../../shared/components/BackButton/BackButton";
 
 const PlazoFijoView = () => {
   const {
@@ -25,6 +26,7 @@ const PlazoFijoView = () => {
 
   return (
     <div className={styles.container}>
+      <BackButton />
       <div className={styles.content}>
         {/* Header */}
         <PlazoFijoHeader

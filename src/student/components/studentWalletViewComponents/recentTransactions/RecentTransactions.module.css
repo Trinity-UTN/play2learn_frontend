@@ -37,7 +37,7 @@
 
 .viewAllButton:hover {
   color: var(--color-text-light);
-  background: var(--color-background-semitrasparent);
+  background: var(--color-background-semitrasparent) !important;
 }
 
 .transactionsList {

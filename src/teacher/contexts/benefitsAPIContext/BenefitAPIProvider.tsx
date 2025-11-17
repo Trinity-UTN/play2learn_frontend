@@ -7,6 +7,7 @@ import type {
   BenefitResponseInterface,
   BenefitPurchaseSimpleResponse,
   CreateBenefitInterface,
+  TeacherBenefitType,
 } from "../../../benefit/types/benefit.types";
 import type {
   GetPaginated,
@@ -31,7 +32,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [benefits, setBenefits] = useState<BenefitResponseInterface[]>([]);
   const [selectedBenefit, setSelectedBenefit] =
-    useState<BenefitResponseInterface | null>(() => {
+    useState<TeacherBenefitType | null>(() => {
       try {
         const stored = localStorage.getItem(SELECTED_BENEFIT_KEY);
         return stored ? JSON.parse(stored) : null;

@@ -94,8 +94,13 @@ export const CompletarOracionGameProvider: React.FC<
   const totalMissingWords = getTotalMissingWords();
   const completedWords = getCompletedWords();
   const correctAnswers = getCorrectAnswersCount();
-  const isGameWon =
-    totalMissingWords > 0 && correctAnswers === totalMissingWords;
+
+  const getScore = (): number => {
+    if (totalMissingWords === 0) return 0;
+    return Math.round((correctAnswers / totalMissingWords) * 100);
+  };
+
+  const isGameWon = totalMissingWords > 0 && getScore() >= 60;
   const isGameLost = false; // Este juego no tiene condición de pérdida
 
   // Funciones del juego
@@ -141,11 +146,6 @@ export const CompletarOracionGameProvider: React.FC<
     return (
       userAnswer.toLowerCase().trim() === correctAnswer.toLowerCase().trim()
     );
-  };
-
-  const getScore = (): number => {
-    if (totalMissingWords === 0) return 0;
-    return Math.round((correctAnswers / totalMissingWords) * 100);
   };
 
   const contextValue: CompletarOracionGameContextType = {

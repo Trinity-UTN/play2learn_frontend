@@ -18,7 +18,7 @@ const BenefitHeader = ({ onNavigate }: BenefitHeaderProps) => {
       <Button
         variant="primary"
         className={styles.createButton}
-        onClick={() => onNavigate}
+        onClick={() => onNavigate("/dashboard/teacher/beneficio/create")}
       >
         <FaGift className={styles.buttonIcon} />
         Nuevo Beneficio

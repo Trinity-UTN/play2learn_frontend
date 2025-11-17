@@ -19,6 +19,9 @@ export const useActivityDetailsTeacherActions = () => {
 
   const handleFinishActivity = useCallback(
     (activityId: number, activityName: string) => {
+      console.log("TODO: Implementar lógica de finalización de actividad"),
+        activityId,
+        activityName;
       // TODO: Implementar lógica de finalización de actividad
       // showConfirmation({
       //   title: "Finalizar Actividad",

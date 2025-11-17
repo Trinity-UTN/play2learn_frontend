@@ -33,19 +33,25 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
     viewActivity(Number(activityId));
   };
 
+  if (loading) {
+    return (
+      <motion.div variants={itemVariants} className={styles.emptyState}>
+        <div className={styles.emptyIcon}>
+          <LoadingSpinner />
+        </div>
+      </motion.div>
+    );
+  }
+
   if (activities.length === 0) {
     return (
       <motion.div variants={itemVariants} className={styles.emptyState}>
         <div className={styles.emptyIcon}>
-          {loading ? <LoadingSpinner /> : <FaClipboardList />}
+          <FaClipboardList />
         </div>
-        <h3 className={styles.emptyTitle}>
-          {loading ? "Cargando actividades..." : "No hay actividades"}
-        </h3>
+        <h3 className={styles.emptyTitle}>No hay actividades</h3>
         <p className={styles.emptyMessage}>
-          {loading
-            ? "Por favor espera un momento"
-            : "No se encontraron actividades con los filtros seleccionados"}
+          No se encontraron actividades con los filtros seleccionados
         </p>
       </motion.div>
     );

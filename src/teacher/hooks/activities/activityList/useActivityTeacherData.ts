@@ -163,12 +163,10 @@ export const useActivityTeacherData = () => {
       return [{ id: "ALL", name: "Todos los años" }];
     }
 
-    const mapped = yearsTeacher
-      .map((year) => ({
-        id: String(year.id),
-        name: year.name,
-      }))
-      .sort((a, b) => a.name.localeCompare(b.name));
+    const mapped = yearsTeacher.map((year) => ({
+      id: String(year.id),
+      name: year.name,
+    }));
 
     return [{ id: "ALL", name: "Todos los años" }, ...mapped];
   }, [yearsTeacher]);

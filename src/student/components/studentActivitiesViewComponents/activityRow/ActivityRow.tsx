@@ -4,8 +4,12 @@ import Button from "../../../../shared/components/Button/ButtonComponent";
 import Badge from "../../../../shared/components/Badge/BadgeComponent";
 import formatPrice from "../../../../shared/utils/formatPrice";
 import type { ActivityUI } from "../../../types/Activity.type";
-import { getActivityIcon } from "../../../../shared/utils/activityIcons";
+import {
+  getActivityColor,
+  getActivityIcon,
+} from "../../../../shared/utils/activityIcons";
 import { getActivityStatusConfig } from "../../../utils/activities.utils";
+import { getSubjectColor } from "../../../../shared/constants/subject.constants";
 import styles from "./ActivityRow.module.css";
 
 interface ActivityRowProps {
@@ -18,11 +22,11 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
   const isDisabled =
     (activity.status === "CREATED" || activity.noAttempts) &&
     !(activity.status === "APPROVED");
-
   const buttonText =
     activity.noAttempts && !(activity.status === "APPROVED")
       ? "Sin intentos"
       : statusConfig.buttonText;
+  const subjectColor = getSubjectColor(activity.subjectName);
 
   const handleActionButton = async () => {
     if (activity.status === "PUBLISHED" && !activity.noAttempts && onStart) {
@@ -31,6 +35,7 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
   };
 
   const ActivityIcon = getActivityIcon(activity.name);
+  const activityColor = getActivityColor(activity.name);
 
   return (
     <motion.div
@@ -43,13 +48,18 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
       <div className={styles.mainContent}>
         <div className={styles.basicInfo}>
           <div className={styles.titleSection}>
-            <span className={styles.activityIcon}>
-              <ActivityIcon />
-            </span>
+            <div
+              className={styles.activityIconWrapper}
+              style={{ backgroundColor: activityColor }}
+            >
+              <ActivityIcon className={styles.activityIcon} />
+            </div>
             <div className={styles.titleInfo}>
               <h3 className={styles.activityTitle}>{activity.name}</h3>
               <div className={styles.metadata}>
-                <span className={styles.subject}>{activity.subjectName}</span>
+                <Badge variant="custom" size="sm" customColor={subjectColor}>
+                  {activity.subjectName}
+                </Badge>
                 <Badge
                   className={`${styles[activity.difficulty]} ${
                     styles.infoTextDifficultyInfo
@@ -118,7 +128,7 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
             <span className={styles.scoreValue}>
               {formatPrice(activity.reward)}
             </span>
-            <span className={styles.scoreLabel}>pts</span>
+            <span className={styles.scoreLabel}>monedas</span>
           </div>
         </div>
       )}

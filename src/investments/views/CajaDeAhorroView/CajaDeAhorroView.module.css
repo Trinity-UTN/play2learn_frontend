@@ -1,7 +1,6 @@
 @import "../../../shared/styles/colors.css";
 .container {
   min-height: 100vh;
-  padding: 2rem;
 }
 
 .content {

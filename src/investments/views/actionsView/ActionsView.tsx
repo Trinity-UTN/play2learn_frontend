@@ -4,6 +4,7 @@ import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import ActionHeader from "../../components/ActionsView/ActionsHeader/ActionsHeader";
 import ActionsGrid from "../../components/ActionsView/ActionsGrid/ActionsGrid";
 import { useActionsView } from "../../hooks/useActions/useActionsView";
+import BackButton from "../../../shared/components/BackButton/BackButton";
 
 const ActionsView = () => {
   const {
@@ -20,6 +21,7 @@ const ActionsView = () => {
   }
   return (
     <div className={styles.container}>
+      <BackButton />
       <AnimatePresence mode="wait">
         <motion.div
           key="content"

@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import {
   FaChartLine,
   FaGift,
-  FaHistory,
   FaStore,
   FaCoins,
   FaArrowRight,
@@ -42,15 +41,6 @@ const QuickActions = () => {
       view: "store",
       badge: "Ofertas",
       url: "/dashboard/student/store",
-    },
-    {
-      title: "Historial",
-      description: "Revisa movimientos",
-      icon: FaHistory,
-      color: "#8B5CF6",
-      view: "wallet-history",
-      badge: null,
-      url: "/dashboard/student/wallet", //HASTA QUE SE DESARROLLE UNA VIEW DE MOVIMIENTOS
     },
   ];
 

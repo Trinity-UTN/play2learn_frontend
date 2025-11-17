@@ -20,6 +20,7 @@ interface ConfirmationModalProps {
   showSecondConfirmation?: boolean;
   doubleConfirmationText?: string;
   rules?: string[];
+  showRulesIcon?: boolean;
   hideCancel?: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -36,6 +37,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   showSecondConfirmation = false,
   doubleConfirmationText = "¿Está completamente seguro? Esta acción no se puede deshacer.",
   rules = [],
+  showRulesIcon,
   hideCancel = false,
   onClose,
   onConfirm,
@@ -108,7 +110,9 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                   <ul className={styles.rulesList}>
                     {rules.map((rule, index) => (
                       <li key={index} className={styles.ruleItem}>
-                        <FaCheckCircle className={styles.ruleIcon} />
+                        {showRulesIcon && (
+                          <FaCheckCircle className={styles.ruleIcon} />
+                        )}
                         <span>{rule}</span>
                       </li>
                     ))}

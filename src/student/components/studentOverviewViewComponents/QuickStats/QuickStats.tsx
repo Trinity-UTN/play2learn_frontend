@@ -3,6 +3,7 @@ import type { StatisticsStudentResponse } from "../../../types/CurrentStudent.ty
 import styles from "./QuickStats.module.css";
 import { FaTrophy, FaGamepad, FaCoins } from "react-icons/fa";
 import Card from "../../../../shared/components/Card/CardComponent";
+import formatPrice from "../../../../shared/utils/formatPrice";
 
 type Props = {
   statistics: StatisticsStudentResponse;
@@ -15,7 +16,7 @@ const QuickStats = ({ statistics }: Props) => {
   const quickStats = [
     {
       title: "Monedas Totales",
-      value: statistics?.totalPoints,
+      value: formatPrice(statistics?.totalPoints),
       icon: FaCoins,
       color: "#F59E0B",
       // change: "+125 esta semana",
@@ -28,7 +29,7 @@ const QuickStats = ({ statistics }: Props) => {
       // change: "↑ Subiste 2 posiciones",
     },
     {
-      title: "Actividades",
+      title: "Actividades disponibles aprobadas",
       value: `${statistics?.totalCompletedActivities} / ${statistics?.totalActivities}`,
       icon: FaGamepad,
       color: "#10B981",

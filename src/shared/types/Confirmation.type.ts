@@ -7,6 +7,7 @@ export interface ConfirmationConfig {
   confirmText?: string;
   cancelText?: string;
   rules?: string[];
+  showRulesIcon?: boolean;
   hideCancel?: boolean;
   showDoubleConfirmation?: boolean;
   doubleConfirmationText?: string;

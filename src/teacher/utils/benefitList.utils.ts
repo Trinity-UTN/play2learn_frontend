@@ -2,17 +2,11 @@ import {
   isBenefitUseRequested,
   getBenefitDisplayName,
 } from "../../benefit/utils/benefit.utils";
-import type {
-  BenefitResponseInterface,
-  TeacherBenefitType,
-} from "../../benefit/types/benefit.types";
+import type { TeacherBenefitType } from "../../benefit/types/benefit.types";
 
 export type BenefitActionHandlers = {
   onDelete: (benefitId: number, name: string) => void;
-  onViewPurchases: (
-    benefit: BenefitResponseInterface,
-    benefitId: number
-  ) => void;
+  onViewPurchases: (benefit: TeacherBenefitType, benefitId: number) => void;
   onAcceptUse: (benefitId: number, name: string) => void;
 };
 

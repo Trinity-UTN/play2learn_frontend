@@ -32,6 +32,14 @@ export const isTeacherBenefit = (
   );
 };
 
+export const isFullTeacherBenefit = (
+  benefit: TeacherBenefitType | null
+): benefit is BenefitResponseInterface => {
+  if (!benefit) return false;
+
+  return "subjectDto" in benefit && benefit.subjectDto !== null;
+};
+
 export const isStudentBenefit = (
   benefit: AnyBenefit | TeacherBenefitType
 ): benefit is BenefitStudentResponseInterface => {
@@ -339,13 +347,14 @@ export const getActualBenefitId = (benefit: TeacherBenefitType): number => {
 };
 
 export const getBenefitSubjectName = (benefit: TeacherBenefitType): string => {
-  if (isBenefitUseRequested(benefit)) {
+  if ("subjectName" in benefit && typeof benefit.subjectName === "string") {
     return benefit.subjectName;
   }
-  if (isBenefitPurchase(benefit)) {
-    return benefit.subjectName;
-  }
-  if ("subjectDto" in benefit) {
+  if (
+    "subjectDto" in benefit &&
+    benefit.subjectDto &&
+    "name" in benefit.subjectDto
+  ) {
     return benefit.subjectDto.name;
   }
   return "";
