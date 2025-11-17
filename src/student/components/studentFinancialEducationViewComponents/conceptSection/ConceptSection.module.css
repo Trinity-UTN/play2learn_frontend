@@ -6,7 +6,14 @@
 .conceptsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  align-content: start;
   gap: 1.5rem;
+  height: 80vh;
+  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 .filterContainer {
   display: flex;

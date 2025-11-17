@@ -42,8 +42,9 @@ const StudentFinancialEducationView = () => {
       <motion.div
         variants={itemVariants}
         className={styles.backButtonContainer}
-      ></motion.div>
-      <BackButton />
+      >
+        <BackButton />
+      </motion.div>
 
       <EducationHeader />
 
