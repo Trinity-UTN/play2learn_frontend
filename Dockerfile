@@ -1,34 +1,15 @@
-# Etapa 1: Construir la aplicación React con Vite
-FROM node:18-alpine AS build
+# Etapa única: Servir con NGINX
+FROM nginx:1.27-alpine
 
-WORKDIR /app
+# Eliminamos archivos por defecto de Nginx
+RUN rm -rf /usr/share/nginx/html/*
 
-# Copiar archivos de dependencias
-COPY package*.json ./
+# Copiamos los archivos del build (que vos subís desde tu PC)
+COPY ./dist /usr/share/nginx/html
 
-# Instalar dependencias
-RUN npm install --force
+# Configuración personalizada de Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copiar el resto del código
-COPY . .
+EXPOSE 80
 
-# Construir la aplicación (Vite genera la carpeta "dist")
-RUN npm run build
-
-# Verificar que la carpeta "dist" existe (opcional para depuración)
-RUN ls -la /app/dist
-
-# Etapa 2: Servir la aplicación
-FROM node:16-alpine
-
-# Instalar "serve" globalmente
-RUN npm install -g serve
-
-# Copiar la carpeta "dist" generada en la etapa anterior
-COPY --from=build /app/dist /app/dist
-
-# Exponer el puerto 3000
-EXPOSE 3000
-
-# Iniciar el servidor con "serve" apuntando a "dist"
-CMD ["serve", "-s", "/app/dist", "-l", "3000"]
+CMD ["nginx", "-g", "daemon off;"]
