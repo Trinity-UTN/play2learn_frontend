@@ -40,11 +40,28 @@
   flex: 1;
 }
 
+.activityIconWrapper {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--activity-color, #6366f1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
 .activityIcon {
   font-size: 24px;
-  flex-shrink: 0;
-  margin-top: 2px;
-  color: var(--color-text-light);
+  color: white !important;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.3));
+}
+
+.activityIconWrapper:hover {
+  transform: scale(1.1);
 }
 
 .titleInfo {
@@ -64,15 +81,18 @@
   margin-top: 9px;
   font-size: 1.3rem;
 }
+
 .rewardText {
   font-size: 1rem;
   color: var(--color-text-light);
   font-weight: 500;
 }
+
 .rewardIcon {
-  color: var(--color-text-light);
+  color: #ffd700;
   font-size: 1.2rem;
 }
+
 .activityTitle {
   font-size: 1rem;
   font-weight: 600;
