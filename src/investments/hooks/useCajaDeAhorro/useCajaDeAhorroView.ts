@@ -48,6 +48,7 @@ export const useCajaDeAhorroView = () => {
 
   const handleCreateCaja = async (data: RegisterCajaDeAhorro) => {
     await registerCajaDeAhorro(data);
+    setOpenForm(false);
     await getPaginatedCajaDeAhorro(paginationParams);
   };
 
