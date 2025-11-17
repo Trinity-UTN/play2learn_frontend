@@ -16,8 +16,8 @@ export const getStatusConfig = (status: string) => {
   switch (status) {
     case "PUBLISHED":
       return { label: "Publicada", color: "#10b981" };
-    case "PENDING_PUBLICATION":
-      return { label: "Pendiente", color: "#f59e0b" };
+    case "CREATED":
+      return { label: "Pendiente de publicación", color: "#f59e0b" };
     case "EXPIRED":
       return { label: "Vencida", color: "#6b7280" };
     default:
