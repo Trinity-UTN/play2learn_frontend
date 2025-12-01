@@ -1,0 +1,502 @@
+.dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 500px;
+  max-height: 600px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  animation: slideInDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dropdown.student {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.dropdown.teacher {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownHeader {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header_student {
+  background: rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header_student .dropdownTitle {
+  color: #ffffff;
+}
+
+.header_teacher {
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header_teacher .dropdownTitle {
+  color: #333;
+}
+
+.dropdownTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.viewAllTopButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: opacity 0.2s;
+}
+
+.viewAllTopButton_student {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.viewAllTopButton_student:hover {
+  color: #ffffff;
+}
+
+.viewAllTopButton_teacher {
+  color: #f76300;
+}
+
+.viewAllTopButton_teacher:hover {
+  background: rgba(247, 99, 0, 0.05);
+}
+
+.notificationCount {
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.count_student {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.count_teacher {
+  background-color: rgba(247, 99, 0, 0.15);
+  color: #f76300;
+}
+
+.notificationsList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: 300px;
+}
+
+.notificationsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notificationsList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.student .notificationsList::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.student .notificationsList::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.teacher .notificationsList::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+  border-radius: 3px;
+}
+
+.teacher .notificationsList::-webkit-scrollbar-thumb:hover {
+  background: #c0c0c0;
+}
+
+.notificationItem {
+  padding: 12px 16px;
+  position: relative;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  animation: fadeIn 0.3s ease-out backwards;
+}
+
+.notificationItem:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.notificationItem:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.notificationItem:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.item_student {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.item_student.unread {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.item_teacher {
+  border-bottom: 1px solid #f5f5f5;
+  color: #333;
+}
+
+.item_teacher.unread {
+  background: rgba(247, 99, 0, 0.03);
+}
+
+.notificationItem.read {
+  opacity: 0.65;
+}
+
+.item_student.read {
+  background: transparent;
+}
+
+.item_teacher.read {
+  background: transparent;
+}
+
+.notificationItem.read .notificationTime {
+  opacity: 0.4;
+}
+
+.notificationItem:last-child {
+  border-bottom: none;
+}
+
+.notificationItem.processing {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.iconContainer {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notificationIcon {
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.notificationContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.notificationTitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+.notificationTime {
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0.6;
+}
+
+.notificationActionsRight {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.actionButton {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.markAsReadButton {
+  padding: 6px 8px;
+}
+
+.markAsReadButton_student {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.markAsReadButton_teacher {
+  background: rgba(247, 99, 0, 0.1);
+  color: #f76300;
+}
+
+.actionButtonIcon {
+  padding: 6px 8px;
+}
+
+.actionButtonIcon_student {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.actionButtonIcon_teacher {
+  background: rgba(247, 99, 0, 0.1);
+  color: #f76300;
+}
+
+.emptyState {
+  padding: 60px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.student .emptyState {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.teacher .emptyState {
+  color: #999;
+}
+
+.emptyStateIcon {
+  font-size: 56px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+.emptyStateText {
+  font-size: 15px;
+  margin: 0;
+  font-weight: 500;
+}
+
+.loadingState {
+  padding: 40px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.student .loadingState {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.teacher .loadingState {
+  color: #666;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.spinner_student {
+  border-color: rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+}
+
+.spinner_teacher {
+  border-color: #e0e0e0;
+  border-top-color: #f76300;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.expandButton {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.expandButton_student {
+  color: rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.expandButton_student:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.expandButton_teacher {
+  color: #f76300;
+  border-top: 1px solid #f0f0f0;
+}
+
+.expandButton_teacher:hover {
+  background: rgba(247, 99, 0, 0.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dropdown {
+    width: 100vw;
+    max-width: 100vw;
+    max-height: 70vh;
+    border-radius: 16px 16px 0 0;
+    top: auto;
+    bottom: 0;
+    right: 0;
+  }
+
+  .notificationsList {
+    max-height: 50vh;
+  }
+
+  .notificationItem {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .iconContainer {
+    width: 32px;
+    height: 32px;
+  }
+
+  .notificationTitle {
+    font-size: 13px;
+  }
+
+  .notificationTime {
+    font-size: 10px;
+  }
+
+  .actionButton {
+    padding: 5px 6px;
+  }
+
+  .viewAllTopButton {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+
+  .dropdownTitle {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dropdown {
+    width: 100vw;
+    max-width: 100vw;
+    max-height: 80vh;
+  }
+
+  .notificationsList {
+    max-height: 60vh;
+  }
+
+  .notificationItem {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .iconContainer {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+  }
+
+  .notificationIcon {
+    font-size: 16px;
+  }
+
+  .notificationTitle {
+    font-size: 12px;
+  }
+
+  .notificationTime {
+    font-size: 9px;
+  }
+
+  .actionButton {
+    padding: 4px 5px;
+    font-size: 12px;
+  }
+
+  .expandButton {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+}

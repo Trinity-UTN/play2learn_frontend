@@ -1,3 +1,7 @@
+import type { IconType } from "react-icons";
+
+export type NotificationVariant = "student" | "teacher";
+
 export type NotificationType =
   | "NEW_ACTIVITY_PUBLISHED"
   | "ACTIVITY_ABOUT_TO_EXPIRE"
@@ -28,4 +32,11 @@ export interface NotificationResponse {
   notificationType: NotificationType;
   createdAt: string;
   read: boolean;
+}
+
+export interface NotificationConfig {
+  icon: IconType;
+  color: string;
+  actionLabel: string;
+  actionPath: string;
 }
