@@ -5,9 +5,9 @@ import { usePassword } from "../../hooks/usePassword";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
 import Card from "../../../shared/components/Card/CardComponent";
-import styles from "./Login.module.css";
+import styles from "./ChangePassword.module.css";
 
-const ChangePasswordPage: React.FC = () => {
+export const ChangePasswordPage: React.FC = () => {
   const { changePassword, loading } = usePassword();
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -20,8 +20,13 @@ const ChangePasswordPage: React.FC = () => {
       oldPassword: oldPassword,
       newPassword: newPassword,
     };
-
+    console.log(data);
     await changePassword(data);
+    resetForm();
+  };
+  const resetForm = () => {
+    setNewPassword("");
+    setOldPassword("");
   };
 
   return (
@@ -70,6 +75,7 @@ const ChangePasswordPage: React.FC = () => {
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
                   required
+                  max={32}
                 />
               </div>
             </div>
@@ -87,6 +93,8 @@ const ChangePasswordPage: React.FC = () => {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
+                  min={8}
+                  max={32}
                 />
                 <button
                   type="button"
@@ -113,5 +121,3 @@ const ChangePasswordPage: React.FC = () => {
     </div>
   );
 };
-
-export default ChangePasswordPage;

@@ -15,7 +15,7 @@ export const PasswordProvider: React.FC<PasswordProviderProps> = ({
 }) => {
   const { handleApiError } = useHandleApiError();
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const changePassword = useCallback(async (data: ChangePassword) => {
     setLoading(true);
