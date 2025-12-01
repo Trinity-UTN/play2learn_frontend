@@ -5,6 +5,7 @@ import type { PasswordContextType } from "./PasswordContext.type";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import type { ChangePassword } from "../../types/ChangePassword";
 import { PasswordService } from "../../services/passwordService";
+import { useToaster } from "../../../shared/hooks/useToaster";
 
 interface PasswordProviderProps {
   children: ReactNode;
@@ -14,6 +15,7 @@ export const PasswordProvider: React.FC<PasswordProviderProps> = ({
   children,
 }) => {
   const { handleApiError } = useHandleApiError();
+  const { showToast } = useToaster();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -21,6 +23,11 @@ export const PasswordProvider: React.FC<PasswordProviderProps> = ({
     setLoading(true);
     try {
       await PasswordService.changePasswordApi(data);
+      showToast({
+        title: "¡Contraseña Actualizada con Exito!",
+        type: "success",
+        position: "bottom-right",
+      });
     } catch (error) {
       handleApiError(error, "Error al cambiar la contraseña");
     } finally {
