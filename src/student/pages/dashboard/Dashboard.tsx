@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { motion } from "framer-motion";
-import StudentSidebar from "../../components/sidebar/Sidebar";
-import styles from "./Dashboard.module.css";
 import { Outlet } from "react-router-dom";
+import { motion } from "framer-motion";
+import NotificationBell from "../../../notifications/components/NotificationBell/NotificationBell";
+import StudentSidebar from "../../components/sidebar/Sidebar";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import { useBenefitStudent } from "../../hooks/useBenefitStudent";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
+import styles from "./Dashboard.module.css";
 
 const StudentDashboard: React.FC = () => {
   const { loading } = useCurrentStudent();
@@ -33,6 +34,16 @@ const StudentDashboard: React.FC = () => {
         transition={{ duration: 0.3 }}
         className={styles.content}
       >
+        <div
+          style={{
+            position: "absolute",
+            top: "16px",
+            right: "16px",
+            zIndex: 100,
+          }}
+        >
+          <NotificationBell variant="student" />
+        </div>
         <Outlet />
       </motion.main>
     </div>
