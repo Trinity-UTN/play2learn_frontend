@@ -35,6 +35,22 @@ export const PasswordProvider: React.FC<PasswordProviderProps> = ({
     }
   }, []);
 
+  const restorePassword = useCallback(async (type: string, id: number) => {
+    setLoading(true);
+    try {
+      await PasswordService.restorePassword(type, id);
+      showToast({
+        title: "¡Contraseña Restaurada con Exito!",
+        type: "success",
+        position: "bottom-right",
+      });
+    } catch (error) {
+      handleApiError(error, "Error al restaurar la contraseña");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   /**
    * Objeto de acciones - ESTABLE (no cambia entre renders)
    * Solo se recalcula si las funciones cambian (cosa que no debería pasar)
@@ -42,8 +58,9 @@ export const PasswordProvider: React.FC<PasswordProviderProps> = ({
   const actions = useMemo(
     () => ({
       changePassword,
+      restorePassword,
     }),
-    [changePassword]
+    [changePassword, restorePassword]
   );
   /**
    * Objeto de estado - CAMBIA cuando los datos cambian

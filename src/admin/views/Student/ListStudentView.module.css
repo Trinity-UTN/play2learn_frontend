@@ -123,6 +123,10 @@
   color: #b91c1c;
   transform: scale(1.05);
 }
+.restoreButton {
+  color: var(--color-secondary);
+  font-size: 1.2rem;
+}
 
 @media (max-width: 768px) {
   .container {
