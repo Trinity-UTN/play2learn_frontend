@@ -95,13 +95,6 @@ export const ChangePasswordPage = () => {
             >
               Cambiar Contraseña
             </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              Accede a tu cuenta institucional
-            </motion.p>
           </div>
 
           <motion.form

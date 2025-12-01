@@ -53,7 +53,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
           className={styles.changePasswordButton}
           onClick={onChangePassword}
         >
-          cambiar contraseña
+          Cambiar contraseña
         </Button>
         <Button onClick={onEditAvatar} className={styles.editAvatarButton}>
           <FaEdit size={16} />
