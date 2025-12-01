@@ -59,6 +59,16 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
+    {
+      title: "Gestion de Contraseña",
+      items: [
+        {
+          title: "Cambiar Contraseña",
+          icon: FaPlus,
+          path: TeacherRoutes.Contraseña.Change,
+        },
+      ],
+    },
   ];
 
   const containerVariants: Variants = {
