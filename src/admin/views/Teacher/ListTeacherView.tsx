@@ -15,6 +15,8 @@ import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import styles from "./ListTeacherView.module.css";
+import { usePassword } from "../../../user";
+import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 
 const ListTeacherView: React.FC = () => {
   const {
@@ -34,6 +36,7 @@ const ListTeacherView: React.FC = () => {
   } = usePaginationParams();
   const { showConfirmation } = useConfirmation();
   const { showToast } = useToaster();
+  const { restorePassword } = usePassword();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -88,6 +91,16 @@ const ListTeacherView: React.FC = () => {
           type: "success",
           position: "bottom-right",
         });
+      },
+    });
+  };
+  const handleRestorePassword = (teacher: TeacherResponseDto) => {
+    showConfirmation({
+      title: "Restaurar Contraseña del Docente",
+      message: `¿Está seguro que desea restaurar la contraseña del docente "${teacher.name} ${teacher.lastname}"?`,
+      type: "warning",
+      onConfirm: async () => {
+        await restorePassword("teacher", teacher.id);
       },
     });
   };
@@ -199,6 +212,14 @@ const ListTeacherView: React.FC = () => {
       variant: "ghost",
       className: styles.deleteButton,
       title: "Eliminar docente",
+    },
+    {
+      label: "Restaurar contraseña",
+      icon: <MdOutlineSettingsBackupRestore />,
+      onClick: handleRestorePassword,
+      variant: "ghost",
+      className: styles.restoreButton,
+      title: "Restaurar contraseña",
     },
   ];
 

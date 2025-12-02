@@ -10,6 +10,9 @@ export const TeacherRoutes = {
     Create: "beneficio/create",
     List: "beneficio/list",
   },
+  Contraseña: {
+    Change: "change-password",
+  },
 };
 
 export default TeacherRoutes;

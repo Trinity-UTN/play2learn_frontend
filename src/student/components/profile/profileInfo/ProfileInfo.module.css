@@ -113,7 +113,14 @@
   font-weight: 500;
 }
 
-.editAvatarButton {
+.contButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.editAvatarButton,
+.changePasswordButton {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -130,7 +137,8 @@
   white-space: nowrap;
 }
 
-.editButton:hover {
+.editButton:hover,
+.changePasswordButton:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);

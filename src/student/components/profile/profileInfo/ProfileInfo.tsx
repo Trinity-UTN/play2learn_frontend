@@ -3,6 +3,7 @@ import Button from "../../../../shared/components/Button/ButtonComponent";
 import Avatar from "../../common/Avatar/AvatarComponent";
 import type { CurrentStudent } from "../../../types/CurrentStudent.type";
 import styles from "./ProfileInfo.module.css";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileInfoProps {
   currentStudent: CurrentStudent | null;
@@ -19,6 +20,10 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
   showLevel = true,
   showRing = true,
 }) => {
+  const navigate = useNavigate();
+  const onChangePassword = () => {
+    navigate("change-password");
+  };
   return (
     <div className={styles.headerContent}>
       <div className={styles.avatarSection}>
@@ -43,11 +48,18 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
           </div>
         </div>
       </div>
-
-      <Button onClick={onEditAvatar} className={styles.editAvatarButton}>
-        <FaEdit size={16} />
-        Personalizar Avatar
-      </Button>
+      <div className={styles.contButtons}>
+        <Button
+          className={styles.changePasswordButton}
+          onClick={onChangePassword}
+        >
+          Cambiar contraseña
+        </Button>
+        <Button onClick={onEditAvatar} className={styles.editAvatarButton}>
+          <FaEdit size={16} />
+          Personalizar Avatar
+        </Button>
+      </div>
     </div>
   );
 };
