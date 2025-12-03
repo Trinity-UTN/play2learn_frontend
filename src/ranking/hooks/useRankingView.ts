@@ -6,7 +6,7 @@ type Category = "coins" | "activities";
 
 export const useRankingView = () => {
   const { getRanking, loading, ranking, setRanking } = useRankingContext();
-  const { subjects, getSubject } = useSubject();
+  const { subjects, getSubjectByStudent } = useSubject();
   const [category, setCategory] = useState<Category>("coins");
   const [selectedType, setSelectedType] =
     useState<RankingType>("coinsInstitucion");
@@ -23,7 +23,7 @@ export const useRankingView = () => {
 
   useEffect(() => {
     if (subjects.length <= 0) {
-      getSubject();
+      getSubjectByStudent();
     }
   }, []);
   const loadRanking = async () => {

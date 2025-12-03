@@ -68,6 +68,10 @@ const getSubjectByTeacherApi = async () => {
   const response = await api.get(urls.SubjectTeacher);
   return response;
 };
+const getSubjectByStudentApi = async () => {
+  const response = await api.get(urls.SubjectStudent);
+  return response;
+};
 
 const getPaginatedSubjectApi = async (
   params: GetPaginated
@@ -90,4 +94,5 @@ export const SubjectService = {
   getPaginatedSubjectApi,
   deleteSubjectApi,
   getSubjectByTeacherApi,
+  getSubjectByStudentApi,
 };

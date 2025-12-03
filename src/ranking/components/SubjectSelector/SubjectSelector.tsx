@@ -45,7 +45,8 @@ export const SubjectSelector = ({
                   {selectedSubject.name}
                 </span>
                 <span className={styles.subjectCourse}>
-                  {selectedSubject.course.name}
+                  {selectedSubject.course.name} • {selectedSubject.teacher.name}{" "}
+                  {selectedSubject.teacher.lastname}
                 </span>
               </>
             ) : (
