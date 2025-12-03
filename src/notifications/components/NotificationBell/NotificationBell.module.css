@@ -1,0 +1,83 @@
+.bellContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bellButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+  border-radius: 50%;
+}
+
+.bellButton:hover {
+  transform: scale(1.1);
+}
+
+.bellButton:active {
+  transform: scale(0.95);
+}
+
+.bellButton.student:hover {
+  background-color: #8b7cc8;
+}
+
+.bellButton.student .bellIcon {
+  font-size: 22px;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.bellButton.student:hover .bellIcon {
+  color: white;
+}
+
+.bellButton.teacher:hover {
+  background-color: rgba(247, 99, 0, 0.1);
+}
+
+.bellButton.teacher .bellIcon {
+  font-size: 22px;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.bellButton.teacher:hover .bellIcon {
+  color: #f76300;
+}
+
+.badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.badge_student {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.badge_teacher {
+  background: linear-gradient(135deg, #f76300, #ff8c42);
+}
