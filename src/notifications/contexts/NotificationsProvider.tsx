@@ -38,7 +38,71 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [handleApiError]);
+  }, []);
+
+  // const getUserNotifications = useCallback(async (): Promise<void> => {
+  //   setLoading(true);
+  //   try {
+  //     // Mock data basado en el DTO del backend
+  //     const mockNotifications: Notification[] = [
+  //       {
+  //         id: 1,
+  //         title: "Nueva actividad disponible",
+  //         notificationType: "NEW_ACTIVITY_PUBLISHED",
+  //         createdAt: new Date().toISOString(),
+  //         read: false,
+  //       },
+  //       {
+  //         id: 2,
+  //         title: "Actividad por vencer",
+  //         notificationType: "ACTIVITY_ABOUT_TO_EXPIRE",
+  //         createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 día atrás
+  //         read: false,
+  //       },
+  //       {
+  //         id: 3,
+  //         title: "Actividad corregida",
+  //         notificationType: "CORRECTED_ACTIVITY",
+  //         createdAt: new Date(Date.now() - 172800000).toISOString(), // 2 días atrás
+  //         read: true,
+  //       },
+  //       {
+  //         id: 4,
+  //         title: "Nuevo beneficio disponible",
+  //         notificationType: "NEW_BENEFIT",
+  //         createdAt: new Date(Date.now() - 259200000).toISOString(), // 3 días atrás
+  //         read: false,
+  //       },
+  //       {
+  //         id: 5,
+  //         title: "Nueva skin disponible",
+  //         notificationType: "NEW_SKINS",
+  //         createdAt: new Date(Date.now() - 345600000).toISOString(), // 4 días atrás
+  //         read: true,
+  //       },
+  //       {
+  //         id: 6,
+  //         title: "Nuevo logro disponible",
+  //         notificationType: "NEW_ACHIEVEMENT",
+  //         createdAt: new Date(Date.now() - 432000000).toISOString(), // 5 días atrás
+  //         read: false,
+  //       },
+  //       {
+  //         id: 7,
+  //         title: "Has llegado a la cima del ranking",
+  //         notificationType: "RANKING_TOP_1",
+  //         createdAt: new Date(Date.now() - 518400000).toISOString(), // 6 días atrás
+  //         read: true,
+  //       },
+  //     ];
+
+  //     setNotifications(mockNotifications);
+  //   } catch (error) {
+  //     handleApiError(error, "Error al obtener las notificaciones");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, []);
 
   const markAsRead = useCallback(
     async (notificationId: number): Promise<void> => {
@@ -57,7 +121,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
         setLoading(false);
       }
     },
-    [handleApiError]
+    []
   );
 
   const markAllAsRead = useCallback(async (): Promise<void> => {
@@ -79,7 +143,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [notifications, handleApiError]);
+  }, [notifications]);
 
   const refreshNotifications = useCallback(async (): Promise<void> => {
     await getUserNotifications();

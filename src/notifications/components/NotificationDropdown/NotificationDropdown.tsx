@@ -1,4 +1,5 @@
 import { FaBell, FaCheck, FaArrowRight } from "react-icons/fa";
+import Button from "../../../shared/components/Button/ButtonComponent";
 import type { NotificationVariant } from "../../types/notification.types";
 import { NOTIFICATION_CONFIG } from "../../constants/notification.constants";
 import { formatNotificationDate } from "../../utils/notification.utils";
@@ -15,8 +16,8 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
   variant = "student",
 }) => {
   const {
-    notifications,
     loading,
+    notifications,
     handleMarkAsRead,
     handleActionClick,
     isProcessing,
@@ -69,14 +70,16 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
       <div className={`${styles.dropdown} ${styles[variant]}`}>
         <div className={styles.dropdownHeader}>
           <h3 className={styles.dropdownTitle}>Notificaciones</h3>
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             className={`${styles.viewAllTopButton} ${
               styles[`viewAllTopButton_${variant}`]
             }`}
             onClick={handleViewAll}
           >
             Ver todo
-          </button>
+          </Button>
         </div>
         <div className={styles.emptyState}>
           <FaBell className={styles.emptyStateIcon} />
@@ -92,14 +95,16 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
         className={`${styles.dropdownHeader} ${styles[`header_${variant}`]}`}
       >
         <h3 className={styles.dropdownTitle}>Notificaciones</h3>
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
           className={`${styles.viewAllTopButton} ${
             styles[`viewAllTopButton_${variant}`]
           }`}
           onClick={handleViewAll}
         >
           Ver todo
-        </button>
+        </Button>
       </div>
       <div className={styles.notificationsList}>
         {displayedNotifications.map((notification) => {
@@ -134,7 +139,9 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
 
               <div className={styles.notificationActionsRight}>
                 {!notification.read && (
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     className={`${styles.actionButton} ${
                       styles.markAsReadButton
                     } ${styles[`markAsReadButton_${variant}`]}`}
@@ -145,10 +152,12 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
                     aria-label="Marcar como leída"
                   >
                     <FaCheck />
-                  </button>
+                  </Button>
                 )}
 
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   className={`${styles.actionButton} ${
                     styles.actionButtonIcon
                   } ${styles[`actionButtonIcon_${variant}`]}`}
@@ -164,7 +173,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
                   title={config.actionLabel}
                 >
                   <ActionIcon />
-                </button>
+                </Button>
               </div>
             </div>
           );
@@ -172,25 +181,31 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
       </div>
 
       {hasMoreNotifications && !isExpanded && (
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
+          fullWidth
           className={`${styles.expandButton} ${
             styles[`expandButton_${variant}`]
           }`}
           onClick={() => setIsExpanded(true)}
         >
           Ver más notificaciones ({notifications.length - 3})
-        </button>
+        </Button>
       )}
 
       {isExpanded && hasMoreNotifications && (
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
+          fullWidth
           className={`${styles.expandButton} ${
             styles[`expandButton_${variant}`]
           }`}
           onClick={() => setIsExpanded(false)}
         >
           Mostrar menos
-        </button>
+        </Button>
       )}
     </div>
   );

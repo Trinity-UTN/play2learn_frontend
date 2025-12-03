@@ -3,7 +3,7 @@ import type {
   NotificationConfig,
 } from "../types/notification.types";
 import {
-  FaBook,
+  FaGamepad,
   FaClock,
   FaCheckCircle,
   FaGift,
@@ -15,40 +15,38 @@ import {
   FaShoppingCart,
   FaHandPaper,
   FaChartLine,
-  FaPiggyBank,
-  FaCheckDouble,
 } from "react-icons/fa";
 
 export const NOTIFICATION_CONFIG: Record<NotificationType, NotificationConfig> =
   {
     // Notificaciones de Estudiante
     NEW_ACTIVITY_PUBLISHED: {
-      icon: FaBook,
-      color: "#4CAF50",
+      icon: FaGamepad,
+      color: "#8B5CF6",
       actionLabel: "Ver actividad",
       actionPath: "/dashboard/student/actividades/list",
     },
     ACTIVITY_ABOUT_TO_EXPIRE: {
       icon: FaClock,
-      color: "#FF9800",
+      color: "#8B5CF6",
       actionLabel: "Ver actividad",
       actionPath: "/dashboard/student/actividades/list",
     },
     CORRECTED_ACTIVITY: {
       icon: FaCheckCircle,
-      color: "#2196F3",
+      color: "#8B5CF6",
       actionLabel: "Ver corrección",
       actionPath: "/dashboard/student/actividades/list",
     },
     NEW_BENEFIT: {
       icon: FaGift,
-      color: "#E91E63",
+      color: "#F59E0B",
       actionLabel: "Ver beneficios",
       actionPath: "/dashboard/student/beneficios/list",
     },
     NEW_SKINS: {
       icon: FaTshirt,
-      color: "#9C27B0",
+      color: "#EF4444",
       actionLabel: "Ir a tienda",
       actionPath: "/dashboard/student/store",
     },
@@ -60,25 +58,25 @@ export const NOTIFICATION_CONFIG: Record<NotificationType, NotificationConfig> =
     },
     RANKING_TOP_1: {
       icon: FaCrown,
-      color: "#FFD700",
+      color: "#F97316",
       actionLabel: "Ver ranking",
       actionPath: "/dashboard/student/ranking/list",
     },
     BENEFIT_USE_ACCEPTED: {
-      icon: FaCheckDouble,
-      color: "#4CAF50",
+      icon: FaGift,
+      color: "#F59E0B",
       actionLabel: "Ver beneficios",
       actionPath: "/dashboard/student/beneficios/list",
     },
     STOCK_ORDER_EXECUTED: {
       icon: FaChartLine,
-      color: "#2196F3",
+      color: "#4df50b9c",
       actionLabel: "Ver inversiones",
       actionPath: "/dashboard/student/actions/list",
     },
     FIXED_TERM_DEPOSIT_ENDED: {
-      icon: FaPiggyBank,
-      color: "#4CAF50",
+      icon: FaClock,
+      color: "#4df50b9c",
       actionLabel: "Ver plazo fijo",
       actionPath: "/dashboard/student/plazo-fijo/list",
     },

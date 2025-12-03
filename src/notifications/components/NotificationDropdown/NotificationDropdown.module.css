@@ -65,32 +65,35 @@
 }
 
 .viewAllTopButton {
-  background: transparent;
-  border: none;
+  background: transparent !important;
+  border: none !important;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 12px !important;
+  font-weight: 600 !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: opacity 0.2s;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  transition: all 0.2s ease !important;
 }
 
 .viewAllTopButton_student {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .viewAllTopButton_student:hover {
-  color: #ffffff;
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  transform: translateY(-1px);
 }
 
 .viewAllTopButton_teacher {
-  color: #f76300;
+  color: #f76300 !important;
 }
 
 .viewAllTopButton_teacher:hover {
-  background: rgba(247, 99, 0, 0.05);
+  background: rgba(247, 99, 0, 0.1) !important;
+  transform: translateY(-1px);
 }
 
 .notificationCount {
@@ -151,6 +154,7 @@
   gap: 12px;
   align-items: center;
   animation: fadeIn 0.3s ease-out backwards;
+  transition: background 0.2s ease;
 }
 
 .notificationItem:nth-child(1) {
@@ -183,6 +187,10 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+.item_student:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
 .item_teacher {
   border-bottom: 1px solid #f5f5f5;
   color: #333;
@@ -190,6 +198,10 @@
 
 .item_teacher.unread {
   background: rgba(247, 99, 0, 0.03);
+}
+
+.item_teacher:hover {
+  background: rgba(247, 99, 0, 0.06);
 }
 
 .notificationItem.read {
@@ -225,6 +237,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.notificationItem:hover .iconContainer {
+  transform: scale(1.05);
 }
 
 .notificationIcon {
@@ -262,15 +279,16 @@
 }
 
 .actionButton {
-  border: none;
-  border-radius: 6px;
+  border: none !important;
+  border-radius: 6px !important;
   cursor: pointer;
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 6px 8px;
-  font-size: 13px;
+  padding: 6px 8px !important;
+  font-size: 13px !important;
+  transition: all 0.2s ease !important;
 }
 
 .actionButton:disabled {
@@ -279,31 +297,51 @@
 }
 
 .markAsReadButton {
-  padding: 6px 8px;
+  padding: 6px 8px !important;
 }
 
 .markAsReadButton_student {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+.markAsReadButton_student:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25) !important;
+  transform: scale(1.05);
 }
 
 .markAsReadButton_teacher {
-  background: rgba(247, 99, 0, 0.1);
-  color: #f76300;
+  background: rgba(247, 99, 0, 0.1) !important;
+  color: #f76300 !important;
+}
+
+.markAsReadButton_teacher:hover:not(:disabled) {
+  background: rgba(247, 99, 0, 0.2) !important;
+  transform: scale(1.05);
 }
 
 .actionButtonIcon {
-  padding: 6px 8px;
+  padding: 6px 8px !important;
 }
 
 .actionButtonIcon_student {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+.actionButtonIcon_student:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25) !important;
+  transform: translateX(2px);
 }
 
 .actionButtonIcon_teacher {
-  background: rgba(247, 99, 0, 0.1);
-  color: #f76300;
+  background: rgba(247, 99, 0, 0.1) !important;
+  color: #f76300 !important;
+}
+
+.actionButtonIcon_teacher:hover:not(:disabled) {
+  background: rgba(247, 99, 0, 0.2) !important;
+  transform: translateX(2px);
 }
 
 .emptyState {
@@ -328,6 +366,17 @@
   font-size: 56px;
   margin-bottom: 16px;
   opacity: 0.3;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .emptyStateText {
@@ -378,34 +427,36 @@
 }
 
 .expandButton {
-  width: 100%;
-  padding: 10px 16px;
-  border: none;
-  background: transparent;
+  width: 100% !important;
+  padding: 10px 16px !important;
+  border: none !important;
+  background: transparent !important;
   color: inherit;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 12px !important;
+  font-weight: 600 !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  transition: all 0.2s ease !important;
 }
 
 .expandButton_student {
-  color: rgba(255, 255, 255, 0.8);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
 .expandButton_student:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
 }
 
 .expandButton_teacher {
-  color: #f76300;
-  border-top: 1px solid #f0f0f0;
+  color: #f76300 !important;
+  border-top: 1px solid #f0f0f0 !important;
 }
 
 .expandButton_teacher:hover {
-  background: rgba(247, 99, 0, 0.05);
+  background: rgba(247, 99, 0, 0.08) !important;
 }
 
 /* Responsive Design */
@@ -443,12 +494,12 @@
   }
 
   .actionButton {
-    padding: 5px 6px;
+    padding: 5px 6px !important;
   }
 
   .viewAllTopButton {
-    font-size: 11px;
-    padding: 3px 6px;
+    font-size: 11px !important;
+    padding: 3px 6px !important;
   }
 
   .dropdownTitle {
@@ -491,12 +542,12 @@
   }
 
   .actionButton {
-    padding: 4px 5px;
-    font-size: 12px;
+    padding: 4px 5px !important;
+    font-size: 12px !important;
   }
 
   .expandButton {
-    padding: 8px 12px;
-    font-size: 11px;
+    padding: 8px 12px !important;
+    font-size: 11px !important;
   }
 }

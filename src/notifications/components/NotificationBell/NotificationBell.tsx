@@ -1,5 +1,6 @@
 import { FaBell } from "react-icons/fa";
 import type { NotificationVariant } from "../../types/notification.types";
+import Button from "../../../shared/components/Button/ButtonComponent";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 import { useNotificationBell } from "../../hooks/useNotificationBell";
 import styles from "./NotificationBell.module.css";
@@ -22,7 +23,9 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
 
   return (
     <div className={styles.bellContainer} ref={containerRef}>
-      <button
+      <Button
+        variant="ghost"
+        size="md"
         className={`${styles.bellButton} ${styles[variant]}`}
         onClick={toggleDropdown}
         aria-label="Notificaciones"
@@ -35,7 +38,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
             {unreadCount > 99 ? "99+" : unreadCount}
           </span>
         )}
-      </button>
+      </Button>
 
       {isOpen && (
         <NotificationDropdown onClose={closeDropdown} variant={variant} />
