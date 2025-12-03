@@ -12,11 +12,11 @@ import {
   FaCrown,
   FaUserCheck,
   FaUsers,
-  FaBullhorn,
-  FaHourglassEnd,
-  FaExclamationCircle,
   FaShoppingCart,
   FaHandPaper,
+  FaChartLine,
+  FaPiggyBank,
+  FaCheckDouble,
 } from "react-icons/fa";
 
 export const NOTIFICATION_CONFIG: Record<NotificationType, NotificationConfig> =
@@ -64,36 +64,36 @@ export const NOTIFICATION_CONFIG: Record<NotificationType, NotificationConfig> =
       actionLabel: "Ver ranking",
       actionPath: "/dashboard/student/ranking/list",
     },
+    BENEFIT_USE_ACCEPTED: {
+      icon: FaCheckDouble,
+      color: "#4CAF50",
+      actionLabel: "Ver beneficios",
+      actionPath: "/dashboard/student/beneficios/list",
+    },
+    STOCK_ORDER_EXECUTED: {
+      icon: FaChartLine,
+      color: "#2196F3",
+      actionLabel: "Ver inversiones",
+      actionPath: "/dashboard/student/actions/list",
+    },
+    FIXED_TERM_DEPOSIT_ENDED: {
+      icon: FaPiggyBank,
+      color: "#4CAF50",
+      actionLabel: "Ver plazo fijo",
+      actionPath: "/dashboard/student/plazo-fijo/list",
+    },
 
     // Notificaciones de Docente
-    STUDENT_COMPLETED_ACTIVITY: {
+    STUDENT_COMPLETE_ACTIVITY: {
       icon: FaUserCheck,
       color: "#4CAF50",
       actionLabel: "Ver actividades",
       actionPath: "/dashboard/teacher/actividades/created/list",
     },
-    ALL_STUDENTS_COMPLETED_ACTIVITY: {
+    ALL_STUDENTS_APPROVE_ACTIVITY: {
       icon: FaUsers,
       color: "#4CAF50",
       actionLabel: "Ver actividades",
-      actionPath: "/dashboard/teacher/actividades/created/list",
-    },
-    ACTIVITY_PUBLISHED: {
-      icon: FaBullhorn,
-      color: "#2196F3",
-      actionLabel: "Ver actividades",
-      actionPath: "/dashboard/teacher/actividades/created/list",
-    },
-    ACTIVITY_EXPIRED: {
-      icon: FaHourglassEnd,
-      color: "#FF5722",
-      actionLabel: "Ver actividades",
-      actionPath: "/dashboard/teacher/actividades/created/list",
-    },
-    ACTIVITY_PENDING_CORRECTION: {
-      icon: FaExclamationCircle,
-      color: "#FF9800",
-      actionLabel: "Corregir actividad",
       actionPath: "/dashboard/teacher/actividades/created/list",
     },
     BENEFIT_PURCHASED: {
@@ -102,7 +102,7 @@ export const NOTIFICATION_CONFIG: Record<NotificationType, NotificationConfig> =
       actionLabel: "Ver beneficios",
       actionPath: "/dashboard/teacher/beneficio/list",
     },
-    BENEFIT_REQUEST: {
+    BENEFIT_USE_REQUESTED: {
       icon: FaHandPaper,
       color: "#FF9800",
       actionLabel: "Ver solicitudes",
