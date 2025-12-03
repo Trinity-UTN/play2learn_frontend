@@ -46,6 +46,7 @@ import ActionsView from "../investments/views/actionsView/ActionsView";
 import InvestmentsView from "../investments/views/InvestmentsView/InvestmentsView";
 import PlazoFijoView from "../investments/views/PlazoFijoView/PlazoFijoView";
 import CajaDeAhorroView from "../investments/views/CajaDeAhorroView/CajaDeAhorroView";
+import { ChangePasswordPage } from "../user";
 
 const StudentApp = () => {
   return (
@@ -175,6 +176,12 @@ const StudentApp = () => {
 
             {/* CAJA DE AHORRO   */}
             <Route path="caja-de-ahorro/list" element={<CajaDeAhorroView />} />
+
+            {/* Cambio de contraseña */}
+            <Route
+              path="profile/change-password"
+              element={<ChangePasswordPage />}
+            />
           </Route>
         </Routes>
       </AnimatePresence>

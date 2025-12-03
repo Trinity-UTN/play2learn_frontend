@@ -37,6 +37,7 @@ import OverviewView from "../teacher/views/overviewView/Overview";
 import ConfigureActivityView from "../activity/views/configurationView/ConfigureActivityView";
 import ActivityView from "../activity/views/activityView/ActivityView";
 import ActivityDetailsView from "../teacher/views/ActivityDetailsView/ActivityDetailsView";
+import { ChangePasswordPage } from "../user";
 import styles from "../App.module.css";
 
 const TeacherApp = () => {
@@ -150,6 +151,8 @@ const TeacherApp = () => {
               path="beneficio/list/:id/*"
               element={<BenefitPurchasesView />}
             />
+            {/* Cambio de contraseña */}
+            <Route path="change-password" element={<ChangePasswordPage />} />
           </Route>
         </Routes>
       </AnimatePresence>

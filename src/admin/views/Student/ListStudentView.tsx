@@ -14,7 +14,9 @@ import { useStudent } from "../../hooks/useStudent";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import usePaginationParams from "../../../shared/hooks/usePaginateParams";
+import { usePassword } from "../../../user";
 import styles from "./ListStudentView.module.css";
+import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 
 const ListStudentView: React.FC = () => {
   const {
@@ -34,6 +36,7 @@ const ListStudentView: React.FC = () => {
   } = usePaginationParams();
   const { showConfirmation } = useConfirmation();
   const { showToast } = useToaster();
+  const { restorePassword } = usePassword();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -88,6 +91,16 @@ const ListStudentView: React.FC = () => {
           type: "success",
           position: "bottom-right",
         });
+      },
+    });
+  };
+  const handleRestorePassword = (student: StudentResponseDto) => {
+    showConfirmation({
+      title: "Restaurar Contraseña del Estudiante",
+      message: `¿Está seguro que desea restaurar la contraseña del estudiante "${student.name} ${student.lastname}"?`,
+      type: "warning",
+      onConfirm: async () => {
+        await restorePassword("student", student.id);
       },
     });
   };
@@ -236,6 +249,14 @@ const ListStudentView: React.FC = () => {
       variant: "ghost",
       className: styles.deleteButton,
       title: "Eliminar estudiante",
+    },
+    {
+      label: "Restaurar contraseña",
+      icon: <MdOutlineSettingsBackupRestore />,
+      onClick: handleRestorePassword,
+      variant: "ghost",
+      className: styles.restoreButton,
+      title: "Restaurar contraseña",
     },
   ];
 
