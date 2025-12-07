@@ -1,0 +1,169 @@
+@import "../../../shared/styles/colors.css";
+.positionCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.positionCard:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.positionCard.currentUser {
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.3),
+    rgba(118, 75, 162, 0.3)
+  );
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+}
+
+.positionCard.topThree {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.2),
+    rgba(255, 237, 78, 0.1)
+  );
+}
+
+.positionNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+}
+
+.numberText {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.medalIcon {
+  font-size: 2rem;
+}
+
+.medalIcon.gold {
+  color: #ffd700;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+}
+
+.medalIcon.silver {
+  color: #d5d3d3;
+  filter: drop-shadow(0 0 10px rgba(192, 192, 192, 0.6));
+}
+
+.medalIcon.bronze {
+  color: #b45d07;
+  filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.6));
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background: rgba(var(--color-secondary-rgb), 0.7);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nameContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.name {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.youBadge {
+  padding: 0.25rem 0.75rem;
+  background: var(--color-stat-4);
+  border-radius: 12px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.quantityContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+.quantityIcon {
+  font-size: 1.25rem;
+  color: #ffd700;
+}
+
+.quantity {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .positionCard {
+    padding: 0.75rem 1rem;
+  }
+
+  .name {
+    font-size: 1rem;
+  }
+
+  .quantity {
+    font-size: 1rem;
+  }
+}

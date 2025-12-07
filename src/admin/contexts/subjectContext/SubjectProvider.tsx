@@ -75,6 +75,18 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     }
   }, []);
 
+  const getSubjectByStudent = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await SubjectService.getSubjectByStudentApi();
+      setSubjects(response.data.data);
+    } catch (error) {
+      handleApiError(error, "Error al obtener las materias del estudiante");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const getPaginatedSubject = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
@@ -113,6 +125,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     getPaginatedSubject,
     deleteSubject,
     setSelectedSubject,
+    getSubjectByStudent,
   };
 
   return (

@@ -18,7 +18,7 @@ const CourseGrid = ({ statistics }: Props) => {
   return (
     <motion.div variants={itemVariants} className={styles.section}>
       <div className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}>Mis Cursos</h2>
+        <h2 className={styles.sectionTitle}>Mis Materias</h2>
         <Button
           variant="ghost"
           size="sm"

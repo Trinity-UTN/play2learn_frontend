@@ -11,6 +11,7 @@ export const urls = {
   CoursePaginated: "/admin/courses/paginated",
   Subject: "/admin/subjects",
   SubjectTeacher: "/admin/subjects/teacher",
+  SubjectStudent: "/admin/students/subjects",
   SubjectPaginated: "admin/subjects/paginated",
   statistics: "/statistics/home/admin",
 };
