@@ -1,31 +1,12 @@
 import { urls } from "../urls";
+
+import { api, buildCleanPaginatedParams, type GetPaginated } from "@/shared";
 import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-import api from "../../../shared/utils/api";
-import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
-
-export interface CreateYearPayload {
-  name: string;
-}
-
-export interface UpdateYearPayload {
-  id: number;
-  name: string;
-}
-
-export interface YearResponseDto {
-  id: number;
-  name: string;
-}
-
-export interface PaginatedYearResponse {
-  data: PaginatedData<YearResponseDto>;
-  message: string;
-  errors: any;
-  timestamp: string;
-}
+  CreateYearPayload,
+  PaginatedYearResponse,
+  UpdateYearPayload,
+  YearResponseDto,
+} from "../../types/year.types";
 
 const registerYearApi = async (data: CreateYearPayload): Promise<void> => {
   await api.post(urls.Years, data);
