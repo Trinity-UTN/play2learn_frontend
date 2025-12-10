@@ -1,5 +1,5 @@
 import { useConfirmation, usePaginationParams, useToaster } from "@/shared";
-import { useYear } from "../useYear";
+import { useYear } from "@/admin";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 import type { YearResponseDto } from "@/admin/types/year.types";

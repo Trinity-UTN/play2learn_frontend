@@ -1,77 +1,27 @@
-import type React from "react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import type { CourseResponseDto } from "../../services/course/CourseService";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import { DataTable } from "../../../shared/components/DataTable";
-import type {
-  DataTableColumn,
-  DataTableAction,
-} from "../../../shared/components/DataTable";
-import { useCourse } from "../../hooks/useCourse";
-import { useConfirmation } from "../../../shared/hooks/useConfirmation";
-import { useToaster } from "../../../shared/hooks/useToaster";
-import usePaginationParams from "../../../shared/hooks/usePaginateParams";
+import {
+  Button,
+  DataTable,
+  type DataTableAction,
+  type DataTableColumn,
+} from "@/shared";
+import { useCourseView, type CourseResponseDto } from "@/admin";
 import styles from "./ListCourseView.module.css";
 
 const ViewCoursesView: React.FC = () => {
   const {
     loading,
     paginatedCourse,
-    getPaginatedCourse,
-    deleteCourse,
-    setSelectedCourse,
-  } = useCourse();
-  const {
     paginationParams,
     handleSearch,
     handleSort,
     handlePageChange,
     handlePageSizeChange,
-  } = usePaginationParams();
-  const { showConfirmation } = useConfirmation();
-  const { showToast } = useToaster();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const loadPaginatedCourses = async () => {
-      await getPaginatedCourse(paginationParams);
-    };
-    loadPaginatedCourses();
-  }, [paginationParams, getPaginatedCourse]);
-
-  const handleEdit = (course: CourseResponseDto) => {
-    showConfirmation({
-      title: "Modificar Curso",
-      message: `¿Está seguro que desea modificar el curso "${course.name}"?`,
-      type: "warning",
-      onConfirm: () => {
-        setSelectedCourse(course);
-        navigate(`/dashboard/courses/edit/${course.id}`);
-      },
-    });
-  };
-
-  const handleDelete = (course: CourseResponseDto) => {
-    showConfirmation({
-      title: "Eliminar Curso",
-      message: `¿Está seguro que desea eliminar el curso "${course.name}"?`,
-      type: "danger",
-      showDoubleConfirmation: true,
-      onConfirm: async () => {
-        await deleteCourse(course.id);
-        await getPaginatedCourse(paginationParams);
-        showToast({
-          title: "Curso eliminado exitosamente",
-          message: "El curso ha sido eliminado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-      },
-    });
-  };
+    handleEdit,
+    handleDelete,
+    navigate,
+  } = useCourseView();
 
   // Definición de columnas para la tabla
   const columns: DataTableColumn<CourseResponseDto>[] = [

@@ -2,11 +2,8 @@ import type {
   CreateCoursePayload,
   CourseResponseDto,
   UpdateCoursePayload,
-} from "../../services/course/CourseService";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+} from "@/admin/types/course.types";
+import type { GetPaginated, PaginatedData } from "@/shared";
 
 export interface CourseContextType {
   loading: boolean;

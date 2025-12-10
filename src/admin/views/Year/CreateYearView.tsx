@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { FaCalendarAlt, FaSave } from "react-icons/fa";
 import { Card, Button, Input } from "@/shared";
 import styles from "./CreateYearView.module.css";
-import { useCreateYearView } from "@/admin/hooks/hooksUI/useCreateYearView";
+import { useCreateYearView } from "@/admin";
 
 const CreateYearView: React.FC = () => {
   const {

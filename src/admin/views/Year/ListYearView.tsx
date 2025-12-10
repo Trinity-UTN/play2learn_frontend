@@ -8,7 +8,7 @@ import {
   type DataTableColumn,
 } from "@/shared";
 import styles from "./ListYearView.module.css";
-import { useListYear } from "@/admin/hooks/hooksUI/useListYear";
+import { useListYear } from "@/admin";
 
 const ListYearView: React.FC = () => {
   const {
