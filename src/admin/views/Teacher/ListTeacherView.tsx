@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import { DataTable } from "../../../shared/components/DataTable";
-import type {
-  DataTableColumn,
-  DataTableAction,
-} from "../../../shared/components/DataTable";
+import {
+  type DataTableColumn,
+  type DataTableAction,
+  Button,
+  DataTable,
+  itemVariants,
+  containerVariants,
+} from "@/shared";
 import { useListTeacherView, type TeacherResponseDto } from "@/admin";
 import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 import styles from "./ListTeacherView.module.css";
@@ -143,21 +145,6 @@ const ListTeacherView: React.FC = () => {
       title: "Restaurar contraseña",
     },
   ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
-  };
 
   return (
     <motion.div

@@ -1,4 +1,4 @@
-import type { Wallet } from "../../admin/services/student/StudentService";
+import type { Wallet } from "@/admin";
 import type {
   BenefitStudentResponseInterface,
   BenefitPurchaseValidation,

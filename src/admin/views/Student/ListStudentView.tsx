@@ -1,20 +1,15 @@
-import type React from "react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import type { StudentResponseDto } from "../../services/student/StudentService";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import { DataTable } from "../../../shared/components/DataTable";
-import type {
-  DataTableColumn,
-  DataTableAction,
-} from "../../../shared/components/DataTable";
-import { useStudent } from "../../hooks/useStudent";
-import { useConfirmation } from "../../../shared/hooks/useConfirmation";
-import { useToaster } from "../../../shared/hooks/useToaster";
-import usePaginationParams from "../../../shared/hooks/usePaginateParams";
-import { usePassword } from "../../../user";
+import { useListStudentView, type StudentResponseDto } from "@/admin";
+import {
+  Button,
+  DataTable,
+  type DataTableAction,
+  type DataTableColumn,
+  itemVariants,
+  containerVariants,
+} from "@/shared";
+
 import styles from "./ListStudentView.module.css";
 import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 
@@ -22,88 +17,21 @@ const ListStudentView: React.FC = () => {
   const {
     loading,
     paginatedStudents,
-    getPaginatedStudent,
-    deleteStudent,
-    setSelectedStudent,
-    restoreStudent,
-  } = useStudent();
-  const {
+
+    // pagination states/actions
     paginationParams,
     handleSearch,
     handleSort,
     handlePageChange,
     handlePageSizeChange,
-  } = usePaginationParams();
-  const { showConfirmation } = useConfirmation();
-  const { showToast } = useToaster();
-  const { restorePassword } = usePassword();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    const loadPaginatedStudents = async () => {
-      await getPaginatedStudent(paginationParams);
-    };
-    loadPaginatedStudents();
-  }, [paginationParams, getPaginatedStudent]);
-
-  const handleEdit = (student: StudentResponseDto) => {
-    showConfirmation({
-      title: "Modificar Estudiante",
-      message: `¿Está seguro que desea modificar el estudiante "${student.name} ${student.lastname}"?`,
-      type: "warning",
-      onConfirm: () => {
-        setSelectedStudent(student);
-        navigate(`/dashboard/students/edit/${student.id}`);
-      },
-    });
-  };
-
-  const handleDelete = (student: StudentResponseDto) => {
-    showConfirmation({
-      title: "Eliminar Estudiante",
-      message: `¿Está seguro que desea eliminar el estudiante "${student.name} ${student.lastname}"?`,
-      type: "danger",
-      showDoubleConfirmation: true,
-      onConfirm: async () => {
-        await deleteStudent(student.id);
-        await getPaginatedStudent(paginationParams);
-        showToast({
-          title: "Estudiante eliminado exitosamente",
-          message: "El estudiante ha sido eliminado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-      },
-    });
-  };
-
-  const handleRestore = (student: StudentResponseDto) => {
-    showConfirmation({
-      title: "Restaurar Estudiante",
-      message: `¿Está seguro que desea restaurar el estudiante "${student.name} ${student.lastname}"?`,
-      type: "warning",
-      onConfirm: async () => {
-        await restoreStudent(student.id);
-        await getPaginatedStudent(paginationParams);
-        showToast({
-          title: "Estudiante restaurado exitosamente",
-          message: "El estudiante ha sido restaurado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-      },
-    });
-  };
-  const handleRestorePassword = (student: StudentResponseDto) => {
-    showConfirmation({
-      title: "Restaurar Contraseña del Estudiante",
-      message: `¿Está seguro que desea restaurar la contraseña del estudiante "${student.name} ${student.lastname}"?`,
-      type: "warning",
-      onConfirm: async () => {
-        await restorePassword("student", student.id);
-      },
-    });
-  };
+    // student actions
+    handleEdit,
+    handleDelete,
+    handleRestore,
+    handleRestorePassword,
+    navigate,
+  } = useListStudentView();
 
   //Definicion de los botones de Status
   const BtnStatusTrue = () => {
@@ -259,21 +187,6 @@ const ListStudentView: React.FC = () => {
       title: "Restaurar contraseña",
     },
   ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
-  };
 
   return (
     <motion.div

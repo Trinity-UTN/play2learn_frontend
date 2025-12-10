@@ -1,12 +1,9 @@
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+import type { GetPaginated, PaginatedData } from "@/shared";
 import type {
   CreateStudentPayload,
   UpdateStudentPayload,
   StudentResponseDto,
-} from "../../services/student/StudentService";
+} from "@/admin";
 
 export interface StudentContextType {
   loading: boolean;

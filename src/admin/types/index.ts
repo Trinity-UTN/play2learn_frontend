@@ -18,3 +18,13 @@ export type {
   TeacherResponseDto,
   UpdateTeacherPayload,
 } from "./teacher.types";
+
+export type {
+  BodyPart,
+  CreateStudentPayload,
+  PaginatedStudentResponse,
+  Profile,
+  StudentResponseDto,
+  UpdateStudentPayload,
+  Wallet,
+} from "./student.types";

@@ -1,139 +1,24 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaGraduationCap, FaSave } from "react-icons/fa";
-import Card from "../../../shared/components/Card/CardComponent";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import Input from "../../../shared/components/Input/InputComponent";
-import { useYear } from "../../hooks/useYear";
-import { useCourse } from "../../hooks/useCourse";
-import { useStudent } from "../../hooks/useStudent";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
-import { useToaster } from "../../../shared/hooks/useToaster";
+import { Card, Button, Input } from "@/shared";
+
 import styles from "./CreateStudentView.module.css";
+import { useCreateStudentView } from "@/admin/hooks/hooksUI/Student/useCreateStudentView";
 
 const CreateStudentView: React.FC = () => {
-  const { years, getYear } = useYear();
-  const { courses, getCourse } = useCourse();
-  const { loading, selectedStudent, registerStudent, updateStudent } =
-    useStudent();
-  const { id } = useParams<{ id: string }>();
-  const { handleApiError } = useHandleApiError();
-  const { showToast } = useToaster();
-  const navigate = useNavigate();
+  const {
+    loading,
+    years,
+    courses: filteredCourses,
 
-  const [formData, setFormData] = useState({
-    name: "",
-    lastname: "",
-    dni: "",
-    email: "",
-    year_id: 0,
-    course_id: 0,
-    emailTutor: "",
-    birthdate: "",
-  });
+    formData,
+    handleChange,
+    handleSubmit,
+    handleCancel,
 
-  const isEditMode = Boolean(id);
-
-  useEffect(() => {
-    getYear();
-    getCourse();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (isEditMode && id) {
-      const loadYearData = async () => {
-        try {
-          setFormData({
-            name: selectedStudent?.name || "",
-            lastname: selectedStudent?.lastname || "",
-            dni: selectedStudent?.dni || "",
-            email: selectedStudent?.user.email || "",
-            year_id: selectedStudent?.course.year.id || 0,
-            course_id: selectedStudent?.course.id || 0,
-            emailTutor: selectedStudent?.emailTutor || "",
-            birthdate: selectedStudent?.birthdate || "",
-          });
-        } catch (error) {
-          handleApiError(error, "Error al cargar el estudiante");
-          navigate("/dashboard/students/list");
-        }
-      };
-      loadYearData();
-    }
-  }, [id, isEditMode, navigate]);
-
-  const filteredCourses = courses.filter(
-    (course) => course.year.id === formData.year_id
-  );
-
-  const resetFormData = () => {
-    setFormData({
-      name: "",
-      lastname: "",
-      dni: "",
-      email: "",
-      year_id: 0,
-      course_id: 0,
-      emailTutor: "",
-      birthdate: "",
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const payload = {
-      name: formData.name.trim(),
-      lastname: formData.lastname.trim(),
-      dni: formData.dni.trim(),
-      email: formData.email.trim(),
-      course_id: formData.course_id,
-      emailTutor: formData.emailTutor.trim(),
-      birthdate: formData.birthdate.trim(),
-    };
-    try {
-      if (isEditMode && id) {
-        const idN = id ? Number(id) : 0;
-        const data = { id: idN, ...payload };
-
-        await updateStudent(data);
-        showToast({
-          title: "Estudiante actualizado exitosamente",
-          message: "El estudiante ha sido actualizado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-        navigate("/dashboard/students/list");
-      } else {
-        await registerStudent(formData);
-        showToast({
-          title: "Estudiante creado exitosamente",
-          message: "El estudiante ha sido creado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-        resetFormData();
-      }
-    } catch (err) {
-      showToast({
-        title:
-          "Error al" +
-          (isEditMode ? " actualizar" : " crear") +
-          " el estudiante",
-        type: "error",
-        position: "bottom-right",
-      });
-    }
-  };
-
-  const handleChange = (field: string, value: string | number) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleCancel = () => {
-    navigate("/dashboard/students/list");
-  };
+    isEditMode,
+    setFormData,
+  } = useCreateStudentView();
 
   return (
     <motion.div

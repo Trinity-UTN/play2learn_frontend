@@ -6,3 +6,5 @@ export { useListYear } from "./Year/useListYear";
 
 export { useListTeacherView } from "./Teacher/useListTeacherView";
 export { useCreateTeacherView } from "./Teacher/useCreateTeacherView";
+
+export { useListStudentView } from "./Student/useListStudentView";
