@@ -11,3 +11,10 @@ export type {
   UpdateYearPayload,
   YearResponseDto,
 } from "./year.types";
+
+export type {
+  CreateTeacherPayload,
+  PaginatedTeacherResponse,
+  TeacherResponseDto,
+  UpdateTeacherPayload,
+} from "./teacher.types";

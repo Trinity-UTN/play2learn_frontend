@@ -1,109 +1,30 @@
-import type React from "react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import type { TeacherResponseDto } from "../../services/teacher/TeacherService";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import { DataTable } from "../../../shared/components/DataTable";
 import type {
   DataTableColumn,
   DataTableAction,
 } from "../../../shared/components/DataTable";
-import { useTeacher } from "../../hooks/useTeacher";
-import { useConfirmation } from "../../../shared/hooks/useConfirmation";
-import { useToaster } from "../../../shared/hooks/useToaster";
-import usePaginationParams from "../../../shared/hooks/usePaginateParams";
-import styles from "./ListTeacherView.module.css";
-import { usePassword } from "../../../user";
+import { useListTeacherView, type TeacherResponseDto } from "@/admin";
 import { MdOutlineSettingsBackupRestore } from "react-icons/md";
+import styles from "./ListTeacherView.module.css";
 
 const ListTeacherView: React.FC = () => {
   const {
     loading,
     paginatedTeacher,
-    getPaginatedTeacher,
-    deleteTeacher,
-    restoreTeacher,
-    setSelectedTeacher,
-  } = useTeacher();
-  const {
     paginationParams,
     handleSearch,
     handleSort,
     handlePageChange,
     handlePageSizeChange,
-  } = usePaginationParams();
-  const { showConfirmation } = useConfirmation();
-  const { showToast } = useToaster();
-  const { restorePassword } = usePassword();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const loadPaginatedTeacher = async () => {
-      await getPaginatedTeacher(paginationParams);
-    };
-    loadPaginatedTeacher();
-  }, [paginationParams, getPaginatedTeacher]);
-
-  const handleEdit = (teacher: TeacherResponseDto) => {
-    showConfirmation({
-      title: "Modificar Docente",
-      message: `¿Está seguro que desea modificar el docente "${teacher.name}"?`,
-      type: "warning",
-      onConfirm: () => {
-        setSelectedTeacher(teacher);
-        navigate(`/dashboard/teachers/edit/${teacher.id}`);
-      },
-    });
-  };
-
-  const handleDelete = (teacher: TeacherResponseDto) => {
-    showConfirmation({
-      title: "Eliminar Docente",
-      message: `¿Está seguro que desea eliminar el docente "${teacher.name}"?`,
-      type: "danger",
-      showDoubleConfirmation: true,
-      onConfirm: async () => {
-        await deleteTeacher(teacher.id);
-        await getPaginatedTeacher(paginationParams);
-        showToast({
-          title: "Docente eliminado exitosamente",
-          message: "El docente ha sido eliminado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-      },
-    });
-  };
-
-  const handleRestore = (teacher: TeacherResponseDto) => {
-    showConfirmation({
-      title: "Restaurar Docente",
-      message: `¿Está seguro que desea restaurar el docente "${teacher.name}"?`,
-      type: "warning",
-      onConfirm: async () => {
-        await restoreTeacher(teacher.id);
-        await getPaginatedTeacher(paginationParams);
-        showToast({
-          title: "Docente restaurado exitosamente",
-          message: "El docente ha sido restaurado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-      },
-    });
-  };
-  const handleRestorePassword = (teacher: TeacherResponseDto) => {
-    showConfirmation({
-      title: "Restaurar Contraseña del Docente",
-      message: `¿Está seguro que desea restaurar la contraseña del docente "${teacher.name} ${teacher.lastname}"?`,
-      type: "warning",
-      onConfirm: async () => {
-        await restorePassword("teacher", teacher.id);
-      },
-    });
-  };
+    handleEdit,
+    handleDelete,
+    handleRestore,
+    handleRestorePassword,
+    navigate,
+  } = useListTeacherView();
 
   //Definicion de los botones de Status
   const BtnStatusTrue = () => {
