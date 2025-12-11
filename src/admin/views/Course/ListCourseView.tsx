@@ -1,14 +1,7 @@
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import {
-  Button,
-  DataTable,
-  type DataTableAction,
-  type DataTableColumn,
-  itemVariants,
-  containerVariants,
-} from "@/shared";
-import { useCourseView, type CourseResponseDto } from "@/admin";
+import { FaCalendarAlt, FaPlus } from "react-icons/fa";
+import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
+import { getCourseColumns, getCourseActions, useCourseView } from "@/admin";
 import styles from "./ListCourseView.module.css";
 
 const ViewCoursesView: React.FC = () => {
@@ -25,59 +18,8 @@ const ViewCoursesView: React.FC = () => {
     navigate,
   } = useCourseView();
 
-  // Definición de columnas para la tabla
-  const columns: DataTableColumn<CourseResponseDto>[] = [
-    {
-      key: "id",
-      label: "ID",
-      sortable: true,
-      width: "100px",
-      className: styles.idColumn,
-      render: (curso) => <span className={styles.idBadge}>{curso.id}</span>,
-    },
-    {
-      key: "name",
-      label: "Nombre del curso",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (course) => (
-        <div className={styles.nameWrapper}>
-          <span>{course.name}</span>
-        </div>
-      ),
-    },
-    {
-      key: "year",
-      label: "Nombre del Año",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (course) => (
-        <div className={styles.nameWrapper}>
-          <span>{course.year.name}</span>
-        </div>
-      ),
-    },
-  ];
-
-  // Definición de acciones para la tabla
-  const actions: DataTableAction<CourseResponseDto>[] = [
-    {
-      label: "Editar",
-      icon: <FaEdit />,
-      onClick: handleEdit,
-      variant: "ghost",
-      className: styles.editButton,
-      title: "Modificar curso",
-    },
-    {
-      label: "Eliminar",
-      icon: <FaTrash />,
-      onClick: handleDelete,
-      variant: "ghost",
-      className: styles.deleteButton,
-      title: "Eliminar curso",
-    },
-  ];
+  const columns = getCourseColumns(styles);
+  const actions = getCourseActions({ styles, handleEdit, handleDelete });
 
   return (
     <motion.div

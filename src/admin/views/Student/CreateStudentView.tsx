@@ -3,7 +3,7 @@ import { FaGraduationCap, FaSave } from "react-icons/fa";
 import { Card, Button, Input } from "@/shared";
 
 import styles from "./CreateStudentView.module.css";
-import { useCreateStudentView } from "@/admin/hooks/hooksUI/Student/useCreateStudentView";
+import { useCreateStudentView } from "@/admin";
 
 const CreateStudentView: React.FC = () => {
   const {

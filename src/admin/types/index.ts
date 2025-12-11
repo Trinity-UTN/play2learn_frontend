@@ -28,3 +28,11 @@ export type {
   UpdateStudentPayload,
   Wallet,
 } from "./student.types";
+
+export type {
+  CreateSubjectPayload,
+  PaginatedSubjectResponse,
+  SubjectResponseDto,
+  SubjectSimplifiedResponseDto,
+  UpdateSubjectPayload,
+} from "./subject.types";

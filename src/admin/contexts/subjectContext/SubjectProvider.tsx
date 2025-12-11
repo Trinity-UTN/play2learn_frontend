@@ -1,4 +1,4 @@
-import { useCallback, useState, type ReactNode } from "react";
+import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { SubjectContext } from "./SubjectContext";
 import type { SubjectContextType } from "./SubjectContext.type";
 import { SubjectService } from "../../services/subject/SubjectService";
@@ -6,12 +6,14 @@ import type {
   CreateSubjectPayload,
   SubjectResponseDto,
   UpdateSubjectPayload,
-} from "../../services/subject/SubjectService";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+} from "@/admin";
+import {
+  type GetPaginated,
+  type PaginatedData,
+  useHandleApiError,
+  useToaster,
+  withLoading,
+} from "@/shared";
 
 interface SubjectProviderProps {
   children: ReactNode;
@@ -21,6 +23,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
   children,
 }) => {
   const { handleApiError } = useHandleApiError();
+  const { showToast } = useToaster();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [subjects, setSubjects] = useState<SubjectResponseDto[]>([]);
@@ -29,95 +32,111 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
   const [selectedSubject, setSelectedSubject] =
     useState<SubjectResponseDto | null>(null);
 
-  const registerSubject = async (data: CreateSubjectPayload): Promise<void> => {
-    setLoading(true);
-    try {
-      await SubjectService.registerSubjectApi(data);
-    } catch (error) {
-      handleApiError(error, "Error al crear la materia");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const registerSubject = useCallback(
+    async (data: CreateSubjectPayload): Promise<void> => {
+      await withLoading(async () => {
+        try {
+          await SubjectService.registerSubjectApi(data);
 
-  const updateSubject = async (data: UpdateSubjectPayload): Promise<void> => {
-    setLoading(true);
-    try {
-      await SubjectService.updateSubjectApi(data);
-    } catch (error) {
-      handleApiError(error, "Error al actualizar la materia");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getSubject = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await SubjectService.getSubjectApi();
-      setSubjects(response.data.data);
-    } catch (error) {
-      handleApiError(error, "Error al obtener las materias");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const getSubjectByTeacher = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await SubjectService.getSubjectByTeacherApi();
-      setSubjects(response.data.data);
-    } catch (error) {
-      handleApiError(error, "Error al obtener las materias del profesor");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const getSubjectByStudent = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await SubjectService.getSubjectByStudentApi();
-      setSubjects(response.data.data);
-    } catch (error) {
-      handleApiError(error, "Error al obtener las materias del estudiante");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const getPaginatedSubject = useCallback(
-    async (params: GetPaginated): Promise<void> => {
-      setLoading(true);
-      try {
-        const response = await SubjectService.getPaginatedSubjectApi(params);
-        setPaginatedSubjects(response.data);
-      } catch (error) {
-        handleApiError(error, "Error al obtener las materias paginadas");
-      } finally {
-        setLoading(false);
-      }
+          showToast({
+            title: "Materia creada exitosamente",
+            message: "La materia ha sido creada exitosamente",
+            type: "success",
+            position: "bottom-right",
+          });
+        } catch (error) {
+          handleApiError(error, "Error al crear la materia");
+        }
+      }, setLoading);
     },
     []
   );
 
-  const deleteSubject = async (id: number): Promise<void> => {
-    setLoading(true);
-    try {
-      await SubjectService.deleteSubjectApi(id);
-    } catch (error) {
-      handleApiError(error, "Error al eliminar la materia");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const updateSubject = useCallback(
+    async (data: UpdateSubjectPayload): Promise<void> => {
+      await withLoading(async () => {
+        try {
+          await SubjectService.updateSubjectApi(data);
 
-  const contextValue: SubjectContextType = {
+          showToast({
+            title: "Materia actualizada exitosamente",
+            message: "La materia ha sido actualizada exitosamente",
+            type: "success",
+            position: "bottom-right",
+          });
+        } catch (error) {
+          handleApiError(error, "Error al actualizar la materia");
+        }
+      }, setLoading);
+    },
+    []
+  );
+
+  const getSubject = useCallback(async () => {
+    await withLoading(async () => {
+      try {
+        const response = await SubjectService.getSubjectApi();
+        setSubjects(response.data.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener las materias");
+      }
+    }, setLoading);
+  }, []);
+
+  const getSubjectByTeacher = useCallback(async () => {
+    await withLoading(async () => {
+      try {
+        const response = await SubjectService.getSubjectByTeacherApi();
+        setSubjects(response.data.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener las materias del profesor");
+      }
+    }, setLoading);
+  }, []);
+
+  const getSubjectByStudent = useCallback(async () => {
+    await withLoading(async () => {
+      try {
+        const response = await SubjectService.getSubjectByStudentApi();
+        setSubjects(response.data.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener las materias del estudiante");
+      }
+    }, setLoading);
+  }, []);
+
+  const getPaginatedSubject = useCallback(
+    async (params: GetPaginated): Promise<void> => {
+      await withLoading(async () => {
+        try {
+          const response = await SubjectService.getPaginatedSubjectApi(params);
+          setPaginatedSubjects(response.data);
+        } catch (error) {
+          handleApiError(error, "Error al obtener las materias paginadas");
+        }
+      }, setLoading);
+    },
+    []
+  );
+
+  const deleteSubject = useCallback(async (id: number): Promise<void> => {
+    await withLoading(async () => {
+      try {
+        await SubjectService.deleteSubjectApi(id);
+      } catch (error) {
+        handleApiError(error, "Error al eliminar la materia");
+      }
+    }, setLoading);
+  }, []);
+
+  const states = {
     loading,
     subjects,
     paginatedSubjects,
     selectedSubject,
+  };
+
+  const actions = {
     registerSubject,
     updateSubject,
     getSubject,
@@ -127,6 +146,11 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     setSelectedSubject,
     getSubjectByStudent,
   };
+
+  const contextValue: SubjectContextType = useMemo(
+    () => ({ ...states, ...actions }),
+    [states, actions]
+  );
 
   return (
     <SubjectContext.Provider value={contextValue}>

@@ -1,15 +1,11 @@
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import { FaCalendarAlt, FaPlus } from "react-icons/fa";
+import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
 import {
-  type DataTableColumn,
-  type DataTableAction,
-  Button,
-  DataTable,
-  itemVariants,
-  containerVariants,
-} from "@/shared";
-import { useListTeacherView, type TeacherResponseDto } from "@/admin";
-import { MdOutlineSettingsBackupRestore } from "react-icons/md";
+  getTeacherColumns,
+  getTeacherActions,
+  useListTeacherView,
+} from "@/admin";
 import styles from "./ListTeacherView.module.css";
 
 const ListTeacherView: React.FC = () => {
@@ -28,123 +24,13 @@ const ListTeacherView: React.FC = () => {
     navigate,
   } = useListTeacherView();
 
-  //Definicion de los botones de Status
-  const BtnStatusTrue = () => {
-    return (
-      <div className={styles.status} style={{ backgroundColor: "#059669" }}>
-        Activo
-      </div>
-    );
-  };
-  const BtnStatusFalse = ({ teacher }: { teacher: TeacherResponseDto }) => {
-    return (
-      <button
-        className={styles.btnStatus}
-        style={{ backgroundColor: "#dc2626" }}
-        onClick={() => handleRestore(teacher)}
-      >
-        De baja
-      </button>
-    );
-  };
-  // Definición de columnas para la tabla
-  const columns: DataTableColumn<TeacherResponseDto>[] = [
-    {
-      key: "id",
-      label: "ID",
-      sortable: true,
-      width: "100px",
-      className: styles.idColumn,
-      render: (teacher) => <span className={styles.idBadge}>{teacher.id}</span>,
-    },
-    {
-      key: "name",
-      label: "Nombre",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (teacher) => (
-        <div className={styles.nameWrapper}>
-          <span>{teacher.name}</span>
-        </div>
-      ),
-    },
-    {
-      key: "lastname",
-      label: "Apellido",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (teacher) => (
-        <div className={styles.nameWrapper}>
-          <span>{teacher.lastname}</span>
-        </div>
-      ),
-    },
-    {
-      key: "dni",
-      label: "DNI",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (teacher) => (
-        <div className={styles.nameWrapper}>
-          <span>{teacher.dni}</span>
-        </div>
-      ),
-    },
-    {
-      key: "user",
-      label: "Email",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (teacher) => (
-        <div className={styles.nameWrapper}>
-          <span>{teacher.user.email}</span>
-        </div>
-      ),
-    },
-    {
-      key: "active",
-      label: "Estado",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (teacher) => (
-        <div className={styles.nameWrapper}>
-          {teacher.active ? (
-            <BtnStatusTrue />
-          ) : (
-            <BtnStatusFalse teacher={teacher} />
-          )}
-        </div>
-      ),
-    },
-  ];
-
-  // Definición de acciones para la tabla
-  const actions: DataTableAction<TeacherResponseDto>[] = [
-    {
-      label: "Editar",
-      icon: <FaEdit />,
-      onClick: handleEdit,
-      variant: "ghost",
-      className: styles.editButton,
-      title: "Modificar docente",
-    },
-    {
-      label: "Eliminar",
-      icon: <FaTrash />,
-      onClick: handleDelete,
-      variant: "ghost",
-      className: styles.deleteButton,
-      title: "Eliminar docente",
-    },
-    {
-      label: "Restaurar contraseña",
-      icon: <MdOutlineSettingsBackupRestore />,
-      onClick: handleRestorePassword,
-      variant: "ghost",
-      className: styles.restoreButton,
-      title: "Restaurar contraseña",
-    },
-  ];
+  const columns = getTeacherColumns(styles, handleRestore);
+  const actions = getTeacherActions({
+    styles,
+    handleEdit,
+    handleDelete,
+    handleRestorePassword,
+  });
 
   return (
     <motion.div

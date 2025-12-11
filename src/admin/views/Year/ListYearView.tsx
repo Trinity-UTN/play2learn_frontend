@@ -1,16 +1,8 @@
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import type { YearResponseDto } from "../../types/year.types";
-import {
-  Button,
-  DataTable,
-  type DataTableAction,
-  type DataTableColumn,
-  itemVariants,
-  containerVariants,
-} from "@/shared";
+import { FaCalendarAlt, FaPlus } from "react-icons/fa";
+import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
 import styles from "./ListYearView.module.css";
-import { useListYear } from "@/admin";
+import { getYearColumns, getYearActions, useListYear } from "@/admin";
 
 const ListYearView: React.FC = () => {
   const {
@@ -26,48 +18,12 @@ const ListYearView: React.FC = () => {
     navigate,
   } = useListYear();
 
-  // Definición de columnas para la tabla
-  const columns: DataTableColumn<YearResponseDto>[] = [
-    {
-      key: "id",
-      label: "ID",
-      sortable: true,
-      width: "100px",
-      className: styles.idColumn,
-      render: (year) => <span className={styles.idBadge}>{year.id}</span>,
-    },
-    {
-      key: "name",
-      label: "Nombre del Año",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (year) => (
-        <div className={styles.nameWrapper}>
-          <span>{year.name}</span>
-        </div>
-      ),
-    },
-  ];
-
-  // Definición de acciones para la tabla
-  const actions: DataTableAction<YearResponseDto>[] = [
-    {
-      label: "Editar",
-      icon: <FaEdit />,
-      onClick: handleEdit,
-      variant: "ghost",
-      className: styles.editButton,
-      title: "Modificar año",
-    },
-    {
-      label: "Eliminar",
-      icon: <FaTrash />,
-      onClick: handleDelete,
-      variant: "ghost",
-      className: styles.deleteButton,
-      title: "Eliminar año",
-    },
-  ];
+  const columns = getYearColumns(styles);
+  const actions = getYearActions({
+    styles,
+    handleEdit,
+    handleDelete,
+  });
 
   return (
     <motion.div

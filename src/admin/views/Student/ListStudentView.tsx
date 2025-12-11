@@ -1,17 +1,13 @@
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import { useListStudentView, type StudentResponseDto } from "@/admin";
+import { FaCalendarAlt, FaPlus } from "react-icons/fa";
 import {
-  Button,
-  DataTable,
-  type DataTableAction,
-  type DataTableColumn,
-  itemVariants,
-  containerVariants,
-} from "@/shared";
+  getStudentColumns,
+  getStudentActions,
+  useListStudentView,
+} from "@/admin";
+import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
 
 import styles from "./ListStudentView.module.css";
-import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 
 const ListStudentView: React.FC = () => {
   const {
@@ -33,160 +29,17 @@ const ListStudentView: React.FC = () => {
     navigate,
   } = useListStudentView();
 
-  //Definicion de los botones de Status
-  const BtnStatusTrue = () => {
-    return (
-      <div className={styles.status} style={{ backgroundColor: "#059669" }}>
-        Activo
-      </div>
-    );
-  };
+  const columns = getStudentColumns({
+    styles,
+    handleRestore,
+  });
 
-  const BtnStatusFalse = ({ student }: { student: StudentResponseDto }) => {
-    return (
-      <button
-        className={styles.btnStatus}
-        style={{ backgroundColor: "#dc2626" }}
-        onClick={() => handleRestore(student)}
-      >
-        De baja
-      </button>
-    );
-  };
-
-  // Definición de columnas para la tabla
-  const columns: DataTableColumn<StudentResponseDto>[] = [
-    {
-      key: "id",
-      label: "ID",
-      sortable: true,
-      width: "100px",
-      className: styles.idColumn,
-      render: (student) => <span className={styles.idBadge}>{student.id}</span>,
-    },
-    {
-      key: "name",
-      label: "Nombre",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (student) => (
-        <div className={styles.wrapper}>
-          <span>{student.name}</span>
-        </div>
-      ),
-    },
-    {
-      key: "lastname",
-      label: "Apellido",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (student) => (
-        <div className={styles.wrapper}>
-          <span>{student.lastname}</span>
-        </div>
-      ),
-    },
-    {
-      key: "dni",
-      label: "DNI",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (student) => (
-        <div className={styles.centeredWrapper}>
-          <span>{student.dni}</span>
-        </div>
-      ),
-    },
-    {
-      key: "birthdate",
-      label: "Fecha de nacimiento",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (student) => (
-        <div className={styles.centeredWrapper}>
-          <span>{student.birthdate || "Sin asignar"}</span>
-        </div>
-      ),
-    },
-    {
-      key: "user",
-      label: "Email de Estudiante",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (student) => (
-        <div className={styles.wrapper}>
-          <span>{student.user.email}</span>
-        </div>
-      ),
-    },
-    {
-      key: "emailTutor",
-      label: "Email de Tutor",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (student) => (
-        <div className={styles.wrapper}>
-          <span>{student.emailTutor || "Sin asignar"}</span>
-        </div>
-      ),
-    },
-    {
-      key: "course",
-      label: "Curso",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (student) => (
-        <div className={styles.wrapper}>
-          <span>
-            {student.course.year.name} "{student.course.name}"
-          </span>
-        </div>
-      ),
-    },
-    {
-      key: "active",
-      label: "Estado",
-      sortable: true,
-      className: styles.nameColumn,
-      render: (student) => (
-        <div className={styles.wrapper}>
-          {student.active ? (
-            <BtnStatusTrue />
-          ) : (
-            <BtnStatusFalse student={student} />
-          )}
-        </div>
-      ),
-    },
-  ];
-
-  // Definición de acciones para la tabla
-  const actions: DataTableAction<StudentResponseDto>[] = [
-    {
-      label: "Editar",
-      icon: <FaEdit />,
-      onClick: handleEdit,
-      variant: "ghost",
-      className: styles.editButton,
-      title: "Modificar estudiante",
-    },
-    {
-      label: "Eliminar",
-      icon: <FaTrash />,
-      onClick: handleDelete,
-      variant: "ghost",
-      className: styles.deleteButton,
-      title: "Eliminar estudiante",
-    },
-    {
-      label: "Restaurar contraseña",
-      icon: <MdOutlineSettingsBackupRestore />,
-      onClick: handleRestorePassword,
-      variant: "ghost",
-      className: styles.restoreButton,
-      title: "Restaurar contraseña",
-    },
-  ];
+  const actions = getStudentActions({
+    styles,
+    handleEdit,
+    handleDelete,
+    handleRestorePassword,
+  });
 
   return (
     <motion.div

@@ -1,54 +1,10 @@
-import type { CourseResponseDto } from "../course/CourseService";
-import type { TeacherResponseDto } from "../teacher/TeacherService";
 import { urls } from "../urls";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-import api from "../../../shared/utils/api";
-import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
-
-export interface CreateSubjectPayload {
-  name: string;
-  courseId: number;
-  teacherId: number | null;
-  optional: boolean;
-}
-
-export interface UpdateSubjectPayload {
-  id: number;
-  name: string;
-  courseId: number;
-  teacherId: number | null;
-  optional: boolean;
-}
-
-export interface SubjectResponseDto {
-  id: number;
-  name: string;
-  course: CourseResponseDto;
-  teacher: TeacherResponseDto;
-  optional: boolean;
-  actualBalance: number;
-  initialBalance: number;
-}
-
-export interface SubjectSimplifiedResponseDto {
-  id: number;
-  name: string;
-  course: CourseResponseDto;
-  teacher: TeacherResponseDto;
-  optional: boolean;
-  actualBalance: number;
-  initialBalance: number;
-}
-
-export interface PaginatedSubjectResponse {
-  data: PaginatedData<SubjectResponseDto>;
-  message: string;
-  errors: any;
-  timestamp: string;
-}
+import { type GetPaginated, api, buildCleanPaginatedParams } from "@/shared";
+import {
+  type CreateSubjectPayload,
+  type PaginatedSubjectResponse,
+  type UpdateSubjectPayload,
+} from "@/admin";
 
 const registerSubjectApi = async (
   data: CreateSubjectPayload

@@ -1,12 +1,9 @@
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+import type { GetPaginated, PaginatedData } from "@/shared";
 import type {
   CreateSubjectPayload,
   SubjectResponseDto,
   UpdateSubjectPayload,
-} from "../../services/subject/SubjectService";
+} from "@/admin";
 
 export interface SubjectContextType {
   loading: boolean;
