@@ -7,10 +7,9 @@ import {
   FaRedoAlt,
   FaCoins,
 } from "react-icons/fa";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Card, Badge } from "@/shared";
 import type { ConfigurationActivity } from "../../../types/Configuration.type";
-import type { SubjectResponseDto } from "../../../../admin/services/subject/SubjectService";
+import type { SubjectResponseDto } from "@/admin";
 import styles from "./ConfigurationPreview.module.css";
 
 interface ConfigurationPreviewProps {

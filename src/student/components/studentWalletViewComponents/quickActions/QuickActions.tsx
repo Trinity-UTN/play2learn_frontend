@@ -8,8 +8,7 @@ import {
   FaArrowRight,
   FaBullseye,
 } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import { Card, Button } from "@/shared";
 import styles from "./QuickActions.module.css";
 
 const QuickActions = () => {

@@ -4,7 +4,7 @@ import type { NoLudicaGameContextType } from "./NoLudicaGameContext.type";
 import type { NoLudicaConfig } from "../../../../activity/types/NoLudica.type";
 import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
 import { useCreateNoLudica } from "../../../../activity/hooks/useCreateNoLudica";
-import { getGameTypeFromActivityName } from "../../../registry/games/gameMapping";
+import { getGameTypeFromActivityName } from "@/shared";
 import { GameType } from "../../../types/Games.type";
 import { compressPDF } from "../../../utils/compressPDF";
 interface NoLudicaGameProviderProps {

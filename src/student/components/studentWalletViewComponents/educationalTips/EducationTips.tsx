@@ -1,4 +1,3 @@
-import type React from "react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -7,8 +6,7 @@ import {
   FaChevronRight,
   FaGraduationCap,
 } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import { Card, Button } from "@/shared";
 import styles from "./EducationTips.module.css";
 
 const EducationalTips: React.FC = () => {

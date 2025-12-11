@@ -11,14 +11,13 @@ import {
   FaFire,
 } from "react-icons/fa";
 import type { StudentDashboardView } from "../../types/generalType";
-import Button from "../../../shared/components/Button/ButtonComponent";
+import { Button, formatPrice } from "@/shared";
 import Avatar from "../common/Avatar/AvatarComponent";
 import { StudentRoutes } from "../../routes/routes";
 import { useAuth } from "../../../user/hooks/useAuth";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import { useBenefitStudent } from "../../hooks/useBenefitStudent";
-import formatPrice from "../../../shared/utils/formatPrice";
 import styles from "./Sidebar.module.css";
 
 interface StudentSidebarProps {

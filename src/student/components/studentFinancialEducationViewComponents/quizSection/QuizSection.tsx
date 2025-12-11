@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCheck, FaTimes, FaTrophy, FaRedo } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import styles from "./QuizSection.module.css";
+import { Card, Button } from "@/shared";
 import type { FinancialConcept } from "../data";
+import styles from "./QuizSection.module.css";
 
 interface QuizSectionProps {
   concepts: FinancialConcept[];

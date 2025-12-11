@@ -1,12 +1,9 @@
-import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import Input from "../../../shared/components/Input/InputComponent";
-import Card from "../../../shared/components/Card/CardComponent";
+import { Button, Card, Input } from "@/shared";
 import styles from "./Login.module.css";
 
 const LoginPage: React.FC = () => {

@@ -7,7 +7,7 @@ import ConceptsSection from "../../components/studentFinancialEducationViewCompo
 import QuizSection from "../../components/studentFinancialEducationViewComponents/quizSection/QuizSection";
 import { financialConcepts } from "../../components/studentFinancialEducationViewComponents/data";
 import styles from "./StudentFinancialEducationView.module.css";
-import BackButton from "../../../shared/components/BackButton/BackButton";
+import { BackButton } from "@/shared";
 
 type TabSection = "concepts" | "quiz";
 

@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FaTrash, FaEye, FaCheck } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Button, Card } from "@/shared";
 import BenefitTableContent from "../../../../benefit/components/benefitTableContent/BenefitTableContent";
 import type { TeacherBenefitType } from "../../../../benefit/types/benefit.types";
 import { tableRowVariants } from "../../../constants/animations/benefitTeacher.animations";

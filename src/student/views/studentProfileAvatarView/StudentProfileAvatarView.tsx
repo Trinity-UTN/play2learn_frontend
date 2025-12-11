@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGlobe, FaUser, FaTshirt, FaHatWizard } from "react-icons/fa";
-import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { LoadingSpinnerComponent } from "@/shared";
 import Avatar from "../../components/common/Avatar/AvatarComponent";
 import ActionButtons from "../../components/profileAvatar/actionButtons/ActionButtons";
 import AspectHeader from "../../components/profileAvatar/aspectHeader/AspectHeader";

@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FaEye, FaEdit, FaBullseye } from "react-icons/fa";
-import CompletarOracionGame from "../../../../shared/components/Games/CompletarOracion/CompletarOracionGame";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Tooltip, CompletarOracionGame } from "@/shared";
 import type { Sentence } from "../../../types/CompletarOracion.type";
 import styles from "./CompletarOracionPreview.module.css";
 

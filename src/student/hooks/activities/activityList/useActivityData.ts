@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useMemo } from "react";
 import type { ActivityUI } from "../../../types/Activity.type";
 import { useActivityStudent } from "../../useActivityStudentAPI";
-import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
+import { usePaginationParams } from "@/shared";
 import { useActivityFilters } from "./useActivityFilters";
 import { useActivityStats } from "./useActivityStats";
 import { mapActivityToUI } from "../../../adapters/activityAdapter";

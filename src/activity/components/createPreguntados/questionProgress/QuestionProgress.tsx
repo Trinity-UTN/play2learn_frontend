@@ -1,5 +1,5 @@
 import { motion, type Variants } from "framer-motion";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Card } from "@/shared";
 import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./QuestionProgress.module.css";
 

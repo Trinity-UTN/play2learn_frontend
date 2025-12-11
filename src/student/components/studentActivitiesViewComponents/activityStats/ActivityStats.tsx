@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import type { IconType } from "react-icons";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Card } from "@/shared";
 import styles from "./ActivityStats.module.css";
 
 interface ActivityStatsProps {

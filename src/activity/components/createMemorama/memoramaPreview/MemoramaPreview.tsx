@@ -7,9 +7,7 @@ import {
   FaEyeSlash,
   FaClone,
 } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Card, Tooltip } from "@/shared";
 import { useCreateMemorama } from "../../../hooks/useCreateMemorama";
 import styles from "./MemoramaPreview.module.css";
 

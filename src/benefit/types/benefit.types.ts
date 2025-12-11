@@ -1,5 +1,5 @@
-import type { SubjectSimplifiedResponseDto } from "../../admin/services/subject/SubjectService";
-import type { PaginatedData } from "../../shared/types/PaginacionType";
+import type { SubjectSimplifiedResponseDto } from "@/admin";
+import type { PaginatedData } from "@/shared";
 
 // ==================== ENUMS Y CONSTANTES ====================
 

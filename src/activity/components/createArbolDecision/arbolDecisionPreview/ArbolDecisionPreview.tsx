@@ -12,8 +12,7 @@ import {
   FaUndo,
   FaFlag,
 } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Tooltip } from "@/shared";
 import { useCreateArbolDecision } from "../../../hooks/useCreateArbolDecision";
 import type { DecisionNode } from "../../../types/ArbolDecision.type";
 import styles from "./ArbolDecisionPreview.module.css";

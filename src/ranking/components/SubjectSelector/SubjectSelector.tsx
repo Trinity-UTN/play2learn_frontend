@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaBook, FaChevronDown } from "react-icons/fa";
-import { useState } from "react";
+import type { SubjectResponseDto } from "@/admin";
 import styles from "./SubjectSelector.module.css";
-import type { SubjectResponseDto } from "../../../admin/services/subject/SubjectService";
 
 interface SubjectSelectorProps {
   subjects: SubjectResponseDto[];

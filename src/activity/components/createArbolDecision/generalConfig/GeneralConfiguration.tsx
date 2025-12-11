@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaCog, FaTree, FaLightbulb } from "react-icons/fa";
-import TextArea from "../../../../shared/components/TextArea/TextAreaComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Tooltip, TextArea } from "@/shared";
 import type { ArbolDecisionConfig } from "../../../types/ArbolDecision.type";
 import { useCreateArbolDecision } from "../../../hooks/useCreateArbolDecision";
 import ActivityFormError from "../../common/ActivityFormError/ActivityFormError";

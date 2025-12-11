@@ -1,15 +1,13 @@
 import { useCallback, useState, type ReactNode } from "react";
 import { CajaDeAhorroContext } from "./CajaDeAhorroStudentContext";
 import type { CajaDeAhorroContextType } from "./CajaDeAhorroStudentContext.type";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-
-import { useToaster } from "../../../shared/hooks/useToaster";
+import {
+  type GetPaginated,
+  type PaginatedData,
+  useHandleApiError,
+  useToaster,
+} from "@/shared";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
-
 import type {
   CajaDeAhorroResponse,
   CajaDeAhorroStats,

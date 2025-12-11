@@ -3,7 +3,7 @@ import { FaRobot, FaArrowUp, FaArrowDown, FaInfoCircle } from "react-icons/fa";
 import styles from "./AutomationPanel.module.css";
 import type { TradeActionStopLimitRequest } from "../../../types/actions.type";
 import { useAutomationPanel } from "../../../hooks/useActions/useAutomationPanel";
-import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
+import { ConfirmationModal } from "@/shared";
 
 interface AutomationPanelProps {
   stockId: number;

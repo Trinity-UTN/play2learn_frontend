@@ -7,10 +7,9 @@ import {
 } from "react-icons/fa";
 import styles from "./TradingPanel.module.css";
 import type { ActionsResponse } from "../../../types/actions.type";
-import formatPrice from "../../../../shared/utils/formatPrice";
+import { formatPrice, ConfirmationModal } from "@/shared";
 import { useTradingPanel } from "../../../hooks/useActions/useTrandingPanel";
 import { quicksButton } from "../../../contanst/actionsContanst/tradingPanel.contanst";
-import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
 interface TradingPanelProps {
   action: ActionsResponse;
   onBuy: (stockId: number, amount: number) => void;

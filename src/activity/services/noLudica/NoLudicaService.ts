@@ -1,6 +1,6 @@
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import type { NoLudicaInterface } from "../../types/NoLudica.type";
-import api from "../../../shared/utils/api";
+import { api } from "@/shared";
 import { urls } from "../urls";
 
 export interface CreateNoLudicaPayload

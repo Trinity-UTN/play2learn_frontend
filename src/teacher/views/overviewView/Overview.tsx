@@ -4,7 +4,7 @@ import { useStatistics } from "../../hooks/useStatistics";
 import { useEffect } from "react";
 
 //COMPONENTS
-import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { LoadingSpinnerComponent } from "@/shared";
 import Header from "../../components/overvieViewComponents/Header/Header";
 import MainStats from "../../components/overvieViewComponents/MainStats/MainStats";
 import CourseGrid from "../../components/overvieViewComponents/CourseGrid/CourseGrid";

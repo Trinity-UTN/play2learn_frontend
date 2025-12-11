@@ -2,11 +2,7 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { FaPlus, FaImage, FaTimes, FaTag, FaAlignLeft } from "react-icons/fa";
 import type { SequenceEvent } from "../../../types/OrdenarSecuencia.type";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Input from "../../../../shared/components/Input/InputComponent";
-import TextArea from "../../../../shared/components/TextArea/TextAreaComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
-import { useToaster } from "../../../../shared/hooks/useToaster";
+import { Button, Input, TextArea, Tooltip, useToaster } from "@/shared";
 import styles from "./EventForm.module.css";
 
 interface EventFormProps {

@@ -6,7 +6,7 @@ import ProtectedRoute from "../shared/utils/ProtectedRoute";
 //PAGES
 import StudentDashboard from "../student/pages/dashboard/Dashboard";
 //PROVIDERS
-import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
+import { SubjectProvider } from "@/admin";
 import { CurrentStudentProvider } from "../student/context/currentStudent/CurrentStudentProvider";
 import { ProfileAvatarProvider } from "../student/context/profileAvatarContext/ProfileAvatarProvider";
 import { ActivityStudentProvider } from "../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
@@ -88,24 +88,23 @@ const StudentApp = () => {
                                                         <PlazoFijoProvider>
                                                           <CajaDeAhorroProvider>
                                                             <RankingProvider>
-                                                            <motion.div
-                                                              key="dashboardStudent"
-                                                              initial={{
-                                                                opacity: 0,
-                                                              }}
-                                                              animate={{
-                                                                opacity: 1,
-                                                              }}
-                                                              exit={{
-                                                                opacity: 0,
-                                                              }}
-                                                              transition={{
-                                                                duration: 0.3,
-                                                              }}
-                                                            >
-                                                              <StudentDashboard />
-                                                            </motion.div>
-                                                                  
+                                                              <motion.div
+                                                                key="dashboardStudent"
+                                                                initial={{
+                                                                  opacity: 0,
+                                                                }}
+                                                                animate={{
+                                                                  opacity: 1,
+                                                                }}
+                                                                exit={{
+                                                                  opacity: 0,
+                                                                }}
+                                                                transition={{
+                                                                  duration: 0.3,
+                                                                }}
+                                                              >
+                                                                <StudentDashboard />
+                                                              </motion.div>
                                                             </RankingProvider>
                                                           </CajaDeAhorroProvider>
                                                         </PlazoFijoProvider>

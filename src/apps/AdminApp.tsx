@@ -3,27 +3,32 @@ import { motion, AnimatePresence } from "framer-motion";
 import ProtectedRoute from "../shared/utils/ProtectedRoute";
 
 // PROVIDERS
-import { CourseProvider } from "../admin/contexts/courseContext/CourseProvider";
-import { StudentProvider } from "../admin/contexts/studentContext/StudentProvider";
-import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
-import { TeacherProvider } from "../admin/contexts/teacherContext/TeacherProvider";
-import { YearProvider } from "../admin/contexts/yearContext/YearProvider";
-import { StatisticsProvider } from "../admin/contexts/statisticsContext/StatisticsProvider";
+import {
+  CourseProvider,
+  StudentProvider,
+  SubjectProvider,
+  TeacherProvider,
+  YearProvider,
+  StatisticsProvider,
+} from "@/admin";
+
 // PAGES
 import AdminDashboard from "../admin/pages/Dashboard/AdminDashboardPage";
 
 // VIEWS
-import OverviewView from "../admin/views/Overview/OverviewView";
-import ListCourseView from "../admin/views/Course/ListCourseView";
-import CreateCourseView from "../admin/views/Course/CreateCourseView";
-import ListStudentView from "../admin/views/Student/ListStudentView";
-import CreateStudentView from "../admin/views/Student/CreateStudentView";
-import ListSubjectView from "../admin/views/Subject/ListSubjectView";
-import CreateSubjectView from "../admin/views/Subject/CreateSubjectView";
-import ListTeacherView from "../admin/views/Teacher/ListTeacherView";
-import CreateTeacherView from "../admin/views/Teacher/CreateTeacherView";
-import ListYearView from "../admin/views/Year/ListYearView";
-import CreateYearView from "../admin/views/Year/CreateYearView";
+import {
+  OverviewView,
+  ListCourseView,
+  ListStudentView,
+  ListSubjectView,
+  ListTeacherView,
+  ListYearView,
+  CreateCourseView,
+  CreateStudentView,
+  CreateSubjectView,
+  CreateTeacherView,
+  CreateYearView,
+} from "@/admin";
 
 const AdminApp = () => {
   return (

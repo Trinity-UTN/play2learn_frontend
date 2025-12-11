@@ -11,8 +11,7 @@ import {
   FaTimes,
   FaPencilAlt,
 } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Tooltip } from "@/shared";
 import { useCreateCompletarOracion } from "../../../hooks/useCreateCompletarOracion";
 import ActivityFormError from "../../common/ActivityFormError/ActivityFormError";
 import styles from "./GeneralConfiguration.module.css";

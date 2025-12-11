@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaCog, FaPuzzlePiece, FaListAlt } from "react-icons/fa";
-import Input from "../../../../shared/components/Input/InputComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Input, Tooltip } from "@/shared";
 import type { MemoramaConfig } from "../../../types/Memorama.type";
 import { useCreateMemorama } from "../../../hooks/useCreateMemorama";
 import styles from "./GeneralConfiguration.module.css";

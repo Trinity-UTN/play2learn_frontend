@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FaColumns, FaList, FaEye, FaGamepad } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import { Button } from "@/shared";
 import styles from "./ConfigurationHeader.module.css";
 
 interface ConfigurationHeaderProps {

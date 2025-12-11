@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useMemo } from "react";
 import { useBenefitAPI } from "../../useBenefitAPI";
 import { useBenefitPurchaseFilters } from "./useBenefitPurchaseFilters";
-import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
+import { usePaginationParams } from "@/shared";
 
 /**
  * Hook central para cargar y manejar los datos de canjes de un beneficio

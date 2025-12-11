@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useToaster } from "../../../shared/hooks/useToaster";
+import { useToaster } from "@/shared";
 import { useBenefitAPI } from "../useBenefitAPI";
 import type { useBenefitForm } from "./useBenefitForm";
 

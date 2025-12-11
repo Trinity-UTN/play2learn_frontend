@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import type { GameConfig } from "../../../student/types/Activity.type";
 import type { GameConfigDetail } from "../../strategies/interfaces/GameConfigRenderer.interface";
 import { GameConfigRendererRegistry } from "../../registry/games/gameConfigRendererRegistry";
-import { getGameTypeFromActivityName } from "../../registry/games/gameMapping";
+import { getGameTypeFromActivityName } from "@/shared";
 
 export const useGameConfigRenderer = (
   activityName: string | undefined,

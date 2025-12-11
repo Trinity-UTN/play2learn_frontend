@@ -5,13 +5,15 @@ import {
   Routes,
 } from "react-router-dom";
 import { UserProvider } from "./user/contexts/userContext/UserProvider";
-import { ConfirmationProvider } from "./shared/contexts/confirmationContext/ConfirmationProvider";
-import { ToasterProvider } from "./shared/contexts/toasterContext/ToasterProvider";
+import {
+  ConfirmationProvider,
+  ToasterProvider,
+  ScrollToTop,
+  Unauthorized,
+} from "@/shared";
 import { PasswordProvider } from "./user";
 import AppShell from "./AppShell";
 import LoginPage from "./user/pages/Login/LoginPage";
-import ScrollToTop from "./shared/components/ScrollToTop/ScrollToTop";
-import Unauthorized from "./shared/components/Unauthorized/Unauthorized";
 import styles from "./App.module.css";
 
 const App: React.FC = () => {

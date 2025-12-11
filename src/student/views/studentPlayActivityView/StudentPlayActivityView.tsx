@@ -4,15 +4,17 @@ import type { ActivityUI } from "../../types/Activity.type";
 import StudentActivityHeader from "../../components/common/StudentActivityHeader/StudentActivityHeader";
 import StudentActivityFooter from "../../components/common/StudentActivityFooter/StudentActivityFooter";
 import GameRenderer from "../../components/common/StudentGameRenderer/StudentGameRenderer";
-import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
-import { useGameManager } from "../../../shared/hooks/games/useGameManager";
 import { useActivityActions } from "../../hooks/activities/useActivityActions";
 import { useActivityNavigation } from "../../hooks/activities/useActivityNavigation";
 import { useActivityNavigationMessages } from "../../hooks/activities/useActivityNavigationMessages";
-import { usePreventNavigation } from "../../../shared/hooks/usePreventNavigation";
 import styles from "./StudentPlayActivityView.module.css";
-import { useNoLudicaGame } from "../../../shared/hooks/games/useNoLudicaGame";
+import {
+  useNoLudicaGame,
+  usePreventNavigation,
+  useGameManager,
+  LoadingSpinnerComponent,
+} from "@/shared";
 
 interface StudentPlayActivityViewProps {
   activity?: ActivityUI;
@@ -64,7 +66,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
       forceFinishActivity(false);
     },
   });
-    
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -92,7 +94,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
-        <LoadingSpinner />
+        <LoadingSpinnerComponent />
       </div>
     );
   }

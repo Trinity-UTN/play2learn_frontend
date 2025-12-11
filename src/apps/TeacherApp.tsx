@@ -6,7 +6,7 @@ import ProtectedRoute from "../shared/utils/ProtectedRoute";
 //PAGES
 import TeacherDashboardPage from "../teacher/pages/Dashboard/DashboardTeacher";
 //PROVIDERS
-import { SubjectProvider } from "../admin/contexts/subjectContext/SubjectProvider";
+import { SubjectProvider } from "@/admin";
 import { ActivityStudentProvider } from "../student/context/activityStudentContext/activityStudentContextAPI/ActivityStudentProviderAPI";
 import { CurrentStudentProvider } from "../student/context/currentStudent/CurrentStudentProvider";
 import { ConfigurationActivityProvider } from "../activity/contexts/configurationActivityContext/ConfigurationActivityProvider";

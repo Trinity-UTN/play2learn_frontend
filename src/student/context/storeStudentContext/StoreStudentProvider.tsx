@@ -1,15 +1,11 @@
 import { useCallback, useState, type ReactNode } from "react";
 import { StoreContext } from "./StoreStudentContext";
 import type { StoreContextType } from "./StoreStudentContext.type";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import type { BodyPart } from "../../types/CurrentStudent.type";
 import { StoreService } from "../../services/store/StoreService";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+import { useHandleApiError, useToaster } from "@/shared";
+import type { GetPaginated, PaginatedData } from "@/shared";
 import type { BuyAspect } from "../../types/AspectStore.type";
-import { useToaster } from "../../../shared/hooks/useToaster";
 interface StoreProviderProps {
   children: ReactNode;
 }

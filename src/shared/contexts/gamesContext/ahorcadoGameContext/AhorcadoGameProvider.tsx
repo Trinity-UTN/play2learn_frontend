@@ -3,7 +3,7 @@ import { AhorcadoGameContext } from "./AhorcadoGameContext";
 import type { AhorcadoGameContextType } from "./AhorcadoGameContext.type";
 import type { AhorcadoConfig } from "../../../../activity/types/Ahorcado.type";
 import { GameType } from "../../../types/Games.type";
-import { getGameTypeFromActivityName } from "../../../registry/games/gameMapping";
+import { getGameTypeFromActivityName } from "@/shared";
 import { useCreateAhorcado } from "../../../../activity/hooks/useCreateAhorcado";
 import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
 

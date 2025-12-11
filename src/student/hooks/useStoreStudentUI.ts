@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import usePaginationParams from "../../shared/hooks/usePaginateParams";
+import { usePaginationParams, type PaginationInfo } from "@/shared";
 import { useStore } from "./useStoreStudent";
 import { useCurrentStudent } from "./useCurrentStudent";
 import type { BodyPart } from "../types/CurrentStudent.type";
-import type { PaginationInfo } from "../../shared/types/PaginacionType";
 
 export const useStoreStudentUI = () => {
   // Paginación

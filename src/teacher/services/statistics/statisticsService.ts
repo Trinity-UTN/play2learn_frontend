@@ -1,4 +1,4 @@
-import api from "../../../shared/utils/api";
+import { api } from "@/shared";
 import { urls } from "../urls";
 
 const getStatisticsApi = async () => {

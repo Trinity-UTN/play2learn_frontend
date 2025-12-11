@@ -1,5 +1,4 @@
-import LoadingSpinnerComponent from "../../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
-import { PaginationComponent } from "../../../../shared/components/Pagination";
+import { LoadingSpinnerComponent, PaginationComponent } from "@/shared";
 import styles from "./BenefitPaginateComponent.module.css";
 
 export interface BenefitPaginateComponentProps {

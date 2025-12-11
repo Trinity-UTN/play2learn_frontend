@@ -2,8 +2,7 @@ import { useCallback } from "react";
 import type { BenefitStatus } from "../../../benefit/constants/benefit.constants";
 import { useCurrentStudent } from "../useCurrentStudent";
 import { useBenefitStudent } from "../useBenefitStudent";
-import { useConfirmation } from "../../../shared/hooks/useConfirmation";
-import { useToaster } from "../../../shared/hooks/useToaster";
+import { useConfirmation, useToaster } from "@/shared";
 
 /**
  * Hook que permite manejar las acciones de los beneficios del estudiante

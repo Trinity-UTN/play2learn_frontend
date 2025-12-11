@@ -2,10 +2,9 @@ import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { PasswordContext } from "./PasswordContext";
 import type { PasswordContextType } from "./PasswordContext.type";
 
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+import { useHandleApiError, useToaster } from "@/shared";
 import type { ChangePassword } from "../../types/ChangePassword";
 import { PasswordService } from "../../services/passwordService";
-import { useToaster } from "../../../shared/hooks/useToaster";
 
 interface PasswordProviderProps {
   children: ReactNode;

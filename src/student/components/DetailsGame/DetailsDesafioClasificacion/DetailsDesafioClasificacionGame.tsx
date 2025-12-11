@@ -1,7 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import styles from "./DetailsDesafioClasificacionGame.module.css";
 // import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
-import { useDesafioClasificacionGame } from "../../../../shared/hooks/games/useDesafioClasificacionGame";
+import { useDesafioClasificacionGame } from "@/shared";
 import { getPerformanceLevel } from "../../../utils/performance";
 import { HiOutlineFire } from "react-icons/hi";
 import { PiSmileySad } from "react-icons/pi";

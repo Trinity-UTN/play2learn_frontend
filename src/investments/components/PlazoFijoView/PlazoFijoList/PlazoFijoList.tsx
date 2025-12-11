@@ -3,9 +3,11 @@ import { FaListAlt } from "react-icons/fa";
 import styles from "./PlazoFijoList.module.css";
 import type { PlazoFijoResponse } from "../../../types/plazoFijo.type";
 import PlazoFijoCard from "../PlazoFijoCard/PlazoFijoCard";
-import type { PaginationInfo } from "../../../../shared/types/PaginacionType";
-import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
-import LoadingSpinnerComponent from "../../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import {
+  type PaginationInfo,
+  PaginateComponent,
+  LoadingSpinnerComponent,
+} from "@/shared";
 
 interface PlazoFijoListProps {
   plazosFijos: PlazoFijoResponse[] | undefined;

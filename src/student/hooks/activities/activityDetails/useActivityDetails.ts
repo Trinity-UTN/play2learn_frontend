@@ -6,7 +6,7 @@ import type {
   ActivityUI,
 } from "../../../types/Activity.type";
 import { useDetailsFormatters } from "./useDetailsFormatters";
-import { useGameConfigRenderer } from "../../../../shared/hooks/games/useGameConfigRenderer";
+import { useGameConfigRenderer } from "@/shared";
 
 interface UseActivityDataProps {
   currentActivity: CurrentActivityInterface | null;

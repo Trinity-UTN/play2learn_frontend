@@ -1,14 +1,14 @@
 import { useCallback, useState, type ReactNode } from "react";
 import { PlazoFijoContext } from "./PlazoFijoStudentContext";
 import type { PlazoFijoContextType } from "./PlazoFijoStudentContext.type";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+import {
+  useHandleApiError,
+  type GetPaginated,
+  type PaginatedData,
+  useToaster,
+} from "@/shared";
 
 import { PlazoFijoService } from "../../services/investments/PlazoFijoService";
-import { useToaster } from "../../../shared/hooks/useToaster";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 import type {
   PlazoFijoResponse,

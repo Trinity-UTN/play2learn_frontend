@@ -2,8 +2,7 @@ import { motion } from "framer-motion";
 import type { StatisticsStudentResponse } from "../../../types/CurrentStudent.type";
 import styles from "./QuickStats.module.css";
 import { FaTrophy, FaGamepad, FaCoins } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
-import formatPrice from "../../../../shared/utils/formatPrice";
+import { formatPrice, Card } from "@/shared";
 
 type Props = {
   statistics: StatisticsStudentResponse;

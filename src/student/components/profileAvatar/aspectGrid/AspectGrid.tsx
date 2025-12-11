@@ -1,5 +1,5 @@
 import type { BodyPart, NullAspect } from "../../../types/CurrentStudent.type";
-import { EmptyStateComponent } from "../../../../shared/components/EmptyState/EmptyStateComponent";
+import { EmptyStateComponent } from "@/shared";
 import AspectCard from "./aspectCard/AspectCard";
 import styles from "./AspectGrid.module.css";
 

@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import usePaginationParams from "../../../shared/hooks/usePaginateParams";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 import { usePlazoFijoStudent } from "../usePlazoFijoAPI";
-import type { PaginationInfo } from "../../../shared/types/PaginacionType";
+import { type PaginationInfo, usePaginationParams } from "@/shared";
 import type {
   FIXED_TERM_STATES,
   RegisterPlazoFijo,

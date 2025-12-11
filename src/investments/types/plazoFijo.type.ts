@@ -1,4 +1,4 @@
-import type { PaginatedData } from "../../shared/types/PaginacionType";
+import type { PaginatedData } from "@/shared";
 
 export type FIXED_TERM_STATES = "IN_PROGRESS" | "FINISHED";
 export type FIXED_TERM_DAYS = "SEMANAL" | "QUINCENAL" | "MENSUAL";

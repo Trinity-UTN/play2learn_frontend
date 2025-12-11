@@ -4,7 +4,7 @@ import type {
   BenefitPurchaseValidation,
 } from "../types/benefit.types";
 import { BENEFIT_STATUS } from "../constants/benefit.constants";
-import formatPrice from "../../shared/utils/formatPrice";
+import { formatPrice } from "@/shared";
 
 // ============================================
 // PURCHASE VALIDATION

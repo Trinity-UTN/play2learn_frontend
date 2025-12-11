@@ -5,8 +5,7 @@ import WalletSummary from "../../components/studentWalletViewComponents/walletSu
 import QuickActions from "../../components/studentWalletViewComponents/quickActions/QuickActions";
 import RecentTransactions from "../../components/studentWalletViewComponents/recentTransactions/RecentTransactions";
 import EducationalTips from "../../components/studentWalletViewComponents/educationalTips/EducationTips";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { Button, LoadingSpinnerComponent } from "@/shared";
 import { useNavigate } from "react-router-dom";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 
@@ -19,7 +18,7 @@ const StudentWalletView = () => {
   if (loading || !wallet) {
     return (
       <div className={styles.loadingContainer}>
-        <LoadingSpinner />
+        <LoadingSpinnerComponent />
       </div>
     );
   }

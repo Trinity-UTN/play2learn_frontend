@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import usePaginationParams from "../../../shared/hooks/usePaginateParams";
+import { usePaginationParams, type PaginationInfo } from "@/shared";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 import { useCajaDeAhorroStudent } from "../useCajaDeAhorroAPI";
-import type { PaginationInfo } from "../../../shared/types/PaginacionType";
 import type { RegisterCajaDeAhorro } from "../../types/cajaAhorro.type";
 
 export const useCajaDeAhorroView = () => {

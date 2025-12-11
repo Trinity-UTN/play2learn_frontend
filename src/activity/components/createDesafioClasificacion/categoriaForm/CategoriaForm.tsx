@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { FaPlus, FaLightbulb, FaExclamationTriangle } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Input from "../../../../shared/components/Input/InputComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Input, Tooltip } from "@/shared";
 import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
 import styles from "./CategoriaForm.module.css";
 

@@ -2,8 +2,7 @@ import { motion } from "framer-motion";
 import SkinCard from "../SkinCard/SkinCard";
 import type { BodyPart } from "../../../types/CurrentStudent.type";
 import styles from "./SkinsGrid.module.css";
-import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
-import type { PaginationInfo } from "../../../../shared/types/PaginacionType";
+import { PaginateComponent, type PaginationInfo } from "@/shared";
 import {
   containerVariants,
   itemVariants,

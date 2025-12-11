@@ -1,6 +1,6 @@
 import { FaBell } from "react-icons/fa";
 import type { NotificationVariant } from "../../types/notification.types";
-import Button from "../../../shared/components/Button/ButtonComponent";
+import { Button } from "@/shared";
 import NotificationDropdown from "../NotificationDropdown/NotificationDropdown";
 import { useNotificationBell } from "../../hooks/useNotificationBell";
 import styles from "./NotificationBell.module.css";

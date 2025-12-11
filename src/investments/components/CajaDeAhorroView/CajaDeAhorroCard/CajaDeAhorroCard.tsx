@@ -8,8 +8,7 @@ import {
 } from "react-icons/fa";
 import styles from "./CajaDeAhorroCard.module.css";
 import type { CajaDeAhorroResponse } from "../../../types/cajaAhorro.type";
-import formatPrice from "../../../../shared/utils/formatPrice";
-import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
+import { formatPrice, ConfirmationModal } from "@/shared";
 import { CajaDeAhorroModalMovimiento } from "../CajaDeAhorroModalMovimiento/CajaDeAhorroModalMovimiento";
 import { useCajaDeAhorroCard } from "../../../hooks/useCajaDeAhorro/useCajaDeAhorroCard";
 

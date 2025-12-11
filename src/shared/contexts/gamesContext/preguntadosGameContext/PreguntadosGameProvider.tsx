@@ -14,7 +14,7 @@ import type {
   QuestionResult,
 } from "../../../../activity/types/Preguntados.type";
 import { GameType } from "../../../types/Games.type";
-import { getGameTypeFromActivityName } from "../../../registry/games/gameMapping";
+import { getGameTypeFromActivityName } from "@/shared";
 import { useCreatePreguntados } from "../../../../activity/hooks/useCreatePreguntados";
 import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
 

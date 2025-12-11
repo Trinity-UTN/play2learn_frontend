@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaPlay, FaRedo, FaCoins, FaChartLine } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import { Card, Button } from "@/shared";
 
 import styles from "./InteractiveExample.module.css";
 import type { EducationalConcept } from "../../../types/generalType";

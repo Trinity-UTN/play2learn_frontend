@@ -9,10 +9,8 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 import type { ClassificationCategory } from "../../../types/DesafioClasificacion.type";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Input from "../../../../shared/components/Input/InputComponent";
+import { Button, Input, useConfirmation } from "@/shared";
 import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
-import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
 import styles from "./ConceptList.module.css";
 
 type Props = {

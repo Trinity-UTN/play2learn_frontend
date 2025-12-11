@@ -2,13 +2,12 @@ import type {
   ActivityTeacherDetailsResponse,
   ActivityTeacherResponse,
 } from "../../types/TeacherActivity.type";
-import type { SubjectSimplifiedResponseDto } from "../../../admin/services/subject/SubjectService";
-import type { CourseResponseDto } from "../../../admin/services/course/CourseService";
-import type { YearResponseDto } from "../../../admin/services/Year/YearService";
 import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+  SubjectSimplifiedResponseDto,
+  CourseResponseDto,
+  YearResponseDto,
+} from "@/admin";
+import type { GetPaginated, PaginatedData } from "@/shared";
 
 export interface ActivityTeacherContextType {
   // Estados generales

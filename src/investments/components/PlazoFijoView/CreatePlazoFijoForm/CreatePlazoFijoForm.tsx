@@ -6,8 +6,7 @@ import {
   quickAmounts,
   TERM_OPTIONS,
 } from "../../../contanst/plazoFijoContanst/plazoFijoContanst";
-import formatPrice from "../../../../shared/utils/formatPrice";
-import ConfirmationModal from "../../../../shared/components/ConfirmationModal/ConfirmationModal";
+import { formatPrice, ConfirmationModal } from "@/shared";
 import { usePlazoFijoForm } from "../../../hooks/usePlazoFijo/usePlazoFijoForm";
 interface CreatePlazoFijoFormProps {
   userBalance: number;

@@ -8,10 +8,15 @@ import {
   FaRedo,
   FaTrash,
 } from "react-icons/fa";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import {
+  Badge,
+  Card,
+  Button,
+  Tooltip,
+  getSubjectColor,
+  getActivityColor,
+  getActivityIcon,
+} from "@/shared";
 import type { ActivityTeacherDetailsResponse } from "../../../types/TeacherActivity.type";
 import type {
   ActivityDifficultyLevel,
@@ -22,11 +27,6 @@ import {
   getDifficultyConfig,
   getRewardTypeConfig,
 } from "../../../utils/activity/activityDetailsTeacher.utils";
-import { getSubjectColor } from "../../../../shared/constants/subject.constants";
-import {
-  getActivityIcon,
-  getActivityColor,
-} from "../../../../shared/utils/activityIcons";
 import styles from "./ActivityDetailsHeader.module.css";
 
 interface ActivityDetailsHeaderProps {

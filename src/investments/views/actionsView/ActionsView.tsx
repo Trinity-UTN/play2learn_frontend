@@ -4,7 +4,7 @@ import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import ActionHeader from "../../components/ActionsView/ActionsHeader/ActionsHeader";
 import ActionsGrid from "../../components/ActionsView/ActionsGrid/ActionsGrid";
 import { useActionsView } from "../../hooks/useActions/useActionsView";
-import BackButton from "../../../shared/components/BackButton/BackButton";
+import { BackButton } from "@/shared";
 
 const ActionsView = () => {
   const {

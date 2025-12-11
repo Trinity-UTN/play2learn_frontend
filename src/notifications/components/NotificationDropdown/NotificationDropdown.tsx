@@ -1,5 +1,5 @@
 import { FaBell, FaCheck, FaArrowRight } from "react-icons/fa";
-import Button from "../../../shared/components/Button/ButtonComponent";
+import { Button } from "@/shared";
 import type { NotificationVariant } from "../../types/notification.types";
 import { NOTIFICATION_CONFIG } from "../../constants/notification.constants";
 import { formatNotificationDate } from "../../utils/notification.utils";

@@ -1,4 +1,4 @@
-import formatPrice from "../../../../shared/utils/formatPrice";
+import { formatPrice } from "@/shared";
 import styles from "./RewardInfoPanel.module.css";
 
 interface RewardInfoPanelProps {

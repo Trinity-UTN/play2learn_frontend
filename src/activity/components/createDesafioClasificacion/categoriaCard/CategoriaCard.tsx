@@ -8,14 +8,10 @@ import {
   FaTag,
   FaExclamationTriangle,
 } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Input from "../../../../shared/components/Input/InputComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
+import { Button, Input, Card, Badge, useConfirmation } from "@/shared";
 import ConceptList from "../conceptList/ConceptList";
 import type { ClassificationCategory } from "../../../types/DesafioClasificacion.type";
 import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
-import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
 import styles from "./CategoriaCard.module.css";
 
 type Props = {

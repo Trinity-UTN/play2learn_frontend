@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaCog, FaClock, FaQuestionCircle, FaListAlt } from "react-icons/fa";
-import Input from "../../../../shared/components/Input/InputComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Input, Tooltip } from "@/shared";
 import type { PreguntadosConfig } from "../../../types/Preguntados.type";
 import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./GeneralConfiguration.module.css";

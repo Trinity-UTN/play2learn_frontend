@@ -6,8 +6,7 @@ import type {
   PaginatedBenefitUseRequestedResponseInterface,
   PaginatedBenefitPurchaseSimpleResponse,
 } from "../../../benefit/types/benefit.types";
-import type { GetPaginated } from "../../../shared/types/PaginacionType";
-import api from "../../../shared/utils/api";
+import { api, type GetPaginated } from "@/shared";
 import { urls } from "../urls";
 
 export const BenefitTeacherService = {

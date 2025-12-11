@@ -1,7 +1,4 @@
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+import type { GetPaginated, PaginatedData } from "@/shared";
 import type {
   CandleStickValuesResponse,
   ActionsResponse,

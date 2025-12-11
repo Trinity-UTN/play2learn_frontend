@@ -3,8 +3,7 @@ import { FaChartLine, FaFilter } from "react-icons/fa";
 import styles from "./ActionsHeader.module.css";
 import type { RiskLevel } from "../../../types/actions.type";
 import { riskFilters } from "../../../contanst/actionsContanst/actions.contanst";
-import { FILTER_TYPES } from "../../../../shared/contanst/filters.contanst";
-import { createFilterHandler } from "../../../../shared/utils/createFilterHandler";
+import { FILTER_TYPES, createFilterHandler } from "@/shared";
 
 interface ActionsHeaderProps {
   totalActions: number;

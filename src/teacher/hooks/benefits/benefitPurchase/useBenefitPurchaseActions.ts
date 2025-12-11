@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useBenefitAPI } from "../../useBenefitAPI";
-import { useToaster } from "../../../../shared/hooks/useToaster";
+import { useToaster } from "@/shared";
 
 /**
  * Hook para manejar las acciones sobre los canjes de beneficios

@@ -1,9 +1,8 @@
 import { useEffect, useCallback, useMemo, useRef } from "react";
-import type { FilterOption } from "../../../../shared/types/Filter.type";
 import { useBenefitAPI } from "../../useBenefitAPI";
 import { useBenefitTeacherFilters } from "./useBenefitTeacherFilters";
-import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
-import { useSubject } from "../../../../admin/hooks/useSubject";
+import { usePaginationParams, type FilterOption } from "@/shared";
+import { useSubject } from "@/admin";
 
 /**
  * Hook central para cargar y manejar los datos de beneficios del teacher

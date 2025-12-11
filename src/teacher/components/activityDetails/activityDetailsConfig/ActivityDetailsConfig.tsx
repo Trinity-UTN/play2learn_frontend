@@ -1,5 +1,5 @@
 import { FaClock, FaCoins, FaRedo } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Card } from "@/shared";
 import ActivityDetailsStatsCard from "../activityDetailsStatsCard/ActivityDetailsStatsCard";
 import type { ActivityTeacherDetailsResponse } from "../../../types/TeacherActivity.type";
 import styles from "./ActivityDetailsConfig.module.css";

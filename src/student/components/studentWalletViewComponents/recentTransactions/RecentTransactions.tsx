@@ -1,12 +1,11 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaHistory, FaArrowUp, FaArrowDown, FaEye } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import styles from "./RecentTransactions.module.css";
+import { Card, Button } from "@/shared";
 import { useWalletStudent } from "../../../hooks/useWalletStudentAPI";
-import { useEffect } from "react";
 import type { TransactionType } from "../../../types/Wallet.type";
 import { IoMdTrendingDown, IoMdTrendingUp } from "react-icons/io";
+import styles from "./RecentTransactions.module.css";
 
 const RecentTransactions: React.FC = () => {
   const { getLastTransactions, lastTransactions } = useWalletStudent();

@@ -10,9 +10,7 @@ import type {
   CurrentActivityInterface,
   ActivityUI,
 } from "../../../types/Activity.type";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
+import { Button, Card, Badge } from "@/shared";
 import { useViewToggle } from "../../../hooks/useViewToggle";
 import styles from "./ActivityStatus.module.css";
 

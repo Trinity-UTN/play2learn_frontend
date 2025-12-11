@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FaInfoCircle } from "react-icons/fa";
-import Button from "../../../../../shared/components/Button/ButtonComponent";
+import { Button } from "@/shared";
 import styles from "./BenefitHeader.module.css";
 
 type BenefitHeaderProps = {

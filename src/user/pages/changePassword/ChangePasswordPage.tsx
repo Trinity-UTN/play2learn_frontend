@@ -2,10 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
 import { usePassword } from "../../hooks/usePassword";
-import { useToaster } from "../../../shared/hooks/useToaster";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import Input from "../../../shared/components/Input/InputComponent";
-import Card from "../../../shared/components/Card/CardComponent";
+import { useToaster, Button, Input, Card } from "@/shared";
 import styles from "./ChangePassword.module.css";
 
 export const ChangePasswordPage = () => {

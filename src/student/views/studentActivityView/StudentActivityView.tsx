@@ -7,7 +7,7 @@ import StudentActivityHeader from "../../components/common/StudentActivityHeader
 import StudentActivityFooter from "../../components/common/StudentActivityFooter/StudentActivityFooter";
 import ActivityDetails from "../../components/studentActivity/activityDetails/ActivityDetailts";
 import ActivityStatus from "../../components/studentActivity/activityStatus/ActivityStatus";
-import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { LoadingSpinnerComponent } from "@/shared";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useActivityActions } from "../../hooks/activities/useActivityActions";
 import { useActivityNavigation } from "../../hooks/activities/useActivityNavigation";
@@ -58,7 +58,7 @@ const StudentActivityView: React.FC<StudentActivityViewProps> = ({
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
-        <LoadingSpinner />
+        <LoadingSpinnerComponent />
       </div>
     );
   }

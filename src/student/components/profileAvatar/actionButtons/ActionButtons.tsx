@@ -1,5 +1,5 @@
 import { FaSave } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import { Button } from "@/shared";
 import styles from "./Actionbuttons.module.css";
 
 interface ActionButtonsPopupProps {

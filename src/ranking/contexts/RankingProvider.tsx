@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { RankingContext } from "./RankingContext";
 import type { RankingContextType } from "./RankingContext.type";
-import { useHandleApiError } from "../../shared/hooks/useHandleApiError";
+import { useHandleApiError } from "@/shared";
 import type { RankingResponseApi, RankingType } from "../types/ranking.type";
 import { RankingServices } from "../services/rankingsService";
 interface RankingProviderProps {

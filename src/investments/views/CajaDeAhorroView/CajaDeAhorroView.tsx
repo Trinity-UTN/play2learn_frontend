@@ -4,7 +4,7 @@ import CreateCajaDeAhorroForm from "../../components/CajaDeAhorroView/CreateCaja
 import CajaDeAhorroList from "../../components/CajaDeAhorroView/CajaDeAhorroList/CajaDeAhorroList";
 import CajaDeAhorroHeader from "../../components/CajaDeAhorroView/CajaDeAhorroHeader/CajaDeAhorroHeader";
 import { useCajaDeAhorroView } from "../../hooks/useCajaDeAhorro/useCajaDeAhorroView";
-import BackButton from "../../../shared/components/BackButton/BackButton";
+import { BackButton } from "@/shared";
 
 const CajaDeAhorroView = () => {
   const {

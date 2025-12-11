@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import ConceptCard from "../conceptCard/ConceptCard";
 import ConceptDetail from "../conceptDetail/ConceptDetail";
-import styles from "./ConceptSection.module.css";
 import { categories, type FinancialConcept } from "../data";
 import { useMemo, useState } from "react";
+import styles from "./ConceptSection.module.css";
 
 interface ConceptsSectionProps {
   concepts: FinancialConcept[];

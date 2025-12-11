@@ -1,15 +1,16 @@
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaRedo, FaStopwatch, FaCoins } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
-import formatPrice from "../../../../shared/utils/formatPrice";
-import type { ActivityUI } from "../../../types/Activity.type";
 import {
+  Button,
+  Badge,
+  formatPrice,
+  getSubjectColor,
   getActivityColor,
   getActivityIcon,
-} from "../../../../shared/utils/activityIcons";
+} from "@/shared";
+import type { ActivityUI } from "../../../types/Activity.type";
+
 import { getActivityStatusConfig } from "../../../utils/activities.utils";
-import { getSubjectColor } from "../../../../shared/constants/subject.constants";
 import styles from "./ActivityRow.module.css";
 
 interface ActivityRowProps {

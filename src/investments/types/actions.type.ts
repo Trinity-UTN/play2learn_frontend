@@ -1,4 +1,4 @@
-import type { PaginatedData } from "../../shared/types/PaginacionType";
+import type { PaginatedData } from "@/shared";
 
 export type RiskLevel = "BAJO" | "MEDIO" | "ALTO";
 export type RangeValue =

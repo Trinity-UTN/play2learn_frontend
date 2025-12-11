@@ -5,7 +5,7 @@ import {
   FaChartLine,
   FaPiggyBank,
 } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Card } from "@/shared";
 import type { FinancialSummary } from "../../../types/generalType";
 import styles from "./FinancialOverview.module.css";
 

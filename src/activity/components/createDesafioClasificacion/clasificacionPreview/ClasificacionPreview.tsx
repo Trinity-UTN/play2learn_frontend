@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
 import { FaEye, FaPlay, FaRedo, FaTags } from "react-icons/fa";
 import { FcFolder } from "react-icons/fc";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Tooltip, DesafioClasificacionGame } from "@/shared";
 import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
 import styles from "./ClasificacionPreview.module.css";
-import DesafioClasificacionGame from "../../../../shared/components/Games/DesafioClasificacion/DesafioClasificacionGame";
 import { useDesafioClasificacionGame } from "../../../../shared/hooks/games/useDesafioClasificacionGame";
 
 const ClasificacionPreview: React.FC = () => {

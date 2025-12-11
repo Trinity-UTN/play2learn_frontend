@@ -1,5 +1,5 @@
 import type { Notification } from "../types/notification.types";
-import api from "../../shared/utils/api";
+import { api } from "@/shared";
 import { urls } from "./notification.urls";
 
 export const NotificationsService = {

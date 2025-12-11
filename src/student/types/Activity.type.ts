@@ -1,5 +1,5 @@
-import type { SubjectResponseDto } from "../../admin/services/subject/SubjectService";
-import type { PaginatedData } from "../../shared/types/PaginacionType";
+import type { SubjectResponseDto } from "@/admin";
+import type { PaginatedData } from "@/shared";
 import type { AhorcadoConfig } from "../../activity/types/Ahorcado.type";
 import type { DesafioClasificacionConfig } from "../../activity/types/DesafioClasificacion.type";
 import type { CompletarOracionInterface as CompletarOracionConfig } from "../../activity/types/CompletarOracion.type";

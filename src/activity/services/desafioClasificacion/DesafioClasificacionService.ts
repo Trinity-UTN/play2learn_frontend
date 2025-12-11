@@ -1,4 +1,4 @@
-import api from "../../../shared/utils/api";
+import { api } from "@/shared";
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import type { CreateClassification } from "../../types/DesafioClasificacion.type";
 import { urls } from "../urls";

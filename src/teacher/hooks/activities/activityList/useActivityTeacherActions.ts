@@ -2,8 +2,7 @@ import { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ActivityActionHandlers } from "../../../utils/activity/activityTeacher.utils";
 import type { ActivityTeacherResponse } from "../../../types/TeacherActivity.type";
-import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
-import { useToaster } from "../../../../shared/hooks/useToaster";
+import { useConfirmation, useToaster } from "@/shared";
 import { useActivityTeacher } from "../../useActivityTeacher";
 
 export const useActivityTeacherActions = (): {

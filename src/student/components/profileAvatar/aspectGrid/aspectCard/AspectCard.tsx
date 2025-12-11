@@ -3,7 +3,7 @@ import type {
   BodyPart,
   NullAspect,
 } from "../../../../types/CurrentStudent.type";
-import Button from "../../../../../shared/components/Button/ButtonComponent";
+import { Button } from "@/shared";
 import styles from "./AspectCard.module.css";
 
 interface AspectCardProps {

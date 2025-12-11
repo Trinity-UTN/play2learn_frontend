@@ -1,7 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import { FaSearch, FaSortAmountDown } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Input from "../../../../shared/components/Input/InputComponent";
+import { Card, Input } from "@/shared";
 import styles from "./ActivitiesFilter.module.css";
 
 interface ActivitiesFilterProps {

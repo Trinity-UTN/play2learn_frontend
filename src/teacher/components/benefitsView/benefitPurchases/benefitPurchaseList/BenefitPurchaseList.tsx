@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FaShoppingCart } from "react-icons/fa";
-import { EmptyStateComponent } from "../../../../../shared/components/EmptyState/EmptyStateComponent";
-import PaginateComponent from "../../../../../shared/components/PaginateComponent/PaginateComponent";
+import { EmptyStateComponent, PaginateComponent } from "@/shared";
 import BenefitPurchaseCard from "../benefitPurchaseCard/BenefitPurchaseCard";
 import type { BenefitPurchaseSimpleResponse } from "../../../../../benefit/types/benefit.types";
 import { benefitItemVariants } from "../../../../constants/animations/benefitTeacher.animations";

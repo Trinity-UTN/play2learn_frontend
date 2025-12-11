@@ -1,5 +1,5 @@
 import { FaFire, FaStar } from "react-icons/fa";
-import Badge from "../../../../../shared/components/Badge/BadgeComponent";
+import { Badge } from "@/shared";
 import styles from "./ActivityCardHeader.module.css";
 
 interface ActivityCardHeaderProps {

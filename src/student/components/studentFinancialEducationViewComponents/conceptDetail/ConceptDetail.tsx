@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaCheckCircle, FaLightbulb } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
+import { Card, Button, Badge } from "@/shared";
 import type { FinancialConcept } from "../data";
 import { getDifficultyColor } from "../data";
 import styles from "./ConceptDetail.module.css";

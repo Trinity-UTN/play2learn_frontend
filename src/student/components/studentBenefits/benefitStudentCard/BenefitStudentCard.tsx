@@ -1,9 +1,7 @@
 import { FaShoppingCart, FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
 import { FiXCircle } from "react-icons/fi";
 import type { BenefitStudentResponseInterface } from "../../../../benefit/types/benefit.types";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Card, Tooltip } from "@/shared";
 import BenefitCardContent from "../../../../benefit/components/benefitCardContent/BenefitCardContent";
 import { BENEFIT_STATUS } from "../../../../benefit/constants/benefit.constants";
 import { validateBenefitPurchase } from "../../../../benefit/utils/benefit.validation";

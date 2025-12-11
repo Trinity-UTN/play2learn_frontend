@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import styles from "./CourseGrid.module.css";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import { Card, Button } from "@/shared";
 import { useState } from "react";
 import type { StatisticsResponse } from "../../../types/Statistics.type";
 import { FaBook, FaGamepad, FaUsers, FaEye } from "react-icons/fa";

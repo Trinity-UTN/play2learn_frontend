@@ -6,7 +6,7 @@ import { useStoreStudentUI } from "../../hooks/useStoreStudentUI";
 
 import styles from "./StudentStoreView.module.css";
 
-import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { LoadingSpinnerComponent } from "@/shared";
 import StoreHeader from "../../components/studentStoreViewComponents/StoreHeader/StoreHeader";
 import CategoryTabs from "../../components/studentStoreViewComponents/CategoryTabs/CategoryTabs";
 import SkinsGrid from "../../components/studentStoreViewComponents/SkinsGrid/SkinsGrid";

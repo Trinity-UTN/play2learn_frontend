@@ -7,11 +7,7 @@ import {
   FaList,
   // FaCalendarAlt,
 } from "react-icons/fa";
-import type { FilterOption } from "../../../../shared/types/Filter.type";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Input from "../../../../shared/components/Input/InputComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Card, Input, Tooltip, type FilterOption } from "@/shared";
 import {
   ACTIVITY_TEACHER_STATUS_FILTERS,
   type ActivityTeacherStatus,
