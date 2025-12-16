@@ -1,7 +1,6 @@
 import { useEffect, useCallback, useMemo, useRef } from "react";
-import type { FilterOption } from "../../../../shared/types/Filter.type";
 import { useActivityTeacherFilters } from "./useActivityTeacherFilters";
-import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
+import { usePaginationParams, type FilterOption } from "@/shared";
 import { useActivityTeacher } from "../../useActivityTeacher";
 
 /**

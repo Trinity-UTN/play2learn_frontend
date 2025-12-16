@@ -1,6 +1,5 @@
 import { FaTrash, FaEye, FaCheck } from "react-icons/fa";
-import Button from "../../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../../shared/components/Card/CardComponent";
+import { Button, Card } from "@/shared";
 import BenefitCardContent from "../../../../../benefit/components/benefitCardContent/BenefitCardContent";
 import type { TeacherBenefitType } from "../../../../../benefit/types/benefit.types";
 import { isBenefitUseRequested } from "../../../../../benefit/utils/benefit.utils";

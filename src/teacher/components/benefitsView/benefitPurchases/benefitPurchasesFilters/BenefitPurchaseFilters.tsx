@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FaFilter } from "react-icons/fa";
-import Button from "../../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../../shared/components/Card/CardComponent";
+import { Button, Card } from "@/shared";
 import {
   BENEFIT_PURCHASE_STATUS_FILTERS,
   type BenefitPurchaseStatus,

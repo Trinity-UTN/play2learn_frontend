@@ -1,4 +1,4 @@
-import type { PaginatedData } from "../../shared/types/PaginacionType";
+import type { PaginatedData } from "@/shared";
 import type { BodyPart } from "./CurrentStudent.type";
 
 export interface BuyAspect {

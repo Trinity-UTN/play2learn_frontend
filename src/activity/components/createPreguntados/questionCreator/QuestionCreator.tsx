@@ -11,11 +11,7 @@ import {
   FaEdit,
   FaExclamationTriangle,
 } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Input from "../../../../shared/components/Input/InputComponent";
-import TextArea from "../../../../shared/components/TextArea/TextAreaComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Card, Input, TextArea, Tooltip } from "@/shared";
 import type { Question } from "../../../types/Preguntados.type";
 import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./QuestionCreator.module.css";

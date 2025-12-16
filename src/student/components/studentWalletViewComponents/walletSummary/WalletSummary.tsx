@@ -1,10 +1,7 @@
-import type React from "react";
 import { FaCoins, FaChartLine, FaLightbulb } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
 import type { FinancialSummary } from "../../../types/generalType";
 import styles from "./WalletSummary.module.css";
-import { useCountUp } from "../../../../shared/hooks/useCountUp";
-import formatPrice from "../../../../shared/utils/formatPrice";
+import { useCountUp, Card, formatPrice } from "@/shared";
 
 interface WalletSummaryProps {
   data: FinancialSummary;

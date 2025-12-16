@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Tooltip } from "@/shared";
 import type { Sentence } from "../../../types/CompletarOracion.type";
 import ActivityErrorContainer from "../../common/ActivityErrorContainer/ActivityErrorContainer";
 import { useCreateCompletarOracion } from "../../../hooks/useCreateCompletarOracion";

@@ -1,34 +1,11 @@
-import type { YearResponseDto } from "../Year/YearService";
 import { urls } from "../urls";
+import { api, buildCleanPaginatedParams, type GetPaginated } from "@/shared";
 import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-import api from "../../../shared/utils/api";
-import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
-
-export interface CreateCoursePayload {
-  name: string;
-  year_id: number;
-}
-
-export interface UpdateCoursePayload {
-  id: number;
-  name: string;
-}
-
-export interface CourseResponseDto {
-  id: number;
-  name: string;
-  year: YearResponseDto;
-}
-
-export interface PaginatedCourseResponse {
-  data: PaginatedData<CourseResponseDto>;
-  message: string;
-  errors: any;
-  timestamp: string;
-}
+  CourseResponseDto,
+  CreateCoursePayload,
+  PaginatedCourseResponse,
+  UpdateCoursePayload,
+} from "@/admin/types/course.types";
 
 const registerCourseApi = async (data: CreateCoursePayload): Promise<void> => {
   await api.post(urls.Course, data);

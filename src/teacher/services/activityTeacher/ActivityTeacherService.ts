@@ -1,12 +1,10 @@
 import qs from "qs";
-import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import type {
   ActivityTeacherDetailsResponse,
   PaginatedActivityTeacherResponseInterface,
   SubjectCoursesYearsTeacherResponse,
 } from "../../types/TeacherActivity.type";
-import api from "../../../shared/utils/api";
-import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
+import { buildCleanPaginatedParams, api, type GetPaginated } from "@/shared";
 import { urls } from "../urls";
 
 export const ActivityTeacherService = {

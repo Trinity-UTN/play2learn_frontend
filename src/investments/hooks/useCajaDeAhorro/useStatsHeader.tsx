@@ -1,5 +1,5 @@
 import { FaCoins, FaChartLine, FaWallet } from "react-icons/fa";
-import formatPrice from "../../../shared/utils/formatPrice";
+import { formatPrice } from "@/shared";
 import type { CajaDeAhorroStats } from "../../types/cajaAhorro.type";
 
 type Props = {

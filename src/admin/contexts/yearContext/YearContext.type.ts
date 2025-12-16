@@ -1,12 +1,9 @@
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+import type { GetPaginated, PaginatedData } from "@/shared";
 import type {
   CreateYearPayload,
   UpdateYearPayload,
   YearResponseDto,
-} from "../../services/Year/YearService";
+} from "../../types/year.types";
 
 export interface YearContextType {
   loading: boolean;

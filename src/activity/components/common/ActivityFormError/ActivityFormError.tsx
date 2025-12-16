@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { FaExclamationTriangle, FaTimes } from "react-icons/fa";
-import { useToaster } from "../../../../shared/hooks/useToaster";
+import { useToaster } from "@/shared";
 import styles from "./ActivityFormError.module.css";
 
 interface FormErrorProps {

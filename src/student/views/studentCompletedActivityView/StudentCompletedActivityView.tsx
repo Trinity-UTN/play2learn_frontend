@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
-import LoadingSpinner from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { LoadingSpinnerComponent } from "@/shared";
 import styles from "./StudentCompletedActivityView.module.css";
 import { useEffect, useState } from "react";
 import ConfettiEffect from "../../components/studentCompletedActivityViewComponents/ConfettiEffect/ConfettiEffect";
@@ -70,7 +70,7 @@ const StudentCompletedActivityView = () => {
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
-        <LoadingSpinner />
+        <LoadingSpinnerComponent />
       </div>
     );
   }

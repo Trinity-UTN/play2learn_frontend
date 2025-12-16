@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import styles from "./PlazoFijoStats.module.css";
 import { FaCoins, FaChartLine, FaCheckCircle } from "react-icons/fa";
 import type { StatisticsPlazoFijoResponse } from "../../../types/plazoFijo.type";
-import formatPrice from "../../../../shared/utils/formatPrice";
+import { formatPrice } from "@/shared";
 
 export const PlazoFijoStats = ({
   statistics,

@@ -1,5 +1,4 @@
 import { motion, type Variants } from "framer-motion";
-import styles from "./DetailsNoLudicaGame.module.css";
 import {
   FaBullseye,
   FaCheck,
@@ -10,6 +9,8 @@ import {
 } from "react-icons/fa";
 import { GiBookshelf } from "react-icons/gi";
 import { IoIosNotifications } from "react-icons/io";
+import { itemVariants } from "@/shared";
+import styles from "./DetailsNoLudicaGame.module.css";
 
 const DetailsNoLudicaGame = () => {
   const containerVariants: Variants = {
@@ -25,14 +26,6 @@ const DetailsNoLudicaGame = () => {
     },
   };
 
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.4, ease: "easeOut" },
-    },
-  };
   return (
     <motion.div
       className={styles.detailsContainer}

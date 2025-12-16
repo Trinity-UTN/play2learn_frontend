@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Button, Card } from "@/shared";
 import styles from "./StudentActivityFooter.module.css";
 
 interface StudentActivityFooterProps {

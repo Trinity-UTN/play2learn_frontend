@@ -1,7 +1,5 @@
 import qs from "qs";
-import { buildCleanPaginatedParams } from "../../shared/utils/apiUtils";
-import api from "../../shared/utils/api";
-import type { GetPaginated } from "../../shared/types/PaginacionType";
+import { buildCleanPaginatedParams, api, type GetPaginated } from "@/shared";
 
 export const BaseBenefitService = {
   async getPaginated<T>(url: string, params: GetPaginated): Promise<T> {

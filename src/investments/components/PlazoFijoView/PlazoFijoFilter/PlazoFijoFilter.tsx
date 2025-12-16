@@ -5,8 +5,7 @@ import type React from "react";
 import { type FIXED_TERM_STATES } from "../../../types/plazoFijo.type";
 
 import { FaFilter } from "react-icons/fa";
-import { createFilterHandler } from "../../../../shared/utils/createFilterHandler";
-import { FILTER_TYPES } from "../../../../shared/contanst/filters.contanst";
+import { createFilterHandler, FILTER_TYPES } from "@/shared";
 import { statusFilters } from "../../../contanst/plazoFijoContanst/plazoFijoContanst";
 
 type Props = {

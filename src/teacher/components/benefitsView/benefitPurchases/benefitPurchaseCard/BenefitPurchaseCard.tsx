@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import { FaCheck, FaCheckCircle, FaShoppingCart } from "react-icons/fa";
-import Card from "../../../../../shared/components/Card/CardComponent";
-import Button from "../../../../../shared/components/Button/ButtonComponent";
-import Tooltip from "../../../../../shared/components/Tooltip/TooltipComponent";
+import { Card, Button, Tooltip } from "@/shared";
 import type { BenefitPurchaseSimpleResponse } from "../../../../../benefit/types/benefit.types";
 import BenefitCardContent from "../../../../../benefit/components/benefitCardContent/BenefitCardContent";
 import { benefitCardVariants } from "../../../../constants/animations/benefitTeacher.animations";

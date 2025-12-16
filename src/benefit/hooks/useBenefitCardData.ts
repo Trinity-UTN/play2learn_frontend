@@ -5,7 +5,7 @@ import type {
   BenefitVariant,
   TeacherBenefitType,
 } from "../types/benefit.types";
-import { getSubjectColor } from "../../shared/constants/subject.constants";
+import { getSubjectColor } from "@/shared";
 import {
   getIconByValue,
   getColorByValue,

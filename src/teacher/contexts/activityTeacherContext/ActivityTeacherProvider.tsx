@@ -6,14 +6,13 @@ import type {
   ActivityTeacherDetailsResponse,
   ActivityTeacherResponse,
 } from "../../types/TeacherActivity.type";
-import type { SubjectSimplifiedResponseDto } from "../../../admin/services/subject/SubjectService";
-import type { CourseResponseDto } from "../../../admin/services/course/CourseService";
-import type { YearResponseDto } from "../../../admin/services/Year/YearService";
 import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+  SubjectSimplifiedResponseDto,
+  CourseResponseDto,
+  YearResponseDto,
+} from "@/admin";
+import type { GetPaginated, PaginatedData } from "@/shared";
+import { useHandleApiError } from "@/shared";
 
 interface BenefitProviderProps {
   children: ReactNode;

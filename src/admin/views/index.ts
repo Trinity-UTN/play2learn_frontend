@@ -1,0 +1,11 @@
+export { default as ListCourseView } from "./Course/ListCourseView";
+export { default as CreateCourseView } from "./Course/CreateCourseView";
+export { default as OverviewView } from "./Overview/OverviewView";
+export { default as CreateStudentView } from "./Student/CreateStudentView";
+export { default as ListStudentView } from "./Student/ListStudentView";
+export { default as CreateSubjectView } from "./Subject/CreateSubjectView";
+export { default as ListSubjectView } from "./Subject/ListSubjectView";
+export { default as CreateTeacherView } from "./Teacher/CreateTeacherView";
+export { default as ListTeacherView } from "./Teacher/ListTeacherView";
+export { default as CreateYearView } from "./Year/CreateYearView";
+export { default as ListYearView } from "./Year/ListYearView";

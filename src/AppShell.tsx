@@ -2,7 +2,7 @@ import { useAuth } from "./user/hooks/useAuth";
 import AdminApp from "./apps/AdminApp";
 import TeacherApp from "./apps/TeacherApp";
 import StudentApp from "./apps/StudentApp";
-import LoadingSpinner from "./shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { LoadingSpinnerComponent } from "@/shared";
 import { Navigate } from "react-router-dom";
 
 const AppShell: React.FC = () => {
@@ -20,7 +20,7 @@ const AppShell: React.FC = () => {
           gap: "1rem",
         }}
       >
-        <LoadingSpinner />
+        <LoadingSpinnerComponent />
       </div>
     );
   }

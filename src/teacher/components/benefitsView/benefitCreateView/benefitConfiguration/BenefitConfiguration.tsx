@@ -1,7 +1,6 @@
 import { FaExclamationTriangle } from "react-icons/fa";
-import Input from "../../../../../shared/components/Input/InputComponent";
-import Tooltip from "../../../../../shared/components/Tooltip/TooltipComponent";
-import type { SubjectResponseDto } from "../../../../../admin/services/subject/SubjectService";
+import { Input, Tooltip } from "@/shared";
+import type { SubjectResponseDto } from "@/admin";
 import type {
   CreateBenefitInterface,
   BenefitValidationErrors,

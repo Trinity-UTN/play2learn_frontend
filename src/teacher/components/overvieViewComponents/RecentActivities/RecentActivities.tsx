@@ -1,10 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import Card from "../../../../shared/components/Card/CardComponent";
-import styles from "./RecentActivities.module.css";
+import { Card, getActivityIcon } from "@/shared";
 import type { StatisticsResponse } from "../../../types/Statistics.type";
 import { FaGamepad } from "react-icons/fa";
-import { getActivityIcon } from "../../../../shared/utils/activityIcons";
+import styles from "./RecentActivities.module.css";
 
 type Props = {
   statistics: StatisticsResponse;

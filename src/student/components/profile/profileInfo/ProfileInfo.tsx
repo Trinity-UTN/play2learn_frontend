@@ -1,5 +1,5 @@
 import { FaGraduationCap, FaEdit } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
+import { Button } from "@/shared";
 import Avatar from "../../common/Avatar/AvatarComponent";
 import type { CurrentStudent } from "../../../types/CurrentStudent.type";
 import styles from "./ProfileInfo.module.css";

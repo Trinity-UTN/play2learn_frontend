@@ -1,107 +1,19 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaBook, FaSave } from "react-icons/fa";
-import Card from "../../../shared/components/Card/CardComponent";
-import Button from "../../../shared/components/Button/ButtonComponent";
-import Input from "../../../shared/components/Input/InputComponent";
-import { useYear } from "../../hooks/useYear";
-import { useCourse } from "../../hooks/useCourse";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
-import { useToaster } from "../../../shared/hooks/useToaster";
+import { Card, Button, Input } from "@/shared";
+import { useCreateCourseView } from "@/admin";
 import styles from "./CreateCourseView.module.css";
 
 const CreateCourseView: React.FC = () => {
-  const { years, getYear } = useYear();
   const {
     loading,
-    selectedCourse,
-    registerCourse,
-    updateCourse,
-    getCourseById,
-  } = useCourse();
-  const { id } = useParams<{ id: string }>();
-  const { handleApiError } = useHandleApiError();
-  const { showToast } = useToaster();
-  const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    name: "",
-    year_id: 0,
-  });
-
-  const isEditMode = Boolean(id);
-
-  const resetFormData = () => {
-    setFormData({
-      name: "",
-      year_id: 0,
-    });
-  };
-
-  useEffect(() => {
-    if (isEditMode && id) {
-      const loadCourseData = async () => {
-        try {
-          setFormData({
-            name: selectedCourse?.name || "",
-            year_id: selectedCourse?.year.id || 0,
-          });
-        } catch (error) {
-          handleApiError(error, "Error al cargar el curso");
-          navigate("/dashboard/courses/list");
-        }
-      };
-      loadCourseData();
-    }
-  }, [id, isEditMode, getCourseById, navigate]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      if (isEditMode && id) {
-        const idN = id ? Number(id) : 0;
-        const data = { id: idN, ...formData };
-
-        await updateCourse(data);
-        showToast({
-          title: "Curso actualizado exitosamente",
-          message: "El curso ha sido actualizado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-        navigate("/dashboard/courses/list");
-      } else {
-        await registerCourse(formData);
-        showToast({
-          title: "Curso creado exitosamente",
-          message: "El curso ha sido creado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-        resetFormData();
-      }
-    } catch (err) {
-      showToast({
-        title:
-          "Error al" + (isEditMode ? " actualizar" : " crear") + " el curso",
-        type: "error",
-        position: "bottom-right",
-      });
-    }
-  };
-
-  const handleChange = (field: string, value: string | number) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  useEffect(() => {
-    getYear();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const handleCancel = () => {
-    navigate("/dashboard/courses/list");
-  };
+    years,
+    isEditMode,
+    formData,
+    handleChange,
+    handleSubmit,
+    handleCancel,
+  } = useCreateCourseView();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

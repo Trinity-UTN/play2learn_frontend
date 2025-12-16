@@ -1,11 +1,14 @@
 import type { CurrentActivityInterface } from "../../../types/Activity.type";
-import AhorcadoGame from "../../../../shared/components/Games/Ahorcado/AhorcadoGame";
-import { GameType } from "../../../../shared/types/Games.type";
-import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
-import CompletarOracionGame from "../../../../shared/components/Games/CompletarOracion/CompletarOracionGame";
-import DesafioClasificacionGame from "../../../../shared/components/Games/DesafioClasificacion/DesafioClasificacionGame";
-import PreguntadosGame from "../../../../shared/components/Games/Preguntados/PreguntadosGame";
-import NoLudicaGame from "../../../../shared/components/Games/NoLudica/NoLudicaGame";
+import {
+  AhorcadoGame,
+  GameType,
+  getGameTypeFromActivityName,
+  CompletarOracionGame,
+  DesafioClasificacionGame,
+  PreguntadosGame,
+  NoLudicaGame,
+} from "@/shared";
+
 import styles from "./StudentGameRenderer.module.css";
 
 interface GameRendererProps {

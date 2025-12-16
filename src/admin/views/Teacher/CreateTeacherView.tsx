@@ -1,106 +1,21 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaUserTie, FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
-import { useTeacher } from "../../hooks/useTeacher";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
-import { useToaster } from "../../../shared/hooks/useToaster";
+import { useCreateTeacherView } from "@/admin";
+
 import styles from "./CreateTeacherView.module.css";
 
 const CreateTeacherView: React.FC = () => {
   const {
     loading,
-    selectedTeacher,
-    registerTeacher,
-    getTeacherById,
-    updateTeacher,
-  } = useTeacher();
-  const { id } = useParams<{ id: string }>();
-  const { handleApiError } = useHandleApiError();
-  const { showToast } = useToaster();
-  const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    name: "",
-    lastname: "",
-    dni: "",
-    email: "",
-  });
-
-  const isEditMode = Boolean(id);
-
-  useEffect(() => {
-    if (isEditMode && id) {
-      const loadTeacherData = async () => {
-        try {
-          setFormData({
-            name: selectedTeacher?.name || "",
-            lastname: selectedTeacher?.lastname || "",
-            dni: selectedTeacher?.dni || "",
-            email: selectedTeacher?.user.email || "",
-          });
-        } catch (error) {
-          handleApiError(error, "Error al cargar el docente");
-          navigate("/dashboard/teachers/list");
-        }
-      };
-      loadTeacherData();
-    }
-  }, [id, isEditMode, getTeacherById, navigate]);
-
-  const resetFormData = () => {
-    setFormData({
-      name: "",
-      lastname: "",
-      dni: "",
-      email: "",
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      if (isEditMode && id) {
-        const idN = id ? Number(id) : 0;
-        const data = { id: idN, ...formData };
-
-        await updateTeacher(data);
-        showToast({
-          title: "Docente actualizado exitosamente",
-          message: "El docente ha sido actualizado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-        navigate("/dashboard/teachers/list");
-      } else {
-        await registerTeacher(formData);
-        showToast({
-          title: "Docente creado exitosamente",
-          message: "El docente ha sido creado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
-        resetFormData();
-      }
-    } catch (err) {
-      showToast({
-        title:
-          "Error al" + (isEditMode ? " actualizar" : " crear") + " el docente",
-        type: "error",
-        position: "bottom-right",
-      });
-    }
-  };
-
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-  const handleCancel = () => {
-    navigate("/dashboard/teachers/list");
-  };
+    formData,
+    isEditMode,
+    handleSubmit,
+    handleChange,
+    handleCancel,
+  } = useCreateTeacherView();
 
   return (
     <motion.div

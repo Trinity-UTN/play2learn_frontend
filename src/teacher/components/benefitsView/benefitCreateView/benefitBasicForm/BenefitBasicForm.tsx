@@ -1,5 +1,5 @@
 import { FaCoins, FaExclamationTriangle } from "react-icons/fa";
-import Input from "../../../../../shared/components/Input/InputComponent";
+import { Input } from "@/shared";
 import type {
   CreateBenefitInterface,
   BenefitValidationErrors,

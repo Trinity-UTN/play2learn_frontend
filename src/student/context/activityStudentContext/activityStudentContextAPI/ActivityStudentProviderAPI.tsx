@@ -11,15 +11,15 @@ import type {
   ActivityCompletedInterface,
   ActivityCompletedResponseInterface,
 } from "../../../types/ActivityCompleted.type";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../../shared/types/PaginacionType";
+import type { GetPaginated, PaginatedData } from "@/shared";
 import { ActivityStudentService } from "../../../services/activity/ActivityService";
-import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
-import { createGameConfig } from "../../../../shared/registry/games/gameConfigFactory";
-import { useHandleApiError } from "../../../../shared/hooks/useHandleApiError";
-import usePaginateParams from "../../../../shared/hooks/usePaginateParams";
+import {
+  getGameTypeFromActivityName,
+  createGameConfig,
+  useHandleApiError,
+  usePaginationParams,
+} from "@/shared";
+
 import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 
 export const ActivityStudentProvider = ({
@@ -28,7 +28,7 @@ export const ActivityStudentProvider = ({
   children: ReactNode;
 }) => {
   const { handleApiError } = useHandleApiError();
-  const { paginationParams } = usePaginateParams();
+  const { paginationParams } = usePaginationParams();
   const { getCurrentStudentByToken } = useCurrentStudent();
 
   // Estados Principales

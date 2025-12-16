@@ -6,8 +6,7 @@ import {
   FaCalendarAlt,
   FaCheckCircle,
 } from "react-icons/fa";
-import Badge from "../../../shared/components/Badge/BadgeComponent";
-import Tooltip from "../../../shared/components/Tooltip/TooltipComponent";
+import { Badge, Tooltip } from "@/shared";
 import type {
   BenefitResponseInterface,
   BenefitStudentResponseInterface,

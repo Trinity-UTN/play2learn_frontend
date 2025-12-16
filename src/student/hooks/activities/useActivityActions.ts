@@ -1,10 +1,9 @@
 import { useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useActivityStudent } from "../../../student/hooks/useActivityStudentAPI";
-import { useConfirmation } from "../../../shared/hooks/useConfirmation";
+import { useConfirmation, usePaginationParams } from "@/shared";
 import { useActivityRules } from "./useActivityRules";
 import { useCurrentActivityPersistence } from "./useCurrentActivityPersistence";
-import usePaginateParams from "../../../shared/hooks/usePaginateParams";
 
 export const useActivityActions = () => {
   const {
@@ -20,7 +19,7 @@ export const useActivityActions = () => {
   const { clearPersistedActivity } = useCurrentActivityPersistence();
   const { showConfirmation } = useConfirmation();
   const { rules } = useActivityRules();
-  const { paginationParams } = usePaginateParams();
+  const { paginationParams } = usePaginationParams();
 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();

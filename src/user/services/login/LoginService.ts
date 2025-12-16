@@ -1,4 +1,4 @@
-import apiLogin from "../../../shared/utils/apiAuth";
+import { apiLogin } from "@/shared";
 import { urls } from "../urls";
 
 export interface LoginPayload {

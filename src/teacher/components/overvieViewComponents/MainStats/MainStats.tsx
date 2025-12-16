@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import styles from "./MainStats.module.css";
 import { FaBook, FaGift } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Card } from "@/shared";
 import type { StatisticsResponse } from "../../../types/Statistics.type";
 
 type Props = {

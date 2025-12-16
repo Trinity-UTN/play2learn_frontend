@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FaEye, FaBullseye, FaHeart } from "react-icons/fa";
-import AhorcadoGame from "../../../../shared/components/Games/Ahorcado/AhorcadoGame";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { AhorcadoGame, Tooltip } from "@/shared";
 import { useCreateAhorcado } from "../../../hooks/useCreateAhorcado";
 import styles from "./AhorcadoPreview.module.css";
 

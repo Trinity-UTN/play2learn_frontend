@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { FaCoins, FaGamepad } from "react-icons/fa";
 import type { Position } from "../../types/ranking.type";
-import styles from "./RankingPosition.module.css";
 import { useRankingPosition } from "../../hooks/useRankingPosition";
+import styles from "./RankingPosition.module.css";
 
 interface RankingPositionProps {
   position: Position;

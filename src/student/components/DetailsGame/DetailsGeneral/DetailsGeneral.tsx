@@ -1,5 +1,4 @@
-import { getGameComponent } from "../../../../shared/registry/detailsGame/detailsGetComponent";
-import { getGameTypeFromActivityName } from "../../../../shared/registry/games/gameMapping";
+import { getGameTypeFromActivityName, getGameComponent } from "@/shared";
 
 interface DetailsGeneralProps {
   activityName?: string;

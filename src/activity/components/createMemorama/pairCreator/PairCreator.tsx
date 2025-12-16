@@ -1,4 +1,3 @@
-import type React from "react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
@@ -13,9 +12,7 @@ import {
   FaUpload,
   FaPlus,
 } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Input from "../../../../shared/components/Input/InputComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Button, Input, Card } from "@/shared";
 import type { MemoramaPair } from "../../../types/Memorama.type";
 import { useCreateMemorama } from "../../../hooks/useCreateMemorama";
 import styles from "./PairCreator.module.css";

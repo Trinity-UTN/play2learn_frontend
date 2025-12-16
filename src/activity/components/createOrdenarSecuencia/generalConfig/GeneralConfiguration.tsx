@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaCog, FaListOl, FaListAlt } from "react-icons/fa";
-import Input from "../../../../shared/components/Input/InputComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Input, Tooltip } from "@/shared";
 import type { OrdenarSecuenciaConfig } from "../../../types/OrdenarSecuencia.type";
 import { useCreateOrdenarSecuencia } from "../../../hooks/useCreateOrdenarSecuencia";
 import styles from "./GeneralConfiguration.module.css";

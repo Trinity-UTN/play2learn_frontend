@@ -2,7 +2,7 @@ import { useCallback, useState, type ReactNode } from "react";
 import { WalletStudentContext } from "./WalletStudentContext";
 import type { WalletStudentContextType } from "./WalletStudentContext.type";
 import { WalletService } from "../../services/wallet/WalletService";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+import { useHandleApiError } from "@/shared";
 import type { LastTransactions } from "../../types/Wallet.type";
 
 interface WalletStudentProviderProps {

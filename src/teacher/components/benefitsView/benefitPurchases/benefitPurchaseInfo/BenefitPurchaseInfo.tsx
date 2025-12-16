@@ -1,8 +1,6 @@
 import { FaBook, FaGift } from "react-icons/fa";
-import Card from "../../../../../shared/components/Card/CardComponent";
-import Badge from "../../../../../shared/components/Badge/BadgeComponent";
+import { Card, Badge, getSubjectColor } from "@/shared";
 import type { TeacherBenefitType } from "../../../../../benefit/types/benefit.types";
-import { getSubjectColor } from "../../../../../shared/constants/subject.constants";
 import {
   getIconByValue,
   getColorByValue,

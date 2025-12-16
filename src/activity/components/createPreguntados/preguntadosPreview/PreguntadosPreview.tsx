@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FaEye, FaQuestionCircle, FaClock } from "react-icons/fa";
-import PreguntadosGame from "../../../../shared/components/Games/Preguntados/PreguntadosGame";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { PreguntadosGame, Tooltip } from "@/shared";
 import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./PreguntadosPreview.module.css";
 

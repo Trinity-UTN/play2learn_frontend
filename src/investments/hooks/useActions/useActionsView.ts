@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import usePaginationParams from "../../../shared/hooks/usePaginateParams";
+import { usePaginationParams, type PaginationInfo } from "@/shared";
 import type { RiskLevel } from "../../types/actions.type";
 import { useActionsStudent } from "../useActionsStudentAPI";
-import type { PaginationInfo } from "../../../shared/types/PaginacionType";
 
 export const useActionsView = () => {
   // Paginación

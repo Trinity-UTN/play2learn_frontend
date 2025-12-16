@@ -5,8 +5,7 @@ import {
   FaShoppingCart,
   FaCheckCircle,
 } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Button, Card } from "@/shared";
 import type { BodyPart } from "../../../types/CurrentStudent.type";
 import styles from "./PurchaseModal.module.css";
 import {

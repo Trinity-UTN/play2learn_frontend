@@ -3,7 +3,7 @@ import { StatisticsService } from "../../services/statistics/statisticsService";
 import type { StatisticsContextType } from "./StatisticsContext.type";
 
 import { StatisticsContext } from "./StatisticsContext";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+import { useHandleApiError } from "@/shared";
 import type { StatisticsResponse } from "../../types/Statistics.type";
 
 interface StatisticsProviderProps {

@@ -1,4 +1,4 @@
-import { useCompletarOracionGame } from "../../../shared/hooks/games/useCompletarOracionGame";
+import { useCompletarOracionGame } from "@/shared";
 import { getPerformanceLevel } from "../../utils/performance";
 
 interface CorrectAnswer {

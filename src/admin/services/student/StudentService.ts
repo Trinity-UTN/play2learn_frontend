@@ -1,84 +1,11 @@
-import type { CourseResponseDto } from "../course/CourseService";
-import { urls } from "../urls";
 import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-import api from "../../../shared/utils/api";
-import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
-
-export interface CreateStudentPayload {
-  name: string;
-  lastname: string;
-  dni: string;
-  email: string;
-  course_id: number;
-  emailTutor: string;
-  birthdate: string;
-}
-
-export interface UpdateStudentPayload {
-  id: number;
-  name: string;
-  lastname: string;
-  dni: string;
-  email: string;
-  course_id: number;
-  emailTutor: string;
-  birthdate: string;
-}
-
-// Despues ver si esta interface es comun en otros response y sacarla de aca
-interface User {
-  id: number;
-  email: string;
-}
-
-export interface BodyPart {
-  id: number;
-  name: string;
-  image: string;
-  price: number;
-  type: string;
-  available: boolean;
-  bought?: boolean;
-}
-
-export interface Profile {
-  id: number;
-  selectedBody: BodyPart | null;
-  selectedShirt: BodyPart | null;
-  selectedHat: BodyPart | null;
-  ownedAspects: BodyPart[];
-}
-
-export interface Wallet {
-  id: number;
-  balance: number;
-  invertedBalance: number;
-  totalBalance: number;
-}
-
-export interface StudentResponseDto {
-  id: number;
-  name: string;
-  lastname: string;
-  dni: string;
-  birthdate: string;
-  emailTutor: string;
-  user: User;
-  course: CourseResponseDto;
-  active: boolean;
-  profile: Profile;
-  wallet: Wallet;
-}
-
-export interface PaginatedStudentResponse {
-  data: PaginatedData<StudentResponseDto>;
-  message: string;
-  errors: any;
-  timestamp: string;
-}
+  CreateStudentPayload,
+  PaginatedStudentResponse,
+  StudentResponseDto,
+  UpdateStudentPayload,
+} from "@/admin";
+import { urls } from "../urls";
+import { type GetPaginated, api, buildCleanPaginatedParams } from "@/shared";
 
 const registerStudentApi = async (
   data: CreateStudentPayload

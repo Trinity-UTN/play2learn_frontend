@@ -3,8 +3,8 @@ import type {
   ConfigurationActivity,
   ConfigurationErrors,
 } from "../../types/Configuration.type";
-import { useSubject } from "../../../admin/hooks/useSubject";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+import { useSubject } from "@/admin";
+import { useHandleApiError } from "@/shared";
 
 const STORAGE_KEY = "configuration_activity_draft";
 

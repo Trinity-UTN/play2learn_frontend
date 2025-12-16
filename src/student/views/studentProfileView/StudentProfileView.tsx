@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { LoadingSpinnerComponent } from "@/shared";
 import ProfileInfo from "../../components/profile/profileInfo/ProfileInfo";
 import ProfileStats from "../../components/profile/profileStats/ProfileStats";
 import { useStudentProfileView } from "../../hooks/profile/useStudentProfileView";

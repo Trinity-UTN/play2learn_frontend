@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRankingContext } from "./useRankingContext";
 import type { RankingType } from "../types/ranking.type";
-import { useSubject } from "../../admin/hooks/useSubject";
+import { useSubject } from "@/admin";
 type Category = "coins" | "activities";
 
 export const useRankingView = () => {

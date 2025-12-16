@@ -13,7 +13,7 @@ import {
   quickAmounts,
   quickOptions,
 } from "../../../contanst/cajaDeAhorroContanst/cajaDeAhorroContanst";
-import formatPrice from "../../../../shared/utils/formatPrice";
+import { formatPrice } from "@/shared";
 interface CreateCajaDeAhorroFormProps {
   userBalance: number;
   onSubmit: (data: RegisterCajaDeAhorro) => void;

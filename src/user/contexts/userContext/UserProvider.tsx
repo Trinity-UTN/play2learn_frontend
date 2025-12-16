@@ -8,9 +8,8 @@ import {
 import type { LoginPayload } from "../../services/login/LoginService";
 import AuthService from "../../services/auth/AuthService";
 import { roleLandingRoutes } from "../../services/roleLandingRoutes";
-import type { StudentResponseDto } from "../../../admin/services/student/StudentService";
-import type { Role } from "../../../shared/utils/ProtectedRoute";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+import type { StudentResponseDto } from "@/admin";
+import { useHandleApiError, type Role } from "@/shared";
 
 interface UserProviderProps {
   children: ReactNode;

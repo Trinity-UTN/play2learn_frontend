@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
-import { useToaster } from "../../../../shared/hooks/useToaster";
+import { useConfirmation, useToaster } from "@/shared";
 
 /**
  * Hook para gestionar acciones en la vista de detalles de actividad

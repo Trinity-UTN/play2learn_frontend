@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { FaClipboardList } from "react-icons/fa";
 import type { ActivityUI } from "../../../types/Activity.type";
-import type { PaginationInfo } from "../../../../shared/types/PaginacionType";
+import {
+  type PaginationInfo,
+  LoadingSpinnerComponent,
+  FlexBox,
+  useLayout,
+} from "@/shared";
 import ActivityCard from "../activityCard/ActivityCard";
 import ActivityRow from "../activityRow/ActivityRow";
-import LoadingSpinner from "../../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
-import FlexBox from "../../../../shared/components/FlexBox/FlexBox";
-import { useLayout } from "../../../../shared/hooks/useLayout";
 import { useActivityActions } from "../../../hooks/activities/useActivityActions";
 import styles from "./ActivityGrid.module.css";
 
@@ -37,7 +39,7 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
     return (
       <motion.div variants={itemVariants} className={styles.emptyState}>
         <div className={styles.emptyIcon}>
-          <LoadingSpinner />
+          <LoadingSpinnerComponent />
         </div>
       </motion.div>
     );

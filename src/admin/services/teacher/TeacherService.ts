@@ -1,54 +1,11 @@
-import api from "../../../shared/utils/api";
-import { urls } from "../urls";
 import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
-
-export interface CreateTeacherPayload {
-  name: string;
-  lastname: string;
-  dni: string;
-  email: string;
-}
-
-export interface CreateTeacherPayload {
-  name: string;
-  lastname: string;
-  dni: string;
-  email: string;
-}
-
-export interface UpdateTeacherPayload {
-  id: number;
-  name: string;
-  lastname: string;
-  dni: string;
-  email: string;
-}
-
-// Despues ver si esta interface es comun en otros response y sacarla de aca
-interface User {
-  id: number;
-  email: string;
-}
-
-export interface TeacherResponseDto {
-  id: number;
-  name: string;
-  lastname: string;
-  dni: string;
-  user: User;
-  active: boolean;
-}
-
-export interface PaginatedTeacherResponse {
-  data: PaginatedData<TeacherResponseDto>;
-  message: string;
-  errors: any;
-  timestamp: string;
-}
+  CreateTeacherPayload,
+  PaginatedTeacherResponse,
+  TeacherResponseDto,
+  UpdateTeacherPayload,
+} from "@/admin";
+import { urls } from "../urls";
+import { buildCleanPaginatedParams, type GetPaginated, api } from "@/shared";
 
 const registerTeacherApi = async (
   data: CreateTeacherPayload

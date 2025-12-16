@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { FaEye } from "react-icons/fa";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Tooltip, NoLudicaGame } from "@/shared";
 import styles from "./NoLudicaPreview.module.css";
-import NoLudicaGame from "../../../../shared/components/Games/NoLudica/NoLudicaGame";
 
 const NoLudicaPreview: React.FC = () => {
   const itemVariants = {

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { FaArrowUp, FaArrowDown, FaShieldAlt } from "react-icons/fa";
 import styles from "./ActionsDetailHeader.module.css";
 import type { ActionsResponse } from "../../../types/actions.type";
-import formatPrice from "../../../../shared/utils/formatPrice";
+import { formatPrice } from "@/shared";
 import { getRiskConfig } from "../../../utils/actions.utils";
 import { useActionData } from "../../../hooks/useActions/useActionData";
 

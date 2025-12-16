@@ -3,8 +3,7 @@ import CajaDeAhorroCard from "../CajaDeAhorroCard/CajaDeAhorroCard";
 import styles from "./CajaDeAhorroList.module.css";
 import { FaPiggyBank } from "react-icons/fa";
 import type { CajaDeAhorroResponse } from "../../../types/cajaAhorro.type";
-import type { PaginationInfo } from "../../../../shared/types/PaginacionType";
-import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
+import { PaginateComponent, type PaginationInfo } from "@/shared";
 
 interface CajaDeAhorroListProps {
   cajasDeAhorro: CajaDeAhorroResponse[];

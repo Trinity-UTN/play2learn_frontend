@@ -3,10 +3,7 @@ import type {
   BenefitPurchasedUsedResponse,
   BenefitStatsResponse,
 } from "../../../benefit/types/benefit.types";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+import type { GetPaginated, PaginatedData } from "@/shared";
 
 export interface BenefitStudentContextType {
   // Estados principales

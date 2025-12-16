@@ -1,18 +1,20 @@
-import type { GetPaginated } from "../../../shared/types/PaginacionType";
 import type {
   ActivityCompletedInterface,
   ActivityCompletedResponseInterface,
 } from "../../types/ActivityCompleted.type";
-import api from "../../../shared/utils/api";
+import {
+  api,
+  buildCleanPaginatedParams,
+  formDataApi,
+  type GetPaginated,
+} from "@/shared";
 import { urls } from "../urls";
 import type {
   ActivityStatsApiResponse,
   PaginatedActivityApprovedResponseInterface,
   PaginatedActivityNotApprovedResponseInterface,
 } from "../../types/Activity.type";
-import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
 import qs from "qs";
-import apiFormData from "../../../shared/utils/apiFormData";
 
 const getActivityNotApprovedApi = async () => {
   const response = await api.get(urls.ActivityNotApproved);
@@ -94,7 +96,7 @@ const registerActivityCompletedApi = async (
 };
 
 const registerActivityNoLudicaCompleteApi = async (data: FormData) => {
-  const response = await apiFormData.post(urls.ActivityNoLudicaComplete, data);
+  const response = await formDataApi.post(urls.ActivityNoLudicaComplete, data);
   return response.data;
 };
 

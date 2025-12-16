@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import LoadingSpinnerComponent from "../../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { Button, LoadingSpinnerComponent } from "@/shared";
 import BenefitPurchaseInfo from "../../../components/benefitsView/benefitPurchases/benefitPurchaseInfo/BenefitPurchaseInfo";
 import BenefitPurchaseFilters from "../../../components/benefitsView/benefitPurchases/benefitPurchasesFilters/BenefitPurchaseFilters";
 import BenefitPurchaseList from "../../../components/benefitsView/benefitPurchases/benefitPurchaseList/BenefitPurchaseList";

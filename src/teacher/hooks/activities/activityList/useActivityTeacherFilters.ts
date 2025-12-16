@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import type { FilterOption } from "../../../../shared/types/Filter.type";
+import type { FilterOption } from "@/shared";
 import type { ActivityTeacherStatus } from "../../../constants/activity/activityTeacher.constants";
 
 /**

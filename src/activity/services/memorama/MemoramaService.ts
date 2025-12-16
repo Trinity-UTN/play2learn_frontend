@@ -1,4 +1,4 @@
-import api from "../../../shared/utils/apiFormData";
+import { api } from "@/shared";
 import { urls } from "../urls";
 
 const registerMemoramaApi = async (data: FormData): Promise<void> => {

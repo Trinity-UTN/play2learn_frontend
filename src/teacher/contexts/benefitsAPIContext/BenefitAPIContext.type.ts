@@ -5,10 +5,7 @@ import type {
   CreateBenefitInterface,
   TeacherBenefitType,
 } from "../../../benefit/types/benefit.types";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+import type { GetPaginated, PaginatedData } from "@/shared";
 
 export interface BenefitAPIContextType {
   // Estados generales

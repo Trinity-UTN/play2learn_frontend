@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaStopwatch, FaRedo, FaCoins } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
+import { Card, Button, Badge } from "@/shared";
 import type { ActivityUI } from "../../../types/Activity.type";
 import {
   getActivityStatusConfig,

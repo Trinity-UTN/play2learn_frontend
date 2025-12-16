@@ -7,7 +7,7 @@ import {
   FaInfoCircle,
   FaChartBar,
 } from "react-icons/fa";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Tooltip } from "@/shared";
 import type { AhorcadoConfig } from "../../../types/Ahorcado.type";
 import { useCreateAhorcado } from "../../../hooks/useCreateAhorcado";
 import ActivityFormError from "../../common/ActivityFormError/ActivityFormError";

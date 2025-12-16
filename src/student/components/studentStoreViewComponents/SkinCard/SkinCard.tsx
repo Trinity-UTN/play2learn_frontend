@@ -1,7 +1,5 @@
 import { FaCoins, FaCheckCircle, FaLock, FaShoppingCart } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
+import { Badge, Button, Card } from "@/shared";
 import type { BodyPart } from "../../../types/CurrentStudent.type";
 import styles from "./SkinCard.module.css";
 

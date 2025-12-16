@@ -5,8 +5,7 @@ import type {
   BenefitStudentResponseInterface,
   BenefitPurchasedUsedResponse,
 } from "../../../../benefit/types/benefit.types";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Tooltip } from "@/shared";
 import BenefitTableContent from "../../../../benefit/components/benefitTableContent/BenefitTableContent";
 import { BENEFIT_STATUS } from "../../../../benefit/constants/benefit.constants";
 import {

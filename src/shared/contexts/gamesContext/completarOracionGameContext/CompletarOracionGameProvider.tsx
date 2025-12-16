@@ -3,7 +3,7 @@ import { CompletarOracionGameContext } from "./CompletarOracionGameContext";
 import type { CompletarOracionGameContextType } from "./CompletarOracionGameContext.type";
 import type { CompletarOracionConfig } from "../../../../activity/types/CompletarOracion.type";
 import { GameType } from "../../../types/Games.type";
-import { getGameTypeFromActivityName } from "../../../registry/games/gameMapping";
+import { getGameTypeFromActivityName } from "@/shared";
 import { useCreateCompletarOracion } from "../../../../activity/hooks/useCreateCompletarOracion";
 import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
 

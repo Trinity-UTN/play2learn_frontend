@@ -13,8 +13,8 @@ import type {
   ConfigurationActivity,
   ConfigurationErrors,
 } from "../../../types/Configuration.type";
-import type { SubjectResponseDto } from "../../../../admin/services/subject/SubjectService";
-import Input from "../../../../shared/components/Input/InputComponent";
+import type { SubjectResponseDto } from "@/admin";
+import { Input } from "@/shared";
 import FormSectionCard from "../formSection/FormSection";
 import FormInputGroup from "../formInputGroup/FormInputGroup";
 import DifficultySelector from "../difficultySelector/DifficultySelector";

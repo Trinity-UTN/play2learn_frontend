@@ -1,5 +1,5 @@
 import { FaSearch } from "react-icons/fa";
-import Input from "../../../../shared/components/Input/InputComponent";
+import { Input } from "@/shared";
 import styles from "./AspectSearchBar.module.css";
 
 interface AspectSearchBarProps {

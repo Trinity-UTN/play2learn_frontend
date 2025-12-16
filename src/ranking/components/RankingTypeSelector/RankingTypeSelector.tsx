@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
-
 import type { RankingType } from "../../types/ranking.type";
-import styles from "./RankingTypeSelector.module.css";
 import { useRankingTypeSelector } from "../../hooks/useRankingTypeSelector";
+import styles from "./RankingTypeSelector.module.css";
 
 interface RankingTypeSelectorProps {
   category: "coins" | "activities";

@@ -9,9 +9,7 @@ import {
   FaImage,
 } from "react-icons/fa";
 import type { SequenceEvent } from "../../../types/OrdenarSecuencia.type";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Input from "../../../../shared/components/Input/InputComponent";
-import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
+import { Button, Input, useConfirmation } from "@/shared";
 import styles from "./EventCard.module.css";
 
 interface EventCardProps {

@@ -7,9 +7,7 @@ import type {
   AvatarComponentsPreview,
 } from "../../types/CurrentStudent.type";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
-import { useConfirmation } from "../../../shared/hooks/useConfirmation";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
-import { useToaster } from "../../../shared/hooks/useToaster";
+import { useConfirmation, useHandleApiError, useToaster } from "@/shared";
 
 const nullAspects: NullAspect[] = [
   {

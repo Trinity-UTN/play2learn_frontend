@@ -2,7 +2,7 @@ import styles from "./LastRealizationsComponent.module.css";
 import type { LastRealizations } from "../../../types/CurrentStudent.type";
 import { motion } from "framer-motion";
 import { FaCoins, FaGamepad } from "react-icons/fa";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Card } from "@/shared";
 
 type Props = {
   lastRealizations: LastRealizations[];

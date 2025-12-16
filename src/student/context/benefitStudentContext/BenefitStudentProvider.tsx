@@ -7,11 +7,8 @@ import type {
   BenefitPurchasedUsedResponse,
   BenefitStatsResponse,
 } from "../../../benefit/types/benefit.types";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+import type { GetPaginated, PaginatedData } from "@/shared";
+import { useHandleApiError } from "@/shared";
 
 export const BenefitStudentProvider = ({
   children,

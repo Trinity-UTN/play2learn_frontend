@@ -3,7 +3,7 @@ import { useBenefitStudent } from "../../useBenefitStudent";
 import { useBenefitStudentFilters } from "./useBenefitStudentFilters";
 import { useBenefitStudentStats } from "./useBenefitStudentStats";
 import { extractUniqueSubjectsFromBenefits } from "../../../../benefit/utils/benefit.utils";
-import usePaginationParams from "../../../../shared/hooks/usePaginateParams";
+import { usePaginationParams } from "@/shared";
 
 /**
  * Hook central de BenefitStudent donde se cargan los

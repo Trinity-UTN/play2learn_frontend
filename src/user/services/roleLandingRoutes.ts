@@ -1,4 +1,4 @@
-import type { Role } from "../../shared/utils/ProtectedRoute";
+import type { Role } from "@/shared";
 
 export const roleLandingRoutes: Record<Role, string> = {
   ROLE_ADMIN: "/dashboard",

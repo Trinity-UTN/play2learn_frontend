@@ -1,7 +1,9 @@
-import type { CourseResponseDto } from "../../admin/services/course/CourseService";
-import type { SubjectSimplifiedResponseDto } from "../../admin/services/subject/SubjectService";
-import type { YearResponseDto } from "../../admin/services/Year/YearService";
-import type { PaginatedData } from "../../shared/types/PaginacionType";
+import type {
+  CourseResponseDto,
+  SubjectSimplifiedResponseDto,
+  YearResponseDto,
+} from "@/admin";
+import type { PaginatedData } from "@/shared";
 
 export interface Activity {
   id: number;

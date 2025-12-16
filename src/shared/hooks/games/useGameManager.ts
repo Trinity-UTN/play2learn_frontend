@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useGameRegistry } from "./useGameRegistry";
-import { getGameTypeFromActivityName } from "../../registry/games/gameMapping";
+import { getGameTypeFromActivityName } from "@/shared";
 import type { GameHook } from "../../types/Games.type";
 
 /**

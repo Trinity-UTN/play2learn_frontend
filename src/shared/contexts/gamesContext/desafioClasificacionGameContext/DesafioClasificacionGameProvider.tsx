@@ -3,7 +3,7 @@ import { DesafioGameContext } from "./DesafioClasificacionGameContext";
 import type { DesafioClasificacionGameContextType } from "./DesafioClasificacionGameContext.type";
 import type { DesafioClasificacionConfig } from "../../../../activity/types/DesafioClasificacion.type";
 import { GameType } from "../../../types/Games.type";
-import { getGameTypeFromActivityName } from "../../../registry/games/gameMapping";
+import { getGameTypeFromActivityName } from "@/shared";
 import { useCreateDesafioClasificacion } from "../../../../activity/hooks/useCreateDesafioClasificacion";
 import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
 

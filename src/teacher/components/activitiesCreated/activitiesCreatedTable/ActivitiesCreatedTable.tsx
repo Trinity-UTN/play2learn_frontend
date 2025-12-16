@@ -6,10 +6,15 @@ import {
   FaPencilAlt,
   FaTrash,
 } from "react-icons/fa";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import {
+  Badge,
+  Button,
+  Card,
+  Tooltip,
+  getActivityColor,
+  getActivityIcon,
+  getSubjectColor,
+} from "@/shared";
 import type { ActivityTeacherResponse } from "../../../types/TeacherActivity.type";
 import { ACTIVITY_TEACHER_STATUS } from "../../../constants/activity/activityTeacher.constants";
 import {
@@ -17,11 +22,6 @@ import {
   formatActivityDate,
   type ActivityActionHandlers,
 } from "../../../utils/activity/activityTeacher.utils";
-import {
-  getActivityIcon,
-  getActivityColor,
-} from "../../../../shared/utils/activityIcons";
-import { getSubjectColor } from "../../../../shared/constants/subject.constants";
 import styles from "./ActivitiesCreatedTable.module.css";
 
 interface ActivitiesCreatedTableProps {

@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import styles from "./RankingBoard.module.css";
 import type { RankingResponseApi } from "../../types/ranking.type";
 import { CurrentUserCard } from "../CurrentUserCard/CurrentUserCard";
 import { RankingPosition } from "../RankingPosition/RankingPosition";
+import styles from "./RankingBoard.module.css";
 
 interface RankingBoardProps {
   data: RankingResponseApi;

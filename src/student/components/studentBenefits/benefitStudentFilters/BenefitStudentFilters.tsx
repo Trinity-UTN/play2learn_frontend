@@ -1,9 +1,6 @@
 import { motion } from "framer-motion";
 import { FaFilter, FaBook, FaTags, FaTh, FaList } from "react-icons/fa";
-import type { FilterOption } from "../../../../shared/types/Filter.type";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Card, Tooltip, type FilterOption } from "@/shared";
 import {
   BENEFIT_STATUS_FILTERS,
   BENEFIT_CATEGORY_OPTIONS,

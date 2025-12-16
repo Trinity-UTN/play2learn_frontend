@@ -10,8 +10,7 @@ import {
   FaSlidersH,
 } from "react-icons/fa";
 import type { SequenceEvent } from "../../../types/OrdenarSecuencia.type";
-import Button from "../../../../shared/components/Button/ButtonComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { Button, Tooltip } from "@/shared";
 import styles from "./OrdenarSecuenciaPreview.module.css";
 
 interface OrdenarSecuenciaPreviewProps {

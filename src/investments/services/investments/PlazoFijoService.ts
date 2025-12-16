@@ -1,7 +1,5 @@
 import qs from "qs";
-import type { GetPaginated } from "../../../shared/types/PaginacionType";
-import api from "../../../shared/utils/api";
-import { buildCleanPaginatedParams } from "../../../shared/utils/apiUtils";
+import { api, type GetPaginated, buildCleanPaginatedParams } from "@/shared";
 import type {
   PlazoFijoPaginatedResponseInterface,
   RegisterPlazoFijo,

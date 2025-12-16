@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { FaUser, FaCoins, FaGamepad } from "react-icons/fa";
-
-import styles from "./CurrentUserCard.module.css";
 import type { Position } from "../../types/ranking.type";
+import styles from "./CurrentUserCard.module.css";
 
 interface CurrentUserCardProps {
   position: Position;

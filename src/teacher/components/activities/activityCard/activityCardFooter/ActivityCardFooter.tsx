@@ -1,4 +1,4 @@
-import Button from "../../../../../shared/components/Button/ButtonComponent";
+import { Button } from "@/shared";
 import styles from "./ActivityCardFooter.module.css";
 
 interface ActivityCardFooterProps {

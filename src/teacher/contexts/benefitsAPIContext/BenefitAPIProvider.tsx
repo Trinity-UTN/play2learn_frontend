@@ -9,12 +9,8 @@ import type {
   CreateBenefitInterface,
   TeacherBenefitType,
 } from "../../../benefit/types/benefit.types";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
-import usePaginateParams from "../../../shared/hooks/usePaginateParams";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
+import type { GetPaginated, PaginatedData } from "@/shared";
+import { usePaginationParams, useHandleApiError } from "@/shared";
 
 interface BenefitProviderProps {
   children: ReactNode;
@@ -26,7 +22,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   children,
 }) => {
   const { handleApiError } = useHandleApiError();
-  const { paginationParams } = usePaginateParams();
+  const { paginationParams } = usePaginationParams();
 
   // Estados generales
   const [loading, setLoading] = useState<boolean>(false);

@@ -1,4 +1,3 @@
-import type React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
@@ -10,8 +9,8 @@ import {
   FaSignOutAlt,
   FaGamepad,
 } from "react-icons/fa";
-import { useAuth } from "../../../user/hooks/useAuth";
-import Button from "../../../shared/components/Button/ButtonComponent";
+import { useAuth } from "@/user/hooks/useAuth";
+import { Button } from "@/shared";
 import styles from "./Sidebar.module.css";
 import TeacherRoutes from "../../routes/routes";
 

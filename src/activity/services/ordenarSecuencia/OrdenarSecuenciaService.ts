@@ -1,4 +1,4 @@
-import formDataApi from "../../../shared/utils/apiFormData";
+import { formDataApi } from "@/shared";
 import { urls } from "../urls";
 
 const registerOrdenarSecuenciaApi = async (data: FormData): Promise<void> => {

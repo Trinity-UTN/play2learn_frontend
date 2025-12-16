@@ -1,11 +1,12 @@
 import { useCallback, useState, type ReactNode } from "react";
 import { ActionsContext } from "./ActionsStudentContext";
 import type { ActionsContextType } from "./ActionsStudentContext.type";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+import {
+  useHandleApiError,
+  type GetPaginated,
+  type PaginatedData,
+  useToaster,
+} from "@/shared";
 import type {
   CandleStickValuesResponse,
   ActionsResponse,
@@ -14,7 +15,6 @@ import type {
   TradeActionStopLimitRequest,
 } from "../../types/actions.type";
 import { ActionsService } from "../../services/investments/ActionsService";
-import { useToaster } from "../../../shared/hooks/useToaster";
 import { useCurrentStudent } from "../../../student/hooks/useCurrentStudent";
 interface ActionsProviderProps {
   children: ReactNode;

@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { BenefitActionHandlers } from "../../../utils/benefitList.utils";
 import type { TeacherBenefitType } from "../../../../benefit/types/benefit.types";
 import { useBenefitAPI } from "../../useBenefitAPI";
-import { useConfirmation } from "../../../../shared/hooks/useConfirmation";
-import { useToaster } from "../../../../shared/hooks/useToaster";
+import { useConfirmation, useToaster } from "@/shared";
 
 export const useBenefitTeacherActions = (): {
   actions: BenefitActionHandlers;

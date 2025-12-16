@@ -1,5 +1,5 @@
 import { motion, type Variants } from "framer-motion";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Card } from "@/shared";
 import { useCreateMemorama } from "../../../hooks/useCreateMemorama";
 import styles from "./PairProgress.module.css";
 

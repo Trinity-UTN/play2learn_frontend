@@ -1,7 +1,4 @@
-import type {
-  StudentResponseDto as Student,
-  BodyPart as BP,
-} from "../../admin/services/student/StudentService";
+import type { StudentResponseDto as Student, BodyPart as BP } from "@/admin";
 
 export interface CurrentStudent extends Student {}
 

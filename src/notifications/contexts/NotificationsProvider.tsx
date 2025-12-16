@@ -4,7 +4,7 @@ import { NotificationsService } from "../services/NotificationsService";
 import { NotificationsContext } from "./NotificationsContext";
 import type { NotificationsContextType } from "./NotificationsContext.type";
 import type { Notification } from "../types/notification.types";
-import { useHandleApiError } from "../../shared/hooks/useHandleApiError";
+import { useHandleApiError } from "@/shared";
 
 interface NotificationProviderProps {
   children: ReactNode;

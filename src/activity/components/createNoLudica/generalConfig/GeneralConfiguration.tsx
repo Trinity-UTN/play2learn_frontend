@@ -8,8 +8,7 @@ import {
   FaLink,
   FaEdit,
 } from "react-icons/fa";
-import TextArea from "../../../../shared/components/TextArea/TextAreaComponent";
-import Tooltip from "../../../../shared/components/Tooltip/TooltipComponent";
+import { TextArea, Tooltip } from "@/shared";
 import type { NoLudicaConfig, TipoEntrega } from "../../../types/NoLudica.type";
 import { useCreateNoLudica } from "../../../hooks/useCreateNoLudica";
 import ActivityFormError from "../../common/ActivityFormError/ActivityFormError";

@@ -1,7 +1,7 @@
 import type { LoginPayload } from "../../services/login/LoginService";
-import type { Role } from "../../../shared/utils/ProtectedRoute";
+import type { Role } from "@/shared";
 import type { UserResponseDto } from "../../services/login/LoginService";
-import type { StudentResponseDto } from "../../../admin/services/student/StudentService";
+import type { StudentResponseDto } from "@/admin";
 
 export interface UserContextType {
   loading: boolean;

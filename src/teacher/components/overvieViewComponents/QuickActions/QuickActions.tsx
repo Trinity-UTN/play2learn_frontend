@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Card } from "@/shared";
 import styles from "./QuickActions.module.css";
 import { FaGamepad, FaGift, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";

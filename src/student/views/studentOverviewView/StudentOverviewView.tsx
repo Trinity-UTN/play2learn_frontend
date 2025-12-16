@@ -1,11 +1,11 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaCalendarAlt } from "react-icons/fa";
 import styles from "./StudentOverviewView.module.css";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
-import { useEffect } from "react";
 import QuickStats from "../../components/studentOverviewViewComponents/QuickStats/QuickStats";
 import LastRealizationsComponents from "../../components/studentOverviewViewComponents/LastRealizations/LastRealizationsComponent";
-import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import { LoadingSpinnerComponent } from "@/shared";
 
 const StudentOverviewView: React.FC = () => {
   const { currentStudent, getStatisticsStudent, statistics } =

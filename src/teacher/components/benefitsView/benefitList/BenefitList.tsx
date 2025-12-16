@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FaGift } from "react-icons/fa";
-import PaginateComponent from "../../../../shared/components/PaginateComponent/PaginateComponent";
-import { EmptyStateComponent } from "../../../../shared/components/EmptyState/EmptyStateComponent";
+import { PaginateComponent, EmptyStateComponent } from "@/shared";
 import BenefitCard from "../benefitCardComponent/benefitCard/BenefitCard";
 import BenefitTable from "../benefitTable/BenefitTable";
 import type { TeacherBenefitType } from "../../../../benefit/types/benefit.types";

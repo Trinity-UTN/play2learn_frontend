@@ -1,20 +1,10 @@
-import type React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
-import {
-  FaHome,
-  FaBook,
-  FaPlus,
-  FaCalendarAlt,
-  FaGraduationCap,
-  FaUserTie,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import { FaGraduationCap, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../../../user/hooks/useAuth";
-import Button from "../../../shared/components/Button/ButtonComponent";
+import { Button, containerVariants, itemVariants } from "@/shared";
+import { menuItems } from "@/admin/constants/sidebar.constants";
 import styles from "./Sidebar.module.css";
-import { AdminRoutes } from "../../routes/routes";
 
 const Sidebar: React.FC = () => {
   const { logout } = useAuth();
@@ -23,98 +13,6 @@ const Sidebar: React.FC = () => {
 
   const isActive = (path: string) => {
     return location.pathname === `/dashboard/${path}`;
-  };
-
-  const menuItems = [
-    {
-      title: "Panel Principal",
-      items: [{ title: "Resumen", icon: FaHome, path: "overview" }],
-    },
-    {
-      title: "Gestión de Estudiantes",
-      items: [
-        {
-          title: "Crear Estudiante",
-          icon: FaPlus,
-          path: AdminRoutes.Students.Create,
-        },
-        {
-          title: "Ver Estudiantes",
-          icon: FaGraduationCap,
-          path: AdminRoutes.Students.List,
-        },
-      ],
-    },
-    {
-      title: "Gestión de Docentes",
-      items: [
-        {
-          title: "Crear Docente",
-          icon: FaPlus,
-          path: AdminRoutes.Teachers.Create,
-        },
-        {
-          title: "Ver Docentes",
-          icon: FaUserTie,
-          path: AdminRoutes.Teachers.List,
-        },
-      ],
-    },
-    {
-      title: "Gestión de Materias",
-      items: [
-        {
-          title: "Crear Materia",
-          icon: FaPlus,
-          path: AdminRoutes.Subjects.Create,
-        },
-        {
-          title: "Ver Materias",
-          icon: FaUserTie,
-          path: AdminRoutes.Subjects.List,
-        },
-      ],
-    },
-    {
-      title: "Gestión de Cursos",
-      items: [
-        {
-          title: "Crear Curso",
-          icon: FaPlus,
-          path: AdminRoutes.Courses.Create,
-        },
-        { title: "Ver Cursos", icon: FaBook, path: AdminRoutes.Courses.List },
-      ],
-    },
-    {
-      title: "Gestión de Años",
-      items: [
-        { title: "Crear Año", icon: FaPlus, path: AdminRoutes.Years.Create },
-        {
-          title: "Ver Años",
-          icon: FaCalendarAlt,
-          path: AdminRoutes.Years.List,
-        },
-      ],
-    },
-  ];
-
-  const containerVariants: Variants = {
-    hidden: { x: -250 },
-    visible: {
-      x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { x: -20, opacity: 0 },
-    visible: { x: 0, opacity: 1 },
   };
 
   return (

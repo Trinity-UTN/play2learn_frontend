@@ -9,8 +9,8 @@ import type {
   StatisticsStudentResponse,
 } from "../../types/CurrentStudent.type";
 import { useAuth } from "../../../user/hooks/useAuth";
-import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
-import type { Wallet } from "../../../admin/services/student/StudentService";
+import { useHandleApiError } from "@/shared";
+import type { Wallet } from "@/admin";
 
 interface CurrentStudentProviderProps {
   children: ReactNode;

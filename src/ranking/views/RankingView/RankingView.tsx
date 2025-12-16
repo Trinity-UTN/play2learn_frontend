@@ -5,7 +5,7 @@ import {
   RankingHeader,
   RankingTypeSelector,
   SubjectSelector,
-} from "../../components/";
+} from "@/ranking";
 import { useRankingView } from "../../hooks/useRankingView";
 import styles from "./RankingView.module.css";
 // Mock data para desarrollo

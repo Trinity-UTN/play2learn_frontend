@@ -1,6 +1,5 @@
-import { StudentService } from "../../../admin/services/student/StudentService";
-import type { StudentResponseDto } from "../../../admin/services/student/StudentService";
-import api from "../../../shared/utils/api";
+import { StudentService, type StudentResponseDto } from "@/admin";
+import { api } from "@/shared";
 import { urls } from "../urls";
 
 const getCurrentStudentApi = StudentService.getStudentByIdApi;

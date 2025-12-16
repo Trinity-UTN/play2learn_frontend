@@ -1,7 +1,4 @@
-import type {
-  GetPaginated,
-  PaginatedData,
-} from "../../../shared/types/PaginacionType";
+import type { GetPaginated, PaginatedData } from "@/shared";
 import type { BuyAspect } from "../../types/AspectStore.type";
 import type { BodyPart } from "../../types/CurrentStudent.type";
 

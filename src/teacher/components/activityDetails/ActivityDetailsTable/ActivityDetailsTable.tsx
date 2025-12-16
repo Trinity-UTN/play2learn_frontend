@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaSort, FaCoins } from "react-icons/fa";
-import Badge from "../../../../shared/components/Badge/BadgeComponent";
-import Card from "../../../../shared/components/Card/CardComponent";
+import { Badge, Card } from "@/shared";
 import ActivityDetailsFilters from "../activityDetailsFilters/ActivityDetailsFilters";
 import type { ActivityStudentGetDto } from "../../../types/TeacherActivity.type";
 import type { StudentActivityState } from "../../../constants/activity/activityDetailsTeacher.constants";
