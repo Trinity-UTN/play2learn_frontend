@@ -23,7 +23,7 @@ import { PreguntadosProvider } from "../activity/contexts/preguntadosContext/Pre
 import { PreguntadosGameProvider } from "../shared/contexts/gamesContext/preguntadosGameContext/PreguntadosGameProvider";
 import { WalletStudentProvider } from "../student/context/walletStudentContext/WalletStudentProvider";
 import { BenefitStudentProvider } from "../student/context/benefitStudentContext/BenefitStudentProvider";
-import { StoreProvider } from "../student/context/storeStudentContext/StoreStudentProvider";
+import { StoreProvider } from "@/student/context/storeStudentContext/StoreStudentProvider";
 import { ActionsProvider } from "../investments/contexts/actionsContext/ActionsStudentProvider";
 import { PlazoFijoProvider } from "../investments/contexts/plazoFijoContext/PlazoFijoStudentProvider";
 import { CajaDeAhorroProvider } from "../investments/contexts/cajaDeAhorroContext/CajaDeAhorroStudentProvider";
@@ -32,6 +32,7 @@ import { NotificationProvider } from "../notifications/contexts/NotificationsPro
 //VIEWS
 import StudentActivitiesView from "../student/views/studentActivitiesView/StudentActivitiesView";
 import StudentActivityView from "../student/views/studentActivityView/StudentActivityView";
+import StudentActivityResultsView from "../student/views/studentActivityResultsView/StudentActivityResultsView";
 import StudentCompletedActivityView from "../student/views/studentCompletedActivityView/StudentCompletedActivityView";
 import StudentPlayActivityView from "../student/views/studentPlayActivityView/StudentPlayActivityView";
 import StudentBenefitsView from "../student/views/studentBenefitsView/StudentBenefitsView";
@@ -156,6 +157,11 @@ const StudentApp = () => {
             <Route
               path="actividades/:id/review"
               element={<StudentCompletedActivityView />}
+            />
+            {/* RESULTS */}
+            <Route
+              path="actividades/:id/results"
+              element={<StudentActivityResultsView />}
             />
             {/* BENEFICIOS */}
             <Route path="beneficios/list" element={<StudentBenefitsView />} />

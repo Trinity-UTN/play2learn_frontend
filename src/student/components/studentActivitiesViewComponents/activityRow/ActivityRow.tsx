@@ -16,9 +16,14 @@ import styles from "./ActivityRow.module.css";
 interface ActivityRowProps {
   activity: ActivityUI;
   onStart?: (activityId: string) => void;
+  onViewResults?: (activityId: string) => void;
 }
 
-const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
+const ActivityRow: React.FC<ActivityRowProps> = ({
+  activity,
+  onStart,
+  onViewResults,
+}) => {
   const statusConfig = getActivityStatusConfig(activity.status);
   const isDisabled =
     (activity.status === "CREATED" || activity.noAttempts) &&
@@ -30,7 +35,13 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
   const subjectColor = getSubjectColor(activity.subjectName);
 
   const handleActionButton = async () => {
-    if (activity.status === "PUBLISHED" && !activity.noAttempts && onStart) {
+    if (activity.status === "APPROVED" && onViewResults) {
+      onViewResults(activity.id);
+    } else if (
+      activity.status === "PUBLISHED" &&
+      !activity.noAttempts &&
+      onStart
+    ) {
       onStart(activity.id);
     }
   };

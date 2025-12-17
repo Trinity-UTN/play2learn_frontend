@@ -11,9 +11,14 @@ import styles from "./ActivityCard.module.css";
 interface ActivityCardProps {
   activity: ActivityUI;
   onStart?: (activityId: string) => void;
+  onViewResults?: (activityId: string) => void;
 }
 
-const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
+const ActivityCard: React.FC<ActivityCardProps> = ({
+  activity,
+  onStart,
+  onViewResults,
+}) => {
   const statusConfig = getActivityStatusConfig(activity.status);
   const RandomIcon = getRandomActivityIcon();
 
@@ -27,7 +32,13 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
       : statusConfig.buttonText;
 
   const handleActionButton = async () => {
-    if (activity.status === "PUBLISHED" && !activity.noAttempts && onStart) {
+    if (activity.status === "APPROVED" && onViewResults) {
+      onViewResults(activity.id);
+    } else if (
+      activity.status === "PUBLISHED" &&
+      !activity.noAttempts &&
+      onStart
+    ) {
       onStart(activity.id);
     }
   };
@@ -49,7 +60,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onStart }) => {
               }}
               transition={{
                 duration: 2,
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
                 repeatType: "reverse",
               }}
             >

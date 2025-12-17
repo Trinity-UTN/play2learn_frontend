@@ -35,6 +35,13 @@ export const useActivityActions = () => {
     [getActivityById, navigate]
   );
 
+  const viewActivityResults = useCallback(
+    (activityId: number | string) => {
+      navigate(`/dashboard/student/actividades/${activityId}/results`);
+    },
+    [navigate]
+  );
+
   const startActivity = useCallback(
     (activityId: number | string) => {
       showConfirmation({
@@ -174,6 +181,7 @@ export const useActivityActions = () => {
 
   return {
     viewActivity,
+    viewActivityResults,
     startActivity,
     finishActivity,
     forceFinishActivity,
