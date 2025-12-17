@@ -106,3 +106,16 @@ export interface CurrentActivityInterface {
   typeReward: string;
   gameConfig: GameConfig;
 }
+
+export interface ActivityResultsResponseInterface {
+  id: number;
+  activityId: number;
+  state: "APPROVED" | "DISAPPROVED" | "PENDING";
+  attempts: number;
+  reward: number;
+  completedTimeInSeconds: number;
+  score: number;
+  correctAnswers: number;
+  incorrectAnswers: number;
+  unanswered: number;
+}
