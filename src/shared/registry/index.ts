@@ -5,3 +5,5 @@ export { getGameTypeFromActivityName } from "./detailsGame/detailsMapping";
 export { createGameConfig } from "./games/gameConfigFactory";
 export { GameConfigRendererRegistry } from "./games/gameConfigRendererRegistry";
 export { gameHooksRegistry } from "./games/gameHooksRegistry";
+
+export { ActivityResultsStrategyFactory } from "./games/gameResultsFactory";
