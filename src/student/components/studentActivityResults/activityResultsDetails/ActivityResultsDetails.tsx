@@ -8,8 +8,10 @@ import {
   FaClock,
 } from "react-icons/fa";
 import type { CurrentActivityInterface } from "../../../types/Activity.type";
-import { Button, Card } from "@/shared";
+import { Button, Card, Badge } from "@/shared";
 import { useViewToggle } from "../../../hooks/useViewToggle";
+import { getSubjectColor } from "@/shared";
+import { getDifficultyColor } from "@/shared/constants/difficulty.constants";
 import styles from "./ActivityResultsDetails.module.css";
 
 interface ActivityResultsDetailsProps {
@@ -21,24 +23,41 @@ const ActivityResultsDetails: React.FC<ActivityResultsDetailsProps> = ({
 }) => {
   const { isHorizontal, toggleView, viewMode } = useViewToggle(true);
 
+  const subjectColor = getSubjectColor(activity.subject.name);
+  const difficultyColor = getDifficultyColor(activity.difficulty);
+
   const detailItems = [
     {
       id: "subject",
       icon: FaBook,
       label: "Materia",
-      value: activity.subject.name,
+      value: (
+        <Badge
+          style={{
+            backgroundColor: subjectColor.bg,
+            color: subjectColor.text,
+          }}
+          className={styles.stateBadge}
+        >
+          {activity.subject.name}
+        </Badge>
+      ),
+      iconColorClass: styles.subjectIcon,
     },
     {
       id: "difficulty",
       icon: FaSignal,
       label: "Dificultad",
-      value: activity.difficulty,
+      value: difficultyColor.label,
+      iconColorStyle: { color: difficultyColor.text },
+      iconGlowClass: styles.difficultyGlow,
     },
     {
       id: "maxTime",
       icon: FaClock,
       label: "Tiempo máximo",
       value: `${activity.maxTime} minutos`,
+      iconColorClass: styles.maxTimeIcon,
     },
   ];
 
@@ -47,7 +66,12 @@ const ActivityResultsDetails: React.FC<ActivityResultsDetailsProps> = ({
     return (
       <div key={item.id} className={styles.detailItem}>
         <div className={styles.detailContent}>
-          <IconComponent className={styles.detailIcon} />
+          <IconComponent
+            className={`${styles.detailIcon} ${item.iconColorClass || ""} ${
+              item.iconGlowClass || ""
+            }`}
+            style={item.iconColorStyle || {}}
+          />
           <div>
             <span className={styles.label}>{item.label}</span>
             <span className={styles.value}>{item.value}</span>

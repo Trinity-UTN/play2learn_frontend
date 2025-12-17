@@ -3,12 +3,14 @@ import {
   FaColumns,
   FaList,
   FaTrophy,
+  FaStar,
   FaCheckCircle,
+  FaClipboardCheck,
   FaTimesCircle,
   FaQuestionCircle,
   FaClock,
 } from "react-icons/fa";
-import { FcStatistics, FcComments } from "react-icons/fc";
+import { FcStatistics } from "react-icons/fc";
 import type { IconType } from "react-icons";
 import type {
   ActivityResultsResponseInterface,
@@ -52,7 +54,7 @@ const ActivityResultsStats: React.FC<ActivityResultsStatsProps> = ({
     {
       id: "state",
       icon: FcStatistics,
-      label: "Resultado",
+      label: "Estado",
       value: (
         <Badge variant={stateInfo.variant} className={styles.stateBadge}>
           {stateInfo.label}
@@ -71,9 +73,9 @@ const ActivityResultsStats: React.FC<ActivityResultsStatsProps> = ({
   if (shouldShowScore(gameType)) {
     statsItems.push({
       id: "score",
-      icon: FcStatistics,
+      icon: FaStar,
       label: "Puntuación",
-      value: `${results.score} puntos`,
+      value: `${results.score}/100 puntos`,
       className: styles.scoreValue,
     });
   }
@@ -88,9 +90,10 @@ const ActivityResultsStats: React.FC<ActivityResultsStatsProps> = ({
     },
     {
       id: "attempts",
-      icon: FcStatistics,
+      icon: FaClipboardCheck,
       label: "Intentos utilizados",
       value: `${results.attempts} de ${activity.attempts}`,
+      className: styles.attemptsValue,
     }
   );
 
@@ -162,18 +165,6 @@ const ActivityResultsStats: React.FC<ActivityResultsStatsProps> = ({
 
         <div className={`${styles.detailsGrid} ${styles[viewMode]}`}>
           {statsItems.map((item) => renderStatItem(item))}
-
-          <div className={styles.detailItem}>
-            <div className={styles.detailContent}>
-              <FcComments className={styles.detailIcon} />
-              <div>
-                <span className={styles.label}>Comentarios del docente</span>
-                <span className={`${styles.value} ${styles.teacherComments}`}>
-                  El docente no ha realizado comentarios aún
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
       </Card>
     </motion.div>

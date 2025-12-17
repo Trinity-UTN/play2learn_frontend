@@ -37,10 +37,6 @@
   margin: 0;
 }
 
-.titleIcon {
-  font-size: 1.25rem;
-}
-
 .viewToggle {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -109,7 +105,6 @@
 .detailIcon {
   font-size: 1.5rem;
   flex-shrink: 0;
-  color: white;
 }
 
 .detailContent > div {
@@ -131,6 +126,20 @@
   font-weight: 600;
   color: white;
   font-size: 1rem;
+}
+
+.subjectIcon {
+  color: white;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.difficultyGlow {
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.maxTimeIcon {
+  color: #e2e4e9;
+  filter: drop-shadow(0 0 8px rgba(226, 221, 221, 0.4));
 }
 
 .skeleton {

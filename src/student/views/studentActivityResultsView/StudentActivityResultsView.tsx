@@ -6,6 +6,7 @@ import StudentActivityHeader from "../../components/common/StudentActivityHeader
 import StudentActivityFooter from "../../components/common/StudentActivityFooter/StudentActivityFooter";
 import ActivityResultsDetails from "../../components/studentActivityResults/activityResultsDetails/ActivityResultsDetails";
 import ActivityResultsStats from "../../components/studentActivityResults/activityResultsStats/ActivityResultsStats";
+import ActivityResultsFeedback from "../../components/studentActivityResults/activityResultsFeedback/ActivityResultsFeedback";
 import { useActivityResults } from "../../hooks/activities/activityResults/useActivityResults";
 import { useActivityNavigation } from "../../hooks/activities/useActivityNavigation";
 import styles from "./StudentActivityResultsView.module.css";
@@ -63,6 +64,10 @@ const StudentActivityResultsView: React.FC = () => {
       <div className={styles.mainContent}>
         <ActivityResultsDetails activity={activity} />
         <ActivityResultsStats results={results} activity={activity} />
+        <ActivityResultsFeedback
+          teacherComment={"El docente no ha realizado comentarios aún"}
+        />
+        {/* <ActivityResultsFeedback teacherComment={results.teacherComment} /> */}
       </div>
 
       <StudentActivityFooter

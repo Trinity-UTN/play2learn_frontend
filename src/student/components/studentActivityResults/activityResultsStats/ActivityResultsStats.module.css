@@ -127,13 +127,18 @@
 }
 
 .detailItem:has(.scoreValue) .detailIcon {
-  color: #a78bfa;
-  filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.4));
+  color: #fac68b;
+  filter: drop-shadow(0 0 8px rgba(250, 224, 139, 0.4));
 }
 
 .detailItem:has(.completedTimeValue) .detailIcon {
   color: #e2e4e9;
-  filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.4));
+  filter: drop-shadow(0 0 8px rgba(226, 221, 221, 0.4));
+}
+
+.detailItem:has(.attemptsValue) .detailIcon {
+  color: #fc96cb;
+  filter: drop-shadow(0 0 8px rgba(255, 140, 199, 0.4));
 }
 
 .detailItem:has(.correctValue) .detailIcon {
