@@ -69,6 +69,18 @@ export const AhorcadoGameProvider: React.FC<AhorcadoGameProviderProps> = ({
   const maxErrors = getMaxErrors();
   const livesRemaining = maxErrors - wrongGuesses;
 
+  // Letras correctas: las que están en la palabra
+  const correctAnswers = guessedLetters.filter((letter) =>
+    gameConfig?.word.toLowerCase().includes(letter)
+  ).length;
+
+  // Letras incorrectas: las que no están en la palabra
+  const incorrectAnswers = wrongGuesses;
+
+  const score = isGameWon ? 100 : 0;
+
+  const unanswered = 0;
+
   // Funciones del juego
   const resetGame = () => {
     setGuessedLetters([]);
@@ -121,6 +133,10 @@ export const AhorcadoGameProvider: React.FC<AhorcadoGameProviderProps> = ({
     isGameLost,
     maxErrors,
     livesRemaining,
+    score,
+    correctAnswers,
+    incorrectAnswers,
+    unanswered,
 
     // Funciones del juego
     handleGuessLetter,

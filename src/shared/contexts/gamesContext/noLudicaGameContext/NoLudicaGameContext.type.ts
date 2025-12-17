@@ -9,6 +9,10 @@ export interface NoLudicaGameContextType {
   gameStarted?: boolean;
   isGameLost: boolean;
   isGameWon: boolean;
+  score: number;
+  correctAnswers: number;
+  incorrectAnswers: number;
+  unanswered: number;
 
   // Estados calculados
   studentResponse: string;

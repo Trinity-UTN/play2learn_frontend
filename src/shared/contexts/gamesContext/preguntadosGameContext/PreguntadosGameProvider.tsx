@@ -55,6 +55,19 @@ export const PreguntadosGameProvider: React.FC<
   const [questionStartTime, setQuestionStartTime] = useState<number>(0);
   const [showExplosion, setShowExplosion] = useState(false);
 
+  const getFinalScore = useCallback(() => {
+    const percentage = Math.round(
+      (results.filter((result) => result.isCorrect).length / questions.length) *
+        100
+    );
+    const isPassed = percentage >= 60;
+
+    return {
+      percentage,
+      isPassed,
+    };
+  }, [results, questions]);
+
   useEffect(() => {
     if (mode === "preview" && config && configQuestions.length > 0) {
       setGameConfig({
@@ -98,7 +111,7 @@ export const PreguntadosGameProvider: React.FC<
       });
       setQuestions(configQuestions);
     }
-  }, [mode, config?.totalQuestions, configQuestions?.length]);
+  }, [mode, config, configQuestions]);
 
   // Estados calculados
   const currentQuestion = questions[currentQuestionIndex] || null;
@@ -113,6 +126,14 @@ export const PreguntadosGameProvider: React.FC<
     correctAnswers >= Math.ceil(totalQuestions * 0.6);
   const isGameLost = gamePhase === "finished" && !isGameWon;
   const gameStarted = gamePhase !== "waiting";
+
+  const incorrectAnswers = results.filter(
+    (result) => !result.isCorrect && result.selectedAnswer !== null
+  ).length;
+  const unanswered = results.filter(
+    (result) => result.selectedAnswer === null
+  ).length;
+  const score = getFinalScore().percentage;
 
   // Funciones auxiliares
   const getMaxTimePerQuestion = useCallback(() => {
@@ -142,16 +163,6 @@ export const PreguntadosGameProvider: React.FC<
       strokeDashoffset,
     };
   }, [getMaxTimePerQuestion, timeRemaining]);
-
-  const getFinalScore = useCallback(() => {
-    const percentage = Math.round((correctAnswers / totalQuestions) * 100);
-    const isPassed = percentage >= 60;
-
-    return {
-      percentage,
-      isPassed,
-    };
-  }, [correctAnswers, totalQuestions]);
 
   const getCorrectAnswerIndex = useCallback(() => {
     return currentQuestion?.options.findIndex((opt) => opt.isCorrect) ?? -1;
@@ -238,6 +249,7 @@ export const PreguntadosGameProvider: React.FC<
 
     setResults((prev) => [...prev, result]);
     setGamePhase("answered");
+    setTimeRemaining(timeSpent);
   }, [
     gamePhase,
     currentQuestion,
@@ -345,6 +357,9 @@ export const PreguntadosGameProvider: React.FC<
     isGameWon,
     isGameLost,
     gameStarted,
+    score,
+    incorrectAnswers,
+    unanswered,
 
     // Funciones del juego
     selectAnswer,

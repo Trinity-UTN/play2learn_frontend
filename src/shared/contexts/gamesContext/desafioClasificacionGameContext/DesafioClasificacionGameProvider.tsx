@@ -252,10 +252,13 @@ export const DesafioClasificacionGameProvider: React.FC<
     setDraggedConcept(null);
   };
 
+  const correctAnswers = verificationResults?.totalCorrect || 0;
+  const incorrectAnswers = verificationResults?.incorrect.length || 0;
+  const unanswered = availableConcepts.length;
+
   const value: DesafioClasificacionGameContextType = {
     // Estados del juego
     gameConfig,
-    score,
     gameStatus,
     draggedConcept,
     conceptsInCategories,
@@ -269,6 +272,10 @@ export const DesafioClasificacionGameProvider: React.FC<
     totalConcepts,
     isGameLost,
     isGameWon,
+    score,
+    correctAnswers,
+    incorrectAnswers,
+    unanswered,
 
     // Funciones del juego
     startGame,

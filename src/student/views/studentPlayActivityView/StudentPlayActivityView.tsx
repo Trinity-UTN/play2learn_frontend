@@ -81,14 +81,18 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
     if (!currentActivity) return;
 
     if (isNoLudica) {
-      await finishActivity(!!gameManager?.isGameWon, handleFinishNoLudica);
+      await finishActivity(
+        !!gameManager?.isGameWon,
+        gameManager,
+        handleFinishNoLudica
+      );
     } else {
-      await finishActivity(!!gameManager?.isGameWon);
+      await finishActivity(!!gameManager?.isGameWon, gameManager);
     }
   };
 
   const handleTimeUp = () => {
-    forceFinishActivity(false);
+    forceFinishActivity(false, gameManager);
   };
 
   if (loading) {
