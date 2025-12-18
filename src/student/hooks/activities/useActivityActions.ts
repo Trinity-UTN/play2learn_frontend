@@ -15,6 +15,7 @@ export const useActivityActions = () => {
     refreshActivityDataAfterCompletion,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
+    setCurrentActivityAttemptInfo,
   } = useActivityStudent();
 
   const { clearPersistedActivity } = useCurrentActivityPersistence();
@@ -36,10 +37,18 @@ export const useActivityActions = () => {
   );
 
   const viewActivityResults = useCallback(
-    (activityId: number | string) => {
+    (
+      activityId: number | string,
+      remainingAttempts: number,
+      completedAt?: string
+    ) => {
+      setCurrentActivityAttemptInfo({
+        remainingAttempts,
+        completedAt,
+      });
       navigate(`/dashboard/student/actividades/${activityId}/results`);
     },
-    [navigate]
+    [navigate, setCurrentActivityAttemptInfo]
   );
 
   const startActivity = useCallback(

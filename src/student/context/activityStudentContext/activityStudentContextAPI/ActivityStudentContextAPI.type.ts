@@ -11,6 +11,11 @@ import type {
   ActivityCompletedResponseInterface,
 } from "../../../types/ActivityCompleted.type";
 
+export interface CurrentActivityAttemptInfo {
+  remainingAttempts: number;
+  completedAt?: string;
+}
+
 export interface ActivityStudentContextType {
   // Estados principales
   loading: boolean;
@@ -22,6 +27,7 @@ export interface ActivityStudentContextType {
   activityCompleted: ActivityCompletedResponseInterface | null;
   activityStudentStats: ActivityStatsResponse | null;
   activityResults: ActivityResultsResponseInterface | null;
+  currentActivityAttemptInfo: CurrentActivityAttemptInfo | null;
 
   // Funciones Principales
   getActivityNotApproved: () => Promise<void>;
@@ -39,4 +45,7 @@ export interface ActivityStudentContextType {
 
   // Funciones Auxiliares
   refreshActivityDataAfterCompletion: () => Promise<void>;
+  setCurrentActivityAttemptInfo: (
+    info: CurrentActivityAttemptInfo | null
+  ) => void;
 }

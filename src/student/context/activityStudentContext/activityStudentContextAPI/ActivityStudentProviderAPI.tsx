@@ -5,6 +5,7 @@ import type {
   ActivityNotApprovedResponseInterface,
   ActivityApprovedResponseInterface,
   CurrentActivityInterface,
+  CurrentActivityAttemptInfo,
   ActivityStatsResponse,
   ActivityResultsResponseInterface,
 } from "../../../types/Activity.type";
@@ -20,7 +21,6 @@ import {
   useHandleApiError,
   usePaginationParams,
 } from "@/shared";
-
 import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 
 export const ActivityStudentProvider = ({
@@ -52,6 +52,8 @@ export const ActivityStudentProvider = ({
     useState<ActivityStatsResponse | null>(null);
   const [activityResults, setActivityResults] =
     useState<ActivityResultsResponseInterface | null>(null);
+  const [currentActivityAttemptInfo, setCurrentActivityAttemptInfo] =
+    useState<CurrentActivityAttemptInfo | null>(null);
 
   // Funciones Principales
   const getPaginatedActivitiesNotApproved = useCallback(
@@ -237,6 +239,7 @@ export const ActivityStudentProvider = ({
     activityCompleted,
     activityStudentStats,
     activityResults,
+    currentActivityAttemptInfo,
 
     // Funciones Principales
     getActivityNotApproved,
@@ -252,6 +255,7 @@ export const ActivityStudentProvider = ({
 
     // Funciones Auxiliares
     refreshActivityDataAfterCompletion,
+    setCurrentActivityAttemptInfo,
   };
 
   return (
