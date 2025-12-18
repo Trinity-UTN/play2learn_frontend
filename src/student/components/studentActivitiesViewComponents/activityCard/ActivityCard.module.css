@@ -171,6 +171,27 @@
   color: var(--color-text-light);
 }
 
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.secondaryButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  color: var(--color-text-light);
+  white-space: nowrap;
+}
+
 .actionButton {
   display: flex;
   align-items: center;
@@ -203,6 +224,7 @@
   pointer-events: none;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .cardHeader {
     padding: 1rem 1rem 0.75rem 1rem;
@@ -260,6 +282,11 @@
     gap: 0.75rem;
   }
 
+  .buttonGroup {
+    width: 100%;
+  }
+
+  .secondaryButton,
   .actionButton {
     width: 100%;
     padding: 0.75rem;

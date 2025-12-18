@@ -1,113 +1,338 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
-.detailsCard {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
-}
-
-.detailsCard:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.header {
+.statusHeader {
+  padding: 2rem;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  gap: 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.sectionTitle {
+.statusHeader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.1;
+  background: radial-gradient(
+    circle at top right,
+    rgba(255, 255, 255, 0.3),
+    transparent 50%
+  );
+}
+
+.statusHeader.approved {
+  background: linear-gradient(
+    135deg,
+    rgba(52, 211, 153, 0.25),
+    rgba(16, 185, 129, 0.25)
+  );
+  border-color: rgba(52, 211, 153, 0.5);
+}
+
+.statusHeader.disapproved {
+  background: linear-gradient(
+    135deg,
+    rgba(248, 113, 113, 0.25),
+    rgba(239, 68, 68, 0.25)
+  );
+  border-color: rgba(248, 113, 113, 0.5);
+}
+
+.statusHeader.pending {
+  background: linear-gradient(
+    135deg,
+    rgba(251, 191, 36, 0.25),
+    rgba(245, 158, 11, 0.25)
+  );
+  border-color: rgba(251, 191, 36, 0.4);
+}
+
+.statusLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.statusTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.stateBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.statusRight {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.rewardBox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.trophyIcon {
+  color: #fbbf24;
+  filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.5));
+  font-size: 2.5rem;
+}
+
+.rewardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rewardLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rewardValueWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.coinIcon {
+  color: #f59e0b;
+  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4));
+  font-size: 1.5rem;
+  animation: bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.rewardNumber {
+  font-size: 2rem;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.scoreBox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.scoreStarIcon {
+  color: #fbbf24;
+  filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.5));
+  font-size: 2.5rem;
+}
+
+.scoreContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.scoreLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gaugeContainer {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.gaugeBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 40px;
+}
+
+.gaugeBar {
+  width: 4px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  transform-origin: bottom;
+  transition: all 0.3s ease;
+}
+
+.gaugeBarFilled {
+  background: linear-gradient(to top, #34d399, #10b981);
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
+}
+
+.scoreNumber {
+  font-size: 2rem;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  min-width: 60px;
+}
+
+.metricBox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.metricBoxIcon {
+  color: rgba(255, 255, 255, 0.9);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+  font-size: 2rem;
+}
+
+.metricBoxContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metricBoxLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metricBoxValue {
   font-size: 1.25rem;
   font-weight: 700;
   color: white;
-  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.titleIcon {
-  font-size: 1.25rem;
-}
-
-.viewToggle {
+.secondaryStatsCard {
   background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
   color: white;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
 }
 
-.viewToggle:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: black;
-  transform: translateY(-1px);
-}
-
-.detailsGrid {
+.secondaryStatsGrid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.secondaryStatItem {
+  display: flex;
+  align-items: center;
   gap: 1rem;
-  transition: all 0.3s ease;
-}
-
-.detailsGrid.vertical {
-  grid-template-columns: 1fr;
-}
-
-.detailsGrid.horizontal {
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-.detailItem {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 1rem;
+  border-radius: 16px;
+  padding: 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
 
-.detailItem:hover {
+.secondaryStatItem:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
 
-.detailContent {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.detailIcon {
-  font-size: 1.5rem;
+.secondaryStatIcon {
   flex-shrink: 0;
 }
 
-.detailContent > div {
+.detailIcon {
+  font-size: 2rem;
+}
+
+.secondaryStatItem:has(.completedTimeValue) .detailIcon {
+  color: #e2e4e9;
+  filter: drop-shadow(0 0 8px rgba(226, 221, 221, 0.4));
+}
+
+.secondaryStatItem:has(.correctValue) .detailIcon {
+  color: #34d399;
+  filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.4));
+}
+
+.secondaryStatItem:has(.incorrectValue) .detailIcon {
+  color: #f87171;
+  filter: drop-shadow(0 0 8px rgba(248, 113, 113, 0.4));
+}
+
+.secondaryStatItem:has(.unansweredValue) .detailIcon {
+  color: #9ca3af;
+}
+
+.secondaryStatContent {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   flex: 1;
 }
 
-.label {
+.secondaryStatLabel {
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.85rem;
@@ -115,137 +340,69 @@
   letter-spacing: 0.5px;
 }
 
-.value {
-  font-weight: 600;
+.secondaryStatValue {
+  font-weight: 700;
   color: white;
-  font-size: 1rem;
-}
-
-.detailItem:has(.rewardValue) .detailIcon {
-  color: #fbbf24;
-  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.4));
-}
-
-.detailItem:has(.scoreValue) .detailIcon {
-  color: #fac68b;
-  filter: drop-shadow(0 0 8px rgba(250, 224, 139, 0.4));
-}
-
-.detailItem:has(.completedTimeValue) .detailIcon {
-  color: #e2e4e9;
-  filter: drop-shadow(0 0 8px rgba(226, 221, 221, 0.4));
-}
-
-.detailItem:has(.attemptsValue) .detailIcon {
-  color: #fc96cb;
-  filter: drop-shadow(0 0 8px rgba(255, 140, 199, 0.4));
-}
-
-.detailItem:has(.correctValue) .detailIcon {
-  color: #34d399;
-  filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.4));
-}
-
-.detailItem:has(.incorrectValue) .detailIcon {
-  color: #f87171;
-  filter: drop-shadow(0 0 8px rgba(248, 113, 113, 0.4));
-}
-
-.detailItem:has(.unansweredValue) .detailIcon {
-  color: #9ca3af;
-}
-
-.stateBadge {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 0.25rem;
-}
-
-.rewardValue {
-  color: white;
-}
-
-.scoreValue {
-  color: white;
-}
-
-.correctValue {
-  color: white;
-}
-
-.incorrectValue {
-  color: white;
-}
-
-.unansweredValue {
-  color: white;
-}
-
-.teacherComments {
-  color: rgba(255, 255, 255, 0.6);
-  font-style: italic;
-}
-
-.skeleton {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.skeletonCard {
-  height: 300px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  font-size: 1.5rem;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .detailsCard {
-    padding: 1rem;
-  }
-
-  .header {
+@media (max-width: 1024px) {
+  .statusHeader {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .statusRight {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .statusHeader {
+    padding: 1.5rem;
+  }
+
+  .statusTitle {
+    font-size: 1.5rem;
+  }
+
+  .statusRight {
+    flex-direction: column;
     gap: 1rem;
+    width: 100%;
+  }
+
+  .rewardBox,
+  .metricBox,
+  .scoreBox {
+    width: 100%;
+  }
+
+  .secondaryStatsCard {
+    padding: 1.5rem;
   }
 
   .sectionTitle {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
 
-  .viewToggle {
-    align-self: flex-end;
-    font-size: 0.8rem;
-    padding: 0.4rem 0.8rem;
-  }
-
-  .detailsGrid.horizontal {
+  .secondaryStatsGrid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
-  .detailsGrid {
-    gap: 0.75rem;
+  .secondaryStatItem {
+    padding: 1rem;
   }
 
-  .detailItem {
-    padding: 0.75rem;
+  .detailIcon {
+    font-size: 1.5rem;
   }
 
-  .detailContent {
-    gap: 0.5rem;
+  .secondaryStatValue {
+    font-size: 1.25rem;
   }
 }

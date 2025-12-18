@@ -9,12 +9,14 @@ import ActivityResultsStats from "../../components/studentActivityResults/activi
 import ActivityResultsFeedback from "../../components/studentActivityResults/activityResultsFeedback/ActivityResultsFeedback";
 import { useActivityResults } from "../../hooks/activities/activityResults/useActivityResults";
 import { useActivityNavigation } from "../../hooks/activities/useActivityNavigation";
+import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import styles from "./StudentActivityResultsView.module.css";
 
 const StudentActivityResultsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { results, activity, loading, error } = useActivityResults(Number(id));
-  const { goBackToList } = useActivityNavigation();
+  const { goBackToList, goBackToActivityView } = useActivityNavigation();
+  const { currentActivityAttemptInfo } = useActivityStudent();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -48,6 +50,14 @@ const StudentActivityResultsView: React.FC = () => {
     );
   }
 
+  const remainingAttempts = currentActivityAttemptInfo?.remainingAttempts || 0;
+  const hasRemainingAttempts = remainingAttempts > 0;
+  const isApproved = results.state === "APPROVED";
+
+  const handleViewDetails = () => {
+    goBackToActivityView();
+  };
+
   return (
     <motion.div
       variants={containerVariants}
@@ -62,18 +72,22 @@ const StudentActivityResultsView: React.FC = () => {
       />
 
       <div className={styles.mainContent}>
-        <ActivityResultsDetails activity={activity} />
         <ActivityResultsStats results={results} activity={activity} />
+        <ActivityResultsDetails activity={activity} />
         <ActivityResultsFeedback
           teacherComment={"El docente no ha realizado comentarios aún"}
         />
-        {/* <ActivityResultsFeedback teacherComment={results.teacherComment} /> */}
       </div>
 
       <StudentActivityFooter
         loading={false}
         onBack={goBackToList}
-        showBackToList={true}
+        showBackToList={false}
+        backButtonText="Volver a Actividades"
+        onNext={
+          !isApproved && hasRemainingAttempts ? handleViewDetails : undefined
+        }
+        nextButtonText="Ver Detalles"
       />
     </motion.div>
   );

@@ -35,6 +35,7 @@ export function mapActivityToUI(
       : undefined,
     reward: isNotApproved ? undefined : `${activity.reward} monedas`,
 
+    attempts: activity.attempts,
     attemptsLabel: `${activity.remainingAttempts} / ${activity.attempts} intentos`,
     remainingAttempts: activity.remainingAttempts,
     noAttempts: activity.remainingAttempts === 0,
@@ -47,6 +48,7 @@ export function mapActivityToUI(
           "es-ES"
         )}`
       : undefined,
+    completedAt: !isNotApproved ? activity.completedAt : undefined,
   };
 }
 

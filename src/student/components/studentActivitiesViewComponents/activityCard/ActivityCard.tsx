@@ -10,8 +10,16 @@ import styles from "./ActivityCard.module.css";
 
 interface ActivityCardProps {
   activity: ActivityUI;
-  onStart?: (activityId: string) => void;
-  onViewResults?: (activityId: string) => void;
+  onStart?: (
+    activityId: string,
+    remainingAttempts: number,
+    completedAt?: string
+  ) => void;
+  onViewResults?: (
+    activityId: string,
+    remainingAttempts: number,
+    completedAt?: string
+  ) => void;
 }
 
 const ActivityCard: React.FC<ActivityCardProps> = ({
@@ -33,15 +41,31 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
 
   const handleActionButton = async () => {
     if (activity.status === "APPROVED" && onViewResults) {
-      onViewResults(activity.id);
+      onViewResults(
+        activity.id,
+        activity.remainingAttempts,
+        activity.completedAt
+      );
     } else if (
       activity.status === "PUBLISHED" &&
       !activity.noAttempts &&
       onStart
     ) {
-      onStart(activity.id);
+      onStart(activity.id, activity.remainingAttempts, activity.completedAt);
     }
   };
+
+  const handleViewLastAttempt = () => {
+    if (onViewResults) {
+      onViewResults(
+        activity.id,
+        activity.remainingAttempts,
+        activity.completedAt
+      );
+    }
+  };
+
+  const hasAttemptedActivity = activity.remainingAttempts < activity.attempts;
 
   return (
     <motion.div
@@ -118,15 +142,27 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
             </Badge>
           </div>
 
-          <Button
-            variant={activity.status === "EXPIRED" ? "ghost" : "primary"}
-            className={styles.actionButton}
-            disabled={isDisabled}
-            onClick={handleActionButton}
-          >
-            <statusConfig.buttonIcon className={styles.buttonIcon} />
-            {buttonText}
-          </Button>
+          <div className={styles.buttonGroup}>
+            {hasAttemptedActivity && (
+              <Button
+                variant="secondary"
+                className={styles.secondaryButton}
+                onClick={handleViewLastAttempt}
+              >
+                Ver último intento
+              </Button>
+            )}
+
+            <Button
+              variant={activity.status === "EXPIRED" ? "ghost" : "primary"}
+              className={styles.actionButton}
+              disabled={isDisabled}
+              onClick={handleActionButton}
+            >
+              <statusConfig.buttonIcon className={styles.buttonIcon} />
+              {buttonText}
+            </Button>
+          </div>
         </div>
 
         <motion.div

@@ -35,8 +35,16 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
     viewActivity(Number(activityId));
   };
 
-  const handleViewResults = (activityId: string) => {
-    viewActivityResults(Number(activityId));
+  const handleViewResults = (
+    activityId: string,
+    remainingAttempts: number,
+    completedAt?: string
+  ) => {
+    viewActivityResults(
+      Number(activityId),
+      remainingAttempts,
+      completedAt || undefined
+    );
   };
 
   if (loading) {
