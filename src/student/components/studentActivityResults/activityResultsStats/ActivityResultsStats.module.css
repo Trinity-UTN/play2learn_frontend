@@ -135,17 +135,6 @@
   color: #f59e0b;
   filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4));
   font-size: 1.5rem;
-  animation: bounce 1.5s ease-in-out infinite;
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
 }
 
 .rewardNumber {
