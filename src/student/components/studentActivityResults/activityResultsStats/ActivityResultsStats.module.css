@@ -256,12 +256,40 @@
   padding: 2rem;
 }
 
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.sectionHeader::before,
+.sectionHeader::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.4)
+  );
+}
+
+.sectionHeader::after {
+  background: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.4)
+  );
+}
+
 .sectionTitle {
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
-  margin: 0 0 1.5rem 0;
-  text-align: center;
+  margin: 0 1.25rem;
+  white-space: nowrap;
 }
 
 .secondaryStatsGrid {

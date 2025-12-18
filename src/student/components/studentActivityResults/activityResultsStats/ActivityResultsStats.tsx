@@ -259,7 +259,9 @@ const ActivityResultsStats: React.FC<ActivityResultsStatsProps> = ({
 
       {secondaryStats.length > 0 && (
         <Card className={styles.secondaryStatsCard}>
-          <h3 className={styles.sectionTitle}>{getDetailsTitle()}</h3>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitle}>{getDetailsTitle()}</h3>
+          </div>
           <div className={styles.secondaryStatsGrid}>
             {secondaryStats.map((item, index) =>
               renderSecondaryStat(item, index)
