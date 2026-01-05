@@ -48,6 +48,7 @@ export const useActivityData = () => {
     if (activeFilter === "APPROVED") {
       await getPaginatedActivitiesApproved({
         ...paginationParams,
+        order_type: "desc",
         filters:
           selectedSubject && selectedSubject.id !== "ALL" ? ["subjectId"] : [],
         filtersValues:
@@ -83,6 +84,7 @@ export const useActivityData = () => {
 
     await getPaginatedActivitiesNotApproved({
       ...paginationParams,
+      order_type: "desc",
       filters,
       filtersValues,
     });

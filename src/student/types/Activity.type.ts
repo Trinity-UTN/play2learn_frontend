@@ -76,10 +76,12 @@ export interface ActivityUI {
   rewardLabel?: string;
   reward?: string;
   remainingAttempts: number;
+  attempts: number;
   attemptsLabel: string;
   noAttempts: boolean;
   dueDateLabel?: string;
   extraInfo?: string;
+  completedAt?: string;
 }
 
 export type GameConfig =
@@ -105,4 +107,22 @@ export interface CurrentActivityInterface {
   initialBalance: number;
   typeReward: string;
   gameConfig: GameConfig;
+}
+
+export interface CurrentActivityAttemptInfo {
+  remainingAttempts: number;
+  completedAt?: string;
+}
+
+export interface ActivityResultsResponseInterface {
+  id: number;
+  activityId: number;
+  state: "APPROVED" | "DISAPPROVED" | "PENDING";
+  attempts: number;
+  reward: number;
+  completedTimeInSeconds: number;
+  score: number;
+  correctAnswers: number;
+  incorrectAnswers: number;
+  unanswered: number;
 }

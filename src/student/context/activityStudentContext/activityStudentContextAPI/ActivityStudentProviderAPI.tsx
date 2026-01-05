@@ -5,7 +5,9 @@ import type {
   ActivityNotApprovedResponseInterface,
   ActivityApprovedResponseInterface,
   CurrentActivityInterface,
+  CurrentActivityAttemptInfo,
   ActivityStatsResponse,
+  ActivityResultsResponseInterface,
 } from "../../../types/Activity.type";
 import type {
   ActivityCompletedInterface,
@@ -19,7 +21,6 @@ import {
   useHandleApiError,
   usePaginationParams,
 } from "@/shared";
-
 import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 
 export const ActivityStudentProvider = ({
@@ -49,6 +50,10 @@ export const ActivityStudentProvider = ({
     useState<ActivityCompletedResponseInterface | null>(null);
   const [activityStudentStats, setActivityStudentStats] =
     useState<ActivityStatsResponse | null>(null);
+  const [activityResults, setActivityResults] =
+    useState<ActivityResultsResponseInterface | null>(null);
+  const [currentActivityAttemptInfo, setCurrentActivityAttemptInfo] =
+    useState<CurrentActivityAttemptInfo | null>(null);
 
   // Funciones Principales
   const getPaginatedActivitiesNotApproved = useCallback(
@@ -146,6 +151,26 @@ export const ActivityStudentProvider = ({
     }
   }, []);
 
+  const getActivityResults = useCallback(
+    async (activityId: number): Promise<void> => {
+      setLoading(true);
+      try {
+        const response = await ActivityStudentService.getActivityResultsApi(
+          activityId
+        );
+        setActivityResults(response.data);
+      } catch (error) {
+        handleApiError(
+          error,
+          "Error al obtener los resultados de la actividad"
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
   const registerActivityStarted = useCallback(
     async (id: number): Promise<void> => {
       setLoading(true);
@@ -213,6 +238,8 @@ export const ActivityStudentProvider = ({
     currentActivity,
     activityCompleted,
     activityStudentStats,
+    activityResults,
+    currentActivityAttemptInfo,
 
     // Funciones Principales
     getActivityNotApproved,
@@ -221,12 +248,14 @@ export const ActivityStudentProvider = ({
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
     getActivityStudentStats,
+    getActivityResults,
     registerActivityStarted,
     registerActivityCompleted,
     registerActivityNoLudicaCompleted,
 
     // Funciones Auxiliares
     refreshActivityDataAfterCompletion,
+    setCurrentActivityAttemptInfo,
   };
 
   return (

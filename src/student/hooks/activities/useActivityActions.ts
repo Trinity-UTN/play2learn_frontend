@@ -1,5 +1,6 @@
 import { useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import type { GameHook } from "@/shared";
 import { useActivityStudent } from "../../../student/hooks/useActivityStudentAPI";
 import { useConfirmation, usePaginationParams } from "@/shared";
 import { useActivityRules } from "./useActivityRules";
@@ -14,6 +15,7 @@ export const useActivityActions = () => {
     refreshActivityDataAfterCompletion,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
+    setCurrentActivityAttemptInfo,
   } = useActivityStudent();
 
   const { clearPersistedActivity } = useCurrentActivityPersistence();
@@ -32,6 +34,21 @@ export const useActivityActions = () => {
       navigate(`/dashboard/student/actividades/${activityId}/view`);
     },
     [getActivityById, navigate]
+  );
+
+  const viewActivityResults = useCallback(
+    (
+      activityId: number | string,
+      remainingAttempts: number,
+      completedAt?: string
+    ) => {
+      setCurrentActivityAttemptInfo({
+        remainingAttempts,
+        completedAt,
+      });
+      navigate(`/dashboard/student/actividades/${activityId}/results`);
+    },
+    [navigate, setCurrentActivityAttemptInfo]
   );
 
   const startActivity = useCallback(
@@ -59,7 +76,11 @@ export const useActivityActions = () => {
   );
 
   const finishActivity = useCallback(
-    async (isApproved: boolean, onAfterFinish?: () => void) => {
+    async (
+      isApproved: boolean,
+      gameManager?: GameHook | null,
+      onAfterFinish?: () => void
+    ) => {
       if (!currentActivity) return;
 
       showConfirmation({
@@ -75,6 +96,10 @@ export const useActivityActions = () => {
             await registerActivityCompleted({
               activityId: currentActivity.id,
               state: isApproved ? "APPROVED" : "DISAPPROVED",
+              score: gameManager?.score ?? null,
+              correctAnswers: gameManager?.correctAnswers ?? null,
+              incorrectAnswers: gameManager?.incorrectAnswers ?? null,
+              unanswered: gameManager?.unanswered ?? null,
             });
           }
 
@@ -104,7 +129,11 @@ export const useActivityActions = () => {
   );
 
   const forceFinishActivity = useCallback(
-    async (isApproved: boolean, onAfterFinish?: () => void) => {
+    async (
+      isApproved: boolean,
+      gameManager?: GameHook | null,
+      onAfterFinish?: () => void
+    ) => {
       if (!currentActivity) return;
 
       isFinishingActivity.current = true;
@@ -112,6 +141,10 @@ export const useActivityActions = () => {
       await registerActivityCompleted({
         activityId: currentActivity.id,
         state: isApproved ? "APPROVED" : "DISAPPROVED",
+        score: gameManager?.score ?? null,
+        correctAnswers: gameManager?.correctAnswers ?? null,
+        incorrectAnswers: gameManager?.incorrectAnswers ?? null,
+        unanswered: gameManager?.unanswered ?? null,
       });
 
       await refreshActivityDataAfterCompletion();
@@ -157,6 +190,7 @@ export const useActivityActions = () => {
 
   return {
     viewActivity,
+    viewActivityResults,
     startActivity,
     finishActivity,
     forceFinishActivity,

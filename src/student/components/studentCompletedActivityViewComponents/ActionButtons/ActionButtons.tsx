@@ -1,8 +1,9 @@
-import { motion, type Variants } from "framer-motion";
-import styles from "./ActionButtons.module.css";
 import { useNavigate } from "react-router-dom";
-import { useGameManager } from "@/shared";
+import { motion, type Variants } from "framer-motion";
 import type { CurrentActivityInterface } from "../../../types/Activity.type";
+import { useGameManager } from "@/shared";
+import styles from "./ActionButtons.module.css";
+
 interface ActionButtonsProps {
   passed: boolean;
   activity: CurrentActivityInterface;

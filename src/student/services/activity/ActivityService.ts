@@ -78,6 +78,11 @@ const getActivityStudentStatsApi =
     return response.data;
   };
 
+const getActivityResultsApi = async (activityId: number) => {
+  const response = await api.get(urls.ActivityResults(activityId));
+  return response.data;
+};
+
 const registerActivityStartedApi = async (
   id: number
 ): Promise<{ data: ActivityCompletedResponseInterface }> => {
@@ -107,6 +112,7 @@ export const ActivityStudentService = {
   getPaginatedActivityApprovedApi,
   getActivityByIdApi,
   getActivityStudentStatsApi,
+  getActivityResultsApi,
   registerActivityStartedApi,
   registerActivityCompletedApi,
   registerActivityNoLudicaCompleteApi,

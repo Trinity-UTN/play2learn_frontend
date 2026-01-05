@@ -1,5 +1,12 @@
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaRedo, FaStopwatch, FaCoins } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaRedo,
+  FaStopwatch,
+  FaCoins,
+  FaTimesCircle,
+  FaPlay,
+} from "react-icons/fa";
 import {
   Button,
   Badge,
@@ -9,34 +16,86 @@ import {
   getActivityIcon,
 } from "@/shared";
 import type { ActivityUI } from "../../../types/Activity.type";
-
 import { getActivityStatusConfig } from "../../../utils/activities.utils";
 import styles from "./ActivityRow.module.css";
 
 interface ActivityRowProps {
   activity: ActivityUI;
-  onStart?: (activityId: string) => void;
+  onStart?: (
+    activityId: string,
+    remainingAttempts: number,
+    completedAt?: string
+  ) => void;
+  onViewResults?: (
+    activityId: string,
+    remainingAttempts: number,
+    completedAt?: string
+  ) => void;
 }
 
-const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
+const ActivityRow: React.FC<ActivityRowProps> = ({
+  activity,
+  onStart,
+  onViewResults,
+}) => {
   const statusConfig = getActivityStatusConfig(activity.status);
   const isDisabled =
-    (activity.status === "CREATED" || activity.noAttempts) &&
-    !(activity.status === "APPROVED");
+    activity.status === "EXPIRED" && activity.remainingAttempts > 0;
+  const badgeText =
+    activity.noAttempts && !(activity.status === "APPROVED")
+      ? "Desaprobada"
+      : statusConfig.label;
+  const BadgeIcon =
+    activity.noAttempts && !(activity.status === "APPROVED")
+      ? FaTimesCircle
+      : statusConfig.icon;
+  const ButtonIcon =
+    activity.noAttempts && !(activity.status === "APPROVED")
+      ? FaPlay
+      : statusConfig.buttonIcon;
   const buttonText =
     activity.noAttempts && !(activity.status === "APPROVED")
-      ? "Sin intentos"
+      ? "Ver Resultados"
       : statusConfig.buttonText;
   const subjectColor = getSubjectColor(activity.subjectName);
 
   const handleActionButton = async () => {
-    if (activity.status === "PUBLISHED" && !activity.noAttempts && onStart) {
-      onStart(activity.id);
+    if (
+      (activity.completedAt ||
+        (activity.noAttempts && !(activity.status === "APPROVED"))) &&
+      onViewResults
+    ) {
+      onViewResults(
+        activity.id,
+        activity.remainingAttempts,
+        activity.completedAt
+      );
+    } else if (
+      activity.status === "PUBLISHED" &&
+      !activity.completedAt &&
+      onStart
+    ) {
+      onStart(activity.id, activity.remainingAttempts, activity.completedAt);
+    }
+  };
+
+  const handleViewLastAttempt = () => {
+    if (onViewResults) {
+      onViewResults(
+        activity.id,
+        activity.remainingAttempts,
+        activity.completedAt
+      );
     }
   };
 
   const ActivityIcon = getActivityIcon(activity.name);
   const activityColor = getActivityColor(activity.name);
+
+  const hasAttemptedActivity =
+    activity.remainingAttempts < activity.attempts &&
+    activity.remainingAttempts > 0 &&
+    activity.status === "PUBLISHED";
 
   return (
     <motion.div
@@ -106,20 +165,36 @@ const ActivityRow: React.FC<ActivityRowProps> = ({ activity, onStart }) => {
       <div className={styles.actionSection}>
         <div className={styles.statusBadge}>
           <Badge>
-            <statusConfig.icon className={styles.statusIcon} />
-            {statusConfig.label}
+            <BadgeIcon className={styles.statusIcon} />
+            {badgeText}
           </Badge>
         </div>
 
-        <Button
-          variant={activity.status === "EXPIRED" ? "ghost" : "primary"}
-          className={styles.actionButton}
-          disabled={isDisabled}
-          onClick={handleActionButton}
-        >
-          <statusConfig.buttonIcon className={styles.buttonIcon} />
-          {buttonText}
-        </Button>
+        <div className={styles.buttonGroup}>
+          {hasAttemptedActivity && (
+            <Button
+              variant="secondary"
+              className={styles.secondaryButton}
+              onClick={handleViewLastAttempt}
+            >
+              Ver último intento
+            </Button>
+          )}
+
+          <Button
+            variant={
+              activity.status === "EXPIRED" && activity.remainingAttempts > 0
+                ? "ghost"
+                : "primary"
+            }
+            className={styles.actionButton}
+            disabled={isDisabled}
+            onClick={handleActionButton}
+          >
+            <ButtonIcon className={styles.buttonIcon} />
+            {buttonText}
+          </Button>
+        </div>
       </div>
 
       {/* Puntuación */}

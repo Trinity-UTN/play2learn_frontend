@@ -24,7 +24,7 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
   loading,
 }) => {
   const { isRow, toggleLayout } = useLayout();
-  const { viewActivity } = useActivityActions();
+  const { viewActivity, viewActivityResults } = useActivityActions();
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -33,6 +33,18 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
 
   const handleViewActivity = async (activityId: string) => {
     viewActivity(Number(activityId));
+  };
+
+  const handleViewResults = (
+    activityId: string,
+    remainingAttempts: number,
+    completedAt?: string
+  ) => {
+    viewActivityResults(
+      Number(activityId),
+      remainingAttempts,
+      completedAt || undefined
+    );
   };
 
   if (loading) {
@@ -76,6 +88,7 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
                 <ActivityCard
                   activity={activity}
                   onStart={handleViewActivity}
+                  onViewResults={handleViewResults}
                 />
               </motion.div>
             ))
@@ -85,7 +98,11 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
                 variants={itemVariants}
                 transition={{ delay: index * 0.1 }}
               >
-                <ActivityRow activity={activity} onStart={handleViewActivity} />
+                <ActivityRow
+                  activity={activity}
+                  onStart={handleViewActivity}
+                  onViewResults={handleViewResults}
+                />
               </motion.div>
             ))}
       </FlexBox>

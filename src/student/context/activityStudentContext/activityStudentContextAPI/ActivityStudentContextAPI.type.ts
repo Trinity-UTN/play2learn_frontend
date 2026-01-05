@@ -4,11 +4,17 @@ import type {
   ActivityApprovedResponseInterface,
   CurrentActivityInterface,
   ActivityStatsResponse,
+  ActivityResultsResponseInterface,
 } from "../../../types/Activity.type";
 import type {
   ActivityCompletedInterface,
   ActivityCompletedResponseInterface,
 } from "../../../types/ActivityCompleted.type";
+
+export interface CurrentActivityAttemptInfo {
+  remainingAttempts: number;
+  completedAt?: string;
+}
 
 export interface ActivityStudentContextType {
   // Estados principales
@@ -20,6 +26,8 @@ export interface ActivityStudentContextType {
   currentActivity: CurrentActivityInterface | null;
   activityCompleted: ActivityCompletedResponseInterface | null;
   activityStudentStats: ActivityStatsResponse | null;
+  activityResults: ActivityResultsResponseInterface | null;
+  currentActivityAttemptInfo: CurrentActivityAttemptInfo | null;
 
   // Funciones Principales
   getActivityNotApproved: () => Promise<void>;
@@ -28,6 +36,7 @@ export interface ActivityStudentContextType {
   getPaginatedActivitiesNotApproved: (params: GetPaginated) => Promise<void>;
   getPaginatedActivitiesApproved: (params: GetPaginated) => Promise<void>;
   getActivityStudentStats: () => Promise<void>;
+  getActivityResults: (activityId: number) => Promise<void>;
   registerActivityStarted: (id: number) => Promise<void>;
   registerActivityCompleted: (
     payload: ActivityCompletedInterface
@@ -36,4 +45,7 @@ export interface ActivityStudentContextType {
 
   // Funciones Auxiliares
   refreshActivityDataAfterCompletion: () => Promise<void>;
+  setCurrentActivityAttemptInfo: (
+    info: CurrentActivityAttemptInfo | null
+  ) => void;
 }

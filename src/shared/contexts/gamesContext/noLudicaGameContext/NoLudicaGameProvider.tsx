@@ -94,6 +94,10 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
     studentResponse,
     isGameLost,
     isGameWon,
+    score: 0,
+    correctAnswers: 0,
+    incorrectAnswers: 0,
+    unanswered: 0,
   };
   return (
     <NoLudicaGameContext.Provider value={value}>

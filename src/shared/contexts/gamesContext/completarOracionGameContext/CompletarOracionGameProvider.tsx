@@ -103,6 +103,12 @@ export const CompletarOracionGameProvider: React.FC<
   const isGameWon = totalMissingWords > 0 && getScore() >= 60;
   const isGameLost = false; // Este juego no tiene condición de pérdida
 
+  const score = getScore();
+  // Oraciones incorrectas: palabras completadas que son incorrectas
+  const incorrectAnswers = completedWords - correctAnswers;
+  // Oraciones sin completar: palabras faltantes que no han sido respondidas
+  const unanswered = totalMissingWords - completedWords;
+
   // Funciones del juego
   const handleInputChange = (
     sentenceIndex: number,
@@ -159,9 +165,12 @@ export const CompletarOracionGameProvider: React.FC<
     // Estados calculados
     totalMissingWords,
     completedWords,
-    correctAnswers,
     isGameWon,
     isGameLost,
+    score,
+    correctAnswers,
+    incorrectAnswers,
+    unanswered,
 
     // Funciones del juego
     resetGame,

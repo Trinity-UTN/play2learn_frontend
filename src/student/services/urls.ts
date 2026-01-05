@@ -9,6 +9,8 @@ export const urls = {
   ActivityCompleted: "/activity/completed",
   ActivityNoLudicaComplete: "/activity/completed/no-ludica",
   ActivityStudentStats: "/activity/student/count",
+  ActivityResults: (activityId: number) =>
+    `/activity/completed/results/${activityId}`,
 
   // Student
   StudentByToken: "/student",

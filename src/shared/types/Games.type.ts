@@ -14,6 +14,10 @@ export interface GameHook {
   isGameWon: boolean;
   isGameLost: boolean;
   gameStarted?: boolean;
+  score: number;
+  correctAnswers: number;
+  incorrectAnswers: number;
+  unanswered: number;
   resetGame: () => void;
   startGame: () => void;
   initializeGame?: () => void;
