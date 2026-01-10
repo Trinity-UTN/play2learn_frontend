@@ -1,39 +1,41 @@
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaPlus } from "react-icons/fa";
+import { FaCalendarAlt } from "react-icons/fa";
 import {
-  getSubjectActions,
-  getSubjectColumns,
-  useListSubjectView,
+  getStudentAssignColumns,
+  getStudentAssignActions,
+  useListStudentView,
+  type StudentResponseDto,
 } from "@/admin";
 import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
-import styles from "./ListSubjectView.module.css";
 
-const ListSubjectView: React.FC = () => {
+import styles from "./ListStudentAssingView.module.css";
+
+const ListStudentAssingView: React.FC = () => {
   const {
-    // states
-    paginatedSubjects,
     loading,
+    paginatedStudents,
 
-    // pagination
+    // pagination states/actions
     paginationParams,
     handleSearch,
     handleSort,
     handlePageChange,
     handlePageSizeChange,
 
-    // actions
-    handleEdit,
-    handleDelete,
     navigate,
-  } = useListSubjectView();
+  } = useListStudentView();
 
-  const columns = getSubjectColumns(styles);
-  const actions = getSubjectActions({
+  const columns = getStudentAssignColumns({
     styles,
-    handleEdit,
-    handleDelete,
   });
-  console.log(paginatedSubjects?.results);
+  const handleAssing = (data: StudentResponseDto) => {
+    console.log(data);
+  };
+  const actions = getStudentAssignActions({
+    styles,
+    handleAssing,
+  });
+
   return (
     <motion.div
       variants={containerVariants}
@@ -43,50 +45,47 @@ const ListSubjectView: React.FC = () => {
     >
       <motion.div variants={itemVariants} className={styles.header}>
         <div>
-          <h1 className={styles.title}>Gestión de Materias</h1>
-          <p className={styles.subtitle}>
-            Administra las materias pertenecientes a cursos en particular
-          </p>
+          <h1 className={styles.title}>Asignación de Estudiantes</h1>
+          <p className={styles.subtitle}>Asigna los estudiantes a la materia</p>
         </div>
         <Button
           variant="primary"
-          onClick={() => navigate("/dashboard/subjects/create")}
+          onClick={() => navigate("/dashboard/subjects/list")}
         >
-          <FaPlus className={styles.buttonIcon} />
-          Nueva Materia
+          Volver
         </Button>
       </motion.div>
 
       <motion.div variants={itemVariants}>
         <DataTable
-          data={paginatedSubjects?.results || []}
+          data={paginatedStudents?.results || []}
           columns={columns}
           actions={actions}
           loading={loading}
           searchable={true}
-          searchPlaceholder="Buscar materias..."
+          searchPlaceholder="Buscar estudiantes..."
           searchValue={paginationParams.search || ""}
           onSearchChange={handleSearch}
           sortBy={paginationParams.order_by}
           sortOrder={paginationParams.order_type}
           onSort={handleSort}
           emptyStateIcon={<FaCalendarAlt />}
-          emptyStateTitle="No se encontraron materias"
+          emptyStateTitle="No se encontraron estudiantes"
           emptyStateSubtitle={
             paginationParams.search
               ? "Intenta con otros términos de búsqueda"
-              : "Comienza creando una nueva materia"
+              : "Comienza creando un nuevo estudiante"
           }
-          loadingText="Cargando materias..."
-          totalItems={paginatedSubjects?.count}
-          getRowKey={(subject) => subject.id}
+          loadingText="Cargando estudiantes..."
+          totalItems={paginatedStudents?.count}
+          getRowKey={(student) => student.id}
           pagination={
-            paginatedSubjects
+            paginatedStudents
               ? {
-                  currentPage: paginatedSubjects.currentPage,
-                  totalPages: paginatedSubjects.totalPages,
-                  pageSize: paginatedSubjects.pageSize,
-                  totalItems: paginatedSubjects.count,
+                  currentPage: paginatedStudents.currentPage,
+                  totalPages: paginatedStudents.totalPages,
+                  pageSize: paginatedStudents.pageSize,
+                  totalItems: paginatedStudents.count,
                   onPageChange: handlePageChange,
                   onPageSizeChange: handlePageSizeChange,
                 }
@@ -98,4 +97,4 @@ const ListSubjectView: React.FC = () => {
   );
 };
 
-export default ListSubjectView;
+export default ListStudentAssingView;
