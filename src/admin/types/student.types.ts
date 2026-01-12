@@ -41,6 +41,9 @@ export interface Profile {
   selectedShirt: BodyPart | null;
   selectedHat: BodyPart | null;
   ownedAspects: BodyPart[];
+  level: number;
+  xp: number;
+  xpToNextLevel: number;
 }
 
 export interface Wallet {

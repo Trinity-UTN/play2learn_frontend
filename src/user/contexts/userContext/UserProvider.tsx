@@ -93,7 +93,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
-
   const logout = (): void => {
     authService.logout();
     setUser(null);

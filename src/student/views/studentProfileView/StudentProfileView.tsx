@@ -4,10 +4,12 @@ import ProfileInfo from "../../components/profile/profileInfo/ProfileInfo";
 import ProfileStats from "../../components/profile/profileStats/ProfileStats";
 import { useStudentProfileView } from "../../hooks/profile/useStudentProfileView";
 import styles from "./StudentProfileView.module.css";
+import LevelDisplay from "@/student/components/LevelDisplay/LevelDisplay";
 
 const StudentProfileView: React.FC = () => {
   const { isLoading, hasStudent, profileProps, statsProps } =
     useStudentProfileView();
+  const profile = profileProps.currentStudent?.profile;
 
   if (isLoading && !hasStudent) {
     return (
@@ -21,7 +23,6 @@ const StudentProfileView: React.FC = () => {
       </motion.div>
     );
   }
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -32,6 +33,13 @@ const StudentProfileView: React.FC = () => {
       <div className={styles.headerSection}>
         <ProfileInfo {...profileProps} />
         <ProfileStats {...statsProps} />
+        {profile && (
+          <LevelDisplay
+            level={profile.level}
+            xp={profile.xp}
+            xpToNextLevel={profile.xpToNextLevel}
+          />
+        )}
       </div>
     </motion.div>
   );
