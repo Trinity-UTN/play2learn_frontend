@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { LoadingSpinnerComponent } from "@/shared";
 import ProfileInfo from "../../components/profile/profileInfo/ProfileInfo";
 import ProfileStats from "../../components/profile/profileStats/ProfileStats";
+import LevelDisplay from "@/student/components/LevelDisplay/LevelDisplay";
 import { useStudentProfileView } from "../../hooks/profile/useStudentProfileView";
 import styles from "./StudentProfileView.module.css";
-import LevelDisplay from "@/student/components/LevelDisplay/LevelDisplay";
 
 const StudentProfileView: React.FC = () => {
   const { isLoading, hasStudent, profileProps, statsProps } =

@@ -1,6 +1,3 @@
-"use client";
-
-import type React from "react";
 import { FaStar, FaTrophy } from "react-icons/fa";
 import { motion } from "framer-motion";
 import styles from "./LevelDisplay.module.css";
