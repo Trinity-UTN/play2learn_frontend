@@ -11,7 +11,6 @@ export const useStudentProfileView = () => {
   const handleEditAvatar = () => {
     navigate("/dashboard/student/profile/avatar");
   };
-
   const profileProps = {
     currentStudent,
     onEditAvatar: handleEditAvatar,
