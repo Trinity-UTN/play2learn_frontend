@@ -86,7 +86,11 @@ export const getSubjectColumns = (
       <div className={styles.nameCell}>
         <div className={styles.nameWrapper}>
           {subject.optional ? (
-            <Link to="/dashboard/students/list/assing">
+            <Link
+              to={`/dashboard/students/list/assing/${subject.id}`}
+              state={{ subject }}
+              className={styles.assignButton}
+            >
               Asignar Estudiantes
             </Link>
           ) : (

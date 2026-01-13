@@ -89,6 +89,20 @@
   color: #b91c1c;
   transform: scale(1.05);
 }
+.assignButton {
+  color: var(--color-badge);
+  background-color: var(--color-background);
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  cursor: pointer;
+}
+.assignButton:hover {
+  background-color: #81018d96;
+  color: white;
+}
 
 .emptyState {
   text-align: center;

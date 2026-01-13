@@ -43,6 +43,18 @@ const deleteSubjectApi = async (id: number): Promise<void> => {
   await api.delete(`${urls.Subject}/${id}`);
 };
 
+const getStudentAssignmentApi = async (id: number) => {
+  const response = await api.get(`${urls.StudentAssignment}/${id}`);
+  return response.data;
+};
+
+const AssingmentStudent = async (idSubject: number, idStudent: number[]) => {
+  await api.patch(`${urls.AssingmentStudent}/${idSubject}`, idStudent);
+};
+const UnassignStudent = async (idSubject: number, idStudent: number[]) => {
+  await api.patch(`${urls.UnassignStudent}/${idSubject}`, idStudent);
+};
+
 export const SubjectService = {
   registerSubjectApi,
   updateSubjectApi,
@@ -51,4 +63,8 @@ export const SubjectService = {
   deleteSubjectApi,
   getSubjectByTeacherApi,
   getSubjectByStudentApi,
+  getStudentAssignmentApi,
+
+  AssingmentStudent,
+  UnassignStudent,
 };

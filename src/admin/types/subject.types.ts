@@ -43,3 +43,11 @@ export interface PaginatedSubjectResponse {
   errors: any;
   timestamp: string;
 }
+
+export interface StudentAssingmentResponse {
+  id: number;
+  name: string;
+  lastname: string;
+  dni: string;
+  registered: boolean;
+}

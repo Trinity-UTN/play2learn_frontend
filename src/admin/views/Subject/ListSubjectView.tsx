@@ -33,7 +33,7 @@ const ListSubjectView: React.FC = () => {
     handleEdit,
     handleDelete,
   });
-  console.log(paginatedSubjects?.results);
+
   return (
     <motion.div
       variants={containerVariants}

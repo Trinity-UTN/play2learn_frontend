@@ -3,7 +3,4 @@ export { getYearActions, getYearColumns } from "./yearTable.config";
 export { getTeacherActions, getTeacherColumns } from "./teacherTable.config";
 export { getStudentActions, getStudentColumns } from "./studentTable.config";
 export { getCourseActions, getCourseColumns } from "./courseTable.config";
-export {
-  getStudentAssignActions,
-  getStudentAssignColumns,
-} from "./detailsSubjectTable.config";
+export { getStudentAssignColumns } from "./studentAssingmentTable.config";
