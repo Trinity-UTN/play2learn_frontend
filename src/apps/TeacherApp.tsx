@@ -1,5 +1,3 @@
-"use client";
-
 import { Routes, Route, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ProtectedRoute from "../shared/utils/ProtectedRoute";
@@ -25,6 +23,7 @@ import { NoLudicaProvider } from "../activity/contexts/noLudicaContext/NoLudicaP
 import { BenefitAPIProvider } from "../teacher/contexts/benefitsAPIContext/BenefitAPIProvider";
 import { ArbolDecisionProvider } from "../activity/contexts/arbolDecisionContext/ArbolDecisionProvider";
 import { StatisticsProvider } from "../teacher/contexts/statisticsContext/StatisticsProvider";
+import { NoLudicaReviewProvider } from "../teacher/contexts/noLudicaReviewContext/NoLudicaReviewProvider";
 import { NoLudicaGameProvider } from "../shared/contexts/gamesContext/noLudicaGameContext/NoLudicaGameProvider";
 import { NotificationProvider } from "../notifications/contexts/NotificationsProvider";
 //VIEWS
@@ -37,6 +36,7 @@ import OverviewView from "../teacher/views/overviewView/Overview";
 import ConfigureActivityView from "../activity/views/configurationView/ConfigureActivityView";
 import ActivityView from "../activity/views/activityView/ActivityView";
 import ActivityDetailsView from "../teacher/views/ActivityDetailsView/ActivityDetailsView";
+import AttemptReviewView from "../teacher/views/AttemptReviewView/AttemptReviewView";
 import { ChangePasswordPage } from "../user";
 import styles from "../App.module.css";
 
@@ -62,53 +62,55 @@ const TeacherApp = () => {
                       <ActivityStudentProvider>
                         <ConfigurationActivityProvider>
                           <ActivityTeacherProvider>
-                            <AhorcadoProvider>
-                              <AhorcadoGameProvider>
-                                <CompletarOracionProvider>
-                                  <CompletarOracionGameProvider>
-                                    <PreguntadosProvider>
-                                      <PreguntadosGameProvider>
-                                        <OrdenarSecuenciaProvider>
-                                          <DesafioClasificacionProvider>
-                                            <DesafioClasificacionGameProvider>
-                                              <MemoramaProvider>
-                                                <NoLudicaProvider>
-                                                  <NoLudicaGameProvider mode="preview">
-                                                    <ArbolDecisionProvider>
-                                                      <BenefitAPIProvider>
-                                                        <StatisticsProvider>
-                                                          <motion.div
-                                                            key="dashboardTeacher"
-                                                            initial={{
-                                                              opacity: 0,
-                                                            }}
-                                                            animate={{
-                                                              opacity: 1,
-                                                            }}
-                                                            exit={{
-                                                              opacity: 0,
-                                                            }}
-                                                            transition={{
-                                                              duration: 0.3,
-                                                            }}
-                                                          >
-                                                            <TeacherDashboardPage />
-                                                          </motion.div>
-                                                        </StatisticsProvider>
-                                                      </BenefitAPIProvider>
-                                                    </ArbolDecisionProvider>
-                                                  </NoLudicaGameProvider>
-                                                </NoLudicaProvider>
-                                              </MemoramaProvider>
-                                            </DesafioClasificacionGameProvider>
-                                          </DesafioClasificacionProvider>
-                                        </OrdenarSecuenciaProvider>
-                                      </PreguntadosGameProvider>
-                                    </PreguntadosProvider>
-                                  </CompletarOracionGameProvider>
-                                </CompletarOracionProvider>
-                              </AhorcadoGameProvider>
-                            </AhorcadoProvider>
+                            <NoLudicaReviewProvider>
+                              <AhorcadoProvider>
+                                <AhorcadoGameProvider>
+                                  <CompletarOracionProvider>
+                                    <CompletarOracionGameProvider>
+                                      <PreguntadosProvider>
+                                        <PreguntadosGameProvider>
+                                          <OrdenarSecuenciaProvider>
+                                            <DesafioClasificacionProvider>
+                                              <DesafioClasificacionGameProvider>
+                                                <MemoramaProvider>
+                                                  <NoLudicaProvider>
+                                                    <NoLudicaGameProvider mode="preview">
+                                                      <ArbolDecisionProvider>
+                                                        <BenefitAPIProvider>
+                                                          <StatisticsProvider>
+                                                            <motion.div
+                                                              key="dashboardTeacher"
+                                                              initial={{
+                                                                opacity: 0,
+                                                              }}
+                                                              animate={{
+                                                                opacity: 1,
+                                                              }}
+                                                              exit={{
+                                                                opacity: 0,
+                                                              }}
+                                                              transition={{
+                                                                duration: 0.3,
+                                                              }}
+                                                            >
+                                                              <TeacherDashboardPage />
+                                                            </motion.div>
+                                                          </StatisticsProvider>
+                                                        </BenefitAPIProvider>
+                                                      </ArbolDecisionProvider>
+                                                    </NoLudicaGameProvider>
+                                                  </NoLudicaProvider>
+                                                </MemoramaProvider>
+                                              </DesafioClasificacionGameProvider>
+                                            </DesafioClasificacionProvider>
+                                          </OrdenarSecuenciaProvider>
+                                        </PreguntadosGameProvider>
+                                      </PreguntadosProvider>
+                                    </CompletarOracionGameProvider>
+                                  </CompletarOracionProvider>
+                                </AhorcadoGameProvider>
+                              </AhorcadoProvider>
+                            </NoLudicaReviewProvider>
                           </ActivityTeacherProvider>
                         </ConfigurationActivityProvider>
                       </ActivityStudentProvider>
@@ -130,6 +132,10 @@ const TeacherApp = () => {
             <Route
               path="actividades/created/details/:activityId/*"
               element={<ActivityDetailsView />}
+            />
+            <Route
+              path="actividades/attempt/:activityCompletedId/review"
+              element={<AttemptReviewView />}
             />
 
             {/* VIEW GENERAL CONFIGURATION */}
