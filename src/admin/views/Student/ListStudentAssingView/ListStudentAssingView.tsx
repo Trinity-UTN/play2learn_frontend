@@ -8,12 +8,16 @@ import { useStudentAssingment } from "@/admin/hooks/hooksUI/Subject/useStudentAs
 
 const ListStudentAssingView: React.FC = () => {
   const {
-    studentAssingment,
+    students,
     navigate,
     loading,
     handleAssign,
     handleUnassign,
     subject,
+    handleSearch,
+    handleSort,
+    // sortConfig,
+    searchTerm,
   } = useStudentAssingment();
 
   const columns = getStudentAssignColumns({
@@ -48,22 +52,18 @@ const ListStudentAssingView: React.FC = () => {
 
       <motion.div variants={itemVariants}>
         <DataTable
-          data={studentAssingment || []}
+          data={students || []}
           columns={columns}
           loading={loading}
           searchable={true}
           searchPlaceholder="Buscar estudiantes..."
-          // onSearchChange={handleSearch}
-          // onSort={handleSort}
+          onSearchChange={handleSearch}
+          searchValue={searchTerm}
+          onSort={handleSort}
           emptyStateIcon={<FaCalendarAlt />}
           emptyStateTitle="No se encontraron estudiantes"
-          // emptyStateSubtitle={
-          //   paginationParams.search
-          //     ? "Intenta con otros términos de búsqueda"
-          //     : "Comienza creando un nuevo estudiante"
-          // }
           loadingText="Cargando estudiantes..."
-          totalItems={studentAssingment?.length}
+          totalItems={students?.length}
           getRowKey={(student) => student.id}
         />
       </motion.div>

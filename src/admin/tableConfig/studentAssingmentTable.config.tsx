@@ -53,23 +53,26 @@ export const getStudentAssignColumns = ({
     ),
   },
   {
-    key: "acciones",
+    key: "registered",
     label: "Acciones",
     sortable: true,
     className: styles.nameActions,
     render: (student) => (
       <div className={styles.centeredWrapper}>
-        {student.registered ? (
+        {!student.registered ? (
           <button
             className={styles.buttonAction}
             onClick={() => handleAssign(student)}
+            title="Asignar estudiante a la materia"
           >
             <CgAdd className={styles.buttonAssign} />
+            {student.registered}
           </button>
         ) : (
           <button
             className={styles.buttonAction}
             onClick={() => handleUnassign(student)}
+            title="Desasignar estudiante a la materia"
           >
             <CgCloseO className={styles.buttonUnassign} />
           </button>
