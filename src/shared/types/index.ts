@@ -5,3 +5,4 @@ export type {
 } from "./PaginacionType";
 export { type GameHook, GameType } from "./Games.type";
 export type { FilterOption } from "./Filter.type";
+export type { StoredFileResponseDto } from "./StoredFile.type";
