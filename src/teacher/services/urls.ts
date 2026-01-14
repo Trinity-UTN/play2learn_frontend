@@ -4,6 +4,12 @@ export const urls = {
   DetailsActivityTeacher: (activityId: number) =>
     `/activity/teacher/${activityId}`,
 
+  // No Ludica Review
+  PendingNoLudicaPaginated: "/activity/teacher/pending/paginated",
+  NoLudicaAttempt: (activityCompletedId: number) =>
+    `/activity/teacher/no-ludica/${activityCompletedId}`,
+  ReviewNoLudica: "/activity/teacher/review-no-ludica",
+
   // Teacher subjects, courses, years
   SubjectCoursesYearsTeacher: "/teacher/subjects",
 
