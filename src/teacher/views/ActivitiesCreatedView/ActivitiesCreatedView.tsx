@@ -50,7 +50,12 @@ const ActivitiesCreatedView: React.FC = () => {
     loading: pendingLoading,
     pendingAttempts,
     paginationInfo: pendingPaginationInfo,
-  } = usePendingNoLudicaData();
+  } = usePendingNoLudicaData({
+    selectedSubject,
+    selectedCourse,
+    selectedYear,
+    search,
+  });
 
   const { handleNavigateToReview } = useNoLudicaReviewActions();
 

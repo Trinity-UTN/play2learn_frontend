@@ -28,4 +28,5 @@ export interface NoLudicaReviewContextType {
   // Funciones auxiliares
   setStoredAttemptData: (data: AttemptReviewStoredData) => void;
   clearStoredAttemptData: () => void;
+  clearPendingAttempts: () => void;
 }

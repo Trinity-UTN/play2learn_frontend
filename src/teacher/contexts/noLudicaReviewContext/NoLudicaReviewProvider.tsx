@@ -131,6 +131,11 @@ export const NoLudicaReviewProvider: React.FC<NoLudicaReviewProviderProps> = ({
     setStoredAttemptDataState(null);
   }, []);
 
+  const clearPendingAttempts = useCallback(() => {
+    setPendingAttempts([]);
+    setPaginatedPendingData(null);
+  }, []);
+
   const contextValue: NoLudicaReviewContextType = {
     // Estados generales
     loadingPending,
@@ -153,6 +158,7 @@ export const NoLudicaReviewProvider: React.FC<NoLudicaReviewProviderProps> = ({
     // Funciones auxiliares
     setStoredAttemptData,
     clearStoredAttemptData,
+    clearPendingAttempts,
   };
 
   return (
