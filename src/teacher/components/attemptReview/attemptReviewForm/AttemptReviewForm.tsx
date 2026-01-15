@@ -46,7 +46,6 @@ const AttemptReviewForm: React.FC<AttemptReviewFormProps> = ({
         <h2 className={styles.sectionTitle}>Formulario de corrección</h2>
 
         <div className={styles.formContent}>
-          {/* Score Row - Horizontal layout */}
           <div className={styles.scoreRow}>
             <div className={styles.scoreSection}>
               <label className={styles.label}>Puntaje (0-100)</label>
@@ -66,7 +65,6 @@ const AttemptReviewForm: React.FC<AttemptReviewFormProps> = ({
               </div>
             </div>
 
-            {/* State and Result Preview - Only show when score > 0 */}
             {hasScore && (
               <div className={styles.resultSection}>
                 <div className={styles.statePreview}>
@@ -110,7 +108,6 @@ const AttemptReviewForm: React.FC<AttemptReviewFormProps> = ({
             )}
           </div>
 
-          {/* Comment Textarea */}
           <div className={styles.commentSection}>
             <label className={styles.label}>
               Comentario para el estudiante (opcional)
@@ -124,7 +121,6 @@ const AttemptReviewForm: React.FC<AttemptReviewFormProps> = ({
             />
           </div>
 
-          {/* Submit Button */}
           <div className={styles.submitSection}>
             <Button
               variant="primary"
