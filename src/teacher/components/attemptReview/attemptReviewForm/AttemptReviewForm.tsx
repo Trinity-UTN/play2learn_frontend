@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { FaCheck, FaTimes } from "react-icons/fa";
 import { Button, Card, Input } from "@/shared";
 import {
   reviewItemVariants,
@@ -46,66 +45,34 @@ const AttemptReviewForm: React.FC<AttemptReviewFormProps> = ({
         <h2 className={styles.sectionTitle}>Formulario de corrección</h2>
 
         <div className={styles.formContent}>
-          <div className={styles.scoreRow}>
-            <div className={styles.scoreSection}>
-              <label className={styles.label}>Puntaje (0-100)</label>
-              <div className={styles.scoreInputWrapper}>
-                <Input
-                  type="number"
-                  value={score === 0 ? "" : score}
-                  onChange={handleScoreChange}
-                  placeholder="0"
-                  min={0}
-                  max={100}
-                  className={styles.scoreInput}
-                />
-                <span className={styles.scoreHint}>
-                  Mínimo para aprobar: {PASSING_SCORE}
-                </span>
-              </div>
-            </div>
-
-            {hasScore && (
-              <div className={styles.resultSection}>
-                <div className={styles.statePreview}>
-                  <div
-                    className={styles.stateBadge}
-                    style={{
-                      backgroundColor: stateConfig.bgColor,
-                      color: stateConfig.color,
-                    }}
-                  >
-                    <StateIcon className={styles.stateIcon} />
-                    <span>{stateConfig.label}</span>
-                  </div>
-                </div>
+          <div className={styles.scoreSection}>
+            <label className={styles.label}>Puntaje (0-100)</label>
+            <div className={styles.scoreInputRow}>
+              <Input
+                type="number"
+                value={score === 0 ? "" : score}
+                onChange={handleScoreChange}
+                placeholder="0"
+                min={0}
+                max={100}
+                className={styles.scoreInput}
+              />
+              {hasScore && (
                 <div
-                  className={styles.resultPreview}
+                  className={styles.stateBadge}
                   style={{
-                    borderColor: stateConfig.color,
                     backgroundColor: stateConfig.bgColor,
+                    color: stateConfig.color,
                   }}
                 >
-                  <div className={styles.resultIcon}>
-                    {calculatedState === "APPROVED" ? (
-                      <FaCheck style={{ color: stateConfig.color }} />
-                    ) : (
-                      <FaTimes style={{ color: stateConfig.color }} />
-                    )}
-                  </div>
-                  <div className={styles.resultText}>
-                    <strong style={{ color: stateConfig.color }}>
-                      {calculatedState === "APPROVED"
-                        ? "El estudiante aprobará"
-                        : "El estudiante desaprobará"}
-                    </strong>
-                    <span>
-                      con <strong>{score}/100</strong>
-                    </span>
-                  </div>
+                  <StateIcon className={styles.stateIcon} />
+                  <span>{stateConfig.label}</span>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+            <span className={styles.scoreHint}>
+              Mínimo para aprobar: {PASSING_SCORE}
+            </span>
           </div>
 
           <div className={styles.commentSection}>
