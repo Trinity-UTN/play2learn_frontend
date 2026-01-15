@@ -9,3 +9,4 @@ export { default as CreateTeacherView } from "./Teacher/CreateTeacherView";
 export { default as ListTeacherView } from "./Teacher/ListTeacherView";
 export { default as CreateYearView } from "./Year/CreateYearView";
 export { default as ListYearView } from "./Year/ListYearView";
+export { default as ListStudentAssing } from "./Student/ListStudentAssingView/ListStudentAssingView";

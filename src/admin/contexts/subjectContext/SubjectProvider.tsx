@@ -14,6 +14,7 @@ import {
   useToaster,
   withLoading,
 } from "@/shared";
+import type { StudentAssingmentResponse } from "@/admin/types/subject.types";
 
 interface SubjectProviderProps {
   children: ReactNode;
@@ -31,6 +32,10 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     useState<PaginatedData<SubjectResponseDto> | null>(null);
   const [selectedSubject, setSelectedSubject] =
     useState<SubjectResponseDto | null>(null);
+
+  const [studentAssingment, setStudenAssingment] = useState<
+    StudentAssingmentResponse[] | null
+  >(null);
 
   const registerSubject = useCallback(
     async (data: CreateSubjectPayload): Promise<void> => {
@@ -129,11 +134,51 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     }, setLoading);
   }, []);
 
+  //Get de estudiantes para asignar o desasignar en materias opcionales
+  const getStudentAssingment = useCallback(async (id: number) => {
+    await withLoading(async () => {
+      try {
+        const response = await SubjectService.getStudentAssignmentApi(id);
+        setStudenAssingment(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener los estudiantes");
+      }
+    }, setLoading);
+  }, []);
+
+  //Asignar estudiante
+  const assingmentStudent = useCallback(
+    async (idSubject: number, idStudent: number[]) => {
+      await withLoading(async () => {
+        try {
+          await SubjectService.AssingmentStudent(idSubject, idStudent);
+        } catch (error) {
+          handleApiError(error, "Error al asignar el estudiante");
+        }
+      }, setLoading);
+    },
+    []
+  );
+  //Desasignar estudiante
+  const unassignStudent = useCallback(
+    async (idSubject: number, idStudent: number[]) => {
+      await withLoading(async () => {
+        try {
+          await SubjectService.UnassignStudent(idSubject, idStudent);
+        } catch (error) {
+          handleApiError(error, "Error al desasignar el estudiante");
+        }
+      }, setLoading);
+    },
+    []
+  );
+
   const states = {
     loading,
     subjects,
     paginatedSubjects,
     selectedSubject,
+    studentAssingment,
   };
 
   const actions = {
@@ -145,6 +190,9 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     deleteSubject,
     setSelectedSubject,
     getSubjectByStudent,
+    getStudentAssingment,
+    assingmentStudent,
+    unassignStudent,
   };
 
   const contextValue: SubjectContextType = useMemo(

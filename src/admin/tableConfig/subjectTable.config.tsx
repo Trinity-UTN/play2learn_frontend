@@ -1,6 +1,7 @@
 import { FaUser, FaEdit, FaTrash } from "react-icons/fa";
 import type { DataTableColumn, DataTableAction } from "@/shared";
 import { type SubjectResponseDto } from "@/admin";
+import { Link } from "react-router-dom";
 
 export const getSubjectColumns = (
   styles: Record<string, string>
@@ -72,6 +73,29 @@ export const getSubjectColumns = (
               ? subject.teacher.name + " " + subject.teacher.lastname
               : "Sin asignar"}
           </span>
+        </div>
+      </div>
+    ),
+  },
+  {
+    key: "optional",
+    label: "Opcional",
+    sortable: true,
+    className: styles.nameColumn,
+    render: (subject) => (
+      <div className={styles.nameCell}>
+        <div className={styles.nameWrapper}>
+          {subject.optional ? (
+            <Link
+              to={`/dashboard/students/list/assing/${subject.id}`}
+              state={{ subject }}
+              className={styles.assignButton}
+            >
+              Asignar Estudiantes
+            </Link>
+          ) : (
+            <span>No</span>
+          )}
         </div>
       </div>
     ),
