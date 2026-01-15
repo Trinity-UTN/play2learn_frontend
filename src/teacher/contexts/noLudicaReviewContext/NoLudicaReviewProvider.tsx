@@ -71,6 +71,7 @@ export const NoLudicaReviewProvider: React.FC<NoLudicaReviewProviderProps> = ({
 
   const getAttemptDetails = useCallback(
     async (activityCompletedId: number): Promise<void> => {
+      setCurrentAttempt(null);
       setLoadingAttempt(true);
       try {
         const response = await NoLudicaReviewService.getAttemptApi(
