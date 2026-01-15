@@ -1,11 +1,10 @@
 @import "../../../../shared/styles/colors.css";
 
 .formCard {
-  background: var(--card-background);
-  border-radius: 16px;
+  background: white;
+  border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .sectionTitle {
@@ -13,13 +12,13 @@
   align-items: center;
   gap: 0.75rem;
   font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin: 0 0 1.5rem 0;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 1.25rem 0;
 }
 
 .sectionIcon {
-  color: var(--color-primary);
+  color: #667eea;
   font-size: 1.1rem;
 }
 
@@ -31,7 +30,7 @@
 
 .label {
   display: block;
-  color: var(--color-text);
+  color: #1f2937;
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
@@ -59,18 +58,19 @@
   font-size: 1.25rem !important;
   text-align: center;
   font-weight: 700 !important;
-  border: 2px solid var(--color-border) !important;
+  border: 2px solid #e5e7eb !important;
   border-radius: 12px !important;
   padding: 0.625rem 0.75rem !important;
+  transition: border-color 0.2s ease;
 }
 
 .scoreInput:focus {
-  border-color: var(--color-primary) !important;
+  border-color: #667eea !important;
   outline: none;
 }
 
 .scoreHint {
-  color: var(--color-text-subtitle);
+  color: #6b7280;
   font-size: 0.8rem;
 }
 
@@ -131,7 +131,7 @@
 }
 
 .resultText span {
-  color: var(--color-text-subtitle);
+  color: #6b7280;
   font-size: 0.8rem;
 }
 
@@ -141,11 +141,11 @@
 
 .commentTextarea {
   width: 100%;
-  background: var(--color-background);
-  border: 2px solid var(--color-border);
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
   border-radius: 12px;
   padding: 1rem;
-  color: var(--color-text);
+  color: #1f2937;
   font-size: 0.95rem;
   font-family: inherit;
   resize: vertical;
@@ -155,12 +155,12 @@
 
 .commentTextarea:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(130, 1, 141, 0.1);
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .commentTextarea::placeholder {
-  color: var(--color-text-subtitle);
+  color: #9ca3af;
 }
 
 .submitSection {
@@ -174,7 +174,7 @@
   font-size: 1rem;
   font-weight: 600;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--color-primary), #a855f7);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
   cursor: pointer;
@@ -186,7 +186,7 @@
 
 .submitButton:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(130, 1, 141, 0.3);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .submitButton:disabled {
@@ -197,6 +197,10 @@
 
 /* Responsive Design*/
 @media (max-width: 768px) {
+  .formCard {
+    padding: 1.25rem;
+  }
+
   .scoreRow {
     flex-direction: column;
     gap: 1rem;

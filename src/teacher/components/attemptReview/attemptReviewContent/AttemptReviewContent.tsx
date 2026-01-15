@@ -21,10 +21,7 @@ const AttemptReviewContent: React.FC<AttemptReviewContentProps> = ({
   return (
     <motion.div variants={reviewItemVariants}>
       <Card className={styles.contentCard}>
-        <h2 className={styles.sectionTitle}>
-          <FaFileAlt className={styles.sectionIcon} />
-          Contenido del intento
-        </h2>
+        <h2 className={styles.sectionTitle}>Contenido del intento</h2>
 
         <div className={styles.contentWrapper}>
           {/* Texto plano (si existe) */}
@@ -54,7 +51,7 @@ const AttemptReviewContent: React.FC<AttemptReviewContentProps> = ({
             </div>
           )}
 
-          {/* Loading state - mostrar solo en la parte del contenido */}
+          {/* Loading state */}
           {showLoading && (
             <div className={styles.loadingState}>
               <div className={styles.spinner} />

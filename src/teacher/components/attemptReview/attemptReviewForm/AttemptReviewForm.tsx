@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaCheck, FaTimes, FaClipboardCheck } from "react-icons/fa";
+import { FaCheck, FaTimes } from "react-icons/fa";
 import { Button, Card, Input } from "@/shared";
 import {
   reviewItemVariants,
@@ -43,10 +43,7 @@ const AttemptReviewForm: React.FC<AttemptReviewFormProps> = ({
   return (
     <motion.div variants={reviewItemVariants}>
       <Card className={styles.formCard}>
-        <h2 className={styles.sectionTitle}>
-          <FaClipboardCheck className={styles.sectionIcon} />
-          Formulario de corrección
-        </h2>
+        <h2 className={styles.sectionTitle}>Formulario de corrección</h2>
 
         <div className={styles.formContent}>
           {/* Score Row - Horizontal layout */}
