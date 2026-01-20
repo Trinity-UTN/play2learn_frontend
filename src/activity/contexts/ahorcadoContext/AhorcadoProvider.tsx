@@ -18,7 +18,8 @@ import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
-import { GameType, getGameTypeFromActivityName } from "@/shared";
+import { GameType } from "@/shared";
+import { useGameConfigEffect } from "@/activity/hooks/useGameConfigEffect";
 
 interface AhorcadoProviderProps {
   children: ReactNode;
@@ -47,18 +48,17 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
 
   const [errors, setErrors] = useState<string[]>([]);
 
-  useEffect(() => {
-    if (actividadCreada) {
-      const gameType = getGameTypeFromActivityName(actividadCreada.name);
-      if (gameType === GameType.AHORCADO) {
-        const ahorcadoConfig = actividadCreada.gameConfig as AhorcadoConfig;
+  useGameConfigEffect({
+    actividadCreada,
+    handlers: {
+      [GameType.AHORCADO]: (config: AhorcadoConfig) => {
         setConfig({
-          word: ahorcadoConfig.word || "",
-          errorsPermited: ahorcadoConfig.errorsPermited || "TRES",
+          word: config.word ?? "",
+          errorsPermited: config.errorsPermited ?? "TRES",
         });
-      }
-    }
-  }, [actividadCreada]);
+      },
+    },
+  });
 
   useEffect(() => {
     if (currentStep === "preview") {

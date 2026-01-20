@@ -1,8 +1,8 @@
-import type { ActividadCreadaGeneral } from "@/activity/types/ActividadCreada.type";
+import type { ActividadCreadaResponse } from "@/activity/types/ActividadCreada.type";
 import type { ConfigurationActivity } from "@/activity/types/Configuration.type";
 
 export const actividadGeneralMapper = (
-    data: ActividadCreadaGeneral
+    data: ActividadCreadaResponse
 ): ConfigurationActivity => {
     return {
         description: data.description,

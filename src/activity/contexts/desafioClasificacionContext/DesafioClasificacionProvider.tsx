@@ -16,7 +16,8 @@ import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
-import { GameType, getGameTypeFromActivityName } from "@/shared";
+import { GameType, } from "@/shared";
+import { useGameConfigEffect } from "@/activity/hooks/useGameConfigEffect";
 
 interface DesafioClasificacionProviderProps {
   children: ReactNode;
@@ -43,17 +44,16 @@ export const DesafioClasificacionProvider: React.FC<
   });
   const [errors, setErrors] = useState<string[]>([]);
 
-  useEffect(() => {
-    if (actividadCreada) {
-      const gameType = getGameTypeFromActivityName(actividadCreada.name);
-      if (gameType === GameType.CLASIFICACION) {
-        const createdConfig = actividadCreada.gameConfig as DesafioClasificacionConfig;
+  useGameConfigEffect({
+    actividadCreada,
+    handlers: {
+      [GameType.CLASIFICACION]: (config: DesafioClasificacionConfig) => {
         setConfig({
-          categories: createdConfig.categories,
+          categories: config.categories,
         });
-      }
-    }
-  }, [actividadCreada]);
+      },
+    },
+  });
   useEffect(() => {
     if (currentStep === "preview") {
       const validationErrors = validateConfig(config);

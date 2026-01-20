@@ -4,7 +4,7 @@ export const activityCodeMap: Record<string, string> = {
     "Completar oracion": "completar_oraciones",
     "Desafio de clasificacion": "desafio_clasificacion",
     // memorama: CreateMemorama,
-    // no_ludica: CreateNoLudica,
+    "No Ludica": "no_ludica",
     // ordenar_secuencia: CreateOrdenarSecuencia,
     "Preguntados": "preguntados",
 };

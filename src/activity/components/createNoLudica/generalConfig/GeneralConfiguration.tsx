@@ -24,7 +24,6 @@ const GeneralConfiguration: React.FC = () => {
   useEffect(() => {
     setFormData(config);
   }, [config]);
-
   const tipoEntregaOptions = getTipoEntregaOptions();
 
   const itemVariants = {
@@ -158,9 +157,8 @@ const GeneralConfiguration: React.FC = () => {
                 key={option.value}
                 type="button"
                 onClick={() => handleInputChange("tipoEntrega", option.value)}
-                className={`${styles.tipoEntregaOption} ${
-                  formData.tipoEntrega === option.value ? styles.selected : ""
-                }`}
+                className={`${styles.tipoEntregaOption} ${formData.tipoEntrega === option.value ? styles.selected : ""
+                  }`}
               >
                 <div className={styles.optionHeader}>
                   <div className={styles.optionIconReact}>

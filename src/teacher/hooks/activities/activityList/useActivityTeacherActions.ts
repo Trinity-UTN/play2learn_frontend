@@ -27,11 +27,7 @@ export const useActivityTeacherActions = (): {
 
   const handleReexposeActivity = useCallback(
     (activityId: number, activityName: string) => {
-      console.log(
-        "TODO: Implementar lógica de re-exposición",
-        activityId,
-        activityName
-      );
+
       const code = activityCodeMap[activityName];
       navigate(`/dashboard/teacher/actividades/configuration/${code}/${activityId}`)
       // TODO: Implementar lógica de re-exposición

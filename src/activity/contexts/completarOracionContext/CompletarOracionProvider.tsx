@@ -16,7 +16,8 @@ import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
-import { GameType, getGameTypeFromActivityName } from "@/shared";
+import { GameType } from "@/shared";
+import { useGameConfigEffect } from "@/activity/hooks/useGameConfigEffect";
 
 interface CompletarOracionProviderProps {
   children: ReactNode;
@@ -41,15 +42,15 @@ export const CompletarOracionProvider: React.FC<
   const [sentences, setSentences] = useState<Sentence[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
 
-  useEffect(() => {
-    if (actividadCreada) {
-      const gameType = getGameTypeFromActivityName(actividadCreada.name);
-      if (gameType === GameType.COMPLETAR_ORACION) {
-        const createdConfig = actividadCreada.gameConfig as CompletarOracionConfig;
-        setSentences(createdConfig.sentences);
-      }
-    }
-  }, [actividadCreada]);
+  useGameConfigEffect({
+    actividadCreada,
+    handlers: {
+      [GameType.COMPLETAR_ORACION]: (config: CompletarOracionConfig) => {
+        setSentences(config.sentences);
+      },
+    },
+  });
+
 
   useEffect(() => {
     if (currentStep === "preview") {

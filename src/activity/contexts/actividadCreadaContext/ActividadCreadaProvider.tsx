@@ -4,7 +4,7 @@ import type { ActividadCreadaContextType } from "./ActividadCreadaContext.type";
 
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { ActividadCreadaService } from "@/activity/services/actividadCreada/actividadCreadaService";
-import type { ActividadCreadaGeneral, ActividadCreadaResponse } from "@/activity/types/ActividadCreada.type";
+import type { ActividadCreadaResponse } from "@/activity/types/ActividadCreada.type";
 import { createGameConfig, getGameTypeFromActivityName } from "@/shared";
 
 
@@ -19,7 +19,7 @@ export const ActividadCreadaProvider: React.FC<ActividadCreadaProviderProps> = (
 
   const [loading, setLoading] = useState(false);
   const [actividadBase, setActividadBase] =
-    useState<ActividadCreadaGeneral | null>(null);
+    useState<ActividadCreadaResponse | null>(null);
   const [actividadCreada, setActividadCreada] = useState<ActividadCreadaResponse | null>(null)
 
 
@@ -28,6 +28,7 @@ export const ActividadCreadaProvider: React.FC<ActividadCreadaProviderProps> = (
     try {
       const response =
         await ActividadCreadaService.getActividadCreada(id);
+
       const data = response;
       const gameType = getGameTypeFromActivityName(data.name);
       if (!gameType) {
