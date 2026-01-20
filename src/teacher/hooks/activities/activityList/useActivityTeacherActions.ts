@@ -4,6 +4,7 @@ import type { ActivityActionHandlers } from "../../../utils/activity/activityTea
 import type { ActivityTeacherResponse } from "../../../types/TeacherActivity.type";
 import { useConfirmation, useToaster } from "@/shared";
 import { useActivityTeacher } from "../../useActivityTeacher";
+import { activityCodeMap } from "@/activity/utils/activityCodeMap";
 
 export const useActivityTeacherActions = (): {
   actions: ActivityActionHandlers;
@@ -31,6 +32,8 @@ export const useActivityTeacherActions = (): {
         activityId,
         activityName
       );
+      const code = activityCodeMap[activityName];
+      navigate(`/dashboard/teacher/actividades/configuration/${code}/${activityId}`)
       // TODO: Implementar lógica de re-exposición
     },
     [showConfirmation, showToast]

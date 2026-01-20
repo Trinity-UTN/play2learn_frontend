@@ -4,6 +4,7 @@ import { CompletarOracionContext } from "./CompletarOracionContext";
 import type { CompletarOracionContextType } from "./CompletarOracionContext.type";
 import { CompletarOracionService } from "../../services/completarOracion/CompletarOracionService";
 import type {
+  CompletarOracionConfig,
   CompletarOracionInterface,
   Sentence,
 } from "../../types/CompletarOracion.type";
@@ -14,6 +15,8 @@ import { useConfigurationForm } from "../../hooks/configuration/useConfiguration
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
+import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
+import { GameType, getGameTypeFromActivityName } from "@/shared";
 
 interface CompletarOracionProviderProps {
   children: ReactNode;
@@ -23,6 +26,7 @@ export const CompletarOracionProvider: React.FC<
   CompletarOracionProviderProps
 > = ({ children }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { actividadCreada } = useActividadCreada()
   const { resetForm } = useConfigurationForm("completar_oraciones");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
@@ -36,6 +40,16 @@ export const CompletarOracionProvider: React.FC<
   >("config");
   const [sentences, setSentences] = useState<Sentence[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (actividadCreada) {
+      const gameType = getGameTypeFromActivityName(actividadCreada.name);
+      if (gameType === GameType.COMPLETAR_ORACION) {
+        const createdConfig = actividadCreada.gameConfig as CompletarOracionConfig;
+        setSentences(createdConfig.sentences);
+      }
+    }
+  }, [actividadCreada]);
 
   useEffect(() => {
     if (currentStep === "preview") {
@@ -80,8 +94,7 @@ export const CompletarOracionProvider: React.FC<
 
       if (missingWords === 0) {
         validationErrors.push(
-          `Debe seleccionar al menos una palabra para ocultar en la oración ${
-            index + 1
+          `Debe seleccionar al menos una palabra para ocultar en la oración ${index + 1
           }`
         );
       }
@@ -95,8 +108,7 @@ export const CompletarOracionProvider: React.FC<
       sentence.words.forEach((word) => {
         if (word.word.length < 1 || word.word.length > 30) {
           validationErrors.push(
-            `La palabra "${word.word}" en la oración ${
-              index + 1
+            `La palabra "${word.word}" en la oración ${index + 1
             } debe tener entre 1 y 30 caracteres`
           );
         }

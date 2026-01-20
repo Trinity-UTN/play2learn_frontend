@@ -5,12 +5,15 @@ import type {
 } from "../../types/Configuration.type";
 import { useSubject } from "@/admin";
 import { useHandleApiError } from "@/shared";
+import { useActividadCreada } from "../useActividadCreada";
+import { actividadGeneralMapper } from "@/activity/utils/actividadGeneralMapper";
 
 const STORAGE_KEY = "configuration_activity_draft";
 
-export const useConfigurationForm = (activityCode?: string) => {
+export const useConfigurationForm = (activityCode?: string, id?: string) => {
   const { subjects } = useSubject();
   const { handleApiError } = useHandleApiError();
+  const { actividadBase, getActividadCreada } = useActividadCreada()
 
   const [configuration, setConfiguration] = useState<ConfigurationActivity>({
     description: "",
@@ -26,6 +29,7 @@ export const useConfigurationForm = (activityCode?: string) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<ConfigurationErrors>({});
 
+
   // Cargar configuración guardada al montar el componente
   useEffect(() => {
     if (activityCode) {
@@ -34,7 +38,17 @@ export const useConfigurationForm = (activityCode?: string) => {
         setConfiguration(savedConfig);
       }
     }
-  }, [activityCode]);
+    if (actividadBase && id) {
+      const config = actividadGeneralMapper(actividadBase)
+      setConfiguration(config);
+
+    }
+  }, [activityCode, actividadBase]);
+
+  useEffect(() => {
+    if (id)
+      getActividadCreada(Number(id))
+  }, [id])
 
   // Guardar configuración en sessionStorage cuando cambie
   useEffect(() => {

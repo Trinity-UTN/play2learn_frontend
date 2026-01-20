@@ -17,6 +17,10 @@ export interface PreguntadosInterface {
   maxTimePerQuestionInSeconds: number;
   questions: Question[];
 }
+export interface PreguntadosConfigQuestion {
+  maxTimePerQuestionInSeconds: number;
+  questions: Question[]
+}
 
 // Preguntados Game
 export interface QuestionResult {
