@@ -13,7 +13,7 @@ const STORAGE_KEY = "configuration_activity_draft";
 export const useConfigurationForm = (activityCode?: string, id?: string) => {
   const { subjects } = useSubject();
   const { handleApiError } = useHandleApiError();
-  const { actividadBase, getActividadCreada } = useActividadCreada()
+  const { actividadCreada, getActividadCreada } = useActividadCreada()
 
   const [configuration, setConfiguration] = useState<ConfigurationActivity>({
     description: "",
@@ -38,12 +38,12 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
         setConfiguration(savedConfig);
       }
     }
-    if (actividadBase && id) {
-      const config = actividadGeneralMapper(actividadBase)
+    if (actividadCreada && id) {
+      const config = actividadGeneralMapper(actividadCreada)
       setConfiguration(config);
 
     }
-  }, [activityCode, actividadBase]);
+  }, [activityCode, actividadCreada]);
 
   useEffect(() => {
     if (id)

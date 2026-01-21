@@ -18,8 +18,6 @@ export const ActividadCreadaProvider: React.FC<ActividadCreadaProviderProps> = (
   const { handleApiError } = useHandleApiError();
 
   const [loading, setLoading] = useState(false);
-  const [actividadBase, setActividadBase] =
-    useState<ActividadCreadaResponse | null>(null);
   const [actividadCreada, setActividadCreada] = useState<ActividadCreadaResponse | null>(null)
 
 
@@ -38,10 +36,7 @@ export const ActividadCreadaProvider: React.FC<ActividadCreadaProviderProps> = (
         ...data,
         gameConfig: createGameConfig(gameType, data),
       };
-
-      setActividadBase(response)
       setActividadCreada(transformedActivity);
-
     } catch (error) {
       handleApiError(error, "Error al obtener la actividad");
     } finally {
@@ -51,9 +46,7 @@ export const ActividadCreadaProvider: React.FC<ActividadCreadaProviderProps> = (
 
   const contextValue: ActividadCreadaContextType = {
     loading,
-    actividadBase,
     actividadCreada,
-    setActividadBase,
     getActividadCreada,
   };
 
