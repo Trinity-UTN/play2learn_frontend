@@ -33,7 +33,7 @@ const ActivityResultsFeedback: React.FC<ActivityResultsFeedbackProps> = ({
                   }`}
                 >
                   {teacherComment ||
-                    "El docente no ha realizado comentarios aún"}
+                    "El docente corrigió la actividad pero no realizó comentarios"}
                 </span>
               </div>
             </div>

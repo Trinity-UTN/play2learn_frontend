@@ -125,4 +125,5 @@ export interface ActivityResultsResponseInterface {
   correctAnswers: number;
   incorrectAnswers: number;
   unanswered: number;
+  comment: string;
 }
