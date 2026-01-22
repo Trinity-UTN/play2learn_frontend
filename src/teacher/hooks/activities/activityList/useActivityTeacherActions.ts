@@ -22,17 +22,30 @@ export const useActivityTeacherActions = (): {
       setSelectedActivityTeacher(activity);
       navigate(`/dashboard/teacher/actividades/created/details/${activityId}`);
     },
-    [navigate, setSelectedActivityTeacher]
+    [navigate, setSelectedActivityTeacher],
   );
 
   const handleReexposeActivity = useCallback(
     (activityId: number, activityName: string) => {
-
-      const code = activityCodeMap[activityName];
-      navigate(`/dashboard/teacher/actividades/configuration/${code}/${activityId}`)
-      // TODO: Implementar lógica de re-exposición
+      showConfirmation({
+        title: "Re-exponer actividad",
+        message:
+          "¿Estás seguro de re-exponer la actividad? Podrás editarla antes de publicarla",
+        onConfirm: () => {
+          const code = activityCodeMap[activityName];
+          navigate(
+            `/dashboard/teacher/actividades/configuration/${code}/${activityId}`,
+          );
+          showToast({
+            title: "Actividad en proceso de re-exposición",
+            message: "Edita la actividad antes de publicarla",
+            position: "bottom-right",
+            type: "success",
+          });
+        },
+      });
     },
-    [showConfirmation, showToast]
+    [showConfirmation, showToast],
   );
 
   const handleEditActivity = useCallback(
@@ -40,11 +53,11 @@ export const useActivityTeacherActions = (): {
       console.log(
         "TODO: Implementar lógica de re-exposición",
         activityId,
-        activityName
+        activityName,
       );
       // TODO: Implementar lógica de edición
     },
-    [showConfirmation, showToast]
+    [showConfirmation, showToast],
   );
 
   const handleDeleteActivity = useCallback(
@@ -52,11 +65,11 @@ export const useActivityTeacherActions = (): {
       console.log(
         "TODO: Implementar lógica de re-exposición",
         activityId,
-        activityName
+        activityName,
       );
       // TODO: Implementar lógica de eliminación
     },
-    [showConfirmation, showToast]
+    [showConfirmation, showToast],
   );
 
   const actions = useMemo(
@@ -71,7 +84,7 @@ export const useActivityTeacherActions = (): {
       handleReexposeActivity,
       handleEditActivity,
       handleDeleteActivity,
-    ]
+    ],
   );
 
   return {
