@@ -15,6 +15,9 @@ import { useConfigurationForm } from "../../hooks/configuration/useConfiguration
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
+import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
+import { GameType, } from "@/shared";
+import { useGameConfigEffect } from "@/activity/hooks/useGameConfigEffect";
 
 interface DesafioClasificacionProviderProps {
   children: ReactNode;
@@ -24,6 +27,7 @@ export const DesafioClasificacionProvider: React.FC<
   DesafioClasificacionProviderProps
 > = ({ children }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { actividadCreada } = useActividadCreada()
   const { resetForm } = useConfigurationForm("desafio_clasificacion");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
@@ -40,6 +44,16 @@ export const DesafioClasificacionProvider: React.FC<
   });
   const [errors, setErrors] = useState<string[]>([]);
 
+  useGameConfigEffect({
+    actividadCreada,
+    handlers: {
+      [GameType.CLASIFICACION]: (config: DesafioClasificacionConfig) => {
+        setConfig({
+          categories: config.categories,
+        });
+      },
+    },
+  });
   useEffect(() => {
     if (currentStep === "preview") {
       const validationErrors = validateConfig(config);
@@ -226,8 +240,7 @@ export const DesafioClasificacionProvider: React.FC<
         validationErrors.push(`La categoría ${index + 1} debe tener un nombre`);
       } else if (category.name.length > 50) {
         validationErrors.push(
-          `El nombre de la categoría ${
-            index + 1
+          `El nombre de la categoría ${index + 1
           } no puede superar los 50 caracteres`
         );
       }
@@ -246,8 +259,7 @@ export const DesafioClasificacionProvider: React.FC<
       category.concepts.forEach((concept, conceptIndex) => {
         if (!concept.name.trim()) {
           validationErrors.push(
-            `El concepto ${conceptIndex + 1} de la categoría "${
-              category.name
+            `El concepto ${conceptIndex + 1} de la categoría "${category.name
             }" debe tener un nombre`
           );
         } else if (concept.name.length > 100) {
@@ -318,16 +330,16 @@ export const DesafioClasificacionProvider: React.FC<
         categories: prev.categories.map((category) =>
           category.id === categoryId
             ? {
-                ...category,
-                concepts: [
-                  ...category.concepts,
-                  {
-                    id: `concept-${Date.now()}`,
-                    name: conceptName,
-                    categoryId,
-                  },
-                ],
-              }
+              ...category,
+              concepts: [
+                ...category.concepts,
+                {
+                  id: `concept-${Date.now()}`,
+                  name: conceptName,
+                  categoryId,
+                },
+              ],
+            }
             : category
         ),
       }));
@@ -342,13 +354,13 @@ export const DesafioClasificacionProvider: React.FC<
         categories: prev.categories.map((category) =>
           category.id === categoryId
             ? {
-                ...category,
-                concepts: category.concepts.map((concept) =>
-                  concept.id === conceptId
-                    ? { ...concept, name: newName }
-                    : concept
-                ),
-              }
+              ...category,
+              concepts: category.concepts.map((concept) =>
+                concept.id === conceptId
+                  ? { ...concept, name: newName }
+                  : concept
+              ),
+            }
             : category
         ),
       }));
@@ -363,11 +375,11 @@ export const DesafioClasificacionProvider: React.FC<
         categories: prev.categories.map((category) =>
           category.id === categoryId
             ? {
-                ...category,
-                concepts: category.concepts.filter(
-                  (concept) => concept.id !== conceptId
-                ),
-              }
+              ...category,
+              concepts: category.concepts.filter(
+                (concept) => concept.id !== conceptId
+              ),
+            }
             : category
         ),
       }));
