@@ -1,6 +1,7 @@
-import type React from "react";
 import { FaFilePdf, FaDownload, FaExternalLinkAlt } from "react-icons/fa";
-import { Button } from "@/shared";
+import { Button, LoadingSpinnerComponent } from "@/shared";
+import { formatFileSize } from "@/shared/utils";
+import { useFileDownloader } from "@/shared/hooks";
 import styles from "./PDFViewer.module.css";
 
 interface PDFViewerProps {
@@ -14,29 +15,10 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   fileName,
   fileSize,
 }) => {
-  const getDownloadUrl = (): string => {
-    if (fileUrl.includes("cloudinary.com")) {
-      const urlParts = fileUrl.split("/upload/");
-      if (urlParts.length === 2) {
-        const encodedFileName = encodeURIComponent(fileName);
-        return `${urlParts[0]}/upload/fl_attachment:${encodedFileName}/${urlParts[1]}`;
-      }
-    }
-    return fileUrl;
-  };
+  const { downloadFile, isDownloading } = useFileDownloader();
 
   const handleOpen = () => {
     window.open(fileUrl, "_blank", "noopener,noreferrer");
-  };
-
-  const handleDownload = () => {
-    window.open(getDownloadUrl(), "_blank", "noopener,noreferrer");
-  };
-
-  const formatFileSize = (bytes: number): string => {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(2)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
   };
 
   return (
@@ -63,11 +45,16 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
         <Button
           variant="secondary"
           size="sm"
-          onClick={handleDownload}
+          onClick={() => downloadFile(fileUrl, fileName)}
           className={styles.actionButton}
+          disabled={isDownloading}
         >
-          <FaDownload />
-          <span>Descargar</span>
+          {isDownloading ? (
+            <LoadingSpinnerComponent size="sm" text="" color="currentColor" />
+          ) : (
+            <FaDownload />
+          )}
+          <span>{isDownloading ? "Descargando..." : "Descargar"}</span>
         </Button>
       </div>
     </div>
