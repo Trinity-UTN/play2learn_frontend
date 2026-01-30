@@ -14,7 +14,6 @@ const StudentOverviewView: React.FC = () => {
   useEffect(() => {
     getStatisticsStudent();
   }, []);
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {

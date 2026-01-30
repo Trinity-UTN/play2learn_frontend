@@ -33,352 +33,352 @@ export const PreguntadosGameProvider: React.FC<
   questions: propQuestions,
   mode = "preview",
 }) => {
-  const { config, questions: configQuestions } = useCreatePreguntados();
-  const { currentActivity } = useActivityStudent();
+    const { config, questions: configQuestions } = useCreatePreguntados();
+    const { currentActivity } = useActivityStudent();
 
-  // Referencias para timers
-  const questionTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const countdownTimerRef = useRef<NodeJS.Timeout | null>(null);
+    // Referencias para timers
+    const questionTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const countdownTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Estados del juego
-  const [gameConfig, setGameConfig] = useState<PreguntadosConfig | null>(null);
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [timeRemaining, setTimeRemaining] = useState(0);
-  const [isCountingDown, setIsCountingDown] = useState(false);
-  const [countdownValue, setCountdownValue] = useState(3);
-  const [gamePhase, setGamePhase] = useState<
-    "waiting" | "countdown" | "question" | "answered" | "finished"
-  >("waiting");
-  const [results, setResults] = useState<QuestionResult[]>([]);
-  const [questionStartTime, setQuestionStartTime] = useState<number>(0);
-  const [showExplosion, setShowExplosion] = useState(false);
+    // Estados del juego
+    const [gameConfig, setGameConfig] = useState<PreguntadosConfig | null>(null);
+    const [questions, setQuestions] = useState<Question[]>([]);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+    const [timeRemaining, setTimeRemaining] = useState(0);
+    const [isCountingDown, setIsCountingDown] = useState(false);
+    const [countdownValue, setCountdownValue] = useState(3);
+    const [gamePhase, setGamePhase] = useState<
+      "waiting" | "countdown" | "question" | "answered" | "finished"
+    >("waiting");
+    const [results, setResults] = useState<QuestionResult[]>([]);
+    const [questionStartTime, setQuestionStartTime] = useState<number>(0);
+    const [showExplosion, setShowExplosion] = useState(false);
 
-  const getFinalScore = useCallback(() => {
-    const percentage = Math.round(
-      (results.filter((result) => result.isCorrect).length / questions.length) *
+    const getFinalScore = useCallback(() => {
+      const percentage = Math.round(
+        (results.filter((result) => result.isCorrect).length / questions.length) *
         100
-    );
-    const isPassed = percentage >= 60;
+      );
+      const isPassed = percentage >= 60;
 
-    return {
-      percentage,
-      isPassed,
-    };
-  }, [results, questions]);
+      return {
+        percentage,
+        isPassed,
+      };
+    }, [results, questions]);
 
-  useEffect(() => {
-    if (mode === "preview" && config && configQuestions.length > 0) {
-      setGameConfig({
-        totalQuestions: config.totalQuestions || 5,
-        maxTimePerQuestionInSeconds: config.maxTimePerQuestionInSeconds || 30,
-      });
-      setQuestions(configQuestions);
-    } else if (mode === "student" && currentActivity) {
-      const gameType = getGameTypeFromActivityName(currentActivity.name);
-
-      if (gameType === GameType.PREGUNTADOS) {
-        const preguntadosInterface =
-          currentActivity.gameConfig as PreguntadosInterface;
-
+    useEffect(() => {
+      if (mode === "preview" && config && configQuestions.length > 0) {
         setGameConfig({
-          totalQuestions: preguntadosInterface.questions.length,
-          maxTimePerQuestionInSeconds:
-            preguntadosInterface.maxTimePerQuestionInSeconds,
+          totalQuestions: config.totalQuestions || 5,
+          maxTimePerQuestionInSeconds: config.maxTimePerQuestionInSeconds || 30,
         });
-        setQuestions(preguntadosInterface.questions);
-      }
-    } else if (propConfig) {
-      setGameConfig(propConfig);
 
-      setQuestions(propQuestions || []);
-    }
-  }, [mode, config, configQuestions, currentActivity, propConfig]);
+        setQuestions(configQuestions);
+      } else if (mode === "student" && currentActivity) {
+        const gameType = getGameTypeFromActivityName(currentActivity.name);
 
-  useEffect(() => {
-    if (mode !== "preview") return;
+        if (gameType === GameType.PREGUNTADOS) {
+          const preguntadosInterface =
+            currentActivity.gameConfig as PreguntadosInterface;
 
-    if (
-      config &&
-      configQuestions &&
-      configQuestions.length > 0 &&
-      !gameConfig
-    ) {
-      setGameConfig({
-        totalQuestions: config.totalQuestions || 5,
-        maxTimePerQuestionInSeconds: config.maxTimePerQuestionInSeconds || 30,
-      });
-      setQuestions(configQuestions);
-    }
-  }, [mode, config, configQuestions]);
-
-  // Estados calculados
-  const currentQuestion = questions[currentQuestionIndex] || null;
-  const totalQuestions = gameConfig?.totalQuestions || questions.length;
-  const correctAnswers = results.filter((result) => result.isCorrect).length;
-  const isLastQuestion = currentQuestionIndex >= totalQuestions - 1;
-  const canSelectAnswer =
-    gamePhase === "question" && selectedAnswer === null && timeRemaining > 0;
-  const showCorrectAnswer = gamePhase === "answered";
-  const isGameWon =
-    gamePhase === "finished" &&
-    correctAnswers >= Math.ceil(totalQuestions * 0.6);
-  const isGameLost = gamePhase === "finished" && !isGameWon;
-  const gameStarted = gamePhase !== "waiting";
-
-  const incorrectAnswers = results.filter(
-    (result) => !result.isCorrect && result.selectedAnswer !== null
-  ).length;
-  const unanswered = results.filter(
-    (result) => result.selectedAnswer === null
-  ).length;
-  const score = getFinalScore().percentage;
-
-  // Funciones auxiliares
-  const getMaxTimePerQuestion = useCallback(() => {
-    if (!gameConfig) return 30;
-    if ("questions" in gameConfig) {
-      return gameConfig.maxTimePerQuestionInSeconds;
-    } else {
-      return gameConfig.maxTimePerQuestionInSeconds;
-    }
-  }, [gameConfig]);
-
-  const getTimerClass = useCallback(() => {
-    if (timeRemaining <= 3) return "danger";
-    if (timeRemaining <= 5) return "warning";
-    return "";
-  }, [timeRemaining]);
-
-  const getTimerProgress = useCallback(() => {
-    const maxTime = getMaxTimePerQuestion();
-    const progress = ((maxTime - timeRemaining) / maxTime) * 100;
-    const circumference = 2 * Math.PI * 35; // radio de 35
-    const strokeDashoffset = circumference - (progress / 100) * circumference;
-
-    return {
-      progress,
-      circumference,
-      strokeDashoffset,
-    };
-  }, [getMaxTimePerQuestion, timeRemaining]);
-
-  const getCorrectAnswerIndex = useCallback(() => {
-    return currentQuestion?.options.findIndex((opt) => opt.isCorrect) ?? -1;
-  }, [currentQuestion]);
-
-  const isPreviewRoute = useCallback(() => {
-    return (
-      typeof window !== "undefined" &&
-      window.location.pathname.includes(
-        "/dashboard/teacher/actividad/configuration/preguntados"
-      )
-    );
-  }, []);
-
-  useEffect(() => {
-    if (timeRemaining === 0 && gamePhase === "question") {
-      setShowExplosion(true);
-      const timer = setTimeout(() => {
-        setShowExplosion(false);
-      }, 600);
-      return () => clearTimeout(timer);
-    }
-  }, [timeRemaining, gamePhase]);
-
-  const clearTimers = useCallback(() => {
-    if (questionTimerRef.current) {
-      clearInterval(questionTimerRef.current);
-      questionTimerRef.current = null;
-    }
-    if (countdownTimerRef.current) {
-      clearInterval(countdownTimerRef.current);
-      countdownTimerRef.current = null;
-    }
-  }, []);
-
-  const startCountdown = useCallback(() => {
-    setGamePhase("countdown");
-    setIsCountingDown(true);
-    setCountdownValue(3);
-
-    countdownTimerRef.current = setInterval(() => {
-      setCountdownValue((prev) => {
-        if (prev <= 1) {
-          clearTimers();
-          setIsCountingDown(false);
-          setGamePhase("question");
-          setTimeRemaining(gameConfig?.maxTimePerQuestionInSeconds || 30);
-          setQuestionStartTime(Date.now());
-
-          // Iniciar timer de la pregunta
-          questionTimerRef.current = setInterval(() => {
-            setTimeRemaining((prev) => {
-              if (prev <= 1) {
-                clearTimers();
-                handleTimeUp();
-                return 0;
-              }
-              return prev - 1;
-            });
-          }, 1000);
-
-          return 3;
+          setGameConfig({
+            totalQuestions: preguntadosInterface.questions.length,
+            maxTimePerQuestionInSeconds:
+              preguntadosInterface.maxTimePerQuestionInSeconds,
+          });
+          setQuestions(preguntadosInterface.questions);
         }
-        return prev - 1;
-      });
-    }, 1000);
-  }, [gameConfig?.maxTimePerQuestionInSeconds]);
+      } else if (propConfig) {
+        setGameConfig(propConfig);
+        setQuestions(propQuestions || []);
+      }
+    }, [mode, config, configQuestions, currentActivity, propConfig]);
 
-  const handleTimeUp = useCallback(() => {
-    if (gamePhase !== "question") return;
+    useEffect(() => {
+      if (mode !== "preview") return;
 
-    const correctAnswerIndex =
-      currentQuestion?.options.findIndex((opt) => opt.isCorrect) ?? -1;
-    const timeSpent = gameConfig?.maxTimePerQuestionInSeconds || 30;
+      if (
+        config &&
+        configQuestions &&
+        configQuestions.length > 0 &&
+        !gameConfig
+      ) {
+        setGameConfig({
+          totalQuestions: config.totalQuestions || 5,
+          maxTimePerQuestionInSeconds: config.maxTimePerQuestionInSeconds || 30,
+        });
+        setQuestions(configQuestions);
+      }
+    }, [mode, config, configQuestions]);
 
-    const result: QuestionResult = {
-      questionIndex: currentQuestionIndex,
-      selectedAnswer: null,
-      correctAnswer: correctAnswerIndex,
-      isCorrect: false,
-      timeSpent: timeSpent,
-      timeRemaining: 0,
-    };
+    // Estados calculados
+    const currentQuestion = questions[currentQuestionIndex] || null;
+    const totalQuestions = gameConfig?.totalQuestions || questions.length;
+    const correctAnswers = results.filter((result) => result.isCorrect).length;
+    const isLastQuestion = currentQuestionIndex >= totalQuestions - 1;
+    const canSelectAnswer =
+      gamePhase === "question" && selectedAnswer === null && timeRemaining > 0;
+    const showCorrectAnswer = gamePhase === "answered";
+    const isGameWon =
+      gamePhase === "finished" &&
+      correctAnswers >= Math.ceil(totalQuestions * 0.6);
+    const isGameLost = gamePhase === "finished" && !isGameWon;
+    const gameStarted = gamePhase !== "waiting";
 
-    setResults((prev) => [...prev, result]);
-    setGamePhase("answered");
-    setTimeRemaining(timeSpent);
-  }, [
-    gamePhase,
-    currentQuestion,
-    currentQuestionIndex,
-    gameConfig?.maxTimePerQuestionInSeconds,
-  ]);
+    const incorrectAnswers = results.filter(
+      (result) => !result.isCorrect && result.selectedAnswer !== null
+    ).length;
+    const unanswered = results.filter(
+      (result) => result.selectedAnswer === null
+    ).length;
+    const score = getFinalScore().percentage;
 
-  // Funciones del juego
-  const startGame = useCallback(() => {
-    if (!gameConfig || questions.length === 0) return;
+    // Funciones auxiliares
+    const getMaxTimePerQuestion = useCallback(() => {
+      if (!gameConfig) return 30;
+      if ("questions" in gameConfig) {
+        return gameConfig.maxTimePerQuestionInSeconds;
+      } else {
+        return gameConfig.maxTimePerQuestionInSeconds;
+      }
+    }, [gameConfig]);
 
-    setCurrentQuestionIndex(0);
-    setSelectedAnswer(null);
-    setResults([]);
-    startCountdown();
-  }, [gameConfig, questions.length, startCountdown]);
+    const getTimerClass = useCallback(() => {
+      if (timeRemaining <= 3) return "danger";
+      if (timeRemaining <= 5) return "warning";
+      return "";
+    }, [timeRemaining]);
 
-  const selectAnswer = useCallback(
-    (answerIndex: number) => {
-      if (!canSelectAnswer) return;
+    const getTimerProgress = useCallback(() => {
+      const maxTime = getMaxTimePerQuestion();
+      const progress = ((maxTime - timeRemaining) / maxTime) * 100;
+      const circumference = 2 * Math.PI * 35; // radio de 35
+      const strokeDashoffset = circumference - (progress / 100) * circumference;
 
-      const currentTimeRemaining = timeRemaining;
+      return {
+        progress,
+        circumference,
+        strokeDashoffset,
+      };
+    }, [getMaxTimePerQuestion, timeRemaining]);
 
-      clearTimers();
-      setSelectedAnswer(answerIndex);
+    const getCorrectAnswerIndex = useCallback(() => {
+      return currentQuestion?.options.findIndex((opt) => opt.isCorrect) ?? -1;
+    }, [currentQuestion]);
+
+    const isPreviewRoute = useCallback(() => {
+      return (
+        typeof window !== "undefined" &&
+        window.location.pathname.includes(
+          "/dashboard/teacher/actividad/configuration/preguntados"
+        )
+      );
+    }, []);
+
+    useEffect(() => {
+      if (timeRemaining === 0 && gamePhase === "question") {
+        setShowExplosion(true);
+        const timer = setTimeout(() => {
+          setShowExplosion(false);
+        }, 600);
+        return () => clearTimeout(timer);
+      }
+    }, [timeRemaining, gamePhase]);
+
+    const clearTimers = useCallback(() => {
+      if (questionTimerRef.current) {
+        clearInterval(questionTimerRef.current);
+        questionTimerRef.current = null;
+      }
+      if (countdownTimerRef.current) {
+        clearInterval(countdownTimerRef.current);
+        countdownTimerRef.current = null;
+      }
+    }, []);
+
+    const startCountdown = useCallback(() => {
+      setGamePhase("countdown");
+      setIsCountingDown(true);
+      setCountdownValue(3);
+
+      countdownTimerRef.current = setInterval(() => {
+        setCountdownValue((prev) => {
+          if (prev <= 1) {
+            clearTimers();
+            setIsCountingDown(false);
+            setGamePhase("question");
+            setTimeRemaining(gameConfig?.maxTimePerQuestionInSeconds || 30);
+            setQuestionStartTime(Date.now());
+
+            // Iniciar timer de la pregunta
+            questionTimerRef.current = setInterval(() => {
+              setTimeRemaining((prev) => {
+                if (prev <= 1) {
+                  clearTimers();
+                  handleTimeUp();
+                  return 0;
+                }
+                return prev - 1;
+              });
+            }, 1000);
+
+            return 3;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }, [gameConfig?.maxTimePerQuestionInSeconds]);
+
+    const handleTimeUp = useCallback(() => {
+      if (gamePhase !== "question") return;
 
       const correctAnswerIndex =
         currentQuestion?.options.findIndex((opt) => opt.isCorrect) ?? -1;
-      const timeSpent = Math.round((Date.now() - questionStartTime) / 1000);
+      const timeSpent = gameConfig?.maxTimePerQuestionInSeconds || 30;
 
       const result: QuestionResult = {
         questionIndex: currentQuestionIndex,
-        selectedAnswer: answerIndex,
+        selectedAnswer: null,
         correctAnswer: correctAnswerIndex,
-        isCorrect: answerIndex === correctAnswerIndex,
+        isCorrect: false,
         timeSpent: timeSpent,
-        timeRemaining: currentTimeRemaining,
+        timeRemaining: 0,
       };
 
       setResults((prev) => [...prev, result]);
       setGamePhase("answered");
-      setTimeRemaining(currentTimeRemaining);
-    },
-    [
-      canSelectAnswer,
+      setTimeRemaining(timeSpent);
+    }, [
+      gamePhase,
       currentQuestion,
       currentQuestionIndex,
-      timeRemaining,
-      questionStartTime,
-      clearTimers,
-    ]
-  );
-
-  const nextQuestion = useCallback(() => {
-    if (isLastQuestion) {
-      setGamePhase("finished");
-      return;
-    }
-
-    setCurrentQuestionIndex((prev) => prev + 1);
-    setSelectedAnswer(null);
-    startCountdown();
-  }, [isLastQuestion, startCountdown]);
-
-  const resetGame = useCallback(() => {
-    clearTimers();
-    setGamePhase("waiting");
-    setCurrentQuestionIndex(0);
-    setSelectedAnswer(null);
-    setTimeRemaining(0);
-    setIsCountingDown(false);
-    setCountdownValue(3);
-    setResults([]);
-    setQuestionStartTime(0);
-    setShowExplosion(false);
-  }, [clearTimers]);
-
-  // Limpiar timers al desmontar
-  useEffect(() => {
-    return () => {
-      clearTimers();
-    };
-  }, [clearTimers]);
-
-  const contextValue: PreguntadosGameContextType = {
-    // Estados del juego
-    gameConfig,
-    questions,
-    currentQuestionIndex,
-    selectedAnswer,
-    timeRemaining,
-    isCountingDown,
-    countdownValue,
-    gamePhase,
-    results,
-    showExplosion,
-
-    // Estados calculados
-    currentQuestion,
-    totalQuestions,
-    correctAnswers,
-    isLastQuestion,
-    canSelectAnswer,
-    showCorrectAnswer,
-    isGameWon,
-    isGameLost,
-    gameStarted,
-    score,
-    incorrectAnswers,
-    unanswered,
+      gameConfig?.maxTimePerQuestionInSeconds,
+    ]);
 
     // Funciones del juego
-    selectAnswer,
-    nextQuestion,
-    resetGame,
-    startGame,
+    const startGame = useCallback(() => {
+      if (!gameConfig || questions.length === 0) return;
 
-    // Funciones auxiliares
-    getMaxTimePerQuestion,
-    getTimerClass,
-    getTimerProgress,
-    getFinalScore,
-    getCorrectAnswerIndex,
-    isPreviewRoute,
+      setCurrentQuestionIndex(0);
+      setSelectedAnswer(null);
+      setResults([]);
+      startCountdown();
+    }, [gameConfig, questions.length, startCountdown]);
+
+    const selectAnswer = useCallback(
+      (answerIndex: number) => {
+        if (!canSelectAnswer) return;
+
+        const currentTimeRemaining = timeRemaining;
+
+        clearTimers();
+        setSelectedAnswer(answerIndex);
+
+        const correctAnswerIndex =
+          currentQuestion?.options.findIndex((opt) => opt.isCorrect) ?? -1;
+        const timeSpent = Math.round((Date.now() - questionStartTime) / 1000);
+
+        const result: QuestionResult = {
+          questionIndex: currentQuestionIndex,
+          selectedAnswer: answerIndex,
+          correctAnswer: correctAnswerIndex,
+          isCorrect: answerIndex === correctAnswerIndex,
+          timeSpent: timeSpent,
+          timeRemaining: currentTimeRemaining,
+        };
+
+        setResults((prev) => [...prev, result]);
+        setGamePhase("answered");
+        setTimeRemaining(currentTimeRemaining);
+      },
+      [
+        canSelectAnswer,
+        currentQuestion,
+        currentQuestionIndex,
+        timeRemaining,
+        questionStartTime,
+        clearTimers,
+      ]
+    );
+
+    const nextQuestion = useCallback(() => {
+      if (isLastQuestion) {
+        setGamePhase("finished");
+        return;
+      }
+
+      setCurrentQuestionIndex((prev) => prev + 1);
+      setSelectedAnswer(null);
+      startCountdown();
+    }, [isLastQuestion, startCountdown]);
+
+    const resetGame = useCallback(() => {
+      clearTimers();
+      setGamePhase("waiting");
+      setCurrentQuestionIndex(0);
+      setSelectedAnswer(null);
+      setTimeRemaining(0);
+      setIsCountingDown(false);
+      setCountdownValue(3);
+      setResults([]);
+      setQuestionStartTime(0);
+      setShowExplosion(false);
+    }, [clearTimers]);
+
+    // Limpiar timers al desmontar
+    useEffect(() => {
+      return () => {
+        clearTimers();
+      };
+    }, [clearTimers]);
+
+    const contextValue: PreguntadosGameContextType = {
+      // Estados del juego
+      gameConfig,
+      questions,
+      currentQuestionIndex,
+      selectedAnswer,
+      timeRemaining,
+      isCountingDown,
+      countdownValue,
+      gamePhase,
+      results,
+      showExplosion,
+
+      // Estados calculados
+      currentQuestion,
+      totalQuestions,
+      correctAnswers,
+      isLastQuestion,
+      canSelectAnswer,
+      showCorrectAnswer,
+      isGameWon,
+      isGameLost,
+      gameStarted,
+      score,
+      incorrectAnswers,
+      unanswered,
+
+      // Funciones del juego
+      selectAnswer,
+      nextQuestion,
+      resetGame,
+      startGame,
+
+      // Funciones auxiliares
+      getMaxTimePerQuestion,
+      getTimerClass,
+      getTimerProgress,
+      getFinalScore,
+      getCorrectAnswerIndex,
+      isPreviewRoute,
+    };
+
+    return (
+      <PreguntadosGameContext.Provider value={contextValue}>
+        {children}
+      </PreguntadosGameContext.Provider>
+    );
   };
-
-  return (
-    <PreguntadosGameContext.Provider value={contextValue}>
-      {children}
-    </PreguntadosGameContext.Provider>
-  );
-};

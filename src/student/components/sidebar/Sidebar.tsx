@@ -161,12 +161,13 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
                 <div className={styles.stats}>
                   <div className={styles.stat}>
                     <FaFire className={styles.statIcon} />
-                    <span>10 días</span>
+                    Nivel
+                    <span>{currentStudent?.profile.level}</span>
                   </div>
-                  <div className={styles.stat}>
+                  {/* <div className={styles.stat}>
                     <FaTrophy className={styles.statIcon} />
                     <span>#3</span>
-                  </div>
+                  </div> */}
                 </div>
               </>
             )}

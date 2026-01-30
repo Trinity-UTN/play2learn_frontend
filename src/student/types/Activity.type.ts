@@ -6,7 +6,7 @@ import type { CompletarOracionInterface as CompletarOracionConfig } from "../../
 import type { MemoramaGameConfig } from "../../activity/types/Memorama.type";
 import type { NoLudicaInterface as NoLudicaConfig } from "../../activity/types/NoLudica.type";
 import type { CreateSequencePayload as OrdenarSecuenciaConfig } from "../../activity/types/OrdenarSecuencia.type";
-import type { PreguntadosInterface as PreguntadosConfig } from "../../activity/types/Preguntados.type";
+import type { PreguntadosInterface as PreguntadosConfig, PreguntadosConfigQuestion } from "../../activity/types/Preguntados.type";
 
 interface BaseActivity {
   id: string;
@@ -91,7 +91,8 @@ export type GameConfig =
   | MemoramaGameConfig
   | NoLudicaConfig
   | OrdenarSecuenciaConfig
-  | PreguntadosConfig;
+  | PreguntadosConfig
+  | PreguntadosConfigQuestion;
 
 export interface CurrentActivityInterface {
   id: number;

@@ -21,6 +21,7 @@ export interface PreguntadosContextType {
   handleBack: () => void;
   handleNext: () => void;
   handleReset: () => void;
+  setQuestions: (data: Question[]) => void
 
   // Funciones de utilidad
   getQuestionStatus: (q: Question) => "complete" | "incomplete" | "empty";

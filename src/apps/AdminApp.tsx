@@ -10,6 +10,7 @@ import {
   TeacherProvider,
   YearProvider,
   StatisticsProvider,
+  ListStudentAssing,
 } from "@/admin";
 
 // PAGES
@@ -75,6 +76,10 @@ const AdminApp = () => {
           <Route path="students/create" element={<CreateStudentView />} />
           <Route path="students/edit/:id" element={<CreateStudentView />} />
           <Route path="students/list" element={<ListStudentView />} />
+          <Route
+            path="students/list/assing/:id"
+            element={<ListStudentAssing />}
+          />
 
           {/* Materias */}
           <Route path="subjects/create" element={<CreateSubjectView />} />

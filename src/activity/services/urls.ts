@@ -7,4 +7,5 @@ export const urls = {
   NoLudica: "/activities/no-ludica",
   OrdenarSecuencia: "/activities/ordenar-secuencia",
   Preguntados: "/activities/preguntados",
+  ActividadCreada: "/activity"
 };

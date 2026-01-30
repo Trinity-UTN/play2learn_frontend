@@ -26,6 +26,7 @@ import { StatisticsProvider } from "../teacher/contexts/statisticsContext/Statis
 import { NoLudicaReviewProvider } from "../teacher/contexts/noLudicaReviewContext/NoLudicaReviewProvider";
 import { NoLudicaGameProvider } from "../shared/contexts/gamesContext/noLudicaGameContext/NoLudicaGameProvider";
 import { NotificationProvider } from "../notifications/contexts/NotificationsProvider";
+import { ActividadCreadaProvider } from "@/activity/contexts/actividadCreadaContext/ActividadCreadaProvider";
 //VIEWS
 import ActivitiesCreatedView from "../teacher/views/ActivitiesCreatedView/ActivitiesCreatedView";
 import ActivitiesView from "../teacher/views/ActivitiesView/ActivitiesView";
@@ -57,65 +58,67 @@ const TeacherApp = () => {
             element={
               <ProtectedRoute allowedRoles={["ROLE_TEACHER"]}>
                 <NotificationProvider>
-                  <SubjectProvider>
-                    <CurrentStudentProvider>
-                      <ActivityStudentProvider>
-                        <ConfigurationActivityProvider>
-                          <ActivityTeacherProvider>
-                            <NoLudicaReviewProvider>
-                              <AhorcadoProvider>
-                                <AhorcadoGameProvider>
-                                  <CompletarOracionProvider>
-                                    <CompletarOracionGameProvider>
-                                      <PreguntadosProvider>
-                                        <PreguntadosGameProvider>
-                                          <OrdenarSecuenciaProvider>
-                                            <DesafioClasificacionProvider>
-                                              <DesafioClasificacionGameProvider>
-                                                <MemoramaProvider>
-                                                  <NoLudicaProvider>
-                                                    <NoLudicaGameProvider mode="preview">
-                                                      <ArbolDecisionProvider>
-                                                        <BenefitAPIProvider>
-                                                          <StatisticsProvider>
-                                                            <motion.div
-                                                              key="dashboardTeacher"
-                                                              initial={{
-                                                                opacity: 0,
-                                                              }}
-                                                              animate={{
-                                                                opacity: 1,
-                                                              }}
-                                                              exit={{
-                                                                opacity: 0,
-                                                              }}
-                                                              transition={{
-                                                                duration: 0.3,
-                                                              }}
-                                                            >
-                                                              <TeacherDashboardPage />
-                                                            </motion.div>
-                                                          </StatisticsProvider>
-                                                        </BenefitAPIProvider>
-                                                      </ArbolDecisionProvider>
-                                                    </NoLudicaGameProvider>
-                                                  </NoLudicaProvider>
-                                                </MemoramaProvider>
-                                              </DesafioClasificacionGameProvider>
-                                            </DesafioClasificacionProvider>
-                                          </OrdenarSecuenciaProvider>
-                                        </PreguntadosGameProvider>
-                                      </PreguntadosProvider>
-                                    </CompletarOracionGameProvider>
-                                  </CompletarOracionProvider>
-                                </AhorcadoGameProvider>
-                              </AhorcadoProvider>
-                            </NoLudicaReviewProvider>
-                          </ActivityTeacherProvider>
-                        </ConfigurationActivityProvider>
-                      </ActivityStudentProvider>
-                    </CurrentStudentProvider>
-                  </SubjectProvider>
+                  <ActividadCreadaProvider>
+                    <SubjectProvider>
+                      <CurrentStudentProvider>
+                        <ActivityStudentProvider>
+                          <ConfigurationActivityProvider>
+                            <ActivityTeacherProvider>
+                              <NoLudicaReviewProvider>
+                                <AhorcadoProvider>
+                                  <AhorcadoGameProvider>
+                                    <CompletarOracionProvider>
+                                      <CompletarOracionGameProvider>
+                                        <PreguntadosProvider>
+                                          <PreguntadosGameProvider>
+                                            <OrdenarSecuenciaProvider>
+                                              <DesafioClasificacionProvider>
+                                                <DesafioClasificacionGameProvider>
+                                                  <MemoramaProvider>
+                                                    <NoLudicaProvider>
+                                                      <NoLudicaGameProvider mode="preview">
+                                                        <ArbolDecisionProvider>
+                                                          <BenefitAPIProvider>
+                                                            <StatisticsProvider>
+                                                              <motion.div
+                                                                key="dashboardTeacher"
+                                                                initial={{
+                                                                  opacity: 0,
+                                                                }}
+                                                                animate={{
+                                                                  opacity: 1,
+                                                                }}
+                                                                exit={{
+                                                                  opacity: 0,
+                                                                }}
+                                                                transition={{
+                                                                  duration: 0.3,
+                                                                }}
+                                                              >
+                                                                <TeacherDashboardPage />
+                                                              </motion.div>
+                                                            </StatisticsProvider>
+                                                          </BenefitAPIProvider>
+                                                        </ArbolDecisionProvider>
+                                                      </NoLudicaGameProvider>
+                                                    </NoLudicaProvider>
+                                                  </MemoramaProvider>
+                                                </DesafioClasificacionGameProvider>
+                                              </DesafioClasificacionProvider>
+                                            </OrdenarSecuenciaProvider>
+                                          </PreguntadosGameProvider>
+                                        </PreguntadosProvider>
+                                      </CompletarOracionGameProvider>
+                                    </CompletarOracionProvider>
+                                  </AhorcadoGameProvider>
+                                </AhorcadoProvider>
+                              </NoLudicaReviewProvider>
+                            </ActivityTeacherProvider>
+                          </ConfigurationActivityProvider>
+                        </ActivityStudentProvider>
+                      </CurrentStudentProvider>
+                    </SubjectProvider>
+                  </ActividadCreadaProvider>
                 </NotificationProvider>
               </ProtectedRoute>
             }
@@ -141,6 +144,10 @@ const TeacherApp = () => {
             {/* VIEW GENERAL CONFIGURATION */}
             <Route
               path="actividades/configuration/:code_game/*"
+              element={<ConfigureActivityView />}
+            />
+            <Route
+              path="actividades/configuration/:code_game/:id/*"
               element={<ConfigureActivityView />}
             />
 

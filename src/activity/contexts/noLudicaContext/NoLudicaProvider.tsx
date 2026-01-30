@@ -15,6 +15,9 @@ import { useConfigurationForm } from "../../hooks/configuration/useConfiguration
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
+import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
+import { GameType, } from "@/shared";
+import { useGameConfigEffect } from "@/activity/hooks/useGameConfigEffect";
 
 interface NoLudicaProviderProps {
   children: ReactNode;
@@ -24,6 +27,8 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
   children,
 }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { actividadCreada } = useActividadCreada()
+
   const { resetForm } = useConfigurationForm("no_ludica");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
@@ -40,6 +45,20 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     tipoEntrega: "ENTREGA",
   });
   const [errors, setErrors] = useState<string[]>([]);
+
+
+  useGameConfigEffect({
+    actividadCreada,
+    handlers: {
+      [GameType.NO_LUDICA]: (config: NoLudicaConfig) => {
+        setConfig({
+          excercise: config.excercise,
+          tipoEntrega: config.tipoEntrega,
+        });
+      },
+    },
+  });
+
 
   useEffect(() => {
     if (currentStep === "preview") {

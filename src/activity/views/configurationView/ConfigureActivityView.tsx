@@ -14,7 +14,7 @@ import styles from "./ConfigureActivityView.module.css";
 const ConfigureActivityView: React.FC = () => {
   const { subjects, getSubjectByTeacher } = useSubject();
   const { registerConfigurationActivity } = useConfigurationActivity();
-  const { code_game } = useParams();
+  const { code_game, id } = useParams();
   const navigate = useNavigate();
 
   const {
@@ -26,7 +26,7 @@ const ConfigureActivityView: React.FC = () => {
     getMaximumInitialBalance,
     isFormValid,
     setIsLoading,
-  } = useConfigurationForm(code_game);
+  } = useConfigurationForm(code_game,id);
 
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [isVerticalLayout, setIsVerticalLayout] = useState(true);

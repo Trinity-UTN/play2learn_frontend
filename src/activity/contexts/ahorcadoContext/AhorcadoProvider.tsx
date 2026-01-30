@@ -17,6 +17,9 @@ import { useConfigurationForm } from "../../hooks/configuration/useConfiguration
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
+import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
+import { GameType } from "@/shared";
+import { useGameConfigEffect } from "@/activity/hooks/useGameConfigEffect";
 
 interface AhorcadoProviderProps {
   children: ReactNode;
@@ -27,6 +30,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
 }) => {
   const { configurationActivity } = useConfigurationActivity();
   const { resetForm } = useConfigurationForm("ahorcado_educativo");
+  const { actividadCreada } = useActividadCreada()
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -41,7 +45,20 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     word: "",
     errorsPermited: "TRES",
   });
+
   const [errors, setErrors] = useState<string[]>([]);
+
+  useGameConfigEffect({
+    actividadCreada,
+    handlers: {
+      [GameType.AHORCADO]: (config: AhorcadoConfig) => {
+        setConfig({
+          word: config.word ?? "",
+          errorsPermited: config.errorsPermited ?? "TRES",
+        });
+      },
+    },
+  });
 
   useEffect(() => {
     if (currentStep === "preview") {

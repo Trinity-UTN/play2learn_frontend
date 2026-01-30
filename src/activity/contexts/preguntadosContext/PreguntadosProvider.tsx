@@ -7,6 +7,7 @@ import type {
   Question,
   PreguntadosConfig,
   PreguntadosInterface,
+  PreguntadosConfigQuestion,
 } from "../../types/Preguntados.type";
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeData } from "../../utils/MakeData";
@@ -15,6 +16,8 @@ import { useConfigurationForm } from "../../hooks/configuration/useConfiguration
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
+import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
+import { GameType, getGameTypeFromActivityName } from "@/shared";
 
 interface PreguntadosProviderProps {
   children: ReactNode;
@@ -24,6 +27,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
   children,
 }) => {
   const { configurationActivity } = useConfigurationActivity();
+  const { actividadCreada } = useActividadCreada()
   const { resetForm } = useConfigurationForm("preguntados");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
@@ -46,6 +50,21 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
     [questionIndex: number]: { [field: string]: string };
   }>({});
 
+
+  useEffect(() => {
+    if (actividadCreada) {
+      const gameType = getGameTypeFromActivityName(actividadCreada.name);
+      if (gameType === GameType.PREGUNTADOS) {
+        const createdConfig = actividadCreada.gameConfig as PreguntadosConfigQuestion;
+        setConfig({
+          totalQuestions: createdConfig.questions.length,
+          maxTimePerQuestionInSeconds: createdConfig.maxTimePerQuestionInSeconds,
+        })
+
+      }
+    }
+  }, [actividadCreada]);
+
   // Validación del formulario cuando cambiamos al paso de preview
   useEffect(() => {
     if (currentStep === "preview") {
@@ -58,6 +77,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
 
   // Función para reiniciar todos los estados
   const resetStatesOnly = () => {
+
     setConfig({ totalQuestions: 5, maxTimePerQuestionInSeconds: 30 });
     setQuestions([]);
     setCurrentStep("config");
@@ -130,8 +150,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
         question.options.forEach((option, optIndex) => {
           if (option.option.length > 100) {
             validationErrors.push(
-              `La opción ${optIndex + 1} de la pregunta ${
-                index + 1
+              `La opción ${optIndex + 1} de la pregunta ${index + 1
               } no puede tener más de 100 caracteres`
             );
           }
@@ -282,9 +301,8 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
       case "config":
         return "Configuración General";
       case "questions":
-        return `Pregunta ${currentQuestionIndex + 1} de ${
-          config.totalQuestions
-        }`;
+        return `Pregunta ${currentQuestionIndex + 1} de ${config.totalQuestions
+          }`;
       case "preview":
         return "Vista Previa";
       default:
@@ -436,6 +454,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
     handleBack,
     handleNext,
     handleReset,
+    setQuestions,
 
     // Funciones de utilidad
     getQuestionStatus,

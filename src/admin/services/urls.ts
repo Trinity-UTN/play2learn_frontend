@@ -2,6 +2,7 @@ export const urls = {
   Students: "/admin/students",
   StudentsPaginated: "/admin/students/paginated",
   StudentsRestore: "/admin/students/restore",
+  StudentAssignment: "/admin/subjects/all-students",
   Years: "/admin/years",
   YearsPaginated: "/admin/years/paginated",
   Teacher: "/admin/teachers",
@@ -14,4 +15,8 @@ export const urls = {
   SubjectStudent: "/admin/students/subjects",
   SubjectPaginated: "admin/subjects/paginated",
   statistics: "/statistics/home/admin",
+
+  //Asignacion y desasignacion
+  AssingmentStudent: "/admin/subjects/add-students",
+  UnassignStudent: "/admin/subjects/remove-students",
 };
