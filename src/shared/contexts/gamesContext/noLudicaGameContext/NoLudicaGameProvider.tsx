@@ -7,6 +7,8 @@ import { useCreateNoLudica } from "../../../../activity/hooks/useCreateNoLudica"
 import { getGameTypeFromActivityName } from "@/shared";
 import { GameType } from "../../../types/Games.type";
 import { compressPDF } from "../../../utils/compressPDF";
+import { NO_LUDICA_EMPTY_TEXT_RESPONSE } from "@shared/constants/games.constants";
+
 interface NoLudicaGameProviderProps {
   children: ReactNode;
   config?: NoLudicaConfig;
@@ -62,7 +64,10 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
     if (currentActivity)
       formData.append("activityId", String(currentActivity?.id));
 
-    formData.append("plainText", studentResponse);
+    const plainTextValue = studentResponse.trim()
+      ? studentResponse
+      : NO_LUDICA_EMPTY_TEXT_RESPONSE;
+    formData.append("plainText", plainTextValue);
 
     if (selectedFile) {
       const pdfCompress = await compressPDF(selectedFile);

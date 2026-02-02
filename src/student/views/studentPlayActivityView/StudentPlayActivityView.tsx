@@ -57,13 +57,13 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
       refreshActivitiesOnNavigationAway();
       // Aca podriamos guardar el progreso del juego en un futuro
     },
-    preventTabSwitch: true,
-    disapproveOnTabSwitch: true,
+    preventTabSwitch: !isNoLudica,
+    disapproveOnTabSwitch: !isNoLudica,
     tabSwitchDisapproveTitle: navigationMessages.tabSwitchDisapproveTitle,
     tabSwitchDisapproveMessage: navigationMessages.tabSwitchDisapproveMessage,
     onTabSwitchDisapprove: () => {
       // Desaprobar automáticamente sin importar el progreso del juego
-      forceFinishActivity(false);
+      forceFinishActivity(false, gameManager);
     },
   });
 
@@ -84,7 +84,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
       await finishActivity(
         !!gameManager?.isGameWon,
         gameManager,
-        handleFinishNoLudica
+        handleFinishNoLudica,
       );
     } else {
       await finishActivity(!!gameManager?.isGameWon, gameManager);

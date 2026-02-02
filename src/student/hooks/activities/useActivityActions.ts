@@ -33,14 +33,14 @@ export const useActivityActions = () => {
       await getActivityById(Number(activityId));
       navigate(`/dashboard/student/actividades/${activityId}/view`);
     },
-    [getActivityById, navigate]
+    [getActivityById, navigate],
   );
 
   const viewActivityResults = useCallback(
     (
       activityId: number | string,
       remainingAttempts: number,
-      completedAt?: string
+      completedAt?: string,
     ) => {
       setCurrentActivityAttemptInfo({
         remainingAttempts,
@@ -48,7 +48,7 @@ export const useActivityActions = () => {
       });
       navigate(`/dashboard/student/actividades/${activityId}/results`);
     },
-    [navigate, setCurrentActivityAttemptInfo]
+    [navigate, setCurrentActivityAttemptInfo],
   );
 
   const startActivity = useCallback(
@@ -65,6 +65,10 @@ export const useActivityActions = () => {
         rules: rules,
         showRulesIcon: false,
         onConfirm: () => {
+          if (currentActivity?.name === "No Ludica") {
+            navigate(`/dashboard/student/actividades/${activityId}/play`);
+            return;
+          }
           if (activityId) {
             registerActivityStarted(Number(activityId));
             navigate(`/dashboard/student/actividades/${activityId}/play`);
@@ -72,14 +76,20 @@ export const useActivityActions = () => {
         },
       });
     },
-    [navigate, registerActivityStarted, showConfirmation, rules]
+    [
+      navigate,
+      registerActivityStarted,
+      showConfirmation,
+      rules,
+      currentActivity,
+    ],
   );
 
   const finishActivity = useCallback(
     async (
       isApproved: boolean,
       gameManager?: GameHook | null,
-      onAfterFinish?: () => void
+      onAfterFinish?: () => void,
     ) => {
       if (!currentActivity) return;
 
@@ -125,14 +135,14 @@ export const useActivityActions = () => {
       clearPersistedActivity,
       navigate,
       showConfirmation,
-    ]
+    ],
   );
 
   const forceFinishActivity = useCallback(
     async (
       isApproved: boolean,
       gameManager?: GameHook | null,
-      onAfterFinish?: () => void
+      onAfterFinish?: () => void,
     ) => {
       if (!currentActivity) return;
 
@@ -166,7 +176,7 @@ export const useActivityActions = () => {
       refreshActivityDataAfterCompletion,
       clearPersistedActivity,
       navigate,
-    ]
+    ],
   );
 
   const refreshActivitiesOnNavigationAway = useCallback(async () => {

@@ -286,15 +286,13 @@ export const usePreventNavigation = ({
         onTabReturn?.();
 
         if (tabSwitchDetectedRef.current && disapproveOnTabSwitch) {
+          onTabSwitchDisapprove?.();
           showConfirmation({
             title: tabSwitchDisapproveTitle,
             message: tabSwitchDisapproveMessage,
             type: "danger",
-            confirmText: "Desaprobar intento",
+            confirmText: "Intento desaprobado",
             hideCancel: true,
-            onConfirm: () => {
-              onTabSwitchDisapprove?.();
-            },
           });
         } else if (tabSwitchDetectedRef.current && showWarningOnReturn) {
           showToast({
