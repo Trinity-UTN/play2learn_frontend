@@ -24,12 +24,13 @@ import styles from "./ConfigurationForm.module.css";
 
 interface ConfigurationFormProps {
   configuration: ConfigurationActivity;
+  activityCode?: string;
   errors: ConfigurationErrors;
   subjects: SubjectResponseDto[];
   isVerticalLayout: boolean;
   onFieldChange: (
     field: keyof ConfigurationActivity,
-    value: string | number
+    value: string | number,
   ) => void;
   getSelectedSubject: () => SubjectResponseDto | undefined;
   getMaximumInitialBalance: () => number;
@@ -48,6 +49,7 @@ const itemVariants = {
 
 const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
   configuration,
+  activityCode,
   errors,
   subjects,
   isVerticalLayout,
@@ -128,26 +130,28 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
             />
           </FormInputGroup>
 
-          <FormInputGroup
-            label="Tiempo Máximo (minutos) *"
-            hint="Tiempo límite para completar la actividad"
-            error={errors.maxTime}
-          >
-            <div className={styles.dcInputWrapper}>
-              <FaClock className={styles.dcIcon} />
-              <Input
-                type="text"
-                value={configuration.maxTime}
-                onChange={(e) =>
-                  onFieldChange("maxTime", parseInt(e.target.value) || 0)
-                }
-                className={`${styles.timeInput} ${
-                  errors.maxTime ? styles.inputError : ""
-                }`}
-              />
-              <span className={styles.dcUnit}>min</span>
-            </div>
-          </FormInputGroup>
+          {activityCode !== "no_ludica" && (
+            <FormInputGroup
+              label="Tiempo Máximo (minutos) *"
+              hint="Tiempo límite para completar la actividad"
+              error={errors.maxTime}
+            >
+              <div className={styles.dcInputWrapper}>
+                <FaClock className={styles.dcIcon} />
+                <Input
+                  type="text"
+                  value={configuration.maxTime}
+                  onChange={(e) =>
+                    onFieldChange("maxTime", parseInt(e.target.value) || 0)
+                  }
+                  className={`${styles.timeInput} ${
+                    errors.maxTime ? styles.inputError : ""
+                  }`}
+                />
+                <span className={styles.dcUnit}>min</span>
+              </div>
+            </FormInputGroup>
+          )}
 
           <FormInputGroup
             label="Número de Intentos *"
@@ -234,7 +238,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
                     onChange={(e) =>
                       onFieldChange(
                         "initialBalance",
-                        parseInt(e.target.value) || 0
+                        parseInt(e.target.value) || 0,
                       )
                     }
                     placeholder="0"
