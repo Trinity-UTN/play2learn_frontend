@@ -74,9 +74,7 @@ const StudentActivityResultsView: React.FC = () => {
       <div className={styles.mainContent}>
         <ActivityResultsStats results={results} activity={activity} />
         <ActivityResultsDetails activity={activity} />
-        <ActivityResultsFeedback
-          teacherComment={"El docente no ha realizado comentarios aún"}
-        />
+        <ActivityResultsFeedback teacherComment={results.comment} />
       </div>
 
       <StudentActivityFooter
