@@ -31,8 +31,7 @@ export interface NoLudicaPendingActivityDto {
     };
   };
   attempts: number;
-  excercise: string;
-  tipoEntrega: string;
+  exercise: string;
 }
 
 export interface ActivityCompletedPendingDto {

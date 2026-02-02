@@ -26,17 +26,13 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
   //TODO: estas const no se usan pero fueron aplicadas por un tema del type, ver despues como se resuelve.
   const isGameWon = false;
   const isGameLost = true;
-  // const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
-  //   "playing"
-  // );
 
   const [gameConfig, setGameConfig] = useState<NoLudicaConfig | null>(null);
 
   useEffect(() => {
     if (mode === "preview" && config) {
       setGameConfig({
-        excercise: config.excercise,
-        tipoEntrega: config.tipoEntrega,
+        exercise: config.exercise,
       });
     } else if (mode === "student" && currentActivity) {
       const gameType = getGameTypeFromActivityName(currentActivity.name);
@@ -45,8 +41,7 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
         const noLudicaConfig = currentActivity.gameConfig as NoLudicaConfig;
 
         setGameConfig({
-          excercise: noLudicaConfig.excercise,
-          tipoEntrega: noLudicaConfig.tipoEntrega,
+          exercise: noLudicaConfig.exercise,
         });
       }
     } else if (propConfig) {
@@ -61,6 +56,7 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
   const resetGame = () => {
     setGameStarted(false);
   };
+
   const buildFormData = async (): Promise<FormData> => {
     const formData = new FormData();
     if (currentActivity)

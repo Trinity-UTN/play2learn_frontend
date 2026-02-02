@@ -1,7 +1,6 @@
 import type {
   NoLudicaInterface,
   NoLudicaConfig,
-  TipoEntrega,
 } from "../../types/NoLudica.type";
 
 export interface NoLudicaContextType {
@@ -27,13 +26,4 @@ export interface NoLudicaContextType {
   getStepTitle: () => string;
   getCurrentStepNumber: () => number;
   getStepDescription: () => string;
-
-  // Funciones específicas de noLudica
-  getTipoEntregaOptions: () => Array<{
-    value: TipoEntrega;
-    label: string;
-    description: string;
-    acceptedFormats?: string[];
-    placeholder?: string;
-  }>;
 }
