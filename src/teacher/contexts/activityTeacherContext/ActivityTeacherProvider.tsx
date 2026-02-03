@@ -72,6 +72,7 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
   // Funciones principales
   const getPaginatedActivitiesTeacher = useCallback(
     async (params: GetPaginated): Promise<void> => {
+      setPaginatedActivitiesTeacher(null);
       setLoading(true);
       try {
         const response =

@@ -13,3 +13,4 @@ export {
   getActivityIcon,
 } from "./activityIcons";
 export type { Role } from "./ProtectedRoute";
+export { formatFileSize } from "./pdf/formatFileSize";

@@ -5,6 +5,7 @@ export const TeacherRoutes = {
     Create: "actividad/create",
     List: "actividades/list",
     CreatedList: "actividades/created/list",
+    AttemptReview: "actividades/attempt/:activityCompletedId/review",
   },
   Beneficios: {
     Create: "beneficio/create",

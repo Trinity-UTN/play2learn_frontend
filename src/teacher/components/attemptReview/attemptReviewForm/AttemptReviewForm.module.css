@@ -1,0 +1,163 @@
+@import "../../../../shared/styles/colors.css";
+
+.formCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 1.25rem 0;
+}
+
+.sectionIcon {
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+.formContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.label {
+  display: block;
+  color: #1f2937;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.scoreSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.scoreInputRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.scoreInput {
+  width: 100px;
+  font-size: 1.25rem !important;
+  text-align: center;
+  font-weight: 700 !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 0.625rem 0.75rem !important;
+  transition: border-color 0.2s ease;
+}
+
+.scoreInput:focus {
+  border-color: #667eea !important;
+  outline: none;
+}
+
+.scoreHint {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.stateBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.stateIcon {
+  font-size: 0.85rem;
+}
+
+.commentSection {
+  width: 100%;
+}
+
+.commentTextarea {
+  width: 100%;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+  color: #1f2937;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.commentTextarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.commentTextarea::placeholder {
+  color: #9ca3af;
+}
+
+.submitSection {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+}
+
+.submitButton {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive Design*/
+@media (max-width: 768px) {
+  .formCard {
+    padding: 1.25rem;
+  }
+
+  .scoreInputRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .submitButton {
+    width: 100%;
+    justify-content: center;
+  }
+}

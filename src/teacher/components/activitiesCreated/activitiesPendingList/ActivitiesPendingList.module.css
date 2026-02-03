@@ -1,0 +1,29 @@
+@import "../../../../shared/styles/colors.css";
+
+.attemptsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.noResultsIcon {
+  color: var(--color-secondary);
+  font-size: 4rem;
+  opacity: 0.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .attemptsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .attemptsGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}

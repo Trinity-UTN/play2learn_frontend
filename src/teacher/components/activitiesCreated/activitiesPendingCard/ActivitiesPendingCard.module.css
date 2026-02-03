@@ -1,0 +1,190 @@
+@import "../../../../shared/styles/colors.css";
+
+.attemptCard {
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.attemptCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.attemptHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+  min-height: 5rem;
+}
+
+.iconWrapper {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activityIcon {
+  font-size: 1.25rem;
+  color: white;
+}
+
+.attemptInfo {
+  flex: 1;
+}
+
+.activityName {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-title, #1f2937);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.attemptMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.activityDescription {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--color-text-subtitle, #6b7280);
+  line-height: 1.5;
+  min-height: 3em;
+  margin: 0 0 1rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-clamp: 2;
+}
+
+.studentSection,
+.dateSection {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.studentSection {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+}
+
+.studentIcon,
+.studentLabel,
+.studentValue {
+  color: #4338ca;
+}
+
+.dateSection {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+.dateIcon,
+.dateLabel,
+.dateValue {
+  color: #92400e;
+}
+
+.studentIcon,
+.dateIcon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.studentLabel,
+.dateLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.studentValue,
+.dateValue {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  width: 100%;
+}
+
+.viewButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.buttonText {
+  display: inline;
+  color: white;
+}
+
+.actionIcon {
+  font-size: 0.875rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .attemptCard {
+    height: auto;
+    min-height: 380px;
+  }
+
+  .activityName {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .attemptCard {
+    padding: 1rem;
+  }
+
+  .iconWrapper {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .activityIcon {
+    font-size: 1rem;
+  }
+}

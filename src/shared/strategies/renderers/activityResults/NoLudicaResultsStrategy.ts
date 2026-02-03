@@ -13,6 +13,6 @@ export class NoLudicaResultsStrategy implements ActivityResultsStrategy {
   }
 
   shouldShowScore(): boolean {
-    return false;
+    return true;
   }
 }

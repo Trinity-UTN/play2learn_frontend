@@ -1,0 +1,265 @@
+@import "../../../../shared/styles/colors.css";
+
+.tableContainer {
+  padding: 0;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  table-layout: fixed;
+}
+
+.table thead tr th:nth-child(1) {
+  width: 30%;
+} /* Actividad */
+.table thead tr th:nth-child(2) {
+  width: 20%;
+} /* Estudiante */
+.table thead tr th:nth-child(3) {
+  width: 20%;
+} /* Descripción */
+.table thead tr th:nth-child(4) {
+  width: 15%;
+} /* Fecha */
+.table thead tr th:nth-child(5) {
+  width: 15%;
+} /* Acciones */
+
+.tableHead {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.tableHeader {
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-text-title);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  border-right: 1px solid var(--color-border);
+}
+
+.tableHeader:last-child {
+  border-right: none;
+}
+
+.tableBody {
+  background: white;
+}
+
+.tableRow {
+  border-bottom: 1px solid var(--color-border);
+  transition: all 0.2s ease;
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableRow:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.tableCell {
+  padding: 1rem;
+  vertical-align: middle;
+  border-right: 1px solid var(--color-border);
+}
+
+.tableCell:last-child {
+  border-right: none;
+}
+
+.centeredCell {
+  text-align: center;
+}
+
+.activityInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.activityIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: white;
+}
+
+.activityDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.activityName {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--color-text-title, #1f2937);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.studentInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.studentIcon {
+  color: #4338ca;
+  font-size: 0.875rem;
+}
+
+.studentName {
+  font-weight: 500;
+  color: var(--color-text-title, #1f2937);
+  font-size: 0.875rem;
+}
+
+.activityDescription {
+  font-size: 0.875rem;
+  color: var(--color-text-subtitle, #4b5563);
+  max-width: 100%;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: help;
+  word-break: break-word;
+}
+
+.dateSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  min-width: 140px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+.dateIcon {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+  color: #92400e;
+}
+
+.dateValue {
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #92400e;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.actionButton {
+  min-width: 100px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.viewButton {
+  background-color: #eef2ff;
+  color: #4338ca;
+}
+
+.viewButton:hover:not(:disabled) {
+  background-color: #e0e7ff;
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .tableContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table {
+    min-width: 900px;
+  }
+
+  .tableHeader,
+  .tableCell {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .table {
+    min-width: 800px;
+  }
+
+  .tableHeader,
+  .tableCell {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .iconWrapper {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .activityIcon {
+    width: 1rem;
+    height: 1rem;
+  }
+}

@@ -2,12 +2,16 @@ import { motion } from "framer-motion";
 import ActivitiesCreatedHeader from "../../components/activitiesCreated/activitiesCreatedHeader/ActivitiesCreatedHeader";
 import ActivitiesCreatedFilters from "../../components/activitiesCreated/activitiesCreatedFilters/ActivitiesCreatedFilters";
 import ActivitiesCreatedList from "../../components/activitiesCreated/activitiesCreatedList/ActivitiesCreatedList";
+import ActivitiesPendingList from "../../components/activitiesCreated/activitiesPendingList/ActivitiesPendingList";
 import {
   activityListContainerVariants,
   activityItemVariants,
 } from "../../constants/animations/activityTeacher.animations";
+import { ACTIVITY_TEACHER_STATUS } from "../../constants/activity/activityTeacher.constants";
 import { useActivityTeacherData } from "../../hooks/activities/activityList/useActivityTeacherData";
 import { useActivityTeacherActions } from "../../hooks/activities/activityList/useActivityTeacherActions";
+import { usePendingNoLudicaData } from "../../hooks/activities/noLudicaReview/usePendingNoLudicaData";
+import { useNoLudicaReviewActions } from "../../hooks/activities/noLudicaReview/useNoLudicaReviewActions";
 import styles from "./ActivitiesCreatedView.module.css";
 
 const ActivitiesCreatedView: React.FC = () => {
@@ -41,8 +45,31 @@ const ActivitiesCreatedView: React.FC = () => {
 
   const { actions, loading: actionsLoading } = useActivityTeacherActions();
 
+  // Pending data
+  const {
+    loading: pendingLoading,
+    pendingAttempts,
+    paginationInfo: pendingPaginationInfo,
+  } = usePendingNoLudicaData({
+    selectedSubject,
+    selectedCourse,
+    selectedYear,
+    search,
+  });
+
+  const { handleNavigateToReview } = useNoLudicaReviewActions();
+
   const loading = dataLoading || actionsLoading;
-  const showEmptyState = filteredActivities.length === 0 && !loading;
+  const isPendingFilter = activeFilter === ACTIVITY_TEACHER_STATUS.PENDING;
+
+  // Show empty state logic
+  const showActivityEmptyState = filteredActivities.length === 0 && !loading;
+  const showPendingEmptyState = pendingAttempts.length === 0 && !pendingLoading;
+
+  // Actions for pending list
+  const pendingActions = {
+    onViewAttempt: handleNavigateToReview,
+  };
 
   return (
     <motion.div
@@ -82,16 +109,27 @@ const ActivitiesCreatedView: React.FC = () => {
         />
       </motion.div>
 
-      {/* Lista de Actividades (Grid o Table) */}
+      {/* Lista de Actividades o Pendientes de Corrección */}
       <motion.div variants={activityItemVariants}>
-        <ActivitiesCreatedList
-          activities={filteredActivities}
-          paginationInfo={paginationInfo}
-          viewMode={viewMode}
-          actions={actions}
-          loading={loading}
-          showEmptyState={showEmptyState}
-        />
+        {isPendingFilter ? (
+          <ActivitiesPendingList
+            attempts={pendingAttempts}
+            paginationInfo={pendingPaginationInfo}
+            viewMode={viewMode}
+            actions={pendingActions}
+            loading={pendingLoading}
+            showEmptyState={showPendingEmptyState}
+          />
+        ) : (
+          <ActivitiesCreatedList
+            activities={filteredActivities}
+            paginationInfo={paginationInfo}
+            viewMode={viewMode}
+            actions={actions}
+            loading={loading}
+            showEmptyState={showActivityEmptyState}
+          />
+        )}
       </motion.div>
     </motion.div>
   );

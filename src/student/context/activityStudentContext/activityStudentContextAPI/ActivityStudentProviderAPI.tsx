@@ -62,7 +62,7 @@ export const ActivityStudentProvider = ({
       try {
         const response =
           await ActivityStudentService.getPaginatedActivityNotApprovedApi(
-            params
+            params,
           );
         setPaginatedActivitiesNotApproved(response.data);
       } catch (error) {
@@ -71,7 +71,7 @@ export const ActivityStudentProvider = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const getPaginatedActivitiesApproved = useCallback(
@@ -87,7 +87,7 @@ export const ActivityStudentProvider = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const getActivityNotApproved = useCallback(async (): Promise<void> => {
@@ -155,20 +155,19 @@ export const ActivityStudentProvider = ({
     async (activityId: number): Promise<void> => {
       setLoading(true);
       try {
-        const response = await ActivityStudentService.getActivityResultsApi(
-          activityId
-        );
+        const response =
+          await ActivityStudentService.getActivityResultsApi(activityId);
         setActivityResults(response.data);
       } catch (error) {
         handleApiError(
           error,
-          "Error al obtener los resultados de la actividad"
+          "Error al obtener los resultados de la actividad",
         );
       } finally {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const registerActivityStarted = useCallback(
@@ -182,7 +181,7 @@ export const ActivityStudentProvider = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const registerActivityCompleted = useCallback(
@@ -198,7 +197,7 @@ export const ActivityStudentProvider = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const registerActivityNoLudicaCompleted = useCallback(
@@ -207,7 +206,7 @@ export const ActivityStudentProvider = ({
       try {
         const response =
           await ActivityStudentService.registerActivityNoLudicaCompleteApi(
-            payload
+            payload,
           );
         setActivityCompleted(response.data);
       } catch (error) {
@@ -216,7 +215,7 @@ export const ActivityStudentProvider = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   // Funciones Auxiliares

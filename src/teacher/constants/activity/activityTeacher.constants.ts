@@ -1,4 +1,4 @@
-import { FaClock, FaStar } from "react-icons/fa";
+import { FaClock, FaStar, FaClipboardCheck } from "react-icons/fa";
 import { FiXCircle } from "react-icons/fi";
 
 // ============================================
@@ -7,6 +7,7 @@ import { FiXCircle } from "react-icons/fi";
 export const ACTIVITY_TEACHER_STATUS = {
   CREATED: "CREATED",
   PUBLISHED: "PUBLISHED",
+  PENDING: "PENDING",
   EXPIRED: "EXPIRED",
 } as const;
 
@@ -23,6 +24,11 @@ export const ACTIVITY_TEACHER_STATUS_FILTERS = [
     key: ACTIVITY_TEACHER_STATUS.PUBLISHED,
     label: "Disponibles",
     icon: FaStar,
+  },
+  {
+    key: ACTIVITY_TEACHER_STATUS.PENDING,
+    label: "Pendientes de corrección",
+    icon: FaClipboardCheck,
   },
   {
     key: ACTIVITY_TEACHER_STATUS.EXPIRED,
