@@ -59,7 +59,10 @@ const ActivityResultsDetails: React.FC<ActivityResultsDetailsProps> = ({
       value: `${activity.maxTime} minutos`,
       iconColorClass: styles.maxTimeIcon,
     },
-  ];
+  ].filter((item) => {
+    if (item.id === "maxTime") return activity.maxTime && activity.maxTime > 0;
+    return true;
+  });
 
   const renderDetailItem = (item: any) => {
     const IconComponent = item.icon;

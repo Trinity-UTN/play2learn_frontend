@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import type { ActivityResultsResponseInterface } from "@/student/types/Activity.type";
 import type { CurrentActivityInterface } from "@/student/types/Activity.type";
+import { ACTIVITY_RESULTS_MESSAGES } from "@/student/constants/activityResults.constants";
 import { useActivityStudent } from "../../useActivityStudentAPI";
 
 interface UseActivityResultsReturn {
   results: ActivityResultsResponseInterface | null;
   activity: CurrentActivityInterface | null;
   loading: boolean;
+  teacherFeedbackMessage: string | null;
   error: string | null;
 }
 
 export const useActivityResults = (
-  activityId: number
+  activityId: number,
 ): UseActivityResultsReturn => {
   const {
     currentActivity,
@@ -32,10 +34,27 @@ export const useActivityResults = (
     }
   }, [activityId, getActivityById, getActivityResults]);
 
+  const teacherFeedbackMessage = (() => {
+    if (!activityResults || !currentActivity) return null;
+
+    if (activityResults.comment) {
+      return activityResults.comment;
+    }
+
+    const isNoLudica = currentActivity.name === "No Ludica";
+
+    if (isNoLudica) {
+      return ACTIVITY_RESULTS_MESSAGES.TEACHER_PENDING_CORRECTION;
+    }
+
+    return ACTIVITY_RESULTS_MESSAGES.TEACHER_NO_COMMENT;
+  })();
+
   return {
-    results: activityResults,
-    activity: currentActivity,
     loading: contextLoading,
+    activity: currentActivity,
+    results: activityResults,
+    teacherFeedbackMessage,
     error: null,
   };
 };

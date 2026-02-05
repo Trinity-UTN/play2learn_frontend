@@ -118,10 +118,12 @@ export interface CurrentActivityAttemptInfo {
   completedAt?: string;
 }
 
+export type ActivityResultsState = "APPROVED" | "DISAPPROVED" | "PENDING";
+
 export interface ActivityResultsResponseInterface {
   id: number;
   activityId: number;
-  state: "APPROVED" | "DISAPPROVED" | "PENDING";
+  state: ActivityResultsState;
   attempts: number;
   reward: number;
   completedTimeInSeconds: number;

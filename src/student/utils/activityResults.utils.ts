@@ -5,7 +5,7 @@ import type { GameType } from "../../shared/types/Games.type";
  * Formatea el estado de una actividad completada
  */
 export const formatResultState = (
-  state: "APPROVED" | "DISAPPROVED" | "PENDING"
+  state: "APPROVED" | "DISAPPROVED" | "PENDING",
 ): { label: string; variant: "success" | "danger" | "warning" } => {
   switch (state) {
     case "APPROVED":
@@ -63,8 +63,17 @@ export const getStatsLabels = (gameType: GameType) => {
  */
 export const shouldShowStat = (
   gameType: GameType,
-  statType: "correctAnswers" | "incorrectAnswers" | "unanswered"
+  statType:
+    | "correctAnswers"
+    | "incorrectAnswers"
+    | "unanswered"
+    | "completedTime",
+  state?: "APPROVED" | "DISAPPROVED" | "PENDING",
 ): boolean => {
+  if (statType === "completedTime") {
+    return state !== "PENDING";
+  }
+
   const labels = getStatsLabels(gameType);
   return labels[statType] !== null;
 };

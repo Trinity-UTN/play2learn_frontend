@@ -61,17 +61,24 @@ const ActivityResultsStats: React.FC<ActivityResultsStatsProps> = ({
   const gameType = activity.name.toLowerCase() as GameType;
   const statsLabels = getStatsLabels(gameType);
   const isApproved = results.state === "APPROVED";
+  const canShowScore = results.state !== "PENDING" && shouldShowScore(gameType);
 
   const getStatusMessage = () => {
+    if (results.state === "PENDING") {
+      return "Actividad en revisión";
+    }
+
     if (isApproved) {
       return results.score >= 80 ? "¡Excelente trabajo!" : "¡Bien hecho!";
     }
 
     const remainingAttempts =
       currentActivityAttemptInfo?.remainingAttempts || 0;
+
     if (remainingAttempts > 0) {
-      return `Sigue intentando`;
+      return "Sigue intentando";
     }
+
     return "Actividad desaprobada";
   };
 
@@ -82,7 +89,7 @@ const ActivityResultsStats: React.FC<ActivityResultsStatsProps> = ({
   const renderRightMetric = (
     icon: IconType,
     label: string,
-    value: string | number
+    value: string | number,
   ) => {
     const IconComponent = icon;
     return (
@@ -133,13 +140,15 @@ const ActivityResultsStats: React.FC<ActivityResultsStatsProps> = ({
 
   const secondaryStats: StatItem[] = [];
 
-  secondaryStats.push({
-    id: "completedTime",
-    icon: FaClock,
-    label: "Tiempo empleado",
-    value: formatCompletedTime(results.completedTimeInSeconds),
-    className: styles.completedTimeValue,
-  });
+  if (shouldShowStat(gameType, "completedTime", results.state)) {
+    secondaryStats.push({
+      id: "completedTime",
+      icon: FaClock,
+      label: "Tiempo empleado",
+      value: formatCompletedTime(results.completedTimeInSeconds),
+      className: styles.completedTimeValue,
+    });
+  }
 
   if (shouldShowStat(gameType, "correctAnswers")) {
     secondaryStats.push({
@@ -237,21 +246,21 @@ const ActivityResultsStats: React.FC<ActivityResultsStatsProps> = ({
                   </div>
                 </div>
               </div>
-              {shouldShowScore(gameType) && renderScoreGauge()}
+              {canShowScore && renderScoreGauge()}
             </>
           ) : (
             <>
               {renderRightMetric(
                 FaClipboardCheck,
                 "Intentos utilizados",
-                `${results.attempts} de ${activity.attempts}`
+                `${results.attempts} de ${activity.attempts}`,
               )}
               {renderRightMetric(
                 FaClipboardCheck,
                 "Intentos restantes",
-                remainingAttempts > 0 ? remainingAttempts : "Sin intentos"
+                remainingAttempts > 0 ? remainingAttempts : "Sin intentos",
               )}
-              {shouldShowScore(gameType) && renderScoreGauge()}
+              {canShowScore && renderScoreGauge()}
             </>
           )}
         </div>
@@ -264,7 +273,7 @@ const ActivityResultsStats: React.FC<ActivityResultsStatsProps> = ({
           </div>
           <div className={styles.secondaryStatsGrid}>
             {secondaryStats.map((item, index) =>
-              renderSecondaryStat(item, index)
+              renderSecondaryStat(item, index),
             )}
           </div>
         </Card>
