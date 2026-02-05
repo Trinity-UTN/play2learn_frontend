@@ -44,7 +44,6 @@ export interface ActivityCompletedPendingDto {
 
 export interface ActivityReviewNoLudicaRequestDto {
   activityCompletedId: number;
-  studentId: number;
   state: "APPROVED" | "DISAPPROVED";
   score: number;
   comment?: string;

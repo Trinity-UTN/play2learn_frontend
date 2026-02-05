@@ -65,6 +65,11 @@
   font-size: 0.95rem;
 }
 
+.italicText {
+  font-style: italic;
+  color: #6b7280;
+}
+
 .fileSection {
   display: flex;
   flex-direction: column;

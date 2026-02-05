@@ -4,6 +4,7 @@ import { Card } from "@/shared";
 import PDFViewer from "../PDFViewer/PDFViewer";
 import { reviewItemVariants } from "../../../constants/activity/noLudicaReview.constants";
 import type { NoLudicaAttemptResponseDto } from "../../../types/NoLudicaReview.type";
+import { NO_LUDICA_EMPTY_TEXT_RESPONSE } from "@/shared/constants/games.constants";
 import styles from "./AttemptReviewContent.module.css";
 
 interface AttemptReviewContentProps {
@@ -31,7 +32,15 @@ const AttemptReviewContent: React.FC<AttemptReviewContentProps> = ({
                 Respuesta del estudiante
               </h3>
               <div className={styles.textContent}>
-                <p>{attemptData.plainText}</p>
+                <p
+                  className={
+                    attemptData.plainText === NO_LUDICA_EMPTY_TEXT_RESPONSE
+                      ? styles.italicText
+                      : ""
+                  }
+                >
+                  {attemptData.plainText}
+                </p>
               </div>
             </div>
           )}

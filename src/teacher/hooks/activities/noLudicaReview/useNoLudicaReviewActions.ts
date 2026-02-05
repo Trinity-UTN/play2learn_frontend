@@ -47,7 +47,6 @@ export const useNoLudicaReviewActions = () => {
       onConfirm: async () => {
         await submitReview({
           activityCompletedId: storedAttemptData.activityCompletedId,
-          studentId: currentAttempt.studentId,
           state: calculatedState,
           score,
           comment: comment.trim() || undefined,
@@ -81,10 +80,10 @@ export const useNoLudicaReviewActions = () => {
       });
 
       navigate(
-        `/dashboard/teacher/actividades/attempt/${attempt.activityCompletedId}/review`
+        `/dashboard/teacher/actividades/attempt/${attempt.activityCompletedId}/review`,
       );
     },
-    [navigate, setStoredAttemptData]
+    [navigate, setStoredAttemptData],
   );
 
   return {
