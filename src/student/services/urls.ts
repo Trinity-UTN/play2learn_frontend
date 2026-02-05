@@ -5,6 +5,7 @@ export const urls = {
   ActivityApproved: "/activity/student/approved",
   PaginatedActivityNotApproved: "/activity/student/paginated/not-approved",
   PaginatedActivityApproved: "/activity/student/paginated/approved",
+  PaginatedActivityPending: "/activity/student/pending/paginated",
   ActivityStarted: "/activity/start",
   ActivityCompleted: "/activity/completed",
   ActivityNoLudicaComplete: "/activity/completed/no-ludica",

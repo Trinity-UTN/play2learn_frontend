@@ -3,7 +3,7 @@ import { ActivityStudentContext } from "./ActivityStudentContextAPI";
 import type { ActivityStudentContextType } from "./ActivityStudentContextAPI.type";
 import type {
   ActivityNotApprovedResponseInterface,
-  ActivityApprovedResponseInterface,
+  ActivityStateResponseInterface,
   CurrentActivityInterface,
   CurrentActivityAttemptInfo,
   ActivityStatsResponse,
@@ -38,12 +38,14 @@ export const ActivityStudentProvider = ({
     ActivityNotApprovedResponseInterface[]
   >([]);
   const [activityApproved, setActivitiesApproved] = useState<
-    ActivityApprovedResponseInterface[]
+    ActivityStateResponseInterface[]
   >([]);
   const [paginatedActivitiesNotApproved, setPaginatedActivitiesNotApproved] =
     useState<PaginatedData<ActivityNotApprovedResponseInterface> | null>(null);
   const [paginatedActivitiesApproved, setPaginatedActivitiesApproved] =
-    useState<PaginatedData<ActivityApprovedResponseInterface> | null>(null);
+    useState<PaginatedData<ActivityStateResponseInterface> | null>(null);
+  const [paginatedActivitiesPending, setPaginatedActivitiesPending] =
+    useState<PaginatedData<ActivityStateResponseInterface> | null>(null);
   const [currentActivity, setCurrentActivity] =
     useState<CurrentActivityInterface | null>(null);
   const [activityCompleted, setActivityCompleted] =
@@ -81,6 +83,22 @@ export const ActivityStudentProvider = ({
         const response =
           await ActivityStudentService.getPaginatedActivityApprovedApi(params);
         setPaginatedActivitiesApproved(response.data);
+      } catch (error) {
+        handleApiError(error, "Error al obtener las actividades paginadas");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [],
+  );
+
+  const getPaginatedActivitiesPending = useCallback(
+    async (params: GetPaginated): Promise<void> => {
+      setLoading(true);
+      try {
+        const response =
+          await ActivityStudentService.getPaginatedActivityPendingApi(params);
+        setPaginatedActivitiesPending(response.data);
       } catch (error) {
         handleApiError(error, "Error al obtener las actividades paginadas");
       } finally {
@@ -234,6 +252,7 @@ export const ActivityStudentProvider = ({
     activityApproved,
     paginatedActivitiesApproved,
     paginatedActivitiesNotApproved,
+    paginatedActivitiesPending,
     currentActivity,
     activityCompleted,
     activityStudentStats,
@@ -246,6 +265,7 @@ export const ActivityStudentProvider = ({
     getActivityById,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
+    getPaginatedActivitiesPending,
     getActivityStudentStats,
     getActivityResults,
     registerActivityStarted,

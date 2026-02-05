@@ -11,7 +11,7 @@ import {
 import { urls } from "../urls";
 import type {
   ActivityStatsApiResponse,
-  PaginatedActivityApprovedResponseInterface,
+  PaginatedActivityStateResponseInterface,
   PaginatedActivityNotApprovedResponseInterface,
 } from "../../types/Activity.type";
 import qs from "qs";
@@ -27,7 +27,7 @@ const getActivityApprovedApi = async () => {
 };
 
 const getPaginatedActivityNotApprovedApi = async (
-  params: GetPaginated
+  params: GetPaginated,
 ): Promise<PaginatedActivityNotApprovedResponseInterface> => {
   const cleanParams = {
     ...buildCleanPaginatedParams(params),
@@ -43,15 +43,15 @@ const getPaginatedActivityNotApprovedApi = async (
 };
 
 const getPaginatedActivityApprovedApi = async (
-  params: GetPaginated
-): Promise<PaginatedActivityApprovedResponseInterface> => {
+  params: GetPaginated,
+): Promise<PaginatedActivityStateResponseInterface> => {
   const preParams: GetPaginated = {
     ...params,
     filtersValues: params.filtersValues
       ?.map((value) => (value === "ALL" ? undefined : value))
       .filter((v): v is string => v !== undefined),
     filters: params.filters?.filter(
-      (_, index) => params.filtersValues?.[index] !== "ALL"
+      (_, index) => params.filtersValues?.[index] !== "ALL",
     ),
   };
   const cleanParams = {
@@ -60,6 +60,31 @@ const getPaginatedActivityApprovedApi = async (
     filtersValues: preParams.filtersValues?.join(","),
   };
   const response = await api.get(urls.PaginatedActivityApproved, {
+    params: cleanParams,
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  });
+  return response.data;
+};
+
+const getPaginatedActivityPendingApi = async (
+  params: GetPaginated,
+): Promise<PaginatedActivityStateResponseInterface> => {
+  const preParams: GetPaginated = {
+    ...params,
+    filtersValues: params.filtersValues
+      ?.map((value) => (value === "ALL" ? undefined : value))
+      .filter((v): v is string => v !== undefined),
+    filters: params.filters?.filter(
+      (_, index) => params.filtersValues?.[index] !== "ALL",
+    ),
+  };
+  const cleanParams = {
+    ...buildCleanPaginatedParams(preParams),
+    filters: preParams.filters?.join(","),
+    filtersValues: preParams.filtersValues?.join(","),
+  };
+  const response = await api.get(urls.PaginatedActivityPending, {
     params: cleanParams,
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
@@ -84,7 +109,7 @@ const getActivityResultsApi = async (activityId: number) => {
 };
 
 const registerActivityStartedApi = async (
-  id: number
+  id: number,
 ): Promise<{ data: ActivityCompletedResponseInterface }> => {
   const response = await api.post(urls.ActivityStarted, null, {
     params: { activityId: id },
@@ -93,7 +118,7 @@ const registerActivityStartedApi = async (
 };
 
 const registerActivityCompletedApi = async (
-  payload: ActivityCompletedInterface
+  payload: ActivityCompletedInterface,
 ): Promise<{ data: ActivityCompletedResponseInterface }> => {
   const response = await api.post(urls.ActivityCompleted, payload);
 
@@ -110,6 +135,7 @@ export const ActivityStudentService = {
   getActivityApprovedApi,
   getPaginatedActivityNotApprovedApi,
   getPaginatedActivityApprovedApi,
+  getPaginatedActivityPendingApi,
   getActivityByIdApi,
   getActivityStudentStatsApi,
   getActivityResultsApi,
