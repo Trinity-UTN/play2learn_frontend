@@ -1,4 +1,10 @@
-import { FaPlay, FaCheck, FaClock, FaPlus } from "react-icons/fa";
+import {
+  FaPlay,
+  FaCheck,
+  FaClock,
+  FaPlus,
+  FaHourglassHalf,
+} from "react-icons/fa";
 import { FiX, FiXCircle } from "react-icons/fi";
 import type { IconType } from "react-icons";
 import {
@@ -29,7 +35,7 @@ export const getDaysUntilDue = (endDate: string): string => {
   const due = new Date(endDate);
   const now = new Date();
   const diffDays = Math.ceil(
-    (due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+    (due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
   );
 
   if (diffDays < 0) return "Vencida";
@@ -54,6 +60,13 @@ export const getActivityStatusConfig = (status: string) => {
       return {
         icon: FaClock,
         label: "Disponible",
+        buttonText: "Ver Detalles",
+        buttonIcon: FaPlus,
+      };
+    case "PENDING":
+      return {
+        icon: FaHourglassHalf,
+        label: "Pendiente",
         buttonText: "Ver Detalles",
         buttonIcon: FaPlus,
       };
@@ -86,7 +99,7 @@ export const getActivityStatusConfig = (status: string) => {
  */
 export const extractUniqueSubjects = (
   notApprovedActivities: any[],
-  approvedActivities: any[]
+  approvedActivities: any[],
 ) => {
   const allActivities = [...notApprovedActivities, ...approvedActivities];
 
@@ -94,7 +107,7 @@ export const extractUniqueSubjects = (
     allActivities.map((a) => [
       a.subjectId.toString(),
       { id: a.subjectId.toString(), name: a.subjectName },
-    ])
+    ]),
   );
 
   return [

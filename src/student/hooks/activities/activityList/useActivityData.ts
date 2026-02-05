@@ -14,8 +14,10 @@ export const useActivityData = () => {
     activityApproved,
     paginatedActivitiesNotApproved,
     paginatedActivitiesApproved,
+    paginatedActivitiesPending,
     getPaginatedActivitiesNotApproved,
     getPaginatedActivitiesApproved,
+    getPaginatedActivitiesPending,
     getActivityStudentStats,
   } = useActivityStudent();
 
@@ -70,6 +72,21 @@ export const useActivityData = () => {
       filtersValues.push("false");
     }
 
+    // Actividades pendientes
+    if (activeFilter === "PENDING") {
+      await getPaginatedActivitiesPending({
+        ...paginationParams,
+        order_type: "desc",
+        filters:
+          selectedSubject && selectedSubject.id !== "ALL" ? ["subjectId"] : [],
+        filtersValues:
+          selectedSubject && selectedSubject.id !== "ALL"
+            ? [selectedSubject.id]
+            : [],
+      });
+      return;
+    }
+
     // Subject filter
     if (selectedSubject && selectedSubject.id !== "ALL") {
       filters.push("subjectId");
@@ -95,6 +112,7 @@ export const useActivityData = () => {
     selectedDifficulty,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
+    getPaginatedActivitiesPending,
   ]);
 
   /**
@@ -119,17 +137,22 @@ export const useActivityData = () => {
     if (activeFilter === "APPROVED") {
       return (paginatedActivitiesApproved?.results ?? []).map(mapActivityToUI);
     }
+    if (activeFilter === "PENDING") {
+      return (paginatedActivitiesPending?.results ?? []).map(mapActivityToUI);
+    }
     return (paginatedActivitiesNotApproved?.results ?? []).map(mapActivityToUI);
   }, [
     activeFilter,
     paginatedActivitiesApproved,
+    paginatedActivitiesPending,
     paginatedActivitiesNotApproved,
   ]);
 
   // Subjects
+  // TODO: Arreglar este filtrado por materias porque claramente quedó viejisimo. Deberíamos tener un endpoint que traiga todas las materias por las que puede filtrar el alumno y listo
   const subjects = useMemo(
     () => extractUniqueSubjects(activityNotApproved, activityApproved),
-    [activityNotApproved, activityApproved]
+    [activityNotApproved, activityApproved],
   );
 
   // Pagination info
@@ -137,7 +160,9 @@ export const useActivityData = () => {
     const source =
       activeFilter === "APPROVED"
         ? paginatedActivitiesApproved
-        : paginatedActivitiesNotApproved;
+        : activeFilter === "PENDING"
+          ? paginatedActivitiesPending
+          : paginatedActivitiesNotApproved;
 
     return source
       ? {
@@ -153,6 +178,7 @@ export const useActivityData = () => {
     activeFilter,
     paginatedActivitiesApproved,
     paginatedActivitiesNotApproved,
+    paginatedActivitiesPending,
     handlePageChange,
     handlePageSizeChange,
   ]);

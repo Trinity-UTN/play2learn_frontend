@@ -24,12 +24,12 @@ interface ActivityRowProps {
   onStart?: (
     activityId: string,
     remainingAttempts: number,
-    completedAt?: string
+    completedAt?: string,
   ) => void;
   onViewResults?: (
     activityId: string,
     remainingAttempts: number,
-    completedAt?: string
+    completedAt?: string,
   ) => void;
 }
 
@@ -42,19 +42,23 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
   const isDisabled =
     activity.status === "EXPIRED" && activity.remainingAttempts > 0;
   const badgeText =
-    activity.noAttempts && !(activity.status === "APPROVED")
+    activity.noAttempts &&
+    !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? "Desaprobada"
       : statusConfig.label;
   const BadgeIcon =
-    activity.noAttempts && !(activity.status === "APPROVED")
+    activity.noAttempts &&
+    !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? FaTimesCircle
       : statusConfig.icon;
   const ButtonIcon =
-    activity.noAttempts && !(activity.status === "APPROVED")
+    activity.noAttempts &&
+    !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? FaPlay
       : statusConfig.buttonIcon;
   const buttonText =
-    activity.noAttempts && !(activity.status === "APPROVED")
+    activity.noAttempts &&
+    !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? "Ver Resultados"
       : statusConfig.buttonText;
   const subjectColor = getSubjectColor(activity.subjectName);
@@ -68,7 +72,7 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
       onViewResults(
         activity.id,
         activity.remainingAttempts,
-        activity.completedAt
+        activity.completedAt,
       );
     } else if (
       activity.status === "PUBLISHED" &&
@@ -84,7 +88,7 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
       onViewResults(
         activity.id,
         activity.remainingAttempts,
-        activity.completedAt
+        activity.completedAt,
       );
     }
   };
@@ -141,7 +145,7 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
         </div>
 
         {/* Información secundaria */}
-        {activity.status !== "APPROVED" && (
+        {activity.status !== "APPROVED" && activity.status !== "PENDING" && (
           <div className={styles.secondaryInfo}>
             <div className={styles.infoItem}>
               <FaCalendarAlt className={styles.metaIcon} />
