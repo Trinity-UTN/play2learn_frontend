@@ -16,7 +16,7 @@ interface RawActivityData {
 // EXPO: Factory pattern para gameConfig
 export function createGameConfig(
   gameType: GameType,
-  data: RawActivityData
+  data: RawActivityData,
 ): GameConfig {
   switch (gameType) {
     case GameType.AHORCADO:
@@ -40,8 +40,7 @@ export function createGameConfig(
 
     case GameType.NO_LUDICA:
       return {
-        excercise: data.excercise,
-        tipoEntrega: data.tipoEntrega,
+        exercise: data.exercise,
       } as NoLudicaConfig;
 
     case GameType.ORDENAR_SECUENCIA:

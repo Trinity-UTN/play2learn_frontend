@@ -1,4 +1,4 @@
-import { FcTodoList, FcShipped } from "react-icons/fc";
+import { FcTodoList } from "react-icons/fc";
 import type { NoLudicaInterface as NoLudicaConfig } from "../../../activity/types/NoLudica.type";
 import type {
   GameConfigRenderer,
@@ -9,19 +9,11 @@ export class NoLudicaConfigRenderer implements GameConfigRenderer {
   render(config: NoLudicaConfig): GameConfigDetail[] {
     const details: GameConfigDetail[] = [];
 
-    if (config.excercise) {
+    if (config.exercise) {
       details.push({
         icon: FcTodoList,
         label: "Ejercicio",
-        value: config.excercise,
-      });
-    }
-
-    if (config.tipoEntrega) {
-      details.push({
-        icon: FcShipped,
-        label: "Tipo de entrega",
-        value: config.tipoEntrega,
+        value: config.exercise,
       });
     }
 

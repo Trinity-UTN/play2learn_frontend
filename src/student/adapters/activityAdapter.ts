@@ -7,9 +7,9 @@ import type {
 export function mapActivityToUI(
   activity:
     | ActivityNotApprovedResponseInterface
-    | ActivityApprovedResponseInterface
+    | ActivityApprovedResponseInterface,
 ): ActivityUI {
-  const isNotApproved = "pending" in activity;
+  const isNotApproved = "status" in activity;
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("es-ES", {
       day: "2-digit",
@@ -45,7 +45,7 @@ export function mapActivityToUI(
         : undefined,
     extraInfo: !isNotApproved
       ? `Completada el ${new Date(activity.completedAt).toLocaleDateString(
-          "es-ES"
+          "es-ES",
         )}`
       : undefined,
     completedAt: !isNotApproved ? activity.completedAt : undefined,

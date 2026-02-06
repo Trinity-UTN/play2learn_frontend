@@ -31,8 +31,7 @@ export interface NoLudicaPendingActivityDto {
     };
   };
   attempts: number;
-  excercise: string;
-  tipoEntrega: string;
+  exercise: string;
 }
 
 export interface ActivityCompletedPendingDto {
@@ -45,7 +44,6 @@ export interface ActivityCompletedPendingDto {
 
 export interface ActivityReviewNoLudicaRequestDto {
   activityCompletedId: number;
-  studentId: number;
   state: "APPROVED" | "DISAPPROVED";
   score: number;
   comment?: string;

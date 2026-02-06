@@ -6,7 +6,6 @@ import { NoLudicaService } from "../../services/noLudica/NoLudicaService";
 import type {
   NoLudicaConfig,
   NoLudicaInterface,
-  TipoEntrega,
 } from "../../types/NoLudica.type";
 import type { ConfigurationActivity } from "../../types/Configuration.type";
 import { makeData } from "../../utils/MakeData";
@@ -16,7 +15,7 @@ import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
-import { GameType, } from "@/shared";
+import { GameType } from "@/shared";
 import { useGameConfigEffect } from "@/activity/hooks/useGameConfigEffect";
 
 interface NoLudicaProviderProps {
@@ -27,7 +26,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
   children,
 }) => {
   const { configurationActivity } = useConfigurationActivity();
-  const { actividadCreada } = useActividadCreada()
+  const { actividadCreada } = useActividadCreada();
 
   const { resetForm } = useConfigurationForm("no_ludica");
   const { showConfirmation } = useConfirmation();
@@ -38,27 +37,23 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
   // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<"config" | "preview">(
-    "config"
+    "config",
   );
   const [config, setConfig] = useState<NoLudicaConfig>({
-    excercise: "",
-    tipoEntrega: "ENTREGA",
+    exercise: "",
   });
   const [errors, setErrors] = useState<string[]>([]);
-
 
   useGameConfigEffect({
     actividadCreada,
     handlers: {
       [GameType.NO_LUDICA]: (config: NoLudicaConfig) => {
         setConfig({
-          excercise: config.excercise,
-          tipoEntrega: config.tipoEntrega,
+          exercise: config.exercise,
         });
       },
     },
   });
-
 
   useEffect(() => {
     if (currentStep === "preview") {
@@ -73,8 +68,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
   const resetStatesOnly = () => {
     setCurrentStep("config");
     setConfig({
-      excercise: "",
-      tipoEntrega: "ENTREGA",
+      exercise: "",
     });
     setErrors([]);
   };
@@ -84,7 +78,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     resetForm();
   };
 
-  const isFormValid = errors.length === 0 && config.excercise.trim().length > 0;
+  const isFormValid = errors.length === 0 && config.exercise.trim().length > 0;
 
   const registrarNoLudica = async (data: NoLudicaInterface): Promise<void> => {
     setLoading(true);
@@ -94,7 +88,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     // console.log("Configuración de actividad:", configurationActivity);
     const dataMandar = makeData(
       data,
-      configurationActivity as ConfigurationActivity
+      configurationActivity as ConfigurationActivity,
     );
     // console.log("Payload final a enviar:", dataMandar);
     // console.log("=== FIN DEBUG ===");
@@ -131,8 +125,7 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
 
     try {
       const gameData: NoLudicaInterface = {
-        excercise: config.excercise.trim(),
-        tipoEntrega: config.tipoEntrega,
+        exercise: config.exercise.trim(),
       };
 
       await registrarNoLudica(gameData);
@@ -185,17 +178,12 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     const validationErrors: string[] = [];
 
     // Validar consigna
-    if (!configToValidate.excercise.trim()) {
+    if (!configToValidate.exercise.trim()) {
       validationErrors.push("La consigna es obligatoria");
-    } else if (configToValidate.excercise.length > 300) {
+    } else if (configToValidate.exercise.length > 300) {
       validationErrors.push("La consigna no puede superar los 300 caracteres");
-    } else if (configToValidate.excercise.length < 10) {
+    } else if (configToValidate.exercise.length < 10) {
       validationErrors.push("La consigna debe tener al menos 10 caracteres");
-    }
-
-    // Validar tipo de entrega
-    if (!configToValidate.tipoEntrega) {
-      validationErrors.push("Debe seleccionar un tipo de entrega");
     }
 
     return validationErrors;
@@ -225,28 +213,6 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     }
   };
 
-  const getTipoEntregaOptions = () => [
-    {
-      value: "ENTREGA" as TipoEntrega,
-      label: "Archivo",
-      description: "Los estudiantes suben un archivo como respuesta",
-      acceptedFormats: [".pdf", ".doc", ".docx", ".txt", ".jpg", ".png"],
-    },
-    {
-      value: "ENLACE" as TipoEntrega,
-      label: "Enlace Externo",
-      description: "Los estudiantes comparten un enlace como respuesta",
-      placeholder: "https://ejemplo.com/mi-trabajo",
-    },
-    {
-      value: "TEXTO" as TipoEntrega,
-      label: "Texto Plano",
-      description:
-        "Los estudiantes escriben su respuesta directamente en la plataforma",
-      placeholder: "El estudiante escribirá su respuesta aquí...",
-    },
-  ];
-
   const contextValue: NoLudicaContextType = {
     // Estados principales
     loading,
@@ -270,9 +236,6 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     getStepTitle,
     getCurrentStepNumber,
     getStepDescription,
-
-    // Funciones específicas de noLudica
-    getTipoEntregaOptions,
   };
 
   return (

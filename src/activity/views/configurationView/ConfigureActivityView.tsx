@@ -26,7 +26,7 @@ const ConfigureActivityView: React.FC = () => {
     getMaximumInitialBalance,
     isFormValid,
     setIsLoading,
-  } = useConfigurationForm(code_game,id);
+  } = useConfigurationForm(code_game, id);
 
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [isVerticalLayout, setIsVerticalLayout] = useState(true);
@@ -121,6 +121,7 @@ const ConfigureActivityView: React.FC = () => {
           >
             <ConfigurationForm
               configuration={configuration}
+              activityCode={code_game}
               errors={errors}
               subjects={subjects}
               isVerticalLayout={isVerticalLayout}
