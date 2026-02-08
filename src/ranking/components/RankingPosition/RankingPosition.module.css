@@ -9,7 +9,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   transition: all 0.3s ease;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .positionCard:hover {
@@ -74,18 +74,20 @@
   flex: 1;
 }
 
+
+
 .avatar {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 45px;
   height: 45px;
-  background: rgba(var(--color-secondary-rgb), 0.7);
+  background: rgba(255, 255, 255, 0.192);
   border-radius: 50%;
   color: white;
   font-size: 1.25rem;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.307);
 }
 
 .nameContainer {
@@ -130,29 +132,9 @@
   font-weight: 700;
 }
 
-.shine {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
-  animation: shine 3s infinite;
-}
 
-@keyframes shine {
-  0% {
-    transform: translateX(-100%) translateY(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) translateY(100%) rotate(45deg);
-  }
-}
+
+
 
 @media (max-width: 768px) {
   .positionCard {
