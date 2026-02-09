@@ -3,6 +3,8 @@ import { FaCoins, FaGamepad } from "react-icons/fa";
 import type { Position } from "../../types/ranking.type";
 import { useRankingPosition } from "../../hooks/useRankingPosition";
 import styles from "./RankingPosition.module.css";
+import Avatar from "@/student/components/common/Avatar/AvatarComponent";
+import type { AvatarComponentsPreview } from "@/student/types/CurrentStudent.type";
 
 interface RankingPositionProps {
   position: Position;
@@ -18,12 +20,16 @@ export const RankingPosition = ({
   isCurrentUser,
 }: RankingPositionProps) => {
   const { getMedalIcon } = useRankingPosition(position);
+  const avatar: AvatarComponentsPreview = {
+    selectedBody: position.selectedBody,
+    selectedHat: position.selectedHat,
+    selectedShirt: position.selectedShirt
+  }
 
   return (
     <motion.div
-      className={`${styles.positionCard} ${
-        isCurrentUser ? styles.currentUser : ""
-      } ${position.position <= 3 ? styles.topThree : ""}`}
+      className={`${styles.positionCard} ${isCurrentUser ? styles.currentUser : ""
+        } ${position.position <= 3 ? styles.topThree : ""}`}
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.05 }}
@@ -38,9 +44,20 @@ export const RankingPosition = ({
       </div>
 
       <div className={styles.userInfo}>
-        <div className={styles.avatar}>
-          {position.name.charAt(0).toUpperCase()}
-        </div>
+        <motion.div
+          initial={{ y: 0 }}
+          whileTap={{ y: -10, scale: 4, position: "absolute", top: "50%", left: "50%" }}
+          transition={{
+            type: "tween",
+          }}
+          className={styles.avatar}>
+          <Avatar
+            size="small"
+            previewState={avatar}
+          />
+        </motion.div>
+
+
         <div className={styles.nameContainer}>
           <p className={styles.name}>{position.name}</p>
           {isCurrentUser && <span className={styles.youBadge}>Tú</span>}
