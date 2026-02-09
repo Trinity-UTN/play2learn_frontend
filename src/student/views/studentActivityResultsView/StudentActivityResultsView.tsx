@@ -14,7 +14,8 @@ import styles from "./StudentActivityResultsView.module.css";
 
 const StudentActivityResultsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { results, activity, loading, error } = useActivityResults(Number(id));
+  const { loading, activity, results, teacherFeedbackMessage, error } =
+    useActivityResults(Number(id));
   const { goBackToList, goBackToActivityView } = useActivityNavigation();
   const { currentActivityAttemptInfo } = useActivityStudent();
 
@@ -74,7 +75,7 @@ const StudentActivityResultsView: React.FC = () => {
       <div className={styles.mainContent}>
         <ActivityResultsStats results={results} activity={activity} />
         <ActivityResultsDetails activity={activity} />
-        <ActivityResultsFeedback teacherComment={results.comment} />
+        <ActivityResultsFeedback teacherComment={teacherFeedbackMessage} />
       </div>
 
       <StudentActivityFooter

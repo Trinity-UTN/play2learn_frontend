@@ -33,10 +33,10 @@ export interface ActivityNotApprovedResponseInterface extends BaseActivity {
   status: "CREATED" | "PUBLISHED" | "EXPIRED";
 }
 
-export interface ActivityApprovedResponseInterface extends BaseActivity {
+export interface ActivityStateResponseInterface extends BaseActivity {
   completedAt: string;
   reward: number;
-  state: "APPROVED";
+  state: "APPROVED" | "PENDING";
 }
 
 export interface ActivityStatsResponse {
@@ -60,8 +60,8 @@ export interface PaginatedActivityNotApprovedResponseInterface {
   timestamp: string;
 }
 
-export interface PaginatedActivityApprovedResponseInterface {
-  data: PaginatedData<ActivityApprovedResponseInterface>;
+export interface PaginatedActivityStateResponseInterface {
+  data: PaginatedData<ActivityStateResponseInterface>;
   message: string;
   errors: any;
   timestamp: string;
@@ -73,7 +73,7 @@ export interface ActivityUI {
   description: string;
   difficulty: string;
   subjectName: string;
-  status: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED";
+  status: "CREATED" | "PUBLISHED" | "EXPIRED" | "APPROVED" | "PENDING";
   dateLabel?: string;
   timeLabel?: string;
   rewardLabel?: string;
@@ -118,10 +118,12 @@ export interface CurrentActivityAttemptInfo {
   completedAt?: string;
 }
 
+export type ActivityResultsState = "APPROVED" | "DISAPPROVED" | "PENDING";
+
 export interface ActivityResultsResponseInterface {
   id: number;
   activityId: number;
-  state: "APPROVED" | "DISAPPROVED" | "PENDING";
+  state: ActivityResultsState;
   attempts: number;
   reward: number;
   completedTimeInSeconds: number;

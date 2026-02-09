@@ -1,7 +1,7 @@
 import type { GetPaginated, PaginatedData } from "@/shared";
 import type {
   ActivityNotApprovedResponseInterface,
-  ActivityApprovedResponseInterface,
+  ActivityStateResponseInterface,
   CurrentActivityInterface,
   ActivityStatsResponse,
   ActivityResultsResponseInterface,
@@ -20,9 +20,10 @@ export interface ActivityStudentContextType {
   // Estados principales
   loading: boolean;
   activityNotApproved: ActivityNotApprovedResponseInterface[];
-  activityApproved: ActivityApprovedResponseInterface[];
+  activityApproved: ActivityStateResponseInterface[];
   paginatedActivitiesNotApproved: PaginatedData<ActivityNotApprovedResponseInterface> | null;
-  paginatedActivitiesApproved: PaginatedData<ActivityApprovedResponseInterface> | null;
+  paginatedActivitiesApproved: PaginatedData<ActivityStateResponseInterface> | null;
+  paginatedActivitiesPending: PaginatedData<ActivityStateResponseInterface> | null;
   currentActivity: CurrentActivityInterface | null;
   activityCompleted: ActivityCompletedResponseInterface | null;
   activityStudentStats: ActivityStatsResponse | null;
@@ -35,17 +36,18 @@ export interface ActivityStudentContextType {
   getActivityById: (id: number) => Promise<void>;
   getPaginatedActivitiesNotApproved: (params: GetPaginated) => Promise<void>;
   getPaginatedActivitiesApproved: (params: GetPaginated) => Promise<void>;
+  getPaginatedActivitiesPending: (params: GetPaginated) => Promise<void>;
   getActivityStudentStats: () => Promise<void>;
   getActivityResults: (activityId: number) => Promise<void>;
   registerActivityStarted: (id: number) => Promise<void>;
   registerActivityCompleted: (
-    payload: ActivityCompletedInterface
+    payload: ActivityCompletedInterface,
   ) => Promise<void>;
   registerActivityNoLudicaCompleted: (payload: FormData) => Promise<void>;
 
   // Funciones Auxiliares
   refreshActivityDataAfterCompletion: () => Promise<void>;
   setCurrentActivityAttemptInfo: (
-    info: CurrentActivityAttemptInfo | null
+    info: CurrentActivityAttemptInfo | null,
   ) => void;
 }

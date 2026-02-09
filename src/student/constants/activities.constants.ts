@@ -10,6 +10,7 @@ import {
   FaMedal,
   FaFlagCheckered,
   FaBan,
+  FaHourglass,
 } from "react-icons/fa";
 import { FiX, FiXCircle } from "react-icons/fi";
 import type { IconType } from "react-icons";
@@ -27,6 +28,7 @@ export const ACTIVITY_STATUS = {
   EXPIRED: "EXPIRED",
   APPROVED: "APPROVED",
   DISAPPROVED: "DISAPPROVED",
+  PENDING: "PENDING",
 } as const;
 
 export type ActivityStatus =
@@ -58,6 +60,11 @@ export const ACTIVITY_STATUS_FILTERS = [
     key: ACTIVITY_STATUS.APPROVED,
     label: "Aprobadas",
     icon: FaCheck,
+  },
+  {
+    key: ACTIVITY_STATUS.PENDING,
+    label: "Pendientes de Corrección",
+    icon: FaHourglass,
   },
   {
     key: ACTIVITY_STATUS.DISAPPROVED,

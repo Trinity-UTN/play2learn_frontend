@@ -1,13 +1,13 @@
 import type {
   ActivityNotApprovedResponseInterface,
-  ActivityApprovedResponseInterface,
+  ActivityStateResponseInterface,
   ActivityUI,
 } from "../types/Activity.type";
 
 export function mapActivityToUI(
   activity:
     | ActivityNotApprovedResponseInterface
-    | ActivityApprovedResponseInterface,
+    | ActivityStateResponseInterface,
 ): ActivityUI {
   const isNotApproved = "status" in activity;
   const formatDate = (dateString: string) => {

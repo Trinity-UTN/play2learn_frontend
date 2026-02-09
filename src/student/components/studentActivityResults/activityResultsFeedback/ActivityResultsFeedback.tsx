@@ -32,8 +32,7 @@ const ActivityResultsFeedback: React.FC<ActivityResultsFeedbackProps> = ({
                     !teacherComment ? styles.teacherComments : ""
                   }`}
                 >
-                  {teacherComment ||
-                    "El docente corrigió la actividad pero no realizó comentarios"}
+                  {teacherComment}
                 </span>
               </div>
             </div>
