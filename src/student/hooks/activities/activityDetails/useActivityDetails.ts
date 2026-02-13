@@ -7,6 +7,8 @@ import type {
 } from "../../../types/Activity.type";
 import { useDetailsFormatters } from "./useDetailsFormatters";
 import { useGameConfigRenderer } from "@/shared";
+import { GameType } from "@/shared";
+import { getGameTypeFromActivityName } from "@/shared";
 
 interface UseActivityDataProps {
   currentActivity: CurrentActivityInterface | null;
@@ -27,10 +29,38 @@ export const useActivityDetails = ({
   const { formatDate, formatTime } = useDetailsFormatters();
   const displayData = currentActivity || activity;
 
-  const gameConfigDetails = useGameConfigRenderer(
+  const allGameConfigDetails = useGameConfigRenderer(
     currentActivity?.name,
-    currentActivity?.gameConfig
+    currentActivity?.gameConfig,
   );
+
+  const isNoLudica = useMemo(() => {
+    if (!currentActivity?.name) return false;
+    const gameType = getGameTypeFromActivityName(currentActivity.name);
+    return gameType === GameType.NO_LUDICA;
+  }, [currentActivity?.name]);
+
+  const { exerciseDetail, gameConfigDetails } = useMemo(() => {
+    if (!isNoLudica) {
+      return {
+        exerciseDetail: null,
+        gameConfigDetails: allGameConfigDetails,
+      };
+    }
+
+    const exercise = allGameConfigDetails.find(
+      (detail) => detail.label === "Ejercicio",
+    );
+
+    const filtered = allGameConfigDetails.filter(
+      (detail) => detail.label !== "Ejercicio",
+    );
+
+    return {
+      exerciseDetail: exercise || null,
+      gameConfigDetails: filtered,
+    };
+  }, [isNoLudica, allGameConfigDetails]);
 
   const mainActivityItems = useMemo((): ActivityItem[] => {
     const items: ActivityItem[] = [];
@@ -75,6 +105,7 @@ export const useActivityDetails = ({
     displayData,
     mainActivityItems,
     gameConfigDetails,
+    exerciseDetail,
     hasDescription: !!currentActivity?.description,
     description: currentActivity?.description,
   };

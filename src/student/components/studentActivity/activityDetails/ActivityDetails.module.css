@@ -63,7 +63,6 @@
 
 .descriptionSection {
   background: rgba(255, 255, 255, 0.05);
-  margin-bottom: 1rem;
 }
 
 .descriptionIcon {
@@ -76,6 +75,7 @@
   display: grid;
   gap: 1rem;
   transition: all 0.3s ease;
+  margin-top: 1rem;
 }
 
 .detailsGrid.vertical {
