@@ -53,28 +53,27 @@ export const useActivityActions = () => {
 
   const startActivity = useCallback(
     (activityId: number | string) => {
-      showConfirmation({
-        title: "¿Estás seguro de comenzar la actividad?",
-        message:
-          "Una vez que inicies la actividad, deberás completarla sin interrupciones. Antes de continuar, asegúrate de leer las reglas.",
-        type: "warning",
-        confirmText: "Sí, quiero comenzar",
-        cancelText: "Cancelar",
-        showDoubleConfirmation: true,
-        doubleConfirmationText: "Confirma que has leído y aceptas las reglas",
-        rules: rules,
-        showRulesIcon: false,
-        onConfirm: () => {
-          if (currentActivity?.name === "No Ludica") {
-            navigate(`/dashboard/student/actividades/${activityId}/play`);
-            return;
-          }
-          if (activityId) {
-            registerActivityStarted(Number(activityId));
-            navigate(`/dashboard/student/actividades/${activityId}/play`);
-          }
-        },
-      });
+      if (currentActivity?.name === "No Ludica") {
+        navigate(`/dashboard/student/actividades/${activityId}/play`);
+        return;
+      } else {
+        showConfirmation({
+          title: "¿Estás seguro de comenzar la actividad?",
+          message:
+            "Una vez que inicies la actividad, deberás completarla sin interrupciones. Antes de continuar, asegúrate de leer las reglas.",
+          type: "warning",
+          confirmText: "Sí, quiero comenzar",
+          cancelText: "Cancelar",
+          rules: rules,
+          showRulesIcon: false,
+          onConfirm: () => {
+            if (activityId) {
+              registerActivityStarted(Number(activityId));
+              navigate(`/dashboard/student/actividades/${activityId}/play`);
+            }
+          },
+        });
+      }
     },
     [
       navigate,
