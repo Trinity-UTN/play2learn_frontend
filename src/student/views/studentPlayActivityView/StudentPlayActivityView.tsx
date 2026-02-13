@@ -144,10 +144,10 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
       <StudentActivityFooter
         loading={loading}
         //isFormValid={isGameFinished}
-        onBack={goBackToActivityView}
+        // onBack={goBackToActivityView}
         onNext={handleFinishActivity}
         nextButtonText="Finalizar Intento"
-        backButtonText="DEBUG: Atras"
+        // backButtonText="DEBUG: Atras"
         showBackToList={false}
       />
     </motion.div>
