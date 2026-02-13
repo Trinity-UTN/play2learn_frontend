@@ -109,3 +109,7 @@ export const NOTIFICATION_CONFIG: Record<NotificationType, NotificationConfig> =
   } as const;
 
 export const NOTIFICATION_EXPIRATION_DAYS = 30;
+
+export const NOTIFICATION_HIDDEN_ROUTES = {
+  STUDENT_ACTIVITY_PLAY: /^\/dashboard\/student\/actividades\/\d+\/play$/,
+} as const;

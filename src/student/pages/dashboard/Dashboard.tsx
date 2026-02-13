@@ -1,8 +1,10 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
 import NotificationBell from "../../../notifications/components/NotificationBell/NotificationBell";
 import StudentSidebar from "../../components/sidebar/Sidebar";
+import { shouldShowNotifications } from "@/notifications/utils/notification.utils";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import { useBenefitStudent } from "../../hooks/useBenefitStudent";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
@@ -12,6 +14,8 @@ const StudentDashboard: React.FC = () => {
   const { loading } = useCurrentStudent();
   const { getBenefitStudentStats } = useBenefitStudent();
   const { getActivityStudentStats } = useActivityStudent();
+  const location = useLocation();
+  const showNotifications = shouldShowNotifications(location.pathname);
   const currentView = "overview";
 
   useEffect(() => {
@@ -34,16 +38,18 @@ const StudentDashboard: React.FC = () => {
         transition={{ duration: 0.3 }}
         className={styles.content}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: "16px",
-            right: "16px",
-            zIndex: 100,
-          }}
-        >
-          <NotificationBell variant="student" />
-        </div>
+        {showNotifications && (
+          <div
+            style={{
+              position: "absolute",
+              top: "16px",
+              right: "16px",
+              zIndex: 100,
+            }}
+          >
+            <NotificationBell variant="student" />
+          </div>
+        )}
         <Outlet />
       </motion.main>
     </div>
