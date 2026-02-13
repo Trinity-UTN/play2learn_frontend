@@ -63,8 +63,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     }
   };
 
-  const showRules =
-    rules.length > 0 && showDoubleConfirmation && showSecondConfirmation;
+  const showRules = rules.length > 0;
 
   return (
     <AnimatePresence>

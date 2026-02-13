@@ -1,9 +1,9 @@
 import { useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import type { GameHook } from "@/shared";
-import { useActivityStudent } from "../../../student/hooks/useActivityStudentAPI";
+import { getActivityRules } from "@/student/utils/activityRules.utils";
+import { useActivityStudent } from "@/student/hooks/useActivityStudentAPI";
 import { useConfirmation, usePaginationParams } from "@/shared";
-import { useActivityRules } from "./useActivityRules";
 import { useCurrentActivityPersistence } from "./useCurrentActivityPersistence";
 
 export const useActivityActions = () => {
@@ -20,13 +20,13 @@ export const useActivityActions = () => {
 
   const { clearPersistedActivity } = useCurrentActivityPersistence();
   const { showConfirmation } = useConfirmation();
-  const { rules } = useActivityRules();
   const { paginationParams } = usePaginationParams();
 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const isFinishingActivity = useRef(false);
+  const rules = getActivityRules(currentActivity?.name);
 
   const viewActivity = useCallback(
     async (activityId: number | string) => {
