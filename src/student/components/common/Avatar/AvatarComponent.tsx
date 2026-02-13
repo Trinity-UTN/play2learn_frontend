@@ -1,4 +1,3 @@
-import { FaStar } from "react-icons/fa";
 import type { AvatarComponentsPreview } from "../../../types/CurrentStudent.type";
 import { useCurrentStudent } from "../../../hooks/useCurrentStudent";
 import styles from "./Avatar.module.css";
@@ -6,6 +5,7 @@ import styles from "./Avatar.module.css";
 interface AvatarComponentProps {
   size?: "small" | "medium" | "large" | "preview";
   showLevel?: boolean;
+  studentLevel?: number;
   showRing?: boolean;
   onClick?: () => void;
   className?: string;
@@ -15,6 +15,7 @@ interface AvatarComponentProps {
 const Avatar: React.FC<AvatarComponentProps> = ({
   size = "medium",
   showLevel = false,
+  studentLevel,
   showRing = false,
   onClick,
   className = "",
@@ -73,8 +74,7 @@ const Avatar: React.FC<AvatarComponentProps> = ({
 
       {showLevel && (
         <div className={styles.levelBadge}>
-          <FaStar className={styles.levelIcon} />
-          <span>30</span>
+          <span>{studentLevel}</span>
         </div>
       )}
     </div>
