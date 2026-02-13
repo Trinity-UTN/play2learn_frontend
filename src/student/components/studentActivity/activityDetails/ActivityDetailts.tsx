@@ -87,7 +87,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
         )}
 
         {exerciseDetail && (
-          <div className={styles.descriptionSection}>
+          <div className={styles.exerciseSection}>
             {renderDetailItem(exerciseDetail, "exercise-detail")}
           </div>
         )}
