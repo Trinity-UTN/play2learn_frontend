@@ -110,7 +110,11 @@ const ActivitiesCreatedTable: React.FC<ActivitiesCreatedTableProps> = ({
 
                 {/* Descripción */}
                 <td className={`${styles.tableCell} ${styles.centeredCell}`}>
-                  <Tooltip content={activity.description} position="top">
+                  <Tooltip
+                    content={activity.description}
+                    position="top"
+                    trigger="click"
+                  >
                     <p className={styles.activityDescription}>
                       {activity.description}
                     </p>
