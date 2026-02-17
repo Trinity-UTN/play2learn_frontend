@@ -123,7 +123,6 @@ export const usePreventNavigation = ({
       },
       onCancel: () => {
         pendingNavigationRef.current = null;
-        onNavigationAttempt?.();
       },
     });
   };
