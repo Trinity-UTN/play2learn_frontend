@@ -46,18 +46,32 @@ export const useActivityData = () => {
     const filters: string[] = [];
     const filtersValues: string[] = [];
 
+    if (selectedSubject && selectedSubject.id !== "ALL") {
+      filters.push("subjectId");
+      filtersValues.push(selectedSubject.id);
+    }
+
+    if (selectedDifficulty && selectedDifficulty !== "ALL") {
+      filters.push("difficulty");
+      filtersValues.push(selectedDifficulty);
+    }
+
+    const baseParams = {
+      ...paginationParams,
+      order_type: "desc" as const,
+      filters,
+      filtersValues,
+    };
+
     // Actividades aprobadas
     if (activeFilter === "APPROVED") {
-      await getPaginatedActivitiesApproved({
-        ...paginationParams,
-        order_type: "desc",
-        filters:
-          selectedSubject && selectedSubject.id !== "ALL" ? ["subjectId"] : [],
-        filtersValues:
-          selectedSubject && selectedSubject.id !== "ALL"
-            ? [selectedSubject.id]
-            : [],
-      });
+      await getPaginatedActivitiesApproved({ ...baseParams });
+      return;
+    }
+
+    // Actividades pendientes
+    if (activeFilter === "PENDING") {
+      await getPaginatedActivitiesPending({ ...baseParams });
       return;
     }
 
@@ -72,38 +86,10 @@ export const useActivityData = () => {
       filtersValues.push("false");
     }
 
-    // Actividades pendientes
-    if (activeFilter === "PENDING") {
-      await getPaginatedActivitiesPending({
-        ...paginationParams,
-        order_type: "desc",
-        filters:
-          selectedSubject && selectedSubject.id !== "ALL" ? ["subjectId"] : [],
-        filtersValues:
-          selectedSubject && selectedSubject.id !== "ALL"
-            ? [selectedSubject.id]
-            : [],
-      });
-      return;
-    }
-
-    // Subject filter
-    if (selectedSubject && selectedSubject.id !== "ALL") {
-      filters.push("subjectId");
-      filtersValues.push(selectedSubject.id);
-    }
-
-    // Difficulty filter
-    if (selectedDifficulty && selectedDifficulty !== "ALL") {
-      filters.push("difficulty");
-      filtersValues.push(selectedDifficulty);
-    }
-
     await getPaginatedActivitiesNotApproved({
-      ...paginationParams,
-      order_type: "desc",
-      filters,
-      filtersValues,
+      ...baseParams,
+      filters: [...filters],
+      filtersValues: [...filtersValues],
     });
   }, [
     activeFilter,
