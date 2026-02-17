@@ -11,7 +11,7 @@ const ActivityDetailsView = () => {
   const { activityId } = useParams<{ activityId: string }>();
 
   const { activity, loading } = useActivityDetailsTeacherData(activityId);
-  const { handleGoBack, handleFinishActivity } =
+  const { handleGoBack, handleFinishActivity, handleReexposeActivity } =
     useActivityDetailsTeacherActions();
 
   if (loading || !activityId) {
@@ -45,7 +45,7 @@ const ActivityDetailsView = () => {
           onBack={handleGoBack}
           onFinish={handleFinishActivity}
           onEdit={() => {}}
-          onReexpose={() => {}}
+          onReexpose={handleReexposeActivity}
           onDelete={() => {}}
         />
       </div>
