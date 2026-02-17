@@ -3,8 +3,8 @@ import {
   FaCalendarAlt,
   FaEye,
   FaRedo,
-  FaPencilAlt,
-  FaTrash,
+  // FaPencilAlt,
+  // FaTrash,
 } from "react-icons/fa";
 import {
   Badge,
@@ -145,7 +145,7 @@ const ActivitiesCreatedTable: React.FC<ActivitiesCreatedTableProps> = ({
                     >
                       <FaEye /> Ver
                     </Button>
-                    <Button
+                    {/* <Button
                       variant="ghost"
                       size="sm"
                       className={`${styles.actionButton} ${styles.editButton}`}
@@ -153,7 +153,7 @@ const ActivitiesCreatedTable: React.FC<ActivitiesCreatedTableProps> = ({
                       disabled={loading}
                     >
                       <FaPencilAlt />
-                    </Button>
+                    </Button> */}
                     {activity.status === ACTIVITY_TEACHER_STATUS.EXPIRED && (
                       <Button
                         variant="ghost"
@@ -167,7 +167,7 @@ const ActivitiesCreatedTable: React.FC<ActivitiesCreatedTableProps> = ({
                         <FaRedo />
                       </Button>
                     )}
-                    {activity.status !== ACTIVITY_TEACHER_STATUS.EXPIRED && (
+                    {/* {activity.status !== ACTIVITY_TEACHER_STATUS.EXPIRED && (
                       <Button
                         variant="ghost"
                         size="sm"
@@ -179,7 +179,7 @@ const ActivitiesCreatedTable: React.FC<ActivitiesCreatedTableProps> = ({
                       >
                         <FaTrash />
                       </Button>
-                    )}
+                    )} */}
                   </div>
                 </td>
               </motion.tr>
