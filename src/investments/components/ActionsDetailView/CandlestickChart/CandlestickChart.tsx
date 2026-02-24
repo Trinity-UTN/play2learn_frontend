@@ -40,9 +40,8 @@ const CandlestickChart: React.FC<CandlestickChartProps> = ({
             {timeRanges.map((rangeValue, index) => (
               <motion.button
                 key={rangeValue.range}
-                className={`${styles.button} ${
-                  rangeValue.range === range ? styles.active : ""
-                }`}
+                className={`${styles.button} ${rangeValue.range === range ? styles.active : ""
+                  }`}
                 onClick={() => setRange(rangeValue.range)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

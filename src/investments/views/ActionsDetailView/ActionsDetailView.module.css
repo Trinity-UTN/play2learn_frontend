@@ -76,6 +76,7 @@
   color: white;
   gap: 2rem;
 }
+
 .error p {
   font-size: 2rem;
 }
@@ -103,4 +104,5 @@
   .tradingSection {
     grid-template-columns: 1fr;
   }
+
 }
