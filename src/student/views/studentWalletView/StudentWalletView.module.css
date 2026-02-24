@@ -1,4 +1,5 @@
 @import "../../../shared/styles/colors.css";
+
 .wallet {
   max-width: 1400px;
   margin: 0 auto;
@@ -68,6 +69,7 @@
   background: var(--color-secondary) !important;
   box-shadow: 5px 5px 0px rgba(230, 232, 230, 0.364);
 }
+
 .educationIcon {
   font-size: 1.5rem;
 }
@@ -101,6 +103,11 @@
 }
 
 @media (max-width: 768px) {
+  .content {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
   .header {
     flex-direction: column;
     gap: 1rem;

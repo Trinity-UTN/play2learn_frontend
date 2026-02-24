@@ -12,26 +12,37 @@ interface LoadingSpinnerProps {
 
 const LoadingSpinnerComponent: React.FC<LoadingSpinnerProps> = ({
   size = "md",
-  text = "Cargando...",
+  text = "Cargando contenido...",
   overlay = false,
-  color = "#3b82f6",
+  color = "#f76300",
   colorText,
 }) => {
   const spinnerContent = (
-    <div className={`${styles.container} ${styles[size]}`}>
-      <motion.div
-        className={styles.spinner}
-        style={{
-          borderTopColor: color,
-          borderLeftColor: color,
-        }}
-        animate={{ rotate: 360 }}
-        transition={{
-          duration: 1,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "linear",
-        }}
-      />
+    <div className={styles.container}>
+      <div className={`${styles.spinnerWrapper} ${styles[size]}`}>
+
+        {/* Spinner girando alrededor */}
+        <motion.div
+          className={styles.spinner}
+          style={{
+            borderTopColor: color,
+            borderLeftColor: color,
+          }}
+          animate={{ rotate: 360 }}
+          transition={{
+            duration: 1,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "linear",
+          }}
+        />
+
+        {/* Centro estático */}
+        <div className={styles.centerContent}>
+          <img src="/Logo.png" alt="logo" />
+        </div>
+
+      </div>
+
       {text && (
         <p className={styles.text} style={{ color: colorText }}>
           {text}

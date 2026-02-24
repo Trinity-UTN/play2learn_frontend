@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
-import Sidebar from "../../components/Sidebar/Sidebar";
 import styles from "./AdminDashboard.module.css";
+import { AdminSidebar } from "@/admin/components/Sidebar/Sidebar";
 
 const AdminDashboardPage: React.FC = () => {
   return (
     <div className={styles.dashboard}>
-      <Sidebar />
+      <AdminSidebar />
       <motion.main
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}

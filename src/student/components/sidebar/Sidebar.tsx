@@ -7,14 +7,12 @@ import {
   FaGift,
   FaStore,
   FaTrophy,
-  FaSignOutAlt,
   FaFire,
 } from "react-icons/fa";
 import type { StudentDashboardView } from "../../types/generalType";
-import { Button, formatPrice } from "@/shared";
+import { formatPrice, Sidebar } from "@/shared";
 import Avatar from "../common/Avatar/AvatarComponent";
 import { StudentRoutes } from "../../routes/routes";
-import { useAuth } from "../../../user/hooks/useAuth";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import { useBenefitStudent } from "../../hooks/useBenefitStudent";
@@ -37,11 +35,12 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
   currentView,
   isLoading = false,
 }) => {
-  const { logout } = useAuth();
+
   const { wallet, currentStudent } = useCurrentStudent();
   const { activityStudentStats } = useActivityStudent();
   const { benefitStats } = useBenefitStudent();
   const navigate = useNavigate();
+
 
   const availableActivityCount = activityStudentStats?.available ?? 0;
   const availableBenefitCount = benefitStats?.available ?? 0;
@@ -98,19 +97,6 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
     },
   ];
 
-  const containerVariants: Variants = {
-    hidden: { x: -250 },
-    visible: {
-      x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
   const itemVariants: Variants = {
     hidden: { x: -20, opacity: 0 },
     visible: { x: 0, opacity: 1 },
@@ -118,6 +104,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
 
   const onViewChange = (path: string) => {
     navigate(`/dashboard/${path}`);
+
   };
 
   const handleProfileClick = () => {
@@ -125,13 +112,9 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
   };
 
   return (
-    <motion.aside
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className={`${styles.sidebar} ${isLoading ? styles.loading : ""}`}
-    >
+    <Sidebar isLoading={isLoading} handleNavegacion={handleProfileClick}>
       <motion.div variants={itemVariants} className={styles.header}>
+
         <div className={styles.profile}>
           {isLoading ? (
             <div className={styles.avatarSkeleton}></div>
@@ -164,10 +147,6 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
                     Nivel
                     <span>{currentStudent?.profile.level}</span>
                   </div>
-                  {/* <div className={styles.stat}>
-                    <FaTrophy className={styles.statIcon} />
-                    <span>#3</span>
-                  </div> */}
                 </div>
               </>
             )}
@@ -204,9 +183,8 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
                   </div>
                 ) : (
                   <button
-                    className={`${styles.menuItem} ${
-                      currentView === item.path ? styles.active : ""
-                    }`}
+                    className={`${styles.menuItem} ${currentView === item.path ? styles.active : ""
+                      }`}
                     onClick={() => onViewChange(item.path)}
                     style={
                       { "--item-color": item.color } as React.CSSProperties
@@ -228,23 +206,10 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
         </motion.div>
       </div>
 
-      <motion.div variants={itemVariants} className={styles.footer}>
-        {isLoading ? (
-          <div className={styles.logoutSkeleton}></div>
-        ) : (
-          <Button
-            variant="ghost"
-            fullWidth
-            onClick={logout}
-            className={styles.logoutButton}
-          >
-            <FaSignOutAlt className={styles.logoutIcon} />
-            Cerrar Sesión
-          </Button>
-        )}
-      </motion.div>
-    </motion.aside>
-  );
+
+    </Sidebar>
+
+  )
 };
 
 export default StudentSidebar;

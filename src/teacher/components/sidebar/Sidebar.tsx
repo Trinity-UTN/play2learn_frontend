@@ -1,21 +1,18 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
 import {
   FaHome,
   FaPlus,
   FaGraduationCap,
   FaUserTie,
-  FaSignOutAlt,
   FaGamepad,
 } from "react-icons/fa";
-import { useAuth } from "@/user/hooks/useAuth";
-import { Button } from "@/shared";
+import { Button, Sidebar } from "@/shared";
 import styles from "./Sidebar.module.css";
 import TeacherRoutes from "../../routes/routes";
 
-const Sidebar: React.FC = () => {
-  const { logout } = useAuth();
+export const TeacherSidebar: React.FC = () => {
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -70,18 +67,6 @@ const Sidebar: React.FC = () => {
     },
   ];
 
-  const containerVariants: Variants = {
-    hidden: { x: -250 },
-    visible: {
-      x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        staggerChildren: 0.1,
-      },
-    },
-  };
 
   const itemVariants = {
     hidden: { x: -20, opacity: 0 },
@@ -89,11 +74,10 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <motion.aside
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className={styles.sidebar}
+    <Sidebar
+      isLoading={false}
+      handleNavegacion={() => isActive}
+      colorBtnMenu="#333333"
     >
       <motion.div variants={itemVariants} className={styles.header}>
         <div className={styles.logo}>
@@ -125,9 +109,8 @@ const Sidebar: React.FC = () => {
                     variant="ghost"
                     fullWidth
                     onClick={() => navigate(`/dashboard/teacher/${item.path}`)}
-                    className={`${styles.menuItem} ${
-                      isActive(item.path) ? styles.active : ""
-                    }`}
+                    className={`${styles.menuItem} ${isActive(item.path) ? styles.active : ""
+                      }`}
                   >
                     <item.icon className={styles.menuIcon} />
                     <span>{item.title}</span>
@@ -139,19 +122,8 @@ const Sidebar: React.FC = () => {
         ))}
       </div>
 
-      <motion.div variants={itemVariants} className={styles.footer}>
-        <Button
-          variant="ghost"
-          fullWidth
-          onClick={logout}
-          className={styles.logoutButton}
-        >
-          <FaSignOutAlt className={styles.logoutIcon} />
-          Cerrar Sesión
-        </Button>
-      </motion.div>
-    </motion.aside>
+    </Sidebar>
   );
 };
 
-export default Sidebar;
+

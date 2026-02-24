@@ -5,6 +5,7 @@
 }
 
 .content {
+
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
@@ -14,4 +15,9 @@
   .content {
     padding: 1rem;
   }
+
+  .dashboard {
+    flex-direction: column;
+  }
+
 }

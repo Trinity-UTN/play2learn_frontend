@@ -1,14 +1,5 @@
 @import "../../../shared/styles/colors.css";
-.sidebar {
-  width: 280px;
-  background: white;
-  border-right: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-}
+
 
 .header {
   padding: 1.5rem;
@@ -32,14 +23,14 @@
 
 .logoTitle {
   font-weight: 600;
-  color: var(--color-text-title);
+  color: var(--color-text-light);
   margin: 0;
   font-size: 1rem;
 }
 
 .logoSubtitle {
   font-size: 0.75rem;
-  color: var(--color-text-subtitle);
+  color: var(--color-text-subtitle-ligth);
   margin: 0;
 }
 
@@ -47,6 +38,8 @@
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
+  z-index: 2000;
+  scrollbar-width: none;
 }
 
 .section {
@@ -56,7 +49,7 @@
 .sectionTitle {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--color-text-subtitle);
+  color: var(--color-text-subtitle-ligth);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
@@ -78,7 +71,7 @@
   padding: 0.75rem;
   border: none;
   background: none;
-  color: var(--color-text);
+  color: var(--color-text-light);
   text-align: left;
   border-radius: 0.5rem;
   cursor: pointer;
