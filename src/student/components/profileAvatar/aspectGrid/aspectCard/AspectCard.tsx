@@ -24,9 +24,8 @@ const AspectCard: React.FC<AspectCardProps> = ({
   return (
     <div
       onClick={() => onClick(aspect)}
-      className={`${styles.aspectCard} ${
-        isSelected ? styles.aspectCardSelected : ""
-      } ${isNullAspect ? styles.aspectCardNull : ""}`}
+      className={`${styles.aspectCard} ${isSelected ? styles.aspectCardSelected : ""
+        } ${isNullAspect ? styles.aspectCardNull : ""}`}
     >
       {!isNullAspect && (
         <Button

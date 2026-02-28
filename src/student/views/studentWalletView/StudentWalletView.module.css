@@ -1,9 +1,9 @@
 @import "../../../shared/styles/colors.css";
 
 .wallet {
-  max-width: 1400px;
+  max-width: 90rem;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .loadingContainer {

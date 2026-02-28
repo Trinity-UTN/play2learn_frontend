@@ -33,11 +33,9 @@
   position: absolute;
   inset: 0;
   border-radius: 16px;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0.05)
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.05));
   backdrop-filter: blur(10px);
 }
 
@@ -70,16 +68,20 @@
   opacity: 0.8;
   font-weight: 500;
 }
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .stats {
     flex-direction: column;
+    justify-content: start;
+    align-items: start;
     gap: 1.5rem;
     padding: 1.5rem;
   }
 
   .statItem {
-    justify-content: center;
+    width: 100%;
+    justify-content: stretch;
   }
 }
 

@@ -1,9 +1,10 @@
 .container {
   min-height: 100vh;
+  padding: 2rem;
 }
 
 .content {
-  max-width: 1600px;
+  max-width: 90rem;
   margin: 0 auto;
 }
 

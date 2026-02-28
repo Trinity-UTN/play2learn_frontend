@@ -82,10 +82,12 @@ const StudentProfileAvatarView: React.FC = () => {
     <>
       <AnimatePresence>
         {showInfoPopup && selectedAspectInfo && (
-          <AspectPopup
-            aspect={selectedAspectInfo}
-            onClose={() => setShowInfoPopup(false)}
-          />
+          <div className={styles.contPopup}>
+            <AspectPopup
+              aspect={selectedAspectInfo}
+              onClose={() => setShowInfoPopup(false)}
+            />
+          </div>
         )}
       </AnimatePresence>
       <motion.div
@@ -150,6 +152,7 @@ const StudentProfileAvatarView: React.FC = () => {
 
             <div className={styles.avatarPreviewSection}>
               <div className={styles.avatarPreviewContainer}>
+
                 <Avatar
                   size={"preview"}
                   showRing={true}

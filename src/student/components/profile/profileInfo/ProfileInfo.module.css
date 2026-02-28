@@ -53,11 +53,13 @@
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 0.5;
     transform: scale(1);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.05);
@@ -146,6 +148,11 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .headerContent {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
   .avatarSection {
     flex-direction: column;
     text-align: center;

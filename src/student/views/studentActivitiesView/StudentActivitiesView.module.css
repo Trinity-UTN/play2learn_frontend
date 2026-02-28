@@ -1,7 +1,7 @@
 .activitiesView {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;

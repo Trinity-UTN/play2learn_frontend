@@ -2,18 +2,26 @@
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  background: linear-gradient(
-    135deg,
-    rgba(102, 126, 234, 0.1) 0%,
-    rgba(118, 75, 162, 0.1) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(102, 126, 234, 0.1) 0%,
+      rgba(118, 75, 162, 0.1) 100%);
+  padding: 2rem;
+}
+
+.contPopup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
 }
 
 .content {
   display: flex;
-  max-width: 1600px;
-  margin: 0 auto;
+  max-width: 70rem;
   padding: 2rem;
+  margin: 0 auto;
   gap: 2rem;
   align-items: flex-start;
 }
@@ -113,6 +121,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -142,6 +151,7 @@
 
   .inventorySection {
     order: 2;
+    width: 100%;
   }
 }
 
