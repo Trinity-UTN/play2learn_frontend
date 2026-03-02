@@ -30,6 +30,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
         <Avatar
           size={avatarSize}
           showLevel={showLevel}
+          studentLevel={currentStudent?.profile.level}
           showRing={showRing}
           className={styles.profileAvatar}
         />

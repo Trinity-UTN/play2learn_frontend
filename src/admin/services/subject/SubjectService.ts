@@ -7,7 +7,7 @@ import {
 } from "@/admin";
 
 const registerSubjectApi = async (
-  data: CreateSubjectPayload
+  data: CreateSubjectPayload,
 ): Promise<void> => {
   await api.post(urls.Subject, data);
 };
@@ -20,17 +20,19 @@ const getSubjectApi = async () => {
   const response = await api.get(urls.Subject);
   return response;
 };
+
 const getSubjectByTeacherApi = async () => {
   const response = await api.get(urls.SubjectTeacher);
   return response;
 };
+
 const getSubjectByStudentApi = async () => {
   const response = await api.get(urls.SubjectStudent);
   return response;
 };
 
 const getPaginatedSubjectApi = async (
-  params: GetPaginated
+  params: GetPaginated,
 ): Promise<PaginatedSubjectResponse> => {
   const cleanParams = buildCleanPaginatedParams(params);
   const response = await api.get(urls.SubjectPaginated, {

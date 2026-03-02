@@ -34,13 +34,16 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
   const { handleFinishNoLudica } = useNoLudicaGame();
   const navigationMessages = useActivityNavigationMessages(currentActivity);
 
-  // EXPO: Registry Pattern: Obtener el hook del juego apropiado automáticamente
+  // Registry Pattern: Obtener el hook del juego apropiado automáticamente
   const gameManager = useGameManager(currentActivity?.name || activity?.name);
   const isNoLudica = currentActivity?.name === "No Ludica" ? true : false;
 
+  // No prevenir navegación en juegos no lúdicos
+  const shouldPreventNavigation = !!currentActivity && !loading && !isNoLudica;
+
   // Prevenir navegación mientras el estudiante está jugando
   usePreventNavigation({
-    when: !!currentActivity && !loading,
+    when: shouldPreventNavigation,
     title: navigationMessages.confirmTitle,
     message: navigationMessages.confirmMessage,
     type: navigationMessages.confirmType,
@@ -57,8 +60,8 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
       refreshActivitiesOnNavigationAway();
       // Aca podriamos guardar el progreso del juego en un futuro
     },
-    preventTabSwitch: !isNoLudica,
-    disapproveOnTabSwitch: !isNoLudica,
+    preventTabSwitch: true,
+    disapproveOnTabSwitch: true,
     tabSwitchDisapproveTitle: navigationMessages.tabSwitchDisapproveTitle,
     tabSwitchDisapproveMessage: navigationMessages.tabSwitchDisapproveMessage,
     onTabSwitchDisapprove: () => {
@@ -141,10 +144,10 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
       <StudentActivityFooter
         loading={loading}
         //isFormValid={isGameFinished}
-        onBack={goBackToActivityView}
+        // onBack={goBackToActivityView}
         onNext={handleFinishActivity}
         nextButtonText="Finalizar Intento"
-        backButtonText="DEBUG: Atras"
+        // backButtonText="DEBUG: Atras"
         showBackToList={false}
       />
     </motion.div>

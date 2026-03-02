@@ -23,6 +23,7 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
     displayData,
     mainActivityItems,
     gameConfigDetails,
+    exerciseDetail,
     hasDescription,
     description,
   } = useActivityDetails({ currentActivity, activity });
@@ -85,10 +86,18 @@ const ActivityDetails: React.FC<ActivityDetailsProps> = ({
           </div>
         )}
 
+        {exerciseDetail && (
+          <div className={styles.exerciseSection}>
+            {renderDetailItem(exerciseDetail, "exercise-detail")}
+          </div>
+        )}
+
         <div className={`${styles.detailsGrid} ${styles[viewMode]}`}>
           {mainActivityItems.map((item) => renderDetailItem(item, item.id))}
+        </div>
+        <div className={`${styles.detailsGrid} ${styles[viewMode]}`}>
           {gameConfigDetails.map((detail, index) =>
-            renderDetailItem(detail, `game-config-${index}`)
+            renderDetailItem(detail, `game-config-${index}`),
           )}
         </div>
       </Card>

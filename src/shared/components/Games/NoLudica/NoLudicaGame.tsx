@@ -63,12 +63,12 @@ const NoLudicaGame = ({ mode }: NoLudicaGameProps) => {
               value={studentResponse}
               onChange={(val) => {
                 if (!val) return setStudentResponse("");
-                if (val.length <= 200) setStudentResponse(val);
+                if (val.length <= 1000) setStudentResponse(val);
               }}
               height={350}
             />
             <div className={styles.charCount}>
-              {studentResponse.length}/200 caracteres
+              {studentResponse.length}/1000 caracteres
             </div>
           </div>
         </div>

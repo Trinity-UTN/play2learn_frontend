@@ -3,10 +3,10 @@ import {
   FaArrowLeft,
   FaBook,
   FaCalendarAlt,
-  FaStopCircle,
-  FaPencilAlt,
+  // FaStopCircle,
   FaRedo,
-  FaTrash,
+  // FaPencilAlt,
+  // FaTrash,
 } from "react-icons/fa";
 import {
   Badge,
@@ -41,13 +41,13 @@ interface ActivityDetailsHeaderProps {
 const ActivityDetailsHeader = ({
   activity,
   onBack,
-  onFinish,
-  onEdit,
+  // onFinish,
+  // onEdit,
   onReexpose,
-  onDelete,
+  // onDelete,
 }: ActivityDetailsHeaderProps) => {
   const difficultyConfig = getDifficultyConfig(
-    activity.difficulty as ActivityDifficultyLevel
+    activity.difficulty as ActivityDifficultyLevel,
   );
   const rewardConfig = getRewardTypeConfig(activity.typeReward as RewardType);
   const statusConfig = getStatusConfig(activity.status);
@@ -85,66 +85,11 @@ const ActivityDetailsHeader = ({
           <FaArrowLeft />
           Volver
         </motion.button>
-
-        <div className={styles.actionsGroup}>
-          {activity.status === "PUBLISHED" && (
-            <Tooltip content="Finalizar actividad" position="top">
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={() => onFinish(activity.id, activity.name)}
-                className={styles.actionButton}
-              >
-                <FaStopCircle />
-              </Button>
-            </Tooltip>
-          )}
-
-          {activity.status !== "PUBLISHED" && (
-            <Tooltip content="Editar actividad" position="top">
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => onEdit(activity.id, activity.name)}
-                className={styles.actionButton}
-              >
-                <FaPencilAlt />
-              </Button>
-            </Tooltip>
-          )}
-
-          {activity.status === "EXPIRED" && (
-            <Tooltip content="Reexponer actividad" position="top">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onReexpose(activity.id, activity.name)}
-                className={styles.actionButton}
-              >
-                <FaRedo />
-              </Button>
-            </Tooltip>
-          )}
-
-          {activity.status !== "PUBLISHED" && (
-            <Tooltip content="Eliminar actividad" position="top">
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={() => onDelete(activity.id, activity.name)}
-                className={styles.actionButton}
-              >
-                <FaTrash />
-              </Button>
-            </Tooltip>
-          )}
-        </div>
       </div>
 
       {/* Header Card */}
       <Card className={styles.headerCard}>
         <div className={styles.infoHeader}>
-          {/* Icono de actividad */}
           <div
             className={styles.iconContainer}
             style={{ backgroundColor: activityColor }}
@@ -152,24 +97,72 @@ const ActivityDetailsHeader = ({
             <ActivityIcon className={styles.activityIcon} />
           </div>
 
-          {/* Contenido */}
           <div className={styles.infoContent}>
+            {/* Título, status badge y acciones en la misma fila */}
             <div className={styles.titleWithStatus}>
               <h1 className={styles.activityName}>{activity.name}</h1>
               <Badge
                 variant="custom"
                 size="sm"
-                customColor={{
-                  bg: statusConfig.color,
-                  text: "#f3f4f6",
-                }}
+                customColor={{ bg: statusConfig.color, text: "#f3f4f6" }}
                 className={styles.statusBadge}
               >
                 {statusConfig.label}
               </Badge>
+
+              {/* Botones de acción */}
+              <div className={styles.actionsGroup}>
+                {/* {activity.status === "PUBLISHED" && (
+                  <Tooltip content="Finalizar actividad" position="top">
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => onFinish(activity.id, activity.name)}
+                      className={styles.actionButton}
+                    >
+                      <FaStopCircle />
+                    </Button>
+                  </Tooltip>
+                )}
+                {activity.status !== "PUBLISHED" && (
+                  <Tooltip content="Editar actividad" position="top">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => onEdit(activity.id, activity.name)}
+                      className={styles.actionButton}
+                    >
+                      <FaPencilAlt />
+                    </Button>
+                  </Tooltip>
+                )} */}
+                {activity.status === "EXPIRED" && (
+                  <Tooltip content="Reexponer actividad" position="top">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onReexpose(activity.id, activity.name)}
+                      className={styles.actionButton}
+                    >
+                      <FaRedo />
+                    </Button>
+                  </Tooltip>
+                )}
+                {/* {activity.status !== "PUBLISHED" && (
+                  <Tooltip content="Eliminar actividad" position="bottom">
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => onDelete(activity.id, activity.name)}
+                      className={styles.actionButton}
+                    >
+                      <FaTrash />
+                    </Button>
+                  </Tooltip>
+                )} */}
+              </div>
             </div>
 
-            {/* Badges de curso y materia */}
             <div className={styles.badges}>
               <Badge
                 variant="custom"
