@@ -28,8 +28,11 @@
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
@@ -106,6 +109,16 @@
   transform: translateY(-50%);
   border: 6px solid transparent;
   border-left-color: #1f2937;
+}
+
+.tooltipClickMode:hover .tooltip {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.tooltipClickMode .tooltipVisible {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* Responsive Design */

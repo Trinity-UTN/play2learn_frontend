@@ -3,7 +3,7 @@ import { FaColumns, FaList, FaTrophy } from "react-icons/fa";
 import {
   FcStatistics,
   FcApproval,
-  FcComments,
+  // FcComments,
   FcCalendar,
 } from "react-icons/fc";
 import type {
@@ -121,8 +121,8 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
                   {activity?.noAttempts
                     ? "Sin intentos"
                     : currentActivity?.attempts
-                    ? `${currentActivity.attempts} disponible/s`
-                    : activity?.attemptsLabel || "Disponibles"}
+                      ? `${currentActivity.attempts} disponible/s`
+                      : activity?.attemptsLabel || "Disponibles"}
                 </span>
               </div>
             </div>
@@ -152,7 +152,7 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
             </div>
           )}
 
-          <div className={styles.detailItem}>
+          {/* <div className={styles.detailItem}>
             <div className={styles.detailContent}>
               <FcComments className={styles.detailIcon} />
               <div>
@@ -162,8 +162,7 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
                 </span>
               </div>
             </div>
-          </div>
-          {/* TODO: Comentario docente */}
+          </div> */}
         </div>
       </Card>
     </motion.div>

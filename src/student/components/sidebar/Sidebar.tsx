@@ -7,7 +7,8 @@ import {
   FaGift,
   FaStore,
   FaTrophy,
-  FaFire,
+  FaSignOutAlt,
+  FaStar,
 } from "react-icons/fa";
 import type { StudentDashboardView } from "../../types/generalType";
 import { formatPrice, Sidebar } from "@/shared";
@@ -58,7 +59,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       icon: FaWallet,
       path: StudentRoutes.Wallet,
       color: "#10B981",
-      badge: isLoading ? "..." : formatPrice(wallet?.totalBalance) ?? "0",
+      badge: isLoading ? "..." : (formatPrice(wallet?.totalBalance) ?? "0"),
     },
     {
       title: "Mis Actividades",
@@ -122,6 +123,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
             <Avatar
               size="medium"
               showLevel={true}
+              studentLevel={currentStudent?.profile.level}
               onClick={handleProfileClick}
               className={styles.sidebarAvatar}
             />
@@ -143,7 +145,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
                 </h2>
                 <div className={styles.stats}>
                   <div className={styles.stat}>
-                    <FaFire className={styles.statIcon} />
+                    <FaStar className={styles.statIcon} />
                     Nivel
                     <span>{currentStudent?.profile.level}</span>
                   </div>

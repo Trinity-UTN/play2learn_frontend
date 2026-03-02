@@ -1,5 +1,8 @@
 import type { Notification } from "../types/notification.types";
-import { NOTIFICATION_EXPIRATION_DAYS } from "../constants/notification.constants";
+import {
+  NOTIFICATION_EXPIRATION_DAYS,
+  NOTIFICATION_HIDDEN_ROUTES,
+} from "../constants/notification.constants";
 
 /**
  * Verifica si una notificación ha expirado basado en su fecha de creación.
@@ -8,7 +11,7 @@ export const isNotificationExpired = (createdAt: string): boolean => {
   const notificationDate = new Date(createdAt);
   const expirationDate = new Date(notificationDate);
   expirationDate.setDate(
-    expirationDate.getDate() + NOTIFICATION_EXPIRATION_DAYS
+    expirationDate.getDate() + NOTIFICATION_EXPIRATION_DAYS,
   );
   return new Date() > expirationDate;
 };
@@ -17,10 +20,10 @@ export const isNotificationExpired = (createdAt: string): boolean => {
  * Filtra una lista de notificaciones para incluir solo aquellas que no han expirado.
  */
 export const filterValidNotifications = (
-  notifications: Notification[]
+  notifications: Notification[],
 ): Notification[] => {
   return notifications.filter(
-    (notification) => !isNotificationExpired(notification.createdAt)
+    (notification) => !isNotificationExpired(notification.createdAt),
   );
 };
 
@@ -29,7 +32,7 @@ export const filterValidNotifications = (
  * La lógica de ordenación es: no leídas (más recientes primero), seguidas de las leídas (más recientes primero).
  */
 export const sortNotifications = (
-  notifications: Notification[]
+  notifications: Notification[],
 ): Notification[] => {
   const unread = notifications.filter((n) => !n.read);
   const read = notifications.filter((n) => n.read);
@@ -66,4 +69,12 @@ export const formatNotificationDate = (dateString: string): string => {
     hour: "2-digit",
     minute: "2-digit",
   });
+};
+
+/**
+ * Verifica si se debe mostrar una notificación basada en la ruta actual.
+ * Si la ruta actual corresponde a una actividad en juego, se oculta la notificación.
+ */
+export const shouldShowNotifications = (pathname: string): boolean => {
+  return !NOTIFICATION_HIDDEN_ROUTES.STUDENT_ACTIVITY_PLAY.test(pathname);
 };

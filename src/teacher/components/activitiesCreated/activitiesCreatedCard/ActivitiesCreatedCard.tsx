@@ -2,8 +2,8 @@ import {
   FaCalendarAlt,
   FaEye,
   FaRedo,
-  FaPencilAlt,
-  FaTrash,
+  // FaPencilAlt,
+  // FaTrash,
 } from "react-icons/fa";
 import {
   Badge,
@@ -109,7 +109,7 @@ const ActivitiesCreatedCard: React.FC<ActivityCreatedCardProps> = ({
           <FaEye className={styles.actionIconDetails} />
           <span className={styles.buttonTextDetails}>Ver detalles</span>
         </Button>
-        <Button
+        {/* <Button
           variant="ghost"
           size="sm"
           className={styles.editButton}
@@ -118,7 +118,7 @@ const ActivitiesCreatedCard: React.FC<ActivityCreatedCardProps> = ({
         >
           <FaPencilAlt className={styles.actionIcon} />
           <span className={styles.buttonText}>Editar</span>
-        </Button>
+        </Button> */}
         {activity.status === ACTIVITY_TEACHER_STATUS.EXPIRED && (
           <Button
             variant="ghost"
@@ -131,7 +131,7 @@ const ActivitiesCreatedCard: React.FC<ActivityCreatedCardProps> = ({
             <span className={styles.buttonText}>Re-exponer</span>
           </Button>
         )}
-        {activity.status !== ACTIVITY_TEACHER_STATUS.EXPIRED && (
+        {/* {activity.status !== ACTIVITY_TEACHER_STATUS.EXPIRED && (
           <Button
             variant="ghost"
             size="sm"
@@ -142,7 +142,7 @@ const ActivitiesCreatedCard: React.FC<ActivityCreatedCardProps> = ({
             <FaTrash className={styles.actionIcon} />
             <span className={styles.buttonText}>Eliminar</span>
           </Button>
-        )}
+        )} */}
       </div>
     </Card>
   );

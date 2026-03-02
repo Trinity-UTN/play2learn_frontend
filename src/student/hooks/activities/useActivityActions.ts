@@ -1,9 +1,9 @@
 import { useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import type { GameHook } from "@/shared";
-import { useActivityStudent } from "../../../student/hooks/useActivityStudentAPI";
+import { getActivityRules } from "@/student/utils/activityRules.utils";
+import { useActivityStudent } from "@/student/hooks/useActivityStudentAPI";
 import { useConfirmation, usePaginationParams } from "@/shared";
-import { useActivityRules } from "./useActivityRules";
 import { useCurrentActivityPersistence } from "./useCurrentActivityPersistence";
 
 export const useActivityActions = () => {
@@ -20,13 +20,13 @@ export const useActivityActions = () => {
 
   const { clearPersistedActivity } = useCurrentActivityPersistence();
   const { showConfirmation } = useConfirmation();
-  const { rules } = useActivityRules();
   const { paginationParams } = usePaginationParams();
 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const isFinishingActivity = useRef(false);
+  const rules = getActivityRules(currentActivity?.name);
 
   const viewActivity = useCallback(
     async (activityId: number | string) => {
@@ -53,28 +53,27 @@ export const useActivityActions = () => {
 
   const startActivity = useCallback(
     (activityId: number | string) => {
-      showConfirmation({
-        title: "¿Estás seguro de comenzar la actividad?",
-        message:
-          "Una vez que inicies la actividad, deberás completarla sin interrupciones. Antes de continuar, asegúrate de leer las reglas.",
-        type: "warning",
-        confirmText: "Sí, quiero comenzar",
-        cancelText: "Cancelar",
-        showDoubleConfirmation: true,
-        doubleConfirmationText: "Confirma que has leído y aceptas las reglas",
-        rules: rules,
-        showRulesIcon: false,
-        onConfirm: () => {
-          if (currentActivity?.name === "No Ludica") {
-            navigate(`/dashboard/student/actividades/${activityId}/play`);
-            return;
-          }
-          if (activityId) {
-            registerActivityStarted(Number(activityId));
-            navigate(`/dashboard/student/actividades/${activityId}/play`);
-          }
-        },
-      });
+      if (currentActivity?.name === "No Ludica") {
+        navigate(`/dashboard/student/actividades/${activityId}/play`);
+        return;
+      } else {
+        showConfirmation({
+          title: "¿Estás seguro de comenzar la actividad?",
+          message:
+            "Una vez que inicies la actividad, deberás completarla sin interrupciones. Antes de continuar, asegúrate de leer las reglas.",
+          type: "warning",
+          confirmText: "Sí, quiero comenzar",
+          cancelText: "Cancelar",
+          rules: rules,
+          showRulesIcon: false,
+          onConfirm: () => {
+            if (activityId) {
+              registerActivityStarted(Number(activityId));
+              navigate(`/dashboard/student/actividades/${activityId}/play`);
+            }
+          },
+        });
+      }
     },
     [
       navigate,

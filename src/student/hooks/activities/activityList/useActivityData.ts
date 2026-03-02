@@ -1,17 +1,15 @@
 import { useEffect, useCallback, useMemo } from "react";
 import type { ActivityUI } from "../../../types/Activity.type";
 import { useActivityStudent } from "../../useActivityStudentAPI";
-import { usePaginationParams } from "@/shared";
+import { usePaginationParams, type FilterOption } from "@/shared";
 import { useActivityFilters } from "./useActivityFilters";
 import { useActivityStats } from "./useActivityStats";
 import { mapActivityToUI } from "../../../adapters/activityAdapter";
-import { extractUniqueSubjects } from "../../../utils/activities.utils";
+import { useSubject } from "@/admin";
 
 export const useActivityData = () => {
   const {
     loading,
-    activityNotApproved,
-    activityApproved,
     paginatedActivitiesNotApproved,
     paginatedActivitiesApproved,
     paginatedActivitiesPending,
@@ -20,6 +18,8 @@ export const useActivityData = () => {
     getPaginatedActivitiesPending,
     getActivityStudentStats,
   } = useActivityStudent();
+
+  const { subjects: subjectList, getSubjectByStudent } = useSubject();
 
   const {
     paginationParams,
@@ -46,18 +46,32 @@ export const useActivityData = () => {
     const filters: string[] = [];
     const filtersValues: string[] = [];
 
+    if (selectedSubject && selectedSubject.id !== "ALL") {
+      filters.push("subjectId");
+      filtersValues.push(selectedSubject.id);
+    }
+
+    if (selectedDifficulty && selectedDifficulty !== "ALL") {
+      filters.push("difficulty");
+      filtersValues.push(selectedDifficulty);
+    }
+
+    const baseParams = {
+      ...paginationParams,
+      order_type: "desc" as const,
+      filters,
+      filtersValues,
+    };
+
     // Actividades aprobadas
     if (activeFilter === "APPROVED") {
-      await getPaginatedActivitiesApproved({
-        ...paginationParams,
-        order_type: "desc",
-        filters:
-          selectedSubject && selectedSubject.id !== "ALL" ? ["subjectId"] : [],
-        filtersValues:
-          selectedSubject && selectedSubject.id !== "ALL"
-            ? [selectedSubject.id]
-            : [],
-      });
+      await getPaginatedActivitiesApproved({ ...baseParams });
+      return;
+    }
+
+    // Actividades pendientes
+    if (activeFilter === "PENDING") {
+      await getPaginatedActivitiesPending({ ...baseParams });
       return;
     }
 
@@ -72,38 +86,10 @@ export const useActivityData = () => {
       filtersValues.push("false");
     }
 
-    // Actividades pendientes
-    if (activeFilter === "PENDING") {
-      await getPaginatedActivitiesPending({
-        ...paginationParams,
-        order_type: "desc",
-        filters:
-          selectedSubject && selectedSubject.id !== "ALL" ? ["subjectId"] : [],
-        filtersValues:
-          selectedSubject && selectedSubject.id !== "ALL"
-            ? [selectedSubject.id]
-            : [],
-      });
-      return;
-    }
-
-    // Subject filter
-    if (selectedSubject && selectedSubject.id !== "ALL") {
-      filters.push("subjectId");
-      filtersValues.push(selectedSubject.id);
-    }
-
-    // Difficulty filter
-    if (selectedDifficulty && selectedDifficulty !== "ALL") {
-      filters.push("difficulty");
-      filtersValues.push(selectedDifficulty);
-    }
-
     await getPaginatedActivitiesNotApproved({
-      ...paginationParams,
-      order_type: "desc",
-      filters,
-      filtersValues,
+      ...baseParams,
+      filters: [...filters],
+      filtersValues: [...filtersValues],
     });
   }, [
     activeFilter,
@@ -116,14 +102,18 @@ export const useActivityData = () => {
   ]);
 
   /**
-   * Carga de actividades y estadísticas
+   * Carga de actividades, materias y estadísticas
    */
   useEffect(() => {
     const fetchInitialData = async () => {
-      await Promise.all([loadActivities(), getActivityStudentStats()]);
+      await Promise.all([
+        loadActivities(),
+        getActivityStudentStats(),
+        getSubjectByStudent(),
+      ]);
     };
     fetchInitialData();
-  }, [loadActivities, getActivityStudentStats]);
+  }, [loadActivities, getActivityStudentStats, getSubjectByStudent]);
 
   /**
    * Reinicia la paginación al cambiar el filtro
@@ -148,11 +138,15 @@ export const useActivityData = () => {
     paginatedActivitiesNotApproved,
   ]);
 
-  // Subjects
-  // TODO: Arreglar este filtrado por materias porque claramente quedó viejisimo. Deberíamos tener un endpoint que traiga todas las materias por las que puede filtrar el alumno y listo
-  const subjects = useMemo(
-    () => extractUniqueSubjects(activityNotApproved, activityApproved),
-    [activityNotApproved, activityApproved],
+  const subjects: FilterOption[] = useMemo(
+    () => [
+      { id: "ALL", name: "Todas las materias" },
+      ...subjectList.map((subject) => ({
+        id: String(subject.id),
+        name: subject.name,
+      })),
+    ],
+    [subjectList],
   );
 
   // Pagination info

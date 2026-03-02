@@ -26,22 +26,6 @@
   background: #e5e7eb;
 }
 
-.actionsGroup {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.actionButton {
-  min-width: 40px;
-  padding: 0.5rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.875rem;
-}
-
 .headerCard {
   padding: 1.5rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -83,6 +67,30 @@
   align-items: center;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+.actionsGroup {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  min-width: 40px;
+  padding: 0.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+}
+
+.actionButton:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
 }
 
 .activityName {
@@ -146,14 +154,15 @@
     align-items: stretch;
   }
 
-  .backButton,
-  .actionsGroup {
+  .backButton {
     width: 100%;
     justify-content: center;
   }
 
   .actionsGroup {
-    justify-content: center;
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
   }
 
   .headerCard {

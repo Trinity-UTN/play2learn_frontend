@@ -21,7 +21,6 @@ export const useStudentProfileView = () => {
 
   // TODO: Reemplazar con datos reales cuando estén disponibles
   const statsProps = {
-    streakDays: 10,
     rankingPosition: 8,
     achievementsCount: 12,
   };
