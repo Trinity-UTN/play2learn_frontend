@@ -29,7 +29,6 @@ const StudentOverviewView: React.FC = () => {
     visible: { y: 0, opacity: 1 },
   };
 
-
   {
     if (loadingStatics)
       return (

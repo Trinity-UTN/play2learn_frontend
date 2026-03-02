@@ -30,26 +30,10 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   const [statistics, setStatistics] = useState<StatisticsStudentResponse>();
 
   // Funciones Principales
-  // const getCurrentStudent = useCallback(async (): Promise<void> => {
-  //   if (!user) return;
-  //   console.log(user.id)
-  //   setLoading(true);
-  //   try {
-  //     const studentDataFromApi =
-  //       await CurrentStudentService.getCurrentStudentApi(Number(user.id));
-  //     console.log(studentDataFromApi)
-  //     setCurrentStudent(studentDataFromApi);
-  //     setWallet(studentDataFromApi?.wallet);
-  //   } catch (error) {
-  //     handleApiError(error, "Error al obtener el estudiante actual");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, [user?.id]);
+
 
   const getCurrentStudentByToken = useCallback(async (): Promise<void> => {
     setLoading(true);
-    console.log("hola")
     try {
       const studentDataFromToken =
         await CurrentStudentService.getCurrentStudentByTokenApi();
@@ -155,7 +139,6 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     wallet,
     statistics,
     // Funciones Principales
-    // getCurrentStudent,
     getCurrentStudentByToken,
     updateStudentProfile,
     unselectAspect,
