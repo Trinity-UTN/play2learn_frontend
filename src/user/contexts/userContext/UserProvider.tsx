@@ -1,15 +1,21 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { UserContext } from "./UserContext";
 import type { UserContextType } from "./UserContext.type";
 import {
   LoginService,
-  type UserResponseDto,
 } from "../../services/login/LoginService";
 import type { LoginPayload } from "../../services/login/LoginService";
-import AuthService from "../../services/auth/AuthService";
 import { roleLandingRoutes } from "../../services/roleLandingRoutes";
 import type { StudentResponseDto } from "@/admin";
 import { useHandleApiError, type Role } from "@/shared";
+import { decodeToken, type CustomJwtPayload } from "@/user/utils/jwt-helper";
+import Cookies from 'js-cookie';
+
+export interface AuthState {
+  user: CustomJwtPayload | null;
+  isAuthenticated: boolean;
+  isInitialLoading: boolean;
+}
 
 interface UserProviderProps {
   children: ReactNode;
@@ -17,75 +23,64 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const { handleApiError } = useHandleApiError();
-  const authService = AuthService.getInstance();
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<UserResponseDto | null>(null);
-  const [role, setRole] = useState<Role>(authService.getRole() as Role);
+  const [user, setUser] = useState<CustomJwtPayload | null>(null);
   const [studentData, setStudentData] = useState<
     StudentResponseDto | undefined
   >();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  const logout = useCallback(() => {
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    setUser(null);
+    setIsAuthenticated(false)
+  }, []);
+
 
   // Verificar autenticación al montar el componente
   useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        // Verificar si hay un token válido
-        const accessToken = authService.getAccessToken();
-        const storedRole = authService.getRole() as Role;
-
-        if (accessToken && storedRole) {
-          await authService.getValidAccessToken();
-
-          setRole(storedRole);
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch (error) {
-        handleApiError(error, "Sesión expirada o inválida");
-        setIsAuthenticated(false);
-        authService.logout();
-      } finally {
-        setLoading(false);
+    const token = Cookies.get("accessToken");
+    if (token) {
+      const decoded = decodeToken(token);
+      // Validar expiración (exp está en segundos)
+      if (decoded && decoded.exp * 1000 > Date.now()) {
+        setUser(decoded);
+        setIsAuthenticated(true)
+      } else {
+        logout();
+        setIsAuthenticated(false)
       }
-    };
-
-    initializeAuth();
-  }, [authService]);
-
-  useEffect(() => {
-    authService.setOnSessionExpiredCallback(() => {
-      setIsAuthenticated(false);
-      setUser(null);
-    });
-  }, [authService]);
+    }
+    setLoading(false);
+  }, [logout]);
 
   const login = async (data: LoginPayload): Promise<string | null> => {
     setLoading(true);
     try {
       const response = await LoginService.loginApi(data);
-      const userRole = response.data.role as Role;
 
-      authService.setTokens(
-        response.data.accessToken,
-        response.data.refreshToken
-      );
-      authService.setRole(response.data.role);
+      // 'sameSite: strict' evita ataques CSRF.
+      const cookieOptions = { expires: 7, secure: true, sameSite: 'strict' as const };
+      Cookies.set("accessToken", response.data.accessToken, cookieOptions);
+      Cookies.set("refreshToken", response.data.refreshToken, cookieOptions);
 
-      setUser(response.data);
-      setRole(response.data.role);
+      const decoded: CustomJwtPayload = decodeToken(response.data.accessToken);
 
-      if (userRole === "ROLE_STUDENT") {
+      if (response.data.role === "ROLE_STUDENT") {
         const student = response.data.roleData as StudentResponseDto;
         setStudentData(student);
-      } else if (userRole === "ROLE_TEACHER") {
-        // TODO: Agregar setCurrentTeacher en prox sprint
+        setUser({
+          ...decoded,
+          id: student.id
+        });
+      } else {
+        setUser(decoded);
       }
-
       setIsAuthenticated(true);
-      return roleLandingRoutes[userRole];
+      return roleLandingRoutes[response.data.role as Role];
+
     } catch (error) {
       handleApiError(error, "Error al iniciar sesión");
       return null;
@@ -93,22 +88,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
-  const logout = (): void => {
-    authService.logout();
-    setUser(null);
-    setStudentData(undefined);
-    setIsAuthenticated(false);
-  };
 
-  const hasRole = (allowed: Role[]): boolean => {
-    if (!role) return false;
-    return allowed.includes(role);
-  };
+
+  const hasRole = (r: string) => user?.role.includes(r);
 
   const contextValue: UserContextType = {
     loading,
     user,
-    role,
     isAuthenticated,
     studentData,
     login,

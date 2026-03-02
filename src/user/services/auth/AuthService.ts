@@ -36,7 +36,7 @@ class AuthService {
   // Evita múltiples llamadas simultáneas a /refresh
   private refreshPromise: Promise<string> | null = null;
 
-  private constructor() {}
+  private constructor() { }
 
   static getInstance(): AuthService {
     if (!AuthService.instance) {
@@ -206,7 +206,7 @@ class AuthService {
           console.log(
             `Access expira en: ${Math.floor(left / 60)}m ${left % 60}s`
           );
-        } catch {}
+        } catch { }
       }
 
       if (refresh) {
@@ -214,7 +214,7 @@ class AuthService {
           const payload = JSON.parse(atob(refresh.split(".")[1]));
           const left = payload.exp - Math.floor(Date.now() / 1000);
           console.log(`Refresh expira en: ${Math.floor(left / 60)}m`);
-        } catch {}
+        } catch { }
       }
       console.log("========================");
     }

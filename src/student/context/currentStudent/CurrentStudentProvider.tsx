@@ -2,7 +2,6 @@ import { useCallback, useState, useEffect, type ReactNode } from "react";
 import { CurrentStudentContext } from "./CurrentStudentContext";
 import type { CurrentStudentContextType } from "./CurrentStudentContext.type";
 import { CurrentStudentService } from "../../services/student/CurrentStudentService";
-import AuthService from "../../../user/services/auth/AuthService";
 import type {
   CurrentStudent,
   AvatarComponents,
@@ -19,11 +18,11 @@ interface CurrentStudentProviderProps {
 export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   children,
 }) => {
-  const { role, studentData } = useAuth();
+  const { user } = useAuth();
   const { handleApiError } = useHandleApiError();
-  const authService = AuthService.getInstance();
 
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingStatics, setLoadingStatistics] = useState(false)
   const [currentStudent, setCurrentStudent] = useState<CurrentStudent | null>(
     null
   );
@@ -31,24 +30,26 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   const [statistics, setStatistics] = useState<StatisticsStudentResponse>();
 
   // Funciones Principales
-  const getCurrentStudent = useCallback(async (): Promise<void> => {
-    if (!studentData?.id) return;
-
-    setLoading(true);
-    try {
-      const studentDataFromApi =
-        await CurrentStudentService.getCurrentStudentApi(studentData.id);
-      setCurrentStudent(studentDataFromApi);
-      setWallet(studentDataFromApi?.wallet);
-    } catch (error) {
-      handleApiError(error, "Error al obtener el estudiante actual");
-    } finally {
-      setLoading(false);
-    }
-  }, [studentData?.id]);
+  // const getCurrentStudent = useCallback(async (): Promise<void> => {
+  //   if (!user) return;
+  //   console.log(user.id)
+  //   setLoading(true);
+  //   try {
+  //     const studentDataFromApi =
+  //       await CurrentStudentService.getCurrentStudentApi(Number(user.id));
+  //     console.log(studentDataFromApi)
+  //     setCurrentStudent(studentDataFromApi);
+  //     setWallet(studentDataFromApi?.wallet);
+  //   } catch (error) {
+  //     handleApiError(error, "Error al obtener el estudiante actual");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, [user?.id]);
 
   const getCurrentStudentByToken = useCallback(async (): Promise<void> => {
     setLoading(true);
+    console.log("hola")
     try {
       const studentDataFromToken =
         await CurrentStudentService.getCurrentStudentByTokenApi();
@@ -59,7 +60,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [authService.getAccessToken()]);
+  }, [user]);
 
   const updateStudentProfile = async (
     aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
@@ -69,7 +70,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     setLoading(true);
     try {
       await CurrentStudentService.updateCurrentStudentProfileApi(aspectUpdates);
-      await getCurrentStudent();
+      await getCurrentStudentByToken();
     } catch (error) {
       handleApiError(error, "Error al actualizar el perfil del estudiante");
     } finally {
@@ -86,7 +87,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     setLoading(true);
     try {
       await CurrentStudentService.unselectAspectApi(profileId, typeAspect);
-      await getCurrentStudent();
+      await getCurrentStudentByToken();
     } catch (error) {
       handleApiError(error, "Error al deseleccionar aspecto");
     } finally {
@@ -94,24 +95,16 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
     }
   };
 
+
   useEffect(() => {
-    if (role === "ROLE_STUDENT") {
-      if (studentData) {
-        setCurrentStudent(studentData);
-        setWallet(studentData.wallet);
-        setLoading(false);
-      } else if (authService.getAccessToken()) {
-        getCurrentStudentByToken();
-        setWallet(currentStudent?.wallet);
-        setLoading(false);
-      } else {
-        getCurrentStudent();
-        setWallet(currentStudent?.wallet);
-      }
+    if (user?.role === "ROLE_STUDENT") {
+      getCurrentStudentByToken();
+      setWallet(currentStudent?.wallet);
+      setLoading(false);
     } else {
       setLoading(true);
     }
-  }, [role, studentData, getCurrentStudent, getCurrentStudentByToken]);
+  }, [user, getCurrentStudentByToken]);
 
   useEffect(() => {
     if (currentStudent) {
@@ -132,14 +125,14 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   };
 
   const getStatisticsStudent = async () => {
-    setLoading(true);
+    setLoadingStatistics(true);
     try {
       const response = await CurrentStudentService.statisticsStudentApi();
       setStatistics(response.data);
     } catch (error) {
       handleApiError(error, "Error al cargar las estadisticas");
     } finally {
-      setLoading(false);
+      setLoadingStatistics(false);
     }
   };
 
@@ -157,11 +150,12 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   const contextValue: CurrentStudentContextType = {
     // Estados principales
     loading,
+    loadingStatics,
     currentStudent,
     wallet,
     statistics,
     // Funciones Principales
-    getCurrentStudent,
+    // getCurrentStudent,
     getCurrentStudentByToken,
     updateStudentProfile,
     unselectAspect,
