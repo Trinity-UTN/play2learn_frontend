@@ -15,12 +15,7 @@ const TeacherDashboardPage: React.FC = () => {
         className={styles.content}
       >
         <div
-          style={{
-            position: "absolute",
-            top: "16px",
-            right: "16px",
-            zIndex: 100,
-          }}
+          className={styles.notifications}
         >
           <NotificationBell variant="teacher" />
         </div>

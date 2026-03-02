@@ -6,14 +6,17 @@
 
 
 .content {
-  width: 100%;
   flex: 1;
-  height: auto;
-  /* padding: 2rem; */
-  overflow: hidden;
   overflow-y: auto;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
+}
+
+.notifications {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
 }
 
 @media (max-width: 768px) {
@@ -23,5 +26,10 @@
 
   .dashboard {
     flex-direction: column;
+  }
+
+  .notifications {
+    top: 10px;
+    right: 10px;
   }
 }
