@@ -1,5 +1,5 @@
 import axios from "axios";
-import AuthService from "../../user/services/auth/AuthService";
+import Cookies from "js-cookie";
 
 import { BASE_URL } from "./apiAuth";
 const formDataApi = axios.create({
@@ -7,13 +7,13 @@ const formDataApi = axios.create({
 });
 
 formDataApi.interceptors.request.use(async (config) => {
-  const authService = AuthService.getInstance();
+  const token = Cookies.get('accessToken');
   try {
-    const validToken = await authService.getValidAccessToken();
-    config.headers.Authorization = `Bearer ${validToken}`;
+    config.headers.Authorization = `Bearer ${token}`;
   } catch (err) {
     console.error("Error obteniendo token válido:", err);
-    authService.logout();
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
   }
   return config;
 });
