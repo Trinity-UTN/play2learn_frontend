@@ -16,5 +16,6 @@ export { default as FlexBox } from "./FlexBox/FlexBox";
 export { default as PaginationComponent } from "./Pagination/PaginationComponent";
 export { default as Unauthorized } from "./Unauthorized/Unauthorized";
 export { default as ScrollToTop } from "./ScrollToTop/ScrollToTop";
-export { Sidebar } from "./Sidebar/Sidebar"
+export { Sidebar } from "./Sidebar/Sidebar";
+export { default as ErrorBoundary } from "./ErrorBoundary/ErrorBoundary";
 export * from "./Games";
