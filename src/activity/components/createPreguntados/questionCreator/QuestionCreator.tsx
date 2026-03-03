@@ -11,8 +11,19 @@ import {
   FaEdit,
   FaExclamationTriangle,
 } from "react-icons/fa";
-import { Button, Card, GameType, getGameTypeFromActivityName, Input, TextArea, Tooltip } from "@/shared";
-import type { PreguntadosConfigQuestion, Question } from "../../../types/Preguntados.type";
+import {
+  Button,
+  Card,
+  GameType,
+  getGameTypeFromActivityName,
+  Input,
+  TextArea,
+  Tooltip,
+} from "@/shared";
+import type {
+  PreguntadosConfigQuestion,
+  Question,
+} from "../../../types/Preguntados.type";
 import { useCreatePreguntados } from "../../../hooks/useCreatePreguntados";
 import styles from "./QuestionCreator.module.css";
 import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
@@ -32,11 +43,11 @@ const QuestionCreator: React.FC = () => {
     getQuestionStatus,
     setQuestionErrors,
     clearQuestionErrors,
-    setQuestions
+    setQuestions,
   } = useCreatePreguntados();
-  const { actividadCreada } = useActividadCreada()
+  const { actividadCreada } = useActividadCreada();
   const [formData, setFormData] = useState<Question>(
-    questions[currentQuestionIndex]
+    questions[currentQuestionIndex],
   );
 
   const itemVariants = {
@@ -49,11 +60,12 @@ const QuestionCreator: React.FC = () => {
     if (actividadCreada) {
       const gameType = getGameTypeFromActivityName(actividadCreada.name);
       if (gameType === GameType.PREGUNTADOS) {
-        const createdConfig = actividadCreada.gameConfig as PreguntadosConfigQuestion;
-        setQuestions(createdConfig.questions)
+        const createdConfig =
+          actividadCreada.gameConfig as PreguntadosConfigQuestion;
+        setQuestions(createdConfig.questions);
       }
     }
-  }, [])
+  }, []);
   // Actualizar formData cuando cambie la pregunta
   useEffect(() => {
     setFormData(questions[currentQuestionIndex]);
@@ -61,7 +73,7 @@ const QuestionCreator: React.FC = () => {
 
   // Función para validar la pregunta actual y retornar errores específicos
   const validateCurrentQuestion = (
-    questionData: Question
+    questionData: Question,
   ): { [key: string]: string } => {
     const validationErrors: { [key: string]: string } = {};
 
@@ -76,11 +88,13 @@ const QuestionCreator: React.FC = () => {
     // Validar opciones
     questionData.options.forEach((option, index) => {
       if (!option.option.trim()) {
-        validationErrors[`option${index}`] = `La opción ${index + 1
-          } es obligatoria`;
+        validationErrors[`option${index}`] = `La opción ${
+          index + 1
+        } es obligatoria`;
       } else if (option.option.length > 100) {
-        validationErrors[`option${index}`] = `La opción ${index + 1
-          } no puede tener más de 100 caracteres`;
+        validationErrors[`option${index}`] = `La opción ${
+          index + 1
+        } no puede tener más de 100 caracteres`;
       }
     });
 
@@ -143,7 +157,7 @@ const QuestionCreator: React.FC = () => {
           .map((item) => item.index + 1)
           .join(", ");
         alert(
-          `No puedes finalizar hasta completar todas las preguntas. Preguntas incompletas: ${incompleteNumbers}`
+          `No puedes finalizar hasta completar todas las preguntas. Preguntas incompletas: ${incompleteNumbers}`,
         );
         return;
       }
@@ -163,20 +177,19 @@ const QuestionCreator: React.FC = () => {
     }
   };
 
-  // TODO: DELETE - Comentar o eliminar esta sección en producción
   // ========== INICIO SECCIÓN DEBUG ==========
-  const handleDebugFill = () => {
-    const debugQuestion: Question = {
-      question: `Pregunta ${currentQuestionIndex + 1}`,
-      options: [
-        { option: "R1", isCorrect: true },
-        { option: "R2", isCorrect: false },
-        { option: "R3", isCorrect: false },
-        { option: "R4", isCorrect: false },
-      ],
-    };
-    setFormData(debugQuestion);
-  };
+  // const handleDebugFill = () => {
+  //   const debugQuestion: Question = {
+  //     question: `Pregunta ${currentQuestionIndex + 1}`,
+  //     options: [
+  //       { option: "R1", isCorrect: true },
+  //       { option: "R2", isCorrect: false },
+  //       { option: "R3", isCorrect: false },
+  //       { option: "R4", isCorrect: false },
+  //     ],
+  //   };
+  //   setFormData(debugQuestion);
+  // };
   // ========== FIN SECCIÓN DEBUG ==========
 
   const currentErrors = questionErrors[currentQuestionIndex] || {};
@@ -190,15 +203,14 @@ const QuestionCreator: React.FC = () => {
         <div className={styles.navigatorHeader}>
           <h4 className={styles.navigatorTitle}>Navegador de Preguntas</h4>
           {/* ========== INICIO BOTÓN DEBUG ========== */}
-          {/* TODO: DELETE - Comentar o eliminar esta sección en producción */}
-          <Button
+          {/* <Button
             variant="ghost"
             size="sm"
             onClick={handleDebugFill}
             className={styles.debugButton}
           >
             DEBUG
-          </Button>
+          </Button> */}
           {/* ========== FIN BOTÓN DEBUG ========== */}
         </div>
         <div className={styles.questionTabs}>
@@ -212,8 +224,9 @@ const QuestionCreator: React.FC = () => {
                 key={index}
                 type="button"
                 onClick={() => handleSaveAndGoToQuestion(index)}
-                className={`${styles.questionTab} ${index === currentQuestionIndex ? styles.active : ""
-                  } ${styles[status]} ${hasTabErrors ? styles.hasErrors : ""}`}
+                className={`${styles.questionTab} ${
+                  index === currentQuestionIndex ? styles.active : ""
+                } ${styles[status]} ${hasTabErrors ? styles.hasErrors : ""}`}
                 title={
                   hasTabErrors
                     ? `Pregunta ${index + 1} tiene errores`
@@ -296,8 +309,9 @@ const QuestionCreator: React.FC = () => {
               maxLength={200}
               showCharCount
               resize="vertical"
-              className={`${styles.questionInput} ${currentErrors.question ? styles.error : ""
-                }`}
+              className={`${styles.questionInput} ${
+                currentErrors.question ? styles.error : ""
+              }`}
             />
             {currentErrors.question && (
               <span className={styles.errorMessage}>
@@ -337,8 +351,9 @@ const QuestionCreator: React.FC = () => {
                     <Button
                       variant="ghost"
                       onClick={() => handleCorrectAnswerChange(index)}
-                      className={`${styles.correctButton} ${option.isCorrect ? styles.selected : ""
-                        }`}
+                      className={`${styles.correctButton} ${
+                        option.isCorrect ? styles.selected : ""
+                      }`}
                       title={
                         option.isCorrect
                           ? "Respuesta correcta seleccionada"
@@ -354,8 +369,9 @@ const QuestionCreator: React.FC = () => {
                     type="text"
                     value={option.option}
                     onChange={(e) => handleOptionChange(index, e.target.value)}
-                    className={`${styles.optionInput} ${currentErrors[`option${index}`] ? styles.error : ""
-                      } ${option.isCorrect ? styles.correct : ""}`}
+                    className={`${styles.optionInput} ${
+                      currentErrors[`option${index}`] ? styles.error : ""
+                    } ${option.isCorrect ? styles.correct : ""}`}
                   />
                   {currentErrors[`option${index}`] && (
                     <span className={styles.errorMessage}>

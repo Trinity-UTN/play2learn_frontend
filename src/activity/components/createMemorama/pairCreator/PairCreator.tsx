@@ -35,7 +35,7 @@ const PairCreator: React.FC = () => {
   } = useCreateMemorama();
 
   const [formData, setFormData] = useState<MemoramaPair>(
-    pairs[currentPairIndex]
+    pairs[currentPairIndex],
   );
 
   const itemVariants = {
@@ -53,7 +53,7 @@ const PairCreator: React.FC = () => {
 
   // Función para validar la pareja actual
   const validateCurrentPair = (
-    pairData: MemoramaPair
+    pairData: MemoramaPair,
   ): { [key: string]: string } => {
     const validationErrors: { [key: string]: string } = {};
 
@@ -116,7 +116,7 @@ const PairCreator: React.FC = () => {
           .map((item) => item.index + 1)
           .join(", ");
         alert(
-          `No puedes finalizar hasta completar todas las parejas. Parejas incompletas: ${incompleteNumbers}`
+          `No puedes finalizar hasta completar todas las parejas. Parejas incompletas: ${incompleteNumbers}`,
         );
         return;
       }
@@ -137,27 +137,27 @@ const PairCreator: React.FC = () => {
   };
 
   // Función debug para llenar automáticamente
-  const handleDebugFill = async () => {
-    try {
-      const response = await fetch("/preview.png");
-      const blob = await response.blob();
-      const file = new File([blob], "preview.png", {
-        type: blob.type || "image/png",
-      });
+  // const handleDebugFill = async () => {
+  //   try {
+  //     const response = await fetch("/preview.png");
+  //     const blob = await response.blob();
+  //     const file = new File([blob], "preview.png", {
+  //       type: blob.type || "image/png",
+  //     });
 
-      const debugPair: MemoramaPair = {
-        concept: `Concepto`,
-        image: file,
-      };
-      setFormData(debugPair);
-    } catch (error) {
-      const debugPair: MemoramaPair = {
-        concept: `Concepto`,
-        image: null,
-      };
-      setFormData(debugPair);
-    }
-  };
+  //     const debugPair: MemoramaPair = {
+  //       concept: `Concepto`,
+  //       image: file,
+  //     };
+  //     setFormData(debugPair);
+  //   } catch (error) {
+  //     const debugPair: MemoramaPair = {
+  //       concept: `Concepto`,
+  //       image: null,
+  //     };
+  //     setFormData(debugPair);
+  //   }
+  // };
 
   return (
     <motion.div variants={itemVariants} className={styles.container}>
@@ -165,14 +165,14 @@ const PairCreator: React.FC = () => {
       <Card className={styles.navigatorCard}>
         <div className={styles.navigatorHeader}>
           <h4 className={styles.navigatorTitle}>Navegador de Parejas</h4>
-          <Button
+          {/* <Button
             variant="outline"
             size="sm"
             onClick={handleDebugFill}
             className={styles.debugButton}
           >
             DEBUG
-          </Button>
+          </Button> */}
         </div>
         <div className={styles.questionTabs}>
           {pairs.map((pair, index) => {

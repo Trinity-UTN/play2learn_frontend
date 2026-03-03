@@ -27,8 +27,7 @@
   margin: 0;
 }
 
-/* ========== INICIO ESTILOS DEBUG ========== */
-/* TODO: Comentar o eliminar esta sección en producción */
+/* ========== INICIO ESTILOS DEBUG ==========
 .debugButton {
   display: flex;
   align-items: center;
@@ -53,7 +52,7 @@
 .debugButton:active {
   transform: translateY(0);
 }
-/* ========== FIN ESTILOS DEBUG ========== */
+========== FIN ESTILOS DEBUG ========== */
 
 .questionTabs {
   display: flex;
@@ -600,11 +599,10 @@
     gap: 0.5rem;
   }
 
-  /* ========== INICIO RESPONSIVE DEBUG ========== */
-  /* TODO: Comentar o eliminar esta sección en producción */
+  /* ========== INICIO RESPONSIVE DEBUG ==========
   .debugButton {
     align-self: stretch;
     justify-content: center;
   }
-  /* ========== FIN RESPONSIVE DEBUG ========== */
+  ========== FIN RESPONSIVE DEBUG ========== */
 }
