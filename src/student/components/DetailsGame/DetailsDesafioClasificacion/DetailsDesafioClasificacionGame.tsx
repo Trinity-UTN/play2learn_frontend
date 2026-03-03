@@ -1,6 +1,5 @@
 import { motion, type Variants } from "framer-motion";
 import styles from "./DetailsDesafioClasificacionGame.module.css";
-// import { useActivityStudent } from "../../../hooks/useActivityStudentAPI";
 import { useDesafioClasificacionGame } from "@/shared";
 import { getPerformanceLevel } from "../../../utils/performance";
 import { HiOutlineFire } from "react-icons/hi";
@@ -11,27 +10,20 @@ import {
   FaRegFolder,
   FaRegLightbulb,
   FaSearch,
-  // FaSync,
   FaTimes,
 } from "react-icons/fa";
 import { GiBookshelf, GiBrain } from "react-icons/gi";
 import { IoTimeOutline } from "react-icons/io5";
 
 const DetailsDesafioClasificacionGame = () => {
-  // const { currentActivity } = useActivityStudent();
   const { verificationResults, isGameWon, score, conceptsInCategories } =
     useDesafioClasificacionGame();
-  // const formatTime = (seconds: number) => {
-  //   const mins = Math.floor(seconds / 60);
-  //   const secs = seconds % 60;
-  //   return `${mins}:${secs.toString().padStart(2, "0")}`;
-  // };
 
   const getAccuracyPercentage = () => {
     if (!verificationResults) return 0;
     return Math.round(
       (verificationResults.totalCorrect / verificationResults.totalConcepts) *
-        100
+        100,
     );
   };
 
@@ -113,36 +105,9 @@ const DetailsDesafioClasificacionGame = () => {
           </div>
         </div>
       </motion.div>
+
       {/* Estadísticas del Juego */}
       <motion.div className={styles.statsGrid} variants={itemVariants}>
-        {/* <div className={styles.statCard}>
-          <div className={styles.statIcon}>🎯</div>
-          <div className={styles.statContent}>
-            <span className={styles.statLabel}>Precisión</span>
-            <span className={styles.statValue}>{getAccuracyPercentage()}%</span>
-          </div>
-        </div>
-
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>⏱️</div>
-          <div className={styles.statContent}>
-            <span className={styles.statLabel}>Tiempo Total</span>
-            <span className={styles.statValue}>{formatTime(timeSpent)}</span>
-          </div>
-        </div> */}
-
-        {/* <div className={styles.statCard}>
-          <div className={styles.statIcon}>
-            <FaSync />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statLabel}>Intento</span>
-            <span className={styles.statValue}>
-              {currentActivity?.attempts}
-            </span>
-          </div>
-        </div> */}
-
         <div className={`${styles.statCard} ${styles.performanceCard}`}>
           <div className={styles.statIcon}>{performance.icon}</div>
           <div className={styles.statContent}>
@@ -155,6 +120,7 @@ const DetailsDesafioClasificacionGame = () => {
           </div>
         </div>
       </motion.div>
+
       {/* Clasificaciones Correctas */}
       {verificationResults && verificationResults.correct.length > 0 && (
         <motion.div className={styles.correctSection} variants={itemVariants}>
@@ -183,6 +149,7 @@ const DetailsDesafioClasificacionGame = () => {
           </div>
         </motion.div>
       )}
+
       {/* Clasificaciones Incorrectas */}
       {verificationResults && verificationResults.incorrect.length > 0 && (
         <motion.div className={styles.incorrectSection} variants={itemVariants}>
@@ -225,6 +192,7 @@ const DetailsDesafioClasificacionGame = () => {
           </div>
         </motion.div>
       )}
+
       {/* Estado Final de Categorías */}
       <motion.div className={styles.categoriesSection} variants={itemVariants}>
         <h4>
@@ -257,7 +225,7 @@ const DetailsDesafioClasificacionGame = () => {
                   )}
                 </div>
               </motion.div>
-            )
+            ),
           )}
         </div>
       </motion.div>

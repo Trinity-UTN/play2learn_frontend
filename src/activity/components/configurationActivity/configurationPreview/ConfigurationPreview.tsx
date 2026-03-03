@@ -8,8 +8,9 @@ import {
   FaCoins,
 } from "react-icons/fa";
 import { Card, Badge } from "@/shared";
-import type { ConfigurationActivity } from "../../../types/Configuration.type";
 import type { SubjectResponseDto } from "@/admin";
+import type { ConfigurationActivity } from "../../../types/Configuration.type";
+import { formatDate } from "@/shared/utils/format";
 import styles from "./ConfigurationPreview.module.css";
 
 interface ConfigurationPreviewProps {
@@ -32,17 +33,6 @@ const ConfigurationPreview: React.FC<ConfigurationPreviewProps> = ({
     return option ? option.label : value;
   };
 
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "Sin fecha";
-    return new Date(dateString).toLocaleString("es-AR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   const previewItems = [
     {
       icon: FaInfoCircle,
@@ -53,7 +43,7 @@ const ConfigurationPreview: React.FC<ConfigurationPreviewProps> = ({
       icon: FaCalendarAlt,
       title: "Período",
       value: `${formatDate(configuration.startDate)} - ${formatDate(
-        configuration.endDate
+        configuration.endDate,
       )}`,
     },
     {

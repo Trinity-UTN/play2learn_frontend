@@ -1,29 +1,18 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaHistory, FaArrowUp, FaArrowDown, FaEye } from "react-icons/fa";
-import { Card, Button } from "@/shared";
-import { useWalletStudent } from "../../../hooks/useWalletStudentAPI";
-import type { TransactionType } from "../../../types/Wallet.type";
 import { IoMdTrendingDown, IoMdTrendingUp } from "react-icons/io";
+import { Card, Button } from "@/shared";
+import type { TransactionType } from "../../../types/Wallet.type";
+import { formatDate } from "@/shared/utils/format";
+import { useWalletStudent } from "../../../hooks/useWalletStudentAPI";
 import styles from "./RecentTransactions.module.css";
 
 const RecentTransactions: React.FC = () => {
   const { getLastTransactions, lastTransactions } = useWalletStudent();
   useEffect(() => {
     getLastTransactions();
-  }, []);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 1) return "Hoy";
-    if (diffDays === 2) return "Ayer";
-    if (diffDays <= 7) return `Hace ${diffDays - 1} días`;
-    return date.toLocaleDateString("es-ES");
-  };
+  }, [getLastTransactions]);
 
   const getTypeTransactions = (type: TransactionType) => {
     switch (type) {
