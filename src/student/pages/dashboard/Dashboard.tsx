@@ -8,6 +8,7 @@ import { shouldShowNotifications } from "@/notifications/utils/notification.util
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import { useBenefitStudent } from "../../hooks/useBenefitStudent";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
+import { ErrorBoundary } from "@/shared";
 import styles from "./Dashboard.module.css";
 
 const StudentDashboard: React.FC = () => {
@@ -37,13 +38,13 @@ const StudentDashboard: React.FC = () => {
         className={styles.content}
       >
         {showNotifications && (
-          <div
-            className={styles.notifications}
-          >
+          <div className={styles.notifications}>
             <NotificationBell variant="student" />
           </div>
         )}
-        <Outlet />
+        <ErrorBoundary variant="student">
+          <Outlet />
+        </ErrorBoundary>
       </motion.main>
     </div>
   );

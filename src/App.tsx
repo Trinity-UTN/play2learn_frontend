@@ -10,6 +10,7 @@ import {
   ToasterProvider,
   ScrollToTop,
   Unauthorized,
+  ErrorBoundary,
 } from "@/shared";
 import { PasswordProvider } from "./user";
 import AppShell from "./AppShell";
@@ -25,12 +26,17 @@ const App: React.FC = () => {
             <PasswordProvider>
               <div className={styles.app}>
                 <ScrollToTop />
-                <Routes>
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/*" element={<AppShell />} />
-                  <Route path="/" element={<Navigate to="/login" replace />} />
-                  <Route path="/unauthorized" element={<Unauthorized />} />
-                </Routes>
+                <ErrorBoundary>
+                  <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/*" element={<AppShell />} />
+                    <Route
+                      path="/"
+                      element={<Navigate to="/login" replace />}
+                    />
+                    <Route path="/unauthorized" element={<Unauthorized />} />
+                  </Routes>
+                </ErrorBoundary>
               </div>
             </PasswordProvider>
           </ConfirmationProvider>
