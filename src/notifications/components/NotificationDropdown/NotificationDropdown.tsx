@@ -33,7 +33,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
   const onActionClick = async (
     notificationId: number,
     isRead: boolean,
-    notificationType: string
+    notificationType: string,
   ) => {
     await handleActionClick(notificationId, isRead, notificationType);
     onClose();
@@ -42,14 +42,10 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
   const onMarkAsRead = async (
     e: React.MouseEvent,
     notificationId: number,
-    isRead: boolean
+    isRead: boolean,
   ) => {
     e.stopPropagation();
     await handleMarkAsRead(notificationId, isRead);
-  };
-
-  const handleViewAll = () => {
-    // TODO: Implementar navegación a la página de todas las notificaciones
   };
 
   if (loading) {
@@ -70,16 +66,6 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
       <div className={`${styles.dropdown} ${styles[variant]}`}>
         <div className={styles.dropdownHeader}>
           <h3 className={styles.dropdownTitle}>Notificaciones</h3>
-          <Button
-            variant="ghost"
-            size="sm"
-            className={`${styles.viewAllTopButton} ${
-              styles[`viewAllTopButton_${variant}`]
-            }`}
-            onClick={handleViewAll}
-          >
-            Ver todo
-          </Button>
         </div>
         <div className={styles.emptyState}>
           <FaBell className={styles.emptyStateIcon} />
@@ -95,16 +81,6 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
         className={`${styles.dropdownHeader} ${styles[`header_${variant}`]}`}
       >
         <h3 className={styles.dropdownTitle}>Notificaciones</h3>
-        <Button
-          variant="ghost"
-          size="sm"
-          className={`${styles.viewAllTopButton} ${
-            styles[`viewAllTopButton_${variant}`]
-          }`}
-          onClick={handleViewAll}
-        >
-          Ver todo
-        </Button>
       </div>
       <div className={styles.notificationsList}>
         {displayedNotifications.map((notification) => {
@@ -165,7 +141,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
                     onActionClick(
                       notification.id,
                       notification.read,
-                      notification.notificationType
+                      notification.notificationType,
                     )
                   }
                   disabled={processing}

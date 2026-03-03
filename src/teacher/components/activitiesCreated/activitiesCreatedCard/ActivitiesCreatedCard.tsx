@@ -1,10 +1,4 @@
-import {
-  FaCalendarAlt,
-  FaEye,
-  FaRedo,
-  // FaPencilAlt,
-  // FaTrash,
-} from "react-icons/fa";
+import { FaCalendarAlt, FaEye, FaRedo } from "react-icons/fa";
 import {
   Badge,
   Button,
@@ -16,7 +10,6 @@ import {
 import type { ActivityTeacherResponse } from "../../../types/TeacherActivity.type";
 import { ACTIVITY_TEACHER_STATUS } from "../../../constants/activity/activityTeacher.constants";
 import {
-  // getActivityStatusConfig,
   formatActivityDate,
   type ActivityActionHandlers,
 } from "../../../utils/activity/activityTeacher.utils";
@@ -33,7 +26,6 @@ const ActivitiesCreatedCard: React.FC<ActivityCreatedCardProps> = ({
   actions,
   loading = false,
 }) => {
-  // const statusConfig = getActivityStatusConfig(activity.status);
   const ActivityIcon = getActivityIcon(activity.name);
   const activityColor = getActivityColor(activity.name);
   const subjectColor = getSubjectColor(activity.subjectName);
@@ -52,13 +44,6 @@ const ActivitiesCreatedCard: React.FC<ActivityCreatedCardProps> = ({
           <div className={styles.activityInfo}>
             <h3 className={styles.activityName}>{activity.name}</h3>
             <div className={styles.activityMeta}>
-              {/* <Badge
-                variant="custom"
-                size="sm"
-                customColor={statusConfig.color}
-              >
-                {statusConfig.label}
-              </Badge> */}
               <Badge
                 variant="custom"
                 size="sm"
@@ -109,16 +94,6 @@ const ActivitiesCreatedCard: React.FC<ActivityCreatedCardProps> = ({
           <FaEye className={styles.actionIconDetails} />
           <span className={styles.buttonTextDetails}>Ver detalles</span>
         </Button>
-        {/* <Button
-          variant="ghost"
-          size="sm"
-          className={styles.editButton}
-          onClick={() => actions.onEdit(activity.id, activity.name)}
-          disabled={loading}
-        >
-          <FaPencilAlt className={styles.actionIcon} />
-          <span className={styles.buttonText}>Editar</span>
-        </Button> */}
         {activity.status === ACTIVITY_TEACHER_STATUS.EXPIRED && (
           <Button
             variant="ghost"
@@ -131,18 +106,6 @@ const ActivitiesCreatedCard: React.FC<ActivityCreatedCardProps> = ({
             <span className={styles.buttonText}>Re-exponer</span>
           </Button>
         )}
-        {/* {activity.status !== ACTIVITY_TEACHER_STATUS.EXPIRED && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className={styles.deleteButton}
-            onClick={() => actions.onDelete(activity.id, activity.name)}
-            disabled={loading}
-          >
-            <FaTrash className={styles.actionIcon} />
-            <span className={styles.buttonText}>Eliminar</span>
-          </Button>
-        )} */}
       </div>
     </Card>
   );

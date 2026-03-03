@@ -1,11 +1,5 @@
 import { motion } from "framer-motion";
-import {
-  FaCalendarAlt,
-  FaEye,
-  FaRedo,
-  // FaPencilAlt,
-  // FaTrash,
-} from "react-icons/fa";
+import { FaCalendarAlt, FaEye, FaRedo } from "react-icons/fa";
 import {
   Badge,
   Button,
@@ -18,7 +12,6 @@ import {
 import type { ActivityTeacherResponse } from "../../../types/TeacherActivity.type";
 import { ACTIVITY_TEACHER_STATUS } from "../../../constants/activity/activityTeacher.constants";
 import {
-  // getActivityStatusConfig,
   formatActivityDate,
   type ActivityActionHandlers,
 } from "../../../utils/activity/activityTeacher.utils";
@@ -54,7 +47,6 @@ const ActivitiesCreatedTable: React.FC<ActivitiesCreatedTableProps> = ({
         </thead>
         <tbody className={styles.tableBody}>
           {activities.map((activity) => {
-            // const statusConfig = getActivityStatusConfig(activity.status);
             const subjectColor = getSubjectColor(activity.subjectName);
             const ActivityIcon = getActivityIcon(activity.name);
             const activityColor = getActivityColor(activity.name);
@@ -82,13 +74,6 @@ const ActivitiesCreatedTable: React.FC<ActivitiesCreatedTableProps> = ({
                         {activity.name}
                       </span>
                       <div className={styles.badges}>
-                        {/* <Badge
-                          variant="custom"
-                          size="sm"
-                          customColor={statusConfig.color}
-                        >
-                          {statusConfig.label}
-                        </Badge> */}
                         <Badge
                           variant="custom"
                           size="sm"
@@ -149,15 +134,6 @@ const ActivitiesCreatedTable: React.FC<ActivitiesCreatedTableProps> = ({
                     >
                       <FaEye /> Ver
                     </Button>
-                    {/* <Button
-                      variant="ghost"
-                      size="sm"
-                      className={`${styles.actionButton} ${styles.editButton}`}
-                      onClick={() => actions.onEdit(activity.id, activity.name)}
-                      disabled={loading}
-                    >
-                      <FaPencilAlt />
-                    </Button> */}
                     {activity.status === ACTIVITY_TEACHER_STATUS.EXPIRED && (
                       <Button
                         variant="ghost"
@@ -171,19 +147,6 @@ const ActivitiesCreatedTable: React.FC<ActivitiesCreatedTableProps> = ({
                         <FaRedo />
                       </Button>
                     )}
-                    {/* {activity.status !== ACTIVITY_TEACHER_STATUS.EXPIRED && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className={`${styles.actionButton} ${styles.deleteButton}`}
-                        onClick={() =>
-                          actions.onDelete(activity.id, activity.name)
-                        }
-                        disabled={loading}
-                      >
-                        <FaTrash />
-                      </Button>
-                    )} */}
                   </div>
                 </td>
               </motion.tr>

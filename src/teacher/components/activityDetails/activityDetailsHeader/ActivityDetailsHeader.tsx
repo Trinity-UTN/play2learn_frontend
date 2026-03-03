@@ -32,7 +32,6 @@ import styles from "./ActivityDetailsHeader.module.css";
 interface ActivityDetailsHeaderProps {
   activity: ActivityTeacherDetailsResponse;
   onBack: () => void;
-  onFinish: (activityId: number, activityName: string) => void;
   onEdit: (activityId: number, activityName: string) => void;
   onReexpose: (activityId: number, activityName: string) => void;
   onDelete: (activityId: number, activityName: string) => void;
@@ -41,7 +40,6 @@ interface ActivityDetailsHeaderProps {
 const ActivityDetailsHeader = ({
   activity,
   onBack,
-  // onFinish,
   // onEdit,
   onReexpose,
   // onDelete,
@@ -112,18 +110,7 @@ const ActivityDetailsHeader = ({
 
               {/* Botones de acción */}
               <div className={styles.actionsGroup}>
-                {/* {activity.status === "PUBLISHED" && (
-                  <Tooltip content="Finalizar actividad" position="top">
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => onFinish(activity.id, activity.name)}
-                      className={styles.actionButton}
-                    >
-                      <FaStopCircle />
-                    </Button>
-                  </Tooltip>
-                )}
+                {/*
                 {activity.status !== "PUBLISHED" && (
                   <Tooltip content="Editar actividad" position="top">
                     <Button

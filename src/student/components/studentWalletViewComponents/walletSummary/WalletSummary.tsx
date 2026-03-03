@@ -8,16 +8,6 @@ interface WalletSummaryProps {
 }
 
 const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
-  // const formatDate = (dateString: string) => {
-  //   const date = new Date(dateString);
-  //   return date.toLocaleDateString("es-ES", {
-  //     day: "numeric",
-  //     month: "long",
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //   });
-  // };
-
   const totalBalance = useCountUp(data.totalBalance, 1, {
     steps: 20,
     interval: 50,
@@ -38,11 +28,6 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
           <FaCoins className={styles.titleIcon} />
           Resumen Financiero
         </h2>
-        {/* <div className={styles.lastMovement}>
-          <FaClock className={styles.clockIcon} />
-          <span>Último movimiento: {formatDate(data.lastMovementDate)}</span>
-        </div> */}{" "}
-        {/*AGREGAR CUANDO ESTE LA LOGICA DE MOVIMIENTOS */}
       </div>
 
       <div className={styles.balanceSection}>
@@ -108,13 +93,6 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
               <span className={styles.investmentText}>
                 {investmentPercentage.toFixed(1)}% de monedas invertidas
               </span>
-              {/* <div className={styles.growthIndicator}>
-                <FaChartLine className={styles.growthIcon} />
-                <span className={styles.growthText}>
-                  +{data.monthlyGrowth}% este mes
-                </span>
-              </div> */}
-              {/* Posible implementacion */}
             </div>
           </div>
         </div>

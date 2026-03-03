@@ -17,30 +17,6 @@ export const useActivityDetailsTeacherActions = () => {
     navigate("/dashboard/teacher/actividades/created/list");
   }, [navigate]);
 
-  const handleFinishActivity = useCallback(
-    (activityId: number, activityName: string) => {
-      (console.log("TODO: Implementar lógica de finalización de actividad"),
-        activityId,
-        activityName);
-      // TODO: Implementar lógica de finalización de actividad
-      // showConfirmation({
-      //   title: "Finalizar Actividad",
-      //   message: `¿Estás seguro de que deseas finalizar la actividad "${activityName}"? Los estudiantes no podrán realizarla nuevamente.`,
-      //   confirmText: "Finalizar",
-      //   cancelText: "Cancelar",
-      //   onConfirm: () => {
-      //     // TODO: Implementar lógica de finalización de actividad
-      //     showToast({
-      //       title: "Actividad finalizada exitosamente",
-      //       type: "success",
-      //       position: "bottom-right",
-      //     });
-      //   },
-      // });
-    },
-    [showConfirmation, showToast],
-  );
-
   const handleReexposeActivity = useCallback(
     (activityId: number, activityName: string) => {
       showConfirmation({
@@ -66,7 +42,6 @@ export const useActivityDetailsTeacherActions = () => {
 
   return {
     handleGoBack,
-    handleFinishActivity,
     handleReexposeActivity,
   };
 };
