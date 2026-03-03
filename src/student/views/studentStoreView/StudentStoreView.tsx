@@ -61,17 +61,20 @@ const StudentStoreView: React.FC = () => {
         paginationInfo={paginationInfo}
       />
 
-      <AnimatePresence>
+      <AnimatePresence >
         {showPurchaseModal && selectedSkin && (
-          <PurchaseModal
-            skin={selectedSkin}
-            userBalance={userBalance}
-            onConfirm={confirmPurchase}
-            onCancel={() => {
-              setShowPurchaseModal(false);
-              setSelectedSkin(null);
-            }}
-          />
+          <div className={styles.contModal}>
+
+            <PurchaseModal
+              skin={selectedSkin}
+              userBalance={userBalance}
+              onConfirm={confirmPurchase}
+              onCancel={() => {
+                setShowPurchaseModal(false);
+                setSelectedSkin(null);
+              }}
+            />
+          </div>
         )}
       </AnimatePresence>
     </motion.div>

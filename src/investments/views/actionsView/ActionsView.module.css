@@ -1,15 +1,12 @@
 .container {
   position: relative;
   min-height: 100vh;
+  padding: 2rem;
 }
 
 .content {
-  max-width: 1400px;
+  max-width: 75rem;
   margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-  .container {
-    padding: 1rem;
-  }
-}
+@media (max-width: 768px) {}

@@ -1,7 +1,8 @@
 @import "../../../shared/styles/colors.css";
+
 .dashboard {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   background-color: var(--color-background);
 }
 
@@ -14,5 +15,9 @@
 @media (max-width: 768px) {
   .content {
     padding: 1rem;
+  }
+
+  .dashboard {
+    flex-direction: column;
   }
 }

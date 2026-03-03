@@ -1,7 +1,7 @@
 .activitiesView {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -194,11 +194,9 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: conic-gradient(
-    #10b981 0deg,
-    #10b981 var(--score-angle, 0deg),
-    rgba(255, 255, 255, 0.2) var(--score-angle, 0deg)
-  );
+  background: conic-gradient(#10b981 0deg,
+      #10b981 var(--score-angle, 0deg),
+      rgba(255, 255, 255, 0.2) var(--score-angle, 0deg));
   display: flex;
   align-items: center;
   justify-content: center;

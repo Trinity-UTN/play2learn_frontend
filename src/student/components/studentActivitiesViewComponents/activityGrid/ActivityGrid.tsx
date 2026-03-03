@@ -49,7 +49,7 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
 
   if (loading) {
     return (
-      <motion.div variants={itemVariants} className={styles.emptyState}>
+      <motion.div variants={itemVariants} className={styles.emptyState} >
         <div className={styles.emptyIcon}>
           <LoadingSpinnerComponent />
         </div>
@@ -80,31 +80,31 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
       >
         {isRow
           ? activities.map((activity, index) => (
-              <motion.div
-                key={activity.id}
-                variants={itemVariants}
-                transition={{ delay: index * 0.1 }}
-              >
-                <ActivityCard
-                  activity={activity}
-                  onStart={handleViewActivity}
-                  onViewResults={handleViewResults}
-                />
-              </motion.div>
-            ))
+            <motion.div
+              key={activity.id}
+              variants={itemVariants}
+              transition={{ delay: index * 0.1 }}
+            >
+              <ActivityCard
+                activity={activity}
+                onStart={handleViewActivity}
+                onViewResults={handleViewResults}
+              />
+            </motion.div>
+          ))
           : activities.map((activity, index) => (
-              <motion.div
-                key={activity.id}
-                variants={itemVariants}
-                transition={{ delay: index * 0.1 }}
-              >
-                <ActivityRow
-                  activity={activity}
-                  onStart={handleViewActivity}
-                  onViewResults={handleViewResults}
-                />
-              </motion.div>
-            ))}
+            <motion.div
+              key={activity.id}
+              variants={itemVariants}
+              transition={{ delay: index * 0.1 }}
+            >
+              <ActivityRow
+                activity={activity}
+                onStart={handleViewActivity}
+                onViewResults={handleViewResults}
+              />
+            </motion.div>
+          ))}
       </FlexBox>
     </motion.div>
   );

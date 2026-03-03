@@ -29,9 +29,7 @@ const StudentDashboard: React.FC = () => {
 
   return (
     <div className={styles.dashboard}>
-      <div className={styles.contSidebar}>
-        <StudentSidebar currentView={currentView} isLoading={loading} />
-      </div>
+      <StudentSidebar currentView={currentView} isLoading={loading} />
       <motion.main
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -40,12 +38,7 @@ const StudentDashboard: React.FC = () => {
       >
         {showNotifications && (
           <div
-            style={{
-              position: "absolute",
-              top: "16px",
-              right: "16px",
-              zIndex: 100,
-            }}
+            className={styles.notifications}
           >
             <NotificationBell variant="student" />
           </div>

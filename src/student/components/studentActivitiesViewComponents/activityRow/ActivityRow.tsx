@@ -43,22 +43,22 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
     activity.status === "EXPIRED" && activity.remainingAttempts > 0;
   const badgeText =
     activity.noAttempts &&
-    !(activity.status === "APPROVED" || activity.status === "PENDING")
+      !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? "Desaprobada"
       : statusConfig.label;
   const BadgeIcon =
     activity.noAttempts &&
-    !(activity.status === "APPROVED" || activity.status === "PENDING")
+      !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? FaTimesCircle
       : statusConfig.icon;
   const ButtonIcon =
     activity.noAttempts &&
-    !(activity.status === "APPROVED" || activity.status === "PENDING")
+      !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? FaPlay
       : statusConfig.buttonIcon;
   const buttonText =
     activity.noAttempts &&
-    !(activity.status === "APPROVED" || activity.status === "PENDING")
+      !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? "Ver Resultados"
       : statusConfig.buttonText;
   const subjectColor = getSubjectColor(activity.subjectName);
@@ -125,11 +125,11 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
                   {activity.subjectName}
                 </Badge>
                 <Badge
-                  className={`${styles[activity.difficulty]} ${
-                    styles.infoTextDifficultyInfo
-                  }`}
+                  className={`${styles[activity.difficulty]} ${styles.infoTextDifficultyInfo
+                    }`}
                 >
                   {activity.difficulty}
+
                 </Badge>
               </div>
               {activity.rewardLabel && (
@@ -149,7 +149,7 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
           <div className={styles.secondaryInfo}>
             <div className={styles.infoItem}>
               <FaCalendarAlt className={styles.metaIcon} />
-              <span className={styles.infoText}>{activity.dateLabel}</span>
+              <span className={styles.infoText}>{activity.dateLabel} </span>
             </div>
 
             <div className={styles.infoItem}>

@@ -28,10 +28,12 @@
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }
@@ -58,10 +60,12 @@
 }
 
 @keyframes glow {
+
   0%,
   100% {
     box-shadow: 0 0 5px rgba(34, 197, 94, 0.3);
   }
+
   50% {
     box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
   }
@@ -78,6 +82,7 @@
   display: flex;
   gap: 0.75rem;
   padding: 1rem;
+  box-sizing: border-box;
   background: rgba(139, 92, 246, 0.2);
   border: 1px solid #8b5cf6;
   border-radius: 12px;
@@ -309,6 +314,7 @@
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
+    box-sizing: border-box;
   }
 
   .header {
@@ -316,4 +322,12 @@
     align-items: flex-start;
     gap: 1rem;
   }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 1.5rem;
+  }
+
 }

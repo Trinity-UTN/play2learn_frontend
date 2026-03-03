@@ -1,25 +1,35 @@
 .dashboard {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.contSidebar {
-  height: auto;
-  position: relative;
-  width: 280px;
-}
 
 .content {
   flex: 1;
-  padding: 2rem;
   overflow-y: auto;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
 }
 
+.notifications {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+}
+
 @media (max-width: 768px) {
   .content {
     padding: 1rem;
+  }
+
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .notifications {
+    top: 10px;
+    right: 10px;
   }
 }

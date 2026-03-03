@@ -79,6 +79,7 @@ const StudentWalletView = () => {
         <div className={styles.mainSection}>
           <motion.div variants={itemVariants}>
             <WalletSummary data={financialData} />
+
           </motion.div>
 
           <motion.div variants={itemVariants}>

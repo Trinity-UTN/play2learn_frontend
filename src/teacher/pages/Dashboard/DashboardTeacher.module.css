@@ -1,6 +1,6 @@
 .dashboard {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #f5f7fa;
 }
 
@@ -10,8 +10,24 @@
   overflow-y: auto;
 }
 
+.notifications {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+}
+
 @media (max-width: 768px) {
   .content {
     padding: 1rem;
+  }
+
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .notifications {
+    top: 10px;
+    right: 10px;
   }
 }
