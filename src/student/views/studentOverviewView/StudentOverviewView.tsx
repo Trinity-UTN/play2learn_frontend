@@ -8,7 +8,7 @@ import LastRealizationsComponents from "../../components/studentOverviewViewComp
 import { LoadingSpinnerComponent } from "@/shared";
 
 const StudentOverviewView: React.FC = () => {
-  const { currentStudent, getStatisticsStudent, statistics } =
+  const { currentStudent, getStatisticsStudent, statistics, loadingStatics } =
     useCurrentStudent();
 
   useEffect(() => {
@@ -28,8 +28,9 @@ const StudentOverviewView: React.FC = () => {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
+
   {
-    if (!statistics)
+    if (loadingStatics)
       return (
         <div className={styles.contLoading}>
           <LoadingSpinnerComponent colorText="white" />
@@ -66,7 +67,7 @@ const StudentOverviewView: React.FC = () => {
       <QuickStats statistics={statistics!} />
 
       <LastRealizationsComponents
-        lastRealizations={statistics.lastRealizations}
+        lastRealizations={statistics?.lastRealizations}
       />
     </motion.div>
   );

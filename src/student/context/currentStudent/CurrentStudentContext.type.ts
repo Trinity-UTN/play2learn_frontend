@@ -7,12 +7,12 @@ import type {
 
 export interface CurrentStudentContextType {
   // Estados principales
-  loading: boolean;
   currentStudent: CurrentStudent | null;
+  loading: boolean;
+  loadingStatics: boolean;
   wallet: Wallet | undefined;
   statistics: StatisticsStudentResponse | undefined;
   // Funciones Principales
-  getCurrentStudent: () => Promise<void>;
   getCurrentStudentByToken: () => Promise<void>;
   updateStudentProfile: (
     aspectUpdates: Array<{ aspectId: number | null; profileId: number }>

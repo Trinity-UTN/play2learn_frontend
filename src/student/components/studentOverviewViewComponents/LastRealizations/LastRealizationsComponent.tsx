@@ -5,7 +5,7 @@ import { FaCoins, FaGamepad } from "react-icons/fa";
 import { Card } from "@/shared";
 
 type Props = {
-  lastRealizations: LastRealizations[];
+  lastRealizations?: LastRealizations[];
 };
 
 const LastRealizationsComponents = ({ lastRealizations }: Props) => {

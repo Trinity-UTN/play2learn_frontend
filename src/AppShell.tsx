@@ -6,7 +6,7 @@ import { LoadingSpinnerComponent } from "@/shared";
 import { Navigate } from "react-router-dom";
 
 const AppShell: React.FC = () => {
-  const { isAuthenticated, role, loading } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -29,7 +29,7 @@ const AppShell: React.FC = () => {
     return <Navigate to="/login" replace />;
   }
 
-  switch (role) {
+  switch (user?.role) {
     case "ROLE_ADMIN":
       return <AdminApp />;
     case "ROLE_TEACHER":
