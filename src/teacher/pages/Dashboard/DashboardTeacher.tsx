@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
 import NotificationBell from "../../../notifications/components/NotificationBell/NotificationBell";
 import { TeacherSidebar } from "../../components/sidebar/Sidebar";
+import { ErrorBoundary } from "@/shared";
 import styles from "./DashboardTeacher.module.css";
 
 const TeacherDashboardPage: React.FC = () => {
@@ -14,12 +15,12 @@ const TeacherDashboardPage: React.FC = () => {
         transition={{ duration: 0.3 }}
         className={styles.content}
       >
-        <div
-          className={styles.notifications}
-        >
+        <div className={styles.notifications}>
           <NotificationBell variant="teacher" />
         </div>
-        <Outlet />
+        <ErrorBoundary variant="teacher">
+          <Outlet />
+        </ErrorBoundary>
       </motion.main>
     </div>
   );

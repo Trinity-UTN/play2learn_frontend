@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
-import styles from "./AdminDashboard.module.css";
 import { AdminSidebar } from "@/admin/components/Sidebar/Sidebar";
+import { ErrorBoundary } from "@/shared";
+import styles from "./AdminDashboard.module.css";
 
 const AdminDashboardPage: React.FC = () => {
   return (
@@ -13,7 +14,9 @@ const AdminDashboardPage: React.FC = () => {
         transition={{ duration: 0.3 }}
         className={styles.content}
       >
-        <Outlet />
+        <ErrorBoundary variant="admin">
+          <Outlet />
+        </ErrorBoundary>
       </motion.main>
     </div>
   );
