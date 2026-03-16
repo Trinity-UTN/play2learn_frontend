@@ -3,6 +3,7 @@ import type {
   ActivityStateResponseInterface,
   ActivityUI,
 } from "../types/Activity.type";
+import { formatDate } from "@/shared/utils/format";
 
 export function mapActivityToUI(
   activity:
@@ -10,12 +11,6 @@ export function mapActivityToUI(
     | ActivityStateResponseInterface,
 ): ActivityUI {
   const isNotApproved = "status" in activity;
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("es-ES", {
-      day: "2-digit",
-      month: "2-digit",
-    });
-  };
 
   return {
     id: activity.id,

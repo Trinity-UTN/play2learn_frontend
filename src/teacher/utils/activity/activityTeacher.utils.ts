@@ -7,11 +7,9 @@ import {
 export type ActivityActionHandlers = {
   onViewDetails: (
     activity: ActivityTeacherResponse,
-    activityId: number
+    activityId: number,
   ) => void;
   onReexpose: (activityId: number, activityName: string) => void;
-  onEdit: (activityId: number, activityName: string) => void;
-  onDelete: (activityId: number, activityName: string) => void;
 };
 
 /**
@@ -64,7 +62,7 @@ export const hasActiveFilters = (
   search: string,
   subjectId: string,
   courseId: string,
-  yearId: string
+  yearId: string,
 ): boolean => {
   return !!search || !!subjectId || !!yearId || !!courseId;
 };

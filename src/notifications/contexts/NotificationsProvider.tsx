@@ -21,7 +21,6 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState<number>(0);
 
-  // Calcular notificaciones no leídas cuando cambian las notificaciones. TODO: optimizar
   useEffect(() => {
     const count = notifications.filter((n) => !n.read).length;
     setUnreadCount(count);
@@ -108,12 +107,11 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     async (notificationId: number): Promise<void> => {
       setLoading(true);
       try {
-        const updatedNotification = await NotificationsService.markAsRead(
-          notificationId
-        );
+        const updatedNotification =
+          await NotificationsService.markAsRead(notificationId);
 
         setNotifications((prev) =>
-          prev.map((n) => (n.id === notificationId ? updatedNotification : n))
+          prev.map((n) => (n.id === notificationId ? updatedNotification : n)),
         );
       } catch (error) {
         handleApiError(error, "Error al marcar la notificación como leída");
@@ -121,7 +119,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const markAllAsRead = useCallback(async (): Promise<void> => {
@@ -131,14 +129,14 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
       const unreadNotifications = notifications.filter((n) => !n.read);
 
       await Promise.all(
-        unreadNotifications.map((n) => NotificationsService.markAsRead(n.id))
+        unreadNotifications.map((n) => NotificationsService.markAsRead(n.id)),
       );
 
       setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     } catch (error) {
       handleApiError(
         error,
-        "Error al marcar todas las notificaciones como leídas"
+        "Error al marcar todas las notificaciones como leídas",
       );
     } finally {
       setLoading(false);

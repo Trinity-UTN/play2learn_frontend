@@ -25,11 +25,10 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
   const [gameStarted, setGameStarted] = useState(false);
   const [studentResponse, setStudentResponse] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  //TODO: estas const no se usan pero fueron aplicadas por un tema del type, ver despues como se resuelve.
+  const [gameConfig, setGameConfig] = useState<NoLudicaConfig | null>(null);
+
   const isGameWon = false;
   const isGameLost = true;
-
-  const [gameConfig, setGameConfig] = useState<NoLudicaConfig | null>(null);
 
   useEffect(() => {
     if (mode === "preview" && config) {

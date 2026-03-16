@@ -70,7 +70,6 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
       }
     }
 
-    // TODO: Agregar activityStatus a currentActivity
     return {
       variant: "success" as const,
       text: "Disponible",

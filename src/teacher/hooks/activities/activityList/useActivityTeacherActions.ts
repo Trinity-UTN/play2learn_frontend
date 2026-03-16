@@ -48,43 +48,12 @@ export const useActivityTeacherActions = (): {
     [showConfirmation, showToast],
   );
 
-  const handleEditActivity = useCallback(
-    (activityId: number, activityName: string) => {
-      console.log(
-        "TODO: Implementar lógica de re-exposición",
-        activityId,
-        activityName,
-      );
-      // TODO: Implementar lógica de edición
-    },
-    [showConfirmation, showToast],
-  );
-
-  const handleDeleteActivity = useCallback(
-    (activityId: number, activityName: string) => {
-      console.log(
-        "TODO: Implementar lógica de re-exposición",
-        activityId,
-        activityName,
-      );
-      // TODO: Implementar lógica de eliminación
-    },
-    [showConfirmation, showToast],
-  );
-
   const actions = useMemo(
     () => ({
       onViewDetails: handleViewDetailsActivity,
       onReexpose: handleReexposeActivity,
-      onEdit: handleEditActivity,
-      onDelete: handleDeleteActivity,
     }),
-    [
-      handleViewDetailsActivity,
-      handleReexposeActivity,
-      handleEditActivity,
-      handleDeleteActivity,
-    ],
+    [handleViewDetailsActivity, handleReexposeActivity],
   );
 
   return {
