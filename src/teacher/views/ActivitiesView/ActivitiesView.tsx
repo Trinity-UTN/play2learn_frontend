@@ -50,7 +50,7 @@ const ActivitiesView: React.FC = () => {
     >
       <ActivitiesHeader itemVariants={itemVariants} />
 
-      <motion.div variants={itemVariants} className={styles.statsSection}>
+      {/* <motion.div variants={itemVariants} className={styles.statsSection}>
         <ActivitiesStats
           statsVariants={statsVariants}
           color="var(--color-stat-1)"
@@ -72,7 +72,8 @@ const ActivitiesView: React.FC = () => {
           value={activities.filter((a) => a.isNew).length}
           label="Nuevas"
         />
-      </motion.div>
+
+      </motion.div> */}
 
       <ActivitiesFilter
         itemVariants={itemVariants}
