@@ -8,10 +8,11 @@ import { shouldShowNotifications } from "@/notifications/utils/notification.util
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import { useBenefitStudent } from "../../hooks/useBenefitStudent";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
-import { ErrorBoundary } from "@/shared";
+import { ErrorBoundary, useScrollToTopRef } from "@/shared";
 import styles from "./Dashboard.module.css";
 
 const StudentDashboard: React.FC = () => {
+  const contentRef = useScrollToTopRef<HTMLElement>();
   const { loading } = useCurrentStudent();
   const { getBenefitStudentStats } = useBenefitStudent();
   const { getActivityStudentStats } = useActivityStudent();
@@ -32,6 +33,7 @@ const StudentDashboard: React.FC = () => {
     <div className={styles.dashboard}>
       <StudentSidebar currentView={currentView} isLoading={loading} />
       <motion.main
+        ref={contentRef}
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3 }}
