@@ -18,6 +18,12 @@
   position: relative;
   overflow: hidden;
   overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.resultCard::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 .resultCard.success::before {
@@ -71,6 +77,12 @@
   color: #ef4444;
 }
 
+@media(min-width: 769px) {
+  .container {
+    margin-top: 3rem;
+    height: calc(94dvh - 3rem);
+  }
+}
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
