@@ -47,7 +47,7 @@ const StudentBenefitsView: React.FC = () => {
       className={styles.benefitsView}
     >
       <BenefitStudentHeader />
-      <BenefitStudentStats stats={stats} />
+      {/* <BenefitStudentStats stats={stats} /> */}
       <BenefitStudentFilters
         activeFilter={activeFilter}
         selectedSubject={selectedSubject}
