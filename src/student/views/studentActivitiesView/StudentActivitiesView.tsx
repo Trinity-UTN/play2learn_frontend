@@ -39,7 +39,7 @@ const StudentActivitiesView: React.FC = () => {
       className={styles.activitiesView}
     >
       <ActivityHeader />
-      <ActivityStats stats={stats} />
+      {/* <ActivityStats stats={stats} /> */}
       <ActivityFilters
         activeFilter={activeFilter}
         selectedSubject={selectedSubject}
