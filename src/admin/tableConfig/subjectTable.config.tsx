@@ -4,16 +4,8 @@ import { type SubjectResponseDto } from "@/admin";
 import { Link } from "react-router-dom";
 
 export const getSubjectColumns = (
-  styles: Record<string, string>
+  styles: Record<string, string>,
 ): DataTableColumn<SubjectResponseDto>[] => [
-  {
-    key: "id",
-    label: "ID",
-    sortable: true,
-    width: "100px",
-    className: styles.idColumn,
-    render: (subject) => <span className={styles.idBadge}>{subject.id}</span>,
-  },
   {
     key: "name",
     label: "Nombre",

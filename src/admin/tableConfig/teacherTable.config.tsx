@@ -5,16 +5,8 @@ import type { TeacherResponseDto } from "@/admin";
 
 export const getTeacherColumns = (
   styles: Record<string, string>,
-  handleRestore: (teacher: TeacherResponseDto) => void
+  handleRestore: (teacher: TeacherResponseDto) => void,
 ): DataTableColumn<TeacherResponseDto>[] => [
-  {
-    key: "id",
-    label: "ID",
-    sortable: true,
-    width: "100px",
-    className: styles.idColumn,
-    render: (teacher) => <span className={styles.idBadge}>{teacher.id}</span>,
-  },
   {
     key: "name",
     label: "Nombre",

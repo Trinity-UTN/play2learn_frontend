@@ -3,16 +3,8 @@ import type { DataTableColumn, DataTableAction } from "@/shared";
 import type { YearResponseDto } from "@/admin";
 
 export const getYearColumns = (
-  styles: Record<string, string>
+  styles: Record<string, string>,
 ): DataTableColumn<YearResponseDto>[] => [
-  {
-    key: "id",
-    label: "ID",
-    sortable: true,
-    width: "100px",
-    className: styles.idColumn,
-    render: (year) => <span className={styles.idBadge}>{year.id}</span>,
-  },
   {
     key: "name",
     label: "Nombre del Año",

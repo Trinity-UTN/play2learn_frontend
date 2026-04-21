@@ -3,16 +3,8 @@ import type { DataTableColumn, DataTableAction } from "@/shared";
 import type { CourseResponseDto } from "@/admin";
 
 export const getCourseColumns = (
-  styles: Record<string, string>
+  styles: Record<string, string>,
 ): DataTableColumn<CourseResponseDto>[] => [
-  {
-    key: "id",
-    label: "ID",
-    sortable: true,
-    width: "100px",
-    className: styles.idColumn,
-    render: (curso) => <span className={styles.idBadge}>{curso.id}</span>,
-  },
   {
     key: "name",
     label: "Nombre del curso",
