@@ -1,5 +1,5 @@
 import { motion, type Variants } from "framer-motion";
-import { FaSearch, FaSortAmountDown } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { Card, Input } from "@/shared";
 import styles from "./ActivitiesFilter.module.css";
 
@@ -16,9 +16,9 @@ const ActivitiesFilter: React.FC<ActivitiesFilterProps> = ({
   itemVariants,
   searchTerm,
   searchPlaceholder,
-  sortBy,
+  // sortBy,
   onSearchChange,
-  onSortChange,
+  // onSortChange,
 }) => {
   return (
     <motion.div variants={itemVariants}>
@@ -34,7 +34,7 @@ const ActivitiesFilter: React.FC<ActivitiesFilterProps> = ({
             />
           </div>
 
-          <div className={styles.filters}>
+          {/* <div className={styles.filters}>
             <div className={styles.filterGroup}>
               <FaSortAmountDown className={styles.filterIcon} />
               <select
@@ -46,7 +46,7 @@ const ActivitiesFilter: React.FC<ActivitiesFilterProps> = ({
                 <option value="popular">Ordenar por popularidad</option>
               </select>
             </div>
-          </div>
+          </div> */}
         </div>
       </Card>
     </motion.div>
