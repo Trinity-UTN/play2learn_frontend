@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaUserTie, FaSave } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import Card from "../../../shared/components/Card/CardComponent";
 import Button from "../../../shared/components/Button/ButtonComponent";
 import Input from "../../../shared/components/Input/InputComponent";
@@ -35,11 +35,6 @@ const CreateTeacherView: React.FC = () => {
       </div>
 
       <Card className={styles.formCard}>
-        <div className={styles.cardHeader}>
-          <FaUserTie className={styles.headerIcon} />
-          <h2 className={styles.cardTitle}>Información del Docente</h2>
-        </div>
-
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
@@ -92,8 +87,8 @@ const CreateTeacherView: React.FC = () => {
                   ? "Actualizando..."
                   : "Creando..."
                 : isEditMode
-                ? "Actualizar Docente"
-                : "Crear Docente"}
+                  ? "Actualizar Docente"
+                  : "Crear Docente"}
             </Button>
             <Button
               type="button"

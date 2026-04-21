@@ -1,6 +1,6 @@
 @import "../../../shared/styles/colors.css";
 .container {
-  max-width: 800px;
+  max-width: 70rem;
   margin: 0 auto;
 }
 

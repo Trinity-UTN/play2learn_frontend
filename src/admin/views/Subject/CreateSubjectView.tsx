@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaGraduationCap, FaSave } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import { BooleanInput, Button, Card, Input } from "@/shared";
 import styles from "./CreateSubjectView.module.css";
 import { useCreateSubjectView } from "@/admin";
@@ -37,11 +37,6 @@ const CreateSubjectView: React.FC = () => {
       </div>
 
       <Card className={styles.formCard}>
-        <div className={styles.cardHeader}>
-          <FaGraduationCap className={styles.headerIcon} />
-          <h2 className={styles.cardTitle}>Información de la Materia</h2>
-        </div>
-
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
@@ -141,8 +136,8 @@ const CreateSubjectView: React.FC = () => {
                   ? "Actualizando..."
                   : "Creando..."
                 : isEditMode
-                ? "Actualizar Materia"
-                : "Crear Materia"}
+                  ? "Actualizar Materia"
+                  : "Crear Materia"}
             </Button>
             {isEditMode && (
               <Button

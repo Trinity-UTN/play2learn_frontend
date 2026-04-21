@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaSave } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import { Card, Button, Input } from "@/shared";
 import styles from "./CreateYearView.module.css";
 import { useCreateYearView } from "@/admin";
@@ -33,11 +33,6 @@ const CreateYearView: React.FC = () => {
       </div>
 
       <Card className={styles.formCard}>
-        <div className={styles.cardHeader}>
-          <FaCalendarAlt className={styles.headerIcon} />
-          <h2 className={styles.cardTitle}>Información del Año</h2>
-        </div>
-
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
@@ -59,8 +54,8 @@ const CreateYearView: React.FC = () => {
                   ? "Actualizando..."
                   : "Creando..."
                 : isEditMode
-                ? "Actualizar Año"
-                : "Crear Año"}
+                  ? "Actualizar Año"
+                  : "Crear Año"}
             </Button>
             {isEditMode && (
               <Button

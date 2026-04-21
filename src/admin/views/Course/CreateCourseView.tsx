@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaBook, FaSave } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import { Card, Button, Input } from "@/shared";
 import { useCreateCourseView } from "@/admin";
 import styles from "./CreateCourseView.module.css";
@@ -32,11 +32,6 @@ const CreateCourseView: React.FC = () => {
       </div>
 
       <Card className={styles.formCard}>
-        <div className={styles.cardHeader}>
-          <FaBook className={styles.headerIcon} />
-          <h2 className={styles.cardTitle}>Información del Curso</h2>
-        </div>
-
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
@@ -76,8 +71,8 @@ const CreateCourseView: React.FC = () => {
                   ? "Actualizando..."
                   : "Creando..."
                 : isEditMode
-                ? "Actualizar Curso"
-                : "Crear Curso"}
+                  ? "Actualizar Curso"
+                  : "Crear Curso"}
             </Button>
             <Button
               type="button"

@@ -83,13 +83,13 @@ export const getStudentColumns = ({
     ),
   },
   {
-    key: "birthdate",
+    key: "birthDate",
     label: "Fecha de nacimiento",
     sortable: true,
     className: styles.nameColumn,
     render: (student) => (
       <div className={styles.centeredWrapper}>
-        <span>{student.birthdate || "Sin asignar"}</span>
+        <span>{student.birthDate || "Sin asignar"}</span>
       </div>
     ),
   },

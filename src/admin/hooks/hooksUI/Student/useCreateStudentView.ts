@@ -22,7 +22,7 @@ export const useCreateStudentView = () => {
     year_id: 0,
     course_id: 0,
     emailTutor: "",
-    birthdate: "",
+    birthDate: "",
   });
 
   const isEditMode = Boolean(id);
@@ -47,7 +47,7 @@ export const useCreateStudentView = () => {
           year_id: selectedStudent.course.year.id || 0,
           course_id: selectedStudent.course.id || 0,
           emailTutor: selectedStudent.emailTutor || "",
-          birthdate: selectedStudent.birthdate || "",
+          birthDate: selectedStudent.birthDate || "",
         });
       } catch (error) {
         handleApiError(error, "Error al cargar el estudiante");
@@ -71,7 +71,7 @@ export const useCreateStudentView = () => {
       year_id: 0,
       course_id: 0,
       emailTutor: "",
-      birthdate: "",
+      birthDate: "",
     });
   }, []);
 
@@ -86,7 +86,7 @@ export const useCreateStudentView = () => {
         email: formData.email.trim(),
         course_id: formData.course_id,
         emailTutor: formData.emailTutor.trim(),
-        birthdate: formData.birthdate.trim(),
+        birthDate: formData.birthDate.trim(),
       };
 
       if (isEditMode && id) {
@@ -99,7 +99,7 @@ export const useCreateStudentView = () => {
       await registerStudent(formData);
       resetFormData();
     },
-    [formData, isEditMode, id]
+    [formData, isEditMode, id],
   );
 
   const handleChange = useCallback((field: string, value: string | number) => {
