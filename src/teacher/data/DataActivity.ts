@@ -49,10 +49,10 @@ export const activities: Activity[] = [
   },
   {
     id: 6,
-    name: "Desafio de Clasificación",
+    name: "Desafio de clasificación",
     code_game: "desafio_clasificacion",
-    type: "Juego de Memoria",
-    description: "Relacione los conceptos con su categoria correspondiente.",
+    type: "Asociación de Conceptos",
+    description: "Relaciona los conceptos con su categoria correspondiente.",
     color: "#dc2626",
     isNew: true,
   },
