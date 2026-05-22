@@ -5,7 +5,8 @@
 .input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid;
+  border-color: #cac0c0b7 !important;
   border-radius: 0.5rem;
   font-size: 0.875rem;
   transition: all 0.2s ease;
