@@ -5,6 +5,10 @@
   overflow: hidden;
 }
 
+.filterSection {
+  padding: 1.5rem;
+  gap: 1rem;
+}
 .searchSection {
   display: flex;
   justify-content: space-between;

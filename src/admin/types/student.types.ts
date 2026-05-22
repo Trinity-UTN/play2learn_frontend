@@ -59,6 +59,7 @@ export interface StudentResponseDto {
   lastname: string;
   dni: string;
   birthDate: string;
+  age: number;
   emailTutor: string;
   user: UserResponseDto;
   course: CourseResponseDto;

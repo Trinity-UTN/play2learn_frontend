@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useStudent, type StudentResponseDto } from "@/admin";
 import { useConfirmation, usePaginationParams, useToaster } from "@/shared";
 import { usePassword } from "@/user";
+import { useYearCourseSelector } from "./useYearCourseSelector";
 
 export const useListStudentView = () => {
   const {
@@ -20,12 +21,40 @@ export const useListStudentView = () => {
     handleSort,
     handlePageChange,
     handlePageSizeChange,
+    handleFilter,
   } = usePaginationParams();
+
+  const {
+    year,
+    onYearChange,
+    courseId,
+    onCourseChange,
+    filteredCourses,
+    years,
+    subjectId,
+    onSubjectChange,
+    filteredSubjects,
+  } = useYearCourseSelector();
 
   const { showConfirmation } = useConfirmation();
   const { showToast } = useToaster();
   const { restorePassword } = usePassword();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const keys: string[] = [];
+    const values: string[] = [];
+
+    if (courseId) {
+      keys.push("courseId");
+      values.push(courseId);
+    }
+    if (subjectId) {
+      keys.push("subjectId");
+      values.push(subjectId);
+    }
+    handleFilter(keys, values);
+  }, [courseId, subjectId]);
 
   // ============================
   //   LOAD PAGINATED STUDENTS
@@ -52,7 +81,7 @@ export const useListStudentView = () => {
         },
       });
     },
-    [navigate]
+    [navigate],
   );
 
   // ============================
@@ -68,6 +97,7 @@ export const useListStudentView = () => {
         onConfirm: async () => {
           await deleteStudent(student.id);
           await getPaginatedStudent(paginationParams);
+          //TODO - Mensaje repetido - borrar de aca
           showToast({
             title: "Estudiante eliminado exitosamente",
             message: "El estudiante ha sido eliminado exitosamente",
@@ -77,7 +107,7 @@ export const useListStudentView = () => {
         },
       });
     },
-    [paginationParams]
+    [paginationParams],
   );
 
   // ============================
@@ -101,7 +131,7 @@ export const useListStudentView = () => {
         },
       });
     },
-    [paginationParams]
+    [paginationParams],
   );
 
   // ============================
@@ -135,5 +165,15 @@ export const useListStudentView = () => {
     handleRestore,
     handleRestorePassword,
     navigate,
+
+    year,
+    onYearChange,
+    courseId,
+    onCourseChange,
+    filteredCourses,
+    years,
+    subjectId,
+    onSubjectChange,
+    filteredSubjects,
   };
 };

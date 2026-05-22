@@ -8,7 +8,7 @@ import { urls } from "../urls";
 import { type GetPaginated, api, buildCleanPaginatedParams } from "@/shared";
 
 const registerStudentApi = async (
-  data: CreateStudentPayload
+  data: CreateStudentPayload,
 ): Promise<void> => {
   await api.post(urls.Students, data);
 };
@@ -28,9 +28,13 @@ const getStudentByIdApi = async (id: number): Promise<StudentResponseDto> => {
 };
 
 const getPaginatedStudentApi = async (
-  params: GetPaginated
+  params: GetPaginated,
 ): Promise<PaginatedStudentResponse> => {
-  const cleanParams = buildCleanPaginatedParams(params);
+  const cleanParams = {
+    ...buildCleanPaginatedParams(params),
+    filters: params.filters?.join(","),
+    filtersValues: params.filtersValues?.join(","),
+  };
   const response = await api.get(urls.StudentsPaginated, {
     params: cleanParams,
   });

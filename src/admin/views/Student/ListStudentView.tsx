@@ -8,6 +8,7 @@ import {
 import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
 
 import styles from "./ListStudentView.module.css";
+import { YearCourseSelector } from "@/admin/components/YearCourseSelector/YearCourseSelector";
 
 const ListStudentView: React.FC = () => {
   const {
@@ -27,6 +28,16 @@ const ListStudentView: React.FC = () => {
     handleRestore,
     handleRestorePassword,
     navigate,
+
+    year,
+    onYearChange,
+    courseId,
+    onCourseChange,
+    filteredCourses,
+    years,
+    subjectId,
+    filteredSubjects,
+    onSubjectChange,
   } = useListStudentView();
 
   const columns = getStudentColumns({
@@ -64,6 +75,8 @@ const ListStudentView: React.FC = () => {
         </Button>
       </motion.div>
 
+      {/* Sacar a un componente */}
+
       <motion.div variants={itemVariants}>
         <DataTable
           data={paginatedStudents?.results || []}
@@ -98,6 +111,19 @@ const ListStudentView: React.FC = () => {
                   onPageSizeChange: handlePageSizeChange,
                 }
               : undefined
+          }
+          filterChildren={
+            <YearCourseSelector
+              years={years}
+              courses={filteredCourses}
+              subjects={filteredSubjects}
+              selectedYear={year}
+              selectedCourse={courseId}
+              selectedSubject={subjectId}
+              onYearChange={onYearChange}
+              onCourseChange={onCourseChange}
+              onSubjectChange={onSubjectChange}
+            />
           }
         />
       </motion.div>

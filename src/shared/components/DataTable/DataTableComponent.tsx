@@ -54,6 +54,7 @@ export interface DataTableProps<T> {
     onPageChange: (page: number) => void;
     onPageSizeChange: (pageSize: number) => void;
   };
+  filterChildren?: React.ReactNode;
 }
 
 const DataTable = <T,>({
@@ -77,6 +78,7 @@ const DataTable = <T,>({
   showResultsInfo = true,
   totalItems,
   pagination,
+  filterChildren,
 }: DataTableProps<T>) => {
   const getSortIcon = (columnKey: string) => {
     if (sortBy !== columnKey) {
@@ -116,7 +118,7 @@ const DataTable = <T,>({
   const renderCellContent = (
     column: DataTableColumn<T>,
     item: T,
-    index: number
+    index: number,
   ) => {
     if (column.render) {
       return column.render(item, index);
@@ -132,6 +134,9 @@ const DataTable = <T,>({
 
   return (
     <Card className={`${styles.tableCard} ${className || ""}`}>
+      {filterChildren && (
+        <div className={styles.filterSection}>{filterChildren}</div>
+      )}
       {searchable && (
         <div className={styles.searchSection}>
           <div className={styles.searchWrapper}>

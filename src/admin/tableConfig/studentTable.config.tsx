@@ -81,7 +81,7 @@ export const getStudentColumns = ({
     className: styles.nameColumn,
     render: (student) => (
       <div className={styles.centeredWrapper}>
-        <span>{student.birthDate || "Sin asignar"}</span>
+        <span>{student.age || "Sin asignar"}</span>
       </div>
     ),
   },
