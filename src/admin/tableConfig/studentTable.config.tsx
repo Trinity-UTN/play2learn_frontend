@@ -86,7 +86,7 @@ export const getStudentColumns = ({
     ),
   },
   {
-    key: "user",
+    key: "user.email",
     label: "Email de Estudiante",
     sortable: true,
     className: styles.nameColumn,

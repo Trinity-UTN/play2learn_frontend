@@ -41,7 +41,7 @@ export const getTeacherColumns = (
     ),
   },
   {
-    key: "user",
+    key: "user.email",
     label: "Email",
     sortable: true,
     className: styles.nameColumn,
