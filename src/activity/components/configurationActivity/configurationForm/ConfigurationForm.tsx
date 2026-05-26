@@ -94,6 +94,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
             <FormInputGroup label="Fecha de Inicio *" error={errors.startDate}>
               <Input
                 type="datetime-local"
+                min={new Date().toISOString().slice(0, 16)}
                 value={configuration.startDate}
                 onChange={(e) => onFieldChange("startDate", e.target.value)}
                 className={`${styles.dateInput} ${
@@ -104,6 +105,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
             <FormInputGroup label="Fecha de Fin *" error={errors.endDate}>
               <Input
                 type="datetime-local"
+                min={configuration.startDate}
                 value={configuration.endDate}
                 onChange={(e) => onFieldChange("endDate", e.target.value)}
                 className={`${styles.dateInput} ${
