@@ -122,10 +122,7 @@ const WordSelector: React.FC = () => {
       </div>
 
       <div className={styles.legend}>
-        <div className={styles.legendItem}>
-          <div className={`${styles.legendColor} ${styles.visible}`}></div>
-          <span>Palabra visible</span>
-        </div>
+        
         <div className={styles.legendItem}>
           <div className={`${styles.legendColor} ${styles.hidden}`}></div>
           <span>Palabra oculta</span>
