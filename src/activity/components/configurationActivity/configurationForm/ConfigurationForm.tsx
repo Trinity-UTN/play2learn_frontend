@@ -30,7 +30,7 @@ interface ConfigurationFormProps {
   isVerticalLayout: boolean;
   onFieldChange: (
     field: keyof ConfigurationActivity,
-    value: string | number,
+    value: string | number | boolean,
   ) => void;
   getSelectedSubject: () => SubjectResponseDto | undefined;
   getMaximumInitialBalance: () => number;
@@ -57,6 +57,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
   getSelectedSubject,
   getMaximumInitialBalance,
 }) => {
+
   return (
     <div
       className={`${styles.formGrid} ${
@@ -92,20 +93,40 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
         <FormSectionCard icon={FaCalendarAlt} title="Período de Actividad">
           <div className={styles.dateGrid}>
             <FormInputGroup label="Fecha de Inicio *" error={errors.startDate}>
-              <Input
-                type="datetime-local"
-                min={new Date().toISOString().slice(0, 16)}
-                value={configuration.startDate}
-                onChange={(e) => onFieldChange("startDate", e.target.value)}
-                className={`${styles.dateInput} ${
-                  errors.startDate ? styles.inputError : ""
-                }`}
-              />
+
+              <div className={styles.inputWrap}>
+                <Input
+                  type="datetime-local"
+                  min={new Date().toISOString().slice(0, 16)}
+                  value={configuration.publishNow ? "" : configuration.startDate}
+                  onChange={(e) => onFieldChange("startDate", e.target.value)}
+                  disabled={configuration.publishNow}
+                  className={`${styles.dateInput} ${errors.startDate ? styles.inputError : ""} ${configuration.publishNow ? styles.dateInputDisabled : ""}`}
+                />
+                {configuration.publishNow && (
+                  <div className={styles.publishOverlay}>
+                    <span>Se publicará de inmediato</span>
+                  </div>
+                )}
+              </div>
+
+              <label className={styles.checkboxRow}>
+                <input
+                  type="checkbox"
+                  checked={configuration.publishNow}
+                  onChange={(e) => {
+                    onFieldChange("publishNow", e.target.checked)
+                    if (e.target.checked) onFieldChange("startDate", "");
+                  }}
+                  className={styles.checkbox}
+                />
+                <span className={styles.checkboxLabel}>Publicar ahora</span>
+              </label>
             </FormInputGroup>
             <FormInputGroup label="Fecha de Fin *" error={errors.endDate}>
               <Input
                 type="datetime-local"
-                min={configuration.startDate}
+                min={configuration.startDate || new Date().toISOString().slice(0, 16)} 
                 value={configuration.endDate}
                 onChange={(e) => onFieldChange("endDate", e.target.value)}
                 className={`${styles.dateInput} ${

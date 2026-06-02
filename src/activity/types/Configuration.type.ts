@@ -1,6 +1,7 @@
 export interface ConfigurationActivity {
   description: string;
-  startDate: string;
+  startDate?: string;
+  publishNow?: boolean,
   endDate: string;
   difficulty: string;
   maxTime: number;
@@ -13,6 +14,7 @@ export interface ConfigurationActivity {
 export type ConfigurationErrors = {
   description?: string;
   startDate?: string;
+  publishNow?: boolean,
   endDate?: string;
   difficulty?: string;
   maxTime?: string;

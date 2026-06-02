@@ -17,7 +17,8 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
 
   const [configuration, setConfiguration] = useState<ConfigurationActivity>({
     description: "",
-    startDate: new Date().toISOString().slice(0, 16),
+    startDate: "",
+    publishNow: false,
     endDate: "",
     difficulty: "",
     maxTime: 30,
@@ -59,7 +60,7 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
 
   const handleChange = (
     field: keyof ConfigurationActivity,
-    value: string | number
+    value: string | number | boolean
   ) => {
     setConfiguration((prev) => ({
       ...prev,
@@ -96,9 +97,9 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
       newErrors.description = "La descripción no puede exceder 500 caracteres";
     }
 
-    if (!configuration.startDate) {
+    if (!configuration.publishNow && !configuration.startDate) {
       newErrors.startDate = "La fecha de inicio es requerida";
-    } else if (new Date(configuration.startDate) < new Date()) {
+    } else if (configuration.startDate && new Date(configuration.startDate) < new Date()) {
       newErrors.startDate = "La fecha de inicio no puede ser en el pasado";
     }
 
