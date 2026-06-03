@@ -236,7 +236,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
 
       {/* Recompensa */}
       <motion.div variants={itemVariants} className={styles.formSection}>
-        <FormSectionCard icon={FaAward} title="Recompensa">
+        <FormSectionCard icon={FaAward} title="Recompensas de la actividad">
           {configuration.subjectId === 0 ? (
             <p className={styles.noSubjectMessage}>
               Selecciona una materia para configurar la recompensa disponible.
@@ -249,8 +249,8 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
               />
 
               <FormInputGroup
-                label="Balance Inicial *"
-                hint="Cantidad de recompensa que entregará la actividad"
+                label="Monedas a repartir *"
+                hint="Estas monedas se repartiran entre los alumnos que aprueben la actividad"
                 error={errors.initialBalance}
               >
                 <div className={styles.dcInputWrapper}>
@@ -274,8 +274,8 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
               </FormInputGroup>
 
               <FormInputGroup
-                label="Estrategia de Distribución *"
-                hint="Selecciona cómo se distribuirán las monedas entre los alumnos"
+                label="Cómo se repartirán las monedas *"
+                hint="Selecciona cómo se distribuirá la recompensa entre los alumnos."
                 error={errors.typeReward}
               >
                 <RewardTypeSelector

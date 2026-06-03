@@ -13,13 +13,13 @@ const RewardInfoPanel: React.FC<RewardInfoPanelProps> = ({
   return (
     <div className={styles.rewardsInfoContainer}>
       <div className={styles.rewardBox}>
-        <span className={styles.rewardBoxTitle}>Balance actual</span>
+        <span className={styles.rewardBoxTitle}>Monedas disponibles en la materia</span>
         <span className={styles.rewardBoxValue}>
           {formatPrice(actualBalance)} monedas
         </span>
       </div>
       <div className={styles.rewardBox}>
-        <span className={styles.rewardBoxTitle}>Recompensa máxima (30%)</span>
+        <span className={styles.rewardBoxTitle}>Máximo permitido para esta actividad</span>
         <span className={styles.rewardBoxValue}>
           {formatPrice(maxReward)} monedas
         </span>

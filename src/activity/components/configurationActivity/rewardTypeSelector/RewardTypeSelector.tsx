@@ -11,13 +11,13 @@ const typeRewardOptions = [
     value: "EQUITATIVO",
     label: "Equitativo",
     description:
-      "Distribuye el total de monedas de forma equitativa entre todos los alumnos.",
+      "Todos reciben la misma cantidad de monedas.",
   },
   {
     value: "POISSON",
-    label: "Poisson",
+    label: "Recompensa dinamica",
     description:
-      "Usa una distribución de Poisson para asignar las monedas según el orden de aprobación.",
+      "Los primeros alumnos en completar la actividad obtienen más monedas.",
   },
 ];
 
