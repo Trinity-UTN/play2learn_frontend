@@ -80,7 +80,7 @@ export const ACTIVITY_DIFFICULTY_CONFIG = {
 // ============================================
 export const REWARD_TYPES = {
   EQUITATIVO: "EQUITATIVO",
-  POISSON: "POISSON",
+  POISSON: "RECOMPENSA DINAMICA",
 } as const;
 
 export type RewardType = (typeof REWARD_TYPES)[keyof typeof REWARD_TYPES];
@@ -92,7 +92,7 @@ export const REWARD_TYPE_CONFIG = {
     bgColor: "#dbeafe",
   },
   [REWARD_TYPES.POISSON]: {
-    label: "Poisson",
+    label: "Recompensa dinamica",
     color: "#8b5cf6",
     bgColor: "#ede9fe",
   },

@@ -53,7 +53,7 @@ export const ACTIVITY_DIFFICULTY_OPTIONS = [
 export const ACTIVITY_STATUS_FILTERS = [
   {
     key: ACTIVITY_STATUS.PUBLISHED,
-    label: "Disponibles",
+    label: "Publicadas",
     icon: FaStar,
   },
   {
