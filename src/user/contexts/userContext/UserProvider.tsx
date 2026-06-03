@@ -60,12 +60,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const response = await LoginService.loginApi(data);
-
+      
       // 'sameSite: strict' evita ataques CSRF.
       const cookieOptions = { expires: 7, secure: true, sameSite: 'strict' as const };
       Cookies.set("accessToken", response.data.accessToken, cookieOptions);
       Cookies.set("refreshToken", response.data.refreshToken, cookieOptions);
-
+      
       const decoded: CustomJwtPayload = decodeToken(response.data.accessToken);
 
       if (response.data.role === "ROLE_STUDENT") {
