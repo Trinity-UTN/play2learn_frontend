@@ -1,7 +1,8 @@
 import { FaCoins, FaChartLine, FaLightbulb } from "react-icons/fa";
 import type { FinancialSummary } from "../../../types/generalType";
 import styles from "./WalletSummary.module.css";
-import { useCountUp, Card, formatPrice } from "@/shared";
+import { useCountUp, Card } from "@/shared";
+import { formatPriceWithNoDecimals } from "@/shared/utils/formatPrice";
 
 interface WalletSummaryProps {
   data: FinancialSummary;
@@ -38,7 +39,7 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
             </div>
             <div className={styles.balanceInfo}>
               <h3 className={styles.balanceAmount}>
-                {formatPrice(totalBalance)} Monedas
+                {formatPriceWithNoDecimals(totalBalance)} Monedas
               </h3>
               <p className={styles.balanceLabel}>Balance Total</p>
             </div>
@@ -55,7 +56,7 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
             </div>
             <div className={styles.breakdownInfo}>
               <span className={styles.breakdownAmount}>
-                {data.availableCoins.toLocaleString()}
+                {formatPriceWithNoDecimals(data.availableCoins)}
               </span>
               <span className={styles.breakdownLabel}> Monedas Líquidas</span>
               <div className={styles.liquidityBar}>
@@ -79,7 +80,7 @@ const WalletSummary: React.FC<WalletSummaryProps> = ({ data }) => {
             </div>
             <div className={styles.breakdownInfo}>
               <span className={styles.breakdownAmount}>
-                {data.investedCoins.toLocaleString()}
+                {formatPriceWithNoDecimals(data.investedCoins)}
               </span>
               <span className={styles.breakdownLabel}> Monedas Invertidas</span>
               <div className={styles.liquidityBar}>

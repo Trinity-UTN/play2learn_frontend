@@ -7,17 +7,17 @@ import {
   FaGift,
   FaStore,
   FaTrophy,
-  FaSignOutAlt,
   FaStar,
 } from "react-icons/fa";
 import type { StudentDashboardView } from "../../types/generalType";
-import { formatPrice, Sidebar } from "@/shared";
+import { Sidebar } from "@/shared";
 import Avatar from "../common/Avatar/AvatarComponent";
 import { StudentRoutes } from "../../routes/routes";
 import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
 import { useBenefitStudent } from "../../hooks/useBenefitStudent";
 import styles from "./Sidebar.module.css";
+import { formatPriceWithNoDecimals } from "@/shared/utils/formatPrice";
 
 interface StudentSidebarProps {
   currentView: StudentDashboardView;
@@ -59,7 +59,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       icon: FaWallet,
       path: StudentRoutes.Wallet,
       color: "#10B981",
-      badge: isLoading ? "..." : (formatPrice(wallet?.totalBalance) ?? "0"),
+      badge: isLoading ? "..." : (formatPriceWithNoDecimals(wallet?.totalBalance) ?? "0"),
     },
     {
       title: "Mis Actividades",
