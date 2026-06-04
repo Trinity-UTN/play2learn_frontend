@@ -61,7 +61,7 @@
 }
 
 .input {
-  border: 2px solid #e5e7eb;
+  border: 2px solid #a7acb47e;
   border-radius: 12px;
   padding: 1rem;
   color: #1f2937;
@@ -78,7 +78,7 @@
 }
 
 .input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: #9ca3af;
 }
 
 .quickButtons {
