@@ -1,9 +1,21 @@
-import type { ConfigurationActivity } from "../types/Configuration.type";
+import type {
+  ConfigurationActivity,
+  NewActivityConfiguration,
+} from "../types/Configuration.type";
 
 export const makeData = <T extends Record<string, any>>(
   gameData: T,
-  configuration: ConfigurationActivity
+  configuration: ConfigurationActivity,
 ): T & ConfigurationActivity => {
+  return {
+    ...configuration,
+    ...gameData,
+  };
+};
+export const makeDataNoLudica = <T extends Record<string, any>>(
+  gameData: T,
+  configuration: NewActivityConfiguration,
+): T & NewActivityConfiguration => {
   return {
     ...configuration,
     ...gameData,
@@ -12,7 +24,7 @@ export const makeData = <T extends Record<string, any>>(
 
 export const makeFormData = <T extends Record<string, any>>(
   gameData: T,
-  configuration: ConfigurationActivity
+  configuration: ConfigurationActivity,
 ): FormData => {
   const formData = new FormData();
   const combinedData = {

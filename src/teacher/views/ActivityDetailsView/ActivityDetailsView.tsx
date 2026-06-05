@@ -36,7 +36,6 @@ const ActivityDetailsView = () => {
       </div>
     );
   }
-
   return (
     <div className={styles.container}>
       <div className={styles.section}>

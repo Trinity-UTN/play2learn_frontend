@@ -7,8 +7,11 @@ import type {
   NoLudicaConfig,
   NoLudicaInterface,
 } from "../../types/NoLudica.type";
-import type { ConfigurationActivity } from "../../types/Configuration.type";
-import { makeData } from "../../utils/MakeData";
+import type {
+  ConfigurationActivity,
+  NewActivityConfiguration,
+} from "../../types/Configuration.type";
+import { makeDataNoLudica } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 import { useConfigurationForm } from "../../hooks/configuration/useConfigurationForm";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
@@ -86,9 +89,12 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     // console.log("=== NO LÚDICA DEBUG ===");
     // console.log("Datos del juego recibidos:", data);
     // console.log("Configuración de actividad:", configurationActivity);
-    const dataMandar = makeData(
+    const { maxTime, ...activityWithoutMaxTime } =
+      configurationActivity as ConfigurationActivity;
+
+    const dataMandar = makeDataNoLudica(
       data,
-      configurationActivity as ConfigurationActivity,
+      activityWithoutMaxTime as NewActivityConfiguration,
     );
     // console.log("Payload final a enviar:", dataMandar);
     // console.log("=== FIN DEBUG ===");
