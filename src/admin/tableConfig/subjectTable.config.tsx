@@ -51,7 +51,7 @@ export const getSubjectColumns = ({
     ),
   },
   {
-    key: "year",
+    key: "course.year.name",
     label: "Año",
     sortable: true,
     className: styles.nameColumn,
