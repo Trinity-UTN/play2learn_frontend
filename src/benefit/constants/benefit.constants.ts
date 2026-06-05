@@ -110,7 +110,7 @@ export const BENEFIT_TEACHER_STATUS_FILTERS = [
   },
   {
     key: BENEFIT_TEACHER_STATUS.EXPIRED,
-    label: "Expirados",
+    label: "Vencidos",
     icon: FiXCircle,
   },
   {
@@ -192,9 +192,9 @@ export const BENEFIT_VALIDATION = {
 // TOOLTIPS
 // ============================================
 export const BENEFIT_TOOLTIP = {
-  PURCHASE_LIMIT: "Si no se define, el límite es ilimitado.",
+  PURCHASE_LIMIT: "Si no se define, no hay límite.",
   PURCHASE_LIMIT_PER_STUDENT:
-    "Si no se define, el límite por estudiante es ilimitado.",
+    "Si no se define, no hay límite por estudiante.",
 } as const;
 
 // ============================================
