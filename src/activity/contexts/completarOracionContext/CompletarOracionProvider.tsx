@@ -27,7 +27,7 @@ export const CompletarOracionProvider: React.FC<
   CompletarOracionProviderProps
 > = ({ children }) => {
   const { configurationActivity } = useConfigurationActivity();
-  const { actividadCreada } = useActividadCreada()
+  const { actividadCreada } = useActividadCreada();
   const { resetForm } = useConfigurationForm("completar_oraciones");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
@@ -50,7 +50,6 @@ export const CompletarOracionProvider: React.FC<
       },
     },
   });
-
 
   useEffect(() => {
     if (currentStep === "preview") {
@@ -89,28 +88,30 @@ export const CompletarOracionProvider: React.FC<
 
       if (totalWords < 3) {
         validationErrors.push(
-          `La oración ${index + 1} debe tener al menos 3 palabras`
+          `La oración ${index + 1} debe tener al menos 3 palabras`,
         );
       }
 
       if (missingWords === 0) {
         validationErrors.push(
-          `Debe seleccionar al menos una palabra para ocultar en la oración ${index + 1
-          }`
+          `Debe seleccionar al menos una palabra para ocultar en la oración ${
+            index + 1
+          }`,
         );
       }
 
       if (visibleWords === 0) {
         validationErrors.push(
-          `Debe dejar al menos una palabra visible en la oración ${index + 1}`
+          `Debe dejar al menos una palabra visible en la oración ${index + 1}`,
         );
       }
 
       sentence.words.forEach((word) => {
         if (word.word.length < 1 || word.word.length > 30) {
           validationErrors.push(
-            `La palabra "${word.word}" en la oración ${index + 1
-            } debe tener entre 1 y 30 caracteres`
+            `La palabra "${word.word}" en la oración ${
+              index + 1
+            } debe tener entre 1 y 30 caracteres`,
           );
         }
       });
@@ -123,17 +124,23 @@ export const CompletarOracionProvider: React.FC<
 
   // Funciones Principales
   const registrarCompletarOracion = async (
-    data: CompletarOracionInterface
+    data: CompletarOracionInterface,
   ): Promise<void> => {
     setLoading(true);
 
     const dataMandar = makeData(
       data,
-      configurationActivity as ConfigurationActivity
+      configurationActivity as ConfigurationActivity,
     );
 
     try {
       await CompletarOracionService.registerCompletarOracionApi(dataMandar);
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
     } finally {
@@ -166,12 +173,6 @@ export const CompletarOracionProvider: React.FC<
       };
 
       await registrarCompletarOracion(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {

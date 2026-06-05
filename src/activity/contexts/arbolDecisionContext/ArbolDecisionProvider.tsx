@@ -35,7 +35,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<"config" | "preview">(
-    "config"
+    "config",
   );
   const [config, setConfig] = useState<ArbolDecisionConfig>({
     introduction: "",
@@ -76,7 +76,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
 
   const getNodeByPath = (
     tree: DecisionNode[],
-    path: number[]
+    path: number[],
   ): DecisionNode | null => {
     if (path.length === 0) return null;
 
@@ -106,7 +106,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
 
   // Funciones Principales
   const registrarArbolDecision = async (
-    data: ArbolDecisionInterface
+    data: ArbolDecisionInterface,
   ): Promise<void> => {
     setLoading(true);
 
@@ -115,13 +115,19 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
     // console.log("Configuración de actividad:", configurationActivity);
     const dataMandar = makeData(
       data,
-      configurationActivity as ConfigurationActivity
+      configurationActivity as ConfigurationActivity,
     );
     // console.log("Payload final a enviar:", dataMandar);
     // console.log("=== FIN DEBUG ===");
 
     try {
       await ArbolDecisionService.registerArbolDecisionApi(dataMandar);
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
     } finally {
@@ -157,12 +163,6 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
       };
 
       await registrarArbolDecision(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
@@ -203,7 +203,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
 
   // Funciones de utilidad
   const validateConfig = (
-    configToValidate: ArbolDecisionConfig
+    configToValidate: ArbolDecisionConfig,
   ): ValidationError[] => {
     const validationErrors: ValidationError[] = [];
 
@@ -301,7 +301,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   };
 
   const validateInitialConfig = (
-    configToValidate: ArbolDecisionConfig
+    configToValidate: ArbolDecisionConfig,
   ): ValidationError[] => {
     const validationErrors: ValidationError[] = [];
 
@@ -455,7 +455,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   const updateConsequence = (
     path: number[],
     field: keyof Consequence,
-    value: string | boolean
+    value: string | boolean,
   ) => {
     setConfig((prevConfig) => {
       const newConfig = { ...prevConfig };

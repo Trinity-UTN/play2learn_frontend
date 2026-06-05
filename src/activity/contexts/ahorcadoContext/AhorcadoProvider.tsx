@@ -30,7 +30,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
 }) => {
   const { configurationActivity } = useConfigurationActivity();
   const { resetForm } = useConfigurationForm("ahorcado_educativo");
-  const { actividadCreada } = useActividadCreada()
+  const { actividadCreada } = useActividadCreada();
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -39,7 +39,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
   // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<"config" | "preview">(
-    "config"
+    "config",
   );
   const [config, setConfig] = useState<AhorcadoConfig>({
     word: "",
@@ -105,13 +105,19 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
     setLoading(true);
     const dataMandar = makeData(
       data,
-      configurationActivity as ConfigurationActivity
+      configurationActivity as ConfigurationActivity,
     );
 
     try {
       await AhorcadoService.registerAhorcadoApi(
-        dataMandar as CreateAhorcadoPayload
+        dataMandar as CreateAhorcadoPayload,
       );
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
     } finally {
@@ -147,12 +153,6 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
       };
 
       await registerAhorcado(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {

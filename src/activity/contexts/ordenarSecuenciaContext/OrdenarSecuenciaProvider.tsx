@@ -69,7 +69,7 @@ export const OrdenarSecuenciaProvider: React.FC<
 
     if (events.length < 2) {
       validationErrors.push(
-        "Debe agregar al menos 2 eventos para crear la secuencia"
+        "Debe agregar al menos 2 eventos para crear la secuencia",
       );
     }
 
@@ -78,19 +78,19 @@ export const OrdenarSecuenciaProvider: React.FC<
         validationErrors.push(`El evento ${index + 1} debe tener un nombre`);
       } else if (event.name.length > 50) {
         validationErrors.push(
-          `El nombre del evento ${index + 1} no puede superar los 50 caracteres`
+          `El nombre del evento ${index + 1} no puede superar los 50 caracteres`,
         );
       }
 
       if (!event.description.trim()) {
         validationErrors.push(
-          `El evento ${index + 1} debe tener una descripción`
+          `El evento ${index + 1} debe tener una descripción`,
         );
       } else if (event.description.length > 100) {
         validationErrors.push(
           `La descripción del evento ${
             index + 1
-          } no puede superar los 100 caracteres`
+          } no puede superar los 100 caracteres`,
         );
       }
     });
@@ -104,7 +104,7 @@ export const OrdenarSecuenciaProvider: React.FC<
         event.name.trim() &&
         event.description.trim() &&
         event.name.length <= 50 &&
-        event.description.length <= 100
+        event.description.length <= 100,
     ).length;
   };
 
@@ -120,11 +120,17 @@ export const OrdenarSecuenciaProvider: React.FC<
         getIncompleteEvents() === 0;
 
   const registrarOrdenarSecuencia = async (
-    formData: FormData
+    formData: FormData,
   ): Promise<void> => {
     setLoading(true);
     try {
       await OrdenarSecuenciaService.registerOrdenarSecuenciaApi(formData);
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
     } finally {
@@ -234,12 +240,6 @@ export const OrdenarSecuenciaProvider: React.FC<
       });
 
       await registrarOrdenarSecuencia(formData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
@@ -316,12 +316,12 @@ export const OrdenarSecuenciaProvider: React.FC<
 
   const handleUpdateEvent = (
     id: string,
-    updatedEvent: Partial<SequenceEvent>
+    updatedEvent: Partial<SequenceEvent>,
   ) => {
     setEvents((prev) =>
       prev.map((event) =>
-        event.id === id ? { ...event, ...updatedEvent } : event
-      )
+        event.id === id ? { ...event, ...updatedEvent } : event,
+      ),
     );
   };
 

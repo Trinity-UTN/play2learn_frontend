@@ -95,6 +95,12 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
 
     try {
       await NoLudicaService.registerNoLudicaApi(dataMandar);
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
     } finally {
@@ -129,12 +135,6 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
       };
 
       await registrarNoLudica(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {

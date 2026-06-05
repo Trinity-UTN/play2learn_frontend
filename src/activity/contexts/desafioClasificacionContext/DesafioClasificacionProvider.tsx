@@ -16,7 +16,7 @@ import { useConfirmation } from "../../../shared/hooks/useConfirmation";
 import { useHandleApiError } from "../../../shared/hooks/useHandleApiError";
 import { useToaster } from "../../../shared/hooks/useToaster";
 import { useActividadCreada } from "@/activity/hooks/useActividadCreada";
-import { GameType, } from "@/shared";
+import { GameType } from "@/shared";
 import { useGameConfigEffect } from "@/activity/hooks/useGameConfigEffect";
 
 interface DesafioClasificacionProviderProps {
@@ -27,7 +27,7 @@ export const DesafioClasificacionProvider: React.FC<
   DesafioClasificacionProviderProps
 > = ({ children }) => {
   const { configurationActivity } = useConfigurationActivity();
-  const { actividadCreada } = useActividadCreada()
+  const { actividadCreada } = useActividadCreada();
   const { resetForm } = useConfigurationForm("desafio_clasificacion");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
@@ -37,7 +37,7 @@ export const DesafioClasificacionProvider: React.FC<
   // Estados principales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<"config" | "preview">(
-    "config"
+    "config",
   );
   const [config, setConfig] = useState<DesafioClasificacionConfig>({
     categories: [],
@@ -85,7 +85,7 @@ export const DesafioClasificacionProvider: React.FC<
 
   // Funciones principales
   const registrarDesafioClasificacion = async (
-    data: CreateClassification
+    data: CreateClassification,
   ): Promise<void> => {
     setLoading(true);
     // console.log("=== DESAFIO CLASIFICACION DEBUG ===");
@@ -93,15 +93,21 @@ export const DesafioClasificacionProvider: React.FC<
     // console.log("Configuración de actividad:", configurationActivity);
     const dataMandar = makeData(
       data,
-      configurationActivity as ConfigurationActivity
+      configurationActivity as ConfigurationActivity,
     );
     // console.log("Payload final a enviar:", dataMandar);
     // console.log("=== FIN DEBUG ===");
 
     try {
       await DesafioClasificacionService.registerDesafioClasificacionApi(
-        dataMandar
+        dataMandar,
       );
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
     } finally {
@@ -141,12 +147,6 @@ export const DesafioClasificacionProvider: React.FC<
       };
 
       await registrarDesafioClasificacion(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
@@ -223,7 +223,7 @@ export const DesafioClasificacionProvider: React.FC<
 
   // Función para validar la configuración
   const validateConfig = (
-    configToValidate: DesafioClasificacionConfig
+    configToValidate: DesafioClasificacionConfig,
   ): string[] => {
     const validationErrors: string[] = [];
 
@@ -240,18 +240,19 @@ export const DesafioClasificacionProvider: React.FC<
         validationErrors.push(`La categoría ${index + 1} debe tener un nombre`);
       } else if (category.name.length > 50) {
         validationErrors.push(
-          `El nombre de la categoría ${index + 1
-          } no puede superar los 50 caracteres`
+          `El nombre de la categoría ${
+            index + 1
+          } no puede superar los 50 caracteres`,
         );
       }
 
       if (category.concepts.length < 1) {
         validationErrors.push(
-          `La categoría "${category.name}" debe tener al menos 1 concepto`
+          `La categoría "${category.name}" debe tener al menos 1 concepto`,
         );
       } else if (category.concepts.length > 10) {
         validationErrors.push(
-          `La categoría "${category.name}" no puede tener más de 10 conceptos`
+          `La categoría "${category.name}" no puede tener más de 10 conceptos`,
         );
       }
 
@@ -259,12 +260,13 @@ export const DesafioClasificacionProvider: React.FC<
       category.concepts.forEach((concept, conceptIndex) => {
         if (!concept.name.trim()) {
           validationErrors.push(
-            `El concepto ${conceptIndex + 1} de la categoría "${category.name
-            }" debe tener un nombre`
+            `El concepto ${conceptIndex + 1} de la categoría "${
+              category.name
+            }" debe tener un nombre`,
           );
         } else if (concept.name.length > 100) {
           validationErrors.push(
-            `El concepto "${concept.name}" no puede superar los 100 caracteres`
+            `El concepto "${concept.name}" no puede superar los 100 caracteres`,
           );
         }
       });
@@ -278,7 +280,7 @@ export const DesafioClasificacionProvider: React.FC<
 
   const getAllConcepts = useCallback(() => {
     return config.categories.flatMap((category) =>
-      category.concepts.map((concept) => concept.name.toLowerCase())
+      category.concepts.map((concept) => concept.name.toLowerCase()),
     );
   }, [config.categories]);
 
@@ -299,7 +301,7 @@ export const DesafioClasificacionProvider: React.FC<
         categories: [...prev.categories, newCategory],
       }));
     },
-    [config.categories.length, categoryColors]
+    [config.categories.length, categoryColors],
   );
 
   const handleEditCategory = useCallback(
@@ -307,18 +309,20 @@ export const DesafioClasificacionProvider: React.FC<
       setConfig((prev) => ({
         ...prev,
         categories: prev.categories.map((category) =>
-          category.id === categoryId ? { ...category, name: newName } : category
+          category.id === categoryId
+            ? { ...category, name: newName }
+            : category,
         ),
       }));
     },
-    []
+    [],
   );
 
   const handleDeleteCategory = useCallback((categoryId: string) => {
     setConfig((prev) => ({
       ...prev,
       categories: prev.categories.filter(
-        (category) => category.id !== categoryId
+        (category) => category.id !== categoryId,
       ),
     }));
   }, []);
@@ -330,21 +334,21 @@ export const DesafioClasificacionProvider: React.FC<
         categories: prev.categories.map((category) =>
           category.id === categoryId
             ? {
-              ...category,
-              concepts: [
-                ...category.concepts,
-                {
-                  id: `concept-${Date.now()}`,
-                  name: conceptName,
-                  categoryId,
-                },
-              ],
-            }
-            : category
+                ...category,
+                concepts: [
+                  ...category.concepts,
+                  {
+                    id: `concept-${Date.now()}`,
+                    name: conceptName,
+                    categoryId,
+                  },
+                ],
+              }
+            : category,
         ),
       }));
     },
-    []
+    [],
   );
 
   const handleEditConcept = useCallback(
@@ -354,18 +358,18 @@ export const DesafioClasificacionProvider: React.FC<
         categories: prev.categories.map((category) =>
           category.id === categoryId
             ? {
-              ...category,
-              concepts: category.concepts.map((concept) =>
-                concept.id === conceptId
-                  ? { ...concept, name: newName }
-                  : concept
-              ),
-            }
-            : category
+                ...category,
+                concepts: category.concepts.map((concept) =>
+                  concept.id === conceptId
+                    ? { ...concept, name: newName }
+                    : concept,
+                ),
+              }
+            : category,
         ),
       }));
     },
-    []
+    [],
   );
 
   const handleDeleteConcept = useCallback(
@@ -375,16 +379,16 @@ export const DesafioClasificacionProvider: React.FC<
         categories: prev.categories.map((category) =>
           category.id === categoryId
             ? {
-              ...category,
-              concepts: category.concepts.filter(
-                (concept) => concept.id !== conceptId
-              ),
-            }
-            : category
+                ...category,
+                concepts: category.concepts.filter(
+                  (concept) => concept.id !== conceptId,
+                ),
+              }
+            : category,
         ),
       }));
     },
-    []
+    [],
   );
 
   const contextValue: ClasificacionContextType = {

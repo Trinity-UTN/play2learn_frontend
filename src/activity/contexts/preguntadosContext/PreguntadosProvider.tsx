@@ -27,7 +27,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
   children,
 }) => {
   const { configurationActivity } = useConfigurationActivity();
-  const { actividadCreada } = useActividadCreada()
+  const { actividadCreada } = useActividadCreada();
   const { resetForm } = useConfigurationForm("preguntados");
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
@@ -50,17 +50,17 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
     [questionIndex: number]: { [field: string]: string };
   }>({});
 
-
   useEffect(() => {
     if (actividadCreada) {
       const gameType = getGameTypeFromActivityName(actividadCreada.name);
       if (gameType === GameType.PREGUNTADOS) {
-        const createdConfig = actividadCreada.gameConfig as PreguntadosConfigQuestion;
+        const createdConfig =
+          actividadCreada.gameConfig as PreguntadosConfigQuestion;
         setConfig({
           totalQuestions: createdConfig.questions.length,
-          maxTimePerQuestionInSeconds: createdConfig.maxTimePerQuestionInSeconds,
-        })
-
+          maxTimePerQuestionInSeconds:
+            createdConfig.maxTimePerQuestionInSeconds,
+        });
       }
     }
   }, [actividadCreada]);
@@ -77,7 +77,6 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
 
   // Función para reiniciar todos los estados
   const resetStatesOnly = () => {
-
     setConfig({ totalQuestions: 5, maxTimePerQuestionInSeconds: 30 });
     setQuestions([]);
     setCurrentStep("config");
@@ -93,7 +92,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
 
   // Función para determinar el estado de una pregunta
   const getQuestionStatus = (
-    q: Question
+    q: Question,
   ): "complete" | "incomplete" | "empty" => {
     if (!q.question.trim() && q.options.every((opt) => !opt.option.trim())) {
       return "empty";
@@ -101,7 +100,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
 
     const hasQuestion = q.question.trim() && q.question.length <= 200;
     const hasAllOptions = q.options.every(
-      (opt) => opt.option.trim() && opt.option.length <= 100
+      (opt) => opt.option.trim() && opt.option.length <= 100,
     );
     const hasCorrectAnswer =
       q.options.filter((opt) => opt.isCorrect).length === 1;
@@ -130,28 +129,29 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
         // Validaciones específicas para preguntas incompletas
         if (!question.question.trim()) {
           validationErrors.push(
-            `La pregunta ${index + 1} no puede estar vacía`
+            `La pregunta ${index + 1} no puede estar vacía`,
           );
         } else if (question.question.length > 200) {
           validationErrors.push(
-            `La pregunta ${index + 1} no puede tener más de 200 caracteres`
+            `La pregunta ${index + 1} no puede tener más de 200 caracteres`,
           );
         }
 
         const validOptions = question.options.filter((opt) =>
-          opt.option.trim()
+          opt.option.trim(),
         );
         if (validOptions.length < 4) {
           validationErrors.push(
-            `La pregunta ${index + 1} debe tener 4 opciones completas`
+            `La pregunta ${index + 1} debe tener 4 opciones completas`,
           );
         }
 
         question.options.forEach((option, optIndex) => {
           if (option.option.length > 100) {
             validationErrors.push(
-              `La opción ${optIndex + 1} de la pregunta ${index + 1
-              } no puede tener más de 100 caracteres`
+              `La opción ${optIndex + 1} de la pregunta ${
+                index + 1
+              } no puede tener más de 100 caracteres`,
             );
           }
         });
@@ -159,11 +159,11 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
         const correctAnswers = question.options.filter((opt) => opt.isCorrect);
         if (correctAnswers.length === 0) {
           validationErrors.push(
-            `La pregunta ${index + 1} debe tener una respuesta correcta`
+            `La pregunta ${index + 1} debe tener una respuesta correcta`,
           );
         } else if (correctAnswers.length > 1) {
           validationErrors.push(
-            `La pregunta ${index + 1} solo puede tener una respuesta correcta`
+            `La pregunta ${index + 1} solo puede tener una respuesta correcta`,
           );
         }
       }
@@ -181,7 +181,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
   const isFormValid = errors.length === 0 && areAllQuestionsComplete();
 
   const registrarPreguntados = async (
-    data: PreguntadosInterface
+    data: PreguntadosInterface,
   ): Promise<void> => {
     setLoading(true);
 
@@ -190,13 +190,19 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
     // console.log("Configuración de actividad:", configurationActivity);
     const dataMandar = makeData(
       data,
-      configurationActivity as ConfigurationActivity
+      configurationActivity as ConfigurationActivity,
     );
     // console.log("Payload final a enviar:", dataMandar);
     // console.log("=== FIN DEBUG ===");
 
     try {
       await PreguntadosService.registerPreguntadosApi(dataMandar);
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
       clearAllQuestionErrors();
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
@@ -239,12 +245,6 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
       };
 
       await registrarPreguntados(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
@@ -301,8 +301,9 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
       case "config":
         return "Configuración General";
       case "questions":
-        return `Pregunta ${currentQuestionIndex + 1} de ${config.totalQuestions
-          }`;
+        return `Pregunta ${currentQuestionIndex + 1} de ${
+          config.totalQuestions
+        }`;
       case "preview":
         return "Vista Previa";
       default:
@@ -414,7 +415,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
 
   const setQuestionErrors = (
     questionIndex: number,
-    errors: { [field: string]: string }
+    errors: { [field: string]: string },
   ) => {
     setQuestionErrorsState((prev) => ({
       ...prev,
