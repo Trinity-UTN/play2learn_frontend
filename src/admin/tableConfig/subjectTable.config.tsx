@@ -3,9 +3,40 @@ import type { DataTableColumn, DataTableAction } from "@/shared";
 import { type SubjectResponseDto } from "@/admin";
 import { Link } from "react-router-dom";
 
-export const getSubjectColumns = (
-  styles: Record<string, string>,
-): DataTableColumn<SubjectResponseDto>[] => [
+const SubjectStatusTrue = ({ styles }: { styles: Record<string, string> }) => {
+  return (
+    <div className={styles.status} style={{ backgroundColor: "#059669" }}>
+      Activo
+    </div>
+  );
+};
+const SubjectStatusFalse = ({
+  styles,
+  subject,
+  onRestore,
+}: {
+  styles: Record<string, string>;
+  subject: SubjectResponseDto;
+  onRestore: (subject: SubjectResponseDto) => void;
+}) => {
+  return (
+    <button
+      className={styles.btnStatus}
+      style={{ backgroundColor: "#dc2626" }}
+      onClick={() => onRestore(subject)}
+    >
+      De baja
+    </button>
+  );
+};
+
+export const getSubjectColumns = ({
+  styles,
+  handleRestore,
+}: {
+  styles: Record<string, string>;
+  handleRestore: (subject: SubjectResponseDto) => void;
+}): DataTableColumn<SubjectResponseDto>[] => [
   {
     key: "name",
     label: "Nombre",
@@ -89,6 +120,26 @@ export const getSubjectColumns = (
             <span>No</span>
           )}
         </div>
+      </div>
+    ),
+  },
+
+  {
+    key: "active",
+    label: "Estado",
+    sortable: true,
+    className: styles.nameColumn,
+    render: (subject) => (
+      <div className={styles.wrapper}>
+        {subject.active ? (
+          <SubjectStatusTrue styles={styles} />
+        ) : (
+          <SubjectStatusFalse
+            styles={styles}
+            subject={subject}
+            onRestore={handleRestore}
+          />
+        )}
       </div>
     ),
   },

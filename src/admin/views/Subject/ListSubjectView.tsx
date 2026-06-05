@@ -25,15 +25,15 @@ const ListSubjectView: React.FC = () => {
     handleEdit,
     handleDelete,
     navigate,
+    handleRestore,
   } = useListSubjectView();
 
-  const columns = getSubjectColumns(styles);
+  const columns = getSubjectColumns({ styles, handleRestore });
   const actions = getSubjectActions({
     styles,
     handleEdit,
     handleDelete,
   });
-
   return (
     <motion.div
       variants={containerVariants}

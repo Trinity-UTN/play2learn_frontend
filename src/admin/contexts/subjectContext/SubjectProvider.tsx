@@ -54,7 +54,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
         }
       }, setLoading);
     },
-    []
+    [],
   );
 
   const updateSubject = useCallback(
@@ -74,7 +74,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
         }
       }, setLoading);
     },
-    []
+    [],
   );
 
   const getSubject = useCallback(async () => {
@@ -121,7 +121,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
         }
       }, setLoading);
     },
-    []
+    [],
   );
 
   const deleteSubject = useCallback(async (id: number): Promise<void> => {
@@ -157,7 +157,7 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
         }
       }, setLoading);
     },
-    []
+    [],
   );
   //Desasignar estudiante
   const unassignStudent = useCallback(
@@ -170,9 +170,22 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
         }
       }, setLoading);
     },
-    []
+    [],
   );
 
+  const restoreSubject = useCallback(
+    async (id: number): Promise<void> => {
+      await withLoading(async () => {
+        try {
+          await SubjectService.restoreSubjectApi(id);
+        } catch (error) {
+          handleApiError(error, "Error al restaurar la meteria");
+          throw error;
+        }
+      }, setLoading);
+    },
+    [withLoading, showToast, handleApiError],
+  );
   const states = {
     loading,
     subjects,
@@ -193,11 +206,12 @@ export const SubjectProvider: React.FC<SubjectProviderProps> = ({
     getStudentAssingment,
     assingmentStudent,
     unassignStudent,
+    restoreSubject,
   };
 
   const contextValue: SubjectContextType = useMemo(
     () => ({ ...states, ...actions }),
-    [states, actions]
+    [states, actions],
   );
 
   return (
