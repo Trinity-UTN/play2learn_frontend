@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStudent, type StudentResponseDto } from "@/admin";
-import { useConfirmation, usePaginationParams, useToaster } from "@/shared";
+import { useConfirmation, usePaginationParams } from "@/shared";
 import { usePassword } from "@/user";
 import { useYearCourseSelector } from "./useYearCourseSelector";
 
@@ -37,7 +37,6 @@ export const useListStudentView = () => {
   } = useYearCourseSelector();
 
   const { showConfirmation } = useConfirmation();
-  const { showToast } = useToaster();
   const { restorePassword } = usePassword();
   const navigate = useNavigate();
 
@@ -97,13 +96,6 @@ export const useListStudentView = () => {
         onConfirm: async () => {
           await deleteStudent(student.id);
           await getPaginatedStudent(paginationParams);
-          //TODO - Mensaje repetido - borrar de aca
-          showToast({
-            title: "Estudiante eliminado exitosamente",
-            message: "El estudiante ha sido eliminado exitosamente",
-            type: "success",
-            position: "bottom-right",
-          });
         },
       });
     },
@@ -122,12 +114,6 @@ export const useListStudentView = () => {
         onConfirm: async () => {
           await restoreStudent(student.id);
           await getPaginatedStudent(paginationParams);
-          showToast({
-            title: "Estudiante restaurado exitosamente",
-            message: "El estudiante ha sido restaurado exitosamente",
-            type: "success",
-            position: "bottom-right",
-          });
         },
       });
     },

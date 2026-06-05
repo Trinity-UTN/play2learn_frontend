@@ -69,13 +69,6 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     await withLoading(async () => {
       try {
         await TeacherService.deleteTeacherApi(id);
-
-        showToast({
-          title: "Docente eliminado exitosamente",
-          message: "El docente ha sido eliminado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
       } catch (error) {
         handleApiError(error, "Error al eliminar el docente");
       }
@@ -86,13 +79,6 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
     await withLoading(async () => {
       try {
         await TeacherService.restoreTeacherApi(id);
-
-        showToast({
-          title: "Docente restaurado exitosamente",
-          message: "El docente ha sido restaurado exitosamente",
-          type: "success",
-          position: "bottom-right",
-        });
       } catch (error) {
         handleApiError(error, "Error al restaurar el docente");
       }
@@ -111,7 +97,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
   }, []);
 
   const getTeacherById = async (
-    id: number
+    id: number,
   ): Promise<TeacherResponseDto | undefined> => {
     return await withLoading(async () => {
       try {
@@ -133,7 +119,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
         }
       }, setLoading);
     },
-    []
+    [],
   );
 
   const actions = useMemo(
@@ -156,7 +142,7 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
       getTeacherById,
       getPaginatedTeacher,
       setSelectedTeacher,
-    ]
+    ],
   );
   // Memorizamos los estados que cambian en ejecución
   const state = useMemo(
@@ -166,14 +152,14 @@ export const TeacherProvider: React.FC<TeacherProviderProps> = ({
       paginatedTeacher,
       selectedTeacher,
     }),
-    [loading, teacher, paginatedTeacher, selectedTeacher]
+    [loading, teacher, paginatedTeacher, selectedTeacher],
   );
   const contextValue: TeacherContextType = useMemo(
     () => ({
       ...state,
       ...actions,
     }),
-    [state, actions]
+    [state, actions],
   );
 
   return (

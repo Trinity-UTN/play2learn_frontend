@@ -50,7 +50,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
         }
       }, setLoading);
     },
-    [withLoading, showToast, handleApiError]
+    [withLoading, showToast, handleApiError],
   );
 
   const updateStudent = useCallback(
@@ -71,7 +71,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
         }
       }, setLoading);
     },
-    [withLoading, showToast, handleApiError]
+    [withLoading, showToast, handleApiError],
   );
 
   const deleteStudent = useCallback(
@@ -92,14 +92,13 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
         }
       }, setLoading);
     },
-    [withLoading, showToast, handleApiError]
+    [withLoading, showToast, handleApiError],
   );
   const restoreStudent = useCallback(
     async (id: number): Promise<void> => {
       await withLoading(async () => {
         try {
           await StudentService.restoreStudentApi(id);
-
           showToast({
             title: "Estudiante restaurado exitosamente",
             message: "El estudiante ha sido restaurado exitosamente",
@@ -112,7 +111,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
         }
       }, setLoading);
     },
-    [withLoading, showToast, handleApiError]
+    [withLoading, showToast, handleApiError],
   );
 
   const getStudent = useCallback(async (): Promise<void> => {
@@ -138,7 +137,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
         }
       }, setLoading);
     },
-    [withLoading, handleApiError]
+    [withLoading, handleApiError],
   );
 
   const getPaginatedStudent = useCallback(
@@ -153,7 +152,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
         }
       }, setLoading);
     },
-    [withLoading, handleApiError]
+    [withLoading, handleApiError],
   );
   const states = useMemo(
     () => ({
@@ -162,7 +161,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
       paginatedStudents,
       selectedStudent,
     }),
-    [loading, students, paginatedStudents, selectedStudent]
+    [loading, students, paginatedStudents, selectedStudent],
   );
 
   const actions = useMemo(
@@ -184,7 +183,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
       getStudent,
       getStudentById,
       getPaginatedStudent,
-    ]
+    ],
   );
 
   const contextValue: StudentContextType = useMemo(
@@ -192,7 +191,7 @@ export const StudentProvider: React.FC<StudentProviderProps> = ({
       ...states,
       ...actions,
     }),
-    [states, actions]
+    [states, actions],
   );
 
   return (
