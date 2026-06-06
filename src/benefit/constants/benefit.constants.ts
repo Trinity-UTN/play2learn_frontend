@@ -36,14 +36,14 @@ export const BENEFIT_CATEGORIES: ReadonlyArray<{
     value: "TRABAJOS",
     label: "TRABAJOS",
     icon: FaFileAlt,
-    color: "#227257ff",
+    color: "#929292ff",
     textColor: "#fff",
   },
   {
     value: "ASISTENCIA",
     label: "ASISTENCIA",
     icon: FaCalendarCheck,
-    color: "#053f2cff",
+    color: "#929292ff",
     textColor: "#fff",
   },
   {

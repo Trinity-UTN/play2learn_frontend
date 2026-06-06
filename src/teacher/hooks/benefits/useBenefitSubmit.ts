@@ -6,11 +6,10 @@ import type { useBenefitForm } from "./useBenefitForm";
 export const useBenefitSubmit = (
   formData: ReturnType<typeof useBenefitForm>["formData"],
   validateForm: ReturnType<typeof useBenefitForm>["validateForm"],
-  resetForm: ReturnType<typeof useBenefitForm>["resetForm"]
+  resetForm: ReturnType<typeof useBenefitForm>["resetForm"],
 ) => {
-  const { registerBenefit } = useBenefitAPI();
+  const { registerBenefit, loading } = useBenefitAPI();
   const { showToast } = useToaster();
-
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
@@ -18,7 +17,6 @@ export const useBenefitSubmit = (
       if (!validateForm()) {
         return;
       }
-
       await registerBenefit(formData);
       showToast({
         title: "Beneficio creado exitosamente",
@@ -28,8 +26,8 @@ export const useBenefitSubmit = (
       });
       resetForm();
     },
-    [formData, validateForm, registerBenefit, resetForm]
+    [formData, validateForm, registerBenefit, resetForm],
   );
 
-  return { handleSubmit };
+  return { handleSubmit, loading };
 };
