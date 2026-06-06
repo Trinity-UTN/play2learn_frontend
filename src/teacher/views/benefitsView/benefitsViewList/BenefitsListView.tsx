@@ -34,7 +34,10 @@ const BenefitsListView: React.FC = () => {
     resetFilters,
     setViewMode,
   } = useBenefitTeacherData();
-  const { actions, loading: actionsLoading } = useBenefitTeacherActions();
+
+  const { actions, loading: actionsLoading } = useBenefitTeacherActions({
+    paramsStatus: activeFilter,
+  });
 
   const loading = dataLoading || actionsLoading;
   const showEmptyState = filteredBenefits.length === 0 && !loading;

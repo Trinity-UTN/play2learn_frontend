@@ -5,7 +5,9 @@ import type { TeacherBenefitType } from "../../../../benefit/types/benefit.types
 import { useBenefitAPI } from "../../useBenefitAPI";
 import { useConfirmation, useToaster } from "@/shared";
 
-export const useBenefitTeacherActions = (): {
+export const useBenefitTeacherActions = (paramsStatus?: {
+  paramsStatus: string;
+}): {
   actions: BenefitActionHandlers;
   loading: boolean;
 } => {
@@ -37,14 +39,18 @@ export const useBenefitTeacherActions = (): {
               type: "success",
               position: "bottom-right",
             });
-            refreshBenefitsAfterDeletion();
+            if (paramsStatus) {
+              refreshBenefitsAfterDeletion([paramsStatus?.paramsStatus]);
+            } else {
+              refreshBenefitsAfterDeletion();
+            }
           } catch {
             // El provider ya mostró el error
           }
         },
       });
     },
-    [deleteBenefit, showConfirmation, showToast, refreshBenefitsAfterDeletion]
+    [deleteBenefit, showConfirmation, showToast, refreshBenefitsAfterDeletion],
   );
 
   const handleViewPurchases = useCallback(
@@ -52,7 +58,7 @@ export const useBenefitTeacherActions = (): {
       setSelectedBenefit(benefit);
       navigate(`/dashboard/teacher/beneficio/list/${benefitId}`);
     },
-    [navigate, setSelectedBenefit]
+    [navigate, setSelectedBenefit],
   );
 
   const handleAcceptUseBenefit = useCallback(
@@ -83,7 +89,7 @@ export const useBenefitTeacherActions = (): {
       showConfirmation,
       showToast,
       refreshBenefitsAfterAcceptance,
-    ]
+    ],
   );
 
   const actions = useMemo(
@@ -92,7 +98,7 @@ export const useBenefitTeacherActions = (): {
       onViewPurchases: handleViewPurchases,
       onAcceptUse: handleAcceptUseBenefit,
     }),
-    [handleDeleteBenefit, handleViewPurchases, handleAcceptUseBenefit]
+    [handleDeleteBenefit, handleViewPurchases, handleAcceptUseBenefit],
   );
 
   return {
