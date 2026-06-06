@@ -100,7 +100,7 @@ export const useBenefitCardData = ({
       const categoryColor = getCategoryColor(benefit.benefitCategory);
       const subjectName = benefit.subjectName;
       const subjectColor = getSubjectColor(subjectName);
-
+      const purchaseNumber = benefit.purchaseNumber;
       return {
         IconComponent: iconComponent,
         iconColor,
@@ -125,6 +125,7 @@ export const useBenefitCardData = ({
         studentName: benefit.studentName,
         purchaseState: benefit.state,
         purchaseId: benefit.id,
+        purchaseNumber,
       };
     }
 

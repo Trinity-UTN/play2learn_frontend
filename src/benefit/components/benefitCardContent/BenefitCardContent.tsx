@@ -63,7 +63,7 @@ const BenefitCardContent = ({
     usedAt,
     studentName,
     purchaseState,
-    purchaseId,
+    purchaseNumber,
   } = useBenefitCardData({ benefit, variant, isPreview, isPurchase });
 
   // CASO 1: isPurchaseCard - Mostrar estudiante y estado de compra
@@ -90,7 +90,7 @@ const BenefitCardContent = ({
                 customColor={{ bg: "#f3f4f6", text: "#6b7280" }}
               >
                 <FaHashtag className={styles.badgeIcon} />
-                Canje Nº{purchaseId}
+                Canje Nº{purchaseNumber}
               </Badge>
               <Badge variant="custom" size="sm" customColor={stateConfig.color}>
                 {stateConfig.label}
