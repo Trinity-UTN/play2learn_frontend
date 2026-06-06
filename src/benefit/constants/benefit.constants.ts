@@ -193,8 +193,7 @@ export const BENEFIT_VALIDATION = {
 // ============================================
 export const BENEFIT_TOOLTIP = {
   PURCHASE_LIMIT: "Si no se define, no hay límite.",
-  PURCHASE_LIMIT_PER_STUDENT:
-    "Si no se define, no hay límite por estudiante.",
+  PURCHASE_LIMIT_PER_STUDENT: "Si no se define, no hay límite por estudiante.",
 } as const;
 
 // ============================================

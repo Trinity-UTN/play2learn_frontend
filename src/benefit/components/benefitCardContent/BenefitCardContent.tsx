@@ -202,7 +202,7 @@ const BenefitCardContent = ({
             )}
             {!category && isPreview && categoryColor && (
               <Badge variant="custom" size="sm" customColor={categoryColor}>
-                Categoría
+                Categoría {category}
               </Badge>
             )}
             {subjectName && subjectColor && (
@@ -257,7 +257,7 @@ const BenefitCardContent = ({
             <span className={styles[`limitPerStudentValue${styleSuffix}`]}>
               {formatPurchaseLimitPerStudentText(
                 purchaseLimitPerStudent,
-                variant
+                variant,
               )}
             </span>
           </div>
