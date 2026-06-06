@@ -22,6 +22,8 @@ import { getPurchaseStateConfig } from "../../utils/benefitCard.utils";
 import type { BenefitVariant } from "../../types/benefit.types";
 import { useBenefitCardData } from "../../hooks/useBenefitCardData";
 import styles from "./BenefitCardContent.module.css";
+import { type BenefitPurchaseStatus } from "@/benefit/constants/benefitPurchase.constants";
+import { BENEFIT_TEACHER_END_DATE_LABELS } from "@/benefit/constants/benefit.constants";
 
 type BenefitCardContentProps = {
   benefit:
@@ -66,7 +68,9 @@ const BenefitCardContent = ({
 
   // CASO 1: isPurchaseCard - Mostrar estudiante y estado de compra
   if (isPurchaseCard) {
-    const stateConfig = getPurchaseStateConfig(purchaseState);
+    const stateConfig = getPurchaseStateConfig(
+      purchaseState as BenefitPurchaseStatus,
+    );
 
     return (
       <div className={styles.contentContainer}>
@@ -219,11 +223,16 @@ const BenefitCardContent = ({
       </p>
 
       {hasEndDate && "endAt" in benefit && benefit.endAt && (
-        <div className={styles.endDateSection}>
+        <div
+          className={`${styles.endDateSection} ${purchaseState ? styles[purchaseState] : ""}`}
+        >
           <FaCalendarAlt className={styles.endDateIcon} />
-          <span className={styles.endDateText}>
-            Finaliza: <strong>{formatBenefitDate(benefit.endAt)}</strong>
-          </span>
+          {purchaseState && (
+            <span className={styles.endDateText}>
+              {BENEFIT_TEACHER_END_DATE_LABELS[purchaseState]}:{" "}
+              <strong>{formatBenefitDate(benefit.endAt)}</strong>
+            </span>
+          )}
         </div>
       )}
 

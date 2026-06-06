@@ -3,6 +3,7 @@ import { FaGift } from "react-icons/fa";
 import type {
   AnyBenefit,
   BenefitResponseInterface,
+  BenefitTeacherState,
   BenefitVariant,
   TeacherBenefitType,
 } from "../types/benefit.types";
@@ -201,7 +202,6 @@ export const useBenefitCardData = ({
         : isPreview
           ? "Descripción del beneficio aparecerá aquí..."
           : "";
-
       return {
         IconComponent: iconComponent,
         iconColor,
@@ -224,7 +224,7 @@ export const useBenefitCardData = ({
         isUsedBenefit: false,
         usedAt: undefined,
         studentName: undefined,
-        purchaseState: undefined,
+        purchaseState: benefit.state as BenefitTeacherState,
         purchaseId: undefined,
       };
     }

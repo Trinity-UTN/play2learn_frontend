@@ -89,7 +89,9 @@
   margin-top: 0.5rem;
   margin-bottom: 1.25rem;
 }
-
+.EXPIRED {
+  background: #fec9c7;
+}
 .endDateIcon {
   color: #d97706;
   font-size: 1rem;

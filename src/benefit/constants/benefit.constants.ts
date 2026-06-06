@@ -99,6 +99,20 @@ export const BENEFIT_TEACHER_STATUS = {
   USE_REQUESTED: "USE_REQUESTED",
 } as const;
 
+export const BENEFIT_TEACHER_STATUS_LABELS: Record<string, string> = {
+  PUBLISHED: "Publicado",
+  EXPIRED: "Vencido",
+  USE_REQUESTED: "Uso solicitado",
+};
+
+export const BENEFIT_TEACHER_END_DATE_LABELS: Record<string, string> = {
+  PUBLISHED: "Finaliza",
+  EXPIRED: "Venció",
+  AVAILABLE: "Finaliza",
+  USE_REQUESTED: "Finaliza",
+  PURCHASED: "Finaliza",
+};
+
 export type BenefitTeacherStatus =
   (typeof BENEFIT_TEACHER_STATUS)[keyof typeof BENEFIT_TEACHER_STATUS];
 

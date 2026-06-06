@@ -32,7 +32,6 @@ const ActivitiesCreatedList: React.FC<ActivitiesCreatedListProps> = ({
   loading = false,
   showEmptyState = false,
 }) => {
-
   return (
     <PaginateComponent pagination={paginationInfo || undefined}>
       {viewMode === "grid" ? (
