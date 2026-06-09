@@ -15,7 +15,6 @@ export const useBenefitStudentData = () => {
     paginatedBenefits,
     getPaginatedBenefitStudent,
     getPaginatedUsedBenefitStudent,
-    getBenefitStudentStats,
   } = useBenefitStudent();
 
   const {
@@ -42,23 +41,6 @@ export const useBenefitStudentData = () => {
   const loadBenefits = useCallback(async () => {
     const filters: string[] = [];
     const filtersValues: string[] = [];
-
-    // Caso especial: filtro "Usados"
-    if (activeFilter === "USED") {
-      await getPaginatedUsedBenefitStudent({
-        ...paginationParams,
-        ...(selectedSubject &&
-          selectedSubject.id !== "ALL" && { subjectId: selectedSubject.id }),
-        ...(selectedCategory &&
-          selectedCategory !== "ALL" && { category: selectedCategory }),
-      });
-      return;
-    }
-
-    // Estado (benefit.state)
-    filters.push("state");
-    filtersValues.push(activeFilter);
-
     // Materia (benefit.subjectId)
     if (selectedSubject && selectedSubject.id !== "ALL") {
       filters.push("subjectId");
@@ -71,6 +53,17 @@ export const useBenefitStudentData = () => {
       filtersValues.push(selectedCategory);
     }
 
+    if (activeFilter === "USED") {
+      await getPaginatedUsedBenefitStudent({
+        ...paginationParams,
+        filters,
+        filtersValues,
+      });
+      return;
+    }
+    // Caso especial: filtro "Usados"
+    filters.push("state");
+    filtersValues.push(activeFilter);
     await getPaginatedBenefitStudent({
       ...paginationParams,
       filters,
@@ -90,10 +83,10 @@ export const useBenefitStudentData = () => {
    */
   useEffect(() => {
     const fetchInitialData = async () => {
-      await Promise.all([loadBenefits(), getBenefitStudentStats()]);
+      await Promise.all([loadBenefits()]);
     };
     fetchInitialData();
-  }, [loadBenefits, getBenefitStudentStats]);
+  }, [loadBenefits]);
 
   /**
    * Reinicia la paginación al cambiar el filtro
