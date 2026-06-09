@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import ActivityHeader from "../../components/studentActivitiesViewComponents/activityHeader/ActivityHeader";
-import ActivityStats from "../../components/studentActivitiesViewComponents/activityStats/ActivityStats";
 import ActivityFilters from "../../components/studentActivitiesViewComponents/activityFilters/ActivityFilters";
 import ActivityGrid from "../../components/studentActivitiesViewComponents/activityGrid/ActivityGrid";
 import { useActivityData } from "../../hooks/activities/activityList/useActivityData";
@@ -16,7 +15,6 @@ const StudentActivitiesView: React.FC = () => {
     setSelectedDifficulty,
     filteredActivities,
     subjects,
-    stats,
     paginationInfo,
     loading,
   } = useActivityData();
@@ -30,7 +28,6 @@ const StudentActivitiesView: React.FC = () => {
       },
     },
   };
-
   return (
     <motion.div
       variants={containerVariants}

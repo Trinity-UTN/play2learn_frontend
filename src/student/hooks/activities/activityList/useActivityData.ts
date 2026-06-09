@@ -16,7 +16,6 @@ export const useActivityData = () => {
     getPaginatedActivitiesNotApproved,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesPending,
-    getActivityStudentStats,
   } = useActivityStudent();
 
   const { subjects: subjectList, getSubjectByStudent } = useSubject();
@@ -38,7 +37,6 @@ export const useActivityData = () => {
   } = useActivityFilters();
 
   const { stats, counts } = useActivityStats();
-
   /**
    * Carga de actividades filtradas y paginadas
    */
@@ -106,14 +104,10 @@ export const useActivityData = () => {
    */
   useEffect(() => {
     const fetchInitialData = async () => {
-      await Promise.all([
-        loadActivities(),
-        getActivityStudentStats(),
-        getSubjectByStudent(),
-      ]);
+      await Promise.all([loadActivities(), getSubjectByStudent()]);
     };
     fetchInitialData();
-  }, [loadActivities, getActivityStudentStats, getSubjectByStudent]);
+  }, [loadActivities, getSubjectByStudent]);
 
   /**
    * Reinicia la paginación al cambiar el filtro
@@ -137,7 +131,6 @@ export const useActivityData = () => {
     paginatedActivitiesPending,
     paginatedActivitiesNotApproved,
   ]);
-
   const subjects: FilterOption[] = useMemo(
     () => [
       { id: "ALL", name: "Todas las materias" },
