@@ -10,14 +10,13 @@ const typeRewardOptions = [
   {
     value: "EQUITATIVO",
     label: "Equitativo",
-    description:
-      "Todos reciben la misma cantidad de monedas.",
+    description: "Todos reciben la misma cantidad de monedas.",
   },
   {
     value: "POISSON",
     label: "Recompensa dinamica",
     description:
-      "Los primeros alumnos en completar la actividad obtienen más monedas.",
+      "Los primeros estudiantes en completar la actividad obtienen más monedas.",
   },
 ];
 

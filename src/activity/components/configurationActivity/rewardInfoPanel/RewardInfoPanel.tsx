@@ -10,18 +10,15 @@ const RewardInfoPanel: React.FC<RewardInfoPanelProps> = ({
   actualBalance,
   maxReward,
 }) => {
+  const displayValue = Math.min(actualBalance, maxReward);
   return (
     <div className={styles.rewardsInfoContainer}>
       <div className={styles.rewardBox}>
-        <span className={styles.rewardBoxTitle}>Monedas disponibles en la materia</span>
-        <span className={styles.rewardBoxValue}>
-          {formatPrice(actualBalance)} monedas
+        <span className={styles.rewardBoxTitle}>
+          Máximo permitido para esta actividad
         </span>
-      </div>
-      <div className={styles.rewardBox}>
-        <span className={styles.rewardBoxTitle}>Máximo permitido para esta actividad</span>
         <span className={styles.rewardBoxValue}>
-          {formatPrice(maxReward)} monedas
+          {formatPrice(displayValue)} monedas
         </span>
       </div>
     </div>
