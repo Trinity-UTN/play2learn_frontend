@@ -26,13 +26,13 @@ export const ToasterProvider: React.FC<ToasterProviderProps> = ({
 
   const showToast = useCallback((config: ToastConfig): string => {
     const id = config.id || generateId();
-    const position = config.position || "top-right";
+    const position = config.position || "bottom-right";
     const duration =
       config.duration !== undefined
         ? config.duration
         : config.type === "update"
-        ? 0
-        : 8000;
+          ? 0
+          : 8000;
 
     const newToast: Toast = {
       id,
@@ -48,7 +48,7 @@ export const ToasterProvider: React.FC<ToasterProviderProps> = ({
 
     setToasts((prevToasts) => {
       const toastsInPosition = prevToasts.filter(
-        (toast) => toast.position === position
+        (toast) => toast.position === position,
       );
       const maxToasts = getMaxToastsForPosition(position);
 
@@ -62,7 +62,7 @@ export const ToasterProvider: React.FC<ToasterProviderProps> = ({
 
         updatedToasts = updatedToasts.filter(
           (toast) =>
-            !toastsToRemove.some((removeToast) => removeToast.id === toast.id)
+            !toastsToRemove.some((removeToast) => removeToast.id === toast.id),
         );
       }
 
@@ -124,13 +124,16 @@ export const ToasterProvider: React.FC<ToasterProviderProps> = ({
   };
 
   // Agrupar toasts por posición
-  const toastsByPosition = toasts.reduce((acc, toast) => {
-    if (!acc[toast.position]) {
-      acc[toast.position] = [];
-    }
-    acc[toast.position].push(toast);
-    return acc;
-  }, {} as Record<ToastPosition, Toast[]>);
+  const toastsByPosition = toasts.reduce(
+    (acc, toast) => {
+      if (!acc[toast.position]) {
+        acc[toast.position] = [];
+      }
+      acc[toast.position].push(toast);
+      return acc;
+    },
+    {} as Record<ToastPosition, Toast[]>,
+  );
 
   return (
     <ToasterContext.Provider value={contextValue}>
