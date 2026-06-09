@@ -8,6 +8,7 @@ import { useNoLudicaReviewData } from "../../hooks/activities/noLudicaReview/use
 import { useNoLudicaReviewActions } from "../../hooks/activities/noLudicaReview/useNoLudicaReviewActions";
 import { reviewContainerVariants } from "../../constants/activity/noLudicaReview.constants";
 import styles from "./AttemptReviewView.module.css";
+import { LoadingSpinnerComponent } from "@/shared";
 
 const AttemptReviewView: React.FC = () => {
   const { activityCompletedId } = useParams<{ activityCompletedId: string }>();
@@ -25,7 +26,13 @@ const AttemptReviewView: React.FC = () => {
     handleSubmitReview,
     handleGoBack,
   } = useNoLudicaReviewActions();
-
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <LoadingSpinnerComponent />
+      </div>
+    );
+  }
   // Error state - no stored data
   if (!loading && !storedData) {
     return (
