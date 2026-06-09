@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaHistory, FaArrowUp, FaArrowDown, FaEye } from "react-icons/fa";
+import { FaHistory, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoMdTrendingDown, IoMdTrendingUp } from "react-icons/io";
-import { Card, Button } from "@/shared";
+import { Card } from "@/shared";
 import type { TransactionType } from "../../../types/Wallet.type";
 import { formatDate } from "@/shared/utils/format";
 import { useWalletStudent } from "../../../hooks/useWalletStudentAPI";
@@ -33,10 +33,6 @@ const RecentTransactions: React.FC = () => {
           <FaHistory className={styles.titleIcon} />
           Movimientos Recientes
         </h3>
-        <Button variant="ghost" size="sm" className={styles.viewAllButton}>
-          <FaEye />
-          Ver todos
-        </Button>
       </div>
 
       <div className={styles.transactionsList}>

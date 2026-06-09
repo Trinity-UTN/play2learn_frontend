@@ -85,9 +85,6 @@ const QuickActions = () => {
                   </div>
                 </div>
                 <div className={styles.actionRight}>
-                  {action.badge && (
-                    <div className={styles.actionBadge}>{action.badge}</div>
-                  )}
                   <FaArrowRight className={styles.actionArrow} />
                 </div>
               </div>
