@@ -58,7 +58,6 @@ const StudentActivityResultsView: React.FC = () => {
   const handleViewDetails = () => {
     goBackToActivityView();
   };
-
   return (
     <motion.div
       variants={containerVariants}
@@ -75,7 +74,9 @@ const StudentActivityResultsView: React.FC = () => {
       <div className={styles.mainContent}>
         <ActivityResultsStats results={results} activity={activity} />
         <ActivityResultsDetails activity={activity} />
-        <ActivityResultsFeedback teacherComment={teacherFeedbackMessage} />
+        {teacherFeedbackMessage && (
+          <ActivityResultsFeedback teacherComment={teacherFeedbackMessage} />
+        )}
       </div>
 
       <StudentActivityFooter
