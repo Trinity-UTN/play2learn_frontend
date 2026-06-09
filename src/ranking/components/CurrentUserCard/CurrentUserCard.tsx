@@ -51,10 +51,12 @@ export const CurrentUserCard = ({
             </div>
             <div className={styles.statInfo}>
               <p className={styles.statValue}>
-                {position.quantity.toLocaleString()}
-              </p>
-              <p className={styles.statLabel}>
-                {category === "coins" ? "Monedas" : "Actividades"}
+                {position.quantity.toLocaleString()}{" "}
+                <span>
+                  {category === "coins"
+                    ? "Monedas ganadas"
+                    : "Actividades aprobadas"}
+                </span>
               </p>
             </div>
           </div>
@@ -64,8 +66,8 @@ export const CurrentUserCard = ({
         {position.position <= 3
           ? "¡Excelente trabajo! Estás en el podio 🏆"
           : position.position <= 10
-          ? "¡Casi en el top 10! Sigue así 💪"
-          : "¡Sigue mejorando para subir de posición! 🚀"}
+            ? "¡Casi en el top 10! Sigue así 💪"
+            : "¡Sigue mejorando para subir de posición! 🚀"}
       </div>
     </motion.div>
   );

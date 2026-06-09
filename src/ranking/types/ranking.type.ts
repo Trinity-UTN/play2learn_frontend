@@ -12,7 +12,7 @@ export interface Position {
 export interface RankingResponseApi {
   currentUserPosition: Position;
   participants: Position[];
-
+  totalParticipants: number;
 }
 
 export type RankingType =

@@ -10,7 +10,7 @@ interface RankingBoardProps {
 }
 
 export const RankingBoard = ({ data, category }: RankingBoardProps) => {
-  const { currentUserPosition, participants } = data;
+  const { currentUserPosition, participants, totalParticipants } = data;
 
   if (!participants) {
     return null;
@@ -29,7 +29,7 @@ export const RankingBoard = ({ data, category }: RankingBoardProps) => {
         <div className={styles.boardHeader}>
           <h2 className={styles.boardTitle}>Top Rankings</h2>
           <span className={styles.totalCount}>
-            {participants.length} participantes
+            {totalParticipants} participantes
           </span>
         </div>
 

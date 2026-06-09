@@ -109,16 +109,14 @@
 }
 
 .statValue {
-  color: white;
+  color: #ffffff;
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
 }
 
-.statLabel {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
-  margin: 0;
+.statValue span {
+  color: rgb(255, 255, 255);
 }
 
 .motivationalText {

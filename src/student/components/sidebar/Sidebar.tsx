@@ -36,12 +36,10 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
   currentView,
   isLoading = false,
 }) => {
-
   const { wallet, currentStudent } = useCurrentStudent();
   const { activityStudentStats } = useActivityStudent();
   const { benefitStats } = useBenefitStudent();
   const navigate = useNavigate();
-
 
   const availableActivityCount = activityStudentStats?.available ?? 0;
   const availableBenefitCount = benefitStats?.available ?? 0;
@@ -59,7 +57,9 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       icon: FaWallet,
       path: StudentRoutes.Wallet,
       color: "#10B981",
-      badge: isLoading ? "..." : (formatPriceWithNoDecimals(wallet?.totalBalance) ?? "0"),
+      badge: isLoading
+        ? "..."
+        : (formatPriceWithNoDecimals(wallet?.totalBalance) ?? "0"),
     },
     {
       title: "Mis Actividades",
@@ -90,7 +90,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       badge: "¡Nuevo!",
     },
     {
-      title: "Ranking",
+      title: "Rankings",
       icon: FaTrophy,
       path: StudentRoutes.Ranking,
       color: "#F97316",
@@ -105,7 +105,6 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
 
   const onViewChange = (path: string) => {
     navigate(`/dashboard/${path}`);
-
   };
 
   const handleProfileClick = () => {
@@ -115,7 +114,6 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
   return (
     <Sidebar isLoading={isLoading} handleNavegacion={handleProfileClick}>
       <motion.div variants={itemVariants} className={styles.header}>
-
         <div className={styles.profile}>
           {isLoading ? (
             <div className={styles.avatarSkeleton}></div>
@@ -185,8 +183,9 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
                   </div>
                 ) : (
                   <button
-                    className={`${styles.menuItem} ${currentView === item.path ? styles.active : ""
-                      }`}
+                    className={`${styles.menuItem} ${
+                      currentView === item.path ? styles.active : ""
+                    }`}
                     onClick={() => onViewChange(item.path)}
                     style={
                       { "--item-color": item.color } as React.CSSProperties
@@ -207,11 +206,8 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
           </ul>
         </motion.div>
       </div>
-
-
     </Sidebar>
-
-  )
+  );
 };
 
 export default StudentSidebar;
