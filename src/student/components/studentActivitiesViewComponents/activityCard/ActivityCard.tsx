@@ -114,7 +114,11 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
               {activity.status !== "APPROVED" && (
                 <div className={styles.metaItem}>
                   <FaStopwatch className={styles.metaIcon} />
-                  <span>{activity.timeLabel}</span>
+                  <span>
+                    {activity.maxTime && activity.maxTime > 0
+                      ? activity.timeLabel
+                      : "Sin limite de tiempo"}
+                  </span>
                 </div>
               )}
             </div>

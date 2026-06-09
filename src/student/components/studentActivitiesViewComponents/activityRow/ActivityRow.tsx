@@ -154,7 +154,11 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
 
             <div className={styles.infoItem}>
               <FaStopwatch className={styles.metaIcon} />
-              <span className={styles.infoText}>{activity.timeLabel}</span>
+              <span className={styles.infoText}>
+                {activity.maxTime && activity.maxTime > 0
+                  ? activity.timeLabel
+                  : "Sin limite de tiempo"}
+              </span>
             </div>
 
             <div className={styles.infoItem}>

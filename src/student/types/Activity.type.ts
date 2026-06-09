@@ -85,6 +85,7 @@ export interface ActivityUI {
   dueDateLabel?: string;
   extraInfo?: string;
   completedAt?: string;
+  maxTime?: number;
 }
 
 export type GameConfig =
