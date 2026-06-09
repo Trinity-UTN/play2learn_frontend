@@ -4,7 +4,7 @@ export type RiskLevel = "BAJO" | "MEDIO" | "ALTO";
 export type RangeValue =
   | "DIARIO"
   | "SEMANAL"
-  | "QUINZENAL"
+  | "QUINCENAL"
   | "MENSUAL"
   | "HISTORICO";
 
