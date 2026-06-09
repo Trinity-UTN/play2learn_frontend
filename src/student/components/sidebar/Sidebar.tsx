@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
 import {
   FaHome,
@@ -33,14 +33,17 @@ interface MenuItem {
 }
 
 const StudentSidebar: React.FC<StudentSidebarProps> = ({
-  currentView,
   isLoading = false,
 }) => {
   const { wallet, currentStudent } = useCurrentStudent();
   const { activityStudentStats } = useActivityStudent();
   const { benefitStats } = useBenefitStudent();
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const isActive = (path: string) => {
+    return location.pathname === `/dashboard/${path}`;
+  };
   const availableActivityCount = activityStudentStats?.available ?? 0;
   const availableBenefitCount = benefitStats?.available ?? 0;
 
@@ -184,7 +187,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
                 ) : (
                   <button
                     className={`${styles.menuItem} ${
-                      currentView === item.path ? styles.active : ""
+                      isActive(item.path) ? styles.active : ""
                     }`}
                     onClick={() => onViewChange(item.path)}
                     style={
