@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import type { Activity } from "../../../types/TeacherActivity.type";
 import Card from "../../../../shared/components/Card/CardComponent";
 import GlowEffect from "../../../../shared/components/GlowEffect/GlowEffect";
-import ActivityCardHeader from "./activityCardHeader/ActivityCardHeader";
 import ActivityCardIcon from "./activityCardIcon/ActivityCardIcon";
 import ActivityCardContent from "./activityCardContent/ActivityCardContent";
 import ActivityCardFooter from "./activityCardFooter/ActivityCardFooter";
@@ -37,7 +36,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   const handleNavigate = (activity: Activity) => {
     onSelect?.(activity);
     navigate(
-      `/dashboard/teacher/actividades/configuration/${activity.code_game}`
+      `/dashboard/teacher/actividades/configuration/${activity.code_game}`,
     );
   };
 
@@ -50,11 +49,6 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
       className={`${styles.container} ${className}`}
     >
       <Card className={styles.activityCard}>
-        <ActivityCardHeader
-          isNew={activity.isNew}
-          isPopular={activity.isPopular}
-        />
-
         <ActivityCardIcon
           icon={<IconComponent className={styles.activityIcon} />}
           backgroundColor={activity.color}

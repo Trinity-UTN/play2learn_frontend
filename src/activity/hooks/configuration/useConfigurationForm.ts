@@ -13,7 +13,7 @@ const STORAGE_KEY = "configuration_activity_draft";
 export const useConfigurationForm = (activityCode?: string, id?: string) => {
   const { subjects } = useSubject();
   const { handleApiError } = useHandleApiError();
-  const { actividadCreada, getActividadCreada } = useActividadCreada()
+  const { actividadCreada, getActividadCreada } = useActividadCreada();
 
   const [configuration, setConfiguration] = useState<ConfigurationActivity>({
     description: "",
@@ -30,7 +30,6 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<ConfigurationErrors>({});
 
-
   // Cargar configuración guardada al montar el componente
   useEffect(() => {
     if (activityCode) {
@@ -40,16 +39,14 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
       }
     }
     if (actividadCreada && id) {
-      const config = actividadGeneralMapper(actividadCreada)
+      const config = actividadGeneralMapper(actividadCreada);
       setConfiguration(config);
-
     }
   }, [activityCode, actividadCreada]);
 
   useEffect(() => {
-    if (id)
-      getActividadCreada(Number(id))
-  }, [id])
+    if (id) getActividadCreada(Number(id));
+  }, [id]);
 
   // Guardar configuración en sessionStorage cuando cambie
   useEffect(() => {
@@ -60,7 +57,7 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
 
   const handleChange = (
     field: keyof ConfigurationActivity,
-    value: string | number | boolean
+    value: string | number | boolean,
   ) => {
     setConfiguration((prev) => ({
       ...prev,
@@ -82,7 +79,7 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
 
   const getMaximumInitialBalance = () => {
     const selected = getSelectedSubject();
-    return selected ? Math.floor(selected.actualBalance * 0.3) : 0;
+    return selected ? Math.floor(selected.initialBalance * 0.3) : 0;
   };
 
   const validateForm = (): boolean => {
@@ -99,7 +96,10 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
 
     if (!configuration.publishNow && !configuration.startDate) {
       newErrors.startDate = "La fecha de inicio es requerida";
-    } else if (configuration.startDate && new Date(configuration.startDate) < new Date()) {
+    } else if (
+      configuration.startDate &&
+      new Date(configuration.startDate) < new Date()
+    ) {
       newErrors.startDate = "La fecha de inicio no puede ser en el pasado";
     }
 
@@ -187,7 +187,7 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
     } catch (error) {
       handleApiError(
         error,
-        "No se pudo guardar la configuración de la actividad"
+        "No se pudo guardar la configuración de la actividad",
       );
     }
   };
@@ -200,7 +200,7 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
     } catch (error) {
       handleApiError(
         error,
-        "No se pudo cargar la configuración de la actividad"
+        "No se pudo cargar la configuración de la actividad",
       );
       return null;
     }
@@ -213,7 +213,7 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
     } catch (error) {
       handleApiError(
         error,
-        "No se pudo limpiar la configuración de la actividad"
+        "No se pudo limpiar la configuración de la actividad",
       );
     }
   };

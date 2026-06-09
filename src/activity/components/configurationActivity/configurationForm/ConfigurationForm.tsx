@@ -57,7 +57,6 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
   getSelectedSubject,
   getMaximumInitialBalance,
 }) => {
-
   return (
     <div
       className={`${styles.formGrid} ${
@@ -93,12 +92,13 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
         <FormSectionCard icon={FaCalendarAlt} title="Período de Actividad">
           <div className={styles.dateGrid}>
             <FormInputGroup label="Fecha de Inicio *" error={errors.startDate}>
-
               <div className={styles.inputWrap}>
                 <Input
                   type="datetime-local"
                   min={new Date().toISOString().slice(0, 16)}
-                  value={configuration.publishNow ? "" : configuration.startDate}
+                  value={
+                    configuration.publishNow ? "" : configuration.startDate
+                  }
                   onChange={(e) => onFieldChange("startDate", e.target.value)}
                   disabled={configuration.publishNow}
                   className={`${styles.dateInput} ${errors.startDate ? styles.inputError : ""} ${configuration.publishNow ? styles.dateInputDisabled : ""}`}
@@ -115,7 +115,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
                   type="checkbox"
                   checked={configuration.publishNow}
                   onChange={(e) => {
-                    onFieldChange("publishNow", e.target.checked)
+                    onFieldChange("publishNow", e.target.checked);
                     if (e.target.checked) onFieldChange("startDate", "");
                   }}
                   className={styles.checkbox}
@@ -126,7 +126,10 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
             <FormInputGroup label="Fecha de Fin *" error={errors.endDate}>
               <Input
                 type="datetime-local"
-                min={configuration.startDate || new Date().toISOString().slice(0, 16)} 
+                min={
+                  configuration.startDate ||
+                  new Date().toISOString().slice(0, 16)
+                }
                 value={configuration.endDate}
                 onChange={(e) => onFieldChange("endDate", e.target.value)}
                 className={`${styles.dateInput} ${
@@ -202,17 +205,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
       {/* Asignación de Materia */}
       <motion.div variants={itemVariants} className={styles.formSection}>
         <FormSectionCard icon={FaBook} title="Asignación de Materia">
-          <FormInputGroup
-            label="Materia *"
-            hint={
-              configuration.subjectId > 0
-                ? `El balance de la materia seleccionada es ${
-                    getSelectedSubject()?.actualBalance
-                  }`
-                : undefined
-            }
-            error={errors.subjectId}
-          >
+          <FormInputGroup label="Materia *" error={errors.subjectId}>
             <select
               value={configuration.subjectId}
               onChange={(e) =>

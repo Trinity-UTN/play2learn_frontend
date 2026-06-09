@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FaGift } from "react-icons/fa";
-import { type PaginationInfo, LoadingSpinnerComponent } from "@/shared";
+import { type PaginationInfo } from "@/shared";
 import BenefitPaginateComponent from "../benefitPaginateComponent/BenefitPaginateComponent";
 import BenefitStudentCard from "../benefitStudentCard/BenefitStudentCard";
 import BenefitStudentTable from "../benefitStudentTable/BenefitStudentTable";
@@ -30,14 +30,6 @@ const BenefitStudentList: React.FC<BenefitStudentListProps> = ({
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
-
-  if (loading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <LoadingSpinnerComponent />
-      </div>
-    );
-  }
 
   return (
     <BenefitPaginateComponent pagination={paginationInfo}>

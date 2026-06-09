@@ -4,6 +4,7 @@ import ActivityFilters from "../../components/studentActivitiesViewComponents/ac
 import ActivityGrid from "../../components/studentActivitiesViewComponents/activityGrid/ActivityGrid";
 import { useActivityData } from "../../hooks/activities/activityList/useActivityData";
 import styles from "./StudentActivitiesView.module.css";
+import { LoadingSpinnerComponent } from "@/shared";
 
 const StudentActivitiesView: React.FC = () => {
   const {
@@ -28,6 +29,13 @@ const StudentActivitiesView: React.FC = () => {
       },
     },
   };
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <LoadingSpinnerComponent />
+      </div>
+    );
+  }
   return (
     <motion.div
       variants={containerVariants}

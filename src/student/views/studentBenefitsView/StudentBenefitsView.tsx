@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import BenefitStudentHeader from "../../components/studentBenefits/benefitStudentHeader/BenefitStudentHeader";
-import BenefitStudentStats from "../../components/studentBenefits/benefitStudentStats/BenefitStudentStats";
 import BenefitStudentFilters from "../../components/studentBenefits/benefitStudentFilters/BenefitStudentFilters";
 import BenefitStudentList from "../../components/studentBenefits/benefitStudentList/BenefitStudentList";
 import { useBenefitStudentData } from "../../hooks/benefits/benefitList/useBenefitStudentData";
 import styles from "./StudentBenefitsView.module.css";
+import { LoadingSpinnerComponent } from "@/shared";
 
 const StudentBenefitsView: React.FC = () => {
   const {
@@ -17,7 +17,7 @@ const StudentBenefitsView: React.FC = () => {
     setSelectedCategory,
     filteredBenefits,
     subjects,
-    stats,
+
     paginationInfo,
     loading,
   } = useBenefitStudentData();
@@ -38,7 +38,13 @@ const StudentBenefitsView: React.FC = () => {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
-
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <LoadingSpinnerComponent />
+      </div>
+    );
+  }
   return (
     <motion.div
       variants={containerVariants}

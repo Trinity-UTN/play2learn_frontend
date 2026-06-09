@@ -33,7 +33,7 @@
 .title {
   font-size: 2rem;
   font-weight: 700;
-  background: 315var (--color-primary);
+  background: var(--color-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
