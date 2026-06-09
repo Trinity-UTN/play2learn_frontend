@@ -104,7 +104,10 @@ export const useActivityData = () => {
    */
   useEffect(() => {
     const fetchInitialData = async () => {
-      await Promise.all([loadActivities(), getSubjectByStudent()]);
+      await loadActivities();
+      if (subjectList.length <= 0) {
+        await getSubjectByStudent;
+      }
     };
     fetchInitialData();
   }, [loadActivities, getSubjectByStudent]);
