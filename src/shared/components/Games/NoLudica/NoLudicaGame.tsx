@@ -77,7 +77,7 @@ const NoLudicaGame = ({ mode }: NoLudicaGameProps) => {
 
           {mode !== "preview" && (
             <div className={styles.responseInput}>
-              <label className={styles.inputLabel}>Tu archivo:</label>
+              <label className={styles.inputLabel}>Archivo adjunto:</label>
               <div className={styles.fileUpload}>
                 <input
                   type="file"
