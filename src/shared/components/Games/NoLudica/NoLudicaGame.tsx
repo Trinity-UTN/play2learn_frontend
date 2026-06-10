@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaUpload, FaTimes } from "react-icons/fa";
 import { useCreateNoLudica } from "../../../../activity/hooks/useCreateNoLudica";
 import { useNoLudicaGame } from "../../../hooks/games/useNoLudicaGame";
 import MDEditor from "@uiw/react-md-editor";
@@ -18,6 +18,9 @@ const NoLudicaGame = ({ mode }: NoLudicaGameProps) => {
     gameStarted,
     studentResponse,
     setStudentResponse,
+    selectedFile,
+    handleFileSelect,
+    handleRemoveFile,
   } = useNoLudicaGame();
 
   useEffect(() => {
@@ -71,6 +74,40 @@ const NoLudicaGame = ({ mode }: NoLudicaGameProps) => {
               {studentResponse.length}/1000 caracteres
             </div>
           </div>
+
+          {mode !== "preview" && (
+            <div className={styles.responseInput}>
+              <label className={styles.inputLabel}>Tu archivo:</label>
+              <div className={styles.fileUpload}>
+                <input
+                  type="file"
+                  id="file-upload"
+                  onChange={handleFileSelect}
+                  className={styles.fileInput}
+                  accept="application/pdf"
+                />
+                <label htmlFor="file-upload" className={styles.fileUploadLabel}>
+                  <FaUpload className={styles.uploadIcon} />
+                  <span>
+                    {selectedFile ? selectedFile.name : "Seleccionar archivo"}
+                  </span>
+                </label>
+                {selectedFile && (
+                  <button
+                    type="button"
+                    onClick={handleRemoveFile}
+                    className={styles.removeFileButton}
+                  >
+                    <FaTimes />
+                    <span>Quitar archivo</span>
+                  </button>
+                )}
+                <div className={styles.acceptedFormats}>
+                  Formato aceptado: PDF
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
