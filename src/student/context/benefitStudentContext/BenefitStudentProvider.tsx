@@ -18,20 +18,23 @@ export const BenefitStudentProvider = ({
   const { handleApiError } = useHandleApiError();
 
   // Estados Generales
-  const [loading, setLoading] = useState<boolean>(false);
+  const [pendingRequests, setPendingRequests] = useState(0);
+  const startLoading = () => setPendingRequests((prev) => prev + 1);
+  const stopLoading = () => setPendingRequests((prev) => Math.max(0, prev - 1));
+  const loading = pendingRequests > 0;
   const [paginatedBenefits, setPaginatedBenefits] = useState<
     | PaginatedData<BenefitStudentResponseInterface>
     | PaginatedData<BenefitPurchasedUsedResponse>
     | null
   >(null);
   const [benefitStats, setBenefitStats] = useState<BenefitStatsResponse | null>(
-    null
+    null,
   );
 
   // Funciones Principales
   const getPaginatedBenefitStudent = useCallback(
     async (params: GetPaginated): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         const response =
           await BenefitStudentService.getPaginatedBenefitStudentApi(params);
@@ -39,15 +42,15 @@ export const BenefitStudentProvider = ({
       } catch (error) {
         handleApiError(error, "Error al obtener los beneficios del estudiante");
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
-    []
+    [],
   );
 
   const getPaginatedUsedBenefitStudent = useCallback(
     async (params: GetPaginated): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         const response =
           await BenefitStudentService.getPaginatedUsedBenefitStudentApi(params);
@@ -55,55 +58,55 @@ export const BenefitStudentProvider = ({
       } catch (error) {
         handleApiError(
           error,
-          "Error al obtener los beneficios usados del estudiante"
+          "Error al obtener los beneficios usados del estudiante",
         );
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
-    []
+    [],
   );
 
   const getBenefitStudentStats = useCallback(async (): Promise<void> => {
-    setLoading(true);
+    startLoading();
     try {
       const response = await BenefitStudentService.getBenefitStudentStatsApi();
       setBenefitStats(response.data);
     } catch (error) {
       handleApiError(error, "Error al obtener las estadísticas de beneficios");
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   }, []);
 
   const purchaseBenefitStudent = useCallback(
     async (benefitId: number): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         await BenefitStudentService.purchaseBenefitStudentApi(benefitId);
       } catch (error) {
         handleApiError(error, "Error al comprar el beneficio del estudiante");
         throw error;
       } finally {
-        setLoading(false);
+        stopLoading;
       }
     },
-    []
+    [],
   );
 
   const requestUseBenefitStudent = useCallback(
     async (benefitId: number): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         await BenefitStudentService.requestUseBenefitStudentApi(benefitId);
       } catch (error) {
         handleApiError(error, "Error al solicitar el beneficio del estudiante");
         throw error;
       } finally {
-        setLoading(false);
+        stopLoading;
       }
     },
-    []
+    [],
   );
 
   const contextValue: BenefitStudentContextType = {

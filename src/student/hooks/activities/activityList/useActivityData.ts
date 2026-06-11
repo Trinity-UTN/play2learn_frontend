@@ -116,7 +116,9 @@ export const useActivityData = () => {
    * Reinicia la paginación al cambiar el filtro
    */
   useEffect(() => {
-    setPaginationParams((prev) => ({ ...prev, page: 1 }));
+    setPaginationParams((prev) =>
+      prev.page === 1 ? prev : { ...prev, page: 1 },
+    );
   }, [activeFilter, selectedSubject, selectedDifficulty, setPaginationParams]);
 
   // Datos Generales

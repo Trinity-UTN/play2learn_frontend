@@ -38,13 +38,7 @@ const StudentBenefitsView: React.FC = () => {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
-  if (loading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <LoadingSpinnerComponent />
-      </div>
-    );
-  }
+
   return (
     <motion.div
       variants={containerVariants}
@@ -52,28 +46,38 @@ const StudentBenefitsView: React.FC = () => {
       animate="visible"
       className={styles.benefitsView}
     >
-      <BenefitStudentHeader />
-      {/* <BenefitStudentStats stats={stats} /> */}
-      <BenefitStudentFilters
-        activeFilter={activeFilter}
-        selectedSubject={selectedSubject}
-        selectedCategory={selectedCategory}
-        subjects={subjects}
-        viewMode={viewMode}
-        onFilterChange={setActiveFilter}
-        onSubjectChange={setSelectedSubject}
-        onCategoryChange={setSelectedCategory}
-        onViewModeChange={setViewMode}
-      />
-      <motion.div variants={itemVariants} className={styles.benefitsSection}>
-        <BenefitStudentList
-          benefits={filteredBenefits}
-          paginationInfo={paginationInfo!}
-          loading={loading}
-          viewMode={viewMode}
-          onFilterChange={setActiveFilter}
-        />
-      </motion.div>
+      {loading ? (
+        <div className={styles.loadingContainer}>
+          <LoadingSpinnerComponent />
+        </div>
+      ) : (
+        <>
+          <BenefitStudentHeader />
+          <BenefitStudentFilters
+            activeFilter={activeFilter}
+            selectedSubject={selectedSubject}
+            selectedCategory={selectedCategory}
+            subjects={subjects}
+            viewMode={viewMode}
+            onFilterChange={setActiveFilter}
+            onSubjectChange={setSelectedSubject}
+            onCategoryChange={setSelectedCategory}
+            onViewModeChange={setViewMode}
+          />
+          <motion.div
+            variants={itemVariants}
+            className={styles.benefitsSection}
+          >
+            <BenefitStudentList
+              benefits={filteredBenefits}
+              paginationInfo={paginationInfo!}
+              loading={loading}
+              viewMode={viewMode}
+              onFilterChange={setActiveFilter}
+            />
+          </motion.div>
+        </>
+      )}
     </motion.div>
   );
 };
