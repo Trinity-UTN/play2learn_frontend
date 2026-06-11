@@ -14,15 +14,6 @@ const EducationalTips: React.FC = () => {
 
   const tips = [
     {
-      title: "💧 Liquidez",
-      concept: "Qué tan fácil puedes usar tu dinero",
-      explanation:
-        "Las monedas líquidas están disponibles inmediatamente. Las invertidas no, pero crecen con el tiempo.",
-      example:
-        "Tener 100 monedas en tu billetera = alta liquidez. Tenerlas invertidas = baja liquidez pero más ganancia.",
-      color: "#10B981",
-    },
-    {
       title: "📈 Inversión",
       concept: "Usar dinero para generar más dinero",
       explanation:
@@ -48,6 +39,15 @@ const EducationalTips: React.FC = () => {
       example:
         "Ahorras 20 monedas cada semana. En 10 semanas tendrás 200 para algo especial.",
       color: "#8B5CF6",
+    },
+    {
+      title: "💧 Liquidez",
+      concept: "Qué tan fácil puedes usar tu dinero",
+      explanation:
+        "Las monedas líquidas están disponibles inmediatamente. Las invertidas no, pero crecen con el tiempo.",
+      example:
+        "Tener 100 monedas en tu billetera = alta liquidez. Tenerlas invertidas = baja liquidez pero más ganancia.",
+      color: "#10B981",
     },
   ];
 
