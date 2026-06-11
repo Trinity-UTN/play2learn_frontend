@@ -66,7 +66,7 @@ export const useBenefitCardData = ({
         IconComponent: iconComponent,
         iconColor,
         category,
-        styleSuffix: "Student",
+        styleSuffix: "Teacher",
         purchaseLimit: null,
         purchaseLimitPerStudent: null,
         hasEndDate: false,
