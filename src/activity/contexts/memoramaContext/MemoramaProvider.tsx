@@ -137,7 +137,9 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
 
   const isFormValid = errors.length === 0 && areAllPairsComplete();
 
-  const registrarMemorama = async (data: MemoramaInterface): Promise<void> => {
+  const registrarMemorama = async (
+    data: MemoramaInterface,
+  ): Promise<boolean> => {
     setLoading(true);
 
     // console.log("=== MEMORAMA DEBUG ===");
@@ -159,8 +161,10 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
         position: "bottom-right",
       });
       clearAllPairErrors();
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -198,7 +202,9 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
         images: pairs.map((pair) => pair.image!).filter(Boolean),
       };
 
-      await registrarMemorama(gameData);
+      const created = await registrarMemorama(gameData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {

@@ -125,7 +125,7 @@ export const CompletarOracionProvider: React.FC<
   // Funciones Principales
   const registrarCompletarOracion = async (
     data: CompletarOracionInterface,
-  ): Promise<void> => {
+  ): Promise<boolean> => {
     setLoading(true);
 
     const dataMandar = makeData(
@@ -141,8 +141,10 @@ export const CompletarOracionProvider: React.FC<
         type: "success",
         position: "bottom-right",
       });
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -172,7 +174,9 @@ export const CompletarOracionProvider: React.FC<
         })),
       };
 
-      await registrarCompletarOracion(gameData);
+      const created = await registrarCompletarOracion(gameData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {

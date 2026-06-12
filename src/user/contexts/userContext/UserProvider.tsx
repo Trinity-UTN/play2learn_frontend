@@ -5,7 +5,7 @@ import { LoginService } from "../../services/login/LoginService";
 import type { LoginPayload } from "../../services/login/LoginService";
 import { roleLandingRoutes } from "../../services/roleLandingRoutes";
 import type { StudentResponseDto } from "@/admin";
-import { useHandleApiError, type Role } from "@/shared";
+import { useHandleApiError, clearAppStorage, type Role } from "@/shared";
 import { decodeToken, type CustomJwtPayload } from "@/user/utils/jwt-helper";
 import Cookies from "js-cookie";
 
@@ -32,6 +32,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const logout = useCallback(() => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
+    clearAppStorage();
     setUser(null);
     setIsAuthenticated(false);
   }, []);
@@ -57,7 +58,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const response = await LoginService.loginApi(data);
-      
+
       // 'sameSite: strict' evita ataques CSRF.
       const cookieOptions = {
         expires: 7,
@@ -66,7 +67,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       };
       Cookies.set("accessToken", response.data.accessToken, cookieOptions);
       Cookies.set("refreshToken", response.data.refreshToken, cookieOptions);
-      
+
       const decoded: CustomJwtPayload = decodeToken(response.data.accessToken);
 
       if (response.data.role === "ROLE_STUDENT") {

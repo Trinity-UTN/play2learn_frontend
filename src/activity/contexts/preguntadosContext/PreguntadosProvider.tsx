@@ -182,7 +182,7 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
 
   const registrarPreguntados = async (
     data: PreguntadosInterface,
-  ): Promise<void> => {
+  ): Promise<boolean> => {
     setLoading(true);
 
     // console.log("=== PREGUNTADOS DEBUG ===");
@@ -204,8 +204,10 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
         position: "bottom-right",
       });
       clearAllQuestionErrors();
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -244,7 +246,9 @@ export const PreguntadosProvider: React.FC<PreguntadosProviderProps> = ({
         questions: questions,
       };
 
-      await registrarPreguntados(gameData);
+      const created = await registrarPreguntados(gameData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {

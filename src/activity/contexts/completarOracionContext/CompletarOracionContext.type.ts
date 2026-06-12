@@ -12,7 +12,9 @@ export interface CompletarOracionContextType {
   isFormValid: boolean;
 
   // Funciones principales
-  registrarCompletarOracion: (data: CompletarOracionInterface) => Promise<void>;
+  registrarCompletarOracion: (
+    data: CompletarOracionInterface,
+  ) => Promise<boolean>;
 
   // Handlers principales
   handleConfigSubmit: (newSentences: Sentence[]) => void;

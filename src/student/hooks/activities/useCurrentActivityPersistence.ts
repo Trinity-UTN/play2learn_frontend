@@ -1,38 +1,37 @@
 import { useEffect, useCallback } from "react";
+import { StorageKeys, getItem, removeItem, setItem } from "@/shared";
 import { useActivityStudent } from "../useActivityStudentAPI";
-
-const STORAGE_KEY = "currentActivityId";
 
 export const useCurrentActivityPersistence = () => {
   const { loading, currentActivity, getActivityById } = useActivityStudent();
 
   useEffect(() => {
     if (currentActivity?.id) {
-      sessionStorage.setItem(STORAGE_KEY, currentActivity.id.toString());
+      setItem(StorageKeys.currentActivityId, currentActivity.id, "session");
     }
   }, [currentActivity?.id]);
 
   const restoreCurrentActivity = useCallback(async () => {
-    const savedId = sessionStorage.getItem(STORAGE_KEY);
+    const savedId = getItem<number>(StorageKeys.currentActivityId, "session");
     if (savedId && !currentActivity) {
-      await getActivityById(Number(savedId));
+      await getActivityById(savedId);
     }
   }, [currentActivity, getActivityById]);
 
   const clearPersistedActivity = useCallback(() => {
-    sessionStorage.removeItem(STORAGE_KEY);
+    removeItem(StorageKeys.currentActivityId, "session");
   }, []);
 
   const getPersistedActivityId = useCallback((): number | null => {
-    const savedId = sessionStorage.getItem(STORAGE_KEY);
-    return savedId ? Number(savedId) : null;
+    return getItem<number>(StorageKeys.currentActivityId, "session");
   }, []);
 
   return {
     restoreCurrentActivity,
     clearPersistedActivity,
     getPersistedActivityId,
-    hasPersistedActivity: !!sessionStorage.getItem(STORAGE_KEY),
+    hasPersistedActivity:
+      getItem<number>(StorageKeys.currentActivityId, "session") !== null,
     loading,
   };
 };

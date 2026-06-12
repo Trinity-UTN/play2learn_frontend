@@ -107,7 +107,7 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
   // Funciones Principales
   const registrarArbolDecision = async (
     data: ArbolDecisionInterface,
-  ): Promise<void> => {
+  ): Promise<boolean> => {
     setLoading(true);
 
     // console.log("=== ÁRBOL DE DECISIÓN DEBUG ===");
@@ -128,8 +128,10 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
         type: "success",
         position: "bottom-right",
       });
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -162,7 +164,9 @@ export const ArbolDecisionProvider: React.FC<ArbolDecisionProviderProps> = ({
         decisionTree: config.decisionTree,
       };
 
-      await registrarArbolDecision(gameData);
+      const created = await registrarArbolDecision(gameData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {

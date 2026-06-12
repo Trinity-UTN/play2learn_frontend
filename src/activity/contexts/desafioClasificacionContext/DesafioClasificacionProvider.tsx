@@ -86,7 +86,7 @@ export const DesafioClasificacionProvider: React.FC<
   // Funciones principales
   const registrarDesafioClasificacion = async (
     data: CreateClassification,
-  ): Promise<void> => {
+  ): Promise<boolean> => {
     setLoading(true);
     // console.log("=== DESAFIO CLASIFICACION DEBUG ===");
     // console.log("Datos del juego recibidos:", data);
@@ -108,8 +108,10 @@ export const DesafioClasificacionProvider: React.FC<
         type: "success",
         position: "bottom-right",
       });
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -146,7 +148,9 @@ export const DesafioClasificacionProvider: React.FC<
         })),
       };
 
-      await registrarDesafioClasificacion(gameData);
+      const created = await registrarDesafioClasificacion(gameData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
