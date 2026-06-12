@@ -92,7 +92,9 @@
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
 }
-
+.dateSection {
+  flex-direction: column;
+}
 .studentSection {
   background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
 }
