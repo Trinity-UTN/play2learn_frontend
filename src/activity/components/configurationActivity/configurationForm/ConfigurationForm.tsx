@@ -77,7 +77,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
               className={`${styles.textarea} ${
                 errors.description ? styles.inputError : ""
               }`}
-              placeholder="Ej: Resolver ecuaciones cuadráticas aplicando la fórmula general..."
+              placeholder="Ingrese la descripción de la actividad"
               rows={4}
             />
             <div className={styles.charCount}>

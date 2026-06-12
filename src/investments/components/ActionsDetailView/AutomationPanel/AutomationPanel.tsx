@@ -79,7 +79,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
               value={profitPrice}
               onChange={(e) => setProfitPrice(e.target.value)}
               className={styles.input}
-              placeholder="Ej: 150.00"
+              placeholder="Ingrese el precio objetivo para vender"
               disabled={isProfitActive}
             />
             <p className={styles.hint}>
@@ -96,7 +96,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
               value={profitQuantity}
               onChange={(e) => setProfitQuantity(e.target.value)}
               className={styles.input}
-              placeholder="Ej: 10"
+              placeholder="Ingrese la cantidad de acciones a vender"
               disabled={isProfitActive}
             />
             <p className={styles.hint}>
@@ -151,7 +151,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
               min={0}
               onChange={(e) => setLossPrice(e.target.value)}
               className={styles.input}
-              placeholder="Ej: 100.00"
+              placeholder="Ingrese el precio mínimo para vender"
               disabled={isLossActive}
             />
             <p className={styles.hint}>
@@ -168,7 +168,7 @@ const AutomationPanel: React.FC<AutomationPanelProps> = ({
               min={0}
               onChange={(e) => setLossQuantity(e.target.value)}
               className={styles.input}
-              placeholder="Ej: 10"
+              placeholder="Ingrese la cantidad de acciones a vender"
               disabled={isLossActive}
             />
             <p className={styles.hint}>

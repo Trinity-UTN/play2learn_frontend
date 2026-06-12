@@ -64,7 +64,7 @@ const CategoryForm: React.FC = () => {
         <div className={styles.inputGroup}>
           <Input
             type="text"
-            placeholder="Nombre de la categoría (ej: Animales, Colores, etc.)"
+            placeholder="Nombre de la categoría"
             value={categoryName}
             onChange={(e) => {
               setCategoryName(e.target.value);

@@ -30,7 +30,7 @@ const GeneralConfiguration: React.FC = () => {
 
   const handleInputChange = (
     field: keyof ArbolDecisionConfig,
-    value: string
+    value: string,
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
 
@@ -109,7 +109,7 @@ const GeneralConfiguration: React.FC = () => {
   const handleUpdateConsequence = (
     path: number[],
     field: keyof import("../../../types/ArbolDecision.type").Consequence,
-    value: string | boolean
+    value: string | boolean,
   ) => {
     updateConsequence(path, field, value);
     setFormData((prev) => {
@@ -167,7 +167,7 @@ const GeneralConfiguration: React.FC = () => {
               }
               error={!!formErrors.introduction}
               helperText={formErrors.introduction}
-              placeholder="Ej: Año 1810. Sos un joven criollo con formación ilustrada, testigo del colapso del poder virreinal en el Río de la Plata..."
+              placeholder="Ingrese la descripción de la situación inicial"
               rows={4}
               maxLength={500}
               showCharCount={true}
