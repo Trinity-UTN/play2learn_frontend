@@ -10,6 +10,7 @@
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
+  contain: layout;
 }
 
 @media (max-width: 768px) {

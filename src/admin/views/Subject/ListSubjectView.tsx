@@ -5,7 +5,13 @@ import {
   getSubjectColumns,
   useListSubjectView,
 } from "@/admin";
-import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
+import {
+  Button,
+  DataTable,
+  LoadingSpinnerComponent,
+  itemVariants,
+  containerVariants,
+} from "@/shared";
 import styles from "./ListSubjectView.module.css";
 
 const ListSubjectView: React.FC = () => {
@@ -34,6 +40,10 @@ const ListSubjectView: React.FC = () => {
     handleEdit,
     handleDelete,
   });
+  if (loading && !paginatedSubjects) {
+    return <LoadingSpinnerComponent />;
+  }
+
   return (
     <motion.div
       variants={containerVariants}

@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaPlus } from "react-icons/fa";
-import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
+import {
+  Button,
+  DataTable,
+  LoadingSpinnerComponent,
+  itemVariants,
+  containerVariants,
+} from "@/shared";
 import styles from "./ListYearView.module.css";
 import { getYearColumns, getYearActions, useListYear } from "@/admin";
 
@@ -24,6 +30,10 @@ const ListYearView: React.FC = () => {
     handleEdit,
     handleDelete,
   });
+
+  if (loading && !paginatedYears) {
+    return <LoadingSpinnerComponent />;
+  }
 
   return (
     <motion.div

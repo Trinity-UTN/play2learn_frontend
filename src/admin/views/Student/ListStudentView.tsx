@@ -5,7 +5,13 @@ import {
   getStudentActions,
   useListStudentView,
 } from "@/admin";
-import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
+import {
+  Button,
+  DataTable,
+  LoadingSpinnerComponent,
+  itemVariants,
+  containerVariants,
+} from "@/shared";
 
 import styles from "./ListStudentView.module.css";
 import { YearCourseSelector } from "@/admin/components/YearCourseSelector/YearCourseSelector";
@@ -51,6 +57,10 @@ const ListStudentView: React.FC = () => {
     handleDelete,
     handleRestorePassword,
   });
+
+  if (loading && !paginatedStudents) {
+    return <LoadingSpinnerComponent />;
+  }
 
   return (
     <motion.div
