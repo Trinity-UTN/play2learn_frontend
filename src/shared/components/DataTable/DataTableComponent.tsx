@@ -132,9 +132,6 @@ const DataTable = <T,>({
 
   return (
     <Card className={`${styles.tableCard} ${className || ""}`}>
-      {filterChildren && (
-        <div className={styles.filterSection}>{filterChildren}</div>
-      )}
       {searchable && (
         <div className={styles.searchSection}>
           <div className={styles.searchWrapper}>
@@ -159,6 +156,9 @@ const DataTable = <T,>({
             </div>
           )}
         </div>
+      )}
+      {filterChildren && (
+        <div className={styles.filterSection}>{filterChildren}</div>
       )}
 
       <div className={styles.tableWrapper}>
