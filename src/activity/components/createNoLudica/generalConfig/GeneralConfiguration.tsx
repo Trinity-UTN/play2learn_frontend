@@ -81,7 +81,7 @@ const GeneralConfiguration: React.FC = () => {
                 <FaClipboardList className={styles.sectionIcon} />
                 Consigna de la Actividad
                 <span className={styles.sectionTooltip}>
-                  <Tooltip content="La consigna no puede tener mas de 1000 caracteres" />
+                  <Tooltip content="La consigna debe tener entre 10 y 1000 caracteres" />
                 </span>
               </h4>
             </div>
@@ -97,11 +97,13 @@ const GeneralConfiguration: React.FC = () => {
               onChange={(e) => handleInputChange("exercise", e.target.value)}
               error={!!formErrors.exercise}
               helperText={formErrors.exercise}
-              placeholder="Redacta un ensayo de 500 palabras sobre el impacto de la tecnología en la educación..."
-              rows={2}
+              placeholder="Ingresa la consigna de la actividad"
+              rows={6}
               maxLength={1000}
               showCharCount={true}
-              resize="vertical"
+              resize="none"
+              containerClassName={styles.textareaFill}
+              className={styles.textareaGrow}
             />
           </div>
         </div>
