@@ -13,7 +13,7 @@ interface UsePendingNoLudicaDataParams {
  * Hook para cargar y manejar los datos de intentos pendientes de corrección
  */
 export const usePendingNoLudicaData = (
-  params: UsePendingNoLudicaDataParams = {}
+  params: UsePendingNoLudicaDataParams = {},
 ) => {
   const { selectedSubject, selectedCourse, selectedYear, search } = params;
 
@@ -66,6 +66,8 @@ export const usePendingNoLudicaData = (
       search: search || "",
       filters,
       filtersValues,
+      order_by: "completedAt",
+      order_type: "desc",
     });
   }, [paginationParams, getPendingAttemptsPaginated, buildFilters, search]);
 
