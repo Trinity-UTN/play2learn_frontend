@@ -22,14 +22,14 @@ const QuickStats = ({ statistics }: Props) => {
     },
     {
       title: "Ranking del curso",
-      value: `#${statistics?.positionRanking}`,
+      value: `#${statistics?.positionCourseRanking}`,
       icon: FaTrophy,
       color: "#8B5CF6",
       // change: "↑ Subiste 2 posiciones",
     },
     {
       title: "Actividades disponibles",
-      value: `${statistics?.totalActivities}`,
+      value: `${statistics?.totalActivitiesAvailable}`,
       icon: FaGamepad,
       color: "#10B981",
       // change: `${pendingActivities} pendientes`,
