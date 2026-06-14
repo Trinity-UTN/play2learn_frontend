@@ -75,14 +75,14 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       icon: FaGift,
       path: StudentRoutes.Investments,
       color: "#4df50b9c",
-      badge: "¡Nuevo!",
+      badge: "",
     },
     {
       title: "Tienda",
       icon: FaStore,
       path: StudentRoutes.Store,
       color: "#EF4444",
-      badge: "¡Nuevo!",
+      badge: "",
     },
     {
       title: "Rankings",
