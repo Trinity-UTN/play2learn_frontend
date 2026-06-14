@@ -22,9 +22,11 @@ const StudentDashboard: React.FC = () => {
 
   useEffect(() => {
     const loadDashboardStats = async () => {
-      if (!benefitStats) await getActivityStudentStats();
+      if (!benefitStats) {
+        await getActivityStudentStats();
+        await getBenefitStudentStats();
+      }
     };
-
     loadDashboardStats();
   }, [getBenefitStudentStats]);
 

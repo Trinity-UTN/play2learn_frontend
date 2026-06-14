@@ -25,7 +25,7 @@ export const formatDuration = (minutes: number): string => {
     : `${hours} hora${hours > 1 ? "s" : ""}`;
 };
 
-export const formatDate = (dateString: string): string => {
+export const formatDate = (dateString: string | undefined): string => {
   if (!dateString) return "Sin fecha";
   return new Date(dateString).toLocaleString("es-AR", {
     day: "2-digit",

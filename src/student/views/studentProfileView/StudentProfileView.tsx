@@ -38,6 +38,7 @@ const StudentProfileView: React.FC = () => {
         <LoadingSpinnerComponent colorText="white" />
       </div>
     );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
