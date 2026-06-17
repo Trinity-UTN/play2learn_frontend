@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
 import {
-  FaHome,
   FaWallet,
   FaGamepad,
   FaGift,
@@ -49,13 +48,6 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
 
   const menuItems: MenuItem[] = [
     {
-      title: "Panel Principal",
-      icon: FaHome,
-      path: StudentRoutes.Overview,
-      color: "#3B82F6",
-      badge: "",
-    },
-    {
       title: "Mi Billetera",
       icon: FaWallet,
       path: StudentRoutes.Wallet,
@@ -83,14 +75,14 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       icon: FaGift,
       path: StudentRoutes.Investments,
       color: "#4df50b9c",
-      badge: "¡Nuevo!",
+      badge: "",
     },
     {
       title: "Tienda",
       icon: FaStore,
       path: StudentRoutes.Store,
       color: "#EF4444",
-      badge: "¡Nuevo!",
+      badge: "",
     },
     {
       title: "Rankings",
@@ -159,7 +151,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
           <div className={styles.buttonSkeleton}></div>
         ) : (
           <button className={styles.buttonPerfil} onClick={handleProfileClick}>
-            Ver Perfil
+            Panel Principal
           </button>
         )}
       </motion.div>

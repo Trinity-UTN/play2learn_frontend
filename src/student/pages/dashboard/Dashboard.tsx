@@ -14,7 +14,7 @@ import styles from "./Dashboard.module.css";
 const StudentDashboard: React.FC = () => {
   const contentRef = useScrollToTopRef<HTMLElement>();
   const { loading } = useCurrentStudent();
-  const { getBenefitStudentStats } = useBenefitStudent();
+  const { getBenefitStudentStats, benefitStats } = useBenefitStudent();
   const { getActivityStudentStats } = useActivityStudent();
   const location = useLocation();
   const showNotifications = shouldShowNotifications(location.pathname);
@@ -22,10 +22,11 @@ const StudentDashboard: React.FC = () => {
 
   useEffect(() => {
     const loadDashboardStats = async () => {
-      await getActivityStudentStats();
-      await getBenefitStudentStats();
+      if (!benefitStats) {
+        await getActivityStudentStats();
+        await getBenefitStudentStats();
+      }
     };
-
     loadDashboardStats();
   }, [getBenefitStudentStats]);
 

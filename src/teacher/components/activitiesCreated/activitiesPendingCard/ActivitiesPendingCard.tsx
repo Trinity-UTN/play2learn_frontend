@@ -73,11 +73,14 @@ const ActivitiesPendingCard: React.FC<ActivitiesPendingCardProps> = ({
         </div>
 
         {/* Fecha */}
+
         <div className={styles.dateSection}>
-          <FaCalendarAlt className={styles.dateIcon} />
-          <span className={styles.dateLabel}>Fecha de envío:</span>
+          <div>
+            <FaCalendarAlt className={styles.dateIcon} />{" "}
+            <span className={styles.dateLabel}>Fecha de realizacion:</span>
+          </div>
           <span className={styles.dateValue}>
-            {formatAttemptDate(attempt.activityDto.startDate)}
+            {formatAttemptDate(attempt.completedAt)}
           </span>
         </div>
       </div>

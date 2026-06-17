@@ -1,21 +1,48 @@
+:root {
+  --scroll-thumb: #afafaf;
+  --scroll-track: transparent;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scroll-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 999px;
+  border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 0.8;
+}
 /* Para pantallas de laptop comunes (14") */
 @media (max-width: 1536px) {
-    html {
-        /* Por defecto es 16px. Al bajarlo a 14px, 
+  html {
+    /* Por defecto es 16px. Al bajarlo a 14px, 
        todo lo que use 'rem' se encogerá proporcionalmente */
-        font-size: 14px;
-    }
+    font-size: 14px;
+  }
 }
 
 /* Para pantallas aún más pequeñas o resoluciones bajas */
 @media (max-width: 1280px) {
-    html {
-        font-size: 12px;
-    }
+  html {
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 730px) {
-    html {
-        font-size: 14px;
-    }
+  html {
+    font-size: 14px;
+  }
 }

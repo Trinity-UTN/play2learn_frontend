@@ -1,15 +1,24 @@
 import { motion } from "framer-motion";
 import { LoadingSpinnerComponent } from "@/shared";
 import ProfileInfo from "../../components/profile/profileInfo/ProfileInfo";
-import ProfileStats from "../../components/profile/profileStats/ProfileStats";
 import LevelDisplay from "@/student/components/LevelDisplay/LevelDisplay";
 import { useStudentProfileView } from "../../hooks/profile/useStudentProfileView";
 import styles from "./StudentProfileView.module.css";
+import { useCurrentStudent } from "@/student/hooks/useCurrentStudent";
+import { useEffect } from "react";
+import QuickStats from "@/student/components/studentOverviewViewComponents/QuickStats/QuickStats";
+import LastRealizationsComponents from "@/student/components/studentOverviewViewComponents/LastRealizations/LastRealizationsComponent";
+import { FaCalendarAlt } from "react-icons/fa";
 
 const StudentProfileView: React.FC = () => {
-  const { isLoading, hasStudent, profileProps, statsProps } =
-    useStudentProfileView();
+  const { getStatisticsStudent, statistics, loadingStatics } =
+    useCurrentStudent();
+  const { isLoading, hasStudent, profileProps } = useStudentProfileView();
   const profile = profileProps.currentStudent?.profile;
+
+  useEffect(() => {
+    getStatisticsStudent();
+  }, []);
 
   if (isLoading && !hasStudent) {
     return (
@@ -23,6 +32,13 @@ const StudentProfileView: React.FC = () => {
       </motion.div>
     );
   }
+  if (loadingStatics)
+    return (
+      <div className={styles.contLoading}>
+        <LoadingSpinnerComponent colorText="white" />
+      </div>
+    );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -31,8 +47,18 @@ const StudentProfileView: React.FC = () => {
       className={styles.profileContainer}
     >
       <div className={styles.headerSection}>
+        <div className={styles.dateInfo}>
+          <FaCalendarAlt className={styles.dateIcon} />
+          <span>
+            {new Date().toLocaleDateString("es-ES", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </span>
+        </div>
         <ProfileInfo {...profileProps} />
-        <ProfileStats {...statsProps} />
         {profile && (
           <LevelDisplay
             level={profile.level}
@@ -41,6 +67,11 @@ const StudentProfileView: React.FC = () => {
           />
         )}
       </div>
+      <QuickStats statistics={statistics!} />
+
+      <LastRealizationsComponents
+        lastRealizations={statistics?.lastRealizations}
+      />
     </motion.div>
   );
 };

@@ -65,7 +65,6 @@ const ActivitiesCreatedView: React.FC = () => {
   const pendingActions = {
     onViewAttempt: handleNavigateToReview,
   };
-
   return (
     <motion.div
       variants={activityListContainerVariants}

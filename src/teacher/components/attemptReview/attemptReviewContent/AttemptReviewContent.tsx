@@ -6,6 +6,7 @@ import { reviewItemVariants } from "../../../constants/activity/noLudicaReview.c
 import type { NoLudicaAttemptResponseDto } from "../../../types/NoLudicaReview.type";
 import { NO_LUDICA_EMPTY_TEXT_RESPONSE } from "@/shared/constants/games.constants";
 import styles from "./AttemptReviewContent.module.css";
+import MDEditor from "@uiw/react-md-editor";
 
 interface AttemptReviewContentProps {
   attemptData: NoLudicaAttemptResponseDto | null;
@@ -32,15 +33,17 @@ const AttemptReviewContent: React.FC<AttemptReviewContentProps> = ({
                 Respuesta del estudiante
               </h3>
               <div className={styles.textContent}>
-                <p
+                <div
                   className={
                     attemptData.plainText === NO_LUDICA_EMPTY_TEXT_RESPONSE
                       ? styles.italicText
                       : ""
                   }
+                  data-color-mode="light"
                 >
-                  {attemptData.plainText}
-                </p>
+                  {/* Usamos el componente .Markdown que es solo para renderizar */}
+                  <MDEditor.Markdown source={attemptData.plainText} />
+                </div>
               </div>
             </div>
           )}
