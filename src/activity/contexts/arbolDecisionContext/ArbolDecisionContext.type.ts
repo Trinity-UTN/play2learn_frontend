@@ -14,7 +14,7 @@ export interface ArbolDecisionContextType {
   isFormValid: boolean;
 
   // Funciones Principales
-  registrarArbolDecision: (data: ArbolDecisionInterface) => Promise<void>;
+  registrarArbolDecision: (data: ArbolDecisionInterface) => Promise<boolean>;
 
   // Handlers principales
   handleConfigSubmit: (newConfig: ArbolDecisionConfig) => void;
@@ -39,6 +39,6 @@ export interface ArbolDecisionContextType {
   updateConsequence: (
     path: number[],
     field: keyof Consequence,
-    value: string | boolean
+    value: string | boolean,
   ) => void;
 }

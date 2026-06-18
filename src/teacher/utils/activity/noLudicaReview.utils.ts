@@ -1,8 +1,8 @@
 import type { AttemptReviewStoredData } from "../../types/NoLudicaReview.type";
+import { StorageKeys, getItem, removeItem, setItem } from "@/shared";
 import {
   PASSING_SCORE,
   REVIEW_STATE_CONFIG,
-  ATTEMPT_REVIEW_STORAGE_KEY,
   type ReviewState,
 } from "../../constants/activity/noLudicaReview.constants";
 
@@ -11,7 +11,7 @@ import {
  * score >= 60 → APPROVED, score < 60 → DISAPPROVED
  */
 export const getStateFromScore = (
-  score: number
+  score: number,
 ): "APPROVED" | "DISAPPROVED" => {
   return score >= PASSING_SCORE ? "APPROVED" : "DISAPPROVED";
 };
@@ -54,28 +54,21 @@ export const formatAttemptDate = (isoDate: string): string => {
  * Guarda los datos del intento en localStorage para persistencia en refresh
  */
 export const saveAttemptReviewData = (data: AttemptReviewStoredData): void => {
-  localStorage.setItem(ATTEMPT_REVIEW_STORAGE_KEY, JSON.stringify(data));
+  setItem(StorageKeys.attemptReview, data);
 };
 
 /**
  * Obtiene los datos del intento desde localStorage
  */
 export const getAttemptReviewData = (): AttemptReviewStoredData | null => {
-  const stored = localStorage.getItem(ATTEMPT_REVIEW_STORAGE_KEY);
-  if (!stored) return null;
-
-  try {
-    return JSON.parse(stored) as AttemptReviewStoredData;
-  } catch {
-    return null;
-  }
+  return getItem<AttemptReviewStoredData>(StorageKeys.attemptReview);
 };
 
 /**
  * Limpia los datos del intento desde localStorage
  */
 export const clearAttemptReviewData = (): void => {
-  localStorage.removeItem(ATTEMPT_REVIEW_STORAGE_KEY);
+  removeItem(StorageKeys.attemptReview);
 };
 
 /**

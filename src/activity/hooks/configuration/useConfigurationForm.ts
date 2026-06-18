@@ -4,15 +4,12 @@ import type {
   ConfigurationErrors,
 } from "../../types/Configuration.type";
 import { useSubject } from "@/admin";
-import { useHandleApiError } from "@/shared";
+import { activityDraftKey, getItem, removeItem, setItem } from "@/shared";
 import { useActividadCreada } from "../useActividadCreada";
 import { actividadGeneralMapper } from "@/activity/utils/actividadGeneralMapper";
 
-const STORAGE_KEY = "configuration_activity_draft";
-
 export const useConfigurationForm = (activityCode?: string, id?: string) => {
   const { subjects } = useSubject();
-  const { handleApiError } = useHandleApiError();
   const { actividadCreada, getActividadCreada } = useActividadCreada();
 
   const [configuration, setConfiguration] = useState<ConfigurationActivity>({
@@ -48,7 +45,7 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
     if (id) getActividadCreada(Number(id));
   }, [id]);
 
-  // Guardar configuración en sessionStorage cuando cambie
+  // Guardar configuración en localStorage cuando cambie
   useEffect(() => {
     if (activityCode && configuration.description) {
       saveConfiguration(activityCode, configuration);
@@ -174,48 +171,22 @@ export const useConfigurationForm = (activityCode?: string, id?: string) => {
     setConfiguration(newConfig);
     setErrors({});
 
-    // Limpiar sessionStorage
+    // Limpiar localStorage
     if (activityCode) {
       clearConfiguration(activityCode);
     }
   };
 
   const saveConfiguration = (code: string, config: ConfigurationActivity) => {
-    try {
-      const key = `${STORAGE_KEY}_${code}`;
-      localStorage.setItem(key, JSON.stringify(config));
-    } catch (error) {
-      handleApiError(
-        error,
-        "No se pudo guardar la configuración de la actividad",
-      );
-    }
+    setItem(activityDraftKey(code), config);
   };
 
   const loadConfiguration = (code: string): ConfigurationActivity | null => {
-    try {
-      const key = `${STORAGE_KEY}_${code}`;
-      const saved = localStorage.getItem(key);
-      return saved ? JSON.parse(saved) : null;
-    } catch (error) {
-      handleApiError(
-        error,
-        "No se pudo cargar la configuración de la actividad",
-      );
-      return null;
-    }
+    return getItem<ConfigurationActivity>(activityDraftKey(code));
   };
 
   const clearConfiguration = (code: string) => {
-    try {
-      const key = `${STORAGE_KEY}_${code}`;
-      localStorage.removeItem(key);
-    } catch (error) {
-      handleApiError(
-        error,
-        "No se pudo limpiar la configuración de la actividad",
-      );
-    }
+    removeItem(activityDraftKey(code));
   };
 
   const isFormValid = () => {

@@ -32,8 +32,6 @@ const ActivitiesCreatedView: React.FC = () => {
     setSelectedYear,
     setSearch,
     setViewMode,
-    applyFilters,
-    resetFilters,
 
     // Datos
     subjects,
@@ -45,7 +43,6 @@ const ActivitiesCreatedView: React.FC = () => {
 
   const { actions, loading: actionsLoading } = useActivityTeacherActions();
 
-  // Pending data
   const {
     loading: pendingLoading,
     pendingAttempts,
@@ -62,11 +59,9 @@ const ActivitiesCreatedView: React.FC = () => {
   const loading = dataLoading || actionsLoading;
   const isPendingFilter = activeFilter === ACTIVITY_TEACHER_STATUS.PENDING;
 
-  // Show empty state logic
   const showActivityEmptyState = filteredActivities.length === 0 && !loading;
   const showPendingEmptyState = pendingAttempts.length === 0 && !pendingLoading;
 
-  // Actions for pending list
   const pendingActions = {
     onViewAttempt: handleNavigateToReview,
   };
@@ -86,10 +81,7 @@ const ActivitiesCreatedView: React.FC = () => {
       <motion.div variants={activityItemVariants}>
         <ActivitiesCreatedFilters
           activeFilter={activeFilter}
-          searchValue={search}
-          subjectValue={selectedSubject?.id ?? ""}
-          courseValue={selectedCourse?.id ?? ""}
-          yearValue={selectedYear?.id ?? ""}
+          activityNameValue={search}
           selectedSubject={selectedSubject}
           selectedCourse={selectedCourse}
           selectedYear={selectedYear}
@@ -98,12 +90,10 @@ const ActivitiesCreatedView: React.FC = () => {
           years={years}
           viewMode={viewMode}
           onFilterChange={setActiveFilter}
-          onSearchChange={setSearch}
+          onActivityNameChange={setSearch}
           onSubjectChange={setSelectedSubject}
           onCourseChange={setSelectedCourse}
           onYearChange={setSelectedYear}
-          onApplyFilters={applyFilters}
-          onClearFilters={resetFilters}
           onViewModeChange={setViewMode}
         />
       </motion.div>

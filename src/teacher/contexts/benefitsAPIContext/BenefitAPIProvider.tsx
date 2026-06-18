@@ -10,13 +10,18 @@ import type {
   TeacherBenefitType,
 } from "../../../benefit/types/benefit.types";
 import type { GetPaginated, PaginatedData } from "@/shared";
-import { usePaginationParams, useHandleApiError } from "@/shared";
+import {
+  usePaginationParams,
+  useHandleApiError,
+  StorageKeys,
+  getItem,
+  removeItem,
+  setItem,
+} from "@/shared";
 
 interface BenefitProviderProps {
   children: ReactNode;
 }
-
-const SELECTED_BENEFIT_KEY = "teacher_selected_benefit";
 
 export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   children,
@@ -28,15 +33,9 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [benefits, setBenefits] = useState<BenefitResponseInterface[]>([]);
   const [selectedBenefit, setSelectedBenefit] =
-    useState<TeacherBenefitType | null>(() => {
-      try {
-        const stored = localStorage.getItem(SELECTED_BENEFIT_KEY);
-        return stored ? JSON.parse(stored) : null;
-      } catch (error) {
-        console.warn("Error al leer selectedBenefit de localStorage", error);
-        return null;
-      }
-    });
+    useState<TeacherBenefitType | null>(() =>
+      getItem<TeacherBenefitType>(StorageKeys.selectedBenefit, "session"),
+    );
   const [benefitPurchases, setBenefitPurchases] = useState<
     BenefitPurchaseSimpleResponse[]
   >([]);
@@ -49,19 +48,9 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
 
   useEffect(() => {
     if (selectedBenefit === null) {
-      localStorage.removeItem(SELECTED_BENEFIT_KEY);
+      removeItem(StorageKeys.selectedBenefit, "session");
     } else {
-      try {
-        localStorage.setItem(
-          SELECTED_BENEFIT_KEY,
-          JSON.stringify(selectedBenefit),
-        );
-      } catch (error) {
-        console.warn(
-          "No se pudo guardar selectedBenefit en localStorage",
-          error,
-        );
-      }
+      setItem(StorageKeys.selectedBenefit, selectedBenefit, "session");
     }
   }, [selectedBenefit]);
 

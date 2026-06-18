@@ -12,13 +12,17 @@ import type {
   YearResponseDto,
 } from "@/admin";
 import type { GetPaginated, PaginatedData } from "@/shared";
-import { useHandleApiError } from "@/shared";
+import {
+  useHandleApiError,
+  StorageKeys,
+  getItem,
+  removeItem,
+  setItem,
+} from "@/shared";
 
 interface BenefitProviderProps {
   children: ReactNode;
 }
-
-const SELECTED_ACTIVITY_KEY = "teacher_selected_activity";
 
 export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
   children,
@@ -30,15 +34,9 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
 
   /// Estados de actividad
   const [selectedActivityTeacher, setSelectedActivityTeacher] =
-    useState<ActivityTeacherResponse | null>(() => {
-      try {
-        const stored = localStorage.getItem(SELECTED_ACTIVITY_KEY);
-        return stored ? JSON.parse(stored) : null;
-      } catch (error) {
-        console.warn("Error al leer selectedBenefit de localStorage", error);
-        return null;
-      }
-    });
+    useState<ActivityTeacherResponse | null>(() =>
+      getItem<ActivityTeacherResponse>(StorageKeys.selectedActivity, "session"),
+    );
   const [paginatedActivitiesTeacher, setPaginatedActivitiesTeacher] =
     useState<PaginatedData<ActivityTeacherResponse> | null>(null);
   const [activityDetails, setActivityDetails] =
@@ -53,19 +51,9 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
 
   useEffect(() => {
     if (selectedActivityTeacher === null) {
-      localStorage.removeItem(SELECTED_ACTIVITY_KEY);
+      removeItem(StorageKeys.selectedActivity, "session");
     } else {
-      try {
-        localStorage.setItem(
-          SELECTED_ACTIVITY_KEY,
-          JSON.stringify(selectedActivityTeacher)
-        );
-      } catch (error) {
-        console.warn(
-          "No se pudo guardar selectedActivityTeacher en localStorage",
-          error
-        );
-      }
+      setItem(StorageKeys.selectedActivity, selectedActivityTeacher, "session");
     }
   }, [selectedActivityTeacher]);
 
@@ -84,7 +72,7 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const getActivityDetailsTeacher = useCallback(
@@ -100,7 +88,7 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const getSubjectCoursesYearsTeacher = useCallback(async () => {
@@ -114,7 +102,7 @@ export const ActivityTeacherProvider: React.FC<BenefitProviderProps> = ({
     } catch (error) {
       handleApiError(
         error,
-        "Error al obtener las materias, cursos y años del docente"
+        "Error al obtener las materias, cursos y años del docente",
       );
     } finally {
       setLoading(false);

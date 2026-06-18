@@ -7,6 +7,7 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   maxLength?: number;
   showCharCount?: boolean;
   resize?: "none" | "vertical" | "horizontal" | "both";
+  containerClassName?: string;
 }
 
 const TextArea: React.FC<TextAreaProps> = ({
@@ -16,6 +17,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   showCharCount = false,
   resize = "vertical",
   className = "",
+  containerClassName = "",
   value = "",
   ...props
 }) => {
@@ -32,7 +34,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   const isOverLimit = maxLength ? currentLength > maxLength : false;
 
   return (
-    <div className={styles.textareaContainer}>
+    <div className={`${styles.textareaContainer} ${containerClassName}`.trim()}>
       <textarea
         className={textareaClass}
         value={value}

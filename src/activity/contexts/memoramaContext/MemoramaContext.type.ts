@@ -13,7 +13,7 @@ export interface MemoramaContextType {
   currentPairIndex: number;
 
   // Funciones principales
-  registrarMemorama: (data: MemoramaInterface) => Promise<void>;
+  registrarMemorama: (data: MemoramaInterface) => Promise<boolean>;
 
   // Handlers principales
   handleConfigSubmit: (newConfig: MemoramaConfig) => void;
@@ -42,7 +42,7 @@ export interface MemoramaContextType {
   getEmptyPairs: () => number;
   setPairErrors: (
     pairIndex: number,
-    errors: { [field: string]: string }
+    errors: { [field: string]: string },
   ) => void;
   clearPairErrors: (pairIndex: number) => void;
   clearAllPairErrors: () => void;

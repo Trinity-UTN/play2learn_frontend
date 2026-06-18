@@ -101,7 +101,9 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
   ];
 
   // Funciones principales
-  const registerAhorcado = async (data: AhorcadoInterface): Promise<void> => {
+  const registerAhorcado = async (
+    data: AhorcadoInterface,
+  ): Promise<boolean> => {
     setLoading(true);
     const dataMandar = makeData(
       data,
@@ -118,8 +120,10 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
         type: "success",
         position: "bottom-right",
       });
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -152,7 +156,9 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
         errorsPermited: config.errorsPermited,
       };
 
-      await registerAhorcado(gameData);
+      const created = await registerAhorcado(gameData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {

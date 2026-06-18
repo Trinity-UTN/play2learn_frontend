@@ -6,17 +6,6 @@ export const getCourseColumns = (
   styles: Record<string, string>,
 ): DataTableColumn<CourseResponseDto>[] => [
   {
-    key: "name",
-    label: "Nombre del curso",
-    sortable: true,
-    className: styles.nameColumn,
-    render: (course) => (
-      <div className={styles.nameWrapper}>
-        <span>{course.name}</span>
-      </div>
-    ),
-  },
-  {
     key: "year",
     label: "Nombre del Año",
     sortable: true,
@@ -24,6 +13,17 @@ export const getCourseColumns = (
     render: (course) => (
       <div className={styles.nameWrapper}>
         <span>{course.year.name}</span>
+      </div>
+    ),
+  },
+  {
+    key: "name",
+    label: "Nombre del curso",
+    sortable: true,
+    className: styles.nameColumn,
+    render: (course) => (
+      <div className={styles.nameWrapper}>
+        <span>{course.name}</span>
       </div>
     ),
   },

@@ -38,7 +38,7 @@ const CreateYearView: React.FC = () => {
             <div className={styles.inputGroup}>
               <label className={styles.label}>Nombre del Año *</label>
               <Input
-                placeholder="Ej: Primer Año"
+                placeholder="Ingrese el nombre del año académico"
                 value={formData.name || ""}
                 onChange={(e) => handleChange("name", e.target.value)}
                 required

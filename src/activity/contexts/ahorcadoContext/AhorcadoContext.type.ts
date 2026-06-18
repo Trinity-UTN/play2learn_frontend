@@ -13,7 +13,7 @@ export interface AhorcadoContextType {
   wordSuggestions: string[];
 
   // Funciones principales
-  registerAhorcado: (data: AhorcadoInterface) => Promise<void>;
+  registerAhorcado: (data: AhorcadoInterface) => Promise<boolean>;
 
   // Handlers principales
   handleConfigSubmit: (newConfig: AhorcadoConfig) => void;

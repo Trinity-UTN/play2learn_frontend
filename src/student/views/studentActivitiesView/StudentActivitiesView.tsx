@@ -14,9 +14,10 @@ const StudentActivitiesView: React.FC = () => {
     setSelectedSubject,
     selectedDifficulty,
     setSelectedDifficulty,
+    selectedActivityName,
+    setSelectedActivityName,
     filteredActivities,
     subjects,
-    paginationInfo,
     loading,
   } = useActivityData();
 
@@ -49,16 +50,14 @@ const StudentActivitiesView: React.FC = () => {
         activeFilter={activeFilter}
         selectedSubject={selectedSubject}
         selectedDifficulty={selectedDifficulty}
+        selectedActivityName={selectedActivityName}
         onFilterChange={setActiveFilter}
         onSubjectChange={setSelectedSubject}
         onDifficultyChange={setSelectedDifficulty}
+        onActivityNameChange={setSelectedActivityName}
         subjects={subjects}
       />
-      <ActivityGrid
-        activities={filteredActivities}
-        paginationInfo={paginationInfo!}
-        loading={loading}
-      />
+      <ActivityGrid activities={filteredActivities} loading={loading} />
     </motion.div>
   );
 };

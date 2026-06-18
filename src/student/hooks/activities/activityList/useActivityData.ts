@@ -1,7 +1,11 @@
 import { useEffect, useCallback, useMemo } from "react";
 import type { ActivityUI } from "../../../types/Activity.type";
 import { useActivityStudent } from "../../useActivityStudentAPI";
-import { usePaginationParams, type FilterOption } from "@/shared";
+import {
+  usePaginationParams,
+  ACTIVITY_NAME_ALL,
+  type FilterOption,
+} from "@/shared";
 import { useActivityFilters } from "./useActivityFilters";
 import { useActivityStats } from "./useActivityStats";
 import { mapActivityToUI } from "../../../adapters/activityAdapter";
@@ -31,9 +35,11 @@ export const useActivityData = () => {
     activeFilter,
     selectedSubject,
     selectedDifficulty,
+    selectedActivityName,
     setActiveFilter,
     setSelectedSubject,
     setSelectedDifficulty,
+    setSelectedActivityName,
   } = useActivityFilters();
 
   const { stats, counts } = useActivityStats();
@@ -57,6 +63,10 @@ export const useActivityData = () => {
     const baseParams = {
       ...paginationParams,
       order_type: "desc" as const,
+      search:
+        selectedActivityName !== ACTIVITY_NAME_ALL
+          ? selectedActivityName
+          : undefined,
       filters,
       filtersValues,
     };
@@ -94,6 +104,7 @@ export const useActivityData = () => {
     paginationParams,
     selectedSubject,
     selectedDifficulty,
+    selectedActivityName,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
     getPaginatedActivitiesPending,
@@ -119,7 +130,13 @@ export const useActivityData = () => {
     setPaginationParams((prev) =>
       prev.page === 1 ? prev : { ...prev, page: 1 },
     );
-  }, [activeFilter, selectedSubject, selectedDifficulty, setPaginationParams]);
+  }, [
+    activeFilter,
+    selectedSubject,
+    selectedDifficulty,
+    selectedActivityName,
+    setPaginationParams,
+  ]);
 
   // Datos Generales
   const filteredActivities: ActivityUI[] = useMemo(() => {
@@ -183,6 +200,8 @@ export const useActivityData = () => {
     setSelectedSubject,
     selectedDifficulty,
     setSelectedDifficulty,
+    selectedActivityName,
+    setSelectedActivityName,
     // Data
     filteredActivities,
     subjects,

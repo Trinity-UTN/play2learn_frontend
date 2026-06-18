@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaPlus } from "react-icons/fa";
-import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
+import {
+  Button,
+  DataTable,
+  LoadingSpinnerComponent,
+  itemVariants,
+  containerVariants,
+} from "@/shared";
 import {
   getTeacherColumns,
   getTeacherActions,
@@ -31,6 +37,10 @@ const ListTeacherView: React.FC = () => {
     handleDelete,
     handleRestorePassword,
   });
+
+  if (loading && !paginatedTeacher) {
+    return <LoadingSpinnerComponent />;
+  }
 
   return (
     <motion.div

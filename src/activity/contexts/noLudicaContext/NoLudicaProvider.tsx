@@ -83,7 +83,9 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
 
   const isFormValid = errors.length === 0 && config.exercise.trim().length > 0;
 
-  const registrarNoLudica = async (data: NoLudicaInterface): Promise<void> => {
+  const registrarNoLudica = async (
+    data: NoLudicaInterface,
+  ): Promise<boolean> => {
     setLoading(true);
 
     // console.log("=== NO LÚDICA DEBUG ===");
@@ -107,8 +109,10 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
         type: "success",
         position: "bottom-right",
       });
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -140,7 +144,9 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
         exercise: config.exercise.trim(),
       };
 
-      await registrarNoLudica(gameData);
+      const created = await registrarNoLudica(gameData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
@@ -186,8 +192,8 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     // Validar consigna
     if (!configToValidate.exercise.trim()) {
       validationErrors.push("La consigna es obligatoria");
-    } else if (configToValidate.exercise.length > 300) {
-      validationErrors.push("La consigna no puede superar los 300 caracteres");
+    } else if (configToValidate.exercise.length > 1000) {
+      validationErrors.push("La consigna no puede superar los 1000 caracteres");
     } else if (configToValidate.exercise.length < 10) {
       validationErrors.push("La consigna debe tener al menos 10 caracteres");
     }

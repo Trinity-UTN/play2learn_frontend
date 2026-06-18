@@ -60,9 +60,3 @@ export const reviewItemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
-
-// ============================================
-// LOCAL STORAGE KEY
-// ============================================
-
-export const ATTEMPT_REVIEW_STORAGE_KEY = "attempt_review_data";

@@ -121,7 +121,7 @@ export const OrdenarSecuenciaProvider: React.FC<
 
   const registrarOrdenarSecuencia = async (
     formData: FormData,
-  ): Promise<void> => {
+  ): Promise<boolean> => {
     setLoading(true);
     try {
       await OrdenarSecuenciaService.registerOrdenarSecuenciaApi(formData);
@@ -131,8 +131,10 @@ export const OrdenarSecuenciaProvider: React.FC<
         type: "success",
         position: "bottom-right",
       });
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -239,7 +241,9 @@ export const OrdenarSecuenciaProvider: React.FC<
         }
       });
 
-      await registrarOrdenarSecuencia(formData);
+      const created = await registrarOrdenarSecuencia(formData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
