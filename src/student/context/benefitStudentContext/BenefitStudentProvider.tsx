@@ -30,7 +30,6 @@ export const BenefitStudentProvider = ({
   const [benefitStats, setBenefitStats] = useState<BenefitStatsResponse | null>(
     null,
   );
-
   // Funciones Principales
   const getPaginatedBenefitStudent = useCallback(
     async (params: GetPaginated): Promise<void> => {
@@ -88,7 +87,7 @@ export const BenefitStudentProvider = ({
         handleApiError(error, "Error al comprar el beneficio del estudiante");
         throw error;
       } finally {
-        stopLoading;
+        stopLoading();
       }
     },
     [],
@@ -103,7 +102,7 @@ export const BenefitStudentProvider = ({
         handleApiError(error, "Error al solicitar el beneficio del estudiante");
         throw error;
       } finally {
-        stopLoading;
+        stopLoading();
       }
     },
     [],

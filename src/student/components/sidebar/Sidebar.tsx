@@ -12,11 +12,10 @@ import type { StudentDashboardView } from "../../types/generalType";
 import { Sidebar } from "@/shared";
 import Avatar from "../common/Avatar/AvatarComponent";
 import { StudentRoutes } from "../../routes/routes";
-import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
-import { useBenefitStudent } from "../../hooks/useBenefitStudent";
 import styles from "./Sidebar.module.css";
 import { formatPriceWithNoDecimals } from "@/shared/utils/formatPrice";
+import { useEffect } from "react";
 
 interface StudentSidebarProps {
   currentView: StudentDashboardView;
@@ -34,17 +33,17 @@ interface MenuItem {
 const StudentSidebar: React.FC<StudentSidebarProps> = ({
   isLoading = false,
 }) => {
-  const { wallet, currentStudent } = useCurrentStudent();
-  const { activityStudentStats } = useActivityStudent();
-  const { benefitStats } = useBenefitStudent();
+  const { wallet, currentStudent, getStatisticsStudent, statistics } =
+    useCurrentStudent();
+
   const navigate = useNavigate();
   const location = useLocation();
 
   const isActive = (path: string) => {
     return location.pathname === `/dashboard/${path}`;
   };
-  const availableActivityCount = activityStudentStats?.available ?? 0;
-  const availableBenefitCount = benefitStats?.available ?? 0;
+  const availableActivityCount = statistics?.totalActivitiesAvailable ?? 0;
+  const availableBenefitCount = statistics?.totalBenefitsAvailable ?? 0;
 
   const menuItems: MenuItem[] = [
     {
@@ -106,6 +105,9 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
     navigate(`/dashboard/${StudentRoutes.Profile}`);
   };
 
+  useEffect(() => {
+    getStatisticsStudent();
+  }, []);
   return (
     <Sidebar isLoading={isLoading} handleNavegacion={handleProfileClick}>
       <motion.div variants={itemVariants} className={styles.header}>

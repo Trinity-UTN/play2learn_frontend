@@ -37,5 +37,6 @@ export interface StatisticsStudentResponse {
   totalPoints: number;
   positionCourseRanking: number;
   totalActivitiesAvailable: number;
+  totalBenefitsAvailable: number;
   lastRealizations: LastRealizations[];
 }

@@ -8,7 +8,7 @@ import { useConfirmation, useToaster } from "@/shared";
  * Hook que permite manejar las acciones de los beneficios del estudiante
  */
 export const useBenefitStudentActions = (
-  onFilterChange: (filter: BenefitStatus) => void
+  onFilterChange: (filter: BenefitStatus) => void,
 ) => {
   const { getWalletByStudent } = useCurrentStudent();
   const {
@@ -30,12 +30,12 @@ export const useBenefitStudentActions = (
         onConfirm: async () => {
           try {
             await purchaseBenefitStudent(benefitId);
-            await getWalletByStudent();
-            await getPaginatedBenefitStudent({
-              page: 1,
-              page_size: 10,
-            });
             onFilterChange("PURCHASED");
+            await getWalletByStudent();
+            // await getPaginatedBenefitStudent({
+            //   page: 1,
+            //   page_size: 10,
+            // });
             showToast({
               title: "Beneficio canjeado exitosamente",
               type: "success",
@@ -49,12 +49,11 @@ export const useBenefitStudentActions = (
     },
     [
       purchaseBenefitStudent,
-      getPaginatedBenefitStudent,
       showConfirmation,
       onFilterChange,
       getWalletByStudent,
       showToast,
-    ]
+    ],
   );
 
   const requestUseBenefit = useCallback(
@@ -91,7 +90,7 @@ export const useBenefitStudentActions = (
       showConfirmation,
       onFilterChange,
       showToast,
-    ]
+    ],
   );
 
   return {

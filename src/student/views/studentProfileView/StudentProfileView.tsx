@@ -5,20 +5,15 @@ import LevelDisplay from "@/student/components/LevelDisplay/LevelDisplay";
 import { useStudentProfileView } from "../../hooks/profile/useStudentProfileView";
 import styles from "./StudentProfileView.module.css";
 import { useCurrentStudent } from "@/student/hooks/useCurrentStudent";
-import { useEffect } from "react";
 import QuickStats from "@/student/components/studentOverviewViewComponents/QuickStats/QuickStats";
 import LastRealizationsComponents from "@/student/components/studentOverviewViewComponents/LastRealizations/LastRealizationsComponent";
 import { FaCalendarAlt } from "react-icons/fa";
 
 const StudentProfileView: React.FC = () => {
-  const { getStatisticsStudent, statistics, loadingStatics } =
-    useCurrentStudent();
+  const { statistics, loadingStatics } = useCurrentStudent();
   const { isLoading, hasStudent, profileProps } = useStudentProfileView();
   const profile = profileProps.currentStudent?.profile;
 
-  useEffect(() => {
-    getStatisticsStudent();
-  }, []);
   if (isLoading && !hasStudent) {
     return (
       <motion.div

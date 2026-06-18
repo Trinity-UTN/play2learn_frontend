@@ -17,7 +17,6 @@ export function OverviewView() {
   useEffect(() => {
     getStatistics();
   }, []);
-  console.log(statistics);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
