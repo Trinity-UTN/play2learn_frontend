@@ -150,7 +150,12 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
         {isLoading ? (
           <div className={styles.buttonSkeleton}></div>
         ) : (
-          <button className={styles.buttonPerfil} onClick={handleProfileClick}>
+          <button
+            className={`${styles.buttonPerfil} ${
+              isActive(StudentRoutes.Profile) ? styles.active : ""
+            }`}
+            onClick={handleProfileClick}
+          >
             Panel Principal
           </button>
         )}

@@ -19,7 +19,6 @@ const StudentProfileView: React.FC = () => {
   useEffect(() => {
     getStatisticsStudent();
   }, []);
-
   if (isLoading && !hasStudent) {
     return (
       <motion.div

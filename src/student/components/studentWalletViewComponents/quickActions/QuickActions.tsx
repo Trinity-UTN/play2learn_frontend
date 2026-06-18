@@ -34,7 +34,7 @@ const QuickActions = () => {
     },
     {
       title: "Tienda",
-      description: "Compra mejoras",
+      description: "Compra aspectos",
       icon: FaStore,
       color: "#EF4444",
       view: "store",

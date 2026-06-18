@@ -7,7 +7,9 @@ interface SubjectStatistics {
 interface ActivitiesStatistics {
   name: string;
   totalRealizations: number;
-  createdDayAgo: number;
+  createdDaysAgo: number;
+  totalStudents: number;
+  startDate: string;
 }
 export interface StatisticsResponse {
   totalStudents: number;

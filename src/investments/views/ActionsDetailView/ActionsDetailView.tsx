@@ -6,8 +6,8 @@ import TradingPanel from "../../components/ActionsDetailView/TradingPanel/Tradin
 import AutomationPanel from "../../components/ActionsDetailView/AutomationPanel/AutomationPanel";
 import ActionStats from "../../components/ActionsDetailView/ActionsDetailsStats/ActionsDetailsStats";
 import styles from "./ActionsDetailView.module.css";
-import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import { useActionsDetailsView } from "../../hooks/useActions/useActionsDetailsView";
+import LoadingSpinnerComponent from "@/shared/components/LoadingSpinner/LoadingSpinnerComponent";
 
 const ActionDetailView = () => {
   const {
@@ -23,7 +23,7 @@ const ActionDetailView = () => {
     handleSetAutomation,
   } = useActionsDetailsView();
   if (loading && !candleStickValues) {
-    return <LoadingScreen key="loading" titulo="Cargando Acción" />;
+    return <LoadingSpinnerComponent key="loading" />;
   }
   if (!action) {
     return (

@@ -97,7 +97,8 @@
   position: relative;
   overflow: hidden;
 }
-.menuItem.active {
+.menuItem.active,
+.buttonPerfil.active {
   background-color: var(--color-stat-4);
   box-shadow: 0 0 5px var(--color-stat-4) !important;
   color: white;
