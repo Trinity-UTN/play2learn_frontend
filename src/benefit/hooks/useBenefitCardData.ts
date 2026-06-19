@@ -54,7 +54,7 @@ export const useBenefitCardData = ({
      */
 
     // CASO 0: Beneficio USADO
-    if (isBenefitPurchasedUsed(benefit)) {
+    if (!isPurchase && isBenefitPurchasedUsed(benefit)) {
       const iconComponent = getIconByValue(benefit.icon);
       const iconColor = getColorByValue(benefit.color) ?? "#94a3b8";
       const category = getCategoryByValue(benefit.category);
@@ -66,7 +66,7 @@ export const useBenefitCardData = ({
         IconComponent: iconComponent,
         iconColor,
         category,
-        styleSuffix: "Teacher",
+        styleSuffix: variant === "student" ? "Student" : "Teacher",
         purchaseLimit: null,
         purchaseLimitPerStudent: null,
         hasEndDate: false,
