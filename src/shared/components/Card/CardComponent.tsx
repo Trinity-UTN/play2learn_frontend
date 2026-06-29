@@ -1,4 +1,4 @@
-import type React from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import styles from "./Card.module.css";
 
@@ -9,28 +9,32 @@ interface CardProps {
   style?: React.CSSProperties;
 }
 
-const Card: React.FC<CardProps> = ({
-  children,
-  className = "",
-  hover = false,
-  style,
-}) => {
-  const cardClass = [styles.card, className].filter(Boolean).join(" ");
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ children, className = "", hover = false, style }, ref) => {
+    const cardClass = [styles.card, className].filter(Boolean).join(" ");
 
-  if (hover) {
+    if (hover) {
+      return (
+        <motion.div
+          ref={ref}
+          whileHover={{ y: -2, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className={cardClass}
+          style={style}
+        >
+          {children}
+        </motion.div>
+      );
+    }
+
     return (
-      <motion.div
-        whileHover={{ y: -2, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-        transition={{ type: "spring", stiffness: 300 }}
-        className={cardClass}
-        style={style}
-      >
+      <div ref={ref} className={cardClass} style={style}>
         {children}
-      </motion.div>
+      </div>
     );
-  }
+  },
+);
 
-  return <div className={cardClass}>{children}</div>;
-};
+Card.displayName = "Card";
 
 export default Card;

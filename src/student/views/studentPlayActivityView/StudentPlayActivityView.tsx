@@ -152,6 +152,7 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
         nextButtonText="Finalizar Intento"
         // backButtonText="DEBUG: Atras"
         showBackToList={false}
+        fab
       />
     </motion.div>
   );

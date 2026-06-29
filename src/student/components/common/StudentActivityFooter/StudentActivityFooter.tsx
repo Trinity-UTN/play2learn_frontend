@@ -1,7 +1,9 @@
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Button, Card } from "@/shared";
+import StudentActivityFab, { type FabAction } from "./StudentActivityFab";
 import styles from "./StudentActivityFooter.module.css";
 
 interface StudentActivityFooterProps {
@@ -23,6 +25,7 @@ interface StudentActivityFooterProps {
   // Otros
   itemVariants?: any;
   className?: string;
+  fab?: boolean;
 }
 
 const StudentActivityFooter: React.FC<StudentActivityFooterProps> = ({
@@ -37,14 +40,83 @@ const StudentActivityFooter: React.FC<StudentActivityFooterProps> = ({
   showNextButtonIcon = true,
   itemVariants,
   className = "",
+  fab = false,
 }) => {
   const navigate = useNavigate();
+  const footerRef = useRef<HTMLDivElement>(null);
+  const [footerInView, setFooterInView] = useState(true);
+
+  useEffect(() => {
+    if (!fab) return;
+    const el = footerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterInView(entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [fab]);
 
   const handleBackToList = () => {
     navigate("/dashboard/student/actividades/list");
   };
+
+  // Mismas acciones (y mismos botones) que muestra el footer, para el FAB
+  const fabActions: FabAction[] = [
+    ...(onNext
+      ? [
+          {
+            key: "next",
+            variant: "secondary" as const,
+            onClick: onNext,
+            disabled: !isFormValid || loading,
+            children: (
+              <>
+                {loading ? "Cargando..." : nextButtonText}
+                {showNextButtonIcon && <FaArrowRight />}
+              </>
+            ),
+          },
+        ]
+      : []),
+    ...(onBack
+      ? [
+          {
+            key: "back",
+            variant: "primary" as const,
+            onClick: onBack,
+            disabled: loading,
+            children: (
+              <>
+                {showBackButtonIcon && <FaArrowLeft />}
+                {backButtonText}
+              </>
+            ),
+          },
+        ]
+      : []),
+    ...(showBackToList
+      ? [
+          {
+            key: "list",
+            variant: "secondary" as const,
+            onClick: handleBackToList,
+            disabled: loading,
+            children: (
+              <>
+                <FaArrowLeft />
+                Volver a Actividades
+              </>
+            ),
+          },
+        ]
+      : []),
+  ];
+
   const FooterContent = (
-    <Card className={`${styles.footer} ${className}`}>
+    <Card ref={footerRef} className={`${styles.footer} ${className}`}>
       <div className={styles.footerActions}>
         <div className={styles.leftSection}>
           {showBackToList && (
@@ -101,10 +173,19 @@ const StudentActivityFooter: React.FC<StudentActivityFooterProps> = ({
     </Card>
   );
 
-  return itemVariants ? (
+  const footerNode = itemVariants ? (
     <motion.div variants={itemVariants}>{FooterContent}</motion.div>
   ) : (
     FooterContent
+  );
+
+  if (!fab) return footerNode;
+
+  return (
+    <>
+      {footerNode}
+      <StudentActivityFab actions={fabActions} visible={!footerInView} />
+    </>
   );
 };
 

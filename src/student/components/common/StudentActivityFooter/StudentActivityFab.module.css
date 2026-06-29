@@ -1,0 +1,66 @@
+@import "../../../../shared/styles/colors.css";
+
+.fabContainer {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+}
+
+.action {
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  color: white;
+  border-color: transparent;
+  background-color: #764ba2;
+}
+
+.action:hover:not(:disabled) {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.fab {
+  align-self: flex-end;
+  width: 3.5rem;
+  height: 3.5rem;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.fab:hover:not(:disabled) {
+  background-color: #764ba2;
+  color: white;
+}
+
+.fabIcon {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .fabContainer {
+    right: 1rem;
+    bottom: 1rem;
+  }
+}

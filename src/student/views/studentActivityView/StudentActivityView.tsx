@@ -102,6 +102,7 @@ const StudentActivityView: React.FC<StudentActivityViewProps> = ({
         onNext={handleStartActivity}
         nextButtonText="Comenzar Actividad"
         showBackToList={isDetailedView}
+        fab
       />
     </motion.div>
   );
