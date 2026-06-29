@@ -12,7 +12,7 @@
 }
 
 .fileCard:hover {
-  border-color: var(--color-primary);
+  border-color: #667eea;
   box-shadow: 0 2px 8px rgba(130, 1, 141, 0.1);
 }
 
