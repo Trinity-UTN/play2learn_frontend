@@ -12,7 +12,8 @@ import LoadingSpinnerComponent from "@/shared/components/LoadingSpinner/LoadingS
 const ActionDetailView = () => {
   const {
     candleStickValues,
-    loading,
+    initialLoading,
+    loadError,
     userBalance,
     action,
     range,
@@ -22,10 +23,12 @@ const ActionDetailView = () => {
     handleSell,
     handleSetAutomation,
   } = useActionsDetailsView();
-  if (loading && !candleStickValues) {
+
+  if (initialLoading) {
     return <LoadingSpinnerComponent key="loading" />;
   }
-  if (!action) {
+
+  if (loadError || !action) {
     return (
       <div className={styles.error}>
         <p>¡Lo sentimos!</p>
