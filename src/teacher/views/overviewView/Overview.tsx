@@ -34,7 +34,6 @@ export function OverviewView() {
       </div>
     );
   }
-
   return (
     <motion.div
       variants={containerVariants}

@@ -46,7 +46,10 @@ const RecentActivities = ({ statistics }: Props) => {
                     <div
                       className={styles.activityProgressFill}
                       style={{
-                        width: `${activity.totalRealizations * 100}%`,
+                        width: `${activity.totalStudents > 0
+                          ? (activity.totalRealizations / activity.totalStudents) * 100
+                          : 0
+                          }%`,
                         backgroundColor: "#10b981",
                       }}
                     />
