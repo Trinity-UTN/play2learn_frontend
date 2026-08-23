@@ -28,7 +28,6 @@ const BenefitPreview = ({ formData }: BenefitPreviewProps) => {
           <div className={styles.previewHeader}>
             <span className={styles.statusBadge}>Activo</span>
           </div> */}
-
           {/* Contenido reutilizable */}
           <BenefitCardContent benefit={formData} isPreview />
         </div>

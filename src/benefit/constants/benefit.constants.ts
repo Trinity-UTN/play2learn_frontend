@@ -36,14 +36,14 @@ export const BENEFIT_CATEGORIES: ReadonlyArray<{
     value: "TRABAJOS",
     label: "TRABAJOS",
     icon: FaFileAlt,
-    color: "#227257ff",
+    color: "#929292ff",
     textColor: "#fff",
   },
   {
     value: "ASISTENCIA",
     label: "ASISTENCIA",
     icon: FaCalendarCheck,
-    color: "#053f2cff",
+    color: "#929292ff",
     textColor: "#fff",
   },
   {
@@ -99,6 +99,20 @@ export const BENEFIT_TEACHER_STATUS = {
   USE_REQUESTED: "USE_REQUESTED",
 } as const;
 
+export const BENEFIT_TEACHER_STATUS_LABELS: Record<string, string> = {
+  PUBLISHED: "Publicado",
+  EXPIRED: "Vencido",
+  USE_REQUESTED: "Uso solicitado",
+};
+
+export const BENEFIT_TEACHER_END_DATE_LABELS: Record<string, string> = {
+  PUBLISHED: "Finaliza",
+  EXPIRED: "Venció",
+  AVAILABLE: "Finaliza",
+  USE_REQUESTED: "Finaliza",
+  PURCHASED: "Finaliza",
+};
+
 export type BenefitTeacherStatus =
   (typeof BENEFIT_TEACHER_STATUS)[keyof typeof BENEFIT_TEACHER_STATUS];
 
@@ -110,7 +124,7 @@ export const BENEFIT_TEACHER_STATUS_FILTERS = [
   },
   {
     key: BENEFIT_TEACHER_STATUS.EXPIRED,
-    label: "Expirados",
+    label: "Vencidos",
     icon: FiXCircle,
   },
   {
@@ -192,9 +206,8 @@ export const BENEFIT_VALIDATION = {
 // TOOLTIPS
 // ============================================
 export const BENEFIT_TOOLTIP = {
-  PURCHASE_LIMIT: "Si no se define, el límite es ilimitado.",
-  PURCHASE_LIMIT_PER_STUDENT:
-    "Si no se define, el límite por estudiante es ilimitado.",
+  PURCHASE_LIMIT: "Si no se define, no hay límite.",
+  PURCHASE_LIMIT_PER_STUDENT: "Si no se define, no hay límite por estudiante.",
 } as const;
 
 // ============================================

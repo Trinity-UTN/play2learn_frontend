@@ -24,13 +24,13 @@ export const usePlazoFijoCard = ({ plazoFijo }: PlazoFijoCardProps) => {
   const profit = plazoFijo.amountReward - plazoFijo.amountInvested;
   const profitPercent = ((profit / plazoFijo.amountInvested) * 100).toFixed(2);
 
-  const startDate = new Date(plazoFijo.startDate);
-  const endDate = new Date(plazoFijo.endDate);
+  const startDate = new Date(plazoFijo.startDate + "T00:00:00");
+  const endDate = new Date(plazoFijo.endDate + "T00:00:00");
   const today = new Date();
   const totalDays = Math.ceil(
     (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
   );
-  const daysElapsed = Math.ceil(
+  const daysElapsed = Math.floor(
     (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
   );
   const daysRemaining = Math.max(0, totalDays - daysElapsed);

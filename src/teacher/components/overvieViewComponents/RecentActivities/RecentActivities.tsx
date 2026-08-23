@@ -41,21 +41,28 @@ const RecentActivities = ({ statistics }: Props) => {
                 <div className={styles.activityHeader}>
                   <h4 className={styles.activityName}>{activity.name}</h4>
                 </div>
-                <p className={styles.activityMeta}>{activity.createdDayAgo}</p>
                 <div className={styles.activityProgress}>
                   <div className={styles.activityProgressBar}>
                     <div
                       className={styles.activityProgressFill}
                       style={{
-                        width: `${activity.totalRealizations * 100}%`,
+                        width: `${activity.totalStudents > 0
+                          ? (activity.totalRealizations / activity.totalStudents) * 100
+                          : 0
+                          }%`,
                         backgroundColor: "#10b981",
                       }}
                     />
                   </div>
                   <span className={styles.activityProgressText}>
-                    {activity.totalRealizations} completaron
+                    {activity.totalRealizations} / {activity.totalStudents}{" "}
+                    completaron
                   </span>
                 </div>
+                <span className={styles.activityProgressText}>
+                  Creada hace {activity.createdDaysAgo} días - Inicia el{" "}
+                  {new Date(activity.startDate).toLocaleDateString()}
+                </span>
               </div>
             </motion.div>
           ))}

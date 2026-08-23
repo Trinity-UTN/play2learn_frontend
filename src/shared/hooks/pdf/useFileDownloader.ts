@@ -30,7 +30,7 @@ export const useFileDownloader = (): UseFileDownloaderReturn => {
         });
 
         const blob = new Blob([response.data], {
-          type: response.headers["content-type"],
+          type: response.headers["content-type"] as string,
         });
         const blobUrl = window.URL.createObjectURL(blob);
 

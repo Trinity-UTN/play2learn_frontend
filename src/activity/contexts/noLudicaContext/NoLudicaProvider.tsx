@@ -7,8 +7,11 @@ import type {
   NoLudicaConfig,
   NoLudicaInterface,
 } from "../../types/NoLudica.type";
-import type { ConfigurationActivity } from "../../types/Configuration.type";
-import { makeData } from "../../utils/MakeData";
+import type {
+  ConfigurationActivity,
+  NewActivityConfiguration,
+} from "../../types/Configuration.type";
+import { makeDataNoLudica } from "../../utils/MakeData";
 import { useConfigurationActivity } from "../../hooks/useConfigurationActivity";
 import { useConfigurationForm } from "../../hooks/configuration/useConfigurationForm";
 import { useConfirmation } from "../../../shared/hooks/useConfirmation";
@@ -80,23 +83,36 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
 
   const isFormValid = errors.length === 0 && config.exercise.trim().length > 0;
 
-  const registrarNoLudica = async (data: NoLudicaInterface): Promise<void> => {
+  const registrarNoLudica = async (
+    data: NoLudicaInterface,
+  ): Promise<boolean> => {
     setLoading(true);
 
     // console.log("=== NO LÚDICA DEBUG ===");
     // console.log("Datos del juego recibidos:", data);
     // console.log("Configuración de actividad:", configurationActivity);
-    const dataMandar = makeData(
+    const { maxTime, ...activityWithoutMaxTime } =
+      configurationActivity as ConfigurationActivity;
+
+    const dataMandar = makeDataNoLudica(
       data,
-      configurationActivity as ConfigurationActivity,
+      activityWithoutMaxTime as NewActivityConfiguration,
     );
     // console.log("Payload final a enviar:", dataMandar);
     // console.log("=== FIN DEBUG ===");
 
     try {
       await NoLudicaService.registerNoLudicaApi(dataMandar);
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -128,13 +144,9 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
         exercise: config.exercise.trim(),
       };
 
-      await registrarNoLudica(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
+      const created = await registrarNoLudica(gameData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
@@ -180,8 +192,8 @@ export const NoLudicaProvider: React.FC<NoLudicaProviderProps> = ({
     // Validar consigna
     if (!configToValidate.exercise.trim()) {
       validationErrors.push("La consigna es obligatoria");
-    } else if (configToValidate.exercise.length > 300) {
-      validationErrors.push("La consigna no puede superar los 300 caracteres");
+    } else if (configToValidate.exercise.length > 1000) {
+      validationErrors.push("La consigna no puede superar los 1000 caracteres");
     } else if (configToValidate.exercise.length < 10) {
       validationErrors.push("La consigna debe tener al menos 10 caracteres");
     }

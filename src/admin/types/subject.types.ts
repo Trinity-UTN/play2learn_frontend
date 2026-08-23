@@ -25,6 +25,7 @@ export interface SubjectResponseDto {
   optional: boolean;
   actualBalance: number;
   initialBalance: number;
+  active: boolean;
 }
 
 export interface SubjectSimplifiedResponseDto {

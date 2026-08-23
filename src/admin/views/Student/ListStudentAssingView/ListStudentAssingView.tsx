@@ -1,7 +1,13 @@
 import { motion } from "framer-motion";
 import { FaCalendarAlt } from "react-icons/fa";
 import { getStudentAssignColumns } from "@/admin";
-import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
+import {
+  Button,
+  DataTable,
+  LoadingSpinnerComponent,
+  itemVariants,
+  containerVariants,
+} from "@/shared";
 
 import styles from "./ListStudentAssingView.module.css";
 import { useStudentAssingment } from "@/admin/hooks/hooksUI/Subject/useStudentAssingment";
@@ -25,6 +31,10 @@ const ListStudentAssingView: React.FC = () => {
     handleAssign,
     handleUnassign,
   });
+
+  if (loading && (!students || students.length === 0)) {
+    return <LoadingSpinnerComponent />;
+  }
 
   return (
     <motion.div

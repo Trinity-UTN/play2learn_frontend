@@ -13,7 +13,7 @@ export interface OrdenarSecuenciaContextType {
   events: SequenceEvent[];
 
   // Funciones principales
-  registrarOrdenarSecuencia: (formData: FormData) => Promise<void>;
+  registrarOrdenarSecuencia: (formData: FormData) => Promise<boolean>;
 
   // Handlers principales
   handleConfigSubmit: (newConfig: OrdenarSecuenciaConfig) => void;

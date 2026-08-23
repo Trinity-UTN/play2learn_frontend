@@ -13,12 +13,12 @@ interface ActivityCardProps {
   onStart?: (
     activityId: string,
     remainingAttempts: number,
-    completedAt?: string
+    completedAt?: string,
   ) => void;
   onViewResults?: (
     activityId: string,
     remainingAttempts: number,
-    completedAt?: string
+    completedAt?: string,
   ) => void;
 }
 
@@ -44,7 +44,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
       onViewResults(
         activity.id,
         activity.remainingAttempts,
-        activity.completedAt
+        activity.completedAt,
       );
     } else if (
       activity.status === "PUBLISHED" &&
@@ -60,7 +60,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
       onViewResults(
         activity.id,
         activity.remainingAttempts,
-        activity.completedAt
+        activity.completedAt,
       );
     }
   };
@@ -114,7 +114,11 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
               {activity.status !== "APPROVED" && (
                 <div className={styles.metaItem}>
                   <FaStopwatch className={styles.metaIcon} />
-                  <span>{activity.timeLabel}</span>
+                  <span>
+                    {activity.maxTime && activity.maxTime > 0
+                      ? activity.timeLabel
+                      : "Sin limite de tiempo"}
+                  </span>
                 </div>
               )}
             </div>
@@ -153,15 +157,17 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
               </Button>
             )}
 
-            <Button
-              variant={activity.status === "EXPIRED" ? "ghost" : "primary"}
-              className={styles.actionButton}
-              disabled={isDisabled}
-              onClick={handleActionButton}
-            >
-              <statusConfig.buttonIcon className={styles.buttonIcon} />
-              {buttonText}
-            </Button>
+            {activity.status !== "EXPIRED" && (
+              <Button
+                variant="primary"
+                className={styles.actionButton}
+                disabled={isDisabled}
+                onClick={handleActionButton}
+              >
+                <statusConfig.buttonIcon className={styles.buttonIcon} />
+                {buttonText}
+              </Button>
+            )}
           </div>
         </div>
 

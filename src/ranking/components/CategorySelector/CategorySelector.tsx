@@ -22,7 +22,7 @@ export const CategorySelector = ({
         whileTap={{ scale: 0.95 }}
       >
         <FaCoins className={styles.icon} />
-        <span>Monedas</span>
+        <span>Monedas obtenidas</span>
         {selectedCategory === "coins" && (
           <motion.div
             className={styles.activeIndicator}
@@ -40,7 +40,7 @@ export const CategorySelector = ({
         whileTap={{ scale: 0.95 }}
       >
         <FaGamepad className={styles.icon} />
-        <span>Actividades</span>
+        <span>Actividades aprobadas</span>
         {selectedCategory === "activities" && (
           <motion.div
             className={styles.activeIndicator}

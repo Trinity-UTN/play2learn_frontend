@@ -34,7 +34,7 @@ const QuickActions = () => {
     },
     {
       title: "Tienda",
-      description: "Compra mejoras",
+      description: "Compra aspectos",
       icon: FaStore,
       color: "#EF4444",
       view: "store",
@@ -85,9 +85,6 @@ const QuickActions = () => {
                   </div>
                 </div>
                 <div className={styles.actionRight}>
-                  {action.badge && (
-                    <div className={styles.actionBadge}>{action.badge}</div>
-                  )}
                   <FaArrowRight className={styles.actionArrow} />
                 </div>
               </div>

@@ -10,8 +10,14 @@ import type {
   ActivityReviewNoLudicaRequestDto,
 } from "../../types/NoLudicaReview.type";
 import type { GetPaginated, PaginatedData } from "@/shared";
-import { useHandleApiError, useToaster } from "@/shared";
-import { ATTEMPT_REVIEW_STORAGE_KEY } from "../../constants/activity/noLudicaReview.constants";
+import {
+  useHandleApiError,
+  useToaster,
+  StorageKeys,
+  getItem,
+  removeItem,
+  setItem,
+} from "@/shared";
 import { TeacherRoutes } from "../../routes/routes";
 
 interface NoLudicaReviewProviderProps {
@@ -41,23 +47,17 @@ export const NoLudicaReviewProvider: React.FC<NoLudicaReviewProviderProps> = ({
   const [currentAttempt, setCurrentAttempt] =
     useState<NoLudicaAttemptResponseDto | null>(null);
   const [storedAttemptData, setStoredAttemptDataState] =
-    useState<AttemptReviewStoredData | null>(() => {
-      try {
-        const stored = localStorage.getItem(ATTEMPT_REVIEW_STORAGE_KEY);
-        return stored ? JSON.parse(stored) : null;
-      } catch {
-        return null;
-      }
-    });
+    useState<AttemptReviewStoredData | null>(() =>
+      getItem<AttemptReviewStoredData>(StorageKeys.attemptReview),
+    );
 
   // Funciones principales
   const getPendingAttemptsPaginated = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoadingPending(true);
       try {
-        const response = await NoLudicaReviewService.getPendingPaginatedApi(
-          params
-        );
+        const response =
+          await NoLudicaReviewService.getPendingPaginatedApi(params);
         setPendingAttempts(response.data.results);
         setPaginatedPendingData(response.data);
       } catch (error) {
@@ -66,7 +66,7 @@ export const NoLudicaReviewProvider: React.FC<NoLudicaReviewProviderProps> = ({
         setLoadingPending(false);
       }
     },
-    [handleApiError]
+    [handleApiError],
   );
 
   const getAttemptDetails = useCallback(
@@ -74,9 +74,8 @@ export const NoLudicaReviewProvider: React.FC<NoLudicaReviewProviderProps> = ({
       setCurrentAttempt(null);
       setLoadingAttempt(true);
       try {
-        const response = await NoLudicaReviewService.getAttemptApi(
-          activityCompletedId
-        );
+        const response =
+          await NoLudicaReviewService.getAttemptApi(activityCompletedId);
         setCurrentAttempt(response);
       } catch (error) {
         handleApiError(error, "Error al obtener los detalles del intento");
@@ -84,7 +83,7 @@ export const NoLudicaReviewProvider: React.FC<NoLudicaReviewProviderProps> = ({
         setLoadingAttempt(false);
       }
     },
-    [handleApiError]
+    [handleApiError],
   );
 
   const submitReview = useCallback(
@@ -94,7 +93,7 @@ export const NoLudicaReviewProvider: React.FC<NoLudicaReviewProviderProps> = ({
         await NoLudicaReviewService.submitReviewApi(data);
 
         // Clear storage and show success
-        localStorage.removeItem(ATTEMPT_REVIEW_STORAGE_KEY);
+        removeItem(StorageKeys.attemptReview);
         setStoredAttemptDataState(null);
         setCurrentAttempt(null);
 
@@ -113,21 +112,17 @@ export const NoLudicaReviewProvider: React.FC<NoLudicaReviewProviderProps> = ({
         setSubmitting(false);
       }
     },
-    [handleApiError, showToast, navigate]
+    [handleApiError, showToast, navigate],
   );
 
   // Funciones auxiliares
   const setStoredAttemptData = useCallback((data: AttemptReviewStoredData) => {
-    try {
-      localStorage.setItem(ATTEMPT_REVIEW_STORAGE_KEY, JSON.stringify(data));
-      setStoredAttemptDataState(data);
-    } catch (error) {
-      console.warn("Error saving attempt data to localStorage", error);
-    }
+    setItem(StorageKeys.attemptReview, data);
+    setStoredAttemptDataState(data);
   }, []);
 
   const clearStoredAttemptData = useCallback(() => {
-    localStorage.removeItem(ATTEMPT_REVIEW_STORAGE_KEY);
+    removeItem(StorageKeys.attemptReview);
     setStoredAttemptDataState(null);
   }, []);
 

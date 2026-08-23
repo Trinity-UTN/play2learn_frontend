@@ -27,7 +27,11 @@ const BenefitCreateView: React.FC = (): ReactElement => {
     resetForm,
   } = useBenefitForm();
 
-  const { handleSubmit } = useBenefitSubmit(formData, validateForm, resetForm);
+  const { handleSubmit, loading } = useBenefitSubmit(
+    formData,
+    validateForm,
+    resetForm,
+  );
 
   useEffect(() => {
     getSubjectByTeacher();
@@ -101,6 +105,7 @@ const BenefitCreateView: React.FC = (): ReactElement => {
                   type="submit"
                   variant="secondary"
                   className={styles.submitButton}
+                  disabled={loading}
                 >
                   <FaSave className={styles.buttonIcon} />
                   Crear Beneficio

@@ -14,7 +14,9 @@ export interface ClasificacionContextType {
   categories: ClassificationCategory[];
 
   // Funciones principales
-  registrarDesafioClasificacion: (data: CreateClassification) => Promise<void>;
+  registrarDesafioClasificacion: (
+    data: CreateClassification,
+  ) => Promise<boolean>;
 
   // Handlers principales
   handleConfigSubmit: (newConfig: DesafioClasificacionConfig) => void;
@@ -37,7 +39,7 @@ export interface ClasificacionContextType {
   handleEditConcept: (
     categoryId: string,
     conceptId: string,
-    newName: string
+    newName: string,
   ) => void;
   handleDeleteConcept: (categoryId: string, conceptId: string) => void;
   getAllConcepts: () => string[];

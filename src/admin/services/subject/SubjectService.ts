@@ -57,6 +57,9 @@ const UnassignStudent = async (idSubject: number, idStudent: number[]) => {
   await api.patch(`${urls.UnassignStudent}/${idSubject}`, idStudent);
 };
 
+const restoreSubjectApi = async (id: number): Promise<void> => {
+  await api.patch(`${urls.SubjectRestore}/${id}`);
+};
 export const SubjectService = {
   registerSubjectApi,
   updateSubjectApi,
@@ -69,4 +72,5 @@ export const SubjectService = {
 
   AssingmentStudent,
   UnassignStudent,
+  restoreSubjectApi,
 };

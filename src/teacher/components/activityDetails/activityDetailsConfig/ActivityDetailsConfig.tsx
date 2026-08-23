@@ -16,6 +16,7 @@ const ActivityDetailsConfig = ({ activity }: ActivityDetailsConfigProps) => {
       value: `${activity.maxTime} min`,
       color: "#06b6d4",
       tooltip: "Tiempo máximo para completar la actividad",
+      render: activity.maxTime > 0 ? true : false,
     },
     {
       icon: FaCoins,
@@ -23,6 +24,7 @@ const ActivityDetailsConfig = ({ activity }: ActivityDetailsConfigProps) => {
       value: activity.reward > 0 ? `${activity.reward.toFixed(2)}` : "-",
       color: "#f97316",
       tooltip: "Recompensa al aprobar la actividad",
+      render: true,
     },
     {
       icon: FaRedo,
@@ -30,6 +32,7 @@ const ActivityDetailsConfig = ({ activity }: ActivityDetailsConfigProps) => {
       value: activity.attempts > 0 ? activity.attempts : "Ilimitados",
       color: "#6366f1",
       tooltip: "Número de intentos permitidos por estudiante",
+      render: true,
     },
   ];
 
@@ -37,17 +40,20 @@ const ActivityDetailsConfig = ({ activity }: ActivityDetailsConfigProps) => {
     <Card className={styles.container}>
       <h2 className={styles.title}>Configuración de la Actividad</h2>
       <div className={styles.grid}>
-        {configData.map((item, index) => (
-          <ActivityDetailsStatsCard
-            key={index}
-            index={index}
-            icon={item.icon}
-            label={item.label}
-            value={item.value}
-            color={item.color}
-            tooltip={item.tooltip}
-          />
-        ))}
+        {configData.map(
+          (item, index) =>
+            item.render && (
+              <ActivityDetailsStatsCard
+                key={index}
+                index={index}
+                icon={item.icon}
+                label={item.label}
+                value={item.value}
+                color={item.color}
+                tooltip={item.tooltip}
+              />
+            ),
+        )}
       </div>
     </Card>
   );

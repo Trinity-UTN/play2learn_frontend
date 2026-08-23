@@ -36,7 +36,6 @@ export const useActivityResults = (
 
   const teacherFeedbackMessage = (() => {
     if (!activityResults || !currentActivity) return null;
-
     if (activityResults.comment) {
       return activityResults.comment;
     }
@@ -47,7 +46,7 @@ export const useActivityResults = (
       return ACTIVITY_RESULTS_MESSAGES.TEACHER_PENDING_CORRECTION;
     }
 
-    return ACTIVITY_RESULTS_MESSAGES.TEACHER_NO_COMMENT;
+    return null;
   })();
 
   return {

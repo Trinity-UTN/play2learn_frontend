@@ -79,6 +79,9 @@
   font-size: 0.9rem;
   line-height: 1.5;
   margin: 0;
+  max-height: 6rem;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
 .activityMeta {

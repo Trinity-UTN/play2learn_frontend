@@ -13,7 +13,7 @@ export interface PreguntadosContextType {
   currentQuestionIndex: number;
 
   // Funciones principales
-  registrarPreguntados: (data: PreguntadosInterface) => Promise<void>;
+  registrarPreguntados: (data: PreguntadosInterface) => Promise<boolean>;
 
   // Handlers principales
   handleConfigSubmit: (newConfig: PreguntadosConfig) => void;
@@ -21,7 +21,7 @@ export interface PreguntadosContextType {
   handleBack: () => void;
   handleNext: () => void;
   handleReset: () => void;
-  setQuestions: (data: Question[]) => void
+  setQuestions: (data: Question[]) => void;
 
   // Funciones de utilidad
   getQuestionStatus: (q: Question) => "complete" | "incomplete" | "empty";
@@ -43,7 +43,7 @@ export interface PreguntadosContextType {
   getEmptyQuestions: () => number;
   setQuestionErrors: (
     questionIndex: number,
-    errors: { [field: string]: string }
+    errors: { [field: string]: string },
   ) => void;
   clearQuestionErrors: (questionIndex: number) => void;
   clearAllQuestionErrors: () => void;

@@ -23,6 +23,7 @@ export function mapActivityToUI(
       ? `Vence el ${formatDate(activity.endDate)}`
       : undefined,
     timeLabel: isNotApproved ? `${activity.maxTime} min` : undefined,
+    maxTime: isNotApproved ? activity.maxTime : undefined,
     rewardLabel: isNotApproved
       ? activity.minReward
         ? `${activity.minReward} - ${activity.maxReward} monedas`

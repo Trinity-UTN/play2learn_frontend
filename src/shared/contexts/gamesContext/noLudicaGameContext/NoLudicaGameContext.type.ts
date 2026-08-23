@@ -1,3 +1,4 @@
+import type { ChangeEvent } from "react";
 import type { NoLudicaConfig } from "../../../../activity/types/NoLudica.type";
 // import type { GameHook } from "../../../types/Games.type";
 
@@ -20,5 +21,8 @@ export interface NoLudicaGameContextType {
   // Funciones del juego
   setStudentResponse: (data: string) => void;
   setSelectedFile: (data: File | null) => void;
+  handleFileSelect: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleRemoveFile: () => void;
+  validateNoLudicaSubmission: () => boolean;
   handleFinishNoLudica: () => void;
 }

@@ -29,7 +29,7 @@ const CreateNoLudica = () => {
   }, [currentStep]);
 
   return (
-    <>
+    <div className={styles.page}>
       <ActivityStepHeader
         icon={<FaFileAlt />}
         title="Crear Actividad: No Lúdica"
@@ -39,7 +39,11 @@ const CreateNoLudica = () => {
         itemVariants={itemVariants}
       />
 
-      <div className={styles.content}>
+      <div
+        className={`${styles.content} ${
+          currentStep === "config" ? styles.contentFill : ""
+        }`}
+      >
         {currentStep === "config" && <GeneralConfiguration />}
         {currentStep === "preview" && <NoLudicaPreview />}
       </div>
@@ -56,7 +60,7 @@ const CreateNoLudica = () => {
         submitButtonText="Crear Actividad"
         itemVariants={itemVariants}
       />
-    </>
+    </div>
   );
 };
 

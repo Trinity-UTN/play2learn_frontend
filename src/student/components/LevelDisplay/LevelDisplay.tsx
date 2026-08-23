@@ -15,8 +15,8 @@ const LevelDisplay: React.FC<LevelDisplayProps> = ({
   xpToNextLevel,
   compact = false,
 }) => {
-  const progress = (xp / xpToNextLevel) * 100;
-
+  const totalXpLevel = xp + xpToNextLevel;
+  const progress = (xp / totalXpLevel) * 100;
   return (
     <motion.div
       className={`${styles.levelDisplay} ${compact ? styles.compact : ""}`}
@@ -32,9 +32,7 @@ const LevelDisplay: React.FC<LevelDisplayProps> = ({
       <div className={styles.levelInfo}>
         <div className={styles.levelHeader}>
           <span className={styles.levelLabel}>Nivel {level}</span>
-          <span className={styles.xpText}>
-            {xp.toLocaleString()} / {xpToNextLevel.toLocaleString()} XP
-          </span>
+          <span className={styles.xpText}>{xp.toLocaleString()} XP</span>
         </div>
 
         <div className={styles.progressBar}>
@@ -54,7 +52,7 @@ const LevelDisplay: React.FC<LevelDisplayProps> = ({
           <div className={styles.nextLevelInfo}>
             <FaStar className={styles.starIcon} />
             <span>
-              {(xpToNextLevel - xp).toLocaleString()} XP para nivel {level + 1}
+              {xpToNextLevel.toLocaleString()} XP para nivel {level + 1}
             </span>
           </div>
         )}

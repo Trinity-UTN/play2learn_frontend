@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
-import { FaFilter, FaBook, FaSignal } from "react-icons/fa";
-import { type FilterOption, Button, Card } from "@/shared";
+import { FaFilter, FaBook, FaSignal, FaGamepad } from "react-icons/fa";
+import {
+  type FilterOption,
+  Button,
+  Card,
+  ACTIVITY_NAME_FILTER_OPTIONS,
+  ACTIVITY_NAME_ALL,
+} from "@/shared";
 import {
   ACTIVITY_STATUS_FILTERS,
   ACTIVITY_DIFFICULTY_OPTIONS,
@@ -12,20 +18,24 @@ interface ActivityFiltersProps {
   activeFilter: ActivityStatus;
   selectedSubject: FilterOption | null;
   selectedDifficulty: string;
+  selectedActivityName: string;
   subjects: FilterOption[];
   onFilterChange: (filter: ActivityStatus) => void;
   onSubjectChange: (subject: FilterOption | null) => void;
   onDifficultyChange: (difficulty: string) => void;
+  onActivityNameChange: (name: string) => void;
 }
 
 const ActivityFilters: React.FC<ActivityFiltersProps> = ({
   activeFilter,
   selectedSubject,
   selectedDifficulty,
+  selectedActivityName,
   subjects,
   onFilterChange,
   onSubjectChange,
   onDifficultyChange,
+  onActivityNameChange,
 }) => {
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -75,6 +85,24 @@ const ActivityFilters: React.FC<ActivityFiltersProps> = ({
         <div className={styles.selectFilters}>
           <div className={styles.selectGroup}>
             <div className={styles.selectLabel}>
+              <FaGamepad className={styles.selectIcon} />
+              Tipo de actividad
+            </div>
+            <select
+              value={selectedActivityName || ACTIVITY_NAME_ALL}
+              onChange={(e) => onActivityNameChange(e.target.value)}
+              className={styles.select}
+            >
+              {ACTIVITY_NAME_FILTER_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.selectGroup}>
+            <div className={styles.selectLabel}>
               <FaBook className={styles.selectIcon} />
               Materia
             </div>
@@ -110,7 +138,7 @@ const ActivityFilters: React.FC<ActivityFiltersProps> = ({
                   <option key={difficulty} value={difficulty}>
                     {difficulty}
                   </option>
-                )
+                ),
               )}
             </select>
           </div>

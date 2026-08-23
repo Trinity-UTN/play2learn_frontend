@@ -9,7 +9,7 @@ export interface CreateStudentPayload {
   email: string;
   course_id: number;
   emailTutor: string;
-  birthdate: string;
+  birthDate: string;
 }
 
 export interface UpdateStudentPayload {
@@ -20,7 +20,7 @@ export interface UpdateStudentPayload {
   email: string;
   course_id: number;
   emailTutor: string;
-  birthdate: string;
+  birthDate: string;
 }
 
 // Despues ver si esta interface es comun en otros response y sacarla de aca
@@ -58,7 +58,8 @@ export interface StudentResponseDto {
   name: string;
   lastname: string;
   dni: string;
-  birthdate: string;
+  birthDate: string;
+  age: number;
   emailTutor: string;
   user: UserResponseDto;
   course: CourseResponseDto;

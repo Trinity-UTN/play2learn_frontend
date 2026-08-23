@@ -3,6 +3,7 @@ import type { BodyPart } from "@/admin";
 export interface Position {
   position: number;
   name: string;
+  experienceLevel: number;
   quantity: number;
   selectedBody: BodyPart | null;
   selectedShirt: BodyPart | null;
@@ -12,7 +13,7 @@ export interface Position {
 export interface RankingResponseApi {
   currentUserPosition: Position;
   participants: Position[];
-
+  totalParticipants: number;
 }
 
 export type RankingType =

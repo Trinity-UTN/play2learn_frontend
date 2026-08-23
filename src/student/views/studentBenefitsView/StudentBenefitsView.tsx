@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import BenefitStudentHeader from "../../components/studentBenefits/benefitStudentHeader/BenefitStudentHeader";
-import BenefitStudentStats from "../../components/studentBenefits/benefitStudentStats/BenefitStudentStats";
 import BenefitStudentFilters from "../../components/studentBenefits/benefitStudentFilters/BenefitStudentFilters";
 import BenefitStudentList from "../../components/studentBenefits/benefitStudentList/BenefitStudentList";
 import { useBenefitStudentData } from "../../hooks/benefits/benefitList/useBenefitStudentData";
 import styles from "./StudentBenefitsView.module.css";
+import { LoadingSpinnerComponent } from "@/shared";
 
 const StudentBenefitsView: React.FC = () => {
   const {
@@ -17,7 +17,7 @@ const StudentBenefitsView: React.FC = () => {
     setSelectedCategory,
     filteredBenefits,
     subjects,
-    stats,
+
     paginationInfo,
     loading,
   } = useBenefitStudentData();
@@ -46,28 +46,38 @@ const StudentBenefitsView: React.FC = () => {
       animate="visible"
       className={styles.benefitsView}
     >
-      <BenefitStudentHeader />
-      {/* <BenefitStudentStats stats={stats} /> */}
-      <BenefitStudentFilters
-        activeFilter={activeFilter}
-        selectedSubject={selectedSubject}
-        selectedCategory={selectedCategory}
-        subjects={subjects}
-        viewMode={viewMode}
-        onFilterChange={setActiveFilter}
-        onSubjectChange={setSelectedSubject}
-        onCategoryChange={setSelectedCategory}
-        onViewModeChange={setViewMode}
-      />
-      <motion.div variants={itemVariants} className={styles.benefitsSection}>
-        <BenefitStudentList
-          benefits={filteredBenefits}
-          paginationInfo={paginationInfo!}
-          loading={loading}
-          viewMode={viewMode}
-          onFilterChange={setActiveFilter}
-        />
-      </motion.div>
+      {loading ? (
+        <div className={styles.loadingContainer}>
+          <LoadingSpinnerComponent />
+        </div>
+      ) : (
+        <>
+          <BenefitStudentHeader />
+          <BenefitStudentFilters
+            activeFilter={activeFilter}
+            selectedSubject={selectedSubject}
+            selectedCategory={selectedCategory}
+            subjects={subjects}
+            viewMode={viewMode}
+            onFilterChange={setActiveFilter}
+            onSubjectChange={setSelectedSubject}
+            onCategoryChange={setSelectedCategory}
+            onViewModeChange={setViewMode}
+          />
+          <motion.div
+            variants={itemVariants}
+            className={styles.benefitsSection}
+          >
+            <BenefitStudentList
+              benefits={filteredBenefits}
+              paginationInfo={paginationInfo!}
+              loading={loading}
+              viewMode={viewMode}
+              onFilterChange={setActiveFilter}
+            />
+          </motion.div>
+        </>
+      )}
     </motion.div>
   );
 };

@@ -22,7 +22,7 @@ export const ACTIVITY_TEACHER_STATUS_FILTERS = [
   },
   {
     key: ACTIVITY_TEACHER_STATUS.PUBLISHED,
-    label: "Disponibles",
+    label: "Publicadas",
     icon: FaStar,
   },
   {

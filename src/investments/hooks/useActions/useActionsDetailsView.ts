@@ -25,10 +25,20 @@ export const useActionsDetailsView = () => {
   const userBalance = wallet?.balance || 0;
   const [range, setRange] = useState<RangeValue>("HISTORICO");
 
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
+  const [loadError, setLoadError] = useState<boolean>(false);
+
   useEffect(() => {
-    if (id) {
-      getActionById(Number(id));
+    if (!id) {
+      setInitialLoading(false);
+      setLoadError(true);
+      return;
     }
+    setInitialLoading(true);
+    setLoadError(false);
+    getActionById(Number(id))
+      .catch(() => setLoadError(true))
+      .finally(() => setInitialLoading(false));
   }, [id]);
 
   useEffect(() => {
@@ -62,6 +72,8 @@ export const useActionsDetailsView = () => {
   return {
     candleStickValues,
     loading,
+    initialLoading,
+    loadError,
     userBalance,
     action,
     range,

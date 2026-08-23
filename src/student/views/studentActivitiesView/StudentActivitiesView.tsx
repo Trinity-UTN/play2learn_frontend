@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import ActivityHeader from "../../components/studentActivitiesViewComponents/activityHeader/ActivityHeader";
-import ActivityStats from "../../components/studentActivitiesViewComponents/activityStats/ActivityStats";
 import ActivityFilters from "../../components/studentActivitiesViewComponents/activityFilters/ActivityFilters";
 import ActivityGrid from "../../components/studentActivitiesViewComponents/activityGrid/ActivityGrid";
 import { useActivityData } from "../../hooks/activities/activityList/useActivityData";
 import styles from "./StudentActivitiesView.module.css";
+import { LoadingSpinnerComponent } from "@/shared";
 
 const StudentActivitiesView: React.FC = () => {
   const {
@@ -14,10 +14,10 @@ const StudentActivitiesView: React.FC = () => {
     setSelectedSubject,
     selectedDifficulty,
     setSelectedDifficulty,
+    selectedActivityName,
+    setSelectedActivityName,
     filteredActivities,
     subjects,
-    stats,
-    paginationInfo,
     loading,
   } = useActivityData();
 
@@ -30,7 +30,13 @@ const StudentActivitiesView: React.FC = () => {
       },
     },
   };
-
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <LoadingSpinnerComponent />
+      </div>
+    );
+  }
   return (
     <motion.div
       variants={containerVariants}
@@ -44,16 +50,14 @@ const StudentActivitiesView: React.FC = () => {
         activeFilter={activeFilter}
         selectedSubject={selectedSubject}
         selectedDifficulty={selectedDifficulty}
+        selectedActivityName={selectedActivityName}
         onFilterChange={setActiveFilter}
         onSubjectChange={setSelectedSubject}
         onDifficultyChange={setSelectedDifficulty}
+        onActivityNameChange={setSelectedActivityName}
         subjects={subjects}
       />
-      <ActivityGrid
-        activities={filteredActivities}
-        paginationInfo={paginationInfo!}
-        loading={loading}
-      />
+      <ActivityGrid activities={filteredActivities} loading={loading} />
     </motion.div>
   );
 };

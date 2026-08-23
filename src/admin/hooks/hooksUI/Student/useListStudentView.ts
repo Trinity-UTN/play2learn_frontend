@@ -1,8 +1,9 @@
 import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStudent, type StudentResponseDto } from "@/admin";
-import { useConfirmation, usePaginationParams, useToaster } from "@/shared";
+import { useConfirmation, usePaginationParams } from "@/shared";
 import { usePassword } from "@/user";
+import { useYearCourseSelector } from "./useYearCourseSelector";
 
 export const useListStudentView = () => {
   const {
@@ -20,12 +21,39 @@ export const useListStudentView = () => {
     handleSort,
     handlePageChange,
     handlePageSizeChange,
+    handleFilter,
   } = usePaginationParams();
 
+  const {
+    year,
+    onYearChange,
+    courseId,
+    onCourseChange,
+    filteredCourses,
+    years,
+    subjectId,
+    onSubjectChange,
+    filteredSubjects,
+  } = useYearCourseSelector();
+
   const { showConfirmation } = useConfirmation();
-  const { showToast } = useToaster();
   const { restorePassword } = usePassword();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const keys: string[] = [];
+    const values: string[] = [];
+
+    if (courseId) {
+      keys.push("courseId");
+      values.push(courseId);
+    }
+    if (subjectId) {
+      keys.push("subjectId");
+      values.push(subjectId);
+    }
+    handleFilter(keys, values);
+  }, [courseId, subjectId]);
 
   // ============================
   //   LOAD PAGINATED STUDENTS
@@ -52,7 +80,7 @@ export const useListStudentView = () => {
         },
       });
     },
-    [navigate]
+    [navigate],
   );
 
   // ============================
@@ -68,16 +96,10 @@ export const useListStudentView = () => {
         onConfirm: async () => {
           await deleteStudent(student.id);
           await getPaginatedStudent(paginationParams);
-          showToast({
-            title: "Estudiante eliminado exitosamente",
-            message: "El estudiante ha sido eliminado exitosamente",
-            type: "success",
-            position: "bottom-right",
-          });
         },
       });
     },
-    [paginationParams]
+    [paginationParams],
   );
 
   // ============================
@@ -92,16 +114,10 @@ export const useListStudentView = () => {
         onConfirm: async () => {
           await restoreStudent(student.id);
           await getPaginatedStudent(paginationParams);
-          showToast({
-            title: "Estudiante restaurado exitosamente",
-            message: "El estudiante ha sido restaurado exitosamente",
-            type: "success",
-            position: "bottom-right",
-          });
         },
       });
     },
-    [paginationParams]
+    [paginationParams],
   );
 
   // ============================
@@ -135,5 +151,15 @@ export const useListStudentView = () => {
     handleRestore,
     handleRestorePassword,
     navigate,
+
+    year,
+    onYearChange,
+    courseId,
+    onCourseChange,
+    filteredCourses,
+    years,
+    subjectId,
+    onSubjectChange,
+    filteredSubjects,
   };
 };

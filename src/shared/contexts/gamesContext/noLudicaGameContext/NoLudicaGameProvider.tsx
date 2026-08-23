@@ -1,10 +1,11 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type ChangeEvent, type ReactNode } from "react";
 import { NoLudicaGameContext } from "./NoLudicaGameContext";
 import type { NoLudicaGameContextType } from "./NoLudicaGameContext.type";
 import type { NoLudicaConfig } from "../../../../activity/types/NoLudica.type";
 import { useActivityStudent } from "../../../../student/hooks/useActivityStudentAPI";
 import { useCreateNoLudica } from "../../../../activity/hooks/useCreateNoLudica";
 import { getGameTypeFromActivityName } from "@/shared";
+import { useToaster } from "../../../hooks/useToaster";
 import { GameType } from "../../../types/Games.type";
 import { compressPDF } from "../../../utils/compressPDF";
 import { NO_LUDICA_EMPTY_TEXT_RESPONSE } from "@shared/constants/games.constants";
@@ -22,6 +23,7 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
   const { config } = useCreateNoLudica();
   const { currentActivity, registerActivityNoLudicaCompleted } =
     useActivityStudent();
+  const { showToast } = useToaster();
   const [gameStarted, setGameStarted] = useState(false);
   const [studentResponse, setStudentResponse] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -58,6 +60,31 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
     setGameStarted(false);
   };
 
+  const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+  };
+
+  const validateNoLudicaSubmission = (): boolean => {
+    if (!studentResponse.trim() && !selectedFile) {
+      showToast({
+        title: "Entrega vacía",
+        message:
+          "Debes escribir una respuesta o adjuntar un archivo PDF para finalizar el intento.",
+        type: "warning",
+        position: "bottom-right",
+      });
+      return false;
+    }
+    return true;
+  };
+
   const buildFormData = async (): Promise<FormData> => {
     const formData = new FormData();
     if (currentActivity)
@@ -88,6 +115,9 @@ export const NoLudicaGameProvider: React.FC<NoLudicaGameProviderProps> = ({
     gameConfig,
     gameStarted,
     handleFinishNoLudica,
+    handleFileSelect,
+    handleRemoveFile,
+    validateNoLudicaSubmission,
     selectedFile,
     setSelectedFile,
     setStudentResponse,

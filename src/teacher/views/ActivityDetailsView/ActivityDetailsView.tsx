@@ -6,6 +6,7 @@ import ActivityDetailsTable from "../../components/activityDetails/ActivityDetai
 import { useActivityDetailsTeacherData } from "../../hooks/activities/activityDetails/useActivityDetailsTeacherData";
 import { useActivityDetailsTeacherActions } from "../../hooks/activities/activityDetails/useActivityDetailsTeacherActions";
 import styles from "./ActivityDetailsView.module.css";
+import { LoadingSpinnerComponent } from "@/shared";
 
 const ActivityDetailsView = () => {
   const { activityId } = useParams<{ activityId: string }>();
@@ -16,10 +17,8 @@ const ActivityDetailsView = () => {
 
   if (loading || !activityId) {
     return (
-      <div className={styles.container}>
-        <div className={styles.loadingState}>
-          <p>Cargando actividad...</p>
-        </div>
+      <div className={styles.loadingContainer}>
+        <LoadingSpinnerComponent />
       </div>
     );
   }
@@ -36,7 +35,6 @@ const ActivityDetailsView = () => {
       </div>
     );
   }
-
   return (
     <div className={styles.container}>
       <div className={styles.section}>

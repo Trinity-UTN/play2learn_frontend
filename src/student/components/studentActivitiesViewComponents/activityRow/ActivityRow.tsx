@@ -43,22 +43,22 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
     activity.status === "EXPIRED" && activity.remainingAttempts > 0;
   const badgeText =
     activity.noAttempts &&
-      !(activity.status === "APPROVED" || activity.status === "PENDING")
+    !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? "Desaprobada"
       : statusConfig.label;
   const BadgeIcon =
     activity.noAttempts &&
-      !(activity.status === "APPROVED" || activity.status === "PENDING")
+    !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? FaTimesCircle
       : statusConfig.icon;
   const ButtonIcon =
     activity.noAttempts &&
-      !(activity.status === "APPROVED" || activity.status === "PENDING")
+    !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? FaPlay
       : statusConfig.buttonIcon;
   const buttonText =
     activity.noAttempts &&
-      !(activity.status === "APPROVED" || activity.status === "PENDING")
+    !(activity.status === "APPROVED" || activity.status === "PENDING")
       ? "Ver Resultados"
       : statusConfig.buttonText;
   const subjectColor = getSubjectColor(activity.subjectName);
@@ -125,11 +125,11 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
                   {activity.subjectName}
                 </Badge>
                 <Badge
-                  className={`${styles[activity.difficulty]} ${styles.infoTextDifficultyInfo
-                    }`}
+                  className={`${styles[activity.difficulty]} ${
+                    styles.infoTextDifficultyInfo
+                  }`}
                 >
                   {activity.difficulty}
-
                 </Badge>
               </div>
               {activity.rewardLabel && (
@@ -154,7 +154,11 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
 
             <div className={styles.infoItem}>
               <FaStopwatch className={styles.metaIcon} />
-              <span className={styles.infoText}>{activity.timeLabel}</span>
+              <span className={styles.infoText}>
+                {activity.maxTime && activity.maxTime > 0
+                  ? activity.timeLabel
+                  : "Sin limite de tiempo"}
+              </span>
             </div>
 
             <div className={styles.infoItem}>
@@ -185,19 +189,17 @@ const ActivityRow: React.FC<ActivityRowProps> = ({
             </Button>
           )}
 
-          <Button
-            variant={
-              activity.status === "EXPIRED" && activity.remainingAttempts > 0
-                ? "ghost"
-                : "primary"
-            }
-            className={styles.actionButton}
-            disabled={isDisabled}
-            onClick={handleActionButton}
-          >
-            <ButtonIcon className={styles.buttonIcon} />
-            {buttonText}
-          </Button>
+          {activity.status !== "EXPIRED" && (
+            <Button
+              variant="primary"
+              className={styles.actionButton}
+              disabled={isDisabled}
+              onClick={handleActionButton}
+            >
+              <ButtonIcon className={styles.buttonIcon} />
+              {buttonText}
+            </Button>
+          )}
         </div>
       </div>
 

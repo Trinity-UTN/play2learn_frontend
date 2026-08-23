@@ -1,8 +1,10 @@
 @import "../../../shared/styles/colors.css";
 
 .container {
-  min-height: 100vh;
+  position: relative;
+  height: 100vh;
   padding: 2rem;
+  overflow-y: auto;
 }
 
 .content {

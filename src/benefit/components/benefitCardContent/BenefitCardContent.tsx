@@ -22,6 +22,8 @@ import { getPurchaseStateConfig } from "../../utils/benefitCard.utils";
 import type { BenefitVariant } from "../../types/benefit.types";
 import { useBenefitCardData } from "../../hooks/useBenefitCardData";
 import styles from "./BenefitCardContent.module.css";
+import { type BenefitPurchaseStatus } from "@/benefit/constants/benefitPurchase.constants";
+import { BENEFIT_TEACHER_END_DATE_LABELS } from "@/benefit/constants/benefit.constants";
 
 type BenefitCardContentProps = {
   benefit:
@@ -61,12 +63,14 @@ const BenefitCardContent = ({
     usedAt,
     studentName,
     purchaseState,
-    purchaseId,
+    purchaseNumber,
   } = useBenefitCardData({ benefit, variant, isPreview, isPurchase });
 
   // CASO 1: isPurchaseCard - Mostrar estudiante y estado de compra
   if (isPurchaseCard) {
-    const stateConfig = getPurchaseStateConfig(purchaseState);
+    const stateConfig = getPurchaseStateConfig(
+      purchaseState as BenefitPurchaseStatus,
+    );
 
     return (
       <div className={styles.contentContainer}>
@@ -86,7 +90,7 @@ const BenefitCardContent = ({
                 customColor={{ bg: "#f3f4f6", text: "#6b7280" }}
               >
                 <FaHashtag className={styles.badgeIcon} />
-                Canje Nº{purchaseId}
+                Canje Nº{purchaseNumber}
               </Badge>
               <Badge variant="custom" size="sm" customColor={stateConfig.color}>
                 {stateConfig.label}
@@ -202,7 +206,7 @@ const BenefitCardContent = ({
             )}
             {!category && isPreview && categoryColor && (
               <Badge variant="custom" size="sm" customColor={categoryColor}>
-                Categoría
+                Categoría {category}
               </Badge>
             )}
             {subjectName && subjectColor && (
@@ -219,11 +223,16 @@ const BenefitCardContent = ({
       </p>
 
       {hasEndDate && "endAt" in benefit && benefit.endAt && (
-        <div className={styles.endDateSection}>
+        <div
+          className={`${styles.endDateSection} ${purchaseState ? styles[purchaseState] : ""}`}
+        >
           <FaCalendarAlt className={styles.endDateIcon} />
-          <span className={styles.endDateText}>
-            Finaliza: <strong>{formatBenefitDate(benefit.endAt)}</strong>
-          </span>
+          {purchaseState && (
+            <span className={styles.endDateText}>
+              {BENEFIT_TEACHER_END_DATE_LABELS[purchaseState]}:{" "}
+              <strong>{formatBenefitDate(benefit.endAt)}</strong>
+            </span>
+          )}
         </div>
       )}
 
@@ -257,7 +266,7 @@ const BenefitCardContent = ({
             <span className={styles[`limitPerStudentValue${styleSuffix}`]}>
               {formatPurchaseLimitPerStudentText(
                 purchaseLimitPerStudent,
-                variant
+                variant,
               )}
             </span>
           </div>

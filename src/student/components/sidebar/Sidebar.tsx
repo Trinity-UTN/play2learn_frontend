@@ -1,23 +1,21 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
 import {
-  FaHome,
   FaWallet,
   FaGamepad,
   FaGift,
   FaStore,
   FaTrophy,
-  FaSignOutAlt,
   FaStar,
 } from "react-icons/fa";
 import type { StudentDashboardView } from "../../types/generalType";
-import { formatPrice, Sidebar } from "@/shared";
+import { Sidebar } from "@/shared";
 import Avatar from "../common/Avatar/AvatarComponent";
 import { StudentRoutes } from "../../routes/routes";
-import { useActivityStudent } from "../../hooks/useActivityStudentAPI";
 import { useCurrentStudent } from "../../hooks/useCurrentStudent";
-import { useBenefitStudent } from "../../hooks/useBenefitStudent";
 import styles from "./Sidebar.module.css";
+import { formatPriceWithNoDecimals } from "@/shared/utils/formatPrice";
+import { useEffect } from "react";
 
 interface StudentSidebarProps {
   currentView: StudentDashboardView;
@@ -33,33 +31,29 @@ interface MenuItem {
 }
 
 const StudentSidebar: React.FC<StudentSidebarProps> = ({
-  currentView,
   isLoading = false,
 }) => {
+  const { wallet, currentStudent, getStatisticsStudent, statistics } =
+    useCurrentStudent();
 
-  const { wallet, currentStudent } = useCurrentStudent();
-  const { activityStudentStats } = useActivityStudent();
-  const { benefitStats } = useBenefitStudent();
   const navigate = useNavigate();
+  const location = useLocation();
 
-
-  const availableActivityCount = activityStudentStats?.available ?? 0;
-  const availableBenefitCount = benefitStats?.available ?? 0;
+  const isActive = (path: string) => {
+    return location.pathname === `/dashboard/${path}`;
+  };
+  const availableActivityCount = statistics?.totalActivitiesAvailable ?? 0;
+  const availableBenefitCount = statistics?.totalBenefitsAvailable ?? 0;
 
   const menuItems: MenuItem[] = [
-    {
-      title: "Panel Principal",
-      icon: FaHome,
-      path: StudentRoutes.Overview,
-      color: "#3B82F6",
-      badge: "",
-    },
     {
       title: "Mi Billetera",
       icon: FaWallet,
       path: StudentRoutes.Wallet,
       color: "#10B981",
-      badge: isLoading ? "..." : (formatPrice(wallet?.totalBalance) ?? "0"),
+      badge: isLoading
+        ? "..."
+        : (formatPriceWithNoDecimals(wallet?.totalBalance) ?? "0"),
     },
     {
       title: "Mis Actividades",
@@ -80,17 +74,17 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
       icon: FaGift,
       path: StudentRoutes.Investments,
       color: "#4df50b9c",
-      badge: "¡Nuevo!",
+      badge: "",
     },
     {
       title: "Tienda",
       icon: FaStore,
       path: StudentRoutes.Store,
       color: "#EF4444",
-      badge: "¡Nuevo!",
+      badge: "",
     },
     {
-      title: "Ranking",
+      title: "Rankings",
       icon: FaTrophy,
       path: StudentRoutes.Ranking,
       color: "#F97316",
@@ -105,17 +99,18 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
 
   const onViewChange = (path: string) => {
     navigate(`/dashboard/${path}`);
-
   };
 
   const handleProfileClick = () => {
     navigate(`/dashboard/${StudentRoutes.Profile}`);
   };
 
+  useEffect(() => {
+    getStatisticsStudent();
+  }, []);
   return (
     <Sidebar isLoading={isLoading} handleNavegacion={handleProfileClick}>
       <motion.div variants={itemVariants} className={styles.header}>
-
         <div className={styles.profile}>
           {isLoading ? (
             <div className={styles.avatarSkeleton}></div>
@@ -157,8 +152,13 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
         {isLoading ? (
           <div className={styles.buttonSkeleton}></div>
         ) : (
-          <button className={styles.buttonPerfil} onClick={handleProfileClick}>
-            Ver Perfil
+          <button
+            className={`${styles.buttonPerfil} ${
+              isActive(StudentRoutes.Profile) ? styles.active : ""
+            }`}
+            onClick={handleProfileClick}
+          >
+            Panel Principal
           </button>
         )}
       </motion.div>
@@ -185,8 +185,9 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
                   </div>
                 ) : (
                   <button
-                    className={`${styles.menuItem} ${currentView === item.path ? styles.active : ""
-                      }`}
+                    className={`${styles.menuItem} ${
+                      isActive(item.path) ? styles.active : ""
+                    }`}
                     onClick={() => onViewChange(item.path)}
                     style={
                       { "--item-color": item.color } as React.CSSProperties
@@ -207,11 +208,8 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({
           </ul>
         </motion.div>
       </div>
-
-
     </Sidebar>
-
-  )
+  );
 };
 
 export default StudentSidebar;

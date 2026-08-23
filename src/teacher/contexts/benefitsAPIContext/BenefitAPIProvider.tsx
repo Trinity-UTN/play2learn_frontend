@@ -10,13 +10,18 @@ import type {
   TeacherBenefitType,
 } from "../../../benefit/types/benefit.types";
 import type { GetPaginated, PaginatedData } from "@/shared";
-import { usePaginationParams, useHandleApiError } from "@/shared";
+import {
+  usePaginationParams,
+  useHandleApiError,
+  StorageKeys,
+  getItem,
+  removeItem,
+  setItem,
+} from "@/shared";
 
 interface BenefitProviderProps {
   children: ReactNode;
 }
-
-const SELECTED_BENEFIT_KEY = "teacher_selected_benefit";
 
 export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   children,
@@ -28,15 +33,9 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [benefits, setBenefits] = useState<BenefitResponseInterface[]>([]);
   const [selectedBenefit, setSelectedBenefit] =
-    useState<TeacherBenefitType | null>(() => {
-      try {
-        const stored = localStorage.getItem(SELECTED_BENEFIT_KEY);
-        return stored ? JSON.parse(stored) : null;
-      } catch (error) {
-        console.warn("Error al leer selectedBenefit de localStorage", error);
-        return null;
-      }
-    });
+    useState<TeacherBenefitType | null>(() =>
+      getItem<TeacherBenefitType>(StorageKeys.selectedBenefit, "session"),
+    );
   const [benefitPurchases, setBenefitPurchases] = useState<
     BenefitPurchaseSimpleResponse[]
   >([]);
@@ -49,19 +48,9 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
 
   useEffect(() => {
     if (selectedBenefit === null) {
-      localStorage.removeItem(SELECTED_BENEFIT_KEY);
+      removeItem(StorageKeys.selectedBenefit, "session");
     } else {
-      try {
-        localStorage.setItem(
-          SELECTED_BENEFIT_KEY,
-          JSON.stringify(selectedBenefit)
-        );
-      } catch (error) {
-        console.warn(
-          "No se pudo guardar selectedBenefit en localStorage",
-          error
-        );
-      }
+      setItem(StorageKeys.selectedBenefit, selectedBenefit, "session");
     }
   }, [selectedBenefit]);
 
@@ -82,9 +71,8 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     async (benefitId: number): Promise<BenefitPurchaseSimpleResponse[]> => {
       setLoading(true);
       try {
-        const response = await BenefitTeacherService.getBenefitPurchasesApi(
-          benefitId
-        );
+        const response =
+          await BenefitTeacherService.getBenefitPurchasesApi(benefitId);
         setBenefitPurchases(response.data.data);
         return response.data.data;
       } catch (error) {
@@ -94,16 +82,15 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const getPaginatedBenefits = useCallback(
     async (params: GetPaginated): Promise<void> => {
       setLoading(true);
       try {
-        const response = await BenefitTeacherService.getPaginatedBenefitsApi(
-          params
-        );
+        const response =
+          await BenefitTeacherService.getPaginatedBenefitsApi(params);
         setPaginatedBenefits(response.data);
       } catch (error) {
         handleApiError(error, "Error al obtener los beneficios paginados");
@@ -111,7 +98,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const getPaginatedBenefitsUseRequested = useCallback(
@@ -120,7 +107,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
       try {
         const response =
           await BenefitTeacherService.getPaginatedBenefitsUseRequestedApi(
-            params
+            params,
           );
         setPaginatedBenefitsUseRequested(response.data);
       } catch (error) {
@@ -129,7 +116,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const getPaginatedBenefitsPurchases = useCallback(
@@ -139,7 +126,7 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
         const response =
           await BenefitTeacherService.getPaginatedBenefitPurchasesApi(
             benefitId,
-            params
+            params,
           );
         setPaginatedBenefitsPurchases(response.data);
       } catch (error) {
@@ -148,11 +135,11 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const registerBenefit = async (
-    data: CreateBenefitInterface
+    data: CreateBenefitInterface,
   ): Promise<void> => {
     setLoading(true);
     try {
@@ -186,8 +173,11 @@ export const BenefitAPIProvider: React.FC<BenefitProviderProps> = ({
     }
   };
 
-  const refreshBenefitsAfterDeletion = async () => {
-    await getPaginatedBenefits(paginationParams);
+  const refreshBenefitsAfterDeletion = async (status?: string[]) => {
+    const params = status
+      ? { ...paginationParams, filters: ["state"], filtersValues: status }
+      : paginationParams;
+    await getPaginatedBenefits(params);
   };
 
   const refreshBenefitsAfterAcceptance = async () => {

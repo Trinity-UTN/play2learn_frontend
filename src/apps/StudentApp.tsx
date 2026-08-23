@@ -37,7 +37,6 @@ import StudentActivityResultsView from "../student/views/studentActivityResultsV
 import StudentCompletedActivityView from "../student/views/studentCompletedActivityView/StudentCompletedActivityView";
 import StudentPlayActivityView from "../student/views/studentPlayActivityView/StudentPlayActivityView";
 import StudentBenefitsView from "../student/views/studentBenefitsView/StudentBenefitsView";
-import StudentOverviewView from "../student/views/studentOverviewView/StudentOverviewView";
 import StudentProfileAvatarView from "../student/views/studentProfileAvatarView/StudentProfileAvatarView";
 import StudentProfileView from "../student/views/studentProfileView/StudentProfileView";
 import StudentStoreView from "../student/views/studentStoreView/StudentStoreView";
@@ -135,13 +134,13 @@ const StudentApp = () => {
               </ProtectedRoute>
             }
           >
+            <Route index element={<Navigate to="profile" replace />} />
+
             <Route path="profile" element={<StudentProfileView />} />
             <Route
               path="profile/avatar"
               element={<StudentProfileAvatarView />}
             />
-            <Route index element={<Navigate to="overview" replace />} />
-            <Route path="overview" element={<StudentOverviewView />} />
             {/*WALLET */}
             <Route path="wallet" element={<StudentWalletView />} />
             {/* ACTIVIDADES */}

@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { UserContext } from "./UserContext";
 import type { UserContextType } from "./UserContext.type";
-import {
-  LoginService,
-} from "../../services/login/LoginService";
+import { LoginService } from "../../services/login/LoginService";
 import type { LoginPayload } from "../../services/login/LoginService";
 import { roleLandingRoutes } from "../../services/roleLandingRoutes";
 import type { StudentResponseDto } from "@/admin";
-import { useHandleApiError, type Role } from "@/shared";
+import { useHandleApiError, clearAppStorage, type Role } from "@/shared";
 import { decodeToken, type CustomJwtPayload } from "@/user/utils/jwt-helper";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export interface AuthState {
   user: CustomJwtPayload | null;
@@ -24,7 +22,7 @@ interface UserProviderProps {
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const { handleApiError } = useHandleApiError();
   const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [user, setUser] = useState<CustomJwtPayload | null>(null);
   const [studentData, setStudentData] = useState<
@@ -34,10 +32,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const logout = useCallback(() => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
+    clearAppStorage();
     setUser(null);
-    setIsAuthenticated(false)
+    setIsAuthenticated(false);
   }, []);
-
 
   // Verificar autenticación al montar el componente
   useEffect(() => {
@@ -47,10 +45,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       // Validar expiración (exp está en segundos)
       if (decoded && decoded.exp * 1000 > Date.now()) {
         setUser(decoded);
-        setIsAuthenticated(true)
+        setIsAuthenticated(true);
       } else {
         logout();
-        setIsAuthenticated(false)
+        setIsAuthenticated(false);
       }
     }
     setLoading(false);
@@ -62,7 +60,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const response = await LoginService.loginApi(data);
 
       // 'sameSite: strict' evita ataques CSRF.
-      const cookieOptions = { expires: 7, secure: true, sameSite: 'strict' as const };
+      const cookieOptions = {
+        expires: 7,
+        secure: true,
+        sameSite: "strict" as const,
+      };
       Cookies.set("accessToken", response.data.accessToken, cookieOptions);
       Cookies.set("refreshToken", response.data.refreshToken, cookieOptions);
 
@@ -73,14 +75,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         setStudentData(student);
         setUser({
           ...decoded,
-          id: student.id
+          id: student.id,
         });
       } else {
         setUser(decoded);
       }
       setIsAuthenticated(true);
       return roleLandingRoutes[response.data.role as Role];
-
     } catch (error) {
       handleApiError(error, "Error al iniciar sesión");
       return null;
@@ -88,7 +89,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
-
 
   const hasRole = (r: string) => user?.role.includes(r);
 

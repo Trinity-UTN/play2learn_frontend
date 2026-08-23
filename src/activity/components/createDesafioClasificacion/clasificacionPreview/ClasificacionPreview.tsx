@@ -2,12 +2,10 @@ import { motion } from "framer-motion";
 import { FaEye, FaPlay, FaRedo, FaTags } from "react-icons/fa";
 import { FcFolder } from "react-icons/fc";
 import { Button, Tooltip, DesafioClasificacionGame } from "@/shared";
-import { useCreateDesafioClasificacion } from "../../../hooks/useCreateDesafioClasificacion";
 import styles from "./ClasificacionPreview.module.css";
 import { useDesafioClasificacionGame } from "../../../../shared/hooks/games/useDesafioClasificacionGame";
 
 const ClasificacionPreview: React.FC = () => {
-  const { config } = useCreateDesafioClasificacion();
   const { totalCategories, totalConcepts, resetGame, gameStarted, startGame } =
     useDesafioClasificacionGame();
 
@@ -70,42 +68,14 @@ const ClasificacionPreview: React.FC = () => {
         </div>
 
         {!gameStarted ? (
-          <div className={styles.scenarioCard}>
-            <div className={styles.scenarioHeader}>
-              <h5 className={styles.scenarioTitle}>Clasificar Conceptos</h5>
-            </div>
-            <div className={styles.scenarioContent}>
-              <p className={styles.scenarioText}>
-                Arrastra cada concepto a la categoría correcta. ¡Demuestra tu
-                conocimiento!
-              </p>
-
-              <div className={styles.pathSection}>
-                <h6 className={styles.pathTitle}>Categorías disponibles:</h6>
-                <div className={styles.pathList}>
-                  {config.categories.map((category, index) => (
-                    <div key={category.id} className={styles.pathItem}>
-                      <div className={styles.pathNumber}>{index + 1}</div>
-                      <span className={styles.pathText}>
-                        {category.name} ({category.concepts.length} conceptos)
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className={styles.completedActions}>
-                <Button
-                  variant="primary"
-                  onClick={startGame}
-                  className={styles.tryAgainButton}
-                >
-                  <FaPlay />
-                  Comenzar Actividad
-                </Button>
-              </div>
-            </div>
-          </div>
+          <Button
+            variant="primary"
+            onClick={startGame}
+            className={styles.tryAgainButton}
+          >
+            <FaPlay />
+            Comenzar Actividad
+          </Button>
         ) : (
           <DesafioClasificacionGame mode="preview" />
         )}

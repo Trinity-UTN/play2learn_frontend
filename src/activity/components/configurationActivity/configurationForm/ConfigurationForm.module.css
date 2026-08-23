@@ -47,6 +47,56 @@
   margin-top: 0.25rem;
 }
 
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  width: fit-content;
+  margin-top: 0.8rem;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #185fa5; /* o tu color primario */
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.checkboxLabel {
+  font-size: 13px;
+  color: var(--color-text-secondary, #666);
+}
+
+.inputWrap {
+  position: relative;
+}
+
+.dateInputDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.publishOverlay {
+  position: absolute;
+  inset: 0;
+  background: #f5f5f3;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  pointer-events: none;
+}
+
+.publishOverlay span {
+  font-size: 13px;
+  color: #999;
+}
+
 .dateGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;

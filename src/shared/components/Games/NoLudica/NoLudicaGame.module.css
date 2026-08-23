@@ -246,6 +246,26 @@
   text-align: center;
 }
 
+.removeFileButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: center;
+  padding: 0.375rem 0.75rem;
+  border: none;
+  background: transparent;
+  color: #dc2626;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: background 0.2s ease;
+}
+
+.removeFileButton:hover {
+  background: #fef2f2;
+}
+
 .urlInput {
   width: 100%;
   padding: 0.75rem;

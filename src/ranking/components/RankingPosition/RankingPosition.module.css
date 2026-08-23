@@ -1,5 +1,21 @@
 @import "../../../shared/styles/colors.css";
 
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+}
+
+.statIcon {
+  font-size: 0.75rem;
+  color: #f59e0b;
+}
+
+.userInfoCenter{
+  
+}
 .positionCard {
   position: relative;
   display: flex;

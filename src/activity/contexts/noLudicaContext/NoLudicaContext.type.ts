@@ -12,7 +12,7 @@ export interface NoLudicaContextType {
   isFormValid: boolean;
 
   // Funciones principales
-  registrarNoLudica: (data: NoLudicaInterface) => Promise<void>;
+  registrarNoLudica: (data: NoLudicaInterface) => Promise<boolean>;
 
   // Handlers principales
   handleConfigSubmit: (newConfig: NoLudicaConfig) => void;

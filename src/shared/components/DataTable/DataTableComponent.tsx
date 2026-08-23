@@ -4,7 +4,6 @@ import { FaSearch, FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import Button from "../Button/ButtonComponent";
 import Card from "../Card/CardComponent";
 import Input from "../Input/InputComponent";
-import LoadingSpinnerComponent from "../LoadingSpinner/LoadingSpinnerComponent";
 import PaginationComponent from "../Pagination/PaginationComponent";
 import styles from "./DataTable.module.css";
 
@@ -54,6 +53,7 @@ export interface DataTableProps<T> {
     onPageChange: (page: number) => void;
     onPageSizeChange: (pageSize: number) => void;
   };
+  filterChildren?: React.ReactNode;
 }
 
 const DataTable = <T,>({
@@ -71,12 +71,12 @@ const DataTable = <T,>({
   emptyStateIcon,
   emptyStateTitle = "No se encontraron datos",
   emptyStateSubtitle,
-  loadingText = "Cargando...",
   className,
   getRowKey,
   showResultsInfo = true,
   totalItems,
   pagination,
+  filterChildren,
 }: DataTableProps<T>) => {
   const getSortIcon = (columnKey: string) => {
     if (sortBy !== columnKey) {
@@ -116,7 +116,7 @@ const DataTable = <T,>({
   const renderCellContent = (
     column: DataTableColumn<T>,
     item: T,
-    index: number
+    index: number,
   ) => {
     if (column.render) {
       return column.render(item, index);
@@ -157,94 +157,89 @@ const DataTable = <T,>({
           )}
         </div>
       )}
+      {filterChildren && (
+        <div className={styles.filterSection}>{filterChildren}</div>
+      )}
 
       <div className={styles.tableWrapper}>
-        {loading ? (
-          <div className={styles.loadingContainer}>
-            <LoadingSpinnerComponent text={loadingText} />
-          </div>
-        ) : (
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                {columns.map((column) => (
-                  <th
-                    key={column.key}
-                    className={`${column.className || ""} ${
-                      column.sortable ? styles.sortableHeader : ""
-                    }`}
-                    style={{ width: column.width }}
-                    onClick={
-                      column.sortable ? () => handleSort(column.key) : undefined
-                    }
-                  >
-                    <div className={styles.headerContent}>
-                      {column.label}
-                      {column.sortable && getSortIcon(column.key)}
-                    </div>
-                  </th>
-                ))}
-                {actions && actions.length > 0 && (
-                  <th className={styles.actionsColumn}>Acciones</th>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {data.length > 0 ? (
-                data.map((item, index) => (
-                  <motion.tr
-                    key={getDefaultRowKey(item, index)}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className={styles.tableRow}
-                  >
-                    {columns.map((column) => (
-                      <td key={column.key} className={column.className || ""}>
-                        {renderCellContent(column, item, index)}
-                      </td>
-                    ))}
-                    {actions && actions.length > 0 && (
-                      <td className={styles.actionsCell}>
-                        <div className={styles.actions}>
-                          {actions.map((action, actionIndex) => (
-                            <Button
-                              key={actionIndex}
-                              variant={action.variant || "ghost"}
-                              size="sm"
-                              onClick={() => action.onClick(item)}
-                              className={action.className || ""}
-                              title={action.title || action.label}
-                            >
-                              {action.icon}
-                            </Button>
-                          ))}
-                        </div>
-                      </td>
-                    )}
-                  </motion.tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan={
-                      columns.length + (actions && actions.length > 0 ? 1 : 0)
-                    }
-                    className={styles.emptyState}
-                  >
-                    <div className={styles.emptyContent}>
-                      {emptyStateIcon}
-                      <p>{emptyStateTitle}</p>
-                      {emptyStateSubtitle && (
-                        <small>{emptyStateSubtitle}</small>
-                      )}
-                    </div>
-                  </td>
-                </tr>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              {columns.map((column) => (
+                <th
+                  key={column.key}
+                  className={`${column.className || ""} ${
+                    column.sortable ? styles.sortableHeader : ""
+                  }`}
+                  style={{ width: column.width }}
+                  onClick={
+                    column.sortable ? () => handleSort(column.key) : undefined
+                  }
+                >
+                  <div className={styles.headerContent}>
+                    {column.label}
+                    {column.sortable && getSortIcon(column.key)}
+                  </div>
+                </th>
+              ))}
+              {actions && actions.length > 0 && (
+                <th className={styles.actionsColumn}>Acciones</th>
               )}
-            </tbody>
-          </table>
-        )}
+            </tr>
+          </thead>
+          <tbody>
+            {data.length > 0 ? (
+              data.map((item, index) => (
+                <motion.tr
+                  key={getDefaultRowKey(item, index)}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className={styles.tableRow}
+                >
+                  {columns.map((column) => (
+                    <td key={column.key} className={column.className || ""}>
+                      {renderCellContent(column, item, index)}
+                    </td>
+                  ))}
+                  {actions && actions.length > 0 && (
+                    <td className={styles.actionsCell}>
+                      <div className={styles.actions}>
+                        {actions.map((action, actionIndex) => (
+                          <Button
+                            key={actionIndex}
+                            variant={action.variant || "ghost"}
+                            size="sm"
+                            onClick={() => action.onClick(item)}
+                            className={action.className || ""}
+                            title={action.title || action.label}
+                          >
+                            {action.icon}
+                          </Button>
+                        ))}
+                      </div>
+                    </td>
+                  )}
+                </motion.tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={
+                    columns.length + (actions && actions.length > 0 ? 1 : 0)
+                  }
+                  className={styles.emptyState}
+                >
+                  <div className={styles.emptyContent}>
+                    {emptyStateIcon}
+                    <p>{emptyStateTitle}</p>
+                    {emptyStateSubtitle && <small>{emptyStateSubtitle}</small>}
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
       {pagination && !loading && (
         <PaginationComponent

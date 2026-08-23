@@ -6,13 +6,14 @@ import TradingPanel from "../../components/ActionsDetailView/TradingPanel/Tradin
 import AutomationPanel from "../../components/ActionsDetailView/AutomationPanel/AutomationPanel";
 import ActionStats from "../../components/ActionsDetailView/ActionsDetailsStats/ActionsDetailsStats";
 import styles from "./ActionsDetailView.module.css";
-import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import { useActionsDetailsView } from "../../hooks/useActions/useActionsDetailsView";
+import LoadingSpinnerComponent from "@/shared/components/LoadingSpinner/LoadingSpinnerComponent";
 
 const ActionDetailView = () => {
   const {
     candleStickValues,
-    loading,
+    initialLoading,
+    loadError,
     userBalance,
     action,
     range,
@@ -22,10 +23,12 @@ const ActionDetailView = () => {
     handleSell,
     handleSetAutomation,
   } = useActionsDetailsView();
-  if (loading && !candleStickValues) {
-    return <LoadingScreen key="loading" titulo="Cargando Acción" />;
+
+  if (initialLoading) {
+    return <LoadingSpinnerComponent key="loading" />;
   }
-  if (!action) {
+
+  if (loadError || !action) {
     return (
       <div className={styles.error}>
         <p>¡Lo sentimos!</p>

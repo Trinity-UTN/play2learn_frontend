@@ -1,29 +1,16 @@
 import { motion } from "framer-motion";
 import { FaClipboardList } from "react-icons/fa";
 import type { ActivityUI } from "../../../types/Activity.type";
-import {
-  type PaginationInfo,
-  LoadingSpinnerComponent,
-  FlexBox,
-  useLayout,
-} from "@/shared";
-import ActivityCard from "../activityCard/ActivityCard";
 import ActivityRow from "../activityRow/ActivityRow";
 import { useActivityActions } from "../../../hooks/activities/useActivityActions";
 import styles from "./ActivityGrid.module.css";
 
 interface ActivityGridProps {
   activities: ActivityUI[];
-  paginationInfo?: PaginationInfo;
   loading: boolean;
 }
 
-const ActivityGrid: React.FC<ActivityGridProps> = ({
-  activities,
-  paginationInfo,
-  loading,
-}) => {
-  const { isRow, toggleLayout } = useLayout();
+const ActivityGrid: React.FC<ActivityGridProps> = ({ activities }) => {
   const { viewActivity, viewActivityResults } = useActivityActions();
 
   const itemVariants = {
@@ -38,24 +25,14 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
   const handleViewResults = (
     activityId: string,
     remainingAttempts: number,
-    completedAt?: string
+    completedAt?: string,
   ) => {
     viewActivityResults(
       Number(activityId),
       remainingAttempts,
-      completedAt || undefined
+      completedAt || undefined,
     );
   };
-
-  if (loading) {
-    return (
-      <motion.div variants={itemVariants} className={styles.emptyState} >
-        <div className={styles.emptyIcon}>
-          <LoadingSpinnerComponent />
-        </div>
-      </motion.div>
-    );
-  }
 
   if (activities.length === 0) {
     return (
@@ -73,39 +50,19 @@ const ActivityGrid: React.FC<ActivityGridProps> = ({
 
   return (
     <motion.div variants={itemVariants} className={styles.gridContainer}>
-      <FlexBox
-        isRow={isRow}
-        onToggle={toggleLayout}
-        paginationInfo={paginationInfo!}
-      >
-        {isRow
-          ? activities.map((activity, index) => (
-            <motion.div
-              key={activity.id}
-              variants={itemVariants}
-              transition={{ delay: index * 0.1 }}
-            >
-              <ActivityCard
-                activity={activity}
-                onStart={handleViewActivity}
-                onViewResults={handleViewResults}
-              />
-            </motion.div>
-          ))
-          : activities.map((activity, index) => (
-            <motion.div
-              key={activity.id}
-              variants={itemVariants}
-              transition={{ delay: index * 0.1 }}
-            >
-              <ActivityRow
-                activity={activity}
-                onStart={handleViewActivity}
-                onViewResults={handleViewResults}
-              />
-            </motion.div>
-          ))}
-      </FlexBox>
+      {activities.map((activity, index) => (
+        <motion.div
+          key={activity.id}
+          variants={itemVariants}
+          transition={{ delay: index * 0.1 }}
+        >
+          <ActivityRow
+            activity={activity}
+            onStart={handleViewActivity}
+            onViewResults={handleViewResults}
+          />
+        </motion.div>
+      ))}
     </motion.div>
   );
 };

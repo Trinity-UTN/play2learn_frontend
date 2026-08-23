@@ -9,42 +9,61 @@ import {
 import Card from "../../../shared/components/Card/CardComponent";
 import styles from "./OverviewView.module.css";
 import { useStatistics } from "../../hooks/useStatistics";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import ReserveDisplay from "../../components/overViewViewComponents/ReserveDisplay/ReserveDisplay";
 import { MdMenuBook } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useCountUp } from "../../../shared/hooks/useCountUp";
 import LoadingSpinnerComponent from "../../../shared/components/LoadingSpinner/LoadingSpinnerComponent";
+import type { IconType } from "react-icons";
+
+// 1. Define configuration outside for maintainability and scalability
+interface StatConfig {
+  key: keyof NonNullable<ReturnType<typeof useStatistics>["statistics"]>;
+  title: string;
+  icon: IconType;
+  color: string;
+}
+
+const STATS_CONFIG: StatConfig[] = [
+  {
+    key: "totalCourses",
+    title: "Total Cursos",
+    icon: FaBook,
+    color: "#007bff",
+  },
+  {
+    key: "totalYears",
+    title: "Años Académicos",
+    icon: FaCalendarAlt,
+    color: "#ff6f3c",
+  },
+  {
+    key: "totalStudents",
+    title: "Estudiantes",
+    icon: FaGraduationCap,
+    color: "#b9e769",
+  },
+  {
+    key: "totalTeachers",
+    title: "Docentes",
+    icon: FaUserTie,
+    color: "#007bff",
+  },
+];
 
 const OverviewView: React.FC = () => {
   const { getStatistics, loading, statistics } = useStatistics();
   const navigate = useNavigate();
-  const stats = [
-    {
-      title: "Total Cursos",
-      value: statistics?.totalCourses,
-      icon: FaBook,
-      color: "#007bff",
-    },
-    {
-      title: "Años Académicos",
-      value: statistics?.totalYears,
-      icon: FaCalendarAlt,
-      color: "#ff6f3c",
-    },
-    {
-      title: "Estudiantes",
-      value: statistics?.totalStudents,
-      icon: FaGraduationCap,
-      color: "#b9e769",
-    },
-    {
-      title: "Docentes",
-      value: statistics?.totalTeachers,
-      icon: FaUserTie,
-      color: "#007bff",
-    },
-  ];
+
+  // 2. Transform statistics into renderable items, handling nulls gracefully
+  const displayStats = useMemo(() => {
+    if (!statistics) return [];
+    return STATS_CONFIG.map((config) => ({
+      ...config,
+      value: statistics[config.key] ?? 0, // Fallback for undefined/null
+    }));
+  }, [statistics]);
 
   const quickActions = [
     {
@@ -72,6 +91,7 @@ const OverviewView: React.FC = () => {
       url: "/dashboard/subjects/list",
     },
   ];
+
   useEffect(() => {
     getStatistics();
   }, []);
@@ -82,8 +102,9 @@ const OverviewView: React.FC = () => {
     {
       steps: 40,
       interval: 50,
-    }
+    },
   );
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -98,6 +119,7 @@ const OverviewView: React.FC = () => {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
+
   if (loading) {
     return <LoadingSpinnerComponent />;
   }
@@ -115,10 +137,11 @@ const OverviewView: React.FC = () => {
         </div>
       </motion.div>
 
+      {/* 3. Improved statsGrid rendering */}
       <motion.div variants={itemVariants} className={styles.statsGrid}>
-        {stats.map((stat) => (
+        {displayStats.map((stat) => (
           <motion.div
-            key={stat.title}
+            key={stat.key}
             whileHover={{ scale: 1.02, y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >

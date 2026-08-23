@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaCoins, FaGamepad } from "react-icons/fa";
+import { FaCoins, FaGamepad, FaStar } from "react-icons/fa";
 import type { Position } from "../../types/ranking.type";
 import { useRankingPosition } from "../../hooks/useRankingPosition";
 import styles from "./RankingPosition.module.css";
@@ -57,11 +57,18 @@ export const RankingPosition = ({
           />
         </motion.div>
 
-
-        <div className={styles.nameContainer}>
-          <p className={styles.name}>{position.name}</p>
-          {isCurrentUser && <span className={styles.youBadge}>Tú</span>}
+        <div className={styles.userInfoCenter}>
+          <div className={styles.nameContainer}>
+            <p className={styles.name}>{position.name}</p>
+            {isCurrentUser && <span className={styles.youBadge}>Tú</span>}
+          </div>
+          <div className={styles.stat}>
+            <FaStar className={styles.statIcon} />
+            Nivel
+            <span>{position.experienceLevel}</span>
+          </div>
         </div>
+
       </div>
 
       <div className={styles.quantityContainer}>

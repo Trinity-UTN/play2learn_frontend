@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { type SubjectResponseDto, useSubject } from "@/admin";
 import { useConfirmation, useToaster, usePaginationParams } from "@/shared";
@@ -10,6 +10,7 @@ export const useListSubjectView = () => {
     setSelectedSubject,
     getPaginatedSubject,
     deleteSubject,
+    restoreSubject,
   } = useSubject();
 
   const {
@@ -63,6 +64,29 @@ export const useListSubjectView = () => {
     });
   };
 
+  // ============================
+  //   ACTION: RESTORE
+  // ============================
+  const handleRestore = useCallback(
+    (subject: SubjectResponseDto) => {
+      showConfirmation({
+        title: "Restaurar Materia",
+        message: `¿Está seguro que desea restaurar la materia "${subject.name}"?`,
+        type: "warning",
+        onConfirm: async () => {
+          await restoreSubject(subject.id);
+          await getPaginatedSubject(paginationParams);
+          showToast({
+            title: "Materia restaurada exitosamente",
+            message: "La meteria ha sido restaurada exitosamente",
+            type: "success",
+            position: "bottom-right",
+          });
+        },
+      });
+    },
+    [paginationParams],
+  );
   return {
     // states
     loading,
@@ -79,5 +103,6 @@ export const useListSubjectView = () => {
     handleEdit,
     handleDelete,
     navigate,
+    handleRestore,
   };
 };

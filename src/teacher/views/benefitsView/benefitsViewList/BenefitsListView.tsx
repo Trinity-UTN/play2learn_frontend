@@ -10,6 +10,7 @@ import {
 import { useBenefitTeacherActions } from "../../../hooks/benefits/benefitList/useBenefitTeacherActions";
 import { useBenefitTeacherData } from "../../../hooks/benefits/benefitList/useBenefitTeacherData";
 import styles from "./BenefitsListView.module.css";
+import { LoadingSpinnerComponent } from "@/shared";
 
 const BenefitsListView: React.FC = () => {
   const navigate = useNavigate();
@@ -34,11 +35,21 @@ const BenefitsListView: React.FC = () => {
     resetFilters,
     setViewMode,
   } = useBenefitTeacherData();
-  const { actions, loading: actionsLoading } = useBenefitTeacherActions();
+
+  const { actions, loading: actionsLoading } = useBenefitTeacherActions({
+    paramsStatus: activeFilter,
+  });
 
   const loading = dataLoading || actionsLoading;
   const showEmptyState = filteredBenefits.length === 0 && !loading;
 
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <LoadingSpinnerComponent />
+      </div>
+    );
+  }
   return (
     <motion.div
       variants={benefitListContainerVariants}

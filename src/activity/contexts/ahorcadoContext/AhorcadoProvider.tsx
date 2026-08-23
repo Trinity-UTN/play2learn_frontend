@@ -30,7 +30,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
 }) => {
   const { configurationActivity } = useConfigurationActivity();
   const { resetForm } = useConfigurationForm("ahorcado_educativo");
-  const { actividadCreada } = useActividadCreada()
+  const { actividadCreada } = useActividadCreada();
   const { showConfirmation } = useConfirmation();
   const { handleApiError } = useHandleApiError();
   const { showToast } = useToaster();
@@ -39,7 +39,7 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
   // Estados generales
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<"config" | "preview">(
-    "config"
+    "config",
   );
   const [config, setConfig] = useState<AhorcadoConfig>({
     word: "",
@@ -101,19 +101,29 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
   ];
 
   // Funciones principales
-  const registerAhorcado = async (data: AhorcadoInterface): Promise<void> => {
+  const registerAhorcado = async (
+    data: AhorcadoInterface,
+  ): Promise<boolean> => {
     setLoading(true);
     const dataMandar = makeData(
       data,
-      configurationActivity as ConfigurationActivity
+      configurationActivity as ConfigurationActivity,
     );
 
     try {
       await AhorcadoService.registerAhorcadoApi(
-        dataMandar as CreateAhorcadoPayload
+        dataMandar as CreateAhorcadoPayload,
       );
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -146,13 +156,9 @@ export const AhorcadoProvider: React.FC<AhorcadoProviderProps> = ({
         errorsPermited: config.errorsPermited,
       };
 
-      await registerAhorcado(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
+      const created = await registerAhorcado(gameData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {

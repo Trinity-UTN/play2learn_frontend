@@ -30,7 +30,7 @@ interface ConfigurationFormProps {
   isVerticalLayout: boolean;
   onFieldChange: (
     field: keyof ConfigurationActivity,
-    value: string | number,
+    value: string | number | boolean,
   ) => void;
   getSelectedSubject: () => SubjectResponseDto | undefined;
   getMaximumInitialBalance: () => number;
@@ -77,7 +77,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
               className={`${styles.textarea} ${
                 errors.description ? styles.inputError : ""
               }`}
-              placeholder="Ej: Resolver ecuaciones cuadráticas aplicando la fórmula general..."
+              placeholder="Ingrese la descripción de la actividad"
               rows={4}
             />
             <div className={styles.charCount}>
@@ -92,18 +92,44 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
         <FormSectionCard icon={FaCalendarAlt} title="Período de Actividad">
           <div className={styles.dateGrid}>
             <FormInputGroup label="Fecha de Inicio *" error={errors.startDate}>
-              <Input
-                type="datetime-local"
-                value={configuration.startDate}
-                onChange={(e) => onFieldChange("startDate", e.target.value)}
-                className={`${styles.dateInput} ${
-                  errors.startDate ? styles.inputError : ""
-                }`}
-              />
+              <div className={styles.inputWrap}>
+                <Input
+                  type="datetime-local"
+                  min={new Date().toISOString().slice(0, 16)}
+                  value={
+                    configuration.publishNow ? "" : configuration.startDate
+                  }
+                  onChange={(e) => onFieldChange("startDate", e.target.value)}
+                  disabled={configuration.publishNow}
+                  className={`${styles.dateInput} ${errors.startDate ? styles.inputError : ""} ${configuration.publishNow ? styles.dateInputDisabled : ""}`}
+                />
+                {configuration.publishNow && (
+                  <div className={styles.publishOverlay}>
+                    <span>Se publicará de inmediato</span>
+                  </div>
+                )}
+              </div>
+
+              <label className={styles.checkboxRow}>
+                <input
+                  type="checkbox"
+                  checked={configuration.publishNow}
+                  onChange={(e) => {
+                    onFieldChange("publishNow", e.target.checked);
+                    if (e.target.checked) onFieldChange("startDate", "");
+                  }}
+                  className={styles.checkbox}
+                />
+                <span className={styles.checkboxLabel}>Publicar ahora</span>
+              </label>
             </FormInputGroup>
             <FormInputGroup label="Fecha de Fin *" error={errors.endDate}>
               <Input
                 type="datetime-local"
+                min={
+                  configuration.startDate ||
+                  new Date().toISOString().slice(0, 16)
+                }
                 value={configuration.endDate}
                 onChange={(e) => onFieldChange("endDate", e.target.value)}
                 className={`${styles.dateInput} ${
@@ -179,17 +205,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
       {/* Asignación de Materia */}
       <motion.div variants={itemVariants} className={styles.formSection}>
         <FormSectionCard icon={FaBook} title="Asignación de Materia">
-          <FormInputGroup
-            label="Materia *"
-            hint={
-              configuration.subjectId > 0
-                ? `El balance de la materia seleccionada es ${
-                    getSelectedSubject()?.actualBalance
-                  }`
-                : undefined
-            }
-            error={errors.subjectId}
-          >
+          <FormInputGroup label="Materia *" error={errors.subjectId}>
             <select
               value={configuration.subjectId}
               onChange={(e) =>
@@ -213,7 +229,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
 
       {/* Recompensa */}
       <motion.div variants={itemVariants} className={styles.formSection}>
-        <FormSectionCard icon={FaAward} title="Recompensa">
+        <FormSectionCard icon={FaAward} title="Recompensas de la actividad">
           {configuration.subjectId === 0 ? (
             <p className={styles.noSubjectMessage}>
               Selecciona una materia para configurar la recompensa disponible.
@@ -226,8 +242,8 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
               />
 
               <FormInputGroup
-                label="Balance Inicial *"
-                hint="Cantidad de recompensa que entregará la actividad"
+                label="Monedas a repartir *"
+                hint="Estas monedas se repartiran entre estudiantes que aprueben la actividad"
                 error={errors.initialBalance}
               >
                 <div className={styles.dcInputWrapper}>
@@ -251,8 +267,8 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
               </FormInputGroup>
 
               <FormInputGroup
-                label="Estrategia de Distribución *"
-                hint="Selecciona cómo se distribuirán las monedas entre los alumnos"
+                label="Cómo se repartirán las monedas *"
+                hint="Selecciona cómo se distribuirá la recompensa entre los estudiantes."
                 error={errors.typeReward}
               >
                 <RewardTypeSelector

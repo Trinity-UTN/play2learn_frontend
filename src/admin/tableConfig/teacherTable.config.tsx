@@ -5,16 +5,8 @@ import type { TeacherResponseDto } from "@/admin";
 
 export const getTeacherColumns = (
   styles: Record<string, string>,
-  handleRestore: (teacher: TeacherResponseDto) => void
+  handleRestore: (teacher: TeacherResponseDto) => void,
 ): DataTableColumn<TeacherResponseDto>[] => [
-  {
-    key: "id",
-    label: "ID",
-    sortable: true,
-    width: "100px",
-    className: styles.idColumn,
-    render: (teacher) => <span className={styles.idBadge}>{teacher.id}</span>,
-  },
   {
     key: "name",
     label: "Nombre",
@@ -49,7 +41,7 @@ export const getTeacherColumns = (
     ),
   },
   {
-    key: "user",
+    key: "user.email",
     label: "Email",
     sortable: true,
     className: styles.nameColumn,

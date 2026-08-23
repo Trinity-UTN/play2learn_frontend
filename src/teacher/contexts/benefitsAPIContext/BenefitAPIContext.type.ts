@@ -20,13 +20,13 @@ export interface BenefitAPIContextType {
   // Funciones principales
   getBenefits: () => Promise<void>;
   getBenefitPurchases: (
-    benefitId: number
+    benefitId: number,
   ) => Promise<BenefitPurchaseSimpleResponse[]>;
   getPaginatedBenefits: (params: GetPaginated) => Promise<void>;
   getPaginatedBenefitsUseRequested: (params: GetPaginated) => Promise<void>;
   getPaginatedBenefitsPurchases: (
     benefitId: number,
-    params: GetPaginated
+    params: GetPaginated,
   ) => Promise<void>;
   registerBenefit: (data: CreateBenefitInterface) => Promise<void>;
   acceptUseBenefit: (benefitId: number) => Promise<void>;
@@ -34,6 +34,6 @@ export interface BenefitAPIContextType {
 
   // Funciones auxiliares
   setSelectedBenefit: (benefit: TeacherBenefitType | null) => void;
-  refreshBenefitsAfterDeletion: () => Promise<void>;
+  refreshBenefitsAfterDeletion: (status?: string[]) => Promise<void>;
   refreshBenefitsAfterAcceptance: () => Promise<void>;
 }

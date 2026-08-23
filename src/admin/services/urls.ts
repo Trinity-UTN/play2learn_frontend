@@ -14,6 +14,7 @@ export const urls = {
   SubjectTeacher: "/admin/subjects/teacher",
   SubjectStudent: "/admin/students/subjects",
   SubjectPaginated: "admin/subjects/paginated",
+  SubjectRestore: "/admin/subjects/restore",
   statistics: "/statistics/home/admin",
 
   //Asignacion y desasignacion

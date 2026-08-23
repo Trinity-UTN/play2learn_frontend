@@ -1,7 +1,11 @@
 import { useEffect, useCallback, useMemo } from "react";
 import type { ActivityUI } from "../../../types/Activity.type";
 import { useActivityStudent } from "../../useActivityStudentAPI";
-import { usePaginationParams, type FilterOption } from "@/shared";
+import {
+  usePaginationParams,
+  ACTIVITY_NAME_ALL,
+  type FilterOption,
+} from "@/shared";
 import { useActivityFilters } from "./useActivityFilters";
 import { useActivityStats } from "./useActivityStats";
 import { mapActivityToUI } from "../../../adapters/activityAdapter";
@@ -16,7 +20,6 @@ export const useActivityData = () => {
     getPaginatedActivitiesNotApproved,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesPending,
-    getActivityStudentStats,
   } = useActivityStudent();
 
   const { subjects: subjectList, getSubjectByStudent } = useSubject();
@@ -32,13 +35,14 @@ export const useActivityData = () => {
     activeFilter,
     selectedSubject,
     selectedDifficulty,
+    selectedActivityName,
     setActiveFilter,
     setSelectedSubject,
     setSelectedDifficulty,
+    setSelectedActivityName,
   } = useActivityFilters();
 
   const { stats, counts } = useActivityStats();
-
   /**
    * Carga de actividades filtradas y paginadas
    */
@@ -59,6 +63,10 @@ export const useActivityData = () => {
     const baseParams = {
       ...paginationParams,
       order_type: "desc" as const,
+      search:
+        selectedActivityName !== ACTIVITY_NAME_ALL
+          ? selectedActivityName
+          : undefined,
       filters,
       filtersValues,
     };
@@ -96,6 +104,7 @@ export const useActivityData = () => {
     paginationParams,
     selectedSubject,
     selectedDifficulty,
+    selectedActivityName,
     getPaginatedActivitiesApproved,
     getPaginatedActivitiesNotApproved,
     getPaginatedActivitiesPending,
@@ -106,21 +115,28 @@ export const useActivityData = () => {
    */
   useEffect(() => {
     const fetchInitialData = async () => {
-      await Promise.all([
-        loadActivities(),
-        getActivityStudentStats(),
-        getSubjectByStudent(),
-      ]);
+      await loadActivities();
+      if (subjectList.length <= 0) {
+        await getSubjectByStudent;
+      }
     };
     fetchInitialData();
-  }, [loadActivities, getActivityStudentStats, getSubjectByStudent]);
+  }, [loadActivities, getSubjectByStudent]);
 
   /**
    * Reinicia la paginación al cambiar el filtro
    */
   useEffect(() => {
-    setPaginationParams((prev) => ({ ...prev, page: 1 }));
-  }, [activeFilter, selectedSubject, selectedDifficulty, setPaginationParams]);
+    setPaginationParams((prev) =>
+      prev.page === 1 ? prev : { ...prev, page: 1 },
+    );
+  }, [
+    activeFilter,
+    selectedSubject,
+    selectedDifficulty,
+    selectedActivityName,
+    setPaginationParams,
+  ]);
 
   // Datos Generales
   const filteredActivities: ActivityUI[] = useMemo(() => {
@@ -137,7 +153,6 @@ export const useActivityData = () => {
     paginatedActivitiesPending,
     paginatedActivitiesNotApproved,
   ]);
-
   const subjects: FilterOption[] = useMemo(
     () => [
       { id: "ALL", name: "Todas las materias" },
@@ -185,6 +200,8 @@ export const useActivityData = () => {
     setSelectedSubject,
     selectedDifficulty,
     setSelectedDifficulty,
+    selectedActivityName,
+    setSelectedActivityName,
     // Data
     filteredActivities,
     subjects,

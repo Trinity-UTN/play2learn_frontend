@@ -42,14 +42,6 @@ export const getStudentColumns = ({
   handleRestore: (student: StudentResponseDto) => void;
 }): DataTableColumn<StudentResponseDto>[] => [
   {
-    key: "id",
-    label: "ID",
-    sortable: true,
-    width: "100px",
-    className: styles.idColumn,
-    render: (student) => <span className={styles.idBadge}>{student.id}</span>,
-  },
-  {
     key: "name",
     label: "Nombre",
     sortable: true,
@@ -83,18 +75,18 @@ export const getStudentColumns = ({
     ),
   },
   {
-    key: "birthdate",
-    label: "Fecha de nacimiento",
+    key: "birthDate",
+    label: "Edad",
     sortable: true,
     className: styles.nameColumn,
     render: (student) => (
       <div className={styles.centeredWrapper}>
-        <span>{student.birthdate || "Sin asignar"}</span>
+        <span>{student.age || "Sin asignar"}</span>
       </div>
     ),
   },
   {
-    key: "user",
+    key: "user.email",
     label: "Email de Estudiante",
     sortable: true,
     className: styles.nameColumn,

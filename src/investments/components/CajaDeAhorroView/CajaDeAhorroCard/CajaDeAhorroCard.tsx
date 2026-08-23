@@ -35,7 +35,6 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
     openDelete,
     startDate,
     lastUpdate,
-    profit,
     // setters
     setAmount,
     setOpenDelete,
@@ -77,7 +76,7 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
         </div>
 
         {/* Stats Grid */}
-        <div className={styles.statsGrid}>
+        {/* <div className={styles.statsGrid}>
           <div className={styles.statItem}>
             <span className={styles.statLabel}>Inicial</span>
             <span className={styles.statValue}>
@@ -90,7 +89,7 @@ const CajaDeAhorroCard: React.FC<CajaDeAhorroCardProps> = ({
               +{profit.toLocaleString("es-AR")}
             </span>
           </div>
-        </div>
+        </div> */}
 
         {/* Interest Section */}
         <div className={styles.interestSection}>

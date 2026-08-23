@@ -1,6 +1,7 @@
 export interface ConfigurationActivity {
   description: string;
-  startDate: string;
+  startDate?: string;
+  publishNow?: boolean;
   endDate: string;
   difficulty: string;
   maxTime: number;
@@ -9,10 +10,14 @@ export interface ConfigurationActivity {
   initialBalance: number;
   typeReward: string;
 }
-
+export interface NewActivityConfiguration extends Omit<
+  ConfigurationActivity,
+  "maxTime"
+> {}
 export type ConfigurationErrors = {
   description?: string;
   startDate?: string;
+  publishNow?: boolean;
   endDate?: string;
   difficulty?: string;
   maxTime?: string;

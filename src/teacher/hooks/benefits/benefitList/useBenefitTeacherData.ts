@@ -142,7 +142,7 @@ export const useBenefitTeacherData = () => {
         } - ${subject.name}`,
       }))
       .sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+        a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
       );
 
     return [{ id: "ALL", name: "Todas las materias" }, ...mapped];
@@ -167,8 +167,8 @@ export const useBenefitTeacherData = () => {
 
   const filteredBenefits = useMemo(() => {
     return activeFilter === "USE_REQUESTED"
-      ? paginatedBenefitsUseRequested?.results ?? []
-      : paginatedBenefits?.results ?? [];
+      ? (paginatedBenefitsUseRequested?.results ?? [])
+      : (paginatedBenefits?.results ?? []);
   }, [activeFilter, paginatedBenefits, paginatedBenefitsUseRequested]);
 
   const paginationInfo = useMemo(() => {

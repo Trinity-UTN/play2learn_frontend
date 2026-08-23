@@ -39,6 +39,7 @@ export interface ActivityCompletedPendingDto {
   state: "PENDING";
   studentName: string;
   studentLastName: string;
+  completedAt: string;
   activityDto: NoLudicaPendingActivityDto;
 }
 

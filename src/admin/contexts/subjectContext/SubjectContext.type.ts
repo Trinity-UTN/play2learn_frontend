@@ -23,4 +23,5 @@ export interface SubjectContextType {
   getStudentAssingment: (id: number) => void;
   assingmentStudent: (idSubject: number, idStudent: number[]) => void;
   unassignStudent: (idSubject: number, idStudent: number[]) => void;
+  restoreSubject: (id: number) => Promise<void>;
 }

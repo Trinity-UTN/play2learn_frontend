@@ -17,7 +17,6 @@ export function OverviewView() {
   useEffect(() => {
     getStatistics();
   }, []);
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -35,7 +34,6 @@ export function OverviewView() {
       </div>
     );
   }
-
   return (
     <motion.div
       variants={containerVariants}

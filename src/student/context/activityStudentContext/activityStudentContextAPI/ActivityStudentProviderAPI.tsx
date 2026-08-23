@@ -33,7 +33,8 @@ export const ActivityStudentProvider = ({
   const { getCurrentStudentByToken } = useCurrentStudent();
 
   // Estados Principales
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
+  const [pendingRequests, setPendingRequests] = useState(0);
   const [activityNotApproved, setActivitiesNotApproved] = useState<
     ActivityNotApprovedResponseInterface[]
   >([]);
@@ -57,10 +58,14 @@ export const ActivityStudentProvider = ({
   const [currentActivityAttemptInfo, setCurrentActivityAttemptInfo] =
     useState<CurrentActivityAttemptInfo | null>(null);
 
+  // Logica de loading con peticiones en paralelo
+  const startLoading = () => setPendingRequests((prev) => prev + 1);
+  const stopLoading = () => setPendingRequests((prev) => Math.max(0, prev - 1));
+  const loading = pendingRequests > 0;
   // Funciones Principales
   const getPaginatedActivitiesNotApproved = useCallback(
     async (params: GetPaginated): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         const response =
           await ActivityStudentService.getPaginatedActivityNotApprovedApi(
@@ -70,7 +75,7 @@ export const ActivityStudentProvider = ({
       } catch (error) {
         handleApiError(error, "Error al obtener las actividades paginadas");
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
     [],
@@ -78,7 +83,7 @@ export const ActivityStudentProvider = ({
 
   const getPaginatedActivitiesApproved = useCallback(
     async (params: GetPaginated): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         const response =
           await ActivityStudentService.getPaginatedActivityApprovedApi(params);
@@ -86,7 +91,7 @@ export const ActivityStudentProvider = ({
       } catch (error) {
         handleApiError(error, "Error al obtener las actividades paginadas");
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
     [],
@@ -94,7 +99,7 @@ export const ActivityStudentProvider = ({
 
   const getPaginatedActivitiesPending = useCallback(
     async (params: GetPaginated): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         const response =
           await ActivityStudentService.getPaginatedActivityPendingApi(params);
@@ -102,38 +107,38 @@ export const ActivityStudentProvider = ({
       } catch (error) {
         handleApiError(error, "Error al obtener las actividades paginadas");
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
     [],
   );
 
   const getActivityNotApproved = useCallback(async (): Promise<void> => {
-    setLoading(true);
+    startLoading();
     try {
       const response = await ActivityStudentService.getActivityNotApprovedApi();
       setActivitiesNotApproved(response.data);
     } catch (error) {
       handleApiError(error, "Error al obtener las actividades");
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   }, []);
 
   const getActivityApproved = useCallback(async (): Promise<void> => {
-    setLoading(true);
+    startLoading();
     try {
       const response = await ActivityStudentService.getActivityApprovedApi();
       setActivitiesApproved(response.data);
     } catch (error) {
       handleApiError(error, "Error al obtener las actividades aprobadas");
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   }, []);
 
   const getActivityById = useCallback(async (id: number): Promise<void> => {
-    setLoading(true);
+    startLoading();
     try {
       const response = await ActivityStudentService.getActivityByIdApi(id);
       const data = response.data;
@@ -152,12 +157,12 @@ export const ActivityStudentProvider = ({
     } catch (error) {
       handleApiError(error, "Error al obtener la actividad");
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   }, []);
 
   const getActivityStudentStats = useCallback(async (): Promise<void> => {
-    setLoading(true);
+    startLoading();
     try {
       const response =
         await ActivityStudentService.getActivityStudentStatsApi();
@@ -165,13 +170,13 @@ export const ActivityStudentProvider = ({
     } catch (error) {
       handleApiError(error, "Error al obtener las estadísticas de actividades");
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   }, []);
 
   const getActivityResults = useCallback(
     async (activityId: number): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         const response =
           await ActivityStudentService.getActivityResultsApi(activityId);
@@ -182,7 +187,7 @@ export const ActivityStudentProvider = ({
           "Error al obtener los resultados de la actividad",
         );
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
     [],
@@ -190,13 +195,13 @@ export const ActivityStudentProvider = ({
 
   const registerActivityStarted = useCallback(
     async (id: number): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         await ActivityStudentService.registerActivityStartedApi(id);
       } catch (error) {
         handleApiError(error, "Error al iniciar la actividad");
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
     [],
@@ -204,7 +209,7 @@ export const ActivityStudentProvider = ({
 
   const registerActivityCompleted = useCallback(
     async (payload: ActivityCompletedInterface): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         const response =
           await ActivityStudentService.registerActivityCompletedApi(payload);
@@ -212,7 +217,7 @@ export const ActivityStudentProvider = ({
       } catch (error) {
         handleApiError(error, "Error al corregir la actividad");
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
     [],
@@ -220,7 +225,7 @@ export const ActivityStudentProvider = ({
 
   const registerActivityNoLudicaCompleted = useCallback(
     async (payload: FormData): Promise<void> => {
-      setLoading(true);
+      startLoading();
       try {
         const response =
           await ActivityStudentService.registerActivityNoLudicaCompleteApi(
@@ -230,7 +235,7 @@ export const ActivityStudentProvider = ({
       } catch (error) {
         handleApiError(error, "Error al corregir la actividad");
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
     [],

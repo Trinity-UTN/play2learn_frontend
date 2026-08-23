@@ -20,7 +20,7 @@ export class PreguntadosConfigRenderer implements GameConfigRenderer {
     if (config.questions && config.questions.length > 0) {
       details.push({
         icon: FaQuestion,
-        label: "Cantidadd de preguntas",
+        label: "Cantidad de preguntas",
         value: config.questions.length,
       });
     }

@@ -1,11 +1,31 @@
+.profileContainer {
+  max-width: 70rem;
+  padding: 2rem;
+  margin: 0 auto;
+}
 .headerSection {
   position: relative;
   z-index: 2;
-  padding: 3rem 2rem;
-  max-width: 1200px;
   margin: 0 auto;
+  margin-bottom: 2rem;
+}
+.dateInfo {
+  margin-left: auto;
+  display: flex;
+  max-width: 20rem;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  margin-bottom: 1rem;
 }
 
+.dateIcon {
+  color: #3b82f6;
+}
 .loadingContainer {
   display: flex;
   flex-direction: column;

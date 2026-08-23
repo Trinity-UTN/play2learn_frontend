@@ -1,27 +1,30 @@
 import { motion } from "framer-motion";
 import {
   FaFilter,
-  FaTimes,
   FaBook,
+  FaGamepad,
   FaTh,
   FaList,
   // FaCalendarAlt,
 } from "react-icons/fa";
-import { Button, Card, Input, Tooltip, type FilterOption } from "@/shared";
+import {
+  Button,
+  Card,
+  Tooltip,
+  type FilterOption,
+  ACTIVITY_NAME_FILTER_OPTIONS,
+  ACTIVITY_NAME_ALL,
+} from "@/shared";
 import {
   ACTIVITY_TEACHER_STATUS_FILTERS,
   type ActivityTeacherStatus,
 } from "../../../constants/activity/activityTeacher.constants";
 import { activityItemVariants } from "../../../constants/animations/activityTeacher.animations";
-import { hasActiveFilters } from "../../../utils/activity/activityTeacher.utils";
 import styles from "./ActivitiesCreatedFilters.module.css";
 
 interface ActivitiesCreatedFiltersProps {
   activeFilter: ActivityTeacherStatus;
-  searchValue: string;
-  subjectValue: string;
-  courseValue: string;
-  yearValue: string;
+  activityNameValue: string;
   selectedSubject: FilterOption | null;
   selectedCourse: FilterOption | null;
   selectedYear: FilterOption | null;
@@ -30,21 +33,16 @@ interface ActivitiesCreatedFiltersProps {
   years: FilterOption[];
   viewMode: "grid" | "table";
   onFilterChange: (filter: ActivityTeacherStatus) => void;
-  onSearchChange: (value: string) => void;
+  onActivityNameChange: (value: string) => void;
   onSubjectChange: (subject: FilterOption | null) => void;
   onCourseChange: (course: FilterOption | null) => void;
   onYearChange: (year: FilterOption | null) => void;
-  onApplyFilters: () => void;
-  onClearFilters: () => void;
   onViewModeChange: (mode: "grid" | "table") => void;
 }
 
 const ActivitiesCreatedFilters: React.FC<ActivitiesCreatedFiltersProps> = ({
   activeFilter,
-  searchValue,
-  subjectValue,
-  courseValue,
-  yearValue,
+  activityNameValue,
   selectedSubject,
   selectedCourse,
   selectedYear,
@@ -53,21 +51,12 @@ const ActivitiesCreatedFilters: React.FC<ActivitiesCreatedFiltersProps> = ({
   years,
   viewMode,
   onFilterChange,
-  onSearchChange,
+  onActivityNameChange,
   onSubjectChange,
   onYearChange,
   onCourseChange,
-  onApplyFilters,
-  onClearFilters,
   onViewModeChange,
 }) => {
-  const showClearButton = hasActiveFilters(
-    searchValue,
-    subjectValue,
-    courseValue,
-    yearValue
-  );
-
   return (
     <motion.div
       variants={activityItemVariants}
@@ -115,36 +104,6 @@ const ActivitiesCreatedFilters: React.FC<ActivitiesCreatedFiltersProps> = ({
           </div>
         </div>
 
-        {/* Busqueda */}
-        <div className={styles.searchContainer}>
-          <Input
-            type="text"
-            value={searchValue}
-            onChange={(e) => onSearchChange(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && onApplyFilters()}
-            placeholder={"Nombre de actividad"}
-            className={styles.searchInput}
-          />
-          <Button
-            variant="primary"
-            onClick={onApplyFilters}
-            className={styles.searchButton}
-          >
-            Buscar
-          </Button>
-          {showClearButton && (
-            <Tooltip content="Limpiar filtros">
-              <Button
-                variant="ghost"
-                onClick={onClearFilters}
-                className={styles.clearButton}
-              >
-                <FaTimes />
-              </Button>
-            </Tooltip>
-          )}
-        </div>
-
         {/* Estados */}
         <div className={styles.filterSection}>
           <div className={styles.filterButtons}>
@@ -178,6 +137,29 @@ const ActivitiesCreatedFilters: React.FC<ActivitiesCreatedFiltersProps> = ({
 
         {/* Filtro de Materia */}
         <div className={styles.selectFilters}>
+          {/* Tipo de actividad */}
+          <div className={styles.selectGroup}>
+            <div className={styles.selectLabel}>
+              <FaGamepad className={styles.selectIcon} />
+              Tipo de actividad
+            </div>
+            <select
+              value={activityNameValue || ACTIVITY_NAME_ALL}
+              onChange={(e) =>
+                onActivityNameChange(
+                  e.target.value === ACTIVITY_NAME_ALL ? "" : e.target.value,
+                )
+              }
+              className={styles.select}
+            >
+              {ACTIVITY_NAME_FILTER_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Subject */}
           <div className={styles.selectGroup}>
             <div className={styles.selectLabel}>

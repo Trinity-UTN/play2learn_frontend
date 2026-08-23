@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { FaUser, FaCoins, FaGamepad } from "react-icons/fa";
 import type { Position } from "../../types/ranking.type";
 import styles from "./CurrentUserCard.module.css";
+import { formatPriceWithNoDecimals } from "@/shared/utils/formatPrice";
 
 interface CurrentUserCardProps {
   position: Position;
@@ -51,10 +52,17 @@ export const CurrentUserCard = ({
             </div>
             <div className={styles.statInfo}>
               <p className={styles.statValue}>
-                {position.quantity.toLocaleString()}
-              </p>
-              <p className={styles.statLabel}>
-                {category === "coins" ? "Monedas" : "Actividades"}
+                {category === "coins" ? (
+                  <>
+                    {formatPriceWithNoDecimals(position.quantity)}{" "}
+                    <span>Monedas ganadas</span>
+                  </>
+                ) : (
+                  <>
+                    {position.quantity.toLocaleString()}{" "}
+                    <span>Actividades aprobadas</span>
+                  </>
+                )}
               </p>
             </div>
           </div>
@@ -64,8 +72,8 @@ export const CurrentUserCard = ({
         {position.position <= 3
           ? "¡Excelente trabajo! Estás en el podio 🏆"
           : position.position <= 10
-          ? "¡Casi en el top 10! Sigue así 💪"
-          : "¡Sigue mejorando para subir de posición! 🚀"}
+            ? "¡Estas el top 10! Sigue así 💪"
+            : "¡Sigue mejorando para subir de posición! 🚀"}
       </div>
     </motion.div>
   );

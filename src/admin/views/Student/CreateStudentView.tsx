@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaGraduationCap, FaSave } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import { Card, Button, Input } from "@/shared";
 
 import styles from "./CreateStudentView.module.css";
@@ -39,11 +39,6 @@ const CreateStudentView: React.FC = () => {
       </div>
 
       <Card className={styles.formCard}>
-        <div className={styles.cardHeader}>
-          <FaGraduationCap className={styles.headerIcon} />
-          <h2 className={styles.cardTitle}>Información del Estudiante</h2>
-        </div>
-
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
@@ -84,8 +79,8 @@ const CreateStudentView: React.FC = () => {
               <Input
                 type="date"
                 placeholder="Fecha de nacimiento del estudiante"
-                value={formData.birthdate}
-                onChange={(e) => handleChange("birthdate", e.target.value)}
+                value={formData.birthDate}
+                onChange={(e) => handleChange("birthDate", e.target.value)}
               />
             </div>
           </div>
@@ -167,8 +162,8 @@ const CreateStudentView: React.FC = () => {
                   ? "Actualizando..."
                   : "Creando..."
                 : isEditMode
-                ? "Actualizar Estudiante"
-                : "Crear Estudiante"}
+                  ? "Actualizar Estudiante"
+                  : "Crear Estudiante"}
             </Button>
             {isEditMode && (
               <Button

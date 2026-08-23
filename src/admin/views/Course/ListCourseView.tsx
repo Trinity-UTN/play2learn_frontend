@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
 import { FaCalendarAlt, FaPlus } from "react-icons/fa";
-import { Button, DataTable, itemVariants, containerVariants } from "@/shared";
+import {
+  Button,
+  DataTable,
+  LoadingSpinnerComponent,
+  itemVariants,
+  containerVariants,
+} from "@/shared";
 import { getCourseColumns, getCourseActions, useCourseView } from "@/admin";
 import styles from "./ListCourseView.module.css";
 
@@ -20,6 +26,10 @@ const ViewCoursesView: React.FC = () => {
 
   const columns = getCourseColumns(styles);
   const actions = getCourseActions({ styles, handleEdit, handleDelete });
+
+  if (loading && !paginatedCourse) {
+    return <LoadingSpinnerComponent />;
+  }
 
   return (
     <motion.div

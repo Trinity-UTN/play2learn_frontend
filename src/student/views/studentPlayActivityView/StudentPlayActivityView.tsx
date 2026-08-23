@@ -31,7 +31,8 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
     canNavigate,
     refreshActivitiesOnNavigationAway,
   } = useActivityActions();
-  const { handleFinishNoLudica } = useNoLudicaGame();
+  const { handleFinishNoLudica, validateNoLudicaSubmission } =
+    useNoLudicaGame();
   const navigationMessages = useActivityNavigationMessages(currentActivity);
 
   // Registry Pattern: Obtener el hook del juego apropiado automáticamente
@@ -84,6 +85,8 @@ const StudentPlayActivityView: React.FC<StudentPlayActivityViewProps> = ({
     if (!currentActivity) return;
 
     if (isNoLudica) {
+      if (!validateNoLudicaSubmission()) return;
+
       await finishActivity(
         !!gameManager?.isGameWon,
         gameManager,

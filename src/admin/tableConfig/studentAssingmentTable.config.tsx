@@ -12,14 +12,6 @@ export const getStudentAssignColumns = ({
   handleUnassign: (student: StudentAssingmentResponse) => void;
 }): DataTableColumn<StudentAssingmentResponse>[] => [
   {
-    key: "id",
-    label: "ID",
-    sortable: true,
-    width: "100px",
-    className: styles.idColumn,
-    render: (student) => <span className={styles.idBadge}>{student.id}</span>,
-  },
-  {
     key: "name",
     label: "Nombre",
     sortable: true,

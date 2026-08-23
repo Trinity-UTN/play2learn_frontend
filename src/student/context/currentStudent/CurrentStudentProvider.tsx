@@ -22,15 +22,14 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   const { handleApiError } = useHandleApiError();
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [loadingStatics, setLoadingStatistics] = useState(false)
+  const [loadingStatics, setLoadingStatistics] = useState(false);
   const [currentStudent, setCurrentStudent] = useState<CurrentStudent | null>(
-    null
+    null,
   );
   const [wallet, setWallet] = useState<Wallet>();
   const [statistics, setStatistics] = useState<StatisticsStudentResponse>();
 
   // Funciones Principales
-
 
   const getCurrentStudentByToken = useCallback(async (): Promise<void> => {
     setLoading(true);
@@ -47,7 +46,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
   }, [user]);
 
   const updateStudentProfile = async (
-    aspectUpdates: Array<{ aspectId: number | null; profileId: number }>
+    aspectUpdates: Array<{ aspectId: number | null; profileId: number }>,
   ): Promise<void> => {
     if (!currentStudent?.id) return;
 
@@ -64,7 +63,7 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
 
   const unselectAspect = async (
     profileId: number,
-    typeAspect: "REMERA" | "SOMBRERO"
+    typeAspect: "REMERA" | "SOMBRERO",
   ): Promise<void> => {
     if (!currentStudent?.id) return;
 
@@ -78,7 +77,6 @@ export const CurrentStudentProvider: React.FC<CurrentStudentProviderProps> = ({
       setLoading(false);
     }
   };
-
 
   useEffect(() => {
     if (user?.role === "ROLE_STUDENT") {

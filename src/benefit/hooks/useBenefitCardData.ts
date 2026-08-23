@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { FaGift } from "react-icons/fa";
 import type {
   AnyBenefit,
+  BenefitResponseInterface,
+  BenefitTeacherState,
   BenefitVariant,
   TeacherBenefitType,
 } from "../types/benefit.types";
@@ -21,6 +23,7 @@ import {
   isBenefitPurchase,
   isBenefitPurchasedUsed,
   getBenefitSubjectName,
+  isCreateBenefit,
 } from "../utils/benefit.utils";
 import { shouldShowBenefitStats } from "../utils/benefit.validation";
 
@@ -51,7 +54,7 @@ export const useBenefitCardData = ({
      */
 
     // CASO 0: Beneficio USADO
-    if (isBenefitPurchasedUsed(benefit)) {
+    if (!isPurchase && isBenefitPurchasedUsed(benefit)) {
       const iconComponent = getIconByValue(benefit.icon);
       const iconColor = getColorByValue(benefit.color) ?? "#94a3b8";
       const category = getCategoryByValue(benefit.category);
@@ -63,7 +66,7 @@ export const useBenefitCardData = ({
         IconComponent: iconComponent,
         iconColor,
         category,
-        styleSuffix: "Student",
+        styleSuffix: variant === "student" ? "Student" : "Teacher",
         purchaseLimit: null,
         purchaseLimitPerStudent: null,
         hasEndDate: false,
@@ -97,7 +100,7 @@ export const useBenefitCardData = ({
       const categoryColor = getCategoryColor(benefit.benefitCategory);
       const subjectName = benefit.subjectName;
       const subjectColor = getSubjectColor(subjectName);
-
+      const purchaseNumber = benefit.purchaseNumber;
       return {
         IconComponent: iconComponent,
         iconColor,
@@ -122,6 +125,7 @@ export const useBenefitCardData = ({
         studentName: benefit.studentName,
         purchaseState: benefit.state,
         purchaseId: benefit.id,
+        purchaseNumber,
       };
     }
 
@@ -163,8 +167,71 @@ export const useBenefitCardData = ({
       };
     }
 
-    // CASO 3: Beneficios normales (estado estándar)
-    const hasFullProperties = isFullBenefitResponse(benefit);
+    // CASO 3: Contexto de RESPONSE BENEFICIO (con Id)
+    const benefitResponse = benefit as BenefitResponseInterface;
+    const id = benefitResponse.id;
+    const isStandarList = id && isFullBenefitResponse(benefit);
+
+    if (isStandarList) {
+      const iconComponent = getIconByValue(benefit.icon);
+      const iconColor = getColorByValue(benefit.color) ?? "#94a3b8";
+      const category = getCategoryByValue(benefit.category);
+      const categoryColor = getCategoryColor(benefit.category);
+      const styleSuffix = variant === "student" ? "Student" : "Teacher";
+      // Límites de compra
+      const purchaseLimit = getPurchaseLimit(benefit);
+      const purchaseLimitPerStudent = getPurchaseLimitPerStudent(benefit);
+      // Flags de visualización
+      const hasEndDate = isTeacherBenefit(benefit) || isStudentBenefit(benefit);
+      const showStats =
+        variant === "teacher" ||
+        (isStudentBenefit(benefit) && shouldShowBenefitStats(benefit));
+      const subjectName = getBenefitSubjectName(benefit as TeacherBenefitType);
+      const subjectColor = getSubjectColor(subjectName);
+      // Textos con Type Guards
+      const hasBasicProperties = hasBenefitBasicProperties(benefit);
+      const benefitName = hasBasicProperties
+        ? benefit.name
+        : isPreview
+          ? "Nombre del Beneficio"
+          : "";
+
+      const benefitCost = hasBasicProperties ? benefit.cost : 0;
+
+      const descriptionText = hasBasicProperties
+        ? benefit.description
+        : isPreview
+          ? "Descripción del beneficio aparecerá aquí..."
+          : "";
+      return {
+        IconComponent: iconComponent,
+        iconColor,
+        category,
+        styleSuffix,
+        purchaseLimit,
+        purchaseLimitPerStudent,
+        hasEndDate,
+        showStats,
+        benefitName,
+        benefitCost,
+        descriptionText,
+        subjectName,
+        subjectColor,
+        categoryColor,
+        hasFullProperties: true,
+        hasBasicProperties: false,
+        isUseRequest: false,
+        isPurchaseCard: false,
+        isUsedBenefit: false,
+        usedAt: undefined,
+        studentName: undefined,
+        purchaseState: benefit.state as BenefitTeacherState,
+        purchaseId: undefined,
+      };
+    }
+
+    // CASO 4: Crear beneficio (preview sin Id)
+    const hasFullProperties = isCreateBenefit(benefit);
     const hasBasicProperties = hasBenefitBasicProperties(benefit);
 
     const IconComponent = hasFullProperties
@@ -195,16 +262,16 @@ export const useBenefitCardData = ({
     const benefitName = hasBasicProperties
       ? benefit.name
       : isPreview
-      ? "Nombre del Beneficio"
-      : "";
+        ? "Nombre del Beneficio"
+        : "";
 
     const benefitCost = hasBasicProperties ? benefit.cost : 0;
 
     const descriptionText = hasBasicProperties
       ? benefit.description
       : isPreview
-      ? "Descripción del beneficio aparecerá aquí..."
-      : "";
+        ? "Descripción del beneficio aparecerá aquí..."
+        : "";
 
     const subjectName = getBenefitSubjectName(benefit as TeacherBenefitType);
     const subjectColor = subjectName ? getSubjectColor(subjectName) : null;

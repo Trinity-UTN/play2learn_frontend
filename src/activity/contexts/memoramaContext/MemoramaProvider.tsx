@@ -70,7 +70,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
   };
 
   const getPairStatus = (
-    pair: MemoramaPair
+    pair: MemoramaPair,
   ): "complete" | "incomplete" | "empty" => {
     if (!pair.concept.trim() && !pair.image) {
       return "empty";
@@ -103,13 +103,13 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
       } else if (status === "incomplete") {
         if (!pair.concept.trim()) {
           validationErrors.push(
-            `La pareja ${index + 1} debe tener un concepto`
+            `La pareja ${index + 1} debe tener un concepto`,
           );
         } else if (pair.concept.length > 50) {
           validationErrors.push(
             `El concepto de la pareja ${
               index + 1
-            } no puede tener más de 50 caracteres`
+            } no puede tener más de 50 caracteres`,
           );
         }
 
@@ -118,7 +118,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
           validationErrors.push(
             `El concepto de la pareja ${
               index + 1
-            } solo puede contener letras y espacios`
+            } solo puede contener letras y espacios`,
           );
         }
 
@@ -137,7 +137,9 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
 
   const isFormValid = errors.length === 0 && areAllPairsComplete();
 
-  const registrarMemorama = async (data: MemoramaInterface): Promise<void> => {
+  const registrarMemorama = async (
+    data: MemoramaInterface,
+  ): Promise<boolean> => {
     setLoading(true);
 
     // console.log("=== MEMORAMA DEBUG ===");
@@ -145,16 +147,24 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
     // console.log("Configuración de actividad:", configurationActivity);
     const dataMandar = makeFormData(
       data,
-      configurationActivity as ConfigurationActivity
+      configurationActivity as ConfigurationActivity,
     );
     // console.log("Payload final a enviar:", dataMandar); // Descomentar para debug
     // console.log("=== FIN DEBUG ==="); // Descomentar para debug
 
     try {
       await MemoramaService.registerMemoramaApi(dataMandar);
+      showToast({
+        title: "Actividad creada exitosamente",
+        message: "La actividad ha sido creada exitosamente.",
+        type: "success",
+        position: "bottom-right",
+      });
       clearAllPairErrors();
+      return true;
     } catch (error) {
       handleApiError(error, "Error al crear la actividad");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -192,13 +202,9 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
         images: pairs.map((pair) => pair.image!).filter(Boolean),
       };
 
-      await registrarMemorama(gameData);
-      showToast({
-        title: "Actividad creada exitosamente",
-        message: "La actividad ha sido creada exitosamente.",
-        type: "success",
-        position: "bottom-right",
-      });
+      const created = await registrarMemorama(gameData);
+      if (!created) return;
+
       resetAllStates();
       navigate("/dashboard/teacher/actividades/list");
     } catch (error) {
@@ -365,7 +371,7 @@ export const MemoramaProvider: React.FC<MemoramaProviderProps> = ({
 
   const setPairErrors = (
     pairIndex: number,
-    errors: { [field: string]: string }
+    errors: { [field: string]: string },
   ) => {
     setPairErrorsState((prev) => ({
       ...prev,
